@@ -102,13 +102,13 @@ ga('send', 'pageview');
         <div class="col-sm-9 blog-main">
           
   
-    <article id="post-Android学习笔记——ProgressBarHandler" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Mybatis学习笔记——mybatis-generator" class="article article-type-post" itemscope itemprop="blogPost">
 
   <header class="article-header">
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ProgressBarHandler/">Android学习笔记——ProgressBarHandler</a>
+      <a class="article-title" href="/2015/06/27/Mybatis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94mybatis-generator/">Mybatis学习笔记——mybatis-generator</a>
     </h1>
   
 
@@ -117,7 +117,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ProgressBarHandler/" class="article-date"><time datetime="2015-06-16T16:00:00.000Z" itemprop="datePublished">2015-06-17</time></a>
+  <a href="/2015/06/27/Mybatis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94mybatis-generator/" class="article-date"><time datetime="2015-06-26T16:00:00.000Z" itemprop="datePublished">2015-06-27</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -128,10 +128,29 @@ ga('send', 'pageview');
 
     <div class="article-entry" itemprop="articleBody">
       
-        <p>该工程的功能是实现点击按钮进度条按10%递增，使用的方式是Handler</p>
+        <p>通用mabatis-generator可以由mysql表自动生成model类，mapper映射文件和mapper接口，参考：<a href="https://mrbird.cc/MyBatis%20common%20Mapper%20PageHelper.html" target="_blank" rel="noopener">MyBatis通用Mapper和PageHelper</a></p>
+<p>1.依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- mybatis --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;tk.mybatis&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mapper-spring-boot-starter&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;version&gt;2.1.5&lt;&#x2F;version&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;tk.mybatis&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mapper&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;version&gt;3.3.9&lt;&#x2F;version&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p>2.插件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- mybatis-generator --&gt;</span><br><span class="line">&lt;plugin&gt;</span><br><span class="line">&lt;groupId&gt;org.mybatis.generator&lt;&#x2F;groupId&gt;</span><br><span class="line">&lt;artifactId&gt;mybatis-generator-maven-plugin&lt;&#x2F;artifactId&gt;</span><br><span class="line">&lt;version&gt;1.3.5&lt;&#x2F;version&gt;</span><br><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;configurationFile&gt;src&#x2F;main&#x2F;resources&#x2F;generator-config.xml&lt;&#x2F;configurationFile&gt;</span><br><span class="line">    &lt;overwrite&gt;true&lt;&#x2F;overwrite&gt;</span><br><span class="line">    &lt;verbose&gt;true&lt;&#x2F;verbose&gt;</span><br><span class="line">&lt;&#x2F;configuration&gt;</span><br><span class="line">&lt;dependencies&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;mysql&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;mysql-connector-java&lt;&#x2F;artifactId&gt;</span><br><span class="line">        &lt;version&gt;5.1.47&lt;&#x2F;version&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;tk.mybatis&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;mapper&lt;&#x2F;artifactId&gt;</span><br><span class="line">        &lt;version&gt;3.3.9&lt;&#x2F;version&gt;</span><br><span class="line">    &lt;&#x2F;dependency&gt;</span><br><span class="line">&lt;&#x2F;dependencies&gt;</span><br><span class="line">&lt;&#x2F;plugin&gt;</span><br></pre></td></tr></table></figure>
+
+<p>3.在application.properties中配置数据库相关参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># mysql</span><br><span class="line">spring.datasource.url&#x3D;jdbc:mysql:&#x2F;&#x2F;localhost:3306&#x2F;demo?useUnicode&#x3D;true&amp;characterEncoding&#x3D;utf-8&amp;useLegacyDatetimeCode&#x3D;false&amp;serverTimezone&#x3D;Hongkong&amp;zeroDateTimeBehavior&#x3D;convertToNull</span><br><span class="line">spring.datasource.username&#x3D;root</span><br><span class="line">spring.datasource.password&#x3D;xxxx</span><br><span class="line">spring.datasource.driver&#x3D;com.mysql.jdbc.Driver</span><br></pre></td></tr></table></figure>
+
+<p>4.配置generator-config.xml，其中通用MyMapper参考：<a href="https://www.cnblogs.com/tonglin0325/p/5267526.html" target="_blank" rel="noopener">Mybatis学习笔记&mdash;&mdash;通用mapper</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE generatorConfiguration</span><br><span class="line">        PUBLIC &quot;-&#x2F;&#x2F;mybatis.org&#x2F;&#x2F;DTD MyBatis Generator Configuration 1.0&#x2F;&#x2F;EN&quot;</span><br><span class="line">        &quot;http:&#x2F;&#x2F;mybatis.org&#x2F;dtd&#x2F;mybatis-generator-config_1_0.dtd&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;generatorConfiguration&gt;</span><br><span class="line">    &lt;!-- 引用外部配置文件--&gt;</span><br><span class="line">    &lt;properties resource&#x3D;&quot;application.properties&quot; &#x2F;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;context id&#x3D;&quot;context&quot; targetRuntime&#x3D;&quot;MyBatis3Simple&quot;&gt;</span><br><span class="line">        &lt;!-- MapperPlugin --&gt;</span><br><span class="line">        &lt;plugin type&#x3D;&quot;tk.mybatis.mapper.generator.MapperPlugin&quot;&gt;</span><br><span class="line">            &lt;!-- 该配置会使生产的Mapper自动继承MyMapper --&gt;</span><br><span class="line">            &lt;property name&#x3D;&quot;mappers&quot; value&#x3D;&quot;com.example.demo.core.mapper.MyMapper&quot; &#x2F;&gt;</span><br><span class="line">            &lt;!-- caseSensitive默认false，当数据库表名区分大小写时，可以将该属性设置为true --&gt;</span><br><span class="line">            &lt;property name&#x3D;&quot;caseSensitive&quot; value&#x3D;&quot;false&quot;&#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;plugin&gt;</span><br><span class="line">        &lt;!-- 去掉生成出来的代码的注解 --&gt;</span><br><span class="line">        &lt;commentGenerator&gt;</span><br><span class="line">            &lt;property name&#x3D;&quot;suppressAllComments&quot; value&#x3D;&quot;true&quot; &#x2F;&gt;</span><br><span class="line">            &lt;property name&#x3D;&quot;suppressDate&quot; value&#x3D;&quot;true&quot; &#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;commentGenerator&gt;</span><br><span class="line">        &lt;!-- 数据库信息 --&gt;</span><br><span class="line">        &lt;jdbcConnection driverClass&#x3D;&quot;com.mysql.jdbc.Driver&quot;</span><br><span class="line">                        connectionURL&#x3D;&quot;$&#123;spring.datasource.url&#125;&quot;</span><br><span class="line">                        userId&#x3D;&quot;root&quot;</span><br><span class="line">                        password&#x3D;&quot;xxxx&quot;&gt;</span><br><span class="line">        &lt;&#x2F;jdbcConnection&gt;</span><br><span class="line">        &lt;!-- 生成Model类的包名和位置 --&gt;</span><br><span class="line">        &lt;javaModelGenerator targetPackage&#x3D;&quot;com.example.demo.model&quot; targetProject&#x3D;&quot;src&#x2F;main&#x2F;java&quot;&gt;</span><br><span class="line">            &lt;property name&#x3D;&quot;enableSubPackages&quot; value&#x3D;&quot;true&quot; &#x2F;&gt;</span><br><span class="line">            &lt;property name&#x3D;&quot;trimStrings&quot; value&#x3D;&quot;true&quot; &#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;javaModelGenerator&gt;</span><br><span class="line">        &lt;!-- 生成Mapper映射文件的包名和位置 --&gt;</span><br><span class="line">        &lt;sqlMapGenerator targetPackage&#x3D;&quot;mapper&quot; targetProject&#x3D;&quot;src&#x2F;main&#x2F;resources&quot;&gt;</span><br><span class="line">            &lt;property name&#x3D;&quot;enableSubPackages&quot; value&#x3D;&quot;true&quot; &#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;sqlMapGenerator&gt;</span><br><span class="line">        &lt;!-- 生成Mapper接口的包名和位置 --&gt;</span><br><span class="line">        &lt;javaClientGenerator type&#x3D;&quot;XMLMAPPER&quot; targetPackage&#x3D;&quot;com.example.demo.mapper&quot; targetProject&#x3D;&quot;src&#x2F;main&#x2F;java&quot;&gt;</span><br><span class="line">            &lt;property name&#x3D;&quot;enableSubPackages&quot; value&#x3D;&quot;true&quot; &#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;javaClientGenerator&gt;</span><br><span class="line">        &lt;!-- 要生成代码的表 tableName&#x3D;%时为所有表生成 表名字段名都有默认规则生成 --&gt;</span><br><span class="line">        &lt;table tableName&#x3D;&quot;%&quot;&gt;</span><br><span class="line">            &lt;!-- 指定生成的主键属性名 生成SQL语句的类型 --&gt;</span><br><span class="line">            &lt;generatedKey column&#x3D;&quot;id&quot; sqlStatement&#x3D;&quot;MySql&quot;&#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;table&gt;</span><br><span class="line">    &lt;&#x2F;context&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;generatorConfiguration&gt;</span><br></pre></td></tr></table></figure>
+
+<p>5.生成，点击plugin中的mabatis-generator:generate</p>
+<img src="/images/517519-20210621172700488-974594860.png" alt="" loading="lazy" />
+
+<p>6.自动生成model，mapper和xml</p>
+<img src="/images/517519-20210621172736771-746432427.png" alt="" loading="lazy" />
+
+<p>7.添加
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ProgressBarHandler/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/2015/06/27/Mybatis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94mybatis-generator/#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -140,7 +159,139 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ProgressBarHandler/" data-id="ckobghi7o000sz90le5422gb3" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/2015/06/27/Mybatis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94mybatis-generator/" data-id="ckpmudzav00077y0l3dvcax2m" class="article-share-link">
+        <i class="fa fa-share"></i> 分享
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-SpringBoot学习笔记——kaptcha" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/20/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94kaptcha/">SpringBoot学习笔记——kaptcha</a>
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2015/06/20/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94kaptcha/" class="article-date"><time datetime="2015-06-19T16:00:00.000Z" itemprop="datePublished">2015-06-20</time></a>
+</div>
+
+    <div class="article-author">tonglin0325</div>
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>kaptcha是一个java验证码生成框架，可以和spring集成用于验证码服务</p>
+<p>和spring集成的官方文档</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;code.google.com&#x2F;archive&#x2F;p&#x2F;kaptcha&#x2F;wikis&#x2F;SpringUsage.wiki</span><br></pre></td></tr></table></figure>
+
+<p>1.依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.github.penggle&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;kaptcha&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;version&gt;2.3.2&lt;&#x2F;version&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p>2.kaptcha生成验证码的配置类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">import com.google.code.kaptcha.Constants;</span><br><span class="line">import com.google.code.kaptcha.impl.DefaultKaptcha;</span><br><span class="line">import com.google.code.kaptcha.util.Config;</span><br><span class="line">import org.springframework.context.annotation.Bean;</span><br><span class="line">import org.springframework.context.annotation.Configuration;</span><br><span class="line"></span><br><span class="line">import java.util.Properties;</span><br><span class="line"></span><br><span class="line">@Configuration</span><br><span class="line">public class KaptchaConfig &#123;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 验证码生成器参数</span><br><span class="line">     *&#x2F;</span><br><span class="line">    @Bean</span><br><span class="line">    public DefaultKaptcha captchaProducer() &#123;</span><br><span class="line">        DefaultKaptcha captchaProducer &#x3D; new DefaultKaptcha();</span><br><span class="line">        Properties properties &#x3D; new Properties();</span><br><span class="line">        properties.setProperty(Constants.KAPTCHA_IMAGE_WIDTH, &quot;100&quot;);</span><br><span class="line">        properties.setProperty(Constants.KAPTCHA_IMAGE_HEIGHT, &quot;30&quot;);</span><br><span class="line">        properties.setProperty(Constants.KAPTCHA_TEXTPRODUCER_FONT_SIZE, &quot;22&quot;);</span><br><span class="line">        properties.setProperty(Constants.KAPTCHA_TEXTPRODUCER_CHAR_LENGTH, &quot;4&quot;);</span><br><span class="line">        properties.setProperty(Constants.KAPTCHA_TEXTPRODUCER_CHAR_SPACE, &quot;6&quot;);</span><br><span class="line">        properties.setProperty(Constants.KAPTCHA_TEXTPRODUCER_FONT_COLOR, &quot;black&quot;);</span><br><span class="line">        properties.setProperty(Constants.KAPTCHA_BORDER_COLOR, &quot;LIGHT_GRAY&quot;);</span><br><span class="line">        properties.setProperty(Constants.KAPTCHA_BACKGROUND_CLR_FROM, &quot;WHITE&quot;);</span><br><span class="line">        properties.setProperty(Constants.KAPTCHA_NOISE_IMPL, &quot;com.google.code.kaptcha.impl.NoNoise&quot;);</span><br><span class="line">        properties.setProperty(Constants.KAPTCHA_OBSCURIFICATOR_IMPL, &quot;com.google.code.kaptcha.impl.ShadowGimpy&quot;);</span><br><span class="line">        properties.setProperty(Constants.KAPTCHA_TEXTPRODUCER_CHAR_STRING, &quot;0123456789&quot;);</span><br><span class="line">        properties.setProperty(Constants.KAPTCHA_SESSION_CONFIG_KEY, &quot;checkCode&quot;);</span><br><span class="line">        Config config &#x3D; new Config(properties);</span><br><span class="line">        captchaProducer.setConfig(config);</span><br><span class="line">        return captchaProducer;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>配置的含义参考</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;code.google.com&#x2F;archive&#x2F;p&#x2F;kaptcha&#x2F;wikis&#x2F;ConfigParameters.wiki</span><br></pre></td></tr></table></figure>
+
+<p>验证码图片生成接口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">import com.google.code.kaptcha.Constants;</span><br><span class="line">import com.google.code.kaptcha.Producer;</span><br><span class="line">import lombok.extern.slf4j.Slf4j;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.stereotype.Controller;</span><br><span class="line">import org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line">import org.springframework.web.servlet.ModelAndView;</span><br><span class="line"></span><br><span class="line">import javax.imageio.ImageIO;</span><br><span class="line">import javax.servlet.ServletOutputStream;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.awt.image.BufferedImage;</span><br><span class="line"></span><br><span class="line">@Slf4j</span><br><span class="line">@Controller</span><br><span class="line">@RequestMapping(&quot;&#x2F;kaptcha&quot;)</span><br><span class="line">public class KaptchaController &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private Producer captchaProducer;</span><br><span class="line"></span><br><span class="line">    @RequestMapping(&quot;&#x2F;getCode&quot;)</span><br><span class="line">    public ModelAndView getKaptchaImage(HttpServletRequest request, HttpServletResponse response) throws Exception &#123;</span><br><span class="line">        response.setDateHeader(&quot;Expires&quot;, 0);</span><br><span class="line">        &#x2F;&#x2F; Set standard HTTP&#x2F;1.1 no-cache headers.</span><br><span class="line">        response.setHeader(&quot;Cache-Control&quot;, &quot;no-store, no-cache, must-revalidate&quot;);</span><br><span class="line">        &#x2F;&#x2F; Set IE extended HTTP&#x2F;1.1 no-cache headers (use addHeader).</span><br><span class="line">        response.addHeader(&quot;Cache-Control&quot;, &quot;post-check&#x3D;0, pre-check&#x3D;0&quot;);</span><br><span class="line">        &#x2F;&#x2F; Set standard HTTP&#x2F;1.0 no-cache header.</span><br><span class="line">        response.setHeader(&quot;Pragma&quot;, &quot;no-cache&quot;);</span><br><span class="line">        response.setContentType(&quot;image&#x2F;jpeg&quot;);</span><br><span class="line">        &#x2F;&#x2F; create the text for the image</span><br><span class="line">        String capText &#x3D; captchaProducer.createText();</span><br><span class="line">        log.info(&quot;******************验证码是: &quot; + capText + &quot;******************&quot;);</span><br><span class="line">        &#x2F;&#x2F; store the text in the session</span><br><span class="line">        request.getSession().setAttribute(Constants.KAPTCHA_SESSION_KEY, capText);</span><br><span class="line">        &#x2F;&#x2F; create the image with the text</span><br><span class="line">        BufferedImage bi &#x3D; captchaProducer.createImage(capText);</span><br><span class="line">        ServletOutputStream out &#x3D; response.getOutputStream();</span><br><span class="line">        &#x2F;&#x2F; write the data out</span><br><span class="line">        ImageIO.write(bi, &quot;jpg&quot;, out);</span><br><span class="line">        try &#123;</span><br><span class="line">            out.flush();</span><br><span class="line">        &#125; finally &#123;</span><br><span class="line">            out.close();</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>验证码校验和参数含义参考：<a href="https://juejin.cn/post/6844903894661890055" target="_blank" rel="noopener">Google-kaptcha验证码使用步骤(基于springboot/使用redis存储)</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">kaptcha.border                     	| Border around kaptcha. Legal values are yes or no.                     			| yes </span><br><span class="line">kaptcha.border.color                   | Color of the border. Legal values are r,g,b (and optional alpha) or white,black,blue.         | black </span><br><span class="line">kaptcha.border.thickness               | Thickness of the border around kaptcha. Legal values are &gt; 0.                   	        | 1 </span><br><span class="line">kaptcha.image.width                    | Width in pixels of the kaptcha image.                    				        | 200 </span><br><span class="line">kaptcha.image.height                   | Height in pixels of the kaptcha image.                   				        | 50 </span><br><span class="line">kaptcha.producer.impl                  | The image producer.                       						        | com.google.code.kaptcha.impl.DefaultKaptcha </span><br><span class="line">kaptcha.textproducer.impl              | The text producer.                    						        | com.google.code.kaptcha.text.impl.DefaultTextCreator </span><br><span class="line">kaptcha.textproducer.char.string       | The characters that will create the kaptcha.                  			        | abcde2345678gfynmnpwx </span><br><span class="line">kaptcha.textproducer.char.length       | The number of characters to display.                    				        | 5 </span><br><span class="line">kaptcha.textproducer.font.names        | A list of comma separated font names.                  				        | Arial, Courier </span><br><span class="line">kaptcha.textproducer.font.size         | The size of the font to use.                    					        | 40px. </span><br><span class="line">kaptcha.textproducer.font.color        | The color to use for the font. Legal values are r,g,b.              			        | black </span><br><span class="line">kaptcha.textproducer.char.space        | The space between the characters                					        | 2 </span><br><span class="line">kaptcha.noise.impl                     | The noise producer.                  							        | com.google.code.kaptcha.impl.DefaultNoise </span><br><span class="line">kaptcha.noise.color                    | The noise color. Legal values are r,g,b.          				                | black </span><br><span class="line">kaptcha.obscurificator.impl            | The obscurificator implementation.                  					        | com.google.code.kaptcha.impl.WaterRipple </span><br><span class="line">kaptcha.background.impl                | The background implementation.                    					        | com.google.code.kaptcha.impl.DefaultBackground </span><br><span class="line">kaptcha.background.clear.from          | Starting background color. Legal values are r,g,b.                    		        | light grey </span><br><span class="line">kaptcha.background.clear.to            | Ending background color. Legal values are r,g,b.                   			        | white </span><br><span class="line">kaptcha.word.impl                      | The word renderer implementation.                     					| com.google.code.kaptcha.text.impl.DefaultWordRenderer </span><br><span class="line">kaptcha.session.key                    | The value for the kaptcha is generated and is put into the HttpSession. 			| KAPTCHA_SESSION_KEY </span><br><span class="line">				  This is the key value for that item in the session.                     </span><br><span class="line">kaptcha.session.date                   | The date the kaptcha is generated is put into the HttpSession. 				| KAPTCHA_SESSION_DATE</span><br><span class="line">				  This is the key value for that item in the session.</span><br></pre></td></tr></table></figure>
+
+<p>效果</p>
+<img src="/images/517519-20210602113139797-1742849243.png" alt="" loading="lazy" />
+
+<p>校验的原理：</p>
+<p>生成验证码的时候返回一个uuid给浏览器，同时将uuid作为key，验证码作为value存在服务器session当中，比如redis，前端提交验证码的时候将uuid带上，查询redis进行验证</p>
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/2015/06/20/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94kaptcha/#more">全文 &gt;&gt;</a>
+          </p>
+        
+      
+    </div>
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://tonglin0325.github.io/2015/06/20/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94kaptcha/" data-id="ckpmudzaw00097y0lhv5g36xc" class="article-share-link">
+        <i class="fa fa-share"></i> 分享
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Android学习笔记——xml" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/19/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94xml/">Android学习笔记——xml</a>
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2015/06/19/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94xml/" class="article-date"><time datetime="2015-06-18T16:00:00.000Z" itemprop="datePublished">2015-06-19</time></a>
+</div>
+
+    <div class="article-author">tonglin0325</div>
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>转自<a href="http://blog.csdn.net/sam_zhang1984" target="_blank" rel="noopener">http://blog.csdn.net/sam_zhang1984</a></p>
+<p>解析
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/2015/06/19/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94xml/#more">全文 &gt;&gt;</a>
+          </p>
+        
+      
+    </div>
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://tonglin0325.github.io/2015/06/19/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94xml/" data-id="ckobghi7r0016z90lbas33e1c" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -156,13 +307,13 @@ ga('send', 'pageview');
 
 
   
-    <article id="post-Android学习笔记——ProgressBar" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-MySQL学习笔记——索引原理" class="article article-type-post" itemscope itemprop="blogPost">
 
   <header class="article-header">
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ProgressBar/">Android学习笔记——ProgressBar</a>
+      <a class="article-title" href="/2015/06/19/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%B4%A2%E5%BC%95%E5%8E%9F%E7%90%86/">MySQL学习笔记——索引原理</a>
     </h1>
   
 
@@ -171,7 +322,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ProgressBar/" class="article-date"><time datetime="2015-06-16T16:00:00.000Z" itemprop="datePublished">2015-06-17</time></a>
+  <a href="/2015/06/19/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%B4%A2%E5%BC%95%E5%8E%9F%E7%90%86/" class="article-date"><time datetime="2015-06-18T16:00:00.000Z" itemprop="datePublished">2015-06-19</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -182,10 +333,125 @@ ga('send', 'pageview');
 
     <div class="article-entry" itemprop="articleBody">
       
-        <p>该工程的功能是实现进度条的显示，按以下按钮进度条增加10%</p>
+        
+<div id="toc">
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#"><span class="toc-text">不同存储引擎的索引类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#"><span class="toc-text">InnoDB索引引擎的特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#"><span class="toc-text">Innodb存储引擎使用的是B+树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#"><span class="toc-text">聚簇索引和非聚簇索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#"><span class="toc-text">Innodb和MyISAM区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#"><span class="toc-text">B+Tree对比BTree的优点</span></a></li></ol>
+</div>
+
+        <a id="more"></a>
+<p>&nbsp;MySQL支持诸多存储引擎，而各种存储引擎对索引的支持也各不相同，因此MySQL数据库支持多种索引类型，如BTree索引，B+Tree索引，哈希索引，全文索引等等</p>
+<h2><span id="bu-tong-cun-chu-yin-qing-de-suo-yin-lei-xing"><strong>不同存储引擎的索引类型</strong></span><a href="#bu-tong-cun-chu-yin-qing-de-suo-yin-lei-xing" class="header-anchor">#</a></h2><p>参考：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;dev.mysql.com&#x2F;doc&#x2F;refman&#x2F;5.7&#x2F;en&#x2F;create-index.html</span><br></pre></td></tr></table></figure>
+
+<img src="/images/517519-20210305110438653-757965480.png" alt loading="lazy">
+
+<h2><span id="innodb-suo-yin-yin-qing-de-te-xing"><strong>InnoDB索引引擎的特性</strong></span><a href="#innodb-suo-yin-yin-qing-de-te-xing" class="header-anchor">#</a></h2><p>参考：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;dev.mysql.com&#x2F;doc&#x2F;refman&#x2F;5.7&#x2F;en&#x2F;innodb-introduction.html</span><br></pre></td></tr></table></figure>
+
+<p><strong><img src="/images/517519-20210305111449826-752557055.png" alt loading="lazy"></strong></p>
+<p>&nbsp;</p>
+<h2><span id="innodb-cun-chu-yin-qing-shi-yong-de-shi-b-shu">Innodb存储引擎使用的是B+树</span><a href="#innodb-cun-chu-yin-qing-shi-yong-de-shi-b-shu" class="header-anchor">#</a></h2><p><a href="https://database.51cto.com/art/201909/603430.htm" target="_blank" rel="noopener">为什么MySQL索引要用B+树，而不是B树？</a></p>
+<p><a href="https://blog.csdn.net/doctor_who2004/article/details/77414742" target="_blank" rel="noopener">mysql InnoDB引擎支持hash索引吗</a></p>
+<h2><span id="ju-cu-suo-yin-he-fei-ju-cu-suo-yin"><strong>聚簇索引</strong>和<strong>非聚簇索引</strong></span><a href="#ju-cu-suo-yin-he-fei-ju-cu-suo-yin" class="header-anchor">#</a></h2><p>MySQL中最常见的两种存储引擎分别是MyISAM和InnoDB，分别实现了非聚簇索引和聚簇索引。</p>
+<p>聚簇索引的解释是：聚簇索引的顺序就是数据的物理存储顺序</p>
+<p>非聚簇索引的解释是：索引顺序与数据物理排列顺序无关</p>
+<img src="/images/517519-20210308155731828-860798107.png" alt width="547" height="470" loading="lazy">
+
+<p>&nbsp;</p>
+<p>具体参考：<a href="https://blog.csdn.net/tongdanping/article/details/79878302" target="_blank" rel="noopener">深入理解MySQL索引原理和实现&mdash;&mdash;为什么索引可以加速查询？</a></p>
+<p>&nbsp;</p>
+<p>上图中的Secondary Key就是<strong>二级索引</strong></p>
+<p>参考：<a href="https://zhuanlan.zhihu.com/p/137647823" target="_blank" rel="noopener">Mysql聚簇索引和二级索引到底有何不同</a></p>
+<h2><span id="innodb-he-myisam-qu-bie"><strong>Innodb</strong>和<strong>MyISAM</strong>区别</span><a href="#innodb-he-myisam-qu-bie" class="header-anchor">#</a></h2><p><strong>存储区别</strong></p>
+<p>MyISAM在磁盘上会存储3个文件：frm文件存储表定义，myd存储数据文件，myi存储索引文件</p>
+<p>Innodb在磁盘上会存储2个文件：frm文件存储表定义，idb存储数据和索引文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line">root@master:&#x2F;var&#x2F;lib&#x2F;mysql&#x2F;wherehows# ls</span><br><span class="line">cfg_application.frm                   flow_execution.frm                            FTS_00000000000001a5_CONFIG.ibd                 log_dataset_instance_load_status#P#P201609.ibd  stg_flow_job.frm</span><br><span class="line">cfg_application.ibd                   flow_execution_id_map.frm                     FTS_00000000000001a5_DELETED_CACHE.ibd          log_dataset_instance_load_status#P#P201610.ibd  stg_flow_job.par</span><br><span class="line">cfg_cluster.frm                       flow_execution_id_map.par                     FTS_00000000000001a5_DELETED.ibd                log_dataset_instance_load_status#P#P201611.ibd  stg_flow_job#P#p0.ibd</span><br><span class="line">cfg_cluster.ibd                       flow_execution_id_map#P#p0.MYD                FTS_00000000000001b1_BEING_DELETED_CACHE.ibd    log_dataset_instance_load_status#P#P201612.ibd  stg_flow_job#P#p1.ibd</span><br><span class="line">cfg_database.frm                      flow_execution_id_map#P#p0.MYI                FTS_00000000000001b1_BEING_DELETED.ibd          log_dataset_instance_load_status#P#P203507.ibd  stg_flow_job#P#p2.ibd</span><br><span class="line">cfg_database.ibd                      flow_execution_id_map#P#p1.MYD                FTS_00000000000001b1_CONFIG.ibd                 log_lineage_pattern.frm                         stg_flow_job#P#p3.ibd</span><br><span class="line">cfg_data_center.frm                   flow_execution_id_map#P#p1.MYI                FTS_00000000000001b1_DELETED_CACHE.ibd          log_lineage_pattern.ibd                         stg_flow_job#P#p4.ibd</span><br><span class="line">cfg_data_center.ibd                   flow_execution_id_map#P#p2.MYD                FTS_00000000000001b1_DELETED.ibd                log_reference_job_id_pattern.frm                stg_flow_job#P#p5.ibd</span><br><span class="line">cfg_deployment_tier.frm               flow_execution_id_map#P#p2.MYI                FTS_0000000000000272_BEING_DELETED_CACHE.ibd    log_reference_job_id_pattern.ibd                stg_flow_job#P#p6.ibd</span><br><span class="line">cfg_deployment_tier.ibd               flow_execution_id_map#P#p3.MYD                FTS_0000000000000272_BEING_DELETED.ibd          source_code_commit_info.frm                     stg_flow_job#P#p7.ibd</span><br><span class="line">cfg_job_type.frm                      flow_execution_id_map#P#p3.MYI                FTS_0000000000000272_CONFIG.ibd                 source_code_commit_info.ibd                     stg_flow_owner_permission.frm</span><br><span class="line">cfg_job_type.ibd                      flow_execution_id_map#P#p4.MYD                FTS_0000000000000272_DELETED_CACHE.ibd          #sql-4312_14688.frm                             stg_flow_owner_permission.par</span><br><span class="line">cfg_job_type_reverse_map.frm          flow_execution_id_map#P#p4.MYI                FTS_0000000000000272_DELETED.ibd                stg_cfg_object_name_map.frm                     stg_flow_owner_permission#P#p0.ibd</span><br><span class="line">cfg_job_type_reverse_map.ibd          flow_execution_id_map#P#p5.MYD                job_attempt_source_code.frm                     stg_cfg_object_name_map.ibd                     stg_flow_owner_permission#P#p1.ibd</span><br><span class="line">cfg_object_name_map.frm               flow_execution_id_map#P#p5.MYI                job_attempt_source_code.ibd                     stg_database_scm_map.frm                        stg_flow_owner_permission#P#p2.ibd</span><br><span class="line">cfg_object_name_map.ibd               flow_execution_id_map#P#p6.MYD                job_execution_data_lineage.frm                  stg_database_scm_map.ibd                        stg_flow_owner_permission#P#p3.ibd</span><br><span class="line">cfg_search_score_boost.frm            flow_execution_id_map#P#p6.MYI                job_execution_data_lineage.par                  stg_dataset_owner.frm                           stg_flow_owner_permission#P#p4.ibd</span><br><span class="line">cfg_search_score_boost.ibd            flow_execution_id_map#P#p7.MYD                job_execution_data_lineage#P#p0.ibd             stg_dataset_owner.ibd                           stg_flow_owner_permission#P#p5.ibd</span><br><span class="line">comments.frm                          flow_execution_id_map#P#p7.MYI                job_execution_data_lineage#P#p1.ibd             stg_dataset_owner_unmatched.frm                 stg_flow_owner_permission#P#p6.ibd</span><br><span class="line">comments.ibd                          flow_execution.par                            job_execution_data_lineage#P#p2.ibd             stg_dataset_owner_unmatched.ibd                 stg_flow_owner_permission#P#p7.ibd</span><br><span class="line">dataset_capacity.frm                  flow_execution#P#p0.ibd                       job_execution_data_lineage#P#p3.ibd             stg_dict_dataset_field_comment.frm              stg_flow.par</span><br><span class="line">dataset_capacity.ibd                  flow_execution#P#p1.ibd                       job_execution_data_lineage#P#p4.ibd             stg_dict_dataset_field_comment.par              stg_flow#P#p0.ibd</span><br><span class="line">dataset_case_sensitivity.frm          flow_execution#P#p2.ibd                       job_execution_data_lineage#P#p5.ibd             stg_dict_dataset_field_comment#P#p0.ibd         stg_flow#P#p1.ibd</span><br><span class="line">dataset_case_sensitivity.ibd          flow_execution#P#p3.ibd                       job_execution_data_lineage#P#p6.ibd             stg_dict_dataset_field_comment#P#p1.ibd         stg_flow#P#p2.ibd</span><br><span class="line">dataset_compliance.frm                flow_execution#P#p4.ibd                       job_execution_data_lineage#P#p7.ibd             stg_dict_dataset_field_comment#P#p2.ibd         stg_flow#P#p3.ibd</span><br><span class="line">dataset_compliance.ibd                flow_execution#P#p5.ibd                       job_execution_ext_reference.frm                 stg_dict_dataset_field_comment#P#p3.ibd         stg_flow#P#p4.ibd</span><br><span class="line">dataset_constraint.frm                flow_execution#P#p6.ibd                       job_execution_ext_reference.par                 stg_dict_dataset_field_comment#P#p4.ibd         stg_flow#P#p5.ibd</span><br><span class="line">dataset_constraint.ibd                flow_execution#P#p7.ibd                       job_execution_ext_reference#P#p0.ibd            stg_dict_dataset_field_comment#P#p5.ibd         stg_flow#P#p6.ibd</span><br><span class="line">dataset_deployment.frm                flow.frm                                      job_execution_ext_reference#P#p1.ibd            stg_dict_dataset_field_comment#P#p6.ibd         stg_flow#P#p7.ibd</span><br><span class="line">dataset_deployment.ibd                flow_job.frm                                  job_execution_ext_reference#P#p2.ibd            stg_dict_dataset_field_comment#P#p7.ibd         stg_flow_schedule.frm</span><br><span class="line">dataset_index.frm                     flow_job.par                                  job_execution_ext_reference#P#p3.ibd            stg_dict_dataset.frm                            stg_flow_schedule.par</span><br><span class="line">dataset_index.ibd                     flow_job#P#p0.ibd                             job_execution_ext_reference#P#p4.ibd            stg_dict_dataset_instance.frm                   stg_flow_schedule#P#p0.ibd</span><br><span class="line">dataset_inventory.frm                 flow_job#P#p1.ibd                             job_execution_ext_reference#P#p5.ibd            stg_dict_dataset_instance.par                   stg_flow_schedule#P#p1.ibd</span><br><span class="line">dataset_inventory.ibd                 flow_job#P#p2.ibd                             job_execution_ext_reference#P#p6.ibd            stg_dict_dataset_instance#P#p0.ibd              stg_flow_schedule#P#p2.ibd</span><br><span class="line">dataset_owner.frm                     flow_job#P#p3.ibd                             job_execution_ext_reference#P#p7.ibd            stg_dict_dataset_instance#P#p1.ibd              stg_flow_schedule#P#p3.ibd</span><br><span class="line">dataset_owner.ibd                     flow_job#P#p4.ibd                             job_execution.frm                               stg_dict_dataset_instance#P#p2.ibd              stg_flow_schedule#P#p4.ibd</span><br><span class="line">dataset_partition.frm                 flow_job#P#p5.ibd                             job_execution_id_map.frm                        stg_dict_dataset_instance#P#p3.ibd              stg_flow_schedule#P#p5.ibd</span><br><span class="line">dataset_partition.ibd                 flow_job#P#p6.ibd                             job_execution_id_map.par                        stg_dict_dataset_instance#P#p4.ibd              stg_flow_schedule#P#p6.ibd</span><br><span class="line">dataset_partition_layout_pattern.frm  flow_job#P#p7.ibd                             job_execution_id_map#P#p0.MYD                   stg_dict_dataset_instance#P#p5.ibd              stg_flow_schedule#P#p7.ibd</span><br><span class="line">dataset_partition_layout_pattern.ibd  flow_owner_permission.frm                     job_execution_id_map#P#p0.MYI                   stg_dict_dataset_instance#P#p6.ibd              stg_git_project.frm</span><br><span class="line">dataset_privacy_compliance.frm        flow_owner_permission.par                     job_execution_id_map#P#p1.MYD                   stg_dict_dataset_instance#P#p7.ibd              stg_git_project.ibd</span><br><span class="line">dataset_privacy_compliance.ibd        flow_owner_permission#P#p0.ibd                job_execution_id_map#P#p1.MYI                   stg_dict_dataset.par                            stg_job_execution_data_lineage.frm</span><br><span class="line">dataset_reference.frm                 flow_owner_permission#P#p1.ibd                job_execution_id_map#P#p2.MYD                   stg_dict_dataset#P#p0.ibd                       stg_job_execution_data_lineage.ibd</span><br><span class="line">dataset_reference.ibd                 flow_owner_permission#P#p2.ibd                job_execution_id_map#P#p2.MYI                   stg_dict_dataset#P#p1.ibd                       stg_job_execution_ext_reference.frm</span><br><span class="line">dataset_schema_info.frm               flow_owner_permission#P#p3.ibd                job_execution_id_map#P#p3.MYD                   stg_dict_dataset#P#p2.ibd                       stg_job_execution_ext_reference.par</span><br><span class="line">dataset_schema_info.ibd               flow_owner_permission#P#p4.ibd                job_execution_id_map#P#p3.MYI                   stg_dict_dataset#P#p3.ibd                       stg_job_execution_ext_reference#P#p0.ibd</span><br><span class="line">dataset_security.frm                  flow_owner_permission#P#p5.ibd                job_execution_id_map#P#p4.MYD                   stg_dict_dataset#P#p4.ibd                       stg_job_execution_ext_reference#P#p1.ibd</span><br><span class="line">dataset_security.ibd                  flow_owner_permission#P#p6.ibd                job_execution_id_map#P#p4.MYI                   stg_dict_dataset#P#p5.ibd                       stg_job_execution_ext_reference#P#p2.ibd</span><br><span class="line">dataset_tag.frm                       flow_owner_permission#P#p7.ibd                job_execution_id_map#P#p5.MYD                   stg_dict_dataset#P#p6.ibd                       stg_job_execution_ext_reference#P#p3.ibd</span><br><span class="line">dataset_tag.ibd                       flow.par                                      job_execution_id_map#P#p5.MYI                   stg_dict_dataset#P#p7.ibd                       stg_job_execution_ext_reference#P#p4.ibd</span><br><span class="line">db.opt                                flow#P#p0.ibd                                 job_execution_id_map#P#p6.MYD                   stg_dict_dataset_sample.frm                     stg_job_execution_ext_reference#P#p5.ibd</span><br><span class="line">dict_business_metric.frm              flow#P#p1.ibd                                 job_execution_id_map#P#p6.MYI                   stg_dict_dataset_sample.ibd                     stg_job_execution_ext_reference#P#p6.ibd</span><br><span class="line">dict_business_metric.ibd              flow#P#p2.ibd                                 job_execution_id_map#P#p7.MYD                   stg_dict_field_detail.frm                       stg_job_execution_ext_reference#P#p7.ibd</span><br><span class="line">dict_dataset_field_comment.frm        flow#P#p3.ibd                                 job_execution_id_map#P#p7.MYI                   stg_dict_field_detail.par                       stg_job_execution.frm</span><br><span class="line">dict_dataset_field_comment.ibd        flow#P#p4.ibd                                 job_execution.par                               stg_dict_field_detail#P#p0.ibd                  stg_job_execution.par</span><br><span class="line">dict_dataset.frm                      flow#P#p5.ibd                                 job_execution#P#p0.ibd                          stg_dict_field_detail#P#p1.ibd                  stg_job_execution#P#p0.ibd</span><br><span class="line">dict_dataset.ibd                      flow#P#p6.ibd                                 job_execution#P#p1.ibd                          stg_dict_field_detail#P#p2.ibd                  stg_job_execution#P#p1.ibd</span><br><span class="line">dict_dataset_instance.frm             flow#P#p7.ibd                                 job_execution#P#p2.ibd                          stg_dict_field_detail#P#p3.ibd                  stg_job_execution#P#p2.ibd</span><br><span class="line">dict_dataset_instance.par             flow_schedule.frm                             job_execution#P#p3.ibd                          stg_dict_field_detail#P#p4.ibd                  stg_job_execution#P#p3.ibd</span><br><span class="line">dict_dataset_instance#P#p0.ibd        flow_schedule.par                             job_execution#P#p4.ibd                          stg_dict_field_detail#P#p5.ibd                  stg_job_execution#P#p4.ibd</span><br><span class="line">dict_dataset_instance#P#p1.ibd        flow_schedule#P#p0.ibd                        job_execution#P#p5.ibd                          stg_dict_field_detail#P#p6.ibd                  stg_job_execution#P#p5.ibd</span><br><span class="line">dict_dataset_instance#P#p2.ibd        flow_schedule#P#p1.ibd                        job_execution#P#p6.ibd                          stg_dict_field_detail#P#p7.ibd                  stg_job_execution#P#p6.ibd</span><br><span class="line">dict_dataset_instance#P#p3.ibd        flow_schedule#P#p2.ibd                        job_execution#P#p7.ibd                          stg_flow_dag_edge.frm                           stg_job_execution#P#p7.ibd</span><br><span class="line">dict_dataset_instance#P#p4.ibd        flow_schedule#P#p3.ibd                        job_execution_script.frm                        stg_flow_dag_edge.par                           stg_kafka_gobblin_compaction.frm</span><br><span class="line">dict_dataset_instance#P#p5.ibd        flow_schedule#P#p4.ibd                        job_execution_script.ibd                        stg_flow_dag_edge#P#p0.ibd                      stg_kafka_gobblin_compaction.ibd</span><br><span class="line">dict_dataset_instance#P#p6.ibd        flow_schedule#P#p5.ibd                        job_source_id_map.frm                           stg_flow_dag_edge#P#p1.ibd                      stg_kafka_gobblin_distcp.frm</span><br><span class="line">dict_dataset_instance#P#p7.ibd        flow_schedule#P#p6.ibd                        job_source_id_map.par                           stg_flow_dag_edge#P#p2.ibd                      stg_kafka_gobblin_distcp.ibd</span><br><span class="line">dict_dataset_sample.frm               flow_schedule#P#p7.ibd                        job_source_id_map#P#p0.MYD                      stg_flow_dag_edge#P#p3.ibd                      stg_kafka_gobblin_lumos.frm</span><br><span class="line">dict_dataset_sample.ibd               flow_source_id_map.frm                        job_source_id_map#P#p0.MYI                      stg_flow_dag_edge#P#p4.ibd                      stg_kafka_gobblin_lumos.ibd</span><br><span class="line">dict_dataset_schema_history.frm       flow_source_id_map.par                        job_source_id_map#P#p1.MYD                      stg_flow_dag_edge#P#p5.ibd                      stg_kafka_metastore_audit.frm</span><br><span class="line">dict_dataset_schema_history.ibd       flow_source_id_map#P#p0.MYD                   job_source_id_map#P#p1.MYI                      stg_flow_dag_edge#P#p6.ibd                      stg_kafka_metastore_audit.ibd</span><br><span class="line">dict_field_detail.frm                 flow_source_id_map#P#p0.MYI                   job_source_id_map#P#p2.MYD                      stg_flow_dag_edge#P#p7.ibd                      stg_product_repo.frm</span><br><span class="line">dict_field_detail.ibd                 flow_source_id_map#P#p1.MYD                   job_source_id_map#P#p2.MYI                      stg_flow_dag.frm                                stg_product_repo.ibd</span><br><span class="line">dir_external_group_user_map.frm       flow_source_id_map#P#p1.MYI                   job_source_id_map#P#p3.MYD                      stg_flow_dag.par                                stg_repo_owner.frm</span><br><span class="line">dir_external_group_user_map.ibd       flow_source_id_map#P#p2.MYD                   job_source_id_map#P#p3.MYI                      stg_flow_dag#P#p0.ibd                           stg_repo_owner.ibd</span><br><span class="line">dir_external_user_info.frm            flow_source_id_map#P#p2.MYI                   job_source_id_map#P#p4.MYD                      stg_flow_dag#P#p1.ibd                           stg_source_code_commit_info.frm</span><br><span class="line">dir_external_user_info.ibd            flow_source_id_map#P#p3.MYD                   job_source_id_map#P#p4.MYI                      stg_flow_dag#P#p2.ibd                           stg_source_code_commit_info.ibd</span><br><span class="line">favorites.frm                         flow_source_id_map#P#p3.MYI                   job_source_id_map#P#p5.MYD                      stg_flow_dag#P#p3.ibd                           track_object_access_log.frm</span><br><span class="line">favorites.ibd                         flow_source_id_map#P#p4.MYD                   job_source_id_map#P#p5.MYI                      stg_flow_dag#P#p4.ibd                           track_object_access_log.ibd</span><br><span class="line">field_comments.frm                    flow_source_id_map#P#p4.MYI                   job_source_id_map#P#p6.MYD                      stg_flow_dag#P#p5.ibd                           user_login_history.frm</span><br><span class="line">field_comments.ibd                    flow_source_id_map#P#p5.MYD                   job_source_id_map#P#p6.MYI                      stg_flow_dag#P#p6.ibd                           user_login_history.ibd</span><br><span class="line">filename_pattern.frm                  flow_source_id_map#P#p5.MYI                   job_source_id_map#P#p7.MYD                      stg_flow_dag#P#p7.ibd                           user_settings.frm</span><br><span class="line">filename_pattern.ibd                  flow_source_id_map#P#p6.MYD                   job_source_id_map#P#p7.MYI                      stg_flow_execution.frm                          user_settings.ibd</span><br><span class="line">flow_dag.frm                          flow_source_id_map#P#p6.MYI                   log_dataset_instance_load_status.frm            stg_flow_execution.par                          users.frm</span><br><span class="line">flow_dag.par                          flow_source_id_map#P#p7.MYD                   log_dataset_instance_load_status.par            stg_flow_execution#P#p0.ibd                     users.ibd</span><br><span class="line">flow_dag#P#p0.ibd                     flow_source_id_map#P#p7.MYI                   log_dataset_instance_load_status#P#P201601.ibd  stg_flow_execution#P#p1.ibd                     watch.frm</span><br><span class="line">flow_dag#P#p1.ibd                     FTS_0000000000000184_BEING_DELETED_CACHE.ibd  log_dataset_instance_load_status#P#P201602.ibd  stg_flow_execution#P#p2.ibd                     watch.ibd</span><br><span class="line">flow_dag#P#p2.ibd                     FTS_0000000000000184_BEING_DELETED.ibd        log_dataset_instance_load_status#P#P201603.ibd  stg_flow_execution#P#p3.ibd                     wh_etl_job_history.frm</span><br><span class="line">flow_dag#P#p3.ibd                     FTS_0000000000000184_CONFIG.ibd               log_dataset_instance_load_status#P#P201604.ibd  stg_flow_execution#P#p4.ibd                     wh_etl_job_history.ibd</span><br><span class="line">flow_dag#P#p4.ibd                     FTS_0000000000000184_DELETED_CACHE.ibd        log_dataset_instance_load_status#P#P201605.ibd  stg_flow_execution#P#p5.ibd                     wh_etl_job_schedule.frm</span><br><span class="line">flow_dag#P#p5.ibd                     FTS_0000000000000184_DELETED.ibd              log_dataset_instance_load_status#P#P201606.ibd  stg_flow_execution#P#p6.ibd                     wh_etl_job_schedule.ibd</span><br><span class="line">flow_dag#P#p6.ibd                     FTS_00000000000001a5_BEING_DELETED_CACHE.ibd  log_dataset_instance_load_status#P#P201607.ibd  stg_flow_execution#P#p7.ibd</span><br><span class="line">flow_dag#P#p7.ibd                     FTS_00000000000001a5_BEING_DELETED.ibd        log_dataset_instance_load_status#P#P201608.ibd  stg_flow.frm</span><br></pre></td></tr></table></figure>
+
+<p>　　</p>
+<p><strong>锁区别</strong></p>
+<p>MyISAM存储引擎使用的是表锁，Innodb存储引擎默认使用的是行锁，同时也支持表级锁</p>
+<p>参考：<a href="https://www.bilibili.com/s/video/BV1Qk4y167pi" target="_blank" rel="noopener">【一分钟系列】一分钟快速了解MyISAM和Innodb的主要区别</a></p>
+<p>&nbsp;</p>
+<p><strong>B树</strong></p>
+<p>BTree是平衡搜索多叉树，设树的度为2d（d&gt;1），高度为h，那么BTree要满足以一下条件：</p>
+<p>每个叶子结点的高度一样，等于h；</p>
+<p>每个非叶子结点由n-1个key和n个指针point组成，其中d&lt;=n&lt;=2d,key和point相互间隔，结点两端一定是key；</p>
+<p>叶子结点指针都为null；</p>
+<p>非叶子结点的key都是[key,data]二元组，其中key表示作为索引的键，data为键值所在行的数据；</p>
+<img src="/images/517519-20210305143151990-257814282.png" alt loading="lazy">
+
+<p>&nbsp;</p>
+<p>在BTree的结构下，就可以使用二分查找的查找方式，查找复杂度为h*log(n)，一般来说树的高度是很小的，一般为3左右，因此BTree是一个非常高效的查找结构。</p>
+<p>&nbsp;</p>
+<p><strong>B+树</strong></p>
+<p>B+Tree是BTree的一个变种，设d为树的度数，h为树的高度，B+Tree和BTree的不同主要在于：</p>
+<p>B+Tree中的非叶子结点不存储数据，只存储键值；</p>
+<p>B+Tree的叶子结点没有指针，所有键值都会出现在叶子结点上，且key存储的键值对应data数据的物理地址；</p>
+<p>B+Tree的每个非叶子节点由n个键值key和n个指针point组成；</p>
+<img src="/images/517519-20210305143310496-2120756542.png" alt loading="lazy">
+
+<p>&nbsp;</p>
+<h2><span id="b-tree-dui-bi-btree-de-you-dian"><strong>B+Tree对比BTree的优点</strong></span><a href="#b-tree-dui-bi-btree-de-you-dian" class="header-anchor">#</a></h2><p>1、磁盘读写代价更低</p>
+<p>一般来说B+Tree比BTree更适合实现外存的索引结构，因为存储引擎的设计专家巧妙的利用了外存（磁盘）的存储结构，即磁盘的最小存储单位是扇区（sector），而操作系统的块（block）通常是整数倍的sector，操作系统以页（page）为单位管理内存，一页（page）通常默认为4K，数据库的页通常设置为操作系统页的整数倍，因此索引结构的节点被设计为一个页的大小，然后利用外存的&ldquo;预读取&rdquo;原则，每次读取的时候，把整个节点的数据读取到内存中，然后在内存中查找，已知内存的读取速度是外存读取I/O速度的几百倍，那么提升查找速度的关键就在于尽可能少的磁盘I/O，那么可以知道，每个节点中的key个数越多，那么树的高度越小，需要I/O的次数越少，因此一般来说B+Tree比BTree更快，因为B+Tree的非叶节点中不存储data，就可以存储更多的key。</p>
+<p>2、查询速度更稳定</p>
+<p>由于B+Tree非叶子节点不存储数据（data），因此所有的数据都要查询至叶子节点，而叶子节点的高度都是相同的，因此所有数据的查询速度都是一样的。<br><br></p>
+
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://tonglin0325.github.io/2015/06/19/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%B4%A2%E5%BC%95%E5%8E%9F%E7%90%86/" data-id="ckobghian008pz90l65hphdd4" class="article-share-link">
+        <i class="fa fa-share"></i> 分享
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Android学习笔记——SQLite" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/18/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94SQLite/">Android学习笔记——SQLite</a>
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2015/06/18/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94SQLite/" class="article-date"><time datetime="2015-06-17T16:00:00.000Z" itemprop="datePublished">2015-06-18</time></a>
+</div>
+
+    <div class="article-author">tonglin0325</div>
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>该工程的功能是实现关于数据库的操作，即creat、update、insert、query、delete</p>
+<p>调试的时候请用模拟器，用真机调试的时候进入cmd-adb shell，再进入cd data/data的时候会显示permission denied</p>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ProgressBar/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/2015/06/18/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94SQLite/#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -194,7 +460,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ProgressBar/" data-id="ckobghi7p000uz90l5jsdflp7" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/2015/06/18/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94SQLite/" data-id="ckobghi7q000yz90l3qzr97mb" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -210,13 +476,13 @@ ga('send', 'pageview');
 
 
   
-    <article id="post-Android学习笔记——TableLayout" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Android学习笔记——LinearLayout" class="article article-type-post" itemscope itemprop="blogPost">
 
   <header class="article-header">
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94TableLayout/">Android学习笔记——TableLayout</a>
+      <a class="article-title" href="/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94LinearLayout/">Android学习笔记——LinearLayout</a>
     </h1>
   
 
@@ -225,7 +491,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94TableLayout/" class="article-date"><time datetime="2015-06-16T16:00:00.000Z" itemprop="datePublished">2015-06-17</time></a>
+  <a href="/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94LinearLayout/" class="article-date"><time datetime="2015-06-16T16:00:00.000Z" itemprop="datePublished">2015-06-17</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -236,10 +502,10 @@ ga('send', 'pageview');
 
     <div class="article-entry" itemprop="articleBody">
       
-        <p>该工程的功能是实现在一个activity中显示一个表格</p>
+        <p>该工程的功能是实现LinearLayout</p>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94TableLayout/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94LinearLayout/#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -248,7 +514,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94TableLayout/" data-id="ckobghi7p000wz90lcnmn14is" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94LinearLayout/" data-id="ckobghi5q0001z90la9v896cu" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -264,13 +530,13 @@ ga('send', 'pageview');
 
 
   
-    <article id="post-Android学习笔记——menu" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Android学习笔记——Handler（一）" class="article article-type-post" itemscope itemprop="blogPost">
 
   <header class="article-header">
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94menu/">Android学习笔记——menu</a>
+      <a class="article-title" href="/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Handler%EF%BC%88%E4%B8%80%EF%BC%89/">Android学习笔记——Handler（一）</a>
     </h1>
   
 
@@ -279,61 +545,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94menu/" class="article-date"><time datetime="2015-06-16T16:00:00.000Z" itemprop="datePublished">2015-06-17</time></a>
-</div>
-
-    <div class="article-author">tonglin0325</div>
-    
-
-  </div>
-  <div class="article-inner">
-
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>该工程的功能是实现两个数相乘，并在另外一个Activity中显示计算的结果</p>
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94menu/#more">全文 &gt;&gt;</a>
-          </p>
-        
-      
-    </div>
-
-    
-
-    <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94menu/" data-id="ckobghi7r0014z90l7ga8c1vm" class="article-share-link">
-        <i class="fa fa-share"></i> 分享
-      </a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/" rel="tag">Android</a></li></ul>
-
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Android学习笔记——Handler" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <header class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Handler/">Android学习笔记——Handler</a>
-    </h1>
-  
-
-
-  </header>
-
-  <div class="article-meta">
-    <div class="article-datetime">
-  <a href="/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Handler/" class="article-date"><time datetime="2015-06-16T16:00:00.000Z" itemprop="datePublished">2015-06-17</time></a>
+  <a href="/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Handler%EF%BC%88%E4%B8%80%EF%BC%89/" class="article-date"><time datetime="2015-06-16T16:00:00.000Z" itemprop="datePublished">2015-06-17</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -373,7 +585,7 @@ ga('send', 'pageview');
 <p>handler.postDelayed(updateThread,3000)</p>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Handler/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Handler%EF%BC%88%E4%B8%80%EF%BC%89/#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -382,7 +594,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Handler/" data-id="ckqx6a7h20000950lgdvk6480" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Handler%EF%BC%88%E4%B8%80%EF%BC%89/" data-id="ckobghi7m000kz90l15gbe19a" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -398,13 +610,13 @@ ga('send', 'pageview');
 
 
   
-    <article id="post-Flink学习笔记——Broadcast State" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Android学习笔记——ListView" class="article article-type-post" itemscope itemprop="blogPost">
 
   <header class="article-header">
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/06/17/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Broadcast%20State/">Flink学习笔记——Broadcast State</a>
+      <a class="article-title" href="/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ListView/">Android学习笔记——ListView</a>
     </h1>
   
 
@@ -413,7 +625,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2015/06/17/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Broadcast%20State/" class="article-date"><time datetime="2015-06-16T16:00:00.000Z" itemprop="datePublished">2015-06-17</time></a>
+  <a href="/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ListView/" class="article-date"><time datetime="2015-06-16T16:00:00.000Z" itemprop="datePublished">2015-06-17</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -424,132 +636,10 @@ ga('send', 'pageview');
 
     <div class="article-entry" itemprop="articleBody">
       
-        
-<div id="toc">
-  
-</div>
-
-        <p>使用broadcast state实现动态配置更新，即双流：一个数据流，一个配置流</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;flink.apache.org&#x2F;2019&#x2F;06&#x2F;26&#x2F;broadcast-state.html</span><br></pre></td></tr></table></figure>
-
-<p>可以参考官方文档</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;ci.apache.org&#x2F;projects&#x2F;flink&#x2F;flink-docs-release-1.13&#x2F;docs&#x2F;dev&#x2F;datastream&#x2F;fault-tolerance&#x2F;broadcast_state&#x2F;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-      
-
-    
-
-    <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2015/06/17/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Broadcast%20State/" data-id="ckqx6a7h80002950lde8z5d49" class="article-share-link">
-        <i class="fa fa-share"></i> 分享
-      </a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Flink/" rel="tag">Flink</a></li></ul>
-
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Hadoop学习笔记——namenode" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <header class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/06/17/Hadoop%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94namenode/">Hadoop学习笔记——namenode</a>
-    </h1>
-  
-
-
-  </header>
-
-  <div class="article-meta">
-    <div class="article-datetime">
-  <a href="/2015/06/17/Hadoop%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94namenode/" class="article-date"><time datetime="2015-06-16T16:00:00.000Z" itemprop="datePublished">2015-06-17</time></a>
-</div>
-
-    <div class="article-author">tonglin0325</div>
-    
-
-  </div>
-  <div class="article-inner">
-
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-<div id="toc">
-  
-</div>
-
-        <p>fsimage和edit log，参考：<a href="https://blog.csdn.net/lxf20054658/article/details/80565670" target="_blank" rel="noopener">查看hdfs的fsimage和editlog</a></p>
-<p><a href="https://www.jianshu.com/p/75b37c14fb92" target="_blank" rel="noopener">浅谈HDFS的fsimage、edit log与SecondaryNameNode</a></p>
-<p><a href="https://www.cnblogs.com/sodawoods-blogs/p/8874231.html" target="_blank" rel="noopener">HDFS- High Availability</a></p>
-
-      
-    </div>
-
-    
-      
-
-    
-
-    <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2015/06/17/Hadoop%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94namenode/" data-id="ckqx6a7ha0005950lal3b7n20" class="article-share-link">
-        <i class="fa fa-share"></i> 分享
-      </a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hadoop/" rel="tag">Hadoop</a></li></ul>
-
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Android学习笔记——download" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <header class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/06/16/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94download/">Android学习笔记——download</a>
-    </h1>
-  
-
-
-  </header>
-
-  <div class="article-meta">
-    <div class="article-datetime">
-  <a href="/2015/06/16/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94download/" class="article-date"><time datetime="2015-06-15T16:00:00.000Z" itemprop="datePublished">2015-06-16</time></a>
-</div>
-
-    <div class="article-author">tonglin0325</div>
-    
-
-  </div>
-  <div class="article-inner">
-
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>该工程的功能是实现从网上的链接下载一个lrc文件和一个mp3文件</p>
+        <p>该工程的功能是实现在一个activity中显示一个列表</p>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2015/06/16/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94download/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ListView/#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -558,7 +648,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2015/06/16/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94download/" data-id="ckobghi7q0012z90l6y0i4e04" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ListView/" data-id="ckobghi7n000mz90ldxng62sv" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -574,13 +664,13 @@ ga('send', 'pageview');
 
 
   
-    <article id="post-Android学习笔记——CheckBox" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Android学习笔记——MixLayout" class="article article-type-post" itemscope itemprop="blogPost">
 
   <header class="article-header">
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/06/15/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94CheckBox/">Android学习笔记——CheckBox</a>
+      <a class="article-title" href="/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94MixLayout/">Android学习笔记——MixLayout</a>
     </h1>
   
 
@@ -589,7 +679,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2015/06/15/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94CheckBox/" class="article-date"><time datetime="2015-06-14T16:00:00.000Z" itemprop="datePublished">2015-06-15</time></a>
+  <a href="/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94MixLayout/" class="article-date"><time datetime="2015-06-16T16:00:00.000Z" itemprop="datePublished">2015-06-17</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -600,10 +690,10 @@ ga('send', 'pageview');
 
     <div class="article-entry" itemprop="articleBody">
       
-        <p>该工程的功能实现在一个activity中显示一个单选框和一个多选框</p>
+        <p>该工程的功能是实现LinearLayout+TableLayout</p>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2015/06/15/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94CheckBox/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94MixLayout/#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -612,7 +702,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2015/06/15/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94CheckBox/" data-id="ckobghi5m0000z90lavcnevme" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94MixLayout/" data-id="ckobghi7n000oz90l8sj3dqlv" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -628,13 +718,13 @@ ga('send', 'pageview');
 
 
   
-    <article id="post-Android学习笔记——Button" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Android学习笔记——Handler（二）" class="article article-type-post" itemscope itemprop="blogPost">
 
   <header class="article-header">
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/06/15/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Button/">Android学习笔记——Button</a>
+      <a class="article-title" href="/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Handler%EF%BC%88%E4%BA%8C%EF%BC%89/">Android学习笔记——Handler（二）</a>
     </h1>
   
 
@@ -643,7 +733,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2015/06/15/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Button/" class="article-date"><time datetime="2015-06-14T16:00:00.000Z" itemprop="datePublished">2015-06-15</time></a>
+  <a href="/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Handler%EF%BC%88%E4%BA%8C%EF%BC%89/" class="article-date"><time datetime="2015-06-16T16:00:00.000Z" itemprop="datePublished">2015-06-17</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -654,10 +744,10 @@ ga('send', 'pageview');
 
     <div class="article-entry" itemprop="articleBody">
       
-        <p>该工程的功能是实现在activity中显示一个TextView和一个Button</p>
+        <p>对比请看<a href="http://blog.sina.com.cn/s/blog_78c913e30100uqmf.html" target="_blank" rel="noopener">http://blog.sina.com.cn/s/blog_78c913e30100uqmf.html</a></p>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2015/06/15/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Button/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Handler%EF%BC%88%E4%BA%8C%EF%BC%89/#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -666,7 +756,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2015/06/15/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Button/" data-id="ckobghi7l000gz90lf9mxag35" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/2015/06/17/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Handler%EF%BC%88%E4%BA%8C%EF%BC%89/" data-id="ckobghi7o000qz90lfdot7het" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -685,7 +775,7 @@ ga('send', 'pageview');
 
 
   <div id="page-nav">
-    <nav><ul class="pagination"><li><a class="page-prev" rel="prev" href="/page/55/"><i class="fa fa-chevron-left"></i> Prev</a></li><li><a class="page-number" href="/">1</a></li><li class="disabled"><span class="page-space">&hellip;</span></li><li><a class="page-number" href="/page/54/">54</a></li><li><a class="page-number" href="/page/55/">55</a></li><li class="active"><span class="page-number">56</span></li><li><a class="page-number" href="/page/57/">57</a></li><li><a class="page-next" rel="next" href="/page/57/">Next <i class="fa fa-chevron-right"></i></a></li></ul></nav>
+    <nav><ul class="pagination"><li><a class="page-prev" rel="prev" href="/page/55/"><i class="fa fa-chevron-left"></i> Prev</a></li><li><a class="page-number" href="/">1</a></li><li class="disabled"><span class="page-space">&hellip;</span></li><li><a class="page-number" href="/page/54/">54</a></li><li><a class="page-number" href="/page/55/">55</a></li><li class="active"><span class="page-number">56</span></li><li><a class="page-number" href="/page/57/">57</a></li><li><a class="page-number" href="/page/58/">58</a></li><li><a class="page-next" rel="next" href="/page/57/">Next <i class="fa fa-chevron-right"></i></a></li></ul></nav>
   </div>
 
 
@@ -705,7 +795,7 @@ ga('send', 'pageview');
   
   <div class="sidebar-module">
     <h4>标签</h4>
-    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Airbnb/" rel="tag">Airbnb</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Ajax/" rel="tag">Ajax</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Amazon/" rel="tag">Amazon</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Android/" rel="tag">Android</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Bootstrap/" rel="tag">Bootstrap</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ELK/" rel="tag">ELK</a><span class="sidebar-module-list-count">14</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Flink/" rel="tag">Flink</a><span class="sidebar-module-list-count">16</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Git/" rel="tag">Git</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HAProxy/" rel="tag">HAProxy</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HTML-CSS-JS/" rel="tag">HTML/CSS/JS</a><span class="sidebar-module-list-count">32</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hadoop/" rel="tag">Hadoop</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hbase/" rel="tag">Hbase</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hive/" rel="tag">Hive</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JDBC/" rel="tag">JDBC</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JSON/" rel="tag">JSON</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JavaSE/" rel="tag">JavaSE</a><span class="sidebar-module-list-count">61</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JavaWeb/" rel="tag">JavaWeb</a><span class="sidebar-module-list-count">29</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Java%E5%85%B3%E9%94%AE%E5%AD%97/" rel="tag">Java关键字</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/LaTex/" rel="tag">LaTex</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Linkedin/" rel="tag">Linkedin</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="sidebar-module-list-count">56</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ML/" rel="tag">ML</a><span class="sidebar-module-list-count">28</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Maven/" rel="tag">Maven</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/MySQL/" rel="tag">MySQL</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Nexus/" rel="tag">Nexus</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/NoSQL/" rel="tag">NoSQL</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Paper/" rel="tag">Paper</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Play/" rel="tag">Play</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Python/" rel="tag">Python</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/RocksDB/" rel="tag">RocksDB</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Scala/" rel="tag">Scala</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Solr/" rel="tag">Solr</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Spark/" rel="tag">Spark</a><span class="sidebar-module-list-count">20</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SpringMVC/" rel="tag">SpringMVC</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Thrift/" rel="tag">Thrift</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/antlr/" rel="tag">antlr</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/cdh/" rel="tag">cdh</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/docker/" rel="tag">docker</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/filebeat/" rel="tag">filebeat</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/flume/" rel="tag">flume</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/go/" rel="tag">go</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/google/" rel="tag">google</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/impala/" rel="tag">impala</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/jquery/" rel="tag">jquery</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/k8s/" rel="tag">k8s</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kafka/" rel="tag">kafka</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kerberos/" rel="tag">kerberos</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kudu/" rel="tag">kudu</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ldap/" rel="tag">ldap</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mac/" rel="tag">mac</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mybatis/" rel="tag">mybatis</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nginx/" rel="tag">nginx</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nlp/" rel="tag">nlp</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/open-falcon/" rel="tag">open-falcon</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/redis/" rel="tag">redis</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/twitter/" rel="tag">twitter</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/yarn/" rel="tag">yarn</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/zookeeper/" rel="tag">zookeeper</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%88%B7%E9%A2%98/" rel="tag">刷题</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%9B%BE%E5%AD%98%E5%82%A8%E5%8F%8A%E8%AE%A1%E7%AE%97/" rel="tag">图存储及计算</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" rel="tag">开发工具</a><span class="sidebar-module-list-count">17</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="sidebar-module-list-count">27</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="sidebar-module-list-count">7</span></li></ul>
+    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Airbnb/" rel="tag">Airbnb</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Ajax/" rel="tag">Ajax</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Amazon/" rel="tag">Amazon</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Android/" rel="tag">Android</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Bootstrap/" rel="tag">Bootstrap</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ELK/" rel="tag">ELK</a><span class="sidebar-module-list-count">14</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Flink/" rel="tag">Flink</a><span class="sidebar-module-list-count">17</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Git/" rel="tag">Git</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HAProxy/" rel="tag">HAProxy</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HTML-CSS-JS/" rel="tag">HTML/CSS/JS</a><span class="sidebar-module-list-count">32</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hadoop/" rel="tag">Hadoop</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hbase/" rel="tag">Hbase</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hive/" rel="tag">Hive</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JDBC/" rel="tag">JDBC</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JSON/" rel="tag">JSON</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JavaSE/" rel="tag">JavaSE</a><span class="sidebar-module-list-count">63</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JavaWeb/" rel="tag">JavaWeb</a><span class="sidebar-module-list-count">29</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Java%E5%85%B3%E9%94%AE%E5%AD%97/" rel="tag">Java关键字</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/LaTex/" rel="tag">LaTex</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Linkedin/" rel="tag">Linkedin</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="sidebar-module-list-count">56</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ML/" rel="tag">ML</a><span class="sidebar-module-list-count">28</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Maven/" rel="tag">Maven</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/MySQL/" rel="tag">MySQL</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Nexus/" rel="tag">Nexus</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/NoSQL/" rel="tag">NoSQL</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Paper/" rel="tag">Paper</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Play/" rel="tag">Play</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Python/" rel="tag">Python</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/RocksDB/" rel="tag">RocksDB</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Scala/" rel="tag">Scala</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Solr/" rel="tag">Solr</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Spark/" rel="tag">Spark</a><span class="sidebar-module-list-count">20</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SpringMVC/" rel="tag">SpringMVC</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Thrift/" rel="tag">Thrift</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/antlr/" rel="tag">antlr</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/cdh/" rel="tag">cdh</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/docker/" rel="tag">docker</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/filebeat/" rel="tag">filebeat</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/flume/" rel="tag">flume</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/go/" rel="tag">go</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/google/" rel="tag">google</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hexo/" rel="tag">hexo</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/impala/" rel="tag">impala</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/jquery/" rel="tag">jquery</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/k8s/" rel="tag">k8s</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kafka/" rel="tag">kafka</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kerberos/" rel="tag">kerberos</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kudu/" rel="tag">kudu</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ldap/" rel="tag">ldap</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mac/" rel="tag">mac</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mybatis/" rel="tag">mybatis</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nginx/" rel="tag">nginx</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nlp/" rel="tag">nlp</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/open-falcon/" rel="tag">open-falcon</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/redis/" rel="tag">redis</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/twitter/" rel="tag">twitter</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/yarn/" rel="tag">yarn</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/zookeeper/" rel="tag">zookeeper</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%88%B7%E9%A2%98/" rel="tag">刷题</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%9B%BE%E5%AD%98%E5%82%A8%E5%8F%8A%E8%AE%A1%E7%AE%97/" rel="tag">图存储及计算</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" rel="tag">开发工具</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="sidebar-module-list-count">27</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="sidebar-module-list-count">7</span></li></ul>
   </div>
 
 
@@ -714,7 +804,7 @@ ga('send', 'pageview');
   <div class="sidebar-module">
     <h4>标签云</h4>
     <p class="tagcloud">
-      <a href="/tags/Airbnb/" style="font-size: 12.61px;">Airbnb</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/Amazon/" style="font-size: 10px;">Amazon</a> <a href="/tags/Android/" style="font-size: 16.09px;">Android</a> <a href="/tags/Bootstrap/" style="font-size: 10px;">Bootstrap</a> <a href="/tags/ELK/" style="font-size: 14.78px;">ELK</a> <a href="/tags/Flink/" style="font-size: 15.22px;">Flink</a> <a href="/tags/Git/" style="font-size: 10.87px;">Git</a> <a href="/tags/HAProxy/" style="font-size: 10.43px;">HAProxy</a> <a href="/tags/HTML-CSS-JS/" style="font-size: 19.13px;">HTML/CSS/JS</a> <a href="/tags/Hadoop/" style="font-size: 13.04px;">Hadoop</a> <a href="/tags/Hbase/" style="font-size: 11.74px;">Hbase</a> <a href="/tags/Hive/" style="font-size: 13.04px;">Hive</a> <a href="/tags/JDBC/" style="font-size: 13.48px;">JDBC</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/JavaSE/" style="font-size: 20px;">JavaSE</a> <a href="/tags/JavaWeb/" style="font-size: 18.7px;">JavaWeb</a> <a href="/tags/Java%E5%85%B3%E9%94%AE%E5%AD%97/" style="font-size: 13.04px;">Java关键字</a> <a href="/tags/LaTex/" style="font-size: 10px;">LaTex</a> <a href="/tags/Linkedin/" style="font-size: 10px;">Linkedin</a> <a href="/tags/Linux/" style="font-size: 19.57px;">Linux</a> <a href="/tags/ML/" style="font-size: 18.26px;">ML</a> <a href="/tags/Maven/" style="font-size: 10.87px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 17.39px;">MySQL</a> <a href="/tags/Nexus/" style="font-size: 11.74px;">Nexus</a> <a href="/tags/NoSQL/" style="font-size: 10px;">NoSQL</a> <a href="/tags/Paper/" style="font-size: 10px;">Paper</a> <a href="/tags/Play/" style="font-size: 10px;">Play</a> <a href="/tags/Python/" style="font-size: 16.96px;">Python</a> <a href="/tags/RocksDB/" style="font-size: 10px;">RocksDB</a> <a href="/tags/Scala/" style="font-size: 13.48px;">Scala</a> <a href="/tags/Solr/" style="font-size: 10.87px;">Solr</a> <a href="/tags/Spark/" style="font-size: 16.52px;">Spark</a> <a href="/tags/SpringBoot/" style="font-size: 16.09px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 14.35px;">SpringMVC</a> <a href="/tags/Thrift/" style="font-size: 11.3px;">Thrift</a> <a href="/tags/antlr/" style="font-size: 10.43px;">antlr</a> <a href="/tags/cdh/" style="font-size: 11.3px;">cdh</a> <a href="/tags/docker/" style="font-size: 10.43px;">docker</a> <a href="/tags/filebeat/" style="font-size: 11.3px;">filebeat</a> <a href="/tags/flume/" style="font-size: 10.43px;">flume</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/google/" style="font-size: 10.87px;">google</a> <a href="/tags/impala/" style="font-size: 10.87px;">impala</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/k8s/" style="font-size: 10px;">k8s</a> <a href="/tags/kafka/" style="font-size: 12.61px;">kafka</a> <a href="/tags/kerberos/" style="font-size: 10px;">kerberos</a> <a href="/tags/kudu/" style="font-size: 10px;">kudu</a> <a href="/tags/ldap/" style="font-size: 10px;">ldap</a> <a href="/tags/mac/" style="font-size: 10.87px;">mac</a> <a href="/tags/mybatis/" style="font-size: 10.87px;">mybatis</a> <a href="/tags/nginx/" style="font-size: 12.17px;">nginx</a> <a href="/tags/nlp/" style="font-size: 10px;">nlp</a> <a href="/tags/open-falcon/" style="font-size: 10.87px;">open-falcon</a> <a href="/tags/redis/" style="font-size: 10.43px;">redis</a> <a href="/tags/twitter/" style="font-size: 10.43px;">twitter</a> <a href="/tags/yarn/" style="font-size: 11.3px;">yarn</a> <a href="/tags/zookeeper/" style="font-size: 13.91px;">zookeeper</a> <a href="/tags/%E5%88%B7%E9%A2%98/" style="font-size: 10px;">刷题</a> <a href="/tags/%E5%9B%BE%E5%AD%98%E5%82%A8%E5%8F%8A%E8%AE%A1%E7%AE%97/" style="font-size: 10.43px;">图存储及计算</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.91px;">多线程</a> <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" style="font-size: 15.65px;">开发工具</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 17.39px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 12.17px;">杂谈</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 17.83px;">算法</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 12.17px;">计算机网络</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 12.61px;">设计模式</a>
+      <a href="/tags/Airbnb/" style="font-size: 13.18px;">Airbnb</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/Amazon/" style="font-size: 10px;">Amazon</a> <a href="/tags/Android/" style="font-size: 15.91px;">Android</a> <a href="/tags/Bootstrap/" style="font-size: 10px;">Bootstrap</a> <a href="/tags/ELK/" style="font-size: 15px;">ELK</a> <a href="/tags/Flink/" style="font-size: 15.45px;">Flink</a> <a href="/tags/Git/" style="font-size: 10.91px;">Git</a> <a href="/tags/HAProxy/" style="font-size: 10.45px;">HAProxy</a> <a href="/tags/HTML-CSS-JS/" style="font-size: 19.09px;">HTML/CSS/JS</a> <a href="/tags/Hadoop/" style="font-size: 13.18px;">Hadoop</a> <a href="/tags/Hbase/" style="font-size: 12.27px;">Hbase</a> <a href="/tags/Hive/" style="font-size: 13.64px;">Hive</a> <a href="/tags/JDBC/" style="font-size: 13.64px;">JDBC</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/JavaSE/" style="font-size: 20px;">JavaSE</a> <a href="/tags/JavaWeb/" style="font-size: 18.64px;">JavaWeb</a> <a href="/tags/Java%E5%85%B3%E9%94%AE%E5%AD%97/" style="font-size: 13.18px;">Java关键字</a> <a href="/tags/LaTex/" style="font-size: 10px;">LaTex</a> <a href="/tags/Linkedin/" style="font-size: 10px;">Linkedin</a> <a href="/tags/Linux/" style="font-size: 19.55px;">Linux</a> <a href="/tags/ML/" style="font-size: 18.18px;">ML</a> <a href="/tags/Maven/" style="font-size: 10.91px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 17.27px;">MySQL</a> <a href="/tags/Nexus/" style="font-size: 11.82px;">Nexus</a> <a href="/tags/NoSQL/" style="font-size: 10px;">NoSQL</a> <a href="/tags/Paper/" style="font-size: 10px;">Paper</a> <a href="/tags/Play/" style="font-size: 10px;">Play</a> <a href="/tags/Python/" style="font-size: 16.82px;">Python</a> <a href="/tags/RocksDB/" style="font-size: 10px;">RocksDB</a> <a href="/tags/Scala/" style="font-size: 13.64px;">Scala</a> <a href="/tags/Solr/" style="font-size: 10.91px;">Solr</a> <a href="/tags/Spark/" style="font-size: 16.36px;">Spark</a> <a href="/tags/SpringBoot/" style="font-size: 15.91px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 14.55px;">SpringMVC</a> <a href="/tags/Thrift/" style="font-size: 11.36px;">Thrift</a> <a href="/tags/antlr/" style="font-size: 10.45px;">antlr</a> <a href="/tags/cdh/" style="font-size: 11.36px;">cdh</a> <a href="/tags/docker/" style="font-size: 10.45px;">docker</a> <a href="/tags/filebeat/" style="font-size: 11.36px;">filebeat</a> <a href="/tags/flume/" style="font-size: 10.45px;">flume</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/google/" style="font-size: 10.91px;">google</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/impala/" style="font-size: 10.91px;">impala</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/k8s/" style="font-size: 10px;">k8s</a> <a href="/tags/kafka/" style="font-size: 13.18px;">kafka</a> <a href="/tags/kerberos/" style="font-size: 10px;">kerberos</a> <a href="/tags/kudu/" style="font-size: 10px;">kudu</a> <a href="/tags/ldap/" style="font-size: 10px;">ldap</a> <a href="/tags/mac/" style="font-size: 10.91px;">mac</a> <a href="/tags/mybatis/" style="font-size: 10.91px;">mybatis</a> <a href="/tags/nginx/" style="font-size: 12.27px;">nginx</a> <a href="/tags/nlp/" style="font-size: 10px;">nlp</a> <a href="/tags/open-falcon/" style="font-size: 10.91px;">open-falcon</a> <a href="/tags/redis/" style="font-size: 10.91px;">redis</a> <a href="/tags/twitter/" style="font-size: 10.45px;">twitter</a> <a href="/tags/yarn/" style="font-size: 11.36px;">yarn</a> <a href="/tags/zookeeper/" style="font-size: 14.09px;">zookeeper</a> <a href="/tags/%E5%88%B7%E9%A2%98/" style="font-size: 10px;">刷题</a> <a href="/tags/%E5%9B%BE%E5%AD%98%E5%82%A8%E5%8F%8A%E8%AE%A1%E7%AE%97/" style="font-size: 10.45px;">图存储及计算</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 14.09px;">多线程</a> <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" style="font-size: 15.91px;">开发工具</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 17.27px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 12.73px;">杂谈</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 17.73px;">算法</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 12.27px;">计算机网络</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 12.73px;">设计模式</a>
     </p>
   </div>
 
@@ -723,7 +813,7 @@ ga('send', 'pageview');
   
   <div class="sidebar-module">
     <h4>文章归档</h4>
-    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">七月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/01/">一月 2021</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/12/">十二月 2020</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/11/">十一月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/10/">十月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/09/">九月 2020</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/08/">八月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/07/">七月 2020</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/06/">六月 2020</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/05/">五月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/04/">四月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/03/">三月 2020</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">二月 2020</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/01/">一月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">十月 2019</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/09/">九月 2019</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">八月 2019</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/07/">七月 2019</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/04/">四月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/03/">三月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/01/">一月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/12/">十二月 2018</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/11/">十一月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/09/">九月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/06/">六月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/05/">五月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/04/">四月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/02/">二月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/01/">一月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/11/">十一月 2017</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/09/">九月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/07/">七月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/06/">六月 2017</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/05/">五月 2017</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/04/">四月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/03/">三月 2017</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/01/">一月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/12/">十二月 2016</a><span class="sidebar-module-list-count">15</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/11/">十一月 2016</a><span class="sidebar-module-list-count">20</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">十月 2016</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">九月 2016</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/08/">八月 2016</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/07/">七月 2016</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">六月 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">五月 2016</a><span class="sidebar-module-list-count">33</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/04/">四月 2016</a><span class="sidebar-module-list-count">28</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/03/">三月 2016</a><span class="sidebar-module-list-count">142</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/02/">二月 2016</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/09/">九月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/08/">八月 2015</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/07/">七月 2015</a><span class="sidebar-module-list-count">31</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/06/">六月 2015</a><span class="sidebar-module-list-count">28</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/04/">四月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2013/04/">四月 2013</a><span class="sidebar-module-list-count">1</span></li></ul>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">七月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/05/">五月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/04/">四月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/01/">一月 2021</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/12/">十二月 2020</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/11/">十一月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/10/">十月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/09/">九月 2020</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/08/">八月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/07/">七月 2020</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/06/">六月 2020</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/05/">五月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/04/">四月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/03/">三月 2020</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">二月 2020</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/01/">一月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">十月 2019</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/09/">九月 2019</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">八月 2019</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/07/">七月 2019</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/04/">四月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/03/">三月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/01/">一月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/12/">十二月 2018</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/11/">十一月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/09/">九月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/06/">六月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/05/">五月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/04/">四月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/02/">二月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/01/">一月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/11/">十一月 2017</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/09/">九月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/07/">七月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/06/">六月 2017</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/05/">五月 2017</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/04/">四月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/03/">三月 2017</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/01/">一月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/12/">十二月 2016</a><span class="sidebar-module-list-count">15</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/11/">十一月 2016</a><span class="sidebar-module-list-count">20</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">十月 2016</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">九月 2016</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/08/">八月 2016</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/07/">七月 2016</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">六月 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">五月 2016</a><span class="sidebar-module-list-count">33</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/04/">四月 2016</a><span class="sidebar-module-list-count">29</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/03/">三月 2016</a><span class="sidebar-module-list-count">147</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/02/">二月 2016</a><span class="sidebar-module-list-count">24</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/09/">九月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/08/">八月 2015</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/07/">七月 2015</a><span class="sidebar-module-list-count">32</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/06/">六月 2015</a><span class="sidebar-module-list-count">28</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/04/">四月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2013/04/">四月 2013</a><span class="sidebar-module-list-count">1</span></li></ul>
   </div>
 
 
@@ -738,19 +828,19 @@ ga('send', 'pageview');
         </li>
       
         <li>
+          <a href="/2021/05/21/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/">Redis学习笔记——应用场景</a>
+        </li>
+      
+        <li>
+          <a href="/2021/04/04/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94metastore%20listener/">Hive学习笔记——metastore listener</a>
+        </li>
+      
+        <li>
           <a href="/2021/01/22/ElasticSearch%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/">ElasticSearch学习笔记——插件开发</a>
         </li>
       
         <li>
           <a href="/2021/01/21/Hbase%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94rowkey/">Hbase学习笔记——rowkey</a>
-        </li>
-      
-        <li>
-          <a href="/2021/01/20/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94fetch/">Hive学习笔记——fetch</a>
-        </li>
-      
-        <li>
-          <a href="/2021/01/11/kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%85%8D%E7%BD%AE/">kafka学习笔记——配置</a>
         </li>
       
     </ul>
