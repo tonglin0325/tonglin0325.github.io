@@ -44,9 +44,9 @@
   <valid_values>[all, -1, 0, 1]</valid_values>
   <importance>high</importance>
   <suggest>
-    all&-1  leader节点确认所有follow同步完成后，再反馈记录是否发送完成。该属性可靠性最高，但是相对来说响应时间更慢，因为需要等待所以节点完成同步。（ps:如果其中一个节点同步失败，leader就会反馈发送失败，producer就会重新尝试发送）
+    all/-1  leader节点确认所有follow同步完成后，再反馈记录是否发送完成。该属性可靠性最高，但是相对来说响应时间更慢，因为需要等待所以节点完成同步。（ps:如果其中一个节点同步失败，leader就会反馈发送失败，producer就会重新尝试发送）
     0 producer不会等待任何反馈就会认为记录发送完成。此时retry属性无效，且记录返回的offset被设置为-1
-    1 与 all&-1相反的情况，leader节点保存记录以后会马上反馈记录是否发送完成，如果反馈完成以后，follow同步副本失败，则会出现记录丢失的情况。
+    1 与 all/-1相反的情况，leader节点保存记录以后会马上反馈记录是否发送完成，如果反馈完成以后，follow同步副本失败，则会出现记录丢失的情况。
   </suggest>
 </property>
 
