@@ -495,4 +495,212 @@
   <suggest></suggest>
 </property>
 
+<property>
+  <name>max.in.flight.requests.per.connection</name>
+  <description>
+    The maximum number of unacknowledged requests the client will send on a single connection before blocking. Note that if this setting is set to be greater than 1 and there are failed sends, there is a risk of message re-ordering due to retries (i.e., if retries are enabled).
+  </description>
+  <cn_description></cn_description>
+  <type>int</type>
+  <default>5</default>
+  <valid_values>[1,...]</valid_values>
+  <importance>low</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>max.in.flight.requests.per.connection</name>
+  <description>
+    The maximum number of unacknowledged requests the client will send on a single connection before blocking. Note that if this setting is set to be greater than 1 and there are failed sends, there is a risk of message re-ordering due to retries (i.e., if retries are enabled).
+  </description>
+  <cn_description></cn_description>
+  <type>int</type>
+  <default>5</default>
+  <valid_values>[1,...]</valid_values>
+  <importance>low</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>metadata.max.age.ms</name>
+  <description>
+    The period of time in milliseconds after which we force a refresh of metadata even if we haven't seen any partition leadership changes to proactively discover any new brokers or partitions.
+  </description>
+  <cn_description></cn_description>
+  <type>long</type>
+  <default>300000</default>
+  <valid_values>[0,...]</valid_values>
+  <importance>low</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>metric.reporters</name>
+  <description>
+    A list of classes to use as metrics reporters. Implementing the org.apache.kafka.common.metrics.MetricsReporter interface allows plugging in classes that will be notified of new metric creation. The JmxReporter is always included to register JMX statistics.
+  </description>
+  <cn_description></cn_description>
+  <type>list</type>
+  <default>""</default>
+  <valid_values>org.apache.kafka.common.config.ConfigDef$NonNullValidator@6093dd95</valid_values>
+  <importance>low</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>metrics.num.samples</name>
+  <description>
+    The number of samples maintained to compute metrics.
+  </description>
+  <cn_description></cn_description>
+  <type>int</type>
+  <default>2</default>
+  <valid_values>[1,...]</valid_values>
+  <importance>low</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>metrics.recording.level</name>
+  <description>
+    The highest recording level for metrics.
+  </description>
+  <cn_description></cn_description>
+  <type>string</type>
+  <default>INFO</default>
+  <valid_values>[INFO, DEBUG]</valid_values>
+  <importance>low</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>metrics.sample.window.ms</name>
+  <description>
+    The window of time a metrics sample is computed over.
+  </description>
+  <cn_description></cn_description>
+  <type>long</type>
+  <default>30000</default>
+  <valid_values>[0,...]</valid_values>
+  <importance>low</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>reconnect.backoff.max.ms</name>
+  <description>
+    The maximum amount of time in milliseconds to wait when reconnecting to a broker that has repeatedly failed to connect. If provided, the backoff per host will increase exponentially for each consecutive connection failure, up to this maximum. After calculating the backoff increase, 20% random jitter is added to avoid connection storms.
+  </description>
+  <cn_description></cn_description>
+  <type>long</type>
+  <default>1000</default>
+  <valid_values>[0,...]</valid_values>
+  <importance>low</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>retry.backoff.ms</name>
+  <description>
+    The amount of time to wait before attempting to retry a failed request to a given topic partition. This avoids repeatedly sending requests in a tight loop under some failure scenarios.
+  </description>
+  <cn_description></cn_description>
+  <type>long</type>
+  <default>100</default>
+  <valid_values>[0,...]</valid_values>
+  <importance>low</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>sasl.kerberos.kinit.cmd</name>
+  <description>
+    Kerberos kinit command path.
+  </description>
+  <cn_description></cn_description>
+  <type>string</type>
+  <default>/usr/bin/kinit</default>
+  <valid_values></valid_values>
+  <importance>low</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>sasl.kerberos.min.time.before.relogin</name>
+  <description>
+    Login thread sleep time between refresh attempts.
+  </description>
+  <cn_description></cn_description>
+  <type>long</type>
+  <default>60000</default>
+  <valid_values></valid_values>
+  <importance>low</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>sasl.kerberos.ticket.renew.jitter</name>
+  <description>
+    Percentage of random jitter added to the renewal time.
+  </description>
+  <cn_description></cn_description>
+  <type>double</type>
+  <default>0.05</default>
+  <valid_values></valid_values>
+  <importance>low</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>sasl.kerberos.ticket.renew.window.factor</name>
+  <description>
+    Login thread will sleep until the specified window factor of time from last refresh to ticket's expiry has been reached, at which time it will try to renew the ticket.
+  </description>
+  <cn_description></cn_description>
+  <type>double</type>
+  <default>0.8</default>
+  <valid_values></valid_values>
+  <importance>low</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>sasl.login.refresh.buffer.seconds</name>
+  <description>
+    The amount of buffer time before credential expiration to maintain when refreshing a credential, in seconds. If a refresh would otherwise occur closer to expiration than the number of buffer seconds then the refresh will be moved up to maintain as much of the buffer time as possible. Legal values are between 0 and 3600 (1 hour); a default value of 300 (5 minutes) is used if no value is specified. This value and sasl.login.refresh.min.period.seconds are both ignored if their sum exceeds the remaining lifetime of a credential. Currently applies only to OAUTHBEARER.
+  </description>
+  <cn_description></cn_description>
+  <type>short</type>
+  <default>300</default>
+  <valid_values>[0,...,3600]</valid_values>
+  <importance>low</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>sasl.login.refresh.min.period.seconds</name>
+  <description>
+    The desired minimum time for the login refresh thread to wait before refreshing a credential, in seconds. Legal values are between 0 and 900 (15 minutes); a default value of 60 (1 minute) is used if no value is specified. This value and sasl.login.refresh.buffer.seconds are both ignored if their sum exceeds the remaining lifetime of a credential. Currently applies only to OAUTHBEARER.
+  </description>
+  <cn_description></cn_description>
+  <type>short</type>
+  <default>60</default>
+  <valid_values>[0,...,900]</valid_values>
+  <importance>low</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>sasl.login.refresh.window.factor</name>
+  <description>
+    Login refresh thread will sleep until the specified window factor relative to the credential's lifetime has been reached, at which time it will try to refresh the credential. Legal values are between 0.5 (50%) and 1.0 (100%) inclusive; a default value of 0.8 (80%) is used if no value is specified. Currently applies only to OAUTHBEARER.
+  </description>
+  <cn_description></cn_description>
+  <type>double</type>
+  <default>0.8</default>
+  <valid_values>[0.5,...,1.0]</valid_values>
+  <importance>low</importance>
+  <suggest></suggest>
+</property>
+
 </configuration>
