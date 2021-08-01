@@ -180,20 +180,25 @@
       Requests sent to brokers will contain multiple batches, one for each partition with data available to be sent.
       A small batch size will make batching less common and may reduce throughput (a batch size of zero will disable batching entirely). A very large batch size may use memory a bit more wastefully as we will always allocate a buffer of the specified batch size in anticipation of additional records.
   </description>
-  <cn_description></cn_description>
+  <cn_description>
+    producer将试图成批地处理消息记录，以减少请求次数。这将改善client与server之间的性能。 这项配置控制默认的批量处理消息字节数。不会试图处理大于这个字节数的消息字节数。
+    发送到brokers的请求将包含多个批量处理，其中会包含对每个partition的一个请求。较小的批量处理数值比较少用，并且可能降低吞吐量（0则会禁用批量处理）。
+    较大的批量处理数值将会浪费更多内存空间，这样就需要分配特定批量处理数值的内存大小
+  </cn_description>
   <type>int</type>
   <default>16384</default>
   <valid_values>[0,...]</valid_values>
   <importance>medium</importance>
-  <suggest></suggest>
+  <suggest>524288</suggest>
 </property>
 
 <property>
   <name>client.id</name>
   <description>
-    An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name to be included in server-side request logging.
+    An id string to pass to the server when making requests.
+    The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name to be included in server-side request logging.
   </description>
-  <cn_description></cn_description>
+  <cn_description>发出请求时传递给服务器的 id 字符串。这样做的目的是通过允许将逻辑应用程序名称包含在服务器端请求日志记录中，从而能够跟踪请求源，而不仅仅是 ip/端口。</cn_description>
   <type>string</type>
   <default>""</default>
   <valid_values></valid_values>
@@ -251,7 +256,11 @@
   <description>
     The maximum size of a request in bytes. This setting will limit the number of record batches the producer will send in a single request to avoid sending huge requests. This is also effectively a cap on the maximum record batch size. Note that the server has its own cap on record batch size which may be different from this.
   </description>
-  <cn_description></cn_description>
+  <cn_description>
+    该参数用于控制生产者发送的请求大小，它可以指定能发送的单个消息的最大值，也可以指单个请求里所有消息的总大小。
+    例如，假设这个值为 1MB，那么可以发送的单个最大消息为 1MB ，或者生产者可以在单个请求里发送一个批次，该批次包含了 1000 个消息，每个消息大小为 1KB。
+    另外， broker 对可接收的消息最大值也有自己的限制（message.max.bytes），所以两边的配置最好可以匹配，避免生产者发送的消息被 broker 拒绝。
+  </cn_description>
   <type>int</type>
   <default>1048576</default>
   <valid_values>[0,...]</valid_values>
@@ -277,12 +286,12 @@
   <description>
     The size of the TCP receive buffer (SO_RCVBUF) to use when reading data. If the value is -1, the OS default will be used.
   </description>
-  <cn_description></cn_description>
+  <cn_description>TCP receive缓存大小，当读取数据时使用</cn_description>
   <type>int</type>
   <default>32768</default>
   <valid_values>[-1,...]</valid_values>
   <importance>medium</importance>
-  <suggest></suggest>
+  <suggest>默认值</suggest>
 </property>
 
 <property>
@@ -399,12 +408,12 @@
   <description>
     The size of the TCP send buffer (SO_SNDBUF) to use when sending data. If the value is -1, the OS default will be used.
   </description>
-  <cn_description></cn_description>
+  <cn_description>TCP send缓存大小，当发送数据时使用</cn_description>
   <type>int</type>
   <default>131072</default>
   <valid_values>[-1,...]</valid_values>
   <importance>medium</importance>
-  <suggest></suggest>
+  <suggest>默认值或者略大于带宽*时延</suggest>
 </property>
 
 <property>
@@ -516,7 +525,7 @@
   <description>
     The maximum number of unacknowledged requests the client will send on a single connection before blocking. Note that if this setting is set to be greater than 1 and there are failed sends, there is a risk of message re-ordering due to retries (i.e., if retries are enabled).
   </description>
-  <cn_description></cn_description>
+  <cn_description>该参数指定了生产者在收到服务器响应之前可以发送多少消息。它的值越高，就会占用越多的内存，不过也会提升吞吐量。把它设为1可以保证消息是按照发送的顺序写入服务器的，即使发生了重试。</cn_description>
   <type>int</type>
   <default>5</default>
   <valid_values>[1,...]</valid_values>
