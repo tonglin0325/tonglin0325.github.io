@@ -902,6 +902,12 @@ for ldap providers in the same way as above does.
   <description>Indicates the length of the listen queue for servers accepting
                client connections.
   </description>
+  <cn_description>
+    ipc server的listener的队列大小。
+    如果由于namenode内存限制，dfs.namenode.handler.count参数实在无法调的太大，也可以加大ipc.server.listen.queue.size这个参数，比如32768。
+    这样的话，对namenode的rpc调用在繁忙时虽然会响应慢一点，但是不至于导致socket连接refuse的过多，可以缓解一点namenode的访问出错频率。这个值默认是128
+  </cn_description>
+  <cdh_val>128</cdh_val>
 </property>
 
 <!-- Proxy Configuration -->

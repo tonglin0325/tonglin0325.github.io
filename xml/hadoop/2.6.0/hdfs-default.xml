@@ -699,7 +699,10 @@
   <description>The number of server threads for the namenode.</description>
   <cn_description>namenode的服务器线程数量</cn_description>
   <cdh_val></cdh_val>
-  <label>侦听来自客户端的请求的NamenodeRPC服务器线程的数量。根据机器的可用内存可以调整为 50~100</label>
+  <label>
+    侦听来自客户端的请求的NamenodeRPC服务器线程的数量。根据机器的可用内存可以调整为 50~100。
+    有时候DFSClient 操作hdfs总报连接超时的time out错，不一定都是因为网络原因造成，还有一种比较大的可能性是由于namenode的dfs.namenode.handler.count配置参数太低，默认为10。对hdfs和nameno的的rpc调用线程太少导致rpc call出现超时造成，这是一点小经验。
+  </label>
 </property>
 
 <property>
