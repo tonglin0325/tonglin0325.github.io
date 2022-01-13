@@ -15,7 +15,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170406233514972-813112650.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170407174056519-1855793921.png">
 <meta property="article:published_time" content="2017-04-05T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-01-13T15:40:52.517Z">
+<meta property="article:modified_time" content="2022-01-13T16:02:14.504Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Spark">
 <meta name="twitter:card" content="summary">
@@ -152,7 +152,7 @@ ga('send', 'pageview');
 
 <span id="more"></span>
 <p>&nbsp;</p>
-<p>RDD支持两种类型的操作: **转化操作(transformation)<strong>和</strong>行动操作(action)**。</p>
+<p>RDD支持两种类型的操作: <strong>转化操作(transformation)</strong>和<strong>行动操作(action)</strong>。</p>
 <p><strong>转化操作，是返回一个新的RDD的操作：</strong></p>
 <p>filter()函数</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val RDD = textFile.filter(line =&gt; line.contains(&quot;Hadoop&quot;))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -212,7 +212,7 @@ ga('send', 'pageview');
 <p><strong>两次调用行动操作</strong>，每次Spark都会重新计算RDD和它的所有依赖</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">val result = input.map(x =&gt; x*x)</span><br><span class="line">println(result.count())</span><br><span class="line">println(result.collect().mkString(&quot;,&quot;))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>使用**persist()**来进行持久化</p>
+<p>使用<strong>persist()</strong>来进行持久化</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">val result = input.map(x =&gt; x * x)</span><br><span class="line">result.persist(StorageLevel.DISK_ONLY)</span><br><span class="line">println(result.count())</span><br><span class="line">println(result.collect().mkString(&quot;,&quot;))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>&nbsp;如果要缓存的数据太多,内存中放不下,Spark 会自动利用最近最少使用(LRU)的缓存策略把最老的分区从内存中移除。</p>

@@ -34,7 +34,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20200510220500845-85600133.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/4DFDU.png">
 <meta property="article:published_time" content="2016-11-27T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-01-13T15:40:53.082Z">
+<meta property="article:modified_time" content="2022-01-13T16:02:14.826Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="ML">
 <meta name="twitter:card" content="summary">
@@ -165,7 +165,7 @@ ga('send', 'pageview');
 <p>&nbsp;</p>
 <p>损失函数（loss function）是用来估量你模型的预测值f(x)与真实值Y的不一致程度，它是一个非负实值函数,通常使用L(Y, f(x))来表示，损失函数越小，模型的鲁棒性就越好。损失函数是<strong>经验风险函数</strong>的核心部分，也是<strong>结构风险函数</strong>重要组成部分。模型的结构风险函数包括了经验风险项和正则项，通常可以表示成如下式子：</p>
 <p>　　　　<img src="/images/517519-20161130211118865-802969511.png" alt></p>
-<h2><span id="yi-log-dui-shu-sun-shi-han-shu-luo-ji-hui-gui">一、log对数损失函数（逻辑回归）</span><a href="#yi-log-dui-shu-sun-shi-han-shu-luo-ji-hui-gui" class="header-anchor">#</a></h2><p>有些人可能觉得逻辑回归的损失函数就是平方损失，其实并不是。平方损失函数可以通过线性回归在假设样本是高斯分布的条件下推导得到，而逻辑回归得到的并不是平方损失。在逻辑回归的推导中，它假设样本服从<strong>伯努利分布（0-1分布）</strong>，然后求得满足该分布的似然函数，接着取对数求极值等等。而逻辑回归并没有求似然函数的极值，而是把极大化当做是一种思想，进而推导出它的经验风险函数为：**最小化负的似然函数（即max F(y, f(x)) &mdash;-&gt; min -F(y, f(x)))**。从损失函数的视角来看，它就成了log损失函数了。</p>
+<h2><span id="yi-log-dui-shu-sun-shi-han-shu-luo-ji-hui-gui">一、log对数损失函数（逻辑回归）</span><a href="#yi-log-dui-shu-sun-shi-han-shu-luo-ji-hui-gui" class="header-anchor">#</a></h2><p>有些人可能觉得逻辑回归的损失函数就是平方损失，其实并不是。平方损失函数可以通过线性回归在假设样本是高斯分布的条件下推导得到，而逻辑回归得到的并不是平方损失。在逻辑回归的推导中，它假设样本服从<strong>伯努利分布（0-1分布）</strong>，然后求得满足该分布的似然函数，接着取对数求极值等等。而逻辑回归并没有求似然函数的极值，而是把极大化当做是一种思想，进而推导出它的经验风险函数为：<strong>最小化负的似然函数（即max F(y, f(x)) &mdash;-&gt; min -F(y, f(x)))</strong>。从损失函数的视角来看，它就成了log损失函数了。</p>
 <p><strong>log损失函数的标准形式</strong>：<mi>L</mi><mo stretchy="&quot;false&quot;">(</mo><mi>Y</mi><mo>,</mo><mi>P</mi><mo stretchy="&quot;false&quot;">(</mo><mi>Y</mi><mrow class="&quot;MJX-TeXAtom-ORD&quot;"><mo stretchy="&quot;false&quot;">|</mo></mrow><mi>X</mi><mo stretchy="&quot;false&quot;">)</mo><mo stretchy="&quot;false&quot;">)</mo><mo>=</mo><mo>&amp;#x2212;</mo><mi>log</mi><mo>&amp;#x2061;</mo><mi>P</mi><mo stretchy="&quot;false&quot;">(</mo><mi>Y</mi><mrow class="&quot;MJX-TeXAtom-ORD&quot;"><mo stretchy="&quot;false&quot;">|</mo></mrow><mi>X</mi><mo stretchy="&quot;false&quot;">)</mo>“&gt;))=&minus;logP(Y|X)</p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="/images/517519-20161130211308334-1632337962.png" alt><br>刚刚说到，取对数是为了方便计算极大似然估计，因为在MLE中，直接求导比较困难，所以通常都是先取对数再求导找极值点。损失函数L(Y, P(Y|X))表达的是样本X在分类Y的情况下，使概率P(Y|X)达到最大值（换言之，<strong>就是利用已知的样本分布，找到最有可能（即最大概率）导致这种分布的参数值；或者说什么样的参数才能使我们观测到目前这组数据的概率最大</strong>）。因为log函数是单调递增的，所以logP(Y|X)也会达到最大值，因此在前面加上负号之后，最大化P(Y|X)就等价于最小化L了。  </p>
 <p>逻辑回归的P(Y=y|x)表达式如下（为了将类别标签y统一为1和0，下面将表达式分开表示）：</p>
@@ -198,7 +198,7 @@ ga('send', 'pageview');
 <p>Adaboost每次迭代时的目的是为了找到最小化下列式子时的参数alpha和G：</p>
 <p>　　　　<img src="/images/517519-20200510215355332-1320712481.png" alt width="300" height="60"></p>
 <p><strong>而指数损失函数(exp-loss）的标准形式如下</strong></p>
-<p>**　　　　<img src="/images/517519-20200510220830816-716307186.png" alt width="250" height="54">**</p>
+<p><strong>　　　　<img src="/images/517519-20200510220830816-716307186.png" alt width="250" height="54"></strong></p>
 <p>可以看出，Adaboost的目标式子就是指数损失，在给定n个样本的情况下，Adaboost的损失函数为：</p>
 <p>　　　　<img src="/images/517519-20200510220857711-938623529.png" alt width="300" height="70"></p>
 <p>关于Adaboost的推导，可以参考Wikipedia：<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/AdaBoost">AdaBoost</a>或者《统计学习方法》P145.</p>

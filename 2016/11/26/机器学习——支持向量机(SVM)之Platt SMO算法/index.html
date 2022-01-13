@@ -5,15 +5,15 @@
   
   <title>机器学习——支持向量机(SVM)之Platt SMO算法 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="**　　Platt SMO算法是通过一个外循环来选择第一个alpha值**的，并且其选择过程会在两种方式之间进行交替： 一种方式是在所有数据集上进行单遍扫描，另一种方式则是在非边界alpha中实现单遍扫描。　　 　　所谓非边界alpha指的就是那些不等于边界0或者C的alpha值。对整个数据集的扫描相当容易，而实现非边界alpha值的扫描时，首先需要建立这些alpha值的列表，然后再对这个表进行遍">
+  <meta name="description" content="Platt SMO算法是通过一个外循环来选择第一个alpha值的，并且其选择过程会在两种方式之间进行交替： 一种方式是在所有数据集上进行单遍扫描，另一种方式则是在非边界alpha中实现单遍扫描。　　 　　所谓非边界alpha指的就是那些不等于边界0或者C的alpha值。对整个数据集的扫描相当容易，而实现非边界alpha值的扫描时，首先需要建立这些alpha值的列表，然后再对这个表进行遍历。同时">
 <meta property="og:type" content="article">
 <meta property="og:title" content="机器学习——支持向量机(SVM)之Platt SMO算法">
 <meta property="og:url" content="http://tonglin0325.github.io/2016/11/26/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA(SVM)%E4%B9%8BPlatt%20SMO%E7%AE%97%E6%B3%95/index.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="**　　Platt SMO算法是通过一个外循环来选择第一个alpha值**的，并且其选择过程会在两种方式之间进行交替： 一种方式是在所有数据集上进行单遍扫描，另一种方式则是在非边界alpha中实现单遍扫描。　　 　　所谓非边界alpha指的就是那些不等于边界0或者C的alpha值。对整个数据集的扫描相当容易，而实现非边界alpha值的扫描时，首先需要建立这些alpha值的列表，然后再对这个表进行遍">
+<meta property="og:description" content="Platt SMO算法是通过一个外循环来选择第一个alpha值的，并且其选择过程会在两种方式之间进行交替： 一种方式是在所有数据集上进行单遍扫描，另一种方式则是在非边界alpha中实现单遍扫描。　　 　　所谓非边界alpha指的就是那些不等于边界0或者C的alpha值。对整个数据集的扫描相当容易，而实现非边界alpha值的扫描时，首先需要建立这些alpha值的列表，然后再对这个表进行遍历。同时">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-11-25T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-01-13T15:40:53.091Z">
+<meta property="article:modified_time" content="2022-01-13T16:02:14.835Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="ML">
 <meta name="twitter:card" content="summary">
@@ -136,7 +136,7 @@ ga('send', 'pageview');
   
 </div>
 
-        <p>**　　Platt SMO算法<strong>是通过一个</strong>外循环<strong>来选择</strong>第一个alpha值**的，并且其选择过程会在两种方式之间进行交替：</p>
+        <p><strong>　　Platt SMO算法</strong>是通过一个<strong>外循环</strong>来选择<strong>第一个alpha值</strong>的，并且其选择过程会在两种方式之间进行交替：</p>
 <p>一种方式是<strong>在所有数据集上进行单遍扫描</strong>，另一种方式则是<strong>在非边界alpha中实现单遍扫描</strong>。　　</p>
 <p>　　所谓<strong>非边界alpha</strong>指的就是那些<strong>不等于边界0或者C的alpha值</strong>。对整个数据集的扫描相当容易，而实现非边界alpha值的扫描时，首先需要建立这些alpha值的列表，然后再对这个表进行遍历。同时，该步骤会跳过那些已知的不会改变的alpha值，即。</p>
 <p>　　在选择第一个alpha值后，算法会通过一个<strong>内循环</strong>来选择<strong>第二个alpha值</strong>。在优化过程中，会通过<strong>最大化步长</strong>的方式来获得第二个alpha值。在简化版SMO算发放中，我们会在选择j之后计算错误率Ej。但在这里，我们会建立一个全局的缓存用于保存误差值，并从中<strong>选择使得步长或者说Ei-Ej最大的alpha值</strong>。</p>

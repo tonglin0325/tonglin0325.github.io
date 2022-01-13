@@ -498,8 +498,8 @@ ga('send', 'pageview');
   
 </div>
 
-        <p>**1.**去清华的镜像站点下载文件spark-2.1.0-bin-without-hadoop.tgz，不要下spark-2.1.0-bin-hadoop2.7.tgz</p>
-<p><strong>2.<strong>把文件解压到/usr/local目录下，解压之后的效果，Hadoop和Spark都在</strong>Hadoop用户</strong>下</p>
+        <p><strong>1.</strong>去清华的镜像站点下载文件spark-2.1.0-bin-without-hadoop.tgz，不要下spark-2.1.0-bin-hadoop2.7.tgz</p>
+<p><strong>2.</strong>把文件解压到/usr/local目录下，解压之后的效果，Hadoop和Spark都在<strong>Hadoop用户</strong>下</p>
 <p><strong>下面的操作都在Hadoop用户下</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">drwxrwxrwx 13 hadoop hadoop 4096 4月&lt;!--more--&gt;</span><br><span class="line">&amp;nbsp;&amp;nbsp; 4 11:50 spark-2.1.0-bin-without-hadoop/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
@@ -510,18 +510,18 @@ ga('send', 'pageview');
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo chown -R hduser:hadoop spark-2.1.0-bin-without-hadoop</span><br><span class="line">sudo chmod 777 hadoop/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>&nbsp;Hadoop文件夹如果权限不对的话，也需要修改</p>
-<p>**3.**在/etc/profile下添加路径</p>
+<p><strong>3.</strong>在/etc/profile下添加路径</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export SPARK_HOME=/usr/local/spark-2.1.0-bin-without-hadoop</span><br><span class="line">export PATH=$&#123;SPARK_HOME&#125;/bin:$PATH</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>**4.**还需要修改Spark的配置文件spark-env.sh</p>
+<p><strong>4.</strong>还需要修改Spark的配置文件spark-env.sh</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/spark-2.1.0-bin-without-hadoop</span><br><span class="line">cp ./conf/spark-env.sh.template ./conf/spark-env.sh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>添加如下</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export SPARK_DIST_CLASSPATH=$(/home/lintong/software/apache/hadoop-2.9.1/bin/hadoop classpath)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>&nbsp;（以上可以参考厦门大学林子雨老师的教程&mdash;&mdash;<a target="_blank" rel="noopener" href="http://dblab.xmu.edu.cn/blog/1307-2/">Spark2.1.0入门：Spark的安装和使用</a>），有些教程坑无数</p>
-<p>**5.**在~/coding/coding/Scala/word-count路径下准备一个文本文件，比如test.segmented文件</p>
-<p>**6.**在该目录下，在终端运行 <strong>spark-shell</strong></p>
+<p><strong>5.</strong>在~/coding/coding/Scala/word-count路径下准备一个文本文件，比如test.segmented文件</p>
+<p><strong>6.</strong>在该目录下，在终端运行 <strong>spark-shell</strong></p>
 <img src="/images/517519-20170403153849753-1451710534.png" alt>
 
 <p>创建一个RDD</p>
@@ -547,7 +547,7 @@ ga('send', 'pageview');
 <p>&nbsp;或者直接</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs -ls /user/hadoop    #或者</span><br><span class="line">hadoop fs -ls .</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>&nbsp;把刚刚的 test.segmented** 文件上传到分布式文件系统HDFS**中（放到hadoop用户目录下）</p>
+<p>&nbsp;把刚刚的 test.segmented<strong> 文件上传到分布式文件系统HDFS</strong>中（放到hadoop用户目录下）</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs -put /home/common/coding/coding/Java/WordCount/input/test.segmented .</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>&nbsp;再次<strong>查看</strong>一下</p>
@@ -559,7 +559,7 @@ ga('send', 'pageview');
 <p>查看一个文件的大小</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs -du -h /logs/xxxx</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>现在**回到 **<strong>spark-shell 窗口</strong>，编写代码从HDFS文件系统加载&nbsp;test.segmented 文件</p>
+<p>现在<strong>回到 </strong><strong>spark-shell 窗口</strong>，编写代码从HDFS文件系统加载&nbsp;test.segmented 文件</p>
 <p>并打印文件中的第一行内容</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; val textFile = sc.textFile(&quot;hdfs://master:9000/user/hadoop/test.segmented&quot;)</span><br><span class="line">textFile: org.apache.spark.rdd.RDD[String] = hdfs://master:9000/user/hadoop/test.segmented MapPartitionsRDD[1] at textFile at &lt;console&gt;:24</span><br><span class="line"></span><br><span class="line">scala&gt; textFile.first()</span><br><span class="line">res0: String = aa bb aa</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
