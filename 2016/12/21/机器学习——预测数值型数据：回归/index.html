@@ -39,7 +39,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161223160645542-1873914217.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161224202157854-1794784665.png">
 <meta property="article:published_time" content="2016-12-20T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-01-13T16:02:14.798Z">
+<meta property="article:modified_time" content="2022-01-15T07:36:16.414Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="ML">
 <meta name="twitter:card" content="summary">
@@ -169,20 +169,20 @@ ga('send', 'pageview');
 <p><strong>适用数据类型</strong>：数值型和标称型数据</p>
 <span id="more"></span>
 <p>&nbsp;</p>
-<p><strong>回归</strong>的目的就预测数值型的目标值。最直接的办法就是依据输入写一个目标值的计算公式。这个计算公式就是所谓的<strong>回归方程(regression equation)</strong>，其中的参数就是<strong>回归系数</strong>，求这些回归系数的过程就是<strong>回归</strong>。</p>
+<p><strong>回归</strong>的目的就预测数值型的目标值。最直接的办法就是依据输入写一个目标值的计算公式。这个计算公式就是所谓的<strong>回归方程(regression equation)<strong>，其中的参数就是</strong>回归系数</strong>，求这些回归系数的过程就是<strong>回归</strong>。</p>
 <p>　　说道回归，一般都是指<strong>线性回归（linear regression）</strong>。</p>
 <img src="/images/517519-20161221222849823-1784959469.png" alt>
 
 <p>给定由<strong>d个属性</strong>描述的示例 <img src="/images/517519-20161222103443354-1906476301.gif" alt>，其中xi是x在第i个属性上的取值，<strong>线性模型</strong>试图学得一个通过属性组合来进行预测的函数，即</p>
-<p><strong>　　<img src="/images/517519-20161222100919667-1830444903.gif" alt></strong></p>
+<p>**　　<img src="/images/517519-20161222100919667-1830444903.gif" alt>**</p>
 <p>&nbsp;</p>
 <p>一般用<strong>向量形式</strong>写成</p>
-<p><strong>　　<img src="/images/517519-20161222101054589-1373333619.gif" alt></strong></p>
+<p>**　　<img src="/images/517519-20161222101054589-1373333619.gif" alt>**</p>
 <p>其中w={w1;w2;…;wd}，w和b学得之后，模型就得以确定。</p>
 <p>&nbsp;</p>
-<p><strong>更加一般的情况</strong>是，给定一个数据集<strong> <img src="/images/517519-20161222103244667-1737939947.gif" alt></strong>，其中 <img src="/images/517519-20161222103358261-467512695.gif" alt>，&ldquo;线性回归&rdquo;试图学得一个线性模型以尽可能准确地预测实值输出标记。</p>
+<p><strong>更加一般的情况</strong>是，给定一个数据集** <img src="/images/517519-20161222103244667-1737939947.gif" alt>**，其中 <img src="/images/517519-20161222103358261-467512695.gif" alt>，&ldquo;线性回归&rdquo;试图学得一个线性模型以尽可能准确地预测实值输出标记。</p>
 <p><strong>用<strong>向量形式</strong>写成</strong></p>
-<p><strong>　　<img src="/images/517519-20161222103700620-1437669554.gif" alt>，这称为&ldquo;多元线性回归&rdquo;</strong></p>
+<p>**　　<img src="/images/517519-20161222103700620-1437669554.gif" alt>，这称为&ldquo;多元线性回归&rdquo;**</p>
 <p>&nbsp;</p>
 <p>因为是<strong>d维的特性</strong>，那么w就是一个由回归系数组成的<strong>d&times;1维向量</strong>，X<strong>是<strong>n&times;（d+1）的矩阵（第一列元素都是1，其余列都是x1…xn）</strong></strong>，<img src="/images/517519-20161222154606042-1079480036.gif" alt>是<strong>（d+1）&times;1的向量</strong></p>
 <p>　　<img src="/images/517519-20161222154503401-367206260.gif" alt></p>
@@ -231,7 +231,7 @@ ga('send', 'pageview');
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># coding:utf-8</span><br><span class="line"># !/usr/bin/env python</span><br><span class="line"></span><br><span class="line">import regression</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">from numpy import *</span><br><span class="line"></span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">	abX,abY = regression.loadDataSet(&quot;abalone.txt&quot;)</span><br><span class="line">	ridgeWeights = regression.ridgeTest(abX,abY)</span><br><span class="line">	fig = plt.figure()</span><br><span class="line">	ax = fig.add_subplot(111)</span><br><span class="line">	ax.plot(ridgeWeights)</span><br><span class="line">	plt.show()</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>&nbsp;</p>
-<p><strong>30个不同的log(&lambda;)</strong>所对应的回归系数。<strong>在最左边</strong>，即&lambda;最小的时候，可以得到所有系数的原始值（与线性回归一致）；<strong>而在右边</strong>，系数全部缩减到0，缩减了一些不重要的参数；<strong>在中间部分</strong>的某值将可以取得最好的预测效果。为了找到最佳参数值，还需要进行交叉验证。</p>
+<p><strong>30个不同的log(&lambda;)<strong>所对应的回归系数。</strong>在最左边</strong>，即&lambda;最小的时候，可以得到所有系数的原始值（与线性回归一致）；<strong>而在右边</strong>，系数全部缩减到0，缩减了一些不重要的参数；<strong>在中间部分</strong>的某值将可以取得最好的预测效果。为了找到最佳参数值，还需要进行交叉验证。</p>
 <p>下图是岭回归的回归系数变化图。可以在中间某处找到使得预测的结果最好的&lambda;值。</p>
 <img src="/images/517519-20161223104536495-1593681521.png" alt width="425" height="364">
 

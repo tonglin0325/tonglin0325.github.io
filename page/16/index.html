@@ -448,8 +448,8 @@ ga('send', 'pageview');
 <p>例如我们可以得到多个用户对多部电影的评级的数据，这样我们就可以得到一个<strong>用户&mdash;电影评级的矩阵</strong>。</p>
 <img src="/images/517519-20170430154036428-1109250879.png" alt="" />
 
-<p>我们所得到的这个矩阵是稀疏的，假设得到的<strong>&ldquo;用户&mdash;物品&rdquo;矩阵的维度为U&times;I</strong>，我们需要对其进行降维，然后得到一个<strong>表示用户的U&times;k维矩阵</strong>和一个<strong>表示物品的k&times;I维矩阵</strong>。</p>
-<p><strong>要计算给定用户对某个物品的预计评级 </strong>：</p>
+<p>我们所得到的这个矩阵是稀疏的，假设得到的**&ldquo;用户&mdash;物品&rdquo;矩阵的维度为U&times;I<strong>，我们需要对其进行降维，然后得到一个</strong>表示用户的U&times;k维矩阵<strong>和一个</strong>表示物品的k&times;I维矩阵**。</p>
+<p>**要计算给定用户对某个物品的预计评级 **：</p>
 <p>只需要从用户因子矩阵和物品因子矩阵分别选取相应的行(用户因子向量)与列(物品因子向量),然后计算两者的点积即可</p>
 <img src="/images/517519-20170430155942584-698896923.png" alt="" width="400" height="301" />
 
@@ -627,8 +627,8 @@ ga('send', 'pageview');
     <div class="article-entry" itemprop="articleBody">
       
         <p><strong>1.断言</strong></p>
-<p><strong>assert(conditon)</strong>将在条件不成立的时候，抛出assertionError</p>
-<p><strong>assert(conditon,explanation)</strong>讲在条件不成立的时候，抛出explanation作为说明</p>
+<p>**assert(conditon)**将在条件不成立的时候，抛出assertionError</p>
+<p>**assert(conditon,explanation)**讲在条件不成立的时候，抛出explanation作为说明</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">package com.scala.first</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">  * Created by common on 17-4-19.</span><br><span class="line">  */</span><br><span class="line">object Assert &#123;</span><br><span class="line"></span><br><span class="line">  def main(args: Array[String]): Unit = &#123;</span><br><span class="line">    val a = new Assert()</span><br><span class="line">    a.above1(0)</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Assert &#123;</span><br><span class="line">  val value = 1</span><br><span class="line"></span><br><span class="line">  def above(that: Int): Unit = &#123;</span><br><span class="line">    val thatVal = that</span><br><span class="line">    val thisVal = this.value</span><br><span class="line">    //如果条件不满足，Exception in thread &quot;main&quot; java.lang.AssertionError: assertion failed</span><br><span class="line">    assert(thatVal == thisVal)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  //另一种断言</span><br><span class="line">  //如果条件不满足，Exception in thread &quot;main&quot; java.lang.AssertionError: assertion failed</span><br><span class="line">  def above1(that: Int): Unit = &#123;</span><br><span class="line">    &#123;</span><br><span class="line">      val thatVal = that</span><br><span class="line">      val thisVal = this.value</span><br><span class="line">    &#125; ensuring(that == this.value)</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">

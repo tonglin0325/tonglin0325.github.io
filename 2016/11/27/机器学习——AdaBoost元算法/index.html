@@ -5,12 +5,12 @@
   
   <title>机器学习——AdaBoost元算法 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="当做重要决定时，我们可能会考虑吸取多个专家而不只是一个人的意见。机器学习处理问题也是这样，这就是元算法（meta-algorithm）背后的思路。 　　元算法是对其他算法进行组合的一种方式，其中最流行的一种算法就是AdaBoost算法。某些人认为AdaBoost是最好的监督学习的方法，所以该方法是机器学习工具箱中最强有力的工具之一。 　　集成学习或者元算法的一般结构是：先产生一组&amp;ldquo;个体">
+  <meta name="description" content="当做重要决定时，我们可能会考虑吸取多个专家而不只是一个人的意见。机器学习处理问题也是这样，这就是元算法（meta-algorithm）背后的思路。 **　　元算法是对其他算法进行组合的一种方式，其中最流行的一种算法就是AdaBoost算法。某些人认为AdaBoost是最好的监督学习的方法**，所以该方法是机器学习工具箱中最强有力的工具之一。 　　集成学习或者元算法的一般结构是：先产生一组**&amp;ld">
 <meta property="og:type" content="article">
 <meta property="og:title" content="机器学习——AdaBoost元算法">
 <meta property="og:url" content="http://tonglin0325.github.io/2016/11/27/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94AdaBoost%E5%85%83%E7%AE%97%E6%B3%95/index.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="当做重要决定时，我们可能会考虑吸取多个专家而不只是一个人的意见。机器学习处理问题也是这样，这就是元算法（meta-algorithm）背后的思路。 　　元算法是对其他算法进行组合的一种方式，其中最流行的一种算法就是AdaBoost算法。某些人认为AdaBoost是最好的监督学习的方法，所以该方法是机器学习工具箱中最强有力的工具之一。 　　集成学习或者元算法的一般结构是：先产生一组&amp;ldquo;个体">
+<meta property="og:description" content="当做重要决定时，我们可能会考虑吸取多个专家而不只是一个人的意见。机器学习处理问题也是这样，这就是元算法（meta-algorithm）背后的思路。 **　　元算法是对其他算法进行组合的一种方式，其中最流行的一种算法就是AdaBoost算法。某些人认为AdaBoost是最好的监督学习的方法**，所以该方法是机器学习工具箱中最强有力的工具之一。 　　集成学习或者元算法的一般结构是：先产生一组**&amp;ld">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161127224516753-1518470281.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161216210816511-1819415414.gif">
@@ -39,7 +39,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161219165633275-873247263.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161219165647213-1007997440.png">
 <meta property="article:published_time" content="2016-11-26T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-01-13T16:02:14.832Z">
+<meta property="article:modified_time" content="2022-01-15T07:36:16.448Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="ML">
 <meta name="twitter:card" content="summary">
@@ -164,8 +164,8 @@ ga('send', 'pageview');
 </div>
 
         <p>当做重要决定时，我们可能会考虑<strong>吸取多个</strong>专家而<strong>不只是一个</strong>人的意见。机器学习处理问题也是这样，这就是<strong>元算法（meta-algorithm）</strong>背后的思路。</p>
-<p><strong>　　元算法</strong>是<strong>对其他算法进行组合</strong>的一种方式，其中最流行的一种算法就是<strong>AdaBoost算法</strong>。<strong>某些人认为AdaBoost是最好的监督学习的方法</strong>，所以该方法是机器学习工具箱中最强有力的工具之一。</p>
-<p>　　<strong>集成学习</strong>或者<strong>元算法</strong>的一般结构是：先产生一组<strong>&ldquo;个体学习器&rdquo;</strong>，再用某种策略将他们结合起来。<strong>个体学习器</strong>通常是由一个现有的学习算法从训练数据产生。</p>
+<p>**　　元算法<strong>是</strong>对其他算法进行组合<strong>的一种方式，其中最流行的一种算法就是</strong>AdaBoost算法<strong>。</strong>某些人认为AdaBoost是最好的监督学习的方法**，所以该方法是机器学习工具箱中最强有力的工具之一。</p>
+<p>　　<strong>集成学习</strong>或者<strong>元算法</strong>的一般结构是：先产生一组**&ldquo;个体学习器&rdquo;<strong>，再用某种策略将他们结合起来。</strong>个体学习器**通常是由一个现有的学习算法从训练数据产生。</p>
 <p>　　根据<strong>个体学习器的生成方式</strong>，目前的集成学习方法大致可分为<strong>两大类</strong>，即</p>
 <p>　　1.个体学习器间存在强依赖关系、必须串行生成的<strong>序列化方法</strong>，典型的代表是<strong>Boosting</strong>，其中<strong>AdaBoost</strong>就是<strong>Boosting</strong>的最流行的一个版本</p>
 <p>　　2.个体学习器间不存在强依赖关系、可同时生成的<strong>并行化方法</strong>，典型的代表是<strong>Bagging和&ldquo;随机森林&rdquo;（Random Forest）</strong></p>
@@ -199,11 +199,11 @@ ga('send', 'pageview');
 <p>AdaBoost算法多种推导方式，比较容易理解的是基于&ldquo;<strong>加性模型</strong>&rdquo;，即<strong>基学习器的线性组合</strong></p>
 <p>　　<img src="/images/517519-20161216215245886-1741463451.gif" alt>，其中 <img src="/images/517519-20161130210322177-1513831152.gif" alt> 为基学习器，<img src="/images/517519-20161130210401146-1546111983.gif" alt> 为系数</p>
 <p>来最小化<strong>指数损失函数（exponential loss function），损失函数见 <a target="_blank" rel="noopener" href="http://www.cnblogs.com/tonglin0325/p/6109470.html">机器学习-损失函数 （转）</a><br></strong></p>
-<p><strong>　　 <img src="/images/517519-20161216221341667-1659955469.gif" alt><strong>，其中f(x)是正确的分类，等于-1或者1，H(x)是分类器的分类结果，等于-1或者1</strong></strong></p>
-<p><strong>　　<img src="/images/517519-20161216222906339-1896357023.gif" alt></strong></p>
+<p>**　　 <img src="/images/517519-20161216221341667-1659955469.gif" alt><strong>，其中f(x)是正确的分类，等于-1或者1，H(x)是分类器的分类结果，等于-1或者1**</strong></p>
+<p>**　　<img src="/images/517519-20161216222906339-1896357023.gif" alt>**</p>
 <p>　　　　　　　　　　<img src="/images/517519-20161216222912151-1229615814.gif" alt>　　</p>
 <p><strong>，所以对该式子求<img src="/images/517519-20161216223025245-1601671422.gif" alt>的偏导，得&nbsp;<img src="/images/517519-20161216223057401-1572250285.gif" alt>，并令其等于0，得</strong></p>
-<p><strong>　　<img src="/images/517519-20161216223149401-17227164.gif" alt>　</strong></p>
+<p>**　　<img src="/images/517519-20161216223149401-17227164.gif" alt>　**</p>
 <p>&lt;2&gt;首先在训练分类器上<strong>训练出一个弱分类器并计算该分类的错误率</strong>，然后在同一数据集上再次训练弱分类器。</p>
 <p><strong>在分类器的第二次训练中，将会重新调整每个样本的权重，其中第一次分对的样本的权重将会降低，而第一次分错的样本的权重将会提高。</strong>为了从所有弱分类器中得到最终的分类结果，<strong>AdaBoost为每个分类器都分配了一个权重值alpha，这些alpha值是基于每个弱分类器的错误率进行计算的。</strong></p>
 <p>其中，<strong>错误率</strong> <img src="/images/517519-20161128094840787-1341809821.gif" alt> 的定义为</p>

@@ -35,7 +35,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170103130511659-1897958410.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170103134144550-1581032618.png">
 <meta property="article:published_time" content="2017-01-01T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-01-13T16:02:14.593Z">
+<meta property="article:modified_time" content="2022-01-15T07:36:16.177Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="SpringMVC">
 <meta name="twitter:card" content="summary">
@@ -166,51 +166,51 @@ ga('send', 'pageview');
 <p><strong>整个系统的结构</strong></p>
 <p><strong><img src="/images/517519-20170119211452140-1950357950.png" alt></strong></p>
 <p><strong>表示层（JSP页面），一般包名是view</strong></p>
-<p><strong>　<span id="more"></span><br>&nbsp;&nbsp; ▼</strong></p>
+<p>**　<span id="more"></span><br>&nbsp;&nbsp; ▼**</p>
 <p><strong>控制层，一般包名是action或者web，控制层也会操作实体层</strong></p>
-<p><strong>　　<strong>▼</strong></strong></p>
+<p>**　　<strong>▼**</strong></p>
 <p><strong>业务逻辑层，一般包名是service</strong></p>
-<p><strong>　　<strong><strong>▼</strong></strong></strong></p>
+<p>**　　<strong><strong>▼**</strong></strong></p>
 <p><strong>数据持久层，一般包名是dao</strong></p>
-<p><strong>　　<strong><strong><strong>▼</strong></strong></strong></strong></p>
+<p>**　　<strong><strong><strong>▼**</strong></strong></strong></p>
 <p><strong>实体层（JavaBean），一般包名是model或者entity</strong></p>
 <p>&nbsp;</p>
 <p><strong>写成的过程和上面的方向相反，从下往上写</strong></p>
 <p><strong>实体Entity层</strong></p>
-<p><strong>　　1.先写User类</strong></p>
-<p><strong>　　　　Id，username，nickname，password，email</strong></p>
-<p><strong>　　　　其中还包括注入</strong></p>
-<p><strong>　　2.再写Page类</strong></p>
-<p><strong>　　　　public class Pager<t></t></strong></p>
-<p><strong>　　　　List<t> datas、offset、size、total</t></strong></p>
-<p><strong>　　3.写SystemContext类</strong></p>
-<p><strong>　　7.写UserException异常类</strong></p>
+<p>**　　1.先写User类**</p>
+<p>**　　　　Id，username，nickname，password，email**</p>
+<p>**　　　　其中还包括注入**</p>
+<p>**　　2.再写Page类**</p>
+<p>**　　　　public class Pager<t>**</t></p>
+<p>**　　　　List<t> datas、offset、size、total**</t></p>
+<p>**　　3.写SystemContext类**</p>
+<p>**　　7.写UserException异常类**</p>
 <p>&nbsp;</p>
 <p><strong>数据持久层dao层，主要是操作Hibernate，还要写beans.xml</strong></p>
-<p><strong>　　4.写IUserDao接口</strong></p>
-<p><strong>　　　　增、更新、删除、根据ID查用户load、查所用用户List<user> list、查分页Pager<user> find、根据username查用户loadByUsername</user></user></strong></p>
-<p><strong>　　5.实现IUserDao接口</strong></p>
-<p><strong>　　　　分页find()中取得SystemContext类</strong></p>
+<p>**　　4.写IUserDao接口**</p>
+<p>**　　　　增、更新、删除、根据ID查用户load、查所用用户List<user> list、查分页Pager<user> find、根据username查用户loadByUsername**</user></user></p>
+<p>**　　5.实现IUserDao接口**</p>
+<p>**　　　　分页find()中取得SystemContext类**</p>
 <p>&nbsp;</p>
 <p><strong><strong>业务逻辑层service层，主要是写验证</strong></strong></p>
-<p><strong>　　6.写IUserService接口</strong></p>
-<p><strong>　　　　增、更新、删除、根据ID查用户load、查所用用户List<user> list、查分页Pager<user> find、根据username查用户loadByUsername</user></user></strong></p>
-<p><strong>　　8.实现<strong>IUserService接口</strong></strong></p>
+<p>**　　6.写IUserService接口**</p>
+<p>**　　　　增、更新、删除、根据ID查用户load、查所用用户List<user> list、查分页Pager<user> find、根据username查用户loadByUsername**</user></user></p>
+<p>**　　8.实现<strong>IUserService接口**</strong></p>
 <p><strong><strong>　　　　密码登录验证login、添加用户、修改用户、删除用户、查询用户、列出所有用户、分页find()</strong></strong></p>
 <p>&nbsp;</p>
 <p><strong><strong><strong><strong>控制层action层</strong></strong></strong></strong></p>
 <p><strong><strong><strong><strong>　　9.LoginFilter.java登录权限，实现Filter接口，doFilter()方法</strong></strong></strong></strong></p>
-<p><strong><strong><strong><strong>　　　　在请求是/user/*的时候拦截验证权限，没有权限重定向/login，有权限放行</strong></strong></strong></strong></p>
+<p>**<strong><strong><strong>　　　　在请求是/user/<em>的时候拦截验证权限，没有权限重定向/login，有权限放行</em>*</strong></strong></strong></p>
 <p><strong><strong><strong><strong>　　10.SystemContext.java分页过滤，实现Filter接口，doFilter()方法</strong></strong></strong></strong></p>
 <p>&nbsp;</p>
-<p><strong><strong><strong><strong>　　　　在请求是/*中，如果参数为Pager.offset的时候，拦截取得offset，设置SystemContext中的offset和size</strong></strong></strong></strong></p>
+<p>**<strong><strong><strong>　　　　在请求是/<em>中，如果参数为Pager.offset的时候，拦截取得offset，设置SystemContext中的offset和size</em>*</strong></strong></strong></p>
 <p><strong><strong><strong><strong>　　11.IndexController.java，Session共享数据</strong></strong></strong></strong></p>
 <p><strong><strong><strong><strong>　　　　在请求是/login的时候，将ModelMap中的属性放入Session中，实现多窗口共享数据</strong></strong></strong></strong></p>
 <p><strong><strong><strong><strong>　　12.UserController.java，总的请求为/user，这也就是MVC模型中的RequestMapping</strong></strong></strong></strong></p>
 <p><strong><strong><strong><strong>　　　　在请求是/user和/的时候，向model模型中添加&mdash;&mdash;userService.find()</strong></strong></strong></strong></p>
 <p><strong><strong><strong><strong><strong><strong><strong><strong>　　　　在请求是/add的时候（分GET和POST），向model模型中添加&mdash;&mdash;new User()<br></strong></strong></strong></strong></strong></strong></strong></strong></p>
 <p><strong><strong><strong><strong>　　　　在请求是/{id}的时候，向model模型中添加&mdash;&mdash;userService.load(id)</strong></strong></strong></strong></p>
-<p><strong><strong><strong><strong>　　　　在请求是/<strong><strong><strong><strong>{id}</strong></strong></strong></strong>/update的时候<strong><strong><strong><strong><strong><strong><strong><strong>（分GET和POST）</strong></strong></strong></strong></strong></strong></strong></strong>…</strong></strong></strong></strong></p>
+<p><strong><strong><strong><strong>　　　　在请求是/<strong><strong><strong><strong>{id}</strong></strong></strong></strong>/update的时候**<strong><strong><strong><strong><strong><strong><strong>（分GET和POST）**</strong></strong></strong></strong></strong></strong></strong>…</strong></strong></strong></strong></p>
 <p><strong><strong><strong><strong><strong><strong><strong><strong>　　　　在请求是/<strong><strong><strong><strong>{id}</strong></strong></strong></strong>/delete的时候…</strong></strong></strong></strong></strong></strong></strong></strong></p>
 <p>&nbsp;</p>
 <p><strong><strong><strong><strong><strong><strong><strong><strong>　　　　最后再传给DispatchServlet，使用model从Controller给视图传值</strong></strong></strong></strong></strong></strong></strong></strong></p>
@@ -235,28 +235,28 @@ ga('send', 'pageview');
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE IF NOT EXISTS `t_user` (`username` varchar(64) NOT NULL,`password` varchar(11) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p><img src="/images/517519-20170102210212566-1085857715.png" alt>&nbsp;</p>
-<p><strong>　　插入用户和密码</strong></p>
+<p>**　　插入用户和密码**</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO t_user (username,password) VALUES(&#x27;admin&#x27;,&#x27;admin&#x27;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p><strong>&nbsp;4.接下来在页面就可以用admin来登录</strong></p>
 <p><strong><img src="/images/517519-20170102210412941-2049982831.png" alt></strong></p>
-<p><strong>　　而且中文也正常显示</strong></p>
+<p>**　　而且中文也正常显示**</p>
 <p><strong><img src="/images/517519-20170102210510581-861273239.png" alt width="748" height="150"></strong></p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p><strong>整个项目的结构</strong></p>
-<p><strong>　　1.JSP页面：登录、添加、列表、详情、更新、错误</strong></p>
+<p>**　　1.JSP页面：登录、添加、列表、详情、更新、错误**</p>
 <p><strong><img src="/images/517519-20170104093154019-1126319254.png" alt></strong></p>
-<p><strong>　　2.实体层(Bean或者model)：分页类、分页查询结果类、用户类、Exception类</strong></p>
+<p>**　　2.实体层(Bean或者model)：分页类、分页查询结果类、用户类、Exception类**</p>
 <img src="/images/517519-20170104093343816-691916201.png" alt>
 
-<p><strong>　　3.控制层(Action)：页面控制器、登录过滤器、分页查询结果过滤器、用户控制器</strong></p>
+<p>**　　3.控制层(Action)：页面控制器、登录过滤器、分页查询结果过滤器、用户控制器**</p>
 <img src="/images/517519-20170104094817316-1235115312.png" alt>
 
-<p><strong>　　4.业务逻辑层（Service）：一个接口和一个实现类（包括注入userDAO、登入验证、添删该查用户等等）</strong></p>
+<p>**　　4.业务逻辑层（Service）：一个接口和一个实现类（包括注入userDAO、登入验证、添删该查用户等等）**</p>
 <img src="/images/517519-20170104095141878-337613640.png" alt>
 
-<p><strong>　　5.数据持久层（DAO）：</strong><strong>一个接口和一个实现类（和HibernateDaoSupport相关，用户增删改查等等）</strong></p>
+<p>**　　5.数据持久层（DAO）：**<strong>一个接口和一个实现类（和HibernateDaoSupport相关，用户增删改查等等）</strong></p>
 <img src="/images/517519-20170104095421941-16196795.png" alt>
 
 <p>&nbsp;</p>
@@ -271,8 +271,8 @@ ga('send', 'pageview');
 <p><strong><strong><img src="/images/517519-20170104155717831-772715256.png" alt width="290" height="226"></strong></strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot;</span><br><span class="line">    pageEncoding=&quot;UTF-8&quot;%&gt;</span><br><span class="line">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;</span><br><span class="line">&lt;title&gt;发现异常&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;h1&gt;$&#123;exception.message &#125;&lt;/h1&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p><strong>　</strong></p>
-<p><strong>　add.jsp</strong></p>
+<p>**　**</p>
+<p>**　add.jsp**</p>
 <p><strong><img src="/images/517519-20170104101137769-838839641.png" alt width="394" height="190"></strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot;</span><br><span class="line">    pageEncoding=&quot;UTF-8&quot;%&gt;</span><br><span class="line">&lt;%@ taglib prefix=&quot;sf&quot; uri=&quot;http://www.springframework.org/tags/form&quot; %&gt;</span><br><span class="line">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;</span><br><span class="line">&lt;title&gt;用户添加&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;sf:form method=&quot;post&quot; modelAttribute=&quot;user&quot;&gt;</span><br><span class="line">&lt;table width=&quot;700&quot; align=&quot;center&quot; border=&quot;1&quot;&gt;</span><br><span class="line">	&lt;tr&gt;</span><br><span class="line">	|用户名:|&lt;sf:input path=&quot;username&quot;/&gt;&lt;sf:errors path=&quot;username&quot;/&gt;</span><br><span class="line">	&lt;/tr&gt;</span><br><span class="line">	&lt;tr&gt;</span><br><span class="line">	|用户密码:|&lt;sf:password path=&quot;password&quot;/&gt;&lt;sf:errors path=&quot;password&quot;/&gt;</span><br><span class="line">	&lt;/tr&gt;</span><br><span class="line">	&lt;tr&gt;</span><br><span class="line">	|用户昵称:|&lt;sf:input path=&quot;nickname&quot;/&gt;</span><br><span class="line">	&lt;/tr&gt;</span><br><span class="line">	&lt;tr&gt;</span><br><span class="line">	|用户邮箱:|&lt;sf:input path=&quot;email&quot;/&gt;&lt;sf:errors path=&quot;email&quot;/&gt;</span><br><span class="line">	&lt;/tr&gt;</span><br><span class="line">	&lt;tr&gt;</span><br><span class="line">	&lt;td colspan=&quot;2&quot;&gt;</span><br><span class="line">		&lt;input type=&quot;submit&quot; value=&quot;用户添加&quot;/&gt;</span><br><span class="line">	&lt;/td&gt;</span><br><span class="line">	&lt;/tr&gt;</span><br><span class="line">&lt;/table&gt;</span><br><span class="line">&lt;/sf:form&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
@@ -297,9 +297,9 @@ ga('send', 'pageview');
 
 <p>&nbsp;</p>
 <p><strong>5.在src/目录下建立包org.common.model</strong></p>
-<p>　　&nbsp;<strong><strong>model包</strong>中一般放的是实体类,这些类定义了一些基本的属性以及简单的get/set方法,这些类和数据库中的表存在对应关系</strong></p>
-<p><strong>　　一般都是javabean对象，例如与数据库的某个表相关联。</strong></p>
-<p><strong>　　<img src="/images/517519-20170103114337300-282491817.png" alt></strong></p>
+<p>　　&nbsp;*<em><strong>model包</strong>中一般放的是实体类,这些类定义了一些基本的属性以及简单的get/set方法,这些类和数据库中的表存在对应关系</em>*</p>
+<p>**　　一般都是javabean对象，例如与数据库的某个表相关联。**</p>
+<p>**　　<img src="/images/517519-20170103114337300-282491817.png" alt>**</p>
 <p>&nbsp;　　先写<strong>User类</strong>，文件名字为<strong>User.java，其中就是简单的get方法和set方法</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">package org.common.model;</span><br><span class="line"></span><br><span class="line">import javax.persistence.Entity;</span><br><span class="line">import javax.persistence.GeneratedValue;</span><br><span class="line">import javax.persistence.Id;</span><br><span class="line">import javax.persistence.Table;</span><br><span class="line"></span><br><span class="line">@Entity											//如果我们当前这个bean要设置成实体对象，就需要加上Entity这个注解</span><br><span class="line">@Table(name=&quot;t_user&quot;)			//设置数据库的表名</span><br><span class="line">public class User &#123;</span><br><span class="line">	private int id;</span><br><span class="line">	private String username;</span><br><span class="line">	private String nickname;</span><br><span class="line">	private String password;</span><br><span class="line">	private String email;</span><br><span class="line">	</span><br><span class="line">	//(建议不要在属性上引入注解，因为属性是private的，如果引入注解会破坏其封装特性，所以建议在getter方法上加入注解)</span><br><span class="line">	@Id											//定义为数据库的主键ID　　</span><br><span class="line">	@GeneratedValue				//ID的生成策略为自动生成</span><br><span class="line">	public int getId() &#123;</span><br><span class="line">		return id;</span><br><span class="line">	&#125;</span><br><span class="line">	public void setId(int id) &#123;</span><br><span class="line">		this.id = id;</span><br><span class="line">	&#125;</span><br><span class="line">	public String getUsername() &#123;</span><br><span class="line">		return username;</span><br><span class="line">	&#125;</span><br><span class="line">	public void setUsername(String username) &#123;</span><br><span class="line">		this.username = username;</span><br><span class="line">	&#125;</span><br><span class="line">	public String getNickname() &#123;</span><br><span class="line">		return nickname;</span><br><span class="line">	&#125;</span><br><span class="line">	public void setNickname(String nickname) &#123;</span><br><span class="line">		this.nickname = nickname;</span><br><span class="line">	&#125;</span><br><span class="line">	public String getPassword() &#123;</span><br><span class="line">		return password;</span><br><span class="line">	&#125;</span><br><span class="line">	public void setPassword(String password) &#123;</span><br><span class="line">		this.password = password;</span><br><span class="line">	&#125;</span><br><span class="line">	public String getEmail() &#123;</span><br><span class="line">		return email;</span><br><span class="line">	&#125;</span><br><span class="line">	public void setEmail(String email) &#123;</span><br><span class="line">		this.email = email;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
@@ -325,9 +325,9 @@ ga('send', 'pageview');
 
 <p>&nbsp;</p>
 <p><strong>6.在src/目录下建立包org.common.dao</strong></p>
-<p><strong>　　在dao中，写与数据库的操作，增删改查等方法<br></strong></p>
+<p>**　　在dao中，写与数据库的操作，增删改查等方法<br>**</p>
 <p><strong><img src="/images/517519-20170103134144550-1581032618.png" alt></strong></p>
-<p><strong>　　首先写IUserDao接口，文件名为IUserDao.java</strong></p>
+<p>**　　首先写IUserDao接口，文件名为IUserDao.java**</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">package org.common.dao;</span><br><span class="line"></span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">import org.common.model.Pager;</span><br><span class="line">import org.common.model.User;</span><br><span class="line"></span><br><span class="line">public interface IUserDao &#123;			//IUserDao接口</span><br><span class="line">	public void add(User user);</span><br><span class="line">	public void update(User user);</span><br><span class="line">	public void delete(int id);</span><br><span class="line">	public User load(int id);</span><br><span class="line">	public List&lt;User&gt; list();</span><br><span class="line">	public Pager&lt;User&gt; find();</span><br><span class="line">	public User loadByUsername(String username);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>&nbsp;　　<strong>同时，还要在包org.common.model下加上分页的类，文件名是Page.java</strong></p>

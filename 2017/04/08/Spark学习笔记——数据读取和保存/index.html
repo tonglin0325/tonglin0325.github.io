@@ -19,7 +19,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170422230017556-2042919896.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170423103217788-1005961188.png">
 <meta property="article:published_time" content="2017-04-07T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-01-13T16:02:14.497Z">
+<meta property="article:modified_time" content="2022-01-15T07:36:16.075Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Spark">
 <meta name="twitter:card" content="summary">
@@ -150,7 +150,7 @@ ga('send', 'pageview');
 <p>&nbsp;</p>
 <p><strong>1.文本文件</strong></p>
 <p>在 Spark 中读写文本文件很容易。</p>
-<p>当我们将一个<strong>文本文件</strong>读取为<strong> RDD</strong> 时，<strong>输入的每一行</strong> 都会成为 <strong>RDD 的 一个元素</strong>。</p>
+<p>当我们将一个<strong>文本文件</strong>读取为** RDD** 时，<strong>输入的每一行</strong> 都会成为 <strong>RDD 的 一个元素</strong>。</p>
 <p>也可以将<strong>多个完整的文本文件</strong>一次性读取为<strong>一个 pair RDD</strong>， 其中<strong>键是文件名，值是文件内容</strong>。</p>
 <p>&nbsp;在 Scala 中<strong>读取一个文本文件</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">val inputFile = &quot;file:///home/common/coding/coding/Scala/word-count/test.segmented&quot;</span><br><span class="line">val textFile = sc.textFile(inputFile)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -161,7 +161,7 @@ ga('send', 'pageview');
 <p><strong>&nbsp;保存文本文件</strong>，Spark 将传入的路径作为目录对待，会在那个目录下输出多个文件</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">textFile.saveAsTextFile(&quot;file:///home/common/coding/coding/Scala/word-count/writeback&quot;)</span><br><span class="line">//textFile.repartition(1).saveAsTextFile 就能保存成一个文件</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>对于<strong>dataFrame文件</strong>，先使用<strong>.toJavaRDD</strong> 转换成RDD，然后再使用 &nbsp;<strong>coalesce(1).saveAsTextFile</strong></p>
+<p>对于<strong>dataFrame文件</strong>，先使用**.toJavaRDD** 转换成RDD，然后再使用 &nbsp;<strong>coalesce(1).saveAsTextFile</strong></p>
 <p>&nbsp;</p>
 <p><strong>2.JSON</strong></p>
 <p>JSON 是一种使用较广的半结构化数据格式。</p>
@@ -181,7 +181,7 @@ ga('send', 'pageview');
 <p>&nbsp;</p>
 <p><strong>3.逗号分割值与制表符分隔值</strong></p>
 <p>逗号分隔值（CSV）文件每行都有固定数目的字段，字段间用逗号隔开（在制表符分隔值文件，即 TSV 文 件中用制表符隔开）。</p>
-<p>如果恰好CSV 的所有数据字段均<strong>没有包含换行符</strong>，你也可以使用<strong> textFile()</strong> 读取并解析数据，</p>
+<p>如果恰好CSV 的所有数据字段均<strong>没有包含换行符</strong>，你也可以使用** textFile()** 读取并解析数据，</p>
 <p>build.sbt</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&quot;au.com.bytecode&quot; % &quot;opencsv&quot; % &quot;2.4&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
@@ -240,7 +240,7 @@ ga('send', 'pageview');
 <p>&nbsp;<img src="/images/517519-20170422230017556-2042919896.png" alt></p>
 <p>&nbsp;</p>
 <p><strong>Hadoop 的非文件系统数据源</strong></p>
-<p>除 了<strong> hadoopFile() 和 saveAsHadoopFile()</strong> 这 一 大 类 函 数， 还 可 以 使 用 <strong>hadoopDataset/saveAsHadoopDataSet 和 newAPIHadoopDataset/ saveAsNewAPIHadoopDataset</strong> 来访问 Hadoop 所支持的<strong>非文件系统的存储格式</strong>。例如，许多像 <strong>HBase 和 MongoDB</strong> 这样的键值对存储都提供了用来直接读取 Hadoop 输入格式的接口。我们可以在 Spark 中很方便地使用这些格式。</p>
+<p>除 了** hadoopFile() 和 saveAsHadoopFile()** 这 一 大 类 函 数， 还 可 以 使 用 <strong>hadoopDataset/saveAsHadoopDataSet 和 newAPIHadoopDataset/ saveAsNewAPIHadoopDataset</strong> 来访问 Hadoop 所支持的<strong>非文件系统的存储格式</strong>。例如，许多像 <strong>HBase 和 MongoDB</strong> 这样的键值对存储都提供了用来直接读取 Hadoop 输入格式的接口。我们可以在 Spark 中很方便地使用这些格式。</p>
 <p>&nbsp;</p>
 <p><strong>7.文件压缩</strong></p>
 <p>Spark 原生的输入方式（ textFile 和 sequenceFile）可以自动处理一些类型的压缩。在读取压缩后的数据时，一些压缩编解码器可以推测压缩类型。 <br>这些压缩选项只适用于支持压缩的 Hadoop 格式，也就是那些写出到文件系统的格式。写入数据库的 Hadoop 格式一般没有实现压缩支持。如果数据库中有压缩过的记录，那应该是数据库自己配置的。</p>

@@ -15,7 +15,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161231142909836-70048126.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161231143544898-1949451125.png">
 <meta property="article:published_time" content="2016-12-30T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-01-13T16:02:14.610Z">
+<meta property="article:modified_time" content="2022-01-15T07:36:16.195Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary">
@@ -159,29 +159,29 @@ ga('send', 'pageview');
 <p>若要停止使用这个端口的程序，使用kill +对应的pid即可</p>
 <p>&nbsp;</p>
 <p><strong>2.作业管理：&amp;、Ctrl-z、jobs、fg、bg、kill</strong></p>
-<p>　　<strong>&amp; </strong>可以直接将命令放到后台执行</p>
+<p>　　**&amp; **可以直接将命令放到后台执行</p>
 <p>　　输入命令后，在该命令的最后加上一个&amp;，表示将该命令放到后台，此时会返回一个&ldquo;<strong>作业号</strong>&rdquo;[1]，还有一个PID。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">common@common-Aspire-4750:~/下载$ tar -cvzf temp.tar.gz temp/ &amp;amp;    </span><br><span class="line">[1] 5225</span><br><span class="line">common@common-Aspire-4750:~/下载$ temp/</span><br><span class="line">temp/b.txt</span><br><span class="line">temp/a_copy.txt</span><br><span class="line">temp/a.txt</span><br><span class="line">temp/a.tar.gz</span><br><span class="line">temp/b (复件).txt</span><br><span class="line">回车</span><br><span class="line">[1]+  已完成               tar -cvzf temp.tar.gz temp/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>&nbsp;在后台中执行的命令，如果有stdout和stderr的时候，它的数据依然是输出到屏幕上的，所以要使用<strong>数据流重导向</strong>，将输出传至某个文件中</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar -cvzf temp.tar.gz temp/ &gt;&gt; a.txt &amp;amp;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>&nbsp;　　<strong>Ctrl-z </strong>可以将&ldquo;当前&rdquo;作业放到后台&ldquo;<strong>暂停</strong>&rdquo;</p>
+<p>&nbsp;　　**Ctrl-z **可以将&ldquo;当前&rdquo;作业放到后台&ldquo;<strong>暂停</strong>&rdquo;</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">common@common-Aspire-4750:~/下载$ vi a.txt</span><br><span class="line"></span><br><span class="line">请按 ENTER 或其它命令继续[1]   已完成               tar -cvzf temp.tar.gz temp/ &gt;&gt; a.txt</span><br><span class="line"></span><br><span class="line">按ctrl+z　　#暂停</span><br><span class="line"></span><br><span class="line">[2]+  已停止               vi a.txt</span><br><span class="line">common@common-Aspire-4750:~/下载$ </span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p><strong>　　jobs </strong>观察当前后台作业状态</p>
+<p>**　　jobs **观察当前后台作业状态</p>
 <p>　　-l：除了列出作业号之外，同时列出PID</p>
 <p>　　-r：仅列出正在后台运行（run）的作业</p>
 <p>　　-s：仅列出正在后台暂停（stop）的作业</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">common@common-Aspire-4750:~/下载$ jobs -l</span><br><span class="line">[2]+  5310 停止                  vi a.txt　　#+-符号，+表示默认的作业，在仅输入fg的时候，+的作业会被拿到前台处理</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>&nbsp;<strong>　　fg</strong> 将后台作业拿到前台处理</p>
+<p>&nbsp;**　　fg** 将后台作业拿到前台处理</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">common@common-Aspire-4750:~/下载$ fg %2    # %后面跟的是作业号，默认取出+的作业</span><br><span class="line">vi a.txt</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>&nbsp;<strong>　　bg</strong> 让作业在后台<strong>运行</strong></p>
+<p>&nbsp;**　　bg** 让作业在后台<strong>运行</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">common@common-Aspire-4750:~/下载$ bg %2    </span><br><span class="line">[2]+ vi a.txt &amp;amp;　　#多了一个&amp;amp;符号</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>&nbsp;<strong>　　kill</strong> 管理后台作业</p>
+<p>&nbsp;**　　kill** 管理后台作业</p>
 <p>　　-l：列出当前kill能够使用的信号（signal），signal表示指示，使用man 7 signal可以知道</p>
 <p>　　-1：重新读取一次参数的设置文件，（类似reload）</p>
 <p>　　-2：表示与由键盘输入ctrl-c同样的动作</p>
@@ -191,18 +191,18 @@ ga('send', 'pageview');
 
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">killall -9 httpd    #强制终止所有以httpd启动的进程</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p><strong>　　xkill</strong></p>
+<p>**　　xkill**</p>
 <p>　　　　杀死一个窗口程序，在QQ后台无法呼出的时候使用</p>
 <p>&nbsp;</p>
 <p><strong>进程管理</strong></p>
-<p><strong>　　1.进程的观察，ps命令，参数很多，参考man ps</strong></p>
-<p><strong>　　参数：-A：</strong>所有的进程均显示出来，与-e具有同样的作用</p>
-<p><strong>　　　　　-a：</strong>与终端无关的所有进程</p>
-<p><strong>　　　　　-u：</strong>有效用户的相关进程</p>
-<p><strong>　　　　　x：</strong>通常与a参数一起使用，可列出较完整的信息</p>
-<p><strong>　　输出格式：-l：</strong>较长、较详细地显示该PID的信息</p>
-<p><strong>　　　　　　　j：</strong>作业的格式，<strong>带有PID、PPID等信息</strong></p>
-<p><strong>　　　　　　　-f：</strong>更为完整的输出，<strong>进程树格式显示</strong></p>
+<p>**　　1.进程的观察，ps命令，参数很多，参考man ps**</p>
+<p>**　　参数：-A：**所有的进程均显示出来，与-e具有同样的作用</p>
+<p>**　　　　　-a：**与终端无关的所有进程</p>
+<p>**　　　　　-u：**有效用户的相关进程</p>
+<p>**　　　　　x：**通常与a参数一起使用，可列出较完整的信息</p>
+<p>**　　输出格式：-l：**较长、较详细地显示该PID的信息</p>
+<p>**　　　　　　　j：<strong>作业的格式，</strong>带有PID、PPID等信息**</p>
+<p>**　　　　　　　-f：<strong>更为完整的输出，</strong>进程树格式显示**</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ps -l    #将当前属于自己这次登录的PID与相关信息显示出来，以长格式显示</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ps aux    #列出当前所有正在内存中的进程</span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -213,7 +213,7 @@ ga('send', 'pageview');
 
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">common@common-Aspire-4750:~/下载$ ps -aux | grep &#x27;lantern&#x27;　　#找出和lantern这个服务有关的PID号码，下面是ps命令本身</span><br><span class="line">common    6929  0.0  0.0   6136  2048 pts/1    S+   13:42   0:00 grep --color=auto lantern</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>&nbsp;如果某个进程的<strong>CMD后面还有<defunct></defunct></strong>，就表示该进程是<strong>僵尸进程</strong></p>
+<p>&nbsp;如果某个进程的<strong>CMD后面还有<defunct><strong>，就表示该进程是</strong>僵尸进程</defunct></strong></p>
 <p>造成<strong>僵尸进程的原因</strong>是，该进程应该已执行完毕，或者是因故应该终止了，但是该进程的父进程却无法完整地结束该进程，而造成那个进程一直存在于内存中。</p>
 <p>&nbsp;</p>
 <p>　　<strong>2.top进程</strong>可以持续检测整个系统的进程工作状态</p>
@@ -239,9 +239,9 @@ ga('send', 'pageview');
 <p><strong><img src="/images/517519-20161231143544898-1949451125.png" alt width="749" height="81"></strong></p>
 <p>&nbsp;</p>
 <p>　　<strong>3.pstree查看进程的关联性</strong></p>
-<p><strong>　　参数：-A：各进程树之间以ASCII字符来连接</strong></p>
-<p><strong>　　　　　-p：同时列出每个进程PID</strong></p>
-<p><strong>　　　　　-u：同时列出每个进程的所属账号名称</strong></p>
+<p>**　　参数：-A：各进程树之间以ASCII字符来连接**</p>
+<p>**　　　　　-p：同时列出每个进程PID**</p>
+<p>**　　　　　-u：同时列出每个进程的所属账号名称**</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pstree -Aup    #列出当前系统上所有进程树的关联性，并显示PID和用户</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>&nbsp;</p>
