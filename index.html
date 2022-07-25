@@ -128,13 +128,8 @@ ga('send', 'pageview');
 
     <div class="article-entry" itemprop="articleBody">
       
-        <p>参考：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">https://www.orchome.com/537</span><br><span class="line">https://www.cnblogs.com/wangzhuxing/p/10111831.html#_label0_8</span><br><span class="line">http://blog.51yip.com/hadoop/2128.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>问题集合</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://blog.csdn.net/lizhitao/article/details/39499283</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>　　<br>|cleanup.policy|compact<br>|compression.type|producer<br>|delete.retention.ms|86400000<br>|file.delete.delay.ms|60000<br>|flush.messages|10000<br>|flush.ms|1000<br>|follower.replication.throttled.replicas|
+        <p>在创建kafka topic的时候可以添加很多配置，如下表格<br>|参数名|含义|值<br>|cleanup.policy|日志清除的策略，默认为 delete如果要使用日志压缩，就需要让策略包含 compact需要注意的是，如果开启了 compact 策略，则客户端提交的消息的 key 不允许为 null，否则提交报错|compact</p>
+<p>如果要使用日志压缩，就需要让策略包含 compact<br>|compression.type|
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/2022/07/22/kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%85%8D%E7%BD%AE/#more">全文 &gt;&gt;</a>
@@ -357,8 +352,8 @@ ga('send', 'pageview');
 
     <div class="article-entry" itemprop="articleBody">
       
-        <p>gradle和maven类似，是一个构建工具，总体使用下来没有maven好用，特别是当有依赖冲突的时候，没有像MavenHelper一样好用的工具可以排查冲突，在国内来说不推荐使用</p>
-<p>1.mac安装gradle</p>
+        <p>gradle和maven类似，是一个构建工具</p>
+<h2 id="gradle安装和配置"><a href="#gradle安装和配置" class="headerlink" title="gradle安装和配置"></a>gradle安装和配置</h2><p>1.mac安装gradle</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew install gradle</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>或者下载gradle的二进制安装包</p>
@@ -371,6 +366,16 @@ ga('send', 'pageview');
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">gradle -v</span><br><span class="line"></span><br><span class="line">------------------------------------------------------------</span><br><span class="line">Gradle 7.3</span><br><span class="line">------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">Build time:   2021-11-09 20:40:36 UTC</span><br><span class="line">Revision:     96754b8c44399658178a768ac764d727c2addb37</span><br><span class="line"></span><br><span class="line">Kotlin:       1.5.31</span><br><span class="line">Groovy:       3.0.9</span><br><span class="line">Ant:          Apache Ant(TM) version 1.10.11 compiled on July 10 2021</span><br><span class="line">JVM:          1.8.0_211 (Oracle Corporation 25.211-b12)</span><br><span class="line">OS:           Mac OS X 10.16 x86_64</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>使用gradle后，老版本的IDEA 2017.1 对gradle的支持较弱，建议升级到新版本 2021.1</p>
+<p>如果需要添加 gradle.properties 配置文件，请放在 $GRADLE_HOME 目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  /Users/lintong/software/gradle-7.3.2 $ ls | grep gradle.properties</span><br><span class="line">gradle.properties</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>　　</p>
+<h2 id="gradle处理依赖冲突"><a href="#gradle处理依赖冲突" class="headerlink" title="gradle处理依赖冲突"></a>gradle处理依赖冲突</h2><p>使用gradle的时候如果遇到依赖冲突，可以添加如下配置，添加后再编译就能使得有冲突的时候自动失败</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">configurations.all &#123;</span><br><span class="line">    resolutionStrategy &#123;</span><br><span class="line">        failOnVersionConflict()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<img src="/images/517519-20220725170026009-2002560263.png" width="1000" height="344" loading="lazy" />
+
+<p>参考：<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000021587501">gradle依赖冲突解决</a>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/2021/12/02/mac%E4%B8%8B%E5%AE%89%E8%A3%85gradle7.3/#more">全文 &gt;&gt;</a>
@@ -569,7 +574,7 @@ ga('send', 'pageview');
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://tonglin0325.github.io/xml/kafka/1.0.1-kafka-3.1.0/new-consumer-api.xml</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>　　</p>
-<p>　　</p>
+<p>kafka consumer参数调优：<a target="_blank" rel="noopener" href="http://blog.51yip.com/hadoop/2128.html">kafka consumer 参数调优</a></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/2021/07/07/Kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Consumer%20API/#more">全文 &gt;&gt;</a>
