@@ -13,7 +13,7 @@
 <meta property="og:description" content="在创建kafka topic的时候可以添加很多配置，如下表格">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-07-21T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-07-30T08:19:33.121Z">
+<meta property="article:modified_time" content="2022-07-30T08:25:01.095Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="kafka">
 <meta name="twitter:card" content="summary">
@@ -182,9 +182,92 @@ ga('send', 'pageview');
 <td>follower复制限流列表。该列表应以[PartitionId]的形式描述一组副本：[BrokerId]，[PartitionId]：[BrokerId]：…或者通配符’*’可用于限制此topic的所有副本。</td>
 <td>&nbsp;</td>
 </tr>
+<tr>
+<td>index.interval.bytes</td>
+<td>此设置控制Kafka向其offset索引添加索引条目的频率。默认设置确保我们大致每4096个字节索引消息。 更多的索引允许读取更接近日志中的确切位置，但使索引更大。你不需要改变这个值。</td>
+<td>4096</td>
+</tr>
+<tr>
+<td>leader.replication.throttled.replicas</td>
+<td>在leader方面进行限制的副本列表。该列表设置以[PartitionId]的形式描述限制副本：[PartitionId]:[BrokerId],[PartitionId]:[BrokerId]:…或使用通配符&lsquo;*&rsquo;限制该topic的所有副本。</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>max.message.bytes</td>
+<td>kafka允许的最大的消息批次大小。如果增加此值，并且消费者的版本比0.10.2老，那么消费者的提取的大小也必须增加，以便他们可以获取大的消息批次。<br>在最新的消息格式版本中，消息总是分组批量来提高效率。在之前的消息格式版本中，未压缩的记录不会分组批量，并且此限制仅适用于该情况下的单个消息。</td>
+<td>10485760</td>
+</tr>
+<tr>
+<td>message.format.version</td>
+<td>指定消息附加到日志的消息格式版本。该值应该是一个有效的ApiVersion。例如：0.8.2, 0.9.0.0, 0.10.0，更多细节检查ApiVersion。通过设置特定的消息格式版本，并且磁盘上的所有现有消息都小于或等于指定版本。不正确地设置此值将导致消费者使用旧版本，因为他们将接收到&ldquo;不认识&rdquo;的格式的消息。</td>
+<td>0.11.0-IV2</td>
+</tr>
+<tr>
+<td>message.timestamp.difference.max.ms</td>
+<td>&nbsp;</td>
+<td>9223372036854775807</td>
+</tr>
+<tr>
+<td>message.timestamp.type</td>
+<td>&nbsp;</td>
+<td>CreateTime</td>
+</tr>
+<tr>
+<td>min.cleanable.dirty.ratio</td>
+<td>此配置控制日志压缩程序将尝试清除日志的频率(假设启用了日志压缩)。默认情况下，我们将避免清理超过50％日志被压缩的日志。 该比率限制日志中浪费的最大空间重复(在最多50％的日志中可以是重复的50％)。更高的比率意味着更少，更有效的清洁，但意味着日志中的浪费更多。</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>min.compaction.lag.ms</td>
+<td>消息在日志中保持不压缩的最短时间。仅适用于正在压缩的日志。</td>
+<td>0</td>
+</tr>
+<tr>
+<td>min.insync.replicas</td>
+<td>当生产者设置应答为”all”(或&ldquo;-1&rdquo;)时，此配置指定了成功写入的副本应答的最小数。如果没满足此最小数，则生产者将引发异常(NotEnoughReplicas或NotEnoughReplicasAfterAppend)。当min.insync.replicas和acks强制更大的耐用性时。典型的情况是创建一个副本为3的topic，将min.insync.replicas设置为2，并设置acks为&ldquo;all&rdquo;。如果多数副本没有收到写入，这将确保生产者引发异常。&nbsp;</td>
+<td>1</td>
+</tr>
+<tr>
+<td>preallocate</td>
+<td>如果我们在创建新的日志段时在磁盘上预分配该文件，那么设为True。</td>
+<td>false</td>
+</tr>
+<tr>
+<td>retention.bytes</td>
+<td>如果我们使用&ldquo;删除&rdquo;保留策略，则此配置将控制日志可以增长的最大大小，之后我们将丢弃旧的日志段以释放空间。默认情况下，没有设置大小限制则仅限于时间限制。</td>
+<td>-1</td>
+</tr>
+<tr>
+<td>retention.ms</td>
+<td>如果我们使用&ldquo;删除&rdquo;保留策略，则此配置控制我们将保留日志的最长时间，然后我们将丢弃旧的日志段以释放空间。这代表SLA消费者必须读取数据的时间长度。&nbsp;</td>
+<td>604800000</td>
+</tr>
+<tr>
+<td>segment.bytes</td>
+<td>此配置控制日志的段文件大小。一次保留和清理一个文件，因此较大的段大小意味着较少的文件，但对保留率的粒度控制较少。</td>
+<td>104857600</td>
+</tr>
+<tr>
+<td>segment.index.bytes</td>
+<td>此配置控制offset映射到文件位置的索引的大小。我们预先分配此索引文件，并在日志滚动后收缩它。通常不需要更改此设置。</td>
+<td>10485760</td>
+</tr>
+<tr>
+<td>segment.jitter.ms</td>
+<td>从计划的段滚动时间减去最大随机抖动，以避免异常的段滚动</td>
+<td>0</td>
+</tr>
+<tr>
+<td>segment.ms</td>
+<td>此配置控制Kafka强制日志滚动的时间段，以确保保留可以删除或压缩旧数据，即使段文件未满</td>
+<td>604800000</td>
+</tr>
+<tr>
+<td>unclean.leader.election.enable</td>
+<td>是否将不在ISR中的副本作为最后的手段选举为leader，即使这样做可能会导致数据丢失</td>
+<td>false</td>
+</tr>
 </tbody></table>
-<p>|index.interval.bytes|此设置控制Kafka向其offset索引添加索引条目的频率。默认设置确保我们大致每4096个字节索引消息。 更多的索引允许读取更接近日志中的确切位置，但使索引更大。你不需要改变这个值。|4096<br>|leader.replication.throttled.replicas|在leader方面进行限制的副本列表。该列表设置以[PartitionId]的形式描述限制副本：[PartitionId]:[BrokerId],[PartitionId]:[BrokerId]:…或使用通配符&lsquo;*&rsquo;限制该topic的所有副本。|&nbsp;</p>
-<p>|max.message.bytes|kafka允许的最大的消息批次大小。如果增加此值，并且消费者的版本比0.10.2老，那么消费者的提取的大小也必须增加，以便他们可以获取大的消息批次。<br>在最新的消息格式版本中，消息总是分组批量来提高效率。在之前的消息格式版本中，未压缩的记录不会分组批量，并且此限制仅适用于该情况下的单个消息。|10485760<br>|message.format.version|指定消息附加到日志的消息格式版本。该值应该是一个有效的ApiVersion。例如：0.8.2, 0.9.0.0, 0.10.0，更多细节检查ApiVersion。通过设置特定的消息格式版本，并且磁盘上的所有现有消息都小于或等于指定版本。不正确地设置此值将导致消费者使用旧版本，因为他们将接收到&ldquo;不认识&rdquo;的格式的消息。|0.11.0-IV2<br>|message.timestamp.difference.max.ms|&nbsp;|9223372036854775807<br>|message.timestamp.type|&nbsp;|CreateTime<br>|min.cleanable.dirty.ratio|此配置控制日志压缩程序将尝试清除日志的频率(假设启用了日志压缩)。默认情况下，我们将避免清理超过50％日志被压缩的日志。 该比率限制日志中浪费的最大空间重复(在最多50％的日志中可以是重复的50％)。更高的比率意味着更少，更有效的清洁，但意味着日志中的浪费更多。|0.5<br>|min.compaction.lag.ms|消息在日志中保持不压缩的最短时间。仅适用于正在压缩的日志。|0<br>|min.insync.replicas|当生产者设置应答为”all”(或&ldquo;-1&rdquo;)时，此配置指定了成功写入的副本应答的最小数。如果没满足此最小数，则生产者将引发异常(NotEnoughReplicas或NotEnoughReplicasAfterAppend)。当min.insync.replicas和acks强制更大的耐用性时。典型的情况是创建一个副本为3的topic，将min.insync.replicas设置为2，并设置acks为&ldquo;all&rdquo;。如果多数副本没有收到写入，这将确保生产者引发异常。&nbsp;|1<br>|preallocate|如果我们在创建新的日志段时在磁盘上预分配该文件，那么设为True。|false<br>|retention.bytes|如果我们使用&ldquo;删除&rdquo;保留策略，则此配置将控制日志可以增长的最大大小，之后我们将丢弃旧的日志段以释放空间。默认情况下，没有设置大小限制则仅限于时间限制。|-1<br>|retention.ms|如果我们使用&ldquo;删除&rdquo;保留策略，则此配置控制我们将保留日志的最长时间，然后我们将丢弃旧的日志段以释放空间。这代表SLA消费者必须读取数据的时间长度。&nbsp;|604800000<br>|segment.bytes|此配置控制日志的段文件大小。一次保留和清理一个文件，因此较大的段大小意味着较少的文件，但对保留率的粒度控制较少。|104857600<br>|segment.index.bytes|此配置控制offset映射到文件位置的索引的大小。我们预先分配此索引文件，并在日志滚动后收缩它。通常不需要更改此设置。|10485760<br>|segment.jitter.ms|从计划的段滚动时间减去最大随机抖动，以避免异常的段滚动|0<br>|segment.ms|此配置控制Kafka强制日志滚动的时间段，以确保保留可以删除或压缩旧数据，即使段文件未满|604800000<br>|unclean.leader.election.enable|是否将不在ISR中的副本作为最后的手段选举为leader，即使这样做可能会导致数据丢失|false</p>
 <p>&nbsp;&nbsp;</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://www.orchome.com/669">Kafka Topic配置</a></p>
 <p>&nbsp;</p>
