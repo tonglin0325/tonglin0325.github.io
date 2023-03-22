@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Kaggle学习笔记——房屋价格预测 | tonglin0325的个人主页</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Kaggle的房价数据集使用的是Ames Housing">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kaggle学习笔记——房屋价格预测">
+<meta property="og:url" content="http://tonglin0325.github.io/2017/05/28/Kaggle%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%88%BF%E5%B1%8B%E4%BB%B7%E6%A0%BC%E9%A2%84%E6%B5%8B/index.html">
+<meta property="og:site_name" content="tonglin0325的个人主页">
+<meta property="og:description" content="Kaggle的房价数据集使用的是Ames Housing">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170529170228414-1916146287.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170529162211336-398652915.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170529164539477-1994704691.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170529171410805-1848160120.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170529171700774-1032569400.png">
+<meta property="article:published_time" content="2017-05-27T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-03-22T15:14:07.482Z">
+<meta property="article:author" content="tonglin0325">
+<meta property="article:tag" content="ML">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://tonglin0325.github.io/images/517519-20170529170228414-1916146287.png">
+  
+    <link rel="alternate" href="/atom.xml" title="tonglin0325的个人主页" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="https://tonglin0325.github.io/images/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+
+  
+<link rel="stylesheet" href="/css/styles.css">
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-166238833-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5884015902351015"
+     crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-menu-navbar">
+      <ul class="nav navbar-nav">
+        
+          <li><a class=""
+                 href="/index.html">主页</a></li>
+        
+          <li><a class=""
+                 href="/archives/">所有文章</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="http://www.cnblogs.com/tonglin0325/">博客园</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="https://github.com/tonglin0325">Github</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="https://www.linkedin.com/in/tonglin0325/">LinkedIn</a></li>
+        
+      </ul>
+
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        
+          <li><a href="/atom.xml" title="RSS Feed"><i class="fa fa-rss"></i></a></li>
+        
+      </ul>
+      -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+  <div class="container">
+    <div class="blog-header">
+  <h1 class="blog-title">tonglin0325的个人主页</h1>
+  
+</div>
+
+    <div class="row">
+        <div class="col-sm-9 blog-main">
+          <article id="post-Kaggle学习笔记——房屋价格预测" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 class="article-title" itemprop="name">
+      Kaggle学习笔记——房屋价格预测
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2017/05/28/Kaggle%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%88%BF%E5%B1%8B%E4%BB%B7%E6%A0%BC%E9%A2%84%E6%B5%8B/" class="article-date"><time datetime="2017-05-27T16:00:00.000Z" itemprop="datePublished">2017-05-28</time></a>
+</div>
+
+    <div class="article-author">tonglin0325</div>
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+<div id="toc">
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.定义特征的含义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.查看特征的基本情况</span></a></li></ol>
+</div>
+
+        <p>Kaggle的房价数据集使用的是<a target="_blank" rel="noopener" href="http://www.amstat.org/publications/jse/v19n3/decock.pdf">Ames Housing<span id="more"></span><br>&nbsp;dataset</a>，是美国爱荷华州的艾姆斯镇2006-2010年的房价</p>
+<h2><span id="1-ding-yi-te-zheng-de-han-yi">1.定义特征的含义</span><a href="#1-ding-yi-te-zheng-de-han-yi" class="header-anchor">#</a></h2><p>先翻译了一下给的房屋数据的特征，这里定义了一个case class，方便理解每个特征的含义</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line">case class house(</span><br><span class="line">                  Id: String,</span><br><span class="line">                  MSSubClass: String, // 参与销售住宅的类型:有年代新旧等信息</span><br><span class="line">                  MSZoning: String, // 房屋类型:农用,商用等</span><br><span class="line">                  LotFrontage: String, // 距离街道的距离</span><br><span class="line">                  LotArea: String, // 房屋的面积</span><br><span class="line">                  Street: String, // 通向房屋的Street是用什么铺的</span><br><span class="line">                  Alley: String, // 通向房屋的Alley是用什么铺的</span><br><span class="line">                  LotShape: String, // 房屋的户型,规整程度</span><br><span class="line">                  LandContour: String, // 房屋的平坦程度</span><br><span class="line">                  Utilities: String, // 设施,通不通水电气</span><br><span class="line">                  LotConfig: String, // 死路,处于三岔口等</span><br><span class="line">                  LandSlope: String, // 坡度</span><br><span class="line">                  Neighborhood: String, // 邻居</span><br><span class="line">                  Condition1: String,</span><br><span class="line">                  Condition2: String,</span><br><span class="line">                  BldgType: String, // 住宅类型,住的家庭数,是否别墅等</span><br><span class="line">                  HouseStyle: String, // 住宅类型,隔断等</span><br><span class="line">                  OverallQual: String, // 房屋的质量</span><br><span class="line">                  OverallCond: String, // 房屋位置的质量</span><br><span class="line">                  YearBuilt: String, // 建造的时间</span><br><span class="line">                  YearRemodAdd: String, // 改造的时间</span><br><span class="line">                  RoofStyle: String, // 屋顶的类型</span><br><span class="line">                  RoofMatl: String, // 屋顶的材料</span><br><span class="line">                  Exterior1st: String, // 外观覆盖的材质</span><br><span class="line">                  Exterior2nd: String, // 如果超过一种,则有第二种材质</span><br><span class="line">                  MasVnrType: String, // 表层砌体类型</span><br><span class="line">                  MasVnrArea: String, // 表层砌体面积</span><br><span class="line">                  ExterQual: String,  // 外观材料质量</span><br><span class="line">                  ExterCond: String,  // 外观材料情况</span><br><span class="line">                  Foundation: String, // 地基类型</span><br><span class="line">                  BsmtQual: String, // 地下室质量</span><br><span class="line">                  BsmtCond: String, // 地下室的基本情况</span><br><span class="line">                  BsmtExposure: String, // 地下室采光</span><br><span class="line">                  BsmtFinType1: String, // 地下室的完成情况比例</span><br><span class="line">                  BsmtFinSF1: String, // 地下室的完成面积</span><br><span class="line">                  BsmtFinType2: String, // 如果有多个地下室的话</span><br><span class="line">                  BsmtFinSF2: String, // 如果有多个地下室的话</span><br><span class="line">                  BsmtUnfSF: String,  // 未完成的地下室面积</span><br><span class="line">                  TotalBsmtSF: String,  // 地下室面积</span><br><span class="line">                  Heating: String,  // 供暖类型</span><br><span class="line">                  HeatingQC: String,  // 供暖质量</span><br><span class="line">                  CentralAir: String, // 是否有中央空调</span><br><span class="line">                  Electrical: String, // 电气系统</span><br><span class="line">                  _1stFlrSF: String,  // 1楼面积</span><br><span class="line">                  _2ndFlrSF: String,  // 2楼面积</span><br><span class="line">                  LowQualFinSF: String, // 低质量完成的面积(楼梯占用的面积)</span><br><span class="line">                  GrLivArea: String,  // 地面以上居住面积</span><br><span class="line">                  BsmtFullBath: String, // 地下室都是洗手间</span><br><span class="line">                  BsmtHalfBath: String, // 地下室一半是洗手间</span><br><span class="line">                  FullBath: String, // 洗手间都在一层以上</span><br><span class="line">                  HalfBath: String, // 一半洗手间在一层以上</span><br><span class="line">                  BedroomAbvGr: String, // 卧室都在一层以上</span><br><span class="line">                  KitchenAbvGr: String, // 厨房在一层以上</span><br><span class="line">                  KitchenQual: String,  // 厨房质量</span><br><span class="line">                  TotRmsAbvGrd: String, // 所有房间都在一层以上</span><br><span class="line">                  Functional: String, // 房屋的功能性等级</span><br><span class="line">                  Fireplaces: String, // 壁炉位置</span><br><span class="line">                  FireplaceQu: String,  // 壁炉质量</span><br><span class="line">                  GarageType: String, // 车库类型</span><br><span class="line">                  GarageYrBlt: String,  // 车库建造时间</span><br><span class="line">                  GarageFinish: String, // 车库的室内装修</span><br><span class="line">                  GarageCars: String, // 车库的汽车容量</span><br><span class="line">                  GarageArea: String, // 车库面积</span><br><span class="line">                  GarageQual: String, // 车库质量</span><br><span class="line">                  GarageCond: String, // 车库情况</span><br><span class="line">                  PavedDrive: String, // 铺路的材料</span><br><span class="line">                  WoodDeckSF: String, // 木地板面积</span><br><span class="line">                  OpenPorchSF: String,  // 露天门廊面积</span><br><span class="line">                  EnclosedPorch: String,  // 独立门廊面积</span><br><span class="line">                  _3SsnPorch: String, // three season门廊面积</span><br><span class="line">                  ScreenPorch: String,  // 纱门门廊面积</span><br><span class="line">                  PoolArea: String, // 游泳池面积</span><br><span class="line">                  PoolQC: String, // 游泳池质量</span><br><span class="line">                  Fence: String,  // 栅栏质量</span><br><span class="line">                  MiscFeature: String, // 上面不包含其他功能</span><br><span class="line">                  MiscVal: String,  // 上面不包含其他功能的价格</span><br><span class="line">                  MoSold: String, // 月销量</span><br><span class="line">                  YrSold: String, // 年销量</span><br><span class="line">                  SaleType: String, // 销售方式</span><br><span class="line">                  SaleCondition: String, // 销售情况</span><br><span class="line">                  SalePrice: String // 最后需要预测的销售价格</span><br><span class="line">                )</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2><span id="2-cha-kan-te-zheng-de-ji-ben-qing-kuang">2.查看特征的基本情况</span><a href="#2-cha-kan-te-zheng-de-ji-ben-qing-kuang" class="header-anchor">#</a></h2><p>读取了数据之后先describe一下,查看有无缺失的数据,以及均值,样本标准偏差,最小值和最大值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">+-------+-----------------+------------------+--------+-----------------+------------------+------+-----+--------+-----------+---------+---------+---------+------------+----------+----------+--------+----------+------------------+------------------+------------------+------------------+---------+--------+-----------+-----------+----------+------------------+---------+---------+----------+--------+--------+------------+------------+-----------------+------------+-----------------+-----------------+------------------+-------+---------+----------+----------+-----------------+------------------+-----------------+-----------------+-------------------+--------------------+------------------+-------------------+------------------+-------------------+-----------+------------------+----------+------------------+-----------+----------+------------------+------------+------------------+-----------------+----------+----------+----------+------------------+-----------------+------------------+------------------+------------------+-----------------+------+-----+-----------+------------------+------------------+------------------+--------+-------------+------------------+</span><br><span class="line">|summary|               Id|        MSSubClass|MSZoning|      LotFrontage|           LotArea|Street|Alley|LotShape|LandContour|Utilities|LotConfig|LandSlope|Neighborhood|Condition1|Condition2|BldgType|HouseStyle|       OverallQual|       OverallCond|         YearBuilt|      YearRemodAdd|RoofStyle|RoofMatl|Exterior1st|Exterior2nd|MasVnrType|        MasVnrArea|ExterQual|ExterCond|Foundation|BsmtQual|BsmtCond|BsmtExposure|BsmtFinType1|       BsmtFinSF1|BsmtFinType2|       BsmtFinSF2|        BsmtUnfSF|       TotalBsmtSF|Heating|HeatingQC|CentralAir|Electrical|        _1stFlrSF|         _2ndFlrSF|     LowQualFinSF|        GrLivArea|       BsmtFullBath|        BsmtHalfBath|          FullBath|           HalfBath|      BedroomAbvGr|       KitchenAbvGr|KitchenQual|      TotRmsAbvGrd|Functional|        Fireplaces|FireplaceQu|GarageType|       GarageYrBlt|GarageFinish|        GarageCars|       GarageArea|GarageQual|GarageCond|PavedDrive|        WoodDeckSF|      OpenPorchSF|     EnclosedPorch|        _3SsnPorch|       ScreenPorch|         PoolArea|PoolQC|Fence|MiscFeature|           MiscVal|            MoSold|            YrSold|SaleType|SaleCondition|         SalePrice|</span><br><span class="line">+-------+-----------------+------------------+--------+-----------------+------------------+------+-----+--------+-----------+---------+---------+---------+------------+----------+----------+--------+----------+------------------+------------------+------------------+------------------+---------+--------+-----------+-----------+----------+------------------+---------+---------+----------+--------+--------+------------+------------+-----------------+------------+-----------------+-----------------+------------------+-------+---------+----------+----------+-----------------+------------------+-----------------+-----------------+-------------------+--------------------+------------------+-------------------+------------------+-------------------+-----------+------------------+----------+------------------+-----------+----------+------------------+------------+------------------+-----------------+----------+----------+----------+------------------+-----------------+------------------+------------------+------------------+-----------------+------+-----+-----------+------------------+------------------+------------------+--------+-------------+------------------+</span><br><span class="line">|  count|             1460|              1460|    1460|             1460|              1460|  1460| 1460|    1460|       1460|     1460|     1460|     1460|        1460|      1460|      1460|    1460|      1460|              1460|              1460|              1460|              1460|     1460|    1460|       1460|       1460|      1460|              1460|     1460|     1460|      1460|    1460|    1460|        1460|        1460|             1460|        1460|             1460|             1460|              1460|   1460|     1460|      1460|      1460|             1460|              1460|             1460|             1460|               1460|                1460|              1460|               1460|              1460|               1460|       1460|              1460|      1460|              1460|       1460|      1460|              1460|        1460|              1460|             1460|      1460|      1460|      1460|              1460|             1460|              1460|              1460|              1460|             1460|  1460| 1460|       1460|              1460|              1460|              1460|    1460|         1460|              1460|</span><br><span class="line">|   mean|            730.5|56.897260273972606|    null|70.04995836802665|10516.828082191782|  null| null|    null|       null|     null|     null|     null|        null|      null|      null|    null|      null|6.0993150684931505| 5.575342465753424| 1971.267808219178|1984.8657534246574|     null|    null|       null|       null|      null|103.68526170798899|     null|     null|      null|    null|    null|        null|        null|443.6397260273973|        null|46.54931506849315|567.2404109589041|1057.4294520547944|   null|     null|      null|      null|1162.626712328767|346.99246575342465|5.844520547945206|1515.463698630137|0.42534246575342466|0.057534246575342465|1.5650684931506849|0.38287671232876713|2.8664383561643834| 1.0465753424657533|       null| 6.517808219178082|      null| 0.613013698630137|       null|      null|1978.5061638868744|        null|1.7671232876712328|472.9801369863014|      null|      null|      null|  94.2445205479452|46.66027397260274|21.954109589041096|3.4095890410958902|15.060958904109588|2.758904109589041|  null| null|       null|43.489041095890414| 6.321917808219178|2007.8157534246575|    null|         null|180921.19589041095|</span><br><span class="line">| stddev|421.6100093688479| 42.30057099381045|    null|24.28475177448321|  9981.26493237915|  null| null|    null|       null|     null|     null|     null|        null|      null|      null|    null|      null|1.3829965467415926|1.1127993367127318|30.202904042525294| 20.64540680770938|     null|    null|       null|       null|      null|181.06620658721647|     null|     null|      null|    null|    null|        null|        null|456.0980908409278|        null|161.3192728065416|441.8669552924343| 438.7053244594709|   null|     null|      null|      null|386.5877380410744|  436.528435886257|48.62308143352024|525.4803834232024| 0.5189106060898061| 0.23875264627921197|0.5509158012954318| 0.5028853810928912|0.8157780441442279|0.22033819838403076|       null|1.6253932905840511|      null|0.6446663863122297|       null|      null| 24.68972476859027|        null|0.7473150101111095|213.8048414533803|      null|      null|      null|125.33879435172422| 66.2560276766497| 61.11914860172857|29.317330556781872| 55.75741528187416|40.17730694453021|  null| null|       null| 496.1230244579441|2.7036262083595113|1.3280951205521145|    null|         null| 79442.50288288663|</span><br><span class="line">|    min|                1|               120| C (all)|              100|             10000|  Grvl| Grvl|     IR1|        Bnk|   AllPub|   Corner|      Gtl|     Blmngtn|    Artery|    Artery|    1Fam|    1.5Fin|                 1|                 1|              1872|              1950|     Flat| ClyTile|    AsbShng|    AsbShng|    BrkCmn|                 0|       Ex|       Ex|    BrkTil|      Ex|      Fa|          Av|         ALQ|                0|         ALQ|                0|                0|                 0|  Floor|       Ex|         N|     FuseA|             1001|                 0|                0|             1002|                  0|                   0|                 0|                  0|                 0|                  0|         Ex|                10|      Maj1|                 0|         Ex|    2Types|              1900|         Fin|                 0|                0|        Ex|        Ex|         N|                 0|                0|                 0|                 0|                 0|                0|    Ex|GdPrv|       Gar2|                 0|                 1|              2006|     COD|      Abnorml|            100000|</span><br><span class="line">|    max|              999|                90|      RM|               NA|              9991|  Pave| Pave|     Reg|        Lvl|   NoSeWa|   Inside|      Sev|     Veenker|      RRNn|      RRNn|  TwnhsE|      SLvl|                 9|                 9|              2010|              2010|     Shed| WdShngl|    WdShing|    Wd Shng|     Stone|                NA|       TA|       TA|      Wood|      TA|      TA|          No|         Unf|              998|         Unf|              972|              999|               999|   Wall|       TA|         Y|     SBrkr|              999|               998|               80|              999|                  3|                   2|                 3|                  2|                 8|                  3|         TA|                 9|       Typ|                 3|         TA|        NA|                NA|         Unf|                 4|              995|        TA|        TA|         Y|                98|               99|                99|                96|                99|              738|    NA|   NA|       TenC|              8300|                 9|              2010|      WD|      Partial|             99900|</span><br><span class="line">+-------+-----------------+------------------+--------+-----------------+------------------+------+-----+--------+-----------+---------+---------+---------+------------+----------+----------+--------+----------+------------------+------------------+------------------+------------------+---------+--------+-----------+-----------+----------+------------------+---------+---------+----------+--------+--------+------------+------------+-----------------+------------+-----------------+-----------------+------------------+-------+---------+----------+----------+-----------------+------------------+-----------------+-----------------+-------------------+--------------------+------------------+-------------------+------------------+-------------------+-----------+------------------+----------+------------------+-----------+----------+------------------+------------+------------------+-----------------+----------+----------+----------+------------------+-----------------+------------------+------------------+------------------+-----------------+------+-----+-----------+------------------+------------------+------------------+--------+-------------+------------------+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>先看一下<strong>房价的分布情况</strong>，15W刀左右的居多，可以看出这个数据集是很久以前的了</p>
+<img src="/images/517519-20170529170228414-1916146287.png" width="400" height="175">
+
+<p>1.先分析<strong>数值型</strong>的特征,比如LotFrontage(通往房屋的street的距离)和LotArea(房子的建筑面积，包括车库院子啥的)</p>
+<p>分析:因为距离有的值为NA的缘故，对其值为NA的处理成了距离为0。</p>
+<p>按我们的思路，应该是距离越近价格越高(出行比较方便)，可是事实上并不是这样子，可能是私家车在外国家庭的普及率问题，和street的距离同房价之间的关系并不是很明显</p>
+<img src="/images/517519-20170529162211336-398652915.png" width="300" height="216">
+
+<p>接下来分析<strong>房屋的建筑面积和房价</strong>之间的关系，为了直观些，我把单位从平方英尺转换成了平方米。</p>
+<p>可以看到数据集中房屋的面积的峰值在900平方米左右，且房屋的建筑面积和房价是正相关的（废话）</p>
+<img src="/images/517519-20170529164539477-1994704691.png" width="600" height="400">
+
+<p>接下来再看看<strong>1层和2层面积和房价</strong>之间的关系</p>
+<p>可以看到，1楼面积和2层面积（如果有的话），同房价之间的关系也很线性，除少数离群的点之外</p>
+<p>&nbsp;<img src="/images/517519-20170529171410805-1848160120.png" alt width="418" height="494">&nbsp;&nbsp;&nbsp; <img src="/images/517519-20170529171700774-1032569400.png" alt width="467" height="492"></p>
+
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://tonglin0325.github.io/2017/05/28/Kaggle%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%88%BF%E5%B1%8B%E4%BB%B7%E6%A0%BC%E9%A2%84%E6%B5%8B/" data-id="clfjtse870002c00lddo7af0r" class="article-share-link">
+        <i class="fa fa-share"></i> 分享
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ML/" rel="tag">ML</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/2017/05/26/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%B3%B0%E5%9D%A6%E5%B0%BC%E5%85%8B%E7%94%9F%E8%BF%98%E9%A2%84%E6%B5%8B/" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">Spark学习笔记——泰坦尼克生还预测</span>
+    </a>
+  </li>
+  
+  
+  <li role="presentation">
+    <a href="/2017/05/28/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%88%BF%E5%B1%8B%E4%BB%B7%E6%A0%BC%E9%A2%84%E6%B5%8B/" id="article-nav-newer" class="article-nav-link-wrap">
+      <span class="article-nav-link-title">Spark学习笔记——房屋价格预测</span>
+      <i class="fa fa-chevron-right pull-right"></i>
+    </a>
+  </li>
+  
+</ul>
+
+
+  
+</article>
+
+
+
+
+        </div>
+        <div class="col-sm-3 col-sm-offset-0 blog-sidebar">
+          
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>tonglin0325</h4>
+  <div style="text-align:center;"><img src="/images/WechatIMG1.jpeg" width="150" height="150" style="vertical-align:middle;"/></div>
+</div>
+
+
+  
+
+
+  
+  <div class="sidebar-module">
+    <h4>标签</h4>
+    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Airbnb/" rel="tag">Airbnb</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Amazon/" rel="tag">Amazon</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Android/" rel="tag">Android</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/DL/" rel="tag">DL</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ELK/" rel="tag">ELK</a><span class="sidebar-module-list-count">14</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Flink/" rel="tag">Flink</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Git/" rel="tag">Git</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HAProxy/" rel="tag">HAProxy</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HTML-CSS-JS/" rel="tag">HTML&#x2F;CSS&#x2F;JS</a><span class="sidebar-module-list-count">19</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hadoop/" rel="tag">Hadoop</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hbase/" rel="tag">Hbase</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hive/" rel="tag">Hive</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/InfluxDB/" rel="tag">InfluxDB</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JDBC/" rel="tag">JDBC</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JMeter/" rel="tag">JMeter</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JSON/" rel="tag">JSON</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JavaSE/" rel="tag">JavaSE</a><span class="sidebar-module-list-count">20</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JavaWeb/" rel="tag">JavaWeb</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/LaTex/" rel="tag">LaTex</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Linkedin/" rel="tag">Linkedin</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="sidebar-module-list-count">48</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ML/" rel="tag">ML</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Maven/" rel="tag">Maven</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/MySQL/" rel="tag">MySQL</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Nexus/" rel="tag">Nexus</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/NoSQL/" rel="tag">NoSQL</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/OpenTSDB/" rel="tag">OpenTSDB</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Paper/" rel="tag">Paper</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Play/" rel="tag">Play</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Prometheus/" rel="tag">Prometheus</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Python/" rel="tag">Python</a><span class="sidebar-module-list-count">14</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/RocksDB/" rel="tag">RocksDB</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Scala/" rel="tag">Scala</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Solr/" rel="tag">Solr</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Spark/" rel="tag">Spark</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SpringMVC/" rel="tag">SpringMVC</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Thrift/" rel="tag">Thrift</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/antlr/" rel="tag">antlr</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/arthas/" rel="tag">arthas</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/avro/" rel="tag">avro</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/bootstrap/" rel="tag">bootstrap</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/cassandra/" rel="tag">cassandra</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/cdh/" rel="tag">cdh</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/confluent/" rel="tag">confluent</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/docker/" rel="tag">docker</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/filebeat/" rel="tag">filebeat</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/flume/" rel="tag">flume</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/go/" rel="tag">go</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/google/" rel="tag">google</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/gradle/" rel="tag">gradle</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hexo/" rel="tag">hexo</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hudi/" rel="tag">hudi</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/impala/" rel="tag">impala</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/jenkins/" rel="tag">jenkins</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/jquery/" rel="tag">jquery</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/k8s/" rel="tag">k8s</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kafka/" rel="tag">kafka</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kerberos/" rel="tag">kerberos</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kudu/" rel="tag">kudu</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ldap/" rel="tag">ldap</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mac/" rel="tag">mac</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mongo/" rel="tag">mongo</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mybatis/" rel="tag">mybatis</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nginx/" rel="tag">nginx</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nlp/" rel="tag">nlp</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/open-falcon/" rel="tag">open-falcon</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/parquet/" rel="tag">parquet</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/presto/" rel="tag">presto</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ranger/" rel="tag">ranger</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/react/" rel="tag">react</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/redis/" rel="tag">redis</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/scyllaDB/" rel="tag">scyllaDB</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/twitter/" rel="tag">twitter</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/yarn/" rel="tag">yarn</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/zookeeper/" rel="tag">zookeeper</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%9B%BE%E5%AD%98%E5%82%A8%E5%8F%8A%E8%AE%A1%E7%AE%97/" rel="tag">图存储及计算</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F/" rel="tag">广告系统</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" rel="tag">开发工具</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/" rel="tag">数据处理</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a><span class="sidebar-module-list-count">22</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="sidebar-module-list-count">6</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>标签云</h4>
+    <p class="tagcloud">
+      <a href="/tags/Airbnb/" style="font-size: 15px;">Airbnb</a> <a href="/tags/Amazon/" style="font-size: 11.5px;">Amazon</a> <a href="/tags/Android/" style="font-size: 15.5px;">Android</a> <a href="/tags/DL/" style="font-size: 11.5px;">DL</a> <a href="/tags/ELK/" style="font-size: 16px;">ELK</a> <a href="/tags/Flink/" style="font-size: 18px;">Flink</a> <a href="/tags/Git/" style="font-size: 11px;">Git</a> <a href="/tags/HAProxy/" style="font-size: 11px;">HAProxy</a> <a href="/tags/HTML-CSS-JS/" style="font-size: 17px;">HTML/CSS/JS</a> <a href="/tags/Hadoop/" style="font-size: 13px;">Hadoop</a> <a href="/tags/Hbase/" style="font-size: 13px;">Hbase</a> <a href="/tags/Hive/" style="font-size: 16.5px;">Hive</a> <a href="/tags/InfluxDB/" style="font-size: 10px;">InfluxDB</a> <a href="/tags/JDBC/" style="font-size: 13.5px;">JDBC</a> <a href="/tags/JMeter/" style="font-size: 10px;">JMeter</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JVM/" style="font-size: 12px;">JVM</a> <a href="/tags/JavaSE/" style="font-size: 17.5px;">JavaSE</a> <a href="/tags/JavaWeb/" style="font-size: 15px;">JavaWeb</a> <a href="/tags/LaTex/" style="font-size: 10px;">LaTex</a> <a href="/tags/Linkedin/" style="font-size: 10px;">Linkedin</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/ML/" style="font-size: 19px;">ML</a> <a href="/tags/Maven/" style="font-size: 11px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 18px;">MySQL</a> <a href="/tags/Nexus/" style="font-size: 12px;">Nexus</a> <a href="/tags/NoSQL/" style="font-size: 10px;">NoSQL</a> <a href="/tags/OpenTSDB/" style="font-size: 10.5px;">OpenTSDB</a> <a href="/tags/Paper/" style="font-size: 10px;">Paper</a> <a href="/tags/Play/" style="font-size: 10px;">Play</a> <a href="/tags/Prometheus/" style="font-size: 10.5px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 16px;">Python</a> <a href="/tags/RocksDB/" style="font-size: 10px;">RocksDB</a> <a href="/tags/Scala/" style="font-size: 14px;">Scala</a> <a href="/tags/Solr/" style="font-size: 11px;">Solr</a> <a href="/tags/Spark/" style="font-size: 19.5px;">Spark</a> <a href="/tags/SpringBoot/" style="font-size: 16.5px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 15px;">SpringMVC</a> <a href="/tags/Thrift/" style="font-size: 12px;">Thrift</a> <a href="/tags/antlr/" style="font-size: 10.5px;">antlr</a> <a href="/tags/arthas/" style="font-size: 10px;">arthas</a> <a href="/tags/avro/" style="font-size: 13px;">avro</a> <a href="/tags/bootstrap/" style="font-size: 10px;">bootstrap</a> <a href="/tags/cassandra/" style="font-size: 10px;">cassandra</a> <a href="/tags/cdh/" style="font-size: 15px;">cdh</a> <a href="/tags/confluent/" style="font-size: 10px;">confluent</a> <a href="/tags/docker/" style="font-size: 11px;">docker</a> <a href="/tags/filebeat/" style="font-size: 11.5px;">filebeat</a> <a href="/tags/flume/" style="font-size: 10.5px;">flume</a> <a href="/tags/go/" style="font-size: 11.5px;">go</a> <a href="/tags/google/" style="font-size: 11px;">google</a> <a href="/tags/gradle/" style="font-size: 10px;">gradle</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hudi/" style="font-size: 11px;">hudi</a> <a href="/tags/impala/" style="font-size: 11.5px;">impala</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/k8s/" style="font-size: 14px;">k8s</a> <a href="/tags/kafka/" style="font-size: 15.5px;">kafka</a> <a href="/tags/kerberos/" style="font-size: 10px;">kerberos</a> <a href="/tags/kudu/" style="font-size: 10px;">kudu</a> <a href="/tags/ldap/" style="font-size: 10.5px;">ldap</a> <a href="/tags/mac/" style="font-size: 12.5px;">mac</a> <a href="/tags/mongo/" style="font-size: 10.5px;">mongo</a> <a href="/tags/mybatis/" style="font-size: 11px;">mybatis</a> <a href="/tags/nginx/" style="font-size: 12.5px;">nginx</a> <a href="/tags/nlp/" style="font-size: 10px;">nlp</a> <a href="/tags/open-falcon/" style="font-size: 11px;">open-falcon</a> <a href="/tags/parquet/" style="font-size: 10.5px;">parquet</a> <a href="/tags/presto/" style="font-size: 11.5px;">presto</a> <a href="/tags/ranger/" style="font-size: 10px;">ranger</a> <a href="/tags/react/" style="font-size: 11px;">react</a> <a href="/tags/redis/" style="font-size: 11px;">redis</a> <a href="/tags/scyllaDB/" style="font-size: 10.5px;">scyllaDB</a> <a href="/tags/twitter/" style="font-size: 10.5px;">twitter</a> <a href="/tags/yarn/" style="font-size: 11.5px;">yarn</a> <a href="/tags/zookeeper/" style="font-size: 15.5px;">zookeeper</a> <a href="/tags/%E5%9B%BE%E5%AD%98%E5%82%A8%E5%8F%8A%E8%AE%A1%E7%AE%97/" style="font-size: 10.5px;">图存储及计算</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 14.5px;">多线程</a> <a href="/tags/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F/" style="font-size: 11.5px;">广告系统</a> <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" style="font-size: 14.5px;">开发工具</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/" style="font-size: 13px;">数据处理</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 18.5px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 13px;">杂谈</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 19.5px;">算法</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 13.5px;">计算机网络</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 12.5px;">设计模式</a>
+    </p>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>文章归档</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/07/">七月 2022</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/01/">一月 2022</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/12/">十二月 2021</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/11/">十一月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/09/">九月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">七月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/05/">五月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/01/">一月 2021</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/12/">十二月 2020</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/11/">十一月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/10/">十月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/09/">九月 2020</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/08/">八月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/07/">七月 2020</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/06/">六月 2020</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/05/">五月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/04/">四月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/03/">三月 2020</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">二月 2020</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/01/">一月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">十月 2019</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/09/">九月 2019</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">八月 2019</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/07/">七月 2019</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/04/">四月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/03/">三月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/01/">一月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/12/">十二月 2018</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/11/">十一月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/09/">九月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/06/">六月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/05/">五月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/04/">四月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/02/">二月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/01/">一月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/11/">十一月 2017</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/09/">九月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/07/">七月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/06/">六月 2017</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/05/">五月 2017</a><span class="sidebar-module-list-count">14</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/04/">四月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/03/">三月 2017</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/01/">一月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/12/">十二月 2016</a><span class="sidebar-module-list-count">15</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/11/">十一月 2016</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">十月 2016</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">九月 2016</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/08/">八月 2016</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/07/">七月 2016</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">六月 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">五月 2016</a><span class="sidebar-module-list-count">31</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/04/">四月 2016</a><span class="sidebar-module-list-count">30</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/03/">三月 2016</a><span class="sidebar-module-list-count">135</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/02/">二月 2016</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/09/">九月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/08/">八月 2015</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/07/">七月 2015</a><span class="sidebar-module-list-count">31</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/06/">六月 2015</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/04/">四月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2013/04/">四月 2013</a><span class="sidebar-module-list-count">1</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>最近文章</h4>
+    <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/2022/07/22/kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94topic%E9%85%8D%E7%BD%AE/">kafka学习笔记——topic配置</a>
+        </li>
+      
+        <li>
+          <a href="/2022/01/13/Hbase%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%A2%E6%88%B7%E7%AB%AFAPI/">Hbase学习笔记——客户端API</a>
+        </li>
+      
+        <li>
+          <a href="/2022/01/12/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%AF%BB%E5%86%99Hbase/">Flink学习笔记——读写Hbase</a>
+        </li>
+      
+        <li>
+          <a href="/2021/12/26/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94metastore%20listener/">Hive学习笔记——metastore listener</a>
+        </li>
+      
+        <li>
+          <a href="/2021/12/02/mac%E4%B8%8B%E5%AE%89%E8%A3%85gradle7.3/">mac下安装gradle7.3</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+
+        </div>
+    </div>
+  </div>
+  <footer class="blog-footer">
+  <div class="container">
+    <div id="footer-info" class="inner">
+      &copy; 2023 tonglin0325<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+  
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" integrity="sha384-8gBf6Y4YYq7Jx97PIqmTwLPin4hxIzQw5aDmUg/DDhul9fFpbbLcLh3nTIIDJKhx" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9HZSXL1LDJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9HZSXL1LDJ');
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+<script src="/js/jquery.qrcode.min.js"></script>
+
+
+
+<script src="/js/jquery-1.6.2.min.js"></script>
+
+
+</body>
+</html>
