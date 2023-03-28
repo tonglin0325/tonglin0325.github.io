@@ -17,8 +17,13 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20221108110850032-771586928.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20221108171243676-922070496.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20221109130236672-464082794.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230328141847752-1483912536.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230328161757640-1190497564.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230328165351692-83639080.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230328161328073-1555814068.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230328141435585-1463801639.png">
 <meta property="article:published_time" content="2015-08-07T16:00:00.000Z">
-<meta property="article:modified_time" content="2023-03-22T15:14:19.849Z">
+<meta property="article:modified_time" content="2023-03-28T13:10:29.949Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Amazon">
 <meta name="twitter:card" content="summary">
@@ -143,7 +148,7 @@ ga('send', 'pageview');
       
         
 <div id="toc">
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.创建EMR集群</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.EMR CLI使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.EMR角色分布</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4.EMR配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">5.EMR启动步骤</span></a></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.创建EMR集群</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.EMR CLI使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.EMR角色分布</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4.EMR配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">5.EMR启动步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">6.EMR集群的动态伸缩</span></a></li></ol>
 </div>
 
         <p>Amazon EMR是Amazon提供的托管大数据套件，可选的组件包括Hadoop，Hive，Hue，Hbase，Presto，Spark等</p>
@@ -274,6 +279,30 @@ ga('send', 'pageview');
 <p>&nbsp;<img src="/images/517519-20221108171243676-922070496.png" alt loading="lazy"></p>
 <p>如果EMR集群启动失败的话，可以去Log URI查看日志，Terminated with errors后面会告诉你是哪台实例在哪个步骤的时候报错</p>
 <p>&nbsp;<img src="/images/517519-20221109130236672-464082794.png" alt loading="lazy"></p>
+<h2><span id="6-emr-ji-qun-de-dong-tai-shen-suo">6.EMR集群的动态伸缩</span><a href="#6-emr-ji-qun-de-dong-tai-shen-suo" class="header-anchor">#</a></h2><p>在创建AWS EMR集群的时候，可以选择开启cluster scaling，auto scaling有2种伸缩策略，一种是<strong>EMR-manager scaling</strong>，另一种是<strong>用户自行配置scaling策略</strong>来进行扩缩容</p>
+<p>注意在<strong>只有core节点和task节点是可以进行扩缩容的</strong>，master主节点在EMR集群创建后就无法进行变更</p>
+<p><strong>EMR-manager scaling配置</strong>如下，这里需要配置的参数主要控制的是core和task节点的扩缩容实例数量，参考：<a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-managed-scaling.html">Using managed scaling in Amazon EMR</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Minimum 3 (core + task 最小为3台机器)</span><br><span class="line">Maximum 15 （core + task 最大为15台机器)</span><br><span class="line">On-demand limit (非必须参数，假设Min为2台机器，max为100台机器，On-demand limit为10台，则扩容的时候会有10台机器的购买方式是按需购买，剩余的机器是竞价购买)</span><br><span class="line">Maximum Core Node (非必须参数，core 节点最多为3台)</span><br></pre></td></tr></table></figure>
+
+<img src="/images/517519-20230328141847752-1483912536.png" alt loading="lazy">
+
+<p>在使用了<strong>EMR-manager scaling</strong>之后，EMR集群的扩容主要由<strong>集群容量指标</strong>控制，比如&nbsp;TaskNodesRequested，CoreNodesRequested<code>等，``参考：</code><a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/zh_cn/emr/latest/ManagementGuide/managed-scaling-metrics.html">了解托管扩展指标</a></p>
+<p>这里我们手动将task节点的数量从0点resizing成5个</p>
+<img src="/images/517519-20230328161757640-1190497564.png" alt loading="lazy">
+
+<p>可以在cloud watch中的EMR相关指标中看到，TaskNodesRequested从0上升到5个</p>
+<img src="/images/517519-20230328165351692-83639080.png" width="1000" height="324" loading="lazy">
+
+<img src="/images/517519-20230328161328073-1555814068.png" width="1400" height="408" loading="lazy">
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;<strong>用户自行配置scaling策略</strong>如下，这里配置的扩缩容的节点是Task节点，Core节点由于有HDFS，所以不进行扩缩容</p>
+<img src="/images/517519-20230328141435585-1463801639.png" alt loading="lazy">
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://aws.amazon.com/cn/blogs/china/introducing-amazon-emr-managed-scaling-automatically-resize-clusters-to-lower-cost/">Amazon EMR Managed Scaling 介绍&mdash;&mdash;自动调整集群大小，高效节约运营成本</a></p>
 <p>&nbsp;</p>
 
       
