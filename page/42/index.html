@@ -412,50 +412,27 @@ ga('send', 'pageview');
 
     <div class="article-entry" itemprop="articleBody">
       
-        
-<div id="toc">
-  
-</div>
-
         <p>官方地址下载，有mac，windows和linux版本</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://www.kafkatool.com/download.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>安装后添加kafka集群的地址，可以选择使用zk地址或者kafka的broker地址来连接集群，这里选择使用kafka broker地址来连接</p>
-<img src="/images/517519-20220614163438052-780773238.png" width="800" height="499" loading="lazy">
+<h2 id="1-查看kafka-topic中的数据（支持byte，string和avro）"><a href="#1-查看kafka-topic中的数据（支持byte，string和avro）" class="headerlink" title="1.查看kafka topic中的数据（支持byte，string和avro）"></a>1.查看kafka topic中的数据（支持byte，string和avro）</h2><p>安装后添加kafka集群的地址，可以选择使用zk地址或者kafka的broker地址来连接集群，这里选择使用kafka broker地址来连接</p>
+<img src="/images/517519-20220614163438052-780773238.png" width="1000" height="624" loading="lazy" />
 
 <p>可以指定topic的partition和offset查看数据</p>
-<img src="/images/517519-20220614164025421-820689886.png" width="1000" height="624" loading="lazy">
+<img src="/images/517519-20230408093343422-1535182760.png" width="1000" height="623" loading="lazy" />
 
-<p>查出来的数据是16进制的，可以借助在线转换工具将其转换成字符串后进行查看，比如</p>
+<p>默认查出来的数据是byte数组，即16进制的，可以借助在线转换工具将其转换成字符串后进行查看，比如</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://tool.lu/hexstr/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>也可以编辑consumer的offset，在consumer中选择你要修改offset的消费者，点击edit consumer offset</p>
-<img src="/images/517519-20221101134501973-3634754.png" width="1500" height="271" loading="lazy">
-
-<p>编辑specific offset后update</p>
-<img src="/images/517519-20221101134641563-1935449731.png" width="800" height="626" loading="lazy">
-
-<p>offset explorer的新版本也支持了对<strong>confluent schema registry</strong>和<strong>avro格式数据</strong>的支持，使用方法如下</p>
-<p>调整offset explorer每次从topic取数的条数，原来的条数过多可能会比较卡，从每个partition取5000条调整成500条</p>
-<img src="/images/517519-20230320115442149-1369412002.png" alt loading="lazy">
-
-<p>给kafka集群配置schema registry的地址，注意需要加上http的前缀，然后update</p>
-<img src="/images/517519-20230320115650608-1700329363.png" alt loading="lazy">
-
-<p>给topic配置value的格式，设置成avro，然后update</p>
-<img src="/images/517519-20230320115817216-559145634.png" alt loading="lazy">
-
-<p>可以看到解析后的avro数据</p>
-<img src="/images/517519-20230320115922085-773068801.png" alt loading="lazy">
-
-<p>如果有报错的话，可以去查看日志，日志路径mac系统如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/Applications/Offset Explorer 2.app/Contents/Resources/app/error.log</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
+<p>也可以在属性中设置value为String，这样就可以直接查看反序列化后字符串</p>
+<img src="/images/517519-20230411143559215-1251291956.png" width="900" height="339" loading="lazy" />
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/2016/03/14/Kafka%E6%95%B0%E6%8D%AE%E6%9F%A5%E7%9C%8B%E5%B7%A5%E5%85%B7%E2%80%94%E2%80%94Offset%20Explorer/#more">全文 &gt;&gt;</a>
+          </p>
+        
       
     </div>
-
-    
-      
 
     
 
