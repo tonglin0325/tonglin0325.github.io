@@ -21,9 +21,13 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230328161757640-1190497564.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230328165351692-83639080.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230328161328073-1555814068.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230417162026376-320671083.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230417162153478-60969885.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230417162309472-473159116.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230328141435585-1463801639.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230417163300598-67773596.png">
 <meta property="article:published_time" content="2015-08-07T16:00:00.000Z">
-<meta property="article:modified_time" content="2023-04-14T12:20:14.740Z">
+<meta property="article:modified_time" content="2023-04-18T12:54:14.029Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Amazon">
 <meta name="twitter:card" content="summary">
@@ -296,12 +300,26 @@ ga('send', 'pageview');
 <img src="/images/517519-20230328161328073-1555814068.png" width="1400" height="408" loading="lazy">
 
 <p>如果实际任务不需要这么多资源，过一小段时间后就会自动缩容&nbsp;</p>
-<p>但是实际测试下来，EMR-manager scaling有时候会出现莫名其妙的问题，比如扩容扩不出来的情况，这里推荐使用自行配置scaling策略</p>
+<p>但是实际测试下来，EMR-manager scaling有时候会出现无法扩容的问题，例如我创建了如下扩容策略的EMR集群</p>
+<img src="/images/517519-20230417162026376-320671083.png" alt loading="lazy">
+
+<p>这时即使在创建集群时指定了task的instance group，但是因为其中task节点的数量初始为0，所以集群创建后不会有task的instance group，之后也不能进行扩容</p>
+<p>然后我使用如下命令创建了一个flink session cluster</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/lib/flink/bin/yarn-session.sh -s 1 -jm 10240 -tm 10240 --detached</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>但是该flink集群缺无法正常启动，一直提示获取不到足够的资源</p>
+<img src="/images/517519-20230417162153478-60969885.png" alt loading="lazy">
+
+<p>在cloudwatch和EMR监控上也看不到任何扩容的请求</p>
+<img src="/images/517519-20230417162309472-473159116.png" alt loading="lazy">
+
+<p>所以这里推荐使用用户自行配置scaling策略</p>
 <h3><span id="2-yong-hu-zi-xing-pei-zhi-scaling-ce-lue"><strong>2.用户自行配置scaling策略</strong></span><a href="#2-yong-hu-zi-xing-pei-zhi-scaling-ce-lue" class="header-anchor">#</a></h3><p>这里配置的扩缩容的节点是Task节点，Core节点由于有HDFS，所以不进行扩缩容</p>
 <img src="/images/517519-20230328141435585-1463801639.png" alt loading="lazy">
 
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+<p>自行编辑扩容策略，这里设置的扩容策略是当AppsPending这个指标大于等于1的时候，扩容2台机器</p>
+<img src="/images/517519-20230417163300598-67773596.png" alt loading="lazy">
+
 <p>参考：<a target="_blank" rel="noopener" href="https://aws.amazon.com/cn/blogs/china/introducing-amazon-emr-managed-scaling-automatically-resize-clusters-to-lower-cost/">Amazon EMR Managed Scaling 介绍&mdash;&mdash;自动调整集群大小，高效节约运营成本</a></p>
 <p>&nbsp;</p>
 
