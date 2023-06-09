@@ -14,8 +14,9 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230511144621127-431557646.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230511145247779-1535338122.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230606160334832-1126603990.png">
 <meta property="article:published_time" content="2016-05-24T16:00:00.000Z">
-<meta property="article:modified_time" content="2023-06-05T13:33:44.088Z">
+<meta property="article:modified_time" content="2023-06-09T14:41:08.958Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="kafka">
 <meta name="twitter:card" content="summary">
@@ -140,7 +141,7 @@ ga('send', 'pageview');
       
         
 <div id="toc">
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.安装部署</span></a></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.安装部署</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.集成openid</span></a></li></ol>
 </div>
 
         <h2><span id="1-jie-shao">1.介绍</span><a href="#1-jie-shao" class="header-anchor">#</a></h2><p>kafka-ui是一个开源的kafka ui工具，支持kafka，schema registry（avro和protobuf都支持），kafka connect，KSQL DB等组件</p>
@@ -165,6 +166,23 @@ ga('send', 'pageview');
 
 <p>docker命令</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 8080:8080 \</span><br><span class="line">	　　-e KAFKA_CLUSTERS_0_NAME=&quot;xxx&quot;\</span><br><span class="line">        -e KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=&quot;xxx:9092&quot; \</span><br><span class="line">        -d provectuslabs/kafka-ui:latest</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>　　</p>
+<h2><span id="3-ji-cheng-openid">3.集成openid</span><a href="#3-ji-cheng-openid" class="header-anchor">#</a></h2><p>kafka-ui支持丰富的认证方式，比如basic auth（账号密码），OAuth2（google/github等），AWS IAM，LDAP，SSO（openid），SASL_SCRAM</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://docs.kafka-ui.provectus.io/configuration/authentication</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>目前我司采用的任务方式主要有Microsoft Azure以及keycloak，Microsoft Azure测试下来需要kafka-ui启用HTTPS，因为在Microsoft Azure上填写回调地址的时候会提示只支持HTTPS，所以下面使用keycloak的认证方式</p>
+<p>kafka-ui使用docker命令启动的时候开启keyloack认证，官方文档上并没有写清楚如何集成keycloak，对应的issue也没有回答清楚</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/provectus/kafka-ui/issues/3802</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>所以这里给出正确的配置，其中的配置需要在keycloak上先注册好应用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 8080:8080 \</span><br><span class="line">		-e KAFKA_CLUSTERS_0_NAME=&quot;your_kafka_name&quot;\</span><br><span class="line">        -e KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=&quot;ip:9092&quot; \</span><br><span class="line">        -e AUTH_TYPE=OAUTH2 \</span><br><span class="line">        -e AUTH_OAUTH2_CLIENT_KEYCLOAK_CLIENTID=kafka-ui \</span><br><span class="line">        -e AUTH_OAUTH2_CLIENT_KEYCLOAK_CLIENTSECRET=xxxxxx-xxxx-xxxx-xxxx-xxxxxx \</span><br><span class="line">        -e AUTH_OAUTH2_CLIENT_KEYCLOAK_SCOPE=openid \</span><br><span class="line">        -e AUTH_OAUTH2_CLIENT_KEYCLOAK_PROVIDER=keycloak \</span><br><span class="line">        -e AUTH_OAUTH2_CLIENT_KEYCLOAK_CLIENT-NAME=keycloak \</span><br><span class="line">        -e AUTH_OAUTH2_CLIENT_KEYCLOAK_USER_NAME_ATTRIBUTE=preferred_username \</span><br><span class="line">        -e AUTH_OAUTH2_CLIENT_KEYCLOAK_ISSUER_URI=&quot;https://keycloak.xxxx.com/auth/realms/master&quot; \</span><br><span class="line">        -e AUTH_OAUTH2_CLIENT_KEYCLOAK_CUSTOM_PARAMS_TYPR=&quot;https://keycloak.xxxx.com/auth/realms/master&quot; \</span><br><span class="line">        -d provectuslabs/kafka-ui:latest</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>登录后如下，点击keycloak即可实现openid登录</p>
+<img src="/images/517519-20230606160334832-1126603990.png" alt loading="lazy">
+
+<p>如果kafka-ui开启了HTTPS的话，可以使用如下方式开启Microsoft Azure认证</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 8080:8080 \</span><br><span class="line">		-e KAFKA_CLUSTERS_0_NAME=&quot;your_kafka_name&quot;\</span><br><span class="line">        -e KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=&quot;ip:9092&quot; \</span><br><span class="line">        -e AUTH_TYPE=OAUTH2 \</span><br><span class="line">        -e AUTH_OAUTH2_CLIENT_AZURE_CLIENTID=xxxxxx-xxxx-xxxx-xxxx-xxxxxx \</span><br><span class="line">        -e AUTH_OAUTH2_CLIENT_AZURE_CLIENTSECRET=xxxxx \</span><br><span class="line">        -e AUTH_OAUTH2_CLIENT_AZURE_SCOPE=&quot;https://graph.microsoft.com/User.Read&quot; \</span><br><span class="line">        -e AUTH_OAUTH2_CLIENT_AZURE_PROVIDER=azure \</span><br><span class="line">        -e AUTH_OAUTH2_CLIENT_AZURE_ISSUER_URI=&quot;https://login.microsoftonline.com/xxxxxx-xxxx-xxxx-xxxx-xxxxxx/v2.0&quot; \</span><br><span class="line">        -d provectuslabs/kafka-ui:latest</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>　　</p>
 <p>&nbsp;</p>

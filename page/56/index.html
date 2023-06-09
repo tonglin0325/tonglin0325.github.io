@@ -465,19 +465,22 @@ ga('send', 'pageview');
 <p>3.打开mongo shell</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/opt/mongodb-community@4.4/bin/mongo xxx:27017/your_db</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
+<p>如果是mongo 6.0的话，是没有mongo命令的，需要额外安装mongosh，下载地址</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://www.mongodb.com/try/download/shell</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
 <p>查看db</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">show dbs</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>如果遇到not master and slaveOk=false的报错，可以执行如下命令</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rs.slaveOk()</span><br><span class="line">或者</span><br><span class="line">rs.secondaryOk()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
+<p>如果遇到Error: Authentication failed的报错，可能是缺少了–authenticationDatabase admin参数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/Users/lintong/Downloads/mongosh-1.9.1-darwin-x64/bin/mongosh mongodb://xxx:27017/test -u xxx --authenticationDatabase admin -p</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>其他参数参考：<a target="_blank" rel="noopener" href="https://www.mongodb.com/docs/mongodb-shell/reference/options/">https://www.mongodb.com/docs/mongodb-shell/reference/options/</a></p>
 <p>查询数据</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">db.getCollection(&quot;your_collection&quot;).find()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>获取某个database的某个collection的<strong>Change Stream</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use xx_db</span><br><span class="line">db.your_collection.watch([],&#123;maxAwaitTimeMS:60000&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>　　</p>
 <p>　　</p>
         
           <p class="article-more-link">

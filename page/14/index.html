@@ -319,6 +319,22 @@ ga('send', 'pageview');
         <h2 id="1-安装apache-airflow-1-8-0"><a href="#1-安装apache-airflow-1-8-0" class="headerlink" title="1.安装apache-airflow 1.8.0"></a>1.安装apache-airflow 1.8.0</h2><p>服务器使用的是centos系统，需要安装好pip和setuptools，同时注意更新安装的版本</p>
 <p>接下来参考安装好Airflow</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Airflow 1.8 工作流平台搭建 http://blog.csdn.net/kk185800961/article/details/78431484</span><br><span class="line">airflow最简安装方法 centos 6.5 http://blog.csdn.net/Excaliburace/article/details/53818530</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>以mysql作为数据库，airflow默认使用sqlite作为数据库</p>
+<p>1.建表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 创建相关数据库及账号  </span><br><span class="line">mysql&gt; create database airflow default charset utf8 collate utf8_general_ci;  </span><br><span class="line">mysql&gt; create user airflow@&#x27;localhost&#x27; identified by &#x27;airflow&#x27;;  </span><br><span class="line">mysql&gt; grant all on airflow.* to airflow@&#x27;localhost&#x27;;  </span><br><span class="line">mysql&gt; flush privileges;  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>2.安装airflow，需要环境隔离的时候请使用virtualenv ./<strong>en</strong>v创建隔离环境</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo pip install apache-airflow==1.8.0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>3.使用pip来安装，安装的路径在python路径下site-packages文件夹，在使用上述命令一遍就能看到</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~/anaconda2/lib/python2.7/site-packages/airflow</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>4.在/etc/proofile中添加，之后source一下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#Airflow</span><br><span class="line">export AIRFLOW_HOME=/home/lintong/airflow</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>5.创建数据库，这一步会创建上面路径的airflow文件夹，以及文件夹中的一些文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">airflow initdb</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/2017/11/28/Ubuntu16.04%E5%AE%89%E8%A3%85apache-airflow/#more">全文 &gt;&gt;</a>
