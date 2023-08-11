@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>面试题目——系统设计 | tonglin0325的个人主页</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="4S法则：《系统设计面试题精选》 123456789101112131.Scenario场景：功能、需求、QPS、存储容量    需要设计哪些功能、到哪个程度    询问： Features &#x2F; QPS &#x2F; DAU &#x2F; Interfaces2.Service：逻辑块聚类、函数设计、访问接口设计    将大系统拆分为小服务    拆分、Application、模块化3.Storage：选择SQL或N">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面试题目——系统设计">
+<meta property="og:url" content="http://tonglin0325.github.io/2023/08/06/%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE%E2%80%94%E2%80%94%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/index.html">
+<meta property="og:site_name" content="tonglin0325的个人主页">
+<meta property="og:description" content="4S法则：《系统设计面试题精选》 123456789101112131.Scenario场景：功能、需求、QPS、存储容量    需要设计哪些功能、到哪个程度    询问： Features &#x2F; QPS &#x2F; DAU &#x2F; Interfaces2.Service：逻辑块聚类、函数设计、访问接口设计    将大系统拆分为小服务    拆分、Application、模块化3.Storage：选择SQL或N">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20210326174435433-312403976.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20210327002340563-118961767.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20210327003556938-1702827935.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230807132835384-828012939.png">
+<meta property="article:published_time" content="2023-08-05T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-08-11T13:15:48.545Z">
+<meta property="article:author" content="tonglin0325">
+<meta property="article:tag" content="刷题">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://tonglin0325.github.io/images/517519-20210326174435433-312403976.png">
+  
+    <link rel="alternate" href="/atom.xml" title="tonglin0325的个人主页" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="https://tonglin0325.github.io/images/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+
+  
+<link rel="stylesheet" href="/css/styles.css">
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-166238833-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5884015902351015"
+     crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-menu-navbar">
+      <ul class="nav navbar-nav">
+        
+          <li><a class=""
+                 href="/index.html">主页</a></li>
+        
+          <li><a class=""
+                 href="/archives/">所有文章</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="http://www.cnblogs.com/tonglin0325/">博客园</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="https://github.com/tonglin0325">Github</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="https://www.linkedin.com/in/tonglin0325/">LinkedIn</a></li>
+        
+      </ul>
+
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        
+          <li><a href="/atom.xml" title="RSS Feed"><i class="fa fa-rss"></i></a></li>
+        
+      </ul>
+      -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+  <div class="container">
+    <div class="blog-header">
+  <h1 class="blog-title">tonglin0325的个人主页</h1>
+  
+</div>
+
+    <div class="row">
+        <div class="col-sm-9 blog-main">
+          <article id="post-面试题目——系统设计" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 class="article-title" itemprop="name">
+      面试题目——系统设计
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2023/08/06/%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE%E2%80%94%E2%80%94%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" class="article-date"><time datetime="2023-08-05T16:00:00.000Z" itemprop="datePublished">2023-08-06</time></a>
+</div>
+
+    <div class="article-author">tonglin0325</div>
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+<div id="toc">
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4S法则：《系统设计面试题精选》 </span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">#</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">#</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">#</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">#</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">5.push系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">6.评论系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">7.朋友圈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">#</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">#</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">#</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">#</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">#</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">13.Twitter发推和订阅设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">14.权限系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">15.秒杀系统</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">#</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">《Grokking System Design》</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">**1. 负载均衡 **</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2. 缓存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3. CDN
+</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4. Sharding or Data Partitioning</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">5.推荐系统</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">1.offline training</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">2.online training</span></a></li></ol></li></ol></li></ol>
+</div>
+
+        <h2><span id="4s-fa-ze-xi-tong-she-ji-mian-shi-ti-jing-xuan"><strong>4S法则：<a target="_blank" rel="noopener" href="https://soulmachine.gitbooks.io/system-design/content/cn/">《系统设计面试题精选》 </a></strong></span><a href="#4s-fa-ze-xi-tong-she-ji-mian-shi-ti-jing-xuan" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">1.Scenario场景：功能、需求、QPS、存储容量</span><br><span class="line">    需要设计哪些功能、到哪个程度</span><br><span class="line">    询问： Features / QPS / DAU / Interfaces</span><br><span class="line">2.Service：逻辑块聚类、函数设计、访问接口设计</span><br><span class="line">    将大系统拆分为小服务</span><br><span class="line">    拆分、Application、模块化</span><br><span class="line">3.Storage：选择SQL或NoSQL、OOD细化Schema</span><br><span class="line">    数据如何存储与访问</span><br><span class="line">    Schema/Data/SQL/NoSQL/File System</span><br><span class="line">4.Scale：可能遇到的问题、优化系统</span><br><span class="line">    解决缺陷，处理可能遇到的问题</span><br><span class="line">    Sharding/ Optimize / Special Case</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>题目：</p>
+<h3><span id="1-ru-he-she-ji-yi-ge-fen-bu-shi-id-sheng-cheng-qi-distributed-id-generator-bing-bao-zheng-id-an-shi-jian-cu-lue-you-xu"></span><a href="#1-ru-he-she-ji-yi-ge-fen-bu-shi-id-sheng-cheng-qi-distributed-id-generator-bing-bao-zheng-id-an-shi-jian-cu-lue-you-xu" class="header-anchor">#</a></h3><h3><span id="2-ru-he-she-ji-yi-ge-duan-wang-zhi-fu-wu-tinyurl"></span><a href="#2-ru-he-she-ji-yi-ge-duan-wang-zhi-fu-wu-tinyurl" class="header-anchor">#</a></h3><h3><span id="3-qing-shi-xian-yi-ge-ding-shi-ren-wu-diao-du-qi-you-hen-duo-ren-wu-mei-ge-ren-wu-du-you-yi-ge-shi-jian-chuo-ren-wu-hui-zai-gai-shi-jian-dian-kai-shi-zhi-xing"></span><a href="#3-qing-shi-xian-yi-ge-ding-shi-ren-wu-diao-du-qi-you-hen-duo-ren-wu-mei-ge-ren-wu-du-you-yi-ge-shi-jian-chuo-ren-wu-hui-zai-gai-shi-jian-dian-kai-shi-zhi-xing" class="header-anchor">#</a></h3><h3><span id="4-feed-liu-xi-tong-she-ji-zong-gang"></span><a href="#4-feed-liu-xi-tong-she-ji-zong-gang" class="header-anchor">#</a></h3><h3><span id="5-push-xi-tong">5.push系统</span><a href="#5-push-xi-tong" class="header-anchor">#</a></h3><p>参考：<a target="_blank" rel="noopener" href="https://crossoverjie.top/2018/09/25/netty/million-sms-push/">设计一个百万级的消息推送系统</a></p>
+<h3><span id="6-ping-lun-xi-tong">6.评论系统</span><a href="#6-ping-lun-xi-tong" class="header-anchor">#</a></h3><p>参考：<a target="_blank" rel="noopener" href="http://dbaplus.cn/news-21-613-1.html?hmsr=toutiao.io&amp;utm_campaign=toutiao.io&amp;utm_medium=toutiao.io&amp;utm_source=toutiao.io">日均数十亿请求！京东评价系统海量数据存储高可用设计</a></p>
+<h3><span id="7-peng-you-quan">7.朋友圈</span><a href="#7-peng-you-quan" class="header-anchor">#</a></h3><p>参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1168948">feed流拉取，读扩散，究竟是啥？</a></p>
+<h3><span id="8-designing-pastebin"></span><a href="#8-designing-pastebin" class="header-anchor">#</a></h3><h3><span id="9-sou-suo-yin-qing-lian-xiang-ti-shi-gong-neng"></span><a href="#9-sou-suo-yin-qing-lian-xiang-ti-shi-gong-neng" class="header-anchor">#</a></h3><h3><span id="10-pa-chong-webmagic"></span><a href="#10-pa-chong-webmagic" class="header-anchor">#</a></h3><h3><span id="11-top-k"></span><a href="#11-top-k" class="header-anchor">#</a></h3><h3><span id="12-yi-wan-ji-bie-de-wang-ye-de-qu-chong-ren-wu-mdash-mdash-simhash"></span><a href="#12-yi-wan-ji-bie-de-wang-ye-de-qu-chong-ren-wu-mdash-mdash-simhash" class="header-anchor">#</a></h3><h3><span id="13-twitter-fa-tui-he-ding-yue-she-ji">13.Twitter发推和订阅设计</span><a href="#13-twitter-fa-tui-he-ding-yue-she-ji" class="header-anchor">#</a></h3><p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/103484396">【系统设计】新鲜事系统设计的学习笔记</a></p>
+<h3><span id="14-quan-xian-xi-tong">14.权限系统</span><a href="#14-quan-xian-xi-tong" class="header-anchor">#</a></h3><h3><span id="15-miao-sha-xi-tong">15.秒杀系统</span><a href="#15-miao-sha-xi-tong" class="header-anchor">#</a></h3><span id="more"></span>
+<p>&nbsp;</p>
+<h2><span id="designing-data-intensive-applications"></span><a href="#designing-data-intensive-applications" class="header-anchor">#</a></h2><p>&nbsp;</p>
+<h2><span id="grokking-system-design">《Grokking System Design》</span><a href="#grokking-system-design" class="header-anchor">#</a></h2><h3><span id="1-fu-zai-jun-heng">**1. 负载均衡 **</span><a href="#1-fu-zai-jun-heng" class="header-anchor">#</a></h3><p>概念：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">负载平衡器（LB）是任何分布式系统的另一个关键部分。它有助于根据某种度量标准（随机，循环，对内存或CPU利用率加权的随机变量）在多个资源之间分配负载。</span><br><span class="line">LB在分发请求时还跟踪所有资源的状态。如果服务器不可用于接受新请求，服务器无响应或错误率升高，则LB将停止向该服务器发送流量。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>场景：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">为了充分利用可伸缩性和冗余性，我们可以尝试平衡系统每一层的负载。我们可以在三个位置添加LB：</span><br><span class="line">●在用户和Web服务器之间</span><br><span class="line">●在Web服务器和内部平台层之间，例如应用程序服务器或缓存服务器</span><br><span class="line">●在内部平台层和数据库之间。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<img src="/images/517519-20210326174435433-312403976.png" alt loading="lazy">
+
+<p>实现：</p>
+<ol>
+<li>Smart Client</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">其一是Smart Client，即将负载均衡的功能添加到数据库（以及缓存或服务）的客户端中。这是一种通过软件来实现负载均衡的方式，它的缺点是方案会比较复杂，不够健壮，也很难被重用（因为协调请求的逻辑会混杂在业务系统中）。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>Hardware Load Balancers</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">第二种方式是采用硬件负载均衡器，例如Citrix NetScaler。不过，购买硬件的费用不菲，通常是一些大型公司才会考虑此方案</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>Software Load Balancers</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">比如HAProxy</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>目前haproxy支持的<strong>负载均衡算法</strong>有如下8种，参考：<a target="_blank" rel="noopener" href="https://my.oschina.net/BambooLi/blog/506397">https://my.oschina.net/BambooLi/blog/506397</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">1、roundrobin</span><br><span class="line">表示简单的轮询，每个服务器根据权重轮流使用，在服务器的处理时间平均分配的情况下这是最流畅和公平的算法。该算法是动态的，对于实例启动慢的服务器权重会在运行中调整。</span><br><span class="line"></span><br><span class="line">2、leastconn</span><br><span class="line">连接数最少的服务器优先接收连接。leastconn建议用于长会话服务，例如LDAP、SQL、TSE等，而不适合短会话协议。如HTTP.该算法是动态的，对于实例启动慢的服务器权重会在运行中调整。</span><br><span class="line"></span><br><span class="line">3、static-rr</span><br><span class="line">每个服务器根据权重轮流使用，类似roundrobin，但它是静态的，意味着运行时修改权限是无效的。另外，它对服务器的数量没有限制。</span><br><span class="line">该算法一般不用；</span><br><span class="line"></span><br><span class="line">4、source</span><br><span class="line">对请求源IP地址进行哈希，用可用服务器的权重总数除以哈希值，根据结果进行分配。只要服务器正常，同一个客户端IP地址总是访问同一个服务器。如果哈希的结果随可用服务器数量而变化，那么客户端会定向到不同的服务器；</span><br><span class="line">该算法一般用于不能插入cookie的Tcp模式。它还可以用于广域网上为拒绝使用会话cookie的客户端提供最有效的粘连；</span><br><span class="line">该算法默认是静态的，所以运行时修改服务器的权重是无效的，但是算法会根据&amp;ldquo;hash-type&amp;rdquo;的变化做调整。</span><br><span class="line"></span><br><span class="line">5、uri</span><br><span class="line">表示根据请求的URI左端（问号之前）进行哈希，用可用服务器的权重总数除以哈希值，根据结果进行分配。只要服务器正常，同一个URI地址总是访问同一个服务器。一般用于代理缓存和反病毒代理，以最大限度的提高缓存的命中率。该算法只能用于HTTP后端；</span><br><span class="line">该算法一般用于后端是缓存服务器；</span><br><span class="line">该算法默认是静态的，所以运行时修改服务器的权重是无效的，但是算法会根据&amp;ldquo;hash-type&amp;rdquo;的变化做调整。</span><br><span class="line"></span><br><span class="line">6、url_param</span><br><span class="line">在HTTP GET请求的查询串中查找&lt;param&gt;中指定的URL参数，基本上可以锁定使用特制的URL到特定的负载均衡器节点的要求；</span><br><span class="line">该算法一般用于将同一个用户的信息发送到同一个后端服务器；</span><br><span class="line">该算法默认是静态的，所以运行时修改服务器的权重是无效的，但是算法会根据&amp;ldquo;hash-type&amp;rdquo;的变化做调整。</span><br><span class="line"></span><br><span class="line">7、hdr(name)</span><br><span class="line">在每个HTTP请求中查找HTTP头&lt;name&gt;，HTTP头&lt;name&gt;将被看作在每个HTTP请求，并针对特定的节点；</span><br><span class="line">如果缺少头或者头没有任何值，则用roundrobin代替；</span><br><span class="line">该算法默认是静态的，所以运行时修改服务器的权重是无效的，但是算法会根据&amp;ldquo;hash-type&amp;rdquo;的变化做调整。</span><br><span class="line"></span><br><span class="line">8、rdp-cookie（name）</span><br><span class="line">为每个进来的TCP请求查询并哈希RDP cookie&lt;name&gt;；</span><br><span class="line">该机制用于退化的持久模式，可以使同一个用户或者同一个会话ID总是发送给同一台服务器。如果没有cookie，则使用roundrobin算法代替；</span><br><span class="line">该算法默认是静态的，所以运行时修改服务器的权重是无效的，但是算法会根据&amp;ldquo;hash-type&amp;rdquo;的变化做调整。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<h3><span id="2-huan-cun"><strong>2. 缓存</strong></span><a href="#2-huan-cun" class="header-anchor">#</a></h3><p>缓存几乎用于计算的每个层：硬件，操作系统，Web浏览器，Web应用程序等等。</p>
+<p>1.硬件：CPU一级缓存，二级缓存</p>
+<p>2.操作系统，参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/35277219">Linux系统中的Page cache和Buffer cache</a></p>
+<p><strong>Page cache（页面缓存）</strong></p>
+<p>Page cache 也叫页缓冲或文件缓冲，是由好几个磁盘块构成，大小通常为4k，在64位系统上为8k，构成的几个磁盘块在物理磁盘上不一定连续，文件的组织单位为一页， 也就是一个page cache大小，文件读取是由外存上不连续的几个磁盘块，到buffer cache，然后组成page cache，然后供给应用程序。</p>
+<p>Page cache在linux读写文件时，它用于缓存文件的逻辑内容，从而加快对磁盘上映像和数据的访问。具体说是加速对文件内容的访问，buffer cache缓存文件的具体内容&mdash;&mdash;物理磁盘上的磁盘块，这是加速对磁盘的访问。</p>
+<p><strong>Buffer cache（块缓存）</strong></p>
+<p>Buffer cache 也叫块缓冲，是对物理磁盘上的一个磁盘块进行的缓冲，其大小为通常为1k，磁盘块也是磁盘的组织单位。设立buffer cache的目的是为在程序多次访问同一磁盘块时，减少访问时间。系统将磁盘块首先读入buffer cache，如果cache空间不够时，会通过一定的策略将一些过时或多次未被访问的buffer cache清空。程序在下一次访问磁盘时首先查看是否在buffer cache找到所需块，命中可减少访问磁盘时间。不命中时需重新读入buffer cache。对buffer cache的写分为两种，一是直接写，这是程序在写buffer cache后也写磁盘，要读时从buffer cache上读，二是后台写，程序在写完buffer cache后并不立即写磁盘，因为有可能程序在很短时间内又需要写文件，如果直接写，就需多次写磁盘了。这样效率很低，而是过一段时间后由后台写，减少了多次访磁盘的时间。</p>
+<p>Buffer cache是由物理内存分配，Linux系统为提高内存使用率，会将空闲内存全分给buffer cache ，当其他程序需要更多内存时，系统会减少cache大小。</p>
+<p>3.Web浏览器，参考：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/cb72dfb0f7b3">HTTP缓存机制 &amp; cookie/localStorage/sessionStorage</a></p>
+<p>4.应用服务器缓存（Application server cache），参考：<a target="_blank" rel="noopener" href="https://xta0.me/2016/06/22/System-Design-Cache.html">浅谈分布式缓存</a></p>
+<p>缓存的设计方案有很多种，最简单的是单机缓存，即当请求到来时，服务器查自己的缓存，并返回数据给Client。这种方式适用于业务场景简单，没有大规模请求的应用。但是请求量上来，单台服务器会横向扩展到多台，这种缓存方式就会出现问题，虽然被扩展出来的多台服务器仍可以自己维护自己的缓存，但是同一个用户的请求可能被负载均衡投递到不同的服务器上，会大大增加缓存Miss的概率。解决这个问题，可以使用两种方式，一种是分布式缓存，一种是全局缓存。</p>
+<p>5.分布式缓存（Distributed cache），参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/76721465">一致性哈希结构or分布式缓存扩容</a></p>
+<p>在分布式缓存中，其每个节点都拥有部分缓存数据。通常，使用一致的哈希函数对高速缓存进行划分，这样，如果请求节点正在查找特定数据，则它可以快速知道在分布式高速缓存中查找的位置，以确定该数据是否可用。在这种情况下，每个节点都有一小部分缓存，然后将在发送到原始节点之前向另一个节点发送数据请求。因此，分布式缓存的优点之一是我们可以轻松地增加缓存空间，只需将节点添加到请求池即可实现。</p>
+<p>分布式缓存的一个缺点是解决丢失的节点。一些分布式缓存通过在不同节点上存储数据的多个副本来解决此问题。但是，您可以想象这种逻辑如何迅速变得复杂，尤其是当您从请求层添加或删除节点时。尽管即使节点消失并且部分缓存丢失，请求也只会从源中拉出，因此不一定是灾难性的。</p>
+<p>6.全局缓存（Global Cache）</p>
+<p>全局缓存同样是使用多台机器构成一个集群，不同的是，每台机器上所存放的缓存数据均相同，全局缓存通常由两种设计方式，如下图所示</p>
+<img src="/images/517519-20210327002340563-118961767.png" width="400" height="413" loading="lazy">
+
+<p>大部分应用会采用第一种方式，这种方式缓存会自动代理对DB的查询操作，省去了业务的额外调用。但并不是所有场景都适合使用第一种方式，如果缓存中的数据都是大文件，当读缓存miss的时候，缓存会自动从数据库中读取该文件，由于数据较大，读取的耗时会很长，这会导致缓存中pending的查询越来越多。这时如果使用第二种方式，由业务查询DB则会大大降低缓存压力。</p>
+<p>全局缓存的优点是无状态，缓存节点的增删对集群没有太大的影响，缺点是单个节点能承受的数据容量有限，而且节点之间维护数据一致性也很麻烦。</p>
+<p>缓存失效（一致性）：Write-through cache；Write-around cache；Write-back cache</p>
+<p>缓存淘汰机制：</p>
+<p>&nbsp;&nbsp;&nbsp; 1.先进先出（FIFO): 高速缓存逐出最先访问的第一个数据块，而无需考虑之前被访问的频率或次数。</p>
+<p>&nbsp;&nbsp;&nbsp; 2.后进先出（LIFO):高速缓存逐出最近访问的数据块，而无需考虑它之前被访问的频率或次数。&nbsp;&nbsp;</p>
+<p>&nbsp;&nbsp;&nbsp; 3.最近最少使用（LRU)：首先丢弃最近最少使用的数据块。&nbsp;&nbsp;</p>
+<p>&nbsp;&nbsp;&nbsp; 4.最近使用（MRU): 与LRU相比，首先丢弃最近使用的数据。</p>
+<p>&nbsp;&nbsp;&nbsp; 5.最少使用次数（LFU): 计算各个数据的使用频率。最不常用的那些将首先被丢弃。</p>
+<p>&nbsp;&nbsp;&nbsp; 6.随机替换（RR): 随机选择一个候选项目，并在必要时将其丢弃以腾出空间。</p>
+<p>&nbsp;</p>
+<h3><span id="3-cdn"><strong>3. CDN<br></strong></span><a href="#3-cdn" class="header-anchor">#</a></h3><p>提高性能，降低Web服务器负载的另一种常见做法是将静态媒体放入CDN（Content Distribution Network）中。如下图所示</p>
+<p><strong><img src="/images/517519-20210327003556938-1702827935.png" width="400" height="178" loading="lazy"></strong></p>
+<p>&nbsp;</p>
+<h3><span id="4-sharding-or-data-partitioning"><strong>4. Sharding or Data Partitioning</strong></span><a href="#4-sharding-or-data-partitioning" class="header-anchor">#</a></h3><p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/57185574">数据库分片（Database Sharding)详解</a></p>
+<p>1.水平分片：在此方案中，我们将不同的行放入不同的表中。例如，如果我们在一个表中存储不同的位置，我们可以决定将邮政编码少于10000的位置存储在一个表中，而将邮政编码大于10000的位置存储在单独的表中。这也称为基于范围的分片，因为我们将不同范围的数据存储在单独的表中。 </p>
+<p>这种方法的关键问题是，如果未仔细选择其范围用于分片的值，则分区方案将导致服务器不平衡。在前面的示例中，基于邮政编码的位置划分位置假定地点将平均分布在不同的邮政编码中。这种假设是无效的，因为与郊区城市相比，像曼哈顿这样的人口稠密地区将有很多地方。</p>
+<p>2.垂直分片：在此方案中，我们将数据划分为将与特定功能相关的表存储到其自己的服务器。例如，如果我们正在构建类似Instagram的应用程序，我们需要在其中存储与用户，上传的所有照片以及他们所关注的人有关的数据，我们可以决定将用户配置文件信息放置在一个数据库服务器上，将好友列表放置在另一个数据库服务器上，并放置照片在第三台服务器上。 </p>
+<p>垂直分区易于实现，对应用程序的影响很小。这种方法的主要问题是，如果我们的应用程序实现了额外的增长，那么可能有必要在各个服务器之间进一步划分特定于功能的数据库（例如，单个服务器不可能处理100亿个元数据的所有查询） 1.4亿用户的照片）</p>
+<p>3.基于目录的分片：要实现基于目录的分片，必须创建并维护一个查找表，该查找表使用分片键来跟踪哪个分片包含哪些数据。简而言之，查找表是一个表，其中包含有关可以找到特定数据的静态信息集</p>
+<p>&nbsp;</p>
+<h3><span id="5-tui-jian-xi-tong">5.推荐系统</span><a href="#5-tui-jian-xi-tong" class="header-anchor">#</a></h3><p>参考：<a target="_blank" rel="noopener" href="https://bigfantheory.medium.com/recommendation-system-660bda6ad820">Recommendation System</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/572998087">推荐系统的架构-冷启动-召回-粗排-精排-重排</a></p>
+<p>推荐系统在架构上可以分成online training和offline training两个部分</p>
+<h4><span id="1-offline-training">1.offline training</span><a href="#1-offline-training" class="header-anchor">#</a></h4><p>offline training推荐系统是最常见的推荐系统之一。离线字面上的意思是用一周或几周前生成的数据进行训练。模型的更新通常发生在一个或几个小时内。它持续跟踪中长期客户利益。</p>
+<p>一个典型的离线推荐系统具有数据采集、离线训练、在线存储、在线预测和A/B测试模块。数据收集和离线训练是监督学习部分。在线预测和A/B测试是预测部分。除了模型之外，还有一个在线存储空间，用于存储模型和在线预测所需的特征信息。模块分为一个训练数据流和一个预测数据流。用于训练模型的数据收集也将存储在在线存储中。在预测方面，web发送请求进行A/B测试，并从在线预测模块中检索预测结果。</p>
+<img src="/images/517519-20230807132835384-828012939.png" width="600" height="238" loading="lazy">
+
+<p>&nbsp;</p>
+<p>(1)data collection：从web上收集日志;通常有采集、验证、清洗和改造步骤。该模块收集数据并将其转换为可直接用于训练的格式，并将其保存在离线存储中。 </p>
+<p>(2)offline training：可以进一步分为线下存储和线下计算。实际应用中，离线训练数据量巨大，需要分布式文件系统进行存储。离线计算包括:数据采样、特征工程、模型训练、相似度计算。 </p>
+<p>(3)online storage：对响应速度要求更严格。如果用户打开应用程序，应用程序需要很长时间来响应，这将以一种非常糟糕的方式影响用户体验。一般来说，推荐系统应该在用户发送请求后几毫秒内响应。为了满足对速度的高要求，设计了在线存储技术来存储在线模型和特征数据。 </p>
+<p>(4)oneline recommendation：根据用户刚刚发布的新请求进行预测。该模块主要做了以下工作：a.获取用户特征；B.检索模型；C.排序结果。</p>
+<p>实际上，产品的数量是巨大的；如果我们对每个产品进行预测，返回用户请求将花费太长时间。一种常见的方法是将推荐列表分为过滤和排序两步。过滤就是从海量产品池(几百万)中挑选出少数(几百)个产品。分拣是对过滤后的少数产品进行评分。为了提供更多样化的推荐，在排序步骤之后，还需要第三步重新排序和过滤。</p>
+<p>(5) A/B测试：是任何基于web的应用程序的必要模块。它可以帮助开发人员评估算法如何影响用户行为。除了离线获得的指标外，在新算法上线之前，通常还会进行A/B测试来测试其有效性。</p>
+<h4><span id="2-online-training">2.online training</span><a href="#2-online-training" class="header-anchor">#</a></h4><p>出于业务的考虑，我们希望利用用户对上一个产品的反应(喜欢或不喜欢，点击或不点击)的反馈来推荐下一个产品。这需要在线培训。 </p>
+<p>在线培训推荐系统可用于广告、电子商务等领域，这些领域的数据通常是高维的，需要即时响应。与offline training系统相比，online training系统不再需要将训练(离线)和预测(在线)分开。当用户每次提供反馈时，系统都会进行学习，并及时调整策略。一方面，在线系统要求样本、特征和模型及时更新，以便更快地提供用户感兴趣的推荐；另一方面，在线系统不需要系统保存所有用于训练的用户数据，降低了巨大的存储成本。这使得系统更加灵活，可以接收更大的模型和/或更大的数据量。</p>
+<p>(1)数据收集：离线时，将数据收集到分布式文件系统中，等待离线计算任务。在线情况下，需要立即进行数据采集，包括过滤、去重、采样等。 </p>
+<p>(2)即时特征：该模块主要进行特征工程和组织，为流式计算模块做准备 </p>
+<p>(3)流式计算：该模块根据即时特征输入更新模型。它支持模型的稀疏存储。模型训练可以初始化为离线训练的模型。 </p>
+<p>(4)模型上传：模型通常先保存在服务器中，然后再上传到模块中在线存储</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://tonglin0325.github.io/2023/08/06/%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE%E2%80%94%E2%80%94%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" data-id="cll6lz8fk001h070l3dpbdiiy" class="article-share-link">
+        <i class="fa fa-share"></i> 分享
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%88%B7%E9%A2%98/" rel="tag">刷题</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/2022/07/22/kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94topic%E9%85%8D%E7%BD%AE/" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">kafka学习笔记——topic配置</span>
+    </a>
+  </li>
+  
+  
+</ul>
+
+
+  
+</article>
+
+
+
+
+        </div>
+        <div class="col-sm-3 col-sm-offset-0 blog-sidebar">
+          
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>tonglin0325</h4>
+  <div style="text-align:center;"><img src="/images/WechatIMG1.jpeg" width="150" height="150" style="vertical-align:middle;"/></div>
+</div>
+
+
+  
+
+
+  
+  <div class="sidebar-module">
+    <h4>标签</h4>
+    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Airbnb/" rel="tag">Airbnb</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Amazon/" rel="tag">Amazon</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Android/" rel="tag">Android</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/DL/" rel="tag">DL</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ELK/" rel="tag">ELK</a><span class="sidebar-module-list-count">14</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Flink/" rel="tag">Flink</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Git/" rel="tag">Git</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Grafana/" rel="tag">Grafana</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HAProxy/" rel="tag">HAProxy</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hadoop/" rel="tag">Hadoop</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hbase/" rel="tag">Hbase</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hive/" rel="tag">Hive</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/InfluxDB/" rel="tag">InfluxDB</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JDBC/" rel="tag">JDBC</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JMeter/" rel="tag">JMeter</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JavaSE/" rel="tag">JavaSE</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JavaWeb/" rel="tag">JavaWeb</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/LaTex/" rel="tag">LaTex</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Linkedin/" rel="tag">Linkedin</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="sidebar-module-list-count">49</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ML/" rel="tag">ML</a><span class="sidebar-module-list-count">25</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Maven/" rel="tag">Maven</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/MySQL/" rel="tag">MySQL</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Nexus/" rel="tag">Nexus</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/OpenTSDB/" rel="tag">OpenTSDB</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Paper/" rel="tag">Paper</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Play/" rel="tag">Play</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Prometheus/" rel="tag">Prometheus</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Python/" rel="tag">Python</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/RocksDB/" rel="tag">RocksDB</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Scala/" rel="tag">Scala</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Solr/" rel="tag">Solr</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Spark/" rel="tag">Spark</a><span class="sidebar-module-list-count">25</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SpringMVC/" rel="tag">SpringMVC</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Thrift/" rel="tag">Thrift</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/antlr/" rel="tag">antlr</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/arthas/" rel="tag">arthas</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/avro/" rel="tag">avro</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/cassandra/" rel="tag">cassandra</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/cdh/" rel="tag">cdh</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/confluent/" rel="tag">confluent</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/docker/" rel="tag">docker</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/filebeat/" rel="tag">filebeat</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/flume/" rel="tag">flume</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/go/" rel="tag">go</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/google/" rel="tag">google</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/gradle/" rel="tag">gradle</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hexo/" rel="tag">hexo</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hudi/" rel="tag">hudi</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/impala/" rel="tag">impala</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/jenkins/" rel="tag">jenkins</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/k8s/" rel="tag">k8s</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kafka/" rel="tag">kafka</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kerberos/" rel="tag">kerberos</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kudu/" rel="tag">kudu</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ldap/" rel="tag">ldap</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mac/" rel="tag">mac</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mongo/" rel="tag">mongo</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mybatis/" rel="tag">mybatis</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nginx/" rel="tag">nginx</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nlp/" rel="tag">nlp</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/open-falcon/" rel="tag">open-falcon</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/parquet/" rel="tag">parquet</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/presto/" rel="tag">presto</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ranger/" rel="tag">ranger</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/react/" rel="tag">react</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/redis/" rel="tag">redis</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/scyllaDB/" rel="tag">scyllaDB</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/twitter/" rel="tag">twitter</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/yarn/" rel="tag">yarn</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/zookeeper/" rel="tag">zookeeper</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%88%B7%E9%A2%98/" rel="tag">刷题</a><span class="sidebar-module-list-count">28</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%9B%BE%E5%AD%98%E5%82%A8%E5%8F%8A%E8%AE%A1%E7%AE%97/" rel="tag">图存储及计算</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F/" rel="tag">广告系统</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" rel="tag">开发工具</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a><span class="sidebar-module-list-count">22</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="sidebar-module-list-count">6</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>标签云</h4>
+    <p class="tagcloud">
+      <a href="/tags/Airbnb/" style="font-size: 15.26px;">Airbnb</a> <a href="/tags/Amazon/" style="font-size: 11.58px;">Amazon</a> <a href="/tags/Android/" style="font-size: 15.26px;">Android</a> <a href="/tags/DL/" style="font-size: 11.58px;">DL</a> <a href="/tags/ELK/" style="font-size: 16.32px;">ELK</a> <a href="/tags/Flink/" style="font-size: 18.95px;">Flink</a> <a href="/tags/Git/" style="font-size: 10.53px;">Git</a> <a href="/tags/Grafana/" style="font-size: 10px;">Grafana</a> <a href="/tags/HAProxy/" style="font-size: 11.05px;">HAProxy</a> <a href="/tags/Hadoop/" style="font-size: 13.16px;">Hadoop</a> <a href="/tags/Hbase/" style="font-size: 13.16px;">Hbase</a> <a href="/tags/Hive/" style="font-size: 16.84px;">Hive</a> <a href="/tags/InfluxDB/" style="font-size: 10px;">InfluxDB</a> <a href="/tags/JDBC/" style="font-size: 13.68px;">JDBC</a> <a href="/tags/JMeter/" style="font-size: 10px;">JMeter</a> <a href="/tags/JVM/" style="font-size: 12.11px;">JVM</a> <a href="/tags/JavaSE/" style="font-size: 16.84px;">JavaSE</a> <a href="/tags/JavaWeb/" style="font-size: 15.26px;">JavaWeb</a> <a href="/tags/LaTex/" style="font-size: 10px;">LaTex</a> <a href="/tags/Linkedin/" style="font-size: 10px;">Linkedin</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/ML/" style="font-size: 18.42px;">ML</a> <a href="/tags/Maven/" style="font-size: 11.05px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 17.37px;">MySQL</a> <a href="/tags/Nexus/" style="font-size: 12.11px;">Nexus</a> <a href="/tags/OpenTSDB/" style="font-size: 10.53px;">OpenTSDB</a> <a href="/tags/Paper/" style="font-size: 10px;">Paper</a> <a href="/tags/Play/" style="font-size: 10px;">Play</a> <a href="/tags/Prometheus/" style="font-size: 10.53px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 16.84px;">Python</a> <a href="/tags/RocksDB/" style="font-size: 10px;">RocksDB</a> <a href="/tags/Scala/" style="font-size: 14.74px;">Scala</a> <a href="/tags/Solr/" style="font-size: 11.05px;">Solr</a> <a href="/tags/Spark/" style="font-size: 18.42px;">Spark</a> <a href="/tags/SpringBoot/" style="font-size: 16.84px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 15.26px;">SpringMVC</a> <a href="/tags/Thrift/" style="font-size: 12.11px;">Thrift</a> <a href="/tags/antlr/" style="font-size: 10.53px;">antlr</a> <a href="/tags/arthas/" style="font-size: 10px;">arthas</a> <a href="/tags/avro/" style="font-size: 14.21px;">avro</a> <a href="/tags/cassandra/" style="font-size: 10px;">cassandra</a> <a href="/tags/cdh/" style="font-size: 15.26px;">cdh</a> <a href="/tags/confluent/" style="font-size: 10px;">confluent</a> <a href="/tags/docker/" style="font-size: 11.05px;">docker</a> <a href="/tags/filebeat/" style="font-size: 11.58px;">filebeat</a> <a href="/tags/flume/" style="font-size: 10.53px;">flume</a> <a href="/tags/go/" style="font-size: 11.58px;">go</a> <a href="/tags/google/" style="font-size: 12.11px;">google</a> <a href="/tags/gradle/" style="font-size: 10px;">gradle</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hudi/" style="font-size: 11.58px;">hudi</a> <a href="/tags/impala/" style="font-size: 11.58px;">impala</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/k8s/" style="font-size: 14.21px;">k8s</a> <a href="/tags/kafka/" style="font-size: 15.79px;">kafka</a> <a href="/tags/kerberos/" style="font-size: 10px;">kerberos</a> <a href="/tags/kudu/" style="font-size: 10px;">kudu</a> <a href="/tags/ldap/" style="font-size: 10.53px;">ldap</a> <a href="/tags/mac/" style="font-size: 12.63px;">mac</a> <a href="/tags/mongo/" style="font-size: 12.11px;">mongo</a> <a href="/tags/mybatis/" style="font-size: 11.05px;">mybatis</a> <a href="/tags/nginx/" style="font-size: 13.16px;">nginx</a> <a href="/tags/nlp/" style="font-size: 10px;">nlp</a> <a href="/tags/open-falcon/" style="font-size: 11.05px;">open-falcon</a> <a href="/tags/parquet/" style="font-size: 11.05px;">parquet</a> <a href="/tags/presto/" style="font-size: 11.58px;">presto</a> <a href="/tags/ranger/" style="font-size: 10px;">ranger</a> <a href="/tags/react/" style="font-size: 11.05px;">react</a> <a href="/tags/redis/" style="font-size: 11.05px;">redis</a> <a href="/tags/scyllaDB/" style="font-size: 11.05px;">scyllaDB</a> <a href="/tags/twitter/" style="font-size: 10.53px;">twitter</a> <a href="/tags/yarn/" style="font-size: 11.58px;">yarn</a> <a href="/tags/zookeeper/" style="font-size: 15.79px;">zookeeper</a> <a href="/tags/%E5%88%B7%E9%A2%98/" style="font-size: 19.47px;">刷题</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 16.84px;">前端</a> <a href="/tags/%E5%9B%BE%E5%AD%98%E5%82%A8%E5%8F%8A%E8%AE%A1%E7%AE%97/" style="font-size: 10.53px;">图存储及计算</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 14.74px;">多线程</a> <a href="/tags/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F/" style="font-size: 11.58px;">广告系统</a> <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" style="font-size: 15.26px;">开发工具</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 17.89px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 14.21px;">杂谈</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.95px;">算法</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 13.68px;">计算机网络</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 12.63px;">设计模式</a>
+    </p>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>文章归档</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2023/08/">八月 2023</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/07/">七月 2022</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/01/">一月 2022</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/12/">十二月 2021</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/11/">十一月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/09/">九月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">七月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/05/">五月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/03/">三月 2021</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/01/">一月 2021</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/12/">十二月 2020</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/11/">十一月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/10/">十月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/09/">九月 2020</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/08/">八月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/07/">七月 2020</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/06/">六月 2020</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/05/">五月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/04/">四月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/03/">三月 2020</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">二月 2020</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/01/">一月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">十月 2019</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/09/">九月 2019</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">八月 2019</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/07/">七月 2019</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/04/">四月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/03/">三月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/01/">一月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/12/">十二月 2018</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/11/">十一月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/09/">九月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/06/">六月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/05/">五月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/04/">四月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/02/">二月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/01/">一月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/11/">十一月 2017</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/09/">九月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/07/">七月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/06/">六月 2017</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/05/">五月 2017</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/04/">四月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/03/">三月 2017</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/01/">一月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/12/">十二月 2016</a><span class="sidebar-module-list-count">15</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/11/">十一月 2016</a><span class="sidebar-module-list-count">22</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">十月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">九月 2016</a><span class="sidebar-module-list-count">17</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/08/">八月 2016</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/07/">七月 2016</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">六月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">五月 2016</a><span class="sidebar-module-list-count">33</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/04/">四月 2016</a><span class="sidebar-module-list-count">30</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/03/">三月 2016</a><span class="sidebar-module-list-count">139</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/02/">二月 2016</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/09/">九月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/08/">八月 2015</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/07/">七月 2015</a><span class="sidebar-module-list-count">31</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/06/">六月 2015</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/04/">四月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2013/04/">四月 2013</a><span class="sidebar-module-list-count">2</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>最近文章</h4>
+    <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/2023/08/06/%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE%E2%80%94%E2%80%94%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">面试题目——系统设计</a>
+        </li>
+      
+        <li>
+          <a href="/2022/07/22/kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94topic%E9%85%8D%E7%BD%AE/">kafka学习笔记——topic配置</a>
+        </li>
+      
+        <li>
+          <a href="/2022/01/13/Hbase%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%A2%E6%88%B7%E7%AB%AFAPI/">Hbase学习笔记——客户端API</a>
+        </li>
+      
+        <li>
+          <a href="/2022/01/12/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%AF%BB%E5%86%99Hbase/">Flink学习笔记——读写Hbase</a>
+        </li>
+      
+        <li>
+          <a href="/2021/12/26/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94metastore%20listener/">Hive学习笔记——metastore listener</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+
+        </div>
+    </div>
+  </div>
+  <footer class="blog-footer">
+  <div class="container">
+    <div id="footer-info" class="inner">
+      &copy; 2023 tonglin0325<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+  
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" integrity="sha384-8gBf6Y4YYq7Jx97PIqmTwLPin4hxIzQw5aDmUg/DDhul9fFpbbLcLh3nTIIDJKhx" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9HZSXL1LDJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9HZSXL1LDJ');
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+<script src="/js/jquery.qrcode.min.js"></script>
+
+
+
+<script src="/js/jquery-1.6.2.min.js"></script>
+
+
+</body>
+</html>
