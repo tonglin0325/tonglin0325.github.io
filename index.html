@@ -434,15 +434,12 @@ ga('send', 'pageview');
     <div class="article-entry" itemprop="articleBody">
       
         <p>Scylla兼容cassandra API，所以可以使用spark读写cassandra的方法来进行读写</p>
-<p><strong>1.查看scyllaDB对应的cassandra版本</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cqlsh:my_db&gt; SHOW VERSION</span><br><span class="line">[cqlsh 5.0.1 | Cassandra 3.0.8 | CQL spec 3.3.1 | Native protocol v4]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="1-查看scyllaDB对应的cassandra版本"><a href="#1-查看scyllaDB对应的cassandra版本" class="headerlink" title="1.查看scyllaDB对应的cassandra版本"></a><strong>1.查看scyllaDB对应的cassandra版本</strong></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cqlsh:my_db&gt; SHOW VERSION</span><br><span class="line">[cqlsh 5.0.1 | Cassandra 3.0.8 | CQL spec 3.3.1 | Native protocol v4]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p><strong>2.查看spark和cassandra对应的版本</strong></p>
-<img src="/images/517519-20211109220014493-1994204559.png" width="700" height="643" loading="lazy" />
+<h2 id="2-查看spark和cassandra对应的版本"><a href="#2-查看spark和cassandra对应的版本" class="headerlink" title="2.查看spark和cassandra对应的版本"></a><strong>2.查看spark和cassandra对应的版本</strong></h2><img src="/images/517519-20211109220014493-1994204559.png" width="700" height="643" loading="lazy" />
 
 <p>参考：<a target="_blank" rel="noopener" href="https://github.com/datastax/spark-cassandra-connector">https://github.com/datastax/spark-cassandra-connector</a></p>
-<p><strong>3.写scyllaDB</strong></p>
-<p>dataset API写scyllaDB</p>
+<h2 id="3-写scyllaDB"><a href="#3-写scyllaDB" class="headerlink" title="3.写scyllaDB"></a><strong>3.写scyllaDB</strong></h2><p>dataset API写scyllaDB</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ds2.write</span><br><span class="line">      .mode(&quot;append&quot;)</span><br><span class="line">      .format(&quot;org.apache.spark.sql.cassandra&quot;)</span><br><span class="line">      .options(Map(&quot;table&quot; -&gt; &quot;my_tb&quot;, &quot;keyspace&quot; -&gt; &quot;my_db&quot;, &quot;output.consistency.level&quot; -&gt; &quot;ALL&quot;, &quot;ttl&quot; -&gt; &quot;8640000&quot;))</span><br><span class="line">      .save()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>RDD API写scyllaDB</p>

@@ -15,7 +15,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20210121102551038-1014294290.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20210121103802880-441983531.png">
 <meta property="article:published_time" content="2021-01-20T16:00:00.000Z">
-<meta property="article:modified_time" content="2023-08-27T12:50:06.414Z">
+<meta property="article:modified_time" content="2023-09-02T12:07:13.529Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Airbnb">
 <meta property="article:tag" content="Hbase">
@@ -156,7 +156,7 @@ ga('send', 'pageview');
 <p>参考：</p>
 <p><a target="_blank" rel="noopener" href="https://www.slideshare.net/HadoopSummit/reliable-and-scalable-data-ingestion-at-airbnb-63920989">Reliable and Scalable Data Ingestion at Airbnb</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.slideshare.net/HBaseCon/apache-hbase-at-airbnb">Apache HBase at Airbnb</a></p>
-<p><a target="_blank" rel="noopener" href="https://myslide.cn/slides/3473">Airbnb软件工程师丁辰 - Airbnb的Streaming ETL</a> </p>
+<p><a target="_blank" rel="noopener" href="https://myslide.cn/slides/3473">Airbnb软件工程师丁辰 - Airbnb的Streaming ETL</a></p>
 <h2><span id="2-rowkey-she-ji-yuan-ze"><strong>2.rowkey设计原则</strong></span><a href="#2-rowkey-she-ji-yuan-ze" class="header-anchor">#</a></h2><p><strong>1.rowkey长度原则</strong>：rowkey是一个二进制码流，可以是任意字符串，最大长度<span id="more"></span><br>&nbsp;<strong>64kb</strong>&nbsp;，实际应用中一般为10-100bytes，以&nbsp;<code>byte[]</code>&nbsp;形式保存，一般设计成定长。</p>
 <p>建议越短越好，不要超过16个字节，原因如下：</p>
 <li>
@@ -180,7 +180,7 @@ MemStore将缓存部分数据到内存，如果rowkey字段过长，内存的有
 <h4><span id="3-fan-zhuan">3.反转</span><a href="#3-fan-zhuan" class="header-anchor">#</a></h4><p>第三种防止热点的方法时反转固定长度或者数字格式的rowkey。这样可以使得rowkey中经常改变的部分（最没有意义的部分）放在前面。这样可以有效的随机rowkey，但是牺牲了rowkey的有序性。</p>
 <p>反转rowkey的例子以手机号为rowkey，可以将手机号反转后的字符串作为rowkey，这样的就避免了以手机号那样比较固定开头导致热点问题</p>
 <h4><span id="4-shi-jian-chuo-fan-zhuan">4.时间戳反转</span><a href="#4-shi-jian-chuo-fan-zhuan" class="header-anchor">#</a></h4><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;一个常见的数据处理问题是快速获取数据的最近版本，使用反转的时间戳作为rowkey的一部分对这个问题十分有用，可以用 Long.Max_Value - timestamp 追加到key的末尾，例如 [key][reverse_timestamp] , [key] 的最新值可以通过scan [key]获得[key]的第一条记录，因为HBase中rowkey是有序的，第一条记录是最后录入的数据。</p>
-<h2><span id="4-qi-ta-yi-xie-jian-yi"><strong>4.其他一些建议</strong></span><a href="#4-qi-ta-yi-xie-jian-yi" class="header-anchor">#</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;尽量减少行键和列族的大小在HBase中，value永远和它的key一起传输的。当具体的值在系统间传输时，它的rowkey，列名，时间戳也会一起传输。如果你的rowkey和列名很大，这个时候它们将会占用大量的存储空间。</p>
+<h2><span id="4-qi-ta-yi-xie-jian-yi"><strong>4.其他一些建议</strong></span><a href="#4-qi-ta-yi-xie-jian-yi" class="header-anchor">#</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;尽量减少行键和列族的大小。在HBase中，value永远和它的key一起传输的。当具体的值在系统间传输时，它的rowkey，列名，时间戳也会一起传输。如果你的rowkey和列名很大，这个时候它们将会占用大量的存储空间。</p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;列族尽可能越短越好，最好是一个字符。</p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;冗长的属性名虽然可读性好，但是更短的属性名存储在HBase中会更好。</p>
 <p>转自：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44318830/article/details/103639847">HBase的rowKey设计技巧</a></p>

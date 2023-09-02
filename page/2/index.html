@@ -144,7 +144,7 @@ ga('send', 'pageview');
 <p>参考：</p>
 <p><a target="_blank" rel="noopener" href="https://www.slideshare.net/HadoopSummit/reliable-and-scalable-data-ingestion-at-airbnb-63920989">Reliable and Scalable Data Ingestion at Airbnb</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.slideshare.net/HBaseCon/apache-hbase-at-airbnb">Apache HBase at Airbnb</a></p>
-<p><a target="_blank" rel="noopener" href="https://myslide.cn/slides/3473">Airbnb软件工程师丁辰 - Airbnb的Streaming ETL</a> </p>
+<p><a target="_blank" rel="noopener" href="https://myslide.cn/slides/3473">Airbnb软件工程师丁辰 - Airbnb的Streaming ETL</a></p>
 <h2 id="2-rowkey设计原则"><a href="#2-rowkey设计原则" class="headerlink" title="2.rowkey设计原则"></a><strong>2.rowkey设计原则</strong></h2><p><strong>1.rowkey长度原则</strong>：rowkey是一个二进制码流，可以是任意字符串，最大长度
         
           <p class="article-more-link">
@@ -199,7 +199,14 @@ ga('send', 'pageview');
 
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在美团点评的文章中，介绍了Hive
+        <p>在美团点评的文章中，介绍了HiveSQL转化为MapReduce的过程</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1、Antlr定义SQL的语法规则，完成SQL词法，语法解析，将SQL转化为抽象语法树AST Tree</span><br><span class="line">2、遍历AST Tree，抽象出查询的基本组成单元QueryBlock</span><br><span class="line">3、遍历QueryBlock，翻译为执行操作树OperatorTree</span><br><span class="line">4、逻辑层优化器进行OperatorTree变换，合并不必要的ReduceSinkOperator，减少shuffle数据量</span><br><span class="line">5、遍历OperatorTree，翻译为MapReduce任务</span><br><span class="line">6、物理层优化器进行MapReduce任务的变换，生成最终的执行计划</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>参考：<a target="_blank" rel="noopener" href="https://tech.meituan.com/2014/02/12/hive-sql-to-mapreduce.html">Hive SQL的编译过程</a></p>
+<p>但是不是所有的SQL都有必要转换为MR来执行，比如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select * from xx.xx limit 1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Hive只需要直接读取文件，并传输到控制台即可</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/2021/01/20/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94fetch/#more">全文 &gt;&gt;</a>
