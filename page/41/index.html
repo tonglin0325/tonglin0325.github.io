@@ -106,13 +106,13 @@ ga('send', 'pageview');
         <div class="col-sm-9 blog-main">
           
   
-    <article id="post-Airflow分布式部署" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-MySQL学习笔记——事务和隔离级别" class="article article-type-post" itemscope itemprop="blogPost">
 
   <header class="article-header">
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/17/Airflow%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2/">Airflow分布式部署</a>
+      <a class="article-title" href="/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E4%BA%8B%E5%8A%A1%E5%92%8C%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB.html">MySQL学习笔记——事务和隔离级别</a>
     </h1>
   
 
@@ -121,7 +121,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/03/17/Airflow%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2/" class="article-date"><time datetime="2016-03-16T16:00:00.000Z" itemprop="datePublished">2016-03-17</time></a>
+  <a href="/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E4%BA%8B%E5%8A%A1%E5%92%8C%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB.html" class="article-date"><time datetime="2016-03-16T16:00:00.000Z" itemprop="datePublished">2016-03-17</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -132,37 +132,31 @@ ga('send', 'pageview');
 
     <div class="article-entry" itemprop="articleBody">
       
+        <h2 id="MySQL数据库隔离级别"><a href="#MySQL数据库隔离级别" class="headerlink" title="MySQL数据库隔离级别"></a>MySQL数据库隔离级别</h2><p>在数据库操作中，为了有效保证并发读取数据的正确性，提出的事务隔离级别。我们的数据库锁，也是为了构建这些隔离级别存在的。总共有4种：</p>
+<p>1.未提交读(Read Uncommitted)：允许脏读，也就是可能读取到其他会话中未提交事务修改的数据</p>
+<p>2.提交读(Read Committed)：只能读取到已经提交的数据。Oracle等多数数据库默认都是该级别 (不重复读)</p>
+<p>3.可重复读(Repeated Read)：可重复读。在同一个事务内的查询都是事务开始时刻一致的，InnoDB默认级别。在SQL标准中，该隔离级别消除了不可重复读，但是还存在幻象读</p>
+<p>4.串行读(Serializable)：完全串行化的读，每次读都需要获得表级共享锁，读写相互都会阻塞</p>
+<img src="/images/517519-20210424201124177-1141693302.png" width="1000" height="177" loading="lazy" />
+
+<p>参考美团点评的文章：<a target="_blank" rel="noopener" href="https://tech.meituan.com/2014/08/20/innodb-lock.html">Innodb中的事务隔离级别和锁的关系</a></p>
         
-<div id="toc">
-  
-</div>
-
-        <p>airflow分布式部署所依赖的组件有mysql，redis，web-server，scheduler，worker等，可以将这些组件部署在不同的机器上，来减低单台机器的压力</p>
-<p>单机安装请参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/tonglin0325/p/7911022.html">Ubuntu16.04安装apache-airflow</a></p>
-<p>然后在不同的机器上启动不同的组件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">airflow webserver -D</span><br><span class="line">airflow scheduler -D</span><br><span class="line">airflow worker -D</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>安装airflow其他支持组件，比如airflow-kerberos，参考</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://awesome.dbyun.net/study/details?mid=160&amp;amp;id=7427</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>airflow启用kerberos，参考</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/astronomer/airflow-guides/blob/main/guides/kerberos.md</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E4%BA%8B%E5%8A%A1%E5%92%8C%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB.html#more">全文 &gt;&gt;</a>
+          </p>
+        
       
     </div>
 
     
-      
-
-    
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/03/17/Airflow%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2/" data-id="ckrj7hlwn00006j0l7h1k2qvx" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E4%BA%8B%E5%8A%A1%E5%92%8C%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB.html" data-id="cln8csf5i00dtl00lfrc118zq" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Airbnb/" rel="tag">Airbnb</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li></ul>
 
 
     </footer>
@@ -179,7 +173,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/17/hudi-cli%E4%BD%BF%E7%94%A8/">hudi-cli使用</a>
+      <a class="article-title" href="/hudi-cli%E4%BD%BF%E7%94%A8.html">hudi-cli使用</a>
     </h1>
   
 
@@ -188,7 +182,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/03/17/hudi-cli%E4%BD%BF%E7%94%A8/" class="article-date"><time datetime="2016-03-16T16:00:00.000Z" itemprop="datePublished">2016-03-17</time></a>
+  <a href="/hudi-cli%E4%BD%BF%E7%94%A8.html" class="article-date"><time datetime="2016-03-16T16:00:00.000Z" itemprop="datePublished">2016-03-17</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -222,7 +216,7 @@ ga('send', 'pageview');
 <p><img src="/images/517519-20230414170849276-830600102.png" alt="" loading="lazy" />
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2016/03/17/hudi-cli%E4%BD%BF%E7%94%A8/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/hudi-cli%E4%BD%BF%E7%94%A8.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -231,7 +225,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/03/17/hudi-cli%E4%BD%BF%E7%94%A8/" data-id="clcrmss2d0000k20l9g2edom7" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/hudi-cli%E4%BD%BF%E7%94%A8.html" data-id="cln8csf8j00p9l00lh7gecd0o" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -253,7 +247,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/17/mongo%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/">mongo基本操作</a>
+      <a class="article-title" href="/mongo%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C.html">mongo基本操作</a>
     </h1>
   
 
@@ -262,7 +256,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/03/17/mongo%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" class="article-date"><time datetime="2016-03-16T16:00:00.000Z" itemprop="datePublished">2016-03-17</time></a>
+  <a href="/mongo%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C.html" class="article-date"><time datetime="2016-03-16T16:00:00.000Z" itemprop="datePublished">2016-03-17</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -302,7 +296,7 @@ ga('send', 'pageview');
 <img src="/images/517519-20230613150816471-937556156.png" alt="" loading="lazy" />
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2016/03/17/mongo%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/mongo%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -311,7 +305,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/03/17/mongo%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" data-id="clcrmss3t0003k20lel2u56nw" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/mongo%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C.html" data-id="cln8csf8w00qsl00lbk8q6lcg" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -327,13 +321,13 @@ ga('send', 'pageview');
 
 
   
-    <article id="post-kudu学习笔记——建表语句" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Helm基本操作" class="article article-type-post" itemscope itemprop="blogPost">
 
   <header class="article-header">
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/16/kudu%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%BB%BA%E8%A1%A8%E8%AF%AD%E5%8F%A5/">kudu学习笔记——建表语句</a>
+      <a class="article-title" href="/Helm%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C.html">Helm基本操作</a>
     </h1>
   
 
@@ -342,7 +336,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/03/16/kudu%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%BB%BA%E8%A1%A8%E8%AF%AD%E5%8F%A5/" class="article-date"><time datetime="2016-03-15T16:00:00.000Z" itemprop="datePublished">2016-03-16</time></a>
+  <a href="/Helm%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C.html" class="article-date"><time datetime="2016-03-15T16:00:00.000Z" itemprop="datePublished">2016-03-16</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -353,20 +347,11 @@ ga('send', 'pageview');
 
     <div class="article-entry" itemprop="articleBody">
       
-        <p>kudu支持的数据类型</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">boolean</span><br><span class="line"></span><br><span class="line">8-bit signed integer</span><br><span class="line"></span><br><span class="line">16-bit signed integer</span><br><span class="line"></span><br><span class="line">32-bit signed integer</span><br><span class="line"></span><br><span class="line">64-bit signed integer</span><br><span class="line"></span><br><span class="line">date (32-bit days since the Unix epoch)</span><br><span class="line"></span><br><span class="line">unixtime_micros (64-bit microseconds since the Unix epoch)</span><br><span class="line"></span><br><span class="line">single-precision (32-bit) IEEE-754 floating-point number</span><br><span class="line"></span><br><span class="line">double-precision (64-bit) IEEE-754 floating-point number</span><br><span class="line"></span><br><span class="line">decimal (see Decimal Type for details)</span><br><span class="line"></span><br><span class="line">varchar (see Varchar Type for details)</span><br><span class="line"></span><br><span class="line">UTF-8 encoded string (up to 64KB uncompressed)</span><br><span class="line"></span><br><span class="line">binary (up to 64KB uncompressed)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://kudu.apache.org/docs/schema_design.html">Apache Kudu Schema Design</a></p>
-<p>kudu的建表语句</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE sales_by_year(					# 列存储</span><br><span class="line">	year INT, 						# 有限固定列，强类型</span><br><span class="line">	sale_id INT COLPROPERTIES (encoding=&amp;ldquo;bitshuffle&amp;rdquo;),	# 每一列均可以设置encoding及压缩方式</span><br><span class="line">	amount INT,</span><br><span class="line">	PRIMARY	KEY (year,sale_id)				# 主键索引</span><br><span class="line">)</span><br><span class="line">PARTITION BY HASH (sale_id) PARTITIONS 4,　　　　　　　　　　　　　　# 哈希分区</span><br><span class="line">RANGE (year)</span><br><span class="line">(</span><br><span class="line">PARTITION 2014 &lt;= VALUES &lt;= 2016,				# 范围分区</span><br><span class="line">PARTITION VALUE	= 2017</span><br><span class="line">)</span><br><span class="line">STORED AS KUDU</span><br><span class="line">TBLPROPERTIES (replication=3);					# 多副本</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>或者</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE xxxx.xxxx(</span><br><span class="line">  uuid STRING,</span><br><span class="line">  ds string,</span><br><span class="line">  `date` string,</span><br><span class="line">  `ts` string,</span><br><span class="line">  `col1` int,</span><br><span class="line">  `col2` bigint,</span><br><span class="line">  `col3` int,</span><br><span class="line">PRIMARY KEY (uuid, ds))</span><br><span class="line">PARTITION BY HASH (uuid, ds) PARTITIONS 9,</span><br><span class="line">RANGE(ds) (</span><br><span class="line">PARTITION VALUE=&quot;2020-09-05&quot;,</span><br><span class="line">PARTITION VALUE=&quot;2020-09-06&quot;,</span><br><span class="line">PARTITION VALUE=&quot;2020-09-07&quot;,</span><br><span class="line">PARTITION VALUE=&quot;2020-09-08&quot;,</span><br><span class="line">PARTITION VALUE=&quot;2020-09-09&quot;</span><br><span class="line">)</span><br><span class="line">STORED AS KUDU;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="http://docsplayer.com/148383520-Dtcc2017-kudu%E4%BB%8B%E7%BB%8D-%E5%B0%8F%E7%B1%B3%E5%BC%A0%E9%9C%87-final.html">DTCC2017-Kudu介绍-小米张震-final</a></p>
+        <p>Helm是k8s的包管理工具，使用helm可以简化k8s应用部署</p>
+<p>而使用了helm之后，helm会提供一个模板，将这些yaml文件作为一个整体进行管理，高效复用，同时方便版本管理</p>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2016/03/16/kudu%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%BB%BA%E8%A1%A8%E8%AF%AD%E5%8F%A5/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/Helm%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -375,12 +360,91 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/03/16/kudu%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%BB%BA%E8%A1%A8%E8%AF%AD%E5%8F%A5/" data-id="ckoef2aa20001t70lcdmrekcm" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/Helm%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C.html" data-id="cln8csf34005hl00lavk38wk1" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kudu/" rel="tag">kudu</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/k8s/" rel="tag">k8s</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Hudi学习笔记——基本操作" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Hudi%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C.html">Hudi学习笔记——基本操作</a>
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/Hudi%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C.html" class="article-date"><time datetime="2016-03-15T16:00:00.000Z" itemprop="datePublished">2016-03-16</time></a>
+</div>
+
+    <div class="article-author">tonglin0325</div>
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="1-Hudi概念"><a href="#1-Hudi概念" class="headerlink" title="1.Hudi概念"></a>1.Hudi概念</h1><p>参考：</p>
+<p>英文官方文档：<a target="_blank" rel="noopener" href="https://hudi.apache.org/docs/concepts/">https://hudi.apache.org/docs/concepts/</a></p>
+<p>中文官方文档：<a target="_blank" rel="noopener" href="https://hudi.apache.org/cn/docs/0.9.0/concepts/">https://hudi.apache.org/cn/docs/0.9.0/concepts/</a></p>
+<p><a target="_blank" rel="noopener" href="http://shiyanjun.cn/archives/2043.html">Apache Hudi架构设计和基本概念</a></p>
+<h2 id="1-Hudi表的存储类型"><a href="#1-Hudi表的存储类型" class="headerlink" title="1.Hudi表的存储类型"></a>1.Hudi表的存储类型</h2><p>hudi表的类型有2种，分成cow和mor</p>
+<p>cow是Copy On Write的缩写，含义是<strong>写入时复制</strong>（只有parquet文件）</p>
+<p>mor是Merge On Read的缩写，含义是<strong>读取时合并</strong>（log文件+parquet文件）</p>
+<p>2种hudi表类型的对比</p>
+<img src="/images/517519-20230130115036946-292986041.png" alt="" width="496" height="224" loading="lazy" />
+
+<p>适用场景，参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1897241">ByteLake：字节跳动基于Apache Hudi的实时数据湖平台</a></p>
+<p><strong>COW表</strong>适用于<strong>批量离线更新场景</strong></p>
+<p><strong>MOR表</strong>适用于<strong>实时高频更新场景</strong></p>
+<h3 id="1-写时复制"><a href="#1-写时复制" class="headerlink" title="1.写时复制"></a>1.写时复制</h3><p><strong>写时复制存储</strong>中的文件片仅包含基本/列文件，并且每次提交都会生成新版本的基本文件。 换句话说，我们压缩每个提交，从而所有的数据都是以列数据的形式储存。在这种情况下，写入数据非常昂贵（我们需要重写整个列数据文件，即使只有一个字节的新数据被提交），而读取数据的成本则没有增加。 这种视图有利于读取繁重的分析工作。</p>
+<p>cow类型的hudi表文件目录如下，参考：<a target="_blank" rel="noopener" href="https://jxeditor.github.io/2021/05/07/Hudi%E5%88%9D%E6%8E%A2/#%E5%BC%80%E5%A7%8B%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90COW">https://jxeditor.github.io/2021/05/07/Hudi初探/#开始文件分析COW</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── .hoodie</span><br><span class="line">│   ├── .aux</span><br><span class="line">│   │   └── .bootstrap</span><br><span class="line">│   │       ├── .fileids</span><br><span class="line">│   │       └── .partitions</span><br><span class="line">│   ├── .temp</span><br><span class="line">│   ├── 20210511100234.commit</span><br><span class="line">│   ├── 20210511100234.commit.requested</span><br><span class="line">│   ├── 20210511100234.inflight</span><br><span class="line">│   ├── 20210511100304.commit</span><br><span class="line">│   ├── 20210511100304.commit.requested</span><br><span class="line">│   ├── 20210511100304.inflight</span><br><span class="line">│   ├── 20210511100402.commit</span><br><span class="line">│   ├── 20210511100402.commit.requested</span><br><span class="line">│   ├── 20210511100402.inflight</span><br><span class="line">│   ├── 20210511100503.commit.requested</span><br><span class="line">│   ├── 20210511100503.inflight</span><br><span class="line">│   ├── archived</span><br><span class="line">│   └── hoodie.properties</span><br><span class="line">└── par1</span><br><span class="line">    ├── .hoodie_partition_metadata</span><br><span class="line">    ├── 48ca22d7-d503-4073-93ec-be7a33e6e8f4_0-1-0_20210511100234.parquet</span><br><span class="line">    ├── 99aaf2d1-8e82-42d9-a982-65ed8d258f28_0-1-0_20210511100304.parquet</span><br><span class="line">    └── 99aaf2d1-8e82-42d9-a982-65ed8d258f28_0-1-0_20210511100402.parquet</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>使用写时复制的时候，对于update操作，当commit了之后，即使只是update了一行数据的一个字段，hudi会将这行数据所在的文件再copy一遍，然后加个这个更新之后，重新生成一个文件，所以在使用COW表的时候可能会产生<strong>写放大</strong>的问题，参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/bluishglc/article/details/115531015">Hudi COW表的数据膨胀（清除历史版本）问题</a></p>
+<p>hudi对于历史数据的保留版本，由hoodie.cleaner.commits.retained参数来控制，默认是24</p>
+<p>在查询COW表的时候，可以通过read.start-commit加上read.end-commit参数来按commit时间来控制查询范围，格式为yyyyMMddHHmmss，所有只使用一个参数的话，只有查询最新的一个commit，参考官方配置文档：<a target="_blank" rel="noopener" href="https://hudi.apache.org/docs/configurations/">https://hudi.apache.org/docs/configurations/</a></p>
+<h3 id="2-读时合并"><a href="#2-读时合并" class="headerlink" title="2.读时合并"></a><strong>2.读时合并</strong></h3><p><strong>读时合并存储</strong>是写时复制的升级版，从某种意义上说，它仍然可以通过读优化表提供数据集的读取优化视图（写时复制的功能）。 此外，它将每个文件组的更新插入存储到基于行的增量日志中，通过文件id，将增量日志和最新版本的基本文件进行合并，从而提供近实时的数据查询。因此，此存储类型智能地平衡了读和写的成本，以提供近乎实时的查询。 这里最重要的一点是压缩器，它现在可以仔细挑选需要压缩到其列式基础文件中的增量日志（根据增量日志的文件大小），以保持查询性能（较大的增量日志将会提升近实时的查询时间，并同时需要更长的合并时间）。</p>
+<p>mor类型的hudi表文件目录如下，参考：<a target="_blank" rel="noopener" href="https://jxeditor.github.io/2021/05/07/Hudi%E5%88%9D%E6%8E%A2/#%E5%BC%80%E5%A7%8B%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90MOR">https://jxeditor.github.io/2021/05/07/Hudi初探/#开始文件分析MOR</a></p>
+<p>可以看到，采用读时合并的目录下除了.parquet文件，还有.log文件，其中.log文件采用的就是avro序列化格式，log文件格式结构可以参考：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7045527350519431204">Hudi Log 文件格式与读写流程</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── .hoodie</span><br><span class="line">│   ├── .aux</span><br><span class="line">│   │   ├── .bootstrap</span><br><span class="line">│   │   │   ├── .fileids</span><br><span class="line">│   │   │   └── .partitions</span><br><span class="line">│   │   ├── 20210510175131.compaction.requested</span><br><span class="line">│   │   ├── 20210510181521.compaction.requested</span><br><span class="line">│   │   ├── 20210510190422.compaction.requested</span><br><span class="line">│   │   └── 20210511091552.compaction.requested</span><br><span class="line">│   ├── .temp</span><br><span class="line">│   │   ├── 20210510175131</span><br><span class="line">│   │   │   └── par1</span><br><span class="line">│   │   │       ├── 0a0110a8-b26b-4595-b5fb-b2388263ac54_0-1-0_20210510175131.parquet.marker.CREATE</span><br><span class="line">│   │   │       ├── 39798d42-eb9f-46c7-aece-bdbe9fed3c45_0-1-0_20210510175131.parquet.marker.CREATE</span><br><span class="line">│   │   │       └── 75dff8c0-614a-43e9-83c7-452dfa1dc797_0-1-0_20210510175131.parquet.marker.CREATE</span><br><span class="line">│   │   ├── 20210510181521</span><br><span class="line">│   │   │   └── par1</span><br><span class="line">│   │   │       └── 39798d42-eb9f-46c7-aece-bdbe9fed3c45_0-1-0_20210510181521.parquet.marker.MERGE</span><br><span class="line">│   │   └── 20210510190422</span><br><span class="line">│   │       └── par1</span><br><span class="line">│   │           └── 39798d42-eb9f-46c7-aece-bdbe9fed3c45_0-1-0_20210510190422.parquet.marker.MERGE</span><br><span class="line">│   ├── 20210510174713.deltacommit</span><br><span class="line">│   ├── 20210510174713.deltacommit.inflight</span><br><span class="line">│   ├── 20210510174713.deltacommit.requested</span><br><span class="line">......</span><br><span class="line">│   ├── 20210510181212.rollback</span><br><span class="line">│   ├── 20210510181212.rollback.inflight</span><br><span class="line">......</span><br><span class="line">│   ├── 20210510181521.commit</span><br><span class="line">│   ├── 20210510181521.compaction.inflight</span><br><span class="line">│   ├── 20210510181521.compaction.requested</span><br><span class="line">......</span><br><span class="line">│   ├── 20210511090334.clean</span><br><span class="line">│   ├── 20210511090334.clean.inflight</span><br><span class="line">│   ├── 20210511090334.clean.requested</span><br><span class="line">......</span><br><span class="line">│   ├── archived -- 归档目录,操作未达到默认值时,没有产生对应文件</span><br><span class="line">│   └── hoodie.properties</span><br><span class="line">└── par1</span><br><span class="line">    ├── .39798d42-eb9f-46c7-aece-bdbe9fed3c45_20210510181521.log.1_0-1-0</span><br><span class="line">    ├── .39798d42-eb9f-46c7-aece-bdbe9fed3c45_20210510190422.log.1_0-1-0</span><br><span class="line">    ├── .39798d42-eb9f-46c7-aece-bdbe9fed3c45_20210511091552.log.1_0-1-2</span><br><span class="line">    ├── .hoodie_partition_metadata</span><br><span class="line">    ├── 0a0110a8-b26b-4595-b5fb-b2388263ac54_0-1-0_20210510175131.parquet</span><br><span class="line">    ├── 39798d42-eb9f-46c7-aece-bdbe9fed3c45_0-1-0_20210510181521.parquet</span><br><span class="line">    ├── 39798d42-eb9f-46c7-aece-bdbe9fed3c45_0-1-0_20210510190422.parquet</span><br><span class="line">    └── 75dff8c0-614a-43e9-83c7-452dfa1dc797_0-1-0_20210510175131.parquet</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>parquet文件什么时候合并由参数 compaction.delta_commits 和
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/Hudi%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C.html#more">全文 &gt;&gt;</a>
+          </p>
+        
+      
+    </div>
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://tonglin0325.github.io/Hudi%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C.html" data-id="cln8csf3h006vl00l64jyb4f3" class="article-share-link">
+        <i class="fa fa-share"></i> 分享
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hudi/" rel="tag">hudi</a></li></ul>
 
 
     </footer>
@@ -397,7 +461,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/16/java%E7%A8%8B%E5%BA%8F%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E6%8E%92%E6%9F%A5/">java程序内存泄露排查</a>
+      <a class="article-title" href="/java%E7%A8%8B%E5%BA%8F%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E6%8E%92%E6%9F%A5.html">java程序内存泄露排查</a>
     </h1>
   
 
@@ -406,7 +470,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/03/16/java%E7%A8%8B%E5%BA%8F%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E6%8E%92%E6%9F%A5/" class="article-date"><time datetime="2016-03-15T16:00:00.000Z" itemprop="datePublished">2016-03-16</time></a>
+  <a href="/java%E7%A8%8B%E5%BA%8F%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E6%8E%92%E6%9F%A5.html" class="article-date"><time datetime="2016-03-15T16:00:00.000Z" itemprop="datePublished">2016-03-16</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -431,7 +495,7 @@ ga('send', 'pageview');
 <img src="/images/517519-20210728112351955-126381468.png" alt="" loading="lazy" />
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2016/03/16/java%E7%A8%8B%E5%BA%8F%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E6%8E%92%E6%9F%A5/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/java%E7%A8%8B%E5%BA%8F%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E6%8E%92%E6%9F%A5.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -440,12 +504,76 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/03/16/java%E7%A8%8B%E5%BA%8F%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E6%8E%92%E6%9F%A5/" data-id="cktk2lxm40002yd0lc0qz77u2" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/java%E7%A8%8B%E5%BA%8F%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E6%8E%92%E6%9F%A5.html" data-id="cln8csf8l00phl00lfv5b2rli" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/" rel="tag">JVM</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-kudu学习笔记——建表语句" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/kudu%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%BB%BA%E8%A1%A8%E8%AF%AD%E5%8F%A5.html">kudu学习笔记——建表语句</a>
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/kudu%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%BB%BA%E8%A1%A8%E8%AF%AD%E5%8F%A5.html" class="article-date"><time datetime="2016-03-15T16:00:00.000Z" itemprop="datePublished">2016-03-16</time></a>
+</div>
+
+    <div class="article-author">tonglin0325</div>
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>kudu支持的数据类型</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">boolean</span><br><span class="line"></span><br><span class="line">8-bit signed integer</span><br><span class="line"></span><br><span class="line">16-bit signed integer</span><br><span class="line"></span><br><span class="line">32-bit signed integer</span><br><span class="line"></span><br><span class="line">64-bit signed integer</span><br><span class="line"></span><br><span class="line">date (32-bit days since the Unix epoch)</span><br><span class="line"></span><br><span class="line">unixtime_micros (64-bit microseconds since the Unix epoch)</span><br><span class="line"></span><br><span class="line">single-precision (32-bit) IEEE-754 floating-point number</span><br><span class="line"></span><br><span class="line">double-precision (64-bit) IEEE-754 floating-point number</span><br><span class="line"></span><br><span class="line">decimal (see Decimal Type for details)</span><br><span class="line"></span><br><span class="line">varchar (see Varchar Type for details)</span><br><span class="line"></span><br><span class="line">UTF-8 encoded string (up to 64KB uncompressed)</span><br><span class="line"></span><br><span class="line">binary (up to 64KB uncompressed)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>参考：<a target="_blank" rel="noopener" href="https://kudu.apache.org/docs/schema_design.html">Apache Kudu Schema Design</a></p>
+<p>kudu的建表语句</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE sales_by_year(					# 列存储</span><br><span class="line">	year INT, 						# 有限固定列，强类型</span><br><span class="line">	sale_id INT COLPROPERTIES (encoding=&amp;ldquo;bitshuffle&amp;rdquo;),	# 每一列均可以设置encoding及压缩方式</span><br><span class="line">	amount INT,</span><br><span class="line">	PRIMARY	KEY (year,sale_id)				# 主键索引</span><br><span class="line">)</span><br><span class="line">PARTITION BY HASH (sale_id) PARTITIONS 4,　　　　　　　　　　　　　　# 哈希分区</span><br><span class="line">RANGE (year)</span><br><span class="line">(</span><br><span class="line">PARTITION 2014 &lt;= VALUES &lt;= 2016,				# 范围分区</span><br><span class="line">PARTITION VALUE	= 2017</span><br><span class="line">)</span><br><span class="line">STORED AS KUDU</span><br><span class="line">TBLPROPERTIES (replication=3);					# 多副本</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE xxxx.xxxx(</span><br><span class="line">  uuid STRING,</span><br><span class="line">  ds string,</span><br><span class="line">  `date` string,</span><br><span class="line">  `ts` string,</span><br><span class="line">  `col1` int,</span><br><span class="line">  `col2` bigint,</span><br><span class="line">  `col3` int,</span><br><span class="line">PRIMARY KEY (uuid, ds))</span><br><span class="line">PARTITION BY HASH (uuid, ds) PARTITIONS 9,</span><br><span class="line">RANGE(ds) (</span><br><span class="line">PARTITION VALUE=&quot;2020-09-05&quot;,</span><br><span class="line">PARTITION VALUE=&quot;2020-09-06&quot;,</span><br><span class="line">PARTITION VALUE=&quot;2020-09-07&quot;,</span><br><span class="line">PARTITION VALUE=&quot;2020-09-08&quot;,</span><br><span class="line">PARTITION VALUE=&quot;2020-09-09&quot;</span><br><span class="line">)</span><br><span class="line">STORED AS KUDU;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>参考：<a target="_blank" rel="noopener" href="http://docsplayer.com/148383520-Dtcc2017-kudu%E4%BB%8B%E7%BB%8D-%E5%B0%8F%E7%B1%B3%E5%BC%A0%E9%9C%87-final.html">DTCC2017-Kudu介绍-小米张震-final</a></p>
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/kudu%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%BB%BA%E8%A1%A8%E8%AF%AD%E5%8F%A5.html#more">全文 &gt;&gt;</a>
+          </p>
+        
+      
+    </div>
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://tonglin0325.github.io/kudu%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%BB%BA%E8%A1%A8%E8%AF%AD%E5%8F%A5.html" data-id="cln8csf8o00pwl00ldo049eh0" class="article-share-link">
+        <i class="fa fa-share"></i> 分享
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kudu/" rel="tag">kudu</a></li></ul>
 
 
     </footer>
@@ -462,7 +590,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/16/ubuntu16.04%E5%AE%89%E8%A3%85minikube/">ubuntu16.04安装minikube</a>
+      <a class="article-title" href="/ubuntu16.04%E5%AE%89%E8%A3%85minikube.html">ubuntu16.04安装minikube</a>
     </h1>
   
 
@@ -471,7 +599,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/03/16/ubuntu16.04%E5%AE%89%E8%A3%85minikube/" class="article-date"><time datetime="2016-03-15T16:00:00.000Z" itemprop="datePublished">2016-03-16</time></a>
+  <a href="/ubuntu16.04%E5%AE%89%E8%A3%85minikube.html" class="article-date"><time datetime="2016-03-15T16:00:00.000Z" itemprop="datePublished">2016-03-16</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -531,7 +659,7 @@ ga('send', 'pageview');
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://master:10018/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/workloads?namespace=_all</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2016/03/16/ubuntu16.04%E5%AE%89%E8%A3%85minikube/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/ubuntu16.04%E5%AE%89%E8%A3%85minikube.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -540,209 +668,12 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/03/16/ubuntu16.04%E5%AE%89%E8%A3%85minikube/" data-id="ckzjdnrwj00089v0l6l8v1gq5" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/ubuntu16.04%E5%AE%89%E8%A3%85minikube.html" data-id="cln8csf9700rwl00lhma83sa6" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/k8s/" rel="tag">k8s</a></li></ul>
-
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Helm基本操作" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <header class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/16/Helm%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/">Helm基本操作</a>
-    </h1>
-  
-
-
-  </header>
-
-  <div class="article-meta">
-    <div class="article-datetime">
-  <a href="/2016/03/16/Helm%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" class="article-date"><time datetime="2016-03-15T16:00:00.000Z" itemprop="datePublished">2016-03-16</time></a>
-</div>
-
-    <div class="article-author">tonglin0325</div>
-    
-
-  </div>
-  <div class="article-inner">
-
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Helm是k8s的包管理工具，使用helm可以简化k8s应用部署</p>
-<p>而使用了helm之后，helm会提供一个模板，将这些yaml文件作为一个整体进行管理，高效复用，同时方便版本管理</p>
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/2016/03/16/Helm%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/#more">全文 &gt;&gt;</a>
-          </p>
-        
-      
-    </div>
-
-    
-
-    <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/03/16/Helm%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" data-id="cl0ezcnqz0000350l3ojig0w9" class="article-share-link">
-        <i class="fa fa-share"></i> 分享
-      </a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/k8s/" rel="tag">k8s</a></li></ul>
-
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-使用jmap排查java程序内存泄露" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <header class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/16/%E4%BD%BF%E7%94%A8jmap%E6%8E%92%E6%9F%A5java%E7%A8%8B%E5%BA%8F%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2/">使用jmap排查java程序内存泄露</a>
-    </h1>
-  
-
-
-  </header>
-
-  <div class="article-meta">
-    <div class="article-datetime">
-  <a href="/2016/03/16/%E4%BD%BF%E7%94%A8jmap%E6%8E%92%E6%9F%A5java%E7%A8%8B%E5%BA%8F%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2/" class="article-date"><time datetime="2016-03-15T16:00:00.000Z" itemprop="datePublished">2016-03-16</time></a>
-</div>
-
-    <div class="article-author">tonglin0325</div>
-    
-
-  </div>
-  <div class="article-inner">
-
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="1-使用jmap命令生成内存快照文件-Heap-Profile"><a href="#1-使用jmap命令生成内存快照文件-Heap-Profile" class="headerlink" title="1.使用jmap命令生成内存快照文件(Heap Profile)"></a>1.使用jmap命令生成内存快照文件(Heap Profile)</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jmap -dump:format=b,file=heap.hprof $&#123;pid&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果生成快照的时候遇到如下报错</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Dumping heap to /mnt/tmp/heap.hprof ...</span><br><span class="line">Exception in thread &quot;main&quot; java.io.IOException: Premature EOF</span><br><span class="line">	at sun.tools.attach.HotSpotVirtualMachine.readInt(HotSpotVirtualMachine.java:292)</span><br><span class="line">	at sun.tools.attach.LinuxVirtualMachine.execute(LinuxVirtualMachine.java:200)</span><br><span class="line">	at sun.tools.attach.HotSpotVirtualMachine.executeCommand(HotSpotVirtualMachine.java:261)</span><br><span class="line">	at sun.tools.attach.HotSpotVirtualMachine.dumpHeap(HotSpotVirtualMachine.java:224)</span><br><span class="line">	at sun.tools.jmap.JMap.dump(JMap.java:247)</span><br><span class="line">	at sun.tools.jmap.JMap.main(JMap.java:142)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>添加如下参数就可以解决</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jmap -J-d64 -dump:format=b,file=/mnt/tmp/heap.hprof $&#123;pid&#125;</span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://little-star.love/posts/657c8eb4/">jmap -dump导出jvm堆内存信息时报错</a></p>
-<h2 id="2-使用Eclipse-Memory-Analyzer工具对hprof文件进行分析"><a href="#2-使用Eclipse-Memory-Analyzer工具对hprof文件进行分析" class="headerlink" title="2.使用Eclipse Memory Analyzer工具对hprof文件进行分析"></a>2.使用Eclipse Memory Analyzer工具对hprof文件进行分析</h2><p>如果机器的java版本是java8的话，需要注意MAT
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/2016/03/16/%E4%BD%BF%E7%94%A8jmap%E6%8E%92%E6%9F%A5java%E7%A8%8B%E5%BA%8F%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2/#more">全文 &gt;&gt;</a>
-          </p>
-        
-      
-    </div>
-
-    
-
-    <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/03/16/%E4%BD%BF%E7%94%A8jmap%E6%8E%92%E6%9F%A5java%E7%A8%8B%E5%BA%8F%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2/" data-id="cl585j6pr000zop0lantlepo5" class="article-share-link">
-        <i class="fa fa-share"></i> 分享
-      </a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/" rel="tag">JVM</a></li></ul>
-
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Hudi学习笔记——基本操作" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <header class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/16/Hudi%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/">Hudi学习笔记——基本操作</a>
-    </h1>
-  
-
-
-  </header>
-
-  <div class="article-meta">
-    <div class="article-datetime">
-  <a href="/2016/03/16/Hudi%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" class="article-date"><time datetime="2016-03-15T16:00:00.000Z" itemprop="datePublished">2016-03-16</time></a>
-</div>
-
-    <div class="article-author">tonglin0325</div>
-    
-
-  </div>
-  <div class="article-inner">
-
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="1-Hudi概念"><a href="#1-Hudi概念" class="headerlink" title="1.Hudi概念"></a>1.Hudi概念</h1><p>参考：</p>
-<p>英文官方文档：<a target="_blank" rel="noopener" href="https://hudi.apache.org/docs/concepts/">https://hudi.apache.org/docs/concepts/</a></p>
-<p>中文官方文档：<a target="_blank" rel="noopener" href="https://hudi.apache.org/cn/docs/0.9.0/concepts/">https://hudi.apache.org/cn/docs/0.9.0/concepts/</a></p>
-<p><a target="_blank" rel="noopener" href="http://shiyanjun.cn/archives/2043.html">Apache Hudi架构设计和基本概念</a></p>
-<h2 id="1-Hudi表的存储类型"><a href="#1-Hudi表的存储类型" class="headerlink" title="1.Hudi表的存储类型"></a>1.Hudi表的存储类型</h2><p>hudi表的类型有2种，分成cow和mor</p>
-<p>cow是Copy On Write的缩写，含义是<strong>写入时复制</strong>（只有parquet文件）</p>
-<p>mor是Merge On Read的缩写，含义是<strong>读取时合并</strong>（log文件+parquet文件）</p>
-<p>2种hudi表类型的对比</p>
-<img src="/images/517519-20230130115036946-292986041.png" alt="" width="496" height="224" loading="lazy" />
-
-<p>适用场景，参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1897241">ByteLake：字节跳动基于Apache Hudi的实时数据湖平台</a></p>
-<p><strong>COW表</strong>适用于<strong>批量离线更新场景</strong></p>
-<p><strong>MOR表</strong>适用于<strong>实时高频更新场景</strong></p>
-<h3 id="1-写时复制"><a href="#1-写时复制" class="headerlink" title="1.写时复制"></a>1.写时复制</h3><p><strong>写时复制存储</strong>中的文件片仅包含基本/列文件，并且每次提交都会生成新版本的基本文件。 换句话说，我们压缩每个提交，从而所有的数据都是以列数据的形式储存。在这种情况下，写入数据非常昂贵（我们需要重写整个列数据文件，即使只有一个字节的新数据被提交），而读取数据的成本则没有增加。 这种视图有利于读取繁重的分析工作。</p>
-<p>cow类型的hudi表文件目录如下，参考：<a target="_blank" rel="noopener" href="https://jxeditor.github.io/2021/05/07/Hudi%E5%88%9D%E6%8E%A2/#%E5%BC%80%E5%A7%8B%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90COW">https://jxeditor.github.io/2021/05/07/Hudi初探/#开始文件分析COW</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── .hoodie</span><br><span class="line">│   ├── .aux</span><br><span class="line">│   │   └── .bootstrap</span><br><span class="line">│   │       ├── .fileids</span><br><span class="line">│   │       └── .partitions</span><br><span class="line">│   ├── .temp</span><br><span class="line">│   ├── 20210511100234.commit</span><br><span class="line">│   ├── 20210511100234.commit.requested</span><br><span class="line">│   ├── 20210511100234.inflight</span><br><span class="line">│   ├── 20210511100304.commit</span><br><span class="line">│   ├── 20210511100304.commit.requested</span><br><span class="line">│   ├── 20210511100304.inflight</span><br><span class="line">│   ├── 20210511100402.commit</span><br><span class="line">│   ├── 20210511100402.commit.requested</span><br><span class="line">│   ├── 20210511100402.inflight</span><br><span class="line">│   ├── 20210511100503.commit.requested</span><br><span class="line">│   ├── 20210511100503.inflight</span><br><span class="line">│   ├── archived</span><br><span class="line">│   └── hoodie.properties</span><br><span class="line">└── par1</span><br><span class="line">    ├── .hoodie_partition_metadata</span><br><span class="line">    ├── 48ca22d7-d503-4073-93ec-be7a33e6e8f4_0-1-0_20210511100234.parquet</span><br><span class="line">    ├── 99aaf2d1-8e82-42d9-a982-65ed8d258f28_0-1-0_20210511100304.parquet</span><br><span class="line">    └── 99aaf2d1-8e82-42d9-a982-65ed8d258f28_0-1-0_20210511100402.parquet</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>使用写时复制的时候，对于update操作，当commit了之后，即使只是update了一行数据的一个字段，hudi会将这行数据所在的文件再copy一遍，然后加个这个更新之后，重新生成一个文件，所以在使用COW表的时候可能会产生<strong>写放大</strong>的问题，参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/bluishglc/article/details/115531015">Hudi COW表的数据膨胀（清除历史版本）问题</a></p>
-<p>hudi对于历史数据的保留版本，由hoodie.cleaner.commits.retained参数来控制，默认是24</p>
-<p>在查询COW表的时候，可以通过read.start-commit加上read.end-commit参数来按commit时间来控制查询范围，格式为yyyyMMddHHmmss，所有只使用一个参数的话，只有查询最新的一个commit，参考官方配置文档：<a target="_blank" rel="noopener" href="https://hudi.apache.org/docs/configurations/">https://hudi.apache.org/docs/configurations/</a></p>
-<h3 id="2-读时合并"><a href="#2-读时合并" class="headerlink" title="2.读时合并"></a><strong>2.读时合并</strong></h3><p><strong>读时合并存储</strong>是写时复制的升级版，从某种意义上说，它仍然可以通过读优化表提供数据集的读取优化视图（写时复制的功能）。 此外，它将每个文件组的更新插入存储到基于行的增量日志中，通过文件id，将增量日志和最新版本的基本文件进行合并，从而提供近实时的数据查询。因此，此存储类型智能地平衡了读和写的成本，以提供近乎实时的查询。 这里最重要的一点是压缩器，它现在可以仔细挑选需要压缩到其列式基础文件中的增量日志（根据增量日志的文件大小），以保持查询性能（较大的增量日志将会提升近实时的查询时间，并同时需要更长的合并时间）。</p>
-<p>mor类型的hudi表文件目录如下，参考：<a target="_blank" rel="noopener" href="https://jxeditor.github.io/2021/05/07/Hudi%E5%88%9D%E6%8E%A2/#%E5%BC%80%E5%A7%8B%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90MOR">https://jxeditor.github.io/2021/05/07/Hudi初探/#开始文件分析MOR</a></p>
-<p>可以看到，采用读时合并的目录下除了.parquet文件，还有.log文件，其中.log文件采用的就是avro序列化格式，log文件格式结构可以参考：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7045527350519431204">Hudi Log 文件格式与读写流程</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── .hoodie</span><br><span class="line">│   ├── .aux</span><br><span class="line">│   │   ├── .bootstrap</span><br><span class="line">│   │   │   ├── .fileids</span><br><span class="line">│   │   │   └── .partitions</span><br><span class="line">│   │   ├── 20210510175131.compaction.requested</span><br><span class="line">│   │   ├── 20210510181521.compaction.requested</span><br><span class="line">│   │   ├── 20210510190422.compaction.requested</span><br><span class="line">│   │   └── 20210511091552.compaction.requested</span><br><span class="line">│   ├── .temp</span><br><span class="line">│   │   ├── 20210510175131</span><br><span class="line">│   │   │   └── par1</span><br><span class="line">│   │   │       ├── 0a0110a8-b26b-4595-b5fb-b2388263ac54_0-1-0_20210510175131.parquet.marker.CREATE</span><br><span class="line">│   │   │       ├── 39798d42-eb9f-46c7-aece-bdbe9fed3c45_0-1-0_20210510175131.parquet.marker.CREATE</span><br><span class="line">│   │   │       └── 75dff8c0-614a-43e9-83c7-452dfa1dc797_0-1-0_20210510175131.parquet.marker.CREATE</span><br><span class="line">│   │   ├── 20210510181521</span><br><span class="line">│   │   │   └── par1</span><br><span class="line">│   │   │       └── 39798d42-eb9f-46c7-aece-bdbe9fed3c45_0-1-0_20210510181521.parquet.marker.MERGE</span><br><span class="line">│   │   └── 20210510190422</span><br><span class="line">│   │       └── par1</span><br><span class="line">│   │           └── 39798d42-eb9f-46c7-aece-bdbe9fed3c45_0-1-0_20210510190422.parquet.marker.MERGE</span><br><span class="line">│   ├── 20210510174713.deltacommit</span><br><span class="line">│   ├── 20210510174713.deltacommit.inflight</span><br><span class="line">│   ├── 20210510174713.deltacommit.requested</span><br><span class="line">......</span><br><span class="line">│   ├── 20210510181212.rollback</span><br><span class="line">│   ├── 20210510181212.rollback.inflight</span><br><span class="line">......</span><br><span class="line">│   ├── 20210510181521.commit</span><br><span class="line">│   ├── 20210510181521.compaction.inflight</span><br><span class="line">│   ├── 20210510181521.compaction.requested</span><br><span class="line">......</span><br><span class="line">│   ├── 20210511090334.clean</span><br><span class="line">│   ├── 20210511090334.clean.inflight</span><br><span class="line">│   ├── 20210511090334.clean.requested</span><br><span class="line">......</span><br><span class="line">│   ├── archived -- 归档目录,操作未达到默认值时,没有产生对应文件</span><br><span class="line">│   └── hoodie.properties</span><br><span class="line">└── par1</span><br><span class="line">    ├── .39798d42-eb9f-46c7-aece-bdbe9fed3c45_20210510181521.log.1_0-1-0</span><br><span class="line">    ├── .39798d42-eb9f-46c7-aece-bdbe9fed3c45_20210510190422.log.1_0-1-0</span><br><span class="line">    ├── .39798d42-eb9f-46c7-aece-bdbe9fed3c45_20210511091552.log.1_0-1-2</span><br><span class="line">    ├── .hoodie_partition_metadata</span><br><span class="line">    ├── 0a0110a8-b26b-4595-b5fb-b2388263ac54_0-1-0_20210510175131.parquet</span><br><span class="line">    ├── 39798d42-eb9f-46c7-aece-bdbe9fed3c45_0-1-0_20210510181521.parquet</span><br><span class="line">    ├── 39798d42-eb9f-46c7-aece-bdbe9fed3c45_0-1-0_20210510190422.parquet</span><br><span class="line">    └── 75dff8c0-614a-43e9-83c7-452dfa1dc797_0-1-0_20210510175131.parquet</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>parquet文件什么时候合并由参数 compaction.delta_commits 和
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/2016/03/16/Hudi%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/#more">全文 &gt;&gt;</a>
-          </p>
-        
-      
-    </div>
-
-    
-
-    <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/03/16/Hudi%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" data-id="cldhdrj0900003y0lbbdlcw1d" class="article-share-link">
-        <i class="fa fa-share"></i> 分享
-      </a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hudi/" rel="tag">hudi</a></li></ul>
 
 
     </footer>
@@ -759,7 +690,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/16/%E4%BD%BF%E7%94%A8Presto%20parser%E8%A7%A3%E6%9E%90SQL/">使用Presto parser解析SQL</a>
+      <a class="article-title" href="/%E4%BD%BF%E7%94%A8Presto%20parser%E8%A7%A3%E6%9E%90SQL.html">使用Presto parser解析SQL</a>
     </h1>
   
 
@@ -768,7 +699,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/03/16/%E4%BD%BF%E7%94%A8Presto%20parser%E8%A7%A3%E6%9E%90SQL/" class="article-date"><time datetime="2016-03-15T16:00:00.000Z" itemprop="datePublished">2016-03-16</time></a>
+  <a href="/%E4%BD%BF%E7%94%A8Presto%20parser%E8%A7%A3%E6%9E%90SQL.html" class="article-date"><time datetime="2016-03-15T16:00:00.000Z" itemprop="datePublished">2016-03-16</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -795,12 +726,75 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/03/16/%E4%BD%BF%E7%94%A8Presto%20parser%E8%A7%A3%E6%9E%90SQL/" data-id="cldhdrj5l00023y0lflmccuw5" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/%E4%BD%BF%E7%94%A8Presto%20parser%E8%A7%A3%E6%9E%90SQL.html" data-id="cln8csf9p00trl00l0txmfvb3" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/presto/" rel="tag">presto</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-使用jmap排查java程序内存泄露" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/%E4%BD%BF%E7%94%A8jmap%E6%8E%92%E6%9F%A5java%E7%A8%8B%E5%BA%8F%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2.html">使用jmap排查java程序内存泄露</a>
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/%E4%BD%BF%E7%94%A8jmap%E6%8E%92%E6%9F%A5java%E7%A8%8B%E5%BA%8F%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2.html" class="article-date"><time datetime="2016-03-15T16:00:00.000Z" itemprop="datePublished">2016-03-16</time></a>
+</div>
+
+    <div class="article-author">tonglin0325</div>
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-使用jmap命令生成内存快照文件-Heap-Profile"><a href="#1-使用jmap命令生成内存快照文件-Heap-Profile" class="headerlink" title="1.使用jmap命令生成内存快照文件(Heap Profile)"></a>1.使用jmap命令生成内存快照文件(Heap Profile)</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jmap -dump:format=b,file=heap.hprof $&#123;pid&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果生成快照的时候遇到如下报错</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Dumping heap to /mnt/tmp/heap.hprof ...</span><br><span class="line">Exception in thread &quot;main&quot; java.io.IOException: Premature EOF</span><br><span class="line">	at sun.tools.attach.HotSpotVirtualMachine.readInt(HotSpotVirtualMachine.java:292)</span><br><span class="line">	at sun.tools.attach.LinuxVirtualMachine.execute(LinuxVirtualMachine.java:200)</span><br><span class="line">	at sun.tools.attach.HotSpotVirtualMachine.executeCommand(HotSpotVirtualMachine.java:261)</span><br><span class="line">	at sun.tools.attach.HotSpotVirtualMachine.dumpHeap(HotSpotVirtualMachine.java:224)</span><br><span class="line">	at sun.tools.jmap.JMap.dump(JMap.java:247)</span><br><span class="line">	at sun.tools.jmap.JMap.main(JMap.java:142)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>添加如下参数就可以解决</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jmap -J-d64 -dump:format=b,file=/mnt/tmp/heap.hprof $&#123;pid&#125;</span><br></pre></td></tr></table></figure>
+
+<p>参考：<a target="_blank" rel="noopener" href="https://little-star.love/posts/657c8eb4/">jmap -dump导出jvm堆内存信息时报错</a></p>
+<h2 id="2-使用Eclipse-Memory-Analyzer工具对hprof文件进行分析"><a href="#2-使用Eclipse-Memory-Analyzer工具对hprof文件进行分析" class="headerlink" title="2.使用Eclipse Memory Analyzer工具对hprof文件进行分析"></a>2.使用Eclipse Memory Analyzer工具对hprof文件进行分析</h2><p>如果机器的java版本是java8的话，需要注意MAT
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/%E4%BD%BF%E7%94%A8jmap%E6%8E%92%E6%9F%A5java%E7%A8%8B%E5%BA%8F%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2.html#more">全文 &gt;&gt;</a>
+          </p>
+        
+      
+    </div>
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://tonglin0325.github.io/%E4%BD%BF%E7%94%A8jmap%E6%8E%92%E6%9F%A5java%E7%A8%8B%E5%BA%8F%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2.html" data-id="cln8csf9u00ubl00le8bad3lg" class="article-share-link">
+        <i class="fa fa-share"></i> 分享
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/" rel="tag">JVM</a></li></ul>
 
 
     </footer>
@@ -863,23 +857,23 @@ ga('send', 'pageview');
     <ul class="sidebar-module-list">
       
         <li>
-          <a href="/2022/07/22/kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94topic%E9%85%8D%E7%BD%AE/">kafka学习笔记——topic配置</a>
+          <a href="/kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94topic%E9%85%8D%E7%BD%AE.html">kafka学习笔记——topic配置</a>
         </li>
       
         <li>
-          <a href="/2022/01/13/HBase%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%A2%E6%88%B7%E7%AB%AFAPI/">HBase学习笔记——客户端API</a>
+          <a href="/HBase%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%A2%E6%88%B7%E7%AB%AFAPI.html">HBase学习笔记——客户端API</a>
         </li>
       
         <li>
-          <a href="/2022/01/12/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%AF%BB%E5%86%99HBase/">Flink学习笔记——读写HBase</a>
+          <a href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%AF%BB%E5%86%99HBase.html">Flink学习笔记——读写HBase</a>
         </li>
       
         <li>
-          <a href="/2021/12/26/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94metastore%20listener/">Hive学习笔记——metastore listener</a>
+          <a href="/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94metastore%20listener.html">Hive学习笔记——metastore listener</a>
         </li>
       
         <li>
-          <a href="/2021/12/02/mac%E4%B8%8B%E5%AE%89%E8%A3%85gradle7.3/">mac下安装gradle7.3</a>
+          <a href="/mac%E4%B8%8B%E5%AE%89%E8%A3%85gradle7.3.html">mac下安装gradle7.3</a>
         </li>
       
     </ul>

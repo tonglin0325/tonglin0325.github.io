@@ -106,13 +106,13 @@ ga('send', 'pageview');
         <div class="col-sm-9 blog-main">
           
   
-    <article id="post-Flink学习笔记——checkpoint" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Spring MVC学习笔记——Welcome" class="article article-type-post" itemscope itemprop="blogPost">
 
   <header class="article-header">
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/05/18/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94checkpoint/">Flink学习笔记——checkpoint</a>
+      <a class="article-title" href="/Spring%20MVC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Welcome.html">Spring MVC学习笔记——Welcome</a>
     </h1>
   
 
@@ -121,7 +121,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/05/18/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94checkpoint/" class="article-date"><time datetime="2016-05-17T16:00:00.000Z" itemprop="datePublished">2016-05-18</time></a>
+  <a href="/Spring%20MVC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Welcome.html" class="article-date"><time datetime="2016-05-17T16:00:00.000Z" itemprop="datePublished">2016-05-18</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -132,21 +132,16 @@ ga('send', 'pageview');
 
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1-开启checkpoint"><a href="#1-开启checkpoint" class="headerlink" title="1.开启checkpoint"></a>1.开启checkpoint</h2><p>默认情况下checkpoint是禁用的，需要手动进行开启，如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();</span><br><span class="line">StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env);</span><br><span class="line">env.getCheckpointConfig().setCheckpointTimeout(3600000); // checkpoint1小时超时</span><br><span class="line">env.enableCheckpointing(180000, CheckpointingMode.EXACTLY_ONCE); // 3分钟做一次checkpoint</span><br><span class="line">env.getCheckpointConfig().setMaxConcurrentCheckpoints(1); // 同一时间只允许一个 checkpoint 进行</span><br><span class="line">env.getCheckpointConfig().setTolerableCheckpointFailureNumber(2); // 允许两个连续的 checkpoint 错误</span><br><span class="line">env.setStateBackend(new EmbeddedRocksDBStateBackend(true)); // 使用rocksdb state backend</span><br><span class="line">env.getCheckpointConfig().setCheckpointStorage(&quot;s3://xxxx/xxxx/test_checkpoint&quot;); // 指定gcheckpoint路径</span><br><span class="line">env.getCheckpointConfig().setExternalizedCheckpointCleanup(CheckpointConfig.ExternalizedCheckpointCleanup.RETAIN_ON_CANCELLATION); // 使用 externalized checkpoints，这样 checkpoint 在作业取消后仍就会被保留</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        <h2 id="1-SpringMVC概念"><a href="#1-SpringMVC概念" class="headerlink" title="1.SpringMVC概念"></a><strong>1</strong>.SpringMVC概念</h2><img src="/images/517519-20160522171559310-742313146.png" alt="" width="776" height="473" />
 
-<p>其他配置参考官方文档</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://nightlies.apache.org/flink/flink-docs-release-1.16/zh/docs/dev/datastream/fault-tolerance/checkpointing/</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-从保留的-checkpoint-中恢复状态"><a href="#2-从保留的-checkpoint-中恢复状态" class="headerlink" title="2.从保留的 checkpoint 中恢复状态"></a>2.从保留的 checkpoint 中恢复状态<a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-master/zh/docs/ops/state/checkpoints/#%e4%bb%8e%e4%bf%9d%e7%95%99%e7%9a%84-checkpoint-%e4%b8%ad%e6%81%a2%e5%a4%8d%e7%8a%b6%e6%80%81"><br /></a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bin/flink run -s checkpoint_path</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-master/zh/docs/ops/state/checkpoints/">https://nightlies.apache.org/flink/flink-docs-master/zh/docs/ops/state/checkpoints/</a></p>
-<h2 id="3-checkpoint相关问题"><a href="#3-checkpoint相关问题" class="headerlink" title="3.checkpoint相关问题"></a>3.checkpoint相关问题</h2><p>做checkpoint很慢问题排查，参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1954930">2022年最新版 | Flink经典线上问题小盘点</a></p>
-<p>增量checkpoint，参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1853214">Flink 管理大型状态之增量 Checkpoint</a></p>
-<p>大状态与 Checkpoint 调优，参考：<a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-master/zh/docs/ops/state/large_state_tuning/">大状态与 Checkpoint 调优</a></p>
+<h2 id="2-整个springmvc运行的流程"><a href="#2-整个springmvc运行的流程" class="headerlink" title="2.整个springmvc运行的流程"></a><strong>2.<strong>整个</strong>springmvc运行的流程</strong></h2><p><img src="/images/517519-20160523192955647-1252667134.png" alt="" width="511" height="243" /> <img src="/images/517519-20160523193914772-647441162.png" alt="" width="578" height="274" /></p>
+<p>　　请求–&gt;&lt;1&gt;Dispatcher servlet(controller控制器)–&gt;&lt;2&gt;HandlerMapping(这个在配置文件中写,可以通过这个找到url该给哪个具体的controller来处理)</p>
+<p>　　　　　　　　　　　　　　　　　　　　　　　–&gt;&lt;3&gt;controller(具体的控制器)–&gt;&lt;4&gt;Model and logical viewname(具体的控制器再将值传给dispatcher servlet)</p>
+<p>　　　　　　　　　　　　　　　　　　　　　　　–&gt;&lt;5&gt;view resolver(通过这来找到对应的视图)</p>
+<p>　　　　　　　　　　　　　　　　　　　　　　　–&gt;&lt;6&gt;view</p>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2016/05/18/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94checkpoint/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/Spring%20MVC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Welcome.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -155,12 +150,12 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/05/18/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94checkpoint/" data-id="ckrj7hlwt00026j0leddq3gl0" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/Spring%20MVC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Welcome.html" data-id="cln8csf6s00irl00l8mlhcrhx" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Flink/" rel="tag">Flink</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringMVC/" rel="tag">SpringMVC</a></li></ul>
 
 
     </footer>
@@ -177,7 +172,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/05/17/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%BB%9F%E4%B8%80%E7%9A%84source%E6%9C%8D%E5%8A%A1/">Flink学习笔记——统一的source服务</a>
+      <a class="article-title" href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%BB%9F%E4%B8%80%E7%9A%84source%E6%9C%8D%E5%8A%A1.html">Flink学习笔记——统一的source服务</a>
     </h1>
   
 
@@ -186,7 +181,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/05/17/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%BB%9F%E4%B8%80%E7%9A%84source%E6%9C%8D%E5%8A%A1/" class="article-date"><time datetime="2016-05-16T16:00:00.000Z" itemprop="datePublished">2016-05-17</time></a>
+  <a href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%BB%9F%E4%B8%80%E7%9A%84source%E6%9C%8D%E5%8A%A1.html" class="article-date"><time datetime="2016-05-16T16:00:00.000Z" itemprop="datePublished">2016-05-17</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -213,7 +208,7 @@ ga('send', 'pageview');
 <p>参考文章：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/tonglin0325/p/14115069.html">Flink学习笔记&mdash;&mdash;配置</a>，对kafka source前缀的配置进行读取</p>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2016/05/17/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%BB%9F%E4%B8%80%E7%9A%84source%E6%9C%8D%E5%8A%A1/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%BB%9F%E4%B8%80%E7%9A%84source%E6%9C%8D%E5%8A%A1.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -222,7 +217,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/05/17/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%BB%9F%E4%B8%80%E7%9A%84source%E6%9C%8D%E5%8A%A1/" data-id="ckqx6a7h90003950l45nwe7gz" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%BB%9F%E4%B8%80%E7%9A%84source%E6%9C%8D%E5%8A%A1.html" data-id="cln8csf2h003fl00lg0gybftt" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -244,7 +239,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/05/17/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E2%80%94%E2%80%94%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97DelayQueue/">Java多线程——延迟队列DelayQueue</a>
+      <a class="article-title" href="/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E2%80%94%E2%80%94%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97DelayQueue.html">Java多线程——延迟队列DelayQueue</a>
     </h1>
   
 
@@ -253,7 +248,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/05/17/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E2%80%94%E2%80%94%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97DelayQueue/" class="article-date"><time datetime="2016-05-16T16:00:00.000Z" itemprop="datePublished">2016-05-17</time></a>
+  <a href="/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E2%80%94%E2%80%94%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97DelayQueue.html" class="article-date"><time datetime="2016-05-16T16:00:00.000Z" itemprop="datePublished">2016-05-17</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -283,7 +278,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/05/17/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E2%80%94%E2%80%94%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97DelayQueue/" data-id="ckqx6a7hb0006950l60s61chu" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E2%80%94%E2%80%94%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97DelayQueue.html" data-id="cln8csf480098l00lc1it7t5f" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -305,7 +300,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/05/15/Spring%20MVC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94POJO%E5%92%8CDispatcherServlet/">Spring MVC学习笔记——POJO和DispatcherServlet</a>
+      <a class="article-title" href="/Spring%20MVC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94POJO%E5%92%8CDispatcherServlet.html">Spring MVC学习笔记——POJO和DispatcherServlet</a>
     </h1>
   
 
@@ -314,7 +309,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/05/15/Spring%20MVC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94POJO%E5%92%8CDispatcherServlet/" class="article-date"><time datetime="2016-05-14T16:00:00.000Z" itemprop="datePublished">2016-05-15</time></a>
+  <a href="/Spring%20MVC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94POJO%E5%92%8CDispatcherServlet.html" class="article-date"><time datetime="2016-05-14T16:00:00.000Z" itemprop="datePublished">2016-05-15</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -328,7 +323,7 @@ ga('send', 'pageview');
         <p>使用P<strong>OJO</strong>名称是为了避免和**<a target="_blank" rel="noopener" href="http://baike.baidu.com/view/3542.htm">EJB(Enterprise </a><a target="_blank" rel="noopener" href="http://baike.baidu.com/view/28155.htm">JavaBean</a><a target="_blank" rel="noopener" href="http://baike.baidu.com/view/3542.htm">)</a><strong>混淆起来, 而且简称比较直接. 其中有</strong>一些属性<strong>及其</strong>getter setter方法的类**,<strong>没有业务逻辑</strong>，有时可以作为<a target="_blank" rel="noopener" href="http://baike.baidu.com/view/1097386.htm">VO</a>(value -object)或<a target="_blank" rel="noopener" href="http://baike.baidu.com/view/160599.htm">dto</a>(Data Transform Object)来使用.当然,如果你有一个简单的运算属性也是可以的,但不允许有业务方法,也<strong>不能携带有connection之类的方法</strong></p>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2016/05/15/Spring%20MVC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94POJO%E5%92%8CDispatcherServlet/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/Spring%20MVC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94POJO%E5%92%8CDispatcherServlet.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -337,7 +332,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/05/15/Spring%20MVC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94POJO%E5%92%8CDispatcherServlet/" data-id="ckobghib800anz90lbaz6ghb1" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/Spring%20MVC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94POJO%E5%92%8CDispatcherServlet.html" data-id="cln8csf6r00iml00ldootcnd3" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -359,7 +354,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/05/14/JavaWeb%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Ajax/">JavaWeb学习笔记——Ajax</a>
+      <a class="article-title" href="/JavaWeb%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Ajax.html">JavaWeb学习笔记——Ajax</a>
     </h1>
   
 
@@ -368,7 +363,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/05/14/JavaWeb%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Ajax/" class="article-date"><time datetime="2016-05-13T16:00:00.000Z" itemprop="datePublished">2016-05-14</time></a>
+  <a href="/JavaWeb%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Ajax.html" class="article-date"><time datetime="2016-05-13T16:00:00.000Z" itemprop="datePublished">2016-05-14</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -409,127 +404,12 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/05/14/JavaWeb%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Ajax/" data-id="ckobghi8x003vz90lcbjm1b9u" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/JavaWeb%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Ajax.html" data-id="cln8csf3o007pl00lhc8c2ccu" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaWeb/" rel="tag">JavaWeb</a></li></ul>
-
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-使用JConsole排查Java线程死锁" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <header class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/05/14/%E4%BD%BF%E7%94%A8JConsole%E6%8E%92%E6%9F%A5Java%E7%BA%BF%E7%A8%8B%E6%AD%BB%E9%94%81/">使用JConsole排查Java线程死锁</a>
-    </h1>
-  
-
-
-  </header>
-
-  <div class="article-meta">
-    <div class="article-datetime">
-  <a href="/2016/05/14/%E4%BD%BF%E7%94%A8JConsole%E6%8E%92%E6%9F%A5Java%E7%BA%BF%E7%A8%8B%E6%AD%BB%E9%94%81/" class="article-date"><time datetime="2016-05-13T16:00:00.000Z" itemprop="datePublished">2016-05-14</time></a>
-</div>
-
-    <div class="article-author">tonglin0325</div>
-    
-
-  </div>
-  <div class="article-inner">
-
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>1.添加JMX端口</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export JMX_PORT=xxx</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>然后启动java进程</p>
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/2016/05/14/%E4%BD%BF%E7%94%A8JConsole%E6%8E%92%E6%9F%A5Java%E7%BA%BF%E7%A8%8B%E6%AD%BB%E9%94%81/#more">全文 &gt;&gt;</a>
-          </p>
-        
-      
-    </div>
-
-    
-
-    <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/05/14/%E4%BD%BF%E7%94%A8JConsole%E6%8E%92%E6%9F%A5Java%E7%BA%BF%E7%A8%8B%E6%AD%BB%E9%94%81/" data-id="cl585j6pl000uop0l8c4t45bb" class="article-share-link">
-        <i class="fa fa-share"></i> 分享
-      </a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/" rel="tag">JVM</a></li></ul>
-
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-K8S学习笔记——sidecar" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <header class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/05/14/K8S%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94sidecar/">K8S学习笔记——sidecar</a>
-    </h1>
-  
-
-
-  </header>
-
-  <div class="article-meta">
-    <div class="article-datetime">
-  <a href="/2016/05/14/K8S%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94sidecar/" class="article-date"><time datetime="2016-05-13T16:00:00.000Z" itemprop="datePublished">2016-05-14</time></a>
-</div>
-
-    <div class="article-author">tonglin0325</div>
-    
-
-  </div>
-  <div class="article-inner">
-
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-<div id="toc">
-  
-</div>
-
-        <p>K8S学习笔记&mdash;&mdash;sidecar</p>
-
-      
-    </div>
-
-    
-      
-
-    
-
-    <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/05/14/K8S%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94sidecar/" data-id="cl6s1xxvt0004i20l258wh4tm" class="article-share-link">
-        <i class="fa fa-share"></i> 分享
-      </a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/k8s/" rel="tag">k8s</a></li></ul>
 
 
     </footer>
@@ -546,7 +426,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/05/14/JavaWeb%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E6%BA%90/">JavaWeb学习笔记——数据源</a>
+      <a class="article-title" href="/JavaWeb%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E6%BA%90.html">JavaWeb学习笔记——数据源</a>
     </h1>
   
 
@@ -555,7 +435,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/05/14/JavaWeb%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E6%BA%90/" class="article-date"><time datetime="2016-05-13T16:00:00.000Z" itemprop="datePublished">2016-05-14</time></a>
+  <a href="/JavaWeb%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E6%BA%90.html" class="article-date"><time datetime="2016-05-13T16:00:00.000Z" itemprop="datePublished">2016-05-14</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -584,7 +464,7 @@ ga('send', 'pageview');
 <img src="/images/517519-20160514122348187-1262021029.png" alt="" />
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2016/05/14/JavaWeb%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E6%BA%90/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/JavaWeb%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E6%BA%90.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -593,12 +473,127 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/05/14/JavaWeb%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E6%BA%90/" data-id="cl8aadxgp0007ta0lbsee69d7" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/JavaWeb%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E6%BA%90.html" data-id="cln8csf3x008bl00lhnfr4d2f" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaWeb/" rel="tag">JavaWeb</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-K8S学习笔记——sidecar" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/K8S%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94sidecar.html">K8S学习笔记——sidecar</a>
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/K8S%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94sidecar.html" class="article-date"><time datetime="2016-05-13T16:00:00.000Z" itemprop="datePublished">2016-05-14</time></a>
+</div>
+
+    <div class="article-author">tonglin0325</div>
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+<div id="toc">
+  
+</div>
+
+        <p>K8S学习笔记&mdash;&mdash;sidecar</p>
+
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://tonglin0325.github.io/K8S%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94sidecar.html" data-id="cln8csf5500cfl00l8yaf8sri" class="article-share-link">
+        <i class="fa fa-share"></i> 分享
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/k8s/" rel="tag">k8s</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-使用JConsole排查Java线程死锁" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/%E4%BD%BF%E7%94%A8JConsole%E6%8E%92%E6%9F%A5Java%E7%BA%BF%E7%A8%8B%E6%AD%BB%E9%94%81.html">使用JConsole排查Java线程死锁</a>
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/%E4%BD%BF%E7%94%A8JConsole%E6%8E%92%E6%9F%A5Java%E7%BA%BF%E7%A8%8B%E6%AD%BB%E9%94%81.html" class="article-date"><time datetime="2016-05-13T16:00:00.000Z" itemprop="datePublished">2016-05-14</time></a>
+</div>
+
+    <div class="article-author">tonglin0325</div>
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>1.添加JMX端口</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export JMX_PORT=xxx</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>然后启动java进程</p>
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/%E4%BD%BF%E7%94%A8JConsole%E6%8E%92%E6%9F%A5Java%E7%BA%BF%E7%A8%8B%E6%AD%BB%E9%94%81.html#more">全文 &gt;&gt;</a>
+          </p>
+        
+      
+    </div>
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://tonglin0325.github.io/%E4%BD%BF%E7%94%A8JConsole%E6%8E%92%E6%9F%A5Java%E7%BA%BF%E7%A8%8B%E6%AD%BB%E9%94%81.html" data-id="cln8csf9n00tkl00lalho3qmx" class="article-share-link">
+        <i class="fa fa-share"></i> 分享
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/" rel="tag">JVM</a></li></ul>
 
 
     </footer>
@@ -615,7 +610,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/05/13/rsync%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">rsync使用教程</a>
+      <a class="article-title" href="/rsync%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html">rsync使用教程</a>
     </h1>
   
 
@@ -624,7 +619,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/05/13/rsync%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" class="article-date"><time datetime="2016-05-12T16:00:00.000Z" itemprop="datePublished">2016-05-13</time></a>
+  <a href="/rsync%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html" class="article-date"><time datetime="2016-05-12T16:00:00.000Z" itemprop="datePublished">2016-05-13</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -638,7 +633,7 @@ ga('send', 'pageview');
         <p>rsync和scp类似，可以用于在机器之间的数据拷贝</p>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2016/05/13/rsync%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/rsync%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -647,7 +642,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/05/13/rsync%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" data-id="cl6s1xxvt0005i20l3pz5g5fk" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/rsync%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html" data-id="cln8csf9100ral00l2foe6raz" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -669,7 +664,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/05/08/Bootstrap%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Bootstrap学习笔记</a>
+      <a class="article-title" href="/Bootstrap%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html">Bootstrap学习笔记</a>
     </h1>
   
 
@@ -678,7 +673,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/05/08/Bootstrap%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="article-date"><time datetime="2016-05-07T16:00:00.000Z" itemprop="datePublished">2016-05-08</time></a>
+  <a href="/Bootstrap%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html" class="article-date"><time datetime="2016-05-07T16:00:00.000Z" itemprop="datePublished">2016-05-08</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -692,7 +687,7 @@ ga('send', 'pageview');
         <p>*<em>bootstrap中col-xs-<em>和col-sm-</em> 和col-md-<em>是怎么样对应的</em></em></p>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2016/05/08/Bootstrap%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/Bootstrap%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -701,7 +696,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/05/08/Bootstrap%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-id="ckobghi7t001cz90lh39dayfe" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/Bootstrap%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html" data-id="cln8csf1j000pl00l2lgi1esf" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -769,23 +764,23 @@ ga('send', 'pageview');
     <ul class="sidebar-module-list">
       
         <li>
-          <a href="/2022/07/22/kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94topic%E9%85%8D%E7%BD%AE/">kafka学习笔记——topic配置</a>
+          <a href="/kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94topic%E9%85%8D%E7%BD%AE.html">kafka学习笔记——topic配置</a>
         </li>
       
         <li>
-          <a href="/2022/01/13/HBase%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%A2%E6%88%B7%E7%AB%AFAPI/">HBase学习笔记——客户端API</a>
+          <a href="/HBase%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%A2%E6%88%B7%E7%AB%AFAPI.html">HBase学习笔记——客户端API</a>
         </li>
       
         <li>
-          <a href="/2022/01/12/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%AF%BB%E5%86%99HBase/">Flink学习笔记——读写HBase</a>
+          <a href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%AF%BB%E5%86%99HBase.html">Flink学习笔记——读写HBase</a>
         </li>
       
         <li>
-          <a href="/2021/12/26/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94metastore%20listener/">Hive学习笔记——metastore listener</a>
+          <a href="/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94metastore%20listener.html">Hive学习笔记——metastore listener</a>
         </li>
       
         <li>
-          <a href="/2021/12/02/mac%E4%B8%8B%E5%AE%89%E8%A3%85gradle7.3/">mac下安装gradle7.3</a>
+          <a href="/mac%E4%B8%8B%E5%AE%89%E8%A3%85gradle7.3.html">mac下安装gradle7.3</a>
         </li>
       
     </ul>

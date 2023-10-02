@@ -106,13 +106,13 @@ ga('send', 'pageview');
         <div class="col-sm-9 blog-main">
           
   
-    <article id="post-CDH5.16安装kudu" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-yarn学习笔记——yarn api" class="article article-type-post" itemscope itemprop="blogPost">
 
   <header class="article-header">
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/12/CDH5.16%E5%AE%89%E8%A3%85kudu/">CDH5.16安装kudu</a>
+      <a class="article-title" href="/yarn%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94yarn%20api.html">yarn学习笔记——yarn api</a>
     </h1>
   
 
@@ -121,7 +121,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/03/12/CDH5.16%E5%AE%89%E8%A3%85kudu/" class="article-date"><time datetime="2016-03-11T16:00:00.000Z" itemprop="datePublished">2016-03-12</time></a>
+  <a href="/yarn%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94yarn%20api.html" class="article-date"><time datetime="2016-03-11T16:00:00.000Z" itemprop="datePublished">2016-03-12</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -132,11 +132,16 @@ ga('send', 'pageview');
 
     <div class="article-entry" itemprop="articleBody">
       
-        <p>1.kudu已经包含在cdh的parcels中了，所以直接添加服务</p>
-<img src="/images/517519-20211113174542780-1193219579.png" width="300" height="136" loading="lazy" />
+        <p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/zhangshenghang/article/details/104447587">Yarn 监控 - 监控任务运行状态 （包括Spark，MR 所有在Yarn中运行的任务）</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line">    //获取任务的applicationId</span><br><span class="line">    public static String getAppId(String jobName) throws IOException &#123;</span><br><span class="line"></span><br><span class="line">        Configuration conf = new Configuration();</span><br><span class="line">        System.setProperty(&quot;java.security.krb5.conf&quot;, &quot;/etc/krb5.conf&quot;);</span><br><span class="line">        conf.set(&quot;hadoop.security.authentication&quot;, &quot;Kerberos&quot;);</span><br><span class="line">        UserGroupInformation.setConfiguration(conf);</span><br><span class="line">        UserGroupInformation.loginUserFromKeytab(&quot;hdfs@XXXX&quot;, &quot;/home/xxxx/hdfs.keytab&quot;);</span><br><span class="line"></span><br><span class="line">        YarnClient client = YarnClient.createYarnClient();</span><br><span class="line">        client.init(conf);</span><br><span class="line">        client.start();</span><br><span class="line">        EnumSet&lt;YarnApplicationState&gt; appStates = EnumSet.noneOf(YarnApplicationState.class);</span><br><span class="line"></span><br><span class="line">        if (appStates.isEmpty()) &#123;</span><br><span class="line">            appStates.add(YarnApplicationState.RUNNING);</span><br><span class="line">            appStates.add(YarnApplicationState.ACCEPTED);</span><br><span class="line">            appStates.add(YarnApplicationState.SUBMITTED);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        List&lt;ApplicationReport&gt; appsReport = null;</span><br><span class="line">        try &#123;</span><br><span class="line">            // 返回EnumSet&lt;YarnApplicationState&gt;中个人任务状态的所有任务</span><br><span class="line">            appsReport = client.getApplications(appStates);</span><br><span class="line">        &#125; catch (YarnException | IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        assert appsReport != null;</span><br><span class="line"></span><br><span class="line">        for (ApplicationReport appReport : appsReport) &#123;</span><br><span class="line">            System.out.println(appReport);</span><br><span class="line">            // 获取任务名</span><br><span class="line">            String jn = appReport.getName();</span><br><span class="line">            String applicationType = appReport.getApplicationType();</span><br><span class="line">            if (jn.equals(jobName)) &#123; // &amp;amp;&amp;amp; &quot;Apache Flink&quot;.equals(applicationType)) &#123;</span><br><span class="line">                try &#123;</span><br><span class="line">                    client.close();</span><br><span class="line">                &#125; catch (IOException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">                return appReport.getApplicationId().toString();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        try &#123;</span><br><span class="line">            client.close();</span><br><span class="line">        &#125; catch (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 根据任务的applicationId去获取任务的状态</span><br><span class="line">    public static YarnApplicationState getState(String appId) throws IOException &#123;</span><br><span class="line"></span><br><span class="line">        Configuration conf = new Configuration();</span><br><span class="line">        System.setProperty(&quot;java.security.krb5.conf&quot;, &quot;/etc/krb5.conf&quot;);</span><br><span class="line">        conf.set(&quot;hadoop.security.authentication&quot;, &quot;Kerberos&quot;);</span><br><span class="line">        UserGroupInformation.setConfiguration(conf);</span><br><span class="line">        UserGroupInformation.loginUserFromKeytab(&quot;hdfs@XXXXX&quot;, &quot;/home/xxxx/hdfs.keytab&quot;);</span><br><span class="line"></span><br><span class="line">        YarnClient client = YarnClient.createYarnClient();</span><br><span class="line">        client.init(conf);</span><br><span class="line">        client.start();</span><br><span class="line">        ApplicationId applicationId = ConverterUtils.toApplicationId(appId);</span><br><span class="line">        YarnApplicationState yarnApplicationState = null;</span><br><span class="line">        try &#123;</span><br><span class="line">            ApplicationReport applicationReport = client.getApplicationReport(applicationId);</span><br><span class="line">            yarnApplicationState = applicationReport.getYarnApplicationState();</span><br><span class="line">        &#125; catch (YarnException | IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        try &#123;</span><br><span class="line">            client.close();</span><br><span class="line">        &#125; catch (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return yarnApplicationState;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws IOException, InterruptedException &#123;</span><br><span class="line">        String state = getAppId(&quot;job_xxxxx&quot;);</span><br><span class="line">        System.out.println(state);</span><br><span class="line">//        System.out.println(state == YarnApplicationState.RUNNING);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">applicationId &#123; id: 279 cluster_timestamp: 1620359479641 &#125; </span><br><span class="line">user: &quot;dl&quot; </span><br><span class="line">queue: &quot;root.xxxx&quot; </span><br><span class="line">name: &quot;xxx-flink&quot; </span><br><span class="line">host: &quot;xxxxx&quot; </span><br><span class="line">rpc_port: 18000 </span><br><span class="line">client_to_am_token &#123; identifier: &quot;xxxx@XXXX&quot; password: &quot;;xxxxx&quot; kind: &quot;YARN_CLIENT_TOKEN&quot; service: &quot;&quot; &#125; </span><br><span class="line">yarn_application_state: RUNNING </span><br><span class="line">trackingUrl: &quot;http://xxxxx:8088/proxy/application_xxxxx/&quot; </span><br><span class="line">diagnostics: &quot;&quot; </span><br><span class="line">startTime: 1620391776339 </span><br><span class="line">finishTime: 0 </span><br><span class="line">final_application_status: APP_UNDEFINED </span><br><span class="line">app_resource_Usage &#123; num_used_containers: 4 num_reserved_containers: 0 used_resources &#123; memory: 8192 virtual_cores: 7 &#125; reserved_resources &#123; memory: 0 virtual_cores: 0 &#125; needed_resources &#123; memory: 8192 virtual_cores: 7 &#125; memory_seconds: 12703546778 vcore_seconds: 10855065 &#125; </span><br><span class="line">originalTrackingUrl: &quot;http://xxxx:18000&quot; currentApplicationAttemptId &#123; application_id &#123; id: 279 cluster_timestamp: 1620359479641 &#125; attemptId: 1 &#125; progress: 1.0 </span><br><span class="line">applicationType: &quot;XXXX Flink&quot; </span><br><span class="line">log_aggregation_status: LOG_NOT_START</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>　　</p>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2016/03/12/CDH5.16%E5%AE%89%E8%A3%85kudu/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/yarn%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94yarn%20api.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -145,180 +150,12 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/03/12/CDH5.16%E5%AE%89%E8%A3%85kudu/" data-id="ckvzbnw4v0003y90le5t7d3er" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/yarn%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94yarn%20api.html" data-id="cln8csf9k00t8l00l3e452xgn" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CDH/" rel="tag">CDH</a></li></ul>
-
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-上传snapshots jar包到nexus仓库" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <header class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/11/%E4%B8%8A%E4%BC%A0snapshots%20jar%E5%8C%85%E5%88%B0nexus%E4%BB%93%E5%BA%93/">上传snapshots jar包到nexus仓库</a>
-    </h1>
-  
-
-
-  </header>
-
-  <div class="article-meta">
-    <div class="article-datetime">
-  <a href="/2016/03/11/%E4%B8%8A%E4%BC%A0snapshots%20jar%E5%8C%85%E5%88%B0nexus%E4%BB%93%E5%BA%93/" class="article-date"><time datetime="2016-03-10T16:00:00.000Z" itemprop="datePublished">2016-03-11</time></a>
-</div>
-
-    <div class="article-author">tonglin0325</div>
-    
-
-  </div>
-  <div class="article-inner">
-
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在nexus界面上可以手动上传release和hosted的包，但是无法手动上传snapshots的包</p>
-<img src="/images/517519-20210520173339863-599770525.png" alt="" loading="lazy" />
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/2016/03/11/%E4%B8%8A%E4%BC%A0snapshots%20jar%E5%8C%85%E5%88%B0nexus%E4%BB%93%E5%BA%93/#more">全文 &gt;&gt;</a>
-          </p>
-        
-      
-    </div>
-
-    
-
-    <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/03/11/%E4%B8%8A%E4%BC%A0snapshots%20jar%E5%8C%85%E5%88%B0nexus%E4%BB%93%E5%BA%93/" data-id="ckozft9020004s60ldgecfn07" class="article-share-link">
-        <i class="fa fa-share"></i> 分享
-      </a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nexus/" rel="tag">Nexus</a></li></ul>
-
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-SpringBoot学习笔记——spring security" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <header class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/11/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94spring%20security/">SpringBoot学习笔记——spring security</a>
-    </h1>
-  
-
-
-  </header>
-
-  <div class="article-meta">
-    <div class="article-datetime">
-  <a href="/2016/03/11/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94spring%20security/" class="article-date"><time datetime="2016-03-10T16:00:00.000Z" itemprop="datePublished">2016-03-11</time></a>
-</div>
-
-    <div class="article-author">tonglin0325</div>
-    
-
-  </div>
-  <div class="article-inner">
-
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Spring Security是提供了认证，鉴权以及其他的安全特性的java框架，下面是Spring Security的使用教程</p>
-<p>1.引入依赖</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-security&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>引入依赖用会发现请求所有的接口都会跳转到 /login，要求你进行账号密码的认证</p>
-<img src="/images/517519-20210610192537624-491689321.png" alt="" loading="lazy" />
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/2016/03/11/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94spring%20security/#more">全文 &gt;&gt;</a>
-          </p>
-        
-      
-    </div>
-
-    
-
-    <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/03/11/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94spring%20security/" data-id="ckpr48nn900001e0l9ttu8mf6" class="article-share-link">
-        <i class="fa fa-share"></i> 分享
-      </a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a></li></ul>
-
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Mybatis学习笔记——通用mapper" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <header class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/11/Mybatis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%80%9A%E7%94%A8mapper/">Mybatis学习笔记——通用mapper</a>
-    </h1>
-  
-
-
-  </header>
-
-  <div class="article-meta">
-    <div class="article-datetime">
-  <a href="/2016/03/11/Mybatis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%80%9A%E7%94%A8mapper/" class="article-date"><time datetime="2016-03-10T16:00:00.000Z" itemprop="datePublished">2016-03-11</time></a>
-</div>
-
-    <div class="article-author">tonglin0325</div>
-    
-
-  </div>
-  <div class="article-inner">
-
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在使用mybatis-generator自动生成mapper代码的时候，对于基本的增删改查方法可以通过继承通用mapper的方式进行简化，参考：<a target="_blank" rel="noopener" href="https://mapperhelper.github.io/docs/5.professional/">MyBatis 通用 Mapper
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/2016/03/11/Mybatis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%80%9A%E7%94%A8mapper/#more">全文 &gt;&gt;</a>
-          </p>
-        
-      
-    </div>
-
-    
-
-    <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/03/11/Mybatis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%80%9A%E7%94%A8mapper/" data-id="ckqcf3d9w0005300l5tyqhpm1" class="article-share-link">
-        <i class="fa fa-share"></i> 分享
-      </a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/YARN/" rel="tag">YARN</a></li></ul>
 
 
     </footer>
@@ -335,7 +172,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/11/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%8F%8D%E5%8E%8B/">Flink学习笔记——反压</a>
+      <a class="article-title" href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%8F%8D%E5%8E%8B.html">Flink学习笔记——反压</a>
     </h1>
   
 
@@ -344,7 +181,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/03/11/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%8F%8D%E5%8E%8B/" class="article-date"><time datetime="2016-03-10T16:00:00.000Z" itemprop="datePublished">2016-03-11</time></a>
+  <a href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%8F%8D%E5%8E%8B.html" class="article-date"><time datetime="2016-03-10T16:00:00.000Z" itemprop="datePublished">2016-03-11</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -372,12 +209,239 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/03/11/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%8F%8D%E5%8E%8B/" data-id="ckqx6a7h90004950lfy2kbcev" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%8F%8D%E5%8E%8B.html" data-id="cln8csf2g003al00l2okw7hfx" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Flink/" rel="tag">Flink</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Mybatis学习笔记——通用mapper" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Mybatis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%80%9A%E7%94%A8mapper.html">Mybatis学习笔记——通用mapper</a>
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/Mybatis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%80%9A%E7%94%A8mapper.html" class="article-date"><time datetime="2016-03-10T16:00:00.000Z" itemprop="datePublished">2016-03-11</time></a>
+</div>
+
+    <div class="article-author">tonglin0325</div>
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在使用mybatis-generator自动生成mapper代码的时候，对于基本的增删改查方法可以通过继承通用mapper的方式进行简化，参考：<a target="_blank" rel="noopener" href="https://mapperhelper.github.io/docs/5.professional/">MyBatis 通用 Mapper
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/Mybatis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%80%9A%E7%94%A8mapper.html#more">全文 &gt;&gt;</a>
+          </p>
+        
+      
+    </div>
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://tonglin0325.github.io/Mybatis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%80%9A%E7%94%A8mapper.html" data-id="cln8csf5q00epl00lf54o55st" class="article-share-link">
+        <i class="fa fa-share"></i> 分享
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-SpringBoot学习笔记——spring security" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94spring%20security.html">SpringBoot学习笔记——spring security</a>
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94spring%20security.html" class="article-date"><time datetime="2016-03-10T16:00:00.000Z" itemprop="datePublished">2016-03-11</time></a>
+</div>
+
+    <div class="article-author">tonglin0325</div>
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Spring Security是提供了认证，鉴权以及其他的安全特性的java框架，下面是Spring Security的使用教程</p>
+<p>1.引入依赖</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-security&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>引入依赖用会发现请求所有的接口都会跳转到 /login，要求你进行账号密码的认证</p>
+<img src="/images/517519-20210610192537624-491689321.png" alt="" loading="lazy" />
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94spring%20security.html#more">全文 &gt;&gt;</a>
+          </p>
+        
+      
+    </div>
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://tonglin0325.github.io/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94spring%20security.html" data-id="cln8csf6z00jjl00l2rrygjhr" class="article-share-link">
+        <i class="fa fa-share"></i> 分享
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-avro序列化框架的schema evolution" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/avro%E5%BA%8F%E5%88%97%E5%8C%96%E6%A1%86%E6%9E%B6%E7%9A%84schema%20evolution.html">avro序列化框架的schema evolution</a>
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/avro%E5%BA%8F%E5%88%97%E5%8C%96%E6%A1%86%E6%9E%B6%E7%9A%84schema%20evolution.html" class="article-date"><time datetime="2016-03-10T16:00:00.000Z" itemprop="datePublished">2016-03-11</time></a>
+</div>
+
+    <div class="article-author">tonglin0325</div>
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+<div id="toc">
+  
+</div>
+
+        
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://tonglin0325.github.io/avro%E5%BA%8F%E5%88%97%E5%8C%96%E6%A1%86%E6%9E%B6%E7%9A%84schema%20evolution.html" data-id="cln8csf8a00obl00l72x0htzb" class="article-share-link">
+        <i class="fa fa-share"></i> 分享
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/avro/" rel="tag">avro</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-avro序列化框架的schema revolution" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/avro%E5%BA%8F%E5%88%97%E5%8C%96%E6%A1%86%E6%9E%B6%E7%9A%84schema%20revolution.html">avro序列化框架的schema revolution</a>
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/avro%E5%BA%8F%E5%88%97%E5%8C%96%E6%A1%86%E6%9E%B6%E7%9A%84schema%20revolution.html" class="article-date"><time datetime="2016-03-10T16:00:00.000Z" itemprop="datePublished">2016-03-11</time></a>
+</div>
+
+    <div class="article-author">tonglin0325</div>
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+<div id="toc">
+  
+</div>
+
+        
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://tonglin0325.github.io/avro%E5%BA%8F%E5%88%97%E5%8C%96%E6%A1%86%E6%9E%B6%E7%9A%84schema%20revolution.html" data-id="cln8csf8a00odl00lbjjw2xie" class="article-share-link">
+        <i class="fa fa-share"></i> 分享
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/avro/" rel="tag">avro</a></li></ul>
 
 
     </footer>
@@ -394,7 +458,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/11/docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F/">docker学习笔记——网络模式</a>
+      <a class="article-title" href="/docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F.html">docker学习笔记——网络模式</a>
     </h1>
   
 
@@ -403,7 +467,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/03/11/docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F/" class="article-date"><time datetime="2016-03-10T16:00:00.000Z" itemprop="datePublished">2016-03-11</time></a>
+  <a href="/docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F.html" class="article-date"><time datetime="2016-03-10T16:00:00.000Z" itemprop="datePublished">2016-03-11</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -422,7 +486,7 @@ ga('send', 'pageview');
 <p>2.Bridge容器，即<strong>bridge模式</strong>，当容器中的进程需要访问外部网络的时候应该使用，且bridge是docker的default网络模式。</p>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2016/03/11/docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -431,126 +495,12 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/03/11/docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F/" data-id="ckwni162900089f0l7gftas83" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F.html" data-id="cln8csf8d00oll00lemrr2npv" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li></ul>
-
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-avro序列化框架的schema revolution" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <header class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/11/avro%E5%BA%8F%E5%88%97%E5%8C%96%E6%A1%86%E6%9E%B6%E7%9A%84schema%20revolution/">avro序列化框架的schema revolution</a>
-    </h1>
-  
-
-
-  </header>
-
-  <div class="article-meta">
-    <div class="article-datetime">
-  <a href="/2016/03/11/avro%E5%BA%8F%E5%88%97%E5%8C%96%E6%A1%86%E6%9E%B6%E7%9A%84schema%20revolution/" class="article-date"><time datetime="2016-03-10T16:00:00.000Z" itemprop="datePublished">2016-03-11</time></a>
-</div>
-
-    <div class="article-author">tonglin0325</div>
-    
-
-  </div>
-  <div class="article-inner">
-
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-<div id="toc">
-  
-</div>
-
-        
-      
-    </div>
-
-    
-      
-
-    
-
-    <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/03/11/avro%E5%BA%8F%E5%88%97%E5%8C%96%E6%A1%86%E6%9E%B6%E7%9A%84schema%20revolution/" data-id="clb25vtv90000qr0l2r79cdm7" class="article-share-link">
-        <i class="fa fa-share"></i> 分享
-      </a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/avro/" rel="tag">avro</a></li></ul>
-
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-avro序列化框架的schema evolution" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <header class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/11/avro%E5%BA%8F%E5%88%97%E5%8C%96%E6%A1%86%E6%9E%B6%E7%9A%84schema%20evolution/">avro序列化框架的schema evolution</a>
-    </h1>
-  
-
-
-  </header>
-
-  <div class="article-meta">
-    <div class="article-datetime">
-  <a href="/2016/03/11/avro%E5%BA%8F%E5%88%97%E5%8C%96%E6%A1%86%E6%9E%B6%E7%9A%84schema%20evolution/" class="article-date"><time datetime="2016-03-10T16:00:00.000Z" itemprop="datePublished">2016-03-11</time></a>
-</div>
-
-    <div class="article-author">tonglin0325</div>
-    
-
-  </div>
-  <div class="article-inner">
-
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-<div id="toc">
-  
-</div>
-
-        
-      
-    </div>
-
-    
-      
-
-    
-
-    <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/03/11/avro%E5%BA%8F%E5%88%97%E5%8C%96%E6%A1%86%E6%9E%B6%E7%9A%84schema%20evolution/" data-id="clecuocpe0002xs0l2asl6x63" class="article-share-link">
-        <i class="fa fa-share"></i> 分享
-      </a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/avro/" rel="tag">avro</a></li></ul>
 
 
     </footer>
@@ -567,7 +517,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/11/ubuntu%E5%AE%89%E8%A3%85mac%20timemachine%E5%A4%87%E4%BB%BD/">ubuntu安装mac timemachine备份</a>
+      <a class="article-title" href="/ubuntu%E5%AE%89%E8%A3%85mac%20timemachine%E5%A4%87%E4%BB%BD.html">ubuntu安装mac timemachine备份</a>
     </h1>
   
 
@@ -576,7 +526,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/03/11/ubuntu%E5%AE%89%E8%A3%85mac%20timemachine%E5%A4%87%E4%BB%BD/" class="article-date"><time datetime="2016-03-10T16:00:00.000Z" itemprop="datePublished">2016-03-11</time></a>
+  <a href="/ubuntu%E5%AE%89%E8%A3%85mac%20timemachine%E5%A4%87%E4%BB%BD.html" class="article-date"><time datetime="2016-03-10T16:00:00.000Z" itemprop="datePublished">2016-03-11</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -602,7 +552,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/03/11/ubuntu%E5%AE%89%E8%A3%85mac%20timemachine%E5%A4%87%E4%BB%BD/" data-id="clecuocqc0004xs0l5ufsfhdx" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/ubuntu%E5%AE%89%E8%A3%85mac%20timemachine%E5%A4%87%E4%BB%BD.html" data-id="cln8csf9g00stl00l2c0g6zbe" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -618,13 +568,13 @@ ga('send', 'pageview');
 
 
   
-    <article id="post-使用joda-time处理时间" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-上传snapshots jar包到nexus仓库" class="article article-type-post" itemscope itemprop="blogPost">
 
   <header class="article-header">
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/10/%E4%BD%BF%E7%94%A8joda-time%E5%A4%84%E7%90%86%E6%97%B6%E9%97%B4/">使用joda-time处理时间</a>
+      <a class="article-title" href="/%E4%B8%8A%E4%BC%A0snapshots%20jar%E5%8C%85%E5%88%B0nexus%E4%BB%93%E5%BA%93.html">上传snapshots jar包到nexus仓库</a>
     </h1>
   
 
@@ -633,7 +583,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/03/10/%E4%BD%BF%E7%94%A8joda-time%E5%A4%84%E7%90%86%E6%97%B6%E9%97%B4/" class="article-date"><time datetime="2016-03-09T16:00:00.000Z" itemprop="datePublished">2016-03-10</time></a>
+  <a href="/%E4%B8%8A%E4%BC%A0snapshots%20jar%E5%8C%85%E5%88%B0nexus%E4%BB%93%E5%BA%93.html" class="article-date"><time datetime="2016-03-10T16:00:00.000Z" itemprop="datePublished">2016-03-11</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -644,51 +594,99 @@ ga('send', 'pageview');
 
     <div class="article-entry" itemprop="articleBody">
       
+        <p>在nexus界面上可以手动上传release和hosted的包，但是无法手动上传snapshots的包</p>
+<img src="/images/517519-20210520173339863-599770525.png" alt="" loading="lazy" />
         
-<div id="toc">
-  
-</div>
-
-        <p>引入joda-time</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--jodatime--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;joda-time&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;joda-time&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;2.10&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>1.字符串转joda-time的DateTime</p>
-<p>parse日期</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">DateTimeFormatter fmt = DateTimeFormat.forPattern(&quot;yyyy-MM-dd&quot;);</span><br><span class="line">DateTime dateTime = DateTime.parse(date, fmt);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>parse时间戳</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">DateTimeFormatter format = DateTimeFormat.forPattern(&quot;yyyy-MM-dd HH:mm:ss&quot;);</span><br><span class="line">DateTime dt = DateTime.parse(dateStr, format);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>转换时区</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">DateTimeFormatter format = DateTimeFormat.forPattern(&quot;EEE MMM dd HH:mm:ss yyyy&quot;).withLocale(Locale.ENGLISH);</span><br><span class="line">DateTime dt = DateTime.parse(dateStr, format);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>2.joda-time的DateTime转字符串</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String date = dt.toString(&quot;yyyy-MM-dd&quot;);</span><br><span class="line">String datetime = dt.toString(&quot;yyyy-MM-dd HH:mm:ss&quot;);</span><br><span class="line">String datetime = dt.toString(&quot;yyyy-MM-dd HH:00:00&quot;); // 整点</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>3.获取当前时间</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DateTime now = new DateTime();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>4.比较2个DateTime的时间差</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Days.daysBetween(dateTime, now).getDays() &gt; 7</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>5.jodatime添加时区</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DateTime now = new DateTime(DateTimeZone.UTC);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/%E4%B8%8A%E4%BC%A0snapshots%20jar%E5%8C%85%E5%88%B0nexus%E4%BB%93%E5%BA%93.html#more">全文 &gt;&gt;</a>
+          </p>
+        
       
     </div>
 
     
-      
-
-    
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/03/10/%E4%BD%BF%E7%94%A8joda-time%E5%A4%84%E7%90%86%E6%97%B6%E9%97%B4/" data-id="ckozft9030005s60l2kp2albp" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/%E4%B8%8A%E4%BC%A0snapshots%20jar%E5%8C%85%E5%88%B0nexus%E4%BB%93%E5%BA%93.html" data-id="cln8csf9m00tfl00lb5gyatpo" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" rel="tag">开发工具</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nexus/" rel="tag">Nexus</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Flink学习笔记——内存调优" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%86%85%E5%AD%98%E8%B0%83%E4%BC%98.html">Flink学习笔记——内存调优</a>
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%86%85%E5%AD%98%E8%B0%83%E4%BC%98.html" class="article-date"><time datetime="2016-03-09T16:00:00.000Z" itemprop="datePublished">2016-03-10</time></a>
+</div>
+
+    <div class="article-author">tonglin0325</div>
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="flink内存分布"><a href="#flink内存分布" class="headerlink" title="flink内存分布"></a>flink内存分布</h2><p>task manager</p>
+<img src="/images/517519-20230518113912532-567190663.png" alt="" loading="lazy" />
+
+<p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/importbigdata/articles/15617347.html">Flink重点难点：Flink任务综合调优(Checkpoint/反压/内存)</a></p>
+<h2 id="1-堆外内存不足：java-lang-OutOfMemoryError-Direct-buffer-memory"><a href="#1-堆外内存不足：java-lang-OutOfMemoryError-Direct-buffer-memory" class="headerlink" title="1.堆外内存不足：java.lang.OutOfMemoryError: Direct buffer memory"></a>1.堆外内存不足：java.lang.OutOfMemoryError: Direct buffer memory</h2><p>报错如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">Caused by: java.lang.OutOfMemoryError: Direct buffer memory. The direct out-of-memory error has occurred. This can mean two things: either job(s) require(s) a larger size of JVM direct memory or there is a direct memory leak. &lt;br /&gt;The direct memory can be allocated by user code or some of its dependencies. &lt;br /&gt;In this case &#x27;taskmanager.memory.task.off-heap.size&#x27; configuration option should be increased. Flink framework and its dependencies also consume the direct memory, mostly for network communication. &lt;br /&gt;The most of network memory is managed by Flink and should not result in out-of-memory error. In certain special cases, in particular for jobs with high parallelism, the framework may require more direct memory which is not managed by Flink. &lt;br /&gt;In this case &#x27;taskmanager.memory.framework.off-heap.size&#x27; configuration option should be increased. If the error persists then there is probably a direct memory leak in user code or some of its dependencies which has to be investigated and fixed. The task executor has to be shutdown...</span><br><span class="line">	at java.nio.Bits.reserveMemory(Bits.java:695)</span><br><span class="line">	at java.nio.DirectByteBuffer.&lt;init&gt;(DirectByteBuffer.java:123)</span><br><span class="line">	at java.nio.ByteBuffer.allocateDirect(ByteBuffer.java:311)</span><br><span class="line">	at sun.nio.ch.Util.getTemporaryDirectBuffer(Util.java:247)</span><br><span class="line">	at sun.nio.ch.IOUtil.write(IOUtil.java:58)</span><br><span class="line">	at sun.nio.ch.FileChannelImpl.write(FileChannelImpl.java:211)</span><br><span class="line">	at java.nio.channels.Channels.writeFullyImpl(Channels.java:78)</span><br><span class="line">	at java.nio.channels.Channels.writeFully(Channels.java:101)</span><br><span class="line">	at java.nio.channels.Channels.access$000(Channels.java:61)</span><br><span class="line">	at java.nio.channels.Channels$1.write(Channels.java:174)</span><br><span class="line">	at java.io.BufferedOutputStream.write(BufferedOutputStream.java:122)</span><br><span class="line">	at java.security.DigestOutputStream.write(DigestOutputStream.java:145)</span><br><span class="line">	at com.amazon.ws.emr.hadoop.fs.s3n.MultipartUploadOutputStream.write(MultipartUploadOutputStream.java:172)</span><br><span class="line">	at org.apache.hadoop.fs.FSDataOutputStream$PositionCache.write(FSDataOutputStream.java:63)</span><br><span class="line">	at java.io.DataOutputStream.write(DataOutputStream.java:107)</span><br><span class="line">	at org.apache.hadoop.fs.FSDataOutputStream$PositionCache.write(FSDataOutputStream.java:63)</span><br><span class="line">	at java.io.DataOutputStream.write(DataOutputStream.java:107)</span><br><span class="line">	at org.apache.hudi.common.fs.SizeAwareFSDataOutputStream.lambda$write$0(SizeAwareFSDataOutputStream.java:58)</span><br><span class="line">	at org.apache.hudi.common.fs.HoodieWrapperFileSystem.executeFuncWithTimeMetrics(HoodieWrapperFileSystem.java:106)</span><br><span class="line">	at org.apache.hudi.common.fs.HoodieWrapperFileSystem.executeFuncWithTimeAndByteMetrics(HoodieWrapperFileSystem.java:124)</span><br><span class="line">	at org.apache.hudi.common.fs.SizeAwareFSDataOutputStream.write(SizeAwareFSDataOutputStream.java:55)</span><br><span class="line">	at org.apache.hadoop.fs.FSDataOutputStream$PositionCache.write(FSDataOutputStream.java:63)</span><br><span class="line">	at java.io.DataOutputStream.write(DataOutputStream.java:107)</span><br><span class="line">	at java.io.FilterOutputStream.write(FilterOutputStream.java:97)</span><br><span class="line">	at org.apache.hudi.common.table.log.HoodieLogFormatWriter.appendBlocks(HoodieLogFormatWriter.java:175)</span><br><span class="line">	at org.apache.hudi.io.HoodieAppendHandle.appendDataAndDeleteBlocks(HoodieAppendHandle.java:404)</span><br><span class="line">	at org.apache.hudi.io.HoodieAppendHandle.close(HoodieAppendHandle.java:439)</span><br><span class="line">	at org.apache.hudi.io.FlinkAppendHandle.close(FlinkAppendHandle.java:99)</span><br><span class="line">	at org.apache.hudi.execution.ExplicitWriteHandler.closeOpenHandle(ExplicitWriteHandler.java:62)</span><br><span class="line">	at org.apache.hudi.execution.ExplicitWriteHandler.finish(ExplicitWriteHandler.java:52)</span><br><span class="line">	at org.apache.hudi.common.util.queue.BoundedInMemoryQueueConsumer.consume(BoundedInMemoryQueueConsumer.java:41)</span><br><span class="line">	at org.apache.hudi.common.util.queue.BoundedInMemoryExecutor.lambda$null$2(BoundedInMemoryExecutor.java:135)</span><br><span class="line">	at java.util.concurrent.FutureTask.run(FutureTask.java:266)</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)</span><br><span class="line">	... 1 more</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可能需要调整的是taskmanager的内存参数， taskmanager.memory.task.off-heap.size 或者 taskmanager.memory.framework.off-heap.size，在启动flink session cluster的时候添加如下配置</p>
+<p>需要注意的是，需要在启动session cluster的时候配置-D参数，在flink run的时候添加内存参数是无法生效的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/lib/flink/bin/yarn-session.sh -s 1 -jm 51200 -tm 51200 -qu data -D taskmanager.memory.task.off-heap.size=4G -D taskmanager.memory.framework.off-heap.size=4G --detached</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>点到task manager的页面查看，配置的4G内存已经生效</p>
+<img src="/images/517519-20230428162823889-1458699743.png" alt="" loading="lazy" />
+
+<p>这是由于flink off-heap size默认只有128M，需要进行调整，如下</p>
+<img src="/images/517519-20230427161517997-1136953965.png" alt="" loading="lazy" />
+
+<p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/aquester/p/16986545.html">Flink 运行错误 java.lang.OutOfMemoryError: Direct buffer memory</a></p>
+<p>其他调优：<a target="_blank" rel="noopener" href="https://blog.csdn.net/xiaoyixiao_/article/details/122928240">Flink性能调优</a></p>
+<p>在flink cdc写hudi的场景下，建议使用BUCKET index type替换默认的FLINK STATE index type，FLINK STATE index type是in-memory的，十分消耗内存</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/magic-x/articles/16114261.html">HUDI-0.11.0 BUCKET index on Flink 新特性试用</a></p>
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%86%85%E5%AD%98%E8%B0%83%E4%BC%98.html#more">全文 &gt;&gt;</a>
+          </p>
+        
+      
+    </div>
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://tonglin0325.github.io/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%86%85%E5%AD%98%E8%B0%83%E4%BC%98.html" data-id="cln8csf2f0038l00l8ogk3hhq" class="article-share-link">
+        <i class="fa fa-share"></i> 分享
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Flink/" rel="tag">Flink</a></li></ul>
 
 
     </footer>
@@ -751,23 +749,23 @@ ga('send', 'pageview');
     <ul class="sidebar-module-list">
       
         <li>
-          <a href="/2022/07/22/kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94topic%E9%85%8D%E7%BD%AE/">kafka学习笔记——topic配置</a>
+          <a href="/kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94topic%E9%85%8D%E7%BD%AE.html">kafka学习笔记——topic配置</a>
         </li>
       
         <li>
-          <a href="/2022/01/13/HBase%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%A2%E6%88%B7%E7%AB%AFAPI/">HBase学习笔记——客户端API</a>
+          <a href="/HBase%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%A2%E6%88%B7%E7%AB%AFAPI.html">HBase学习笔记——客户端API</a>
         </li>
       
         <li>
-          <a href="/2022/01/12/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%AF%BB%E5%86%99HBase/">Flink学习笔记——读写HBase</a>
+          <a href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%AF%BB%E5%86%99HBase.html">Flink学习笔记——读写HBase</a>
         </li>
       
         <li>
-          <a href="/2021/12/26/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94metastore%20listener/">Hive学习笔记——metastore listener</a>
+          <a href="/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94metastore%20listener.html">Hive学习笔记——metastore listener</a>
         </li>
       
         <li>
-          <a href="/2021/12/02/mac%E4%B8%8B%E5%AE%89%E8%A3%85gradle7.3/">mac下安装gradle7.3</a>
+          <a href="/mac%E4%B8%8B%E5%AE%89%E8%A3%85gradle7.3.html">mac下安装gradle7.3</a>
         </li>
       
     </ul>

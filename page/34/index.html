@@ -106,13 +106,13 @@ ga('send', 'pageview');
         <div class="col-sm-9 blog-main">
           
   
-    <article id="post-Github workflows教程" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-ubuntu下JDK的安装" class="article article-type-post" itemscope itemprop="blogPost">
 
   <header class="article-header">
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/04/02/Github%20workflows%E6%95%99%E7%A8%8B/">Github workflows教程</a>
+      <a class="article-title" href="/ubuntu%E4%B8%8BJDK%E7%9A%84%E5%AE%89%E8%A3%85.html">ubuntu下JDK的安装</a>
     </h1>
   
 
@@ -121,7 +121,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/04/02/Github%20workflows%E6%95%99%E7%A8%8B/" class="article-date"><time datetime="2016-04-01T16:00:00.000Z" itemprop="datePublished">2016-04-02</time></a>
+  <a href="/ubuntu%E4%B8%8BJDK%E7%9A%84%E5%AE%89%E8%A3%85.html" class="article-date"><time datetime="2016-04-01T16:00:00.000Z" itemprop="datePublished">2016-04-02</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -132,74 +132,20 @@ ga('send', 'pageview');
 
     <div class="article-entry" itemprop="articleBody">
       
-        
-<div id="toc">
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Github workflows教程</span></a></li></ol>
-</div>
+        <h2 id="1-deb安装方法"><a href="#1-deb安装方法" class="headerlink" title="1.deb安装方法"></a>1.deb安装方法</h2><p>安装Oracle的jdk8</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://s3.cn-north-1.amazonaws.com.cn/tfssa/packages/oracle-java/oracle-java8-jdk_8u181_amd64.deb</span><br><span class="line">sudo dpkg -i ./oracle-java8-jdk_8u181_amd64.deb</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-        <h2><span id="github-workflows-jiao-cheng">Github workflows教程</span><a href="#github-workflows-jiao-cheng" class="header-anchor">#</a></h2>
-      
-    </div>
+<p>如何依赖不满足</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install -f</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-    
-      
+<p>如果依赖的包找不到，可以尝试</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo mv /etc/apt/sources.list.d/backports.list /etc/apt/sources.list.d/backports.list.bak</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-    
-
-    <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/04/02/Github%20workflows%E6%95%99%E7%A8%8B/" data-id="clal7v71h0000s50lbhc0dskd" class="article-share-link">
-        <i class="fa fa-share"></i> 分享
-      </a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" rel="tag">开发工具</a></li></ul>
-
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-SpringBoot学习笔记——spring-boot-configuration-processor作用" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <header class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/04/01/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94spring-boot-configuration-processor%E4%BD%9C%E7%94%A8/">SpringBoot学习笔记——spring-boot-configuration-processor作用</a>
-    </h1>
-  
-
-
-  </header>
-
-  <div class="article-meta">
-    <div class="article-datetime">
-  <a href="/2016/04/01/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94spring-boot-configuration-processor%E4%BD%9C%E7%94%A8/" class="article-date"><time datetime="2016-03-31T16:00:00.000Z" itemprop="datePublished">2016-04-01</time></a>
-</div>
-
-    <div class="article-author">tonglin0325</div>
-    
-
-  </div>
-  <div class="article-inner">
-
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>spring-boot-configuration-processor的作用是生成配置的元数据信息，即META-INF目录下的spring-configuration-metadata.json文件，从而告诉spring这个jar包中有哪些自定义的配置</p>
-<p>1.其中spring-configuration-metadata.json文件是在编译的时候自动生成的</p>
-<img src="/images/517519-20210531171156443-1931882474.png" alt="" loading="lazy" />
-
-<p>2.还可以在resources目录下手动添加META-INF/additional-spring-configuration-metadata.json文件，这个文件是手动添加的，用于对spring-configuration-metadata.json进行补充，编译后会合并到spring-configuration-metadata.json中</p>
-<img src="/images/517519-20210531171828658-1248690128.png" alt="" loading="lazy" />
-
-<p>参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1432121">spring 自动加载配置</a></p>
+<p>选择使用rpm或者apt-get来安装java-8-oracle，这时的配置将会在 /etc/profile.d/jdk.sh 中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/profile.d/jdk.sh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2016/04/01/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94spring-boot-configuration-processor%E4%BD%9C%E7%94%A8/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/ubuntu%E4%B8%8BJDK%E7%9A%84%E5%AE%89%E8%A3%85.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -208,12 +154,12 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/04/01/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94spring-boot-configuration-processor%E4%BD%9C%E7%94%A8/" data-id="ckpmudzat00047y0l9mnh8h48" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/ubuntu%E4%B8%8BJDK%E7%9A%84%E5%AE%89%E8%A3%85.html" data-id="cln8csf9800s1l00l6ivg9vzi" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" rel="tag">开发工具</a></li></ul>
 
 
     </footer>
@@ -230,7 +176,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/04/01/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%AF%BB%E5%86%99hdfs/">Flink学习笔记——读写hdfs</a>
+      <a class="article-title" href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%AF%BB%E5%86%99hdfs.html">Flink学习笔记——读写hdfs</a>
     </h1>
   
 
@@ -239,7 +185,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/04/01/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%AF%BB%E5%86%99hdfs/" class="article-date"><time datetime="2016-03-31T16:00:00.000Z" itemprop="datePublished">2016-04-01</time></a>
+  <a href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%AF%BB%E5%86%99hdfs.html" class="article-date"><time datetime="2016-03-31T16:00:00.000Z" itemprop="datePublished">2016-04-01</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -269,7 +215,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/04/01/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%AF%BB%E5%86%99hdfs/" data-id="ckqx6a7h70001950l6mrg7s8c" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%AF%BB%E5%86%99hdfs.html" data-id="cln8csf2i003hl00l9lv9afsi" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -291,7 +237,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/04/01/Kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Kafka%20Connect/">Kafka学习笔记——Kafka Connect</a>
+      <a class="article-title" href="/Kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Kafka%20Connect.html">Kafka学习笔记——Kafka Connect</a>
     </h1>
   
 
@@ -300,7 +246,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/04/01/Kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Kafka%20Connect/" class="article-date"><time datetime="2016-03-31T16:00:00.000Z" itemprop="datePublished">2016-04-01</time></a>
+  <a href="/Kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Kafka%20Connect.html" class="article-date"><time datetime="2016-03-31T16:00:00.000Z" itemprop="datePublished">2016-04-01</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -325,7 +271,7 @@ ga('send', 'pageview');
 <li>Source connector
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2016/04/01/Kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Kafka%20Connect/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/Kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Kafka%20Connect.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -334,12 +280,73 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/04/01/Kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Kafka%20Connect/" data-id="ckyoclu1o0000b80lexya7cgl" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/Kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Kafka%20Connect.html" data-id="cln8csf5700cnl00l3j3h3xe0" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kafka/" rel="tag">kafka</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-SpringBoot学习笔记——spring-boot-configuration-processor作用" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94spring-boot-configuration-processor%E4%BD%9C%E7%94%A8.html">SpringBoot学习笔记——spring-boot-configuration-processor作用</a>
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94spring-boot-configuration-processor%E4%BD%9C%E7%94%A8.html" class="article-date"><time datetime="2016-03-31T16:00:00.000Z" itemprop="datePublished">2016-04-01</time></a>
+</div>
+
+    <div class="article-author">tonglin0325</div>
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>spring-boot-configuration-processor的作用是生成配置的元数据信息，即META-INF目录下的spring-configuration-metadata.json文件，从而告诉spring这个jar包中有哪些自定义的配置</p>
+<p>1.其中spring-configuration-metadata.json文件是在编译的时候自动生成的</p>
+<img src="/images/517519-20210531171156443-1931882474.png" alt="" loading="lazy" />
+
+<p>2.还可以在resources目录下手动添加META-INF/additional-spring-configuration-metadata.json文件，这个文件是手动添加的，用于对spring-configuration-metadata.json进行补充，编译后会合并到spring-configuration-metadata.json中</p>
+<img src="/images/517519-20210531171828658-1248690128.png" alt="" loading="lazy" />
+
+<p>参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1432121">spring 自动加载配置</a></p>
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94spring-boot-configuration-processor%E4%BD%9C%E7%94%A8.html#more">全文 &gt;&gt;</a>
+          </p>
+        
+      
+    </div>
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://tonglin0325.github.io/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94spring-boot-configuration-processor%E4%BD%9C%E7%94%A8.html" data-id="cln8csf7000jll00lf0pphcpw" class="article-share-link">
+        <i class="fa fa-share"></i> 分享
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a></li></ul>
 
 
     </footer>
@@ -356,7 +363,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/04/01/confluent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94schema%20registry/">confluent学习笔记——schema registry</a>
+      <a class="article-title" href="/confluent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94schema%20registry.html">confluent学习笔记——schema registry</a>
     </h1>
   
 
@@ -365,7 +372,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/04/01/confluent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94schema%20registry/" class="article-date"><time datetime="2016-03-31T16:00:00.000Z" itemprop="datePublished">2016-04-01</time></a>
+  <a href="/confluent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94schema%20registry.html" class="article-date"><time datetime="2016-03-31T16:00:00.000Z" itemprop="datePublished">2016-04-01</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -392,7 +399,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/04/01/confluent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94schema%20registry/" data-id="ckyoclu4v0002b80l95g25pz3" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/confluent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94schema%20registry.html" data-id="cln8csf8c00oil00l3qquh776" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -414,7 +421,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/31/Java%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E8%A1%A8%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/">Java排序算法——表插入排序</a>
+      <a class="article-title" href="/Java%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E8%A1%A8%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F.html">Java排序算法——表插入排序</a>
     </h1>
   
 
@@ -423,7 +430,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/03/31/Java%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E8%A1%A8%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/" class="article-date"><time datetime="2016-03-30T16:00:00.000Z" itemprop="datePublished">2016-03-31</time></a>
+  <a href="/Java%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E8%A1%A8%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F.html" class="article-date"><time datetime="2016-03-30T16:00:00.000Z" itemprop="datePublished">2016-03-31</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -437,7 +444,7 @@ ga('send', 'pageview');
         <img src="/images/517519-20160331103029723-1758410325.png" alt="" />
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2016/03/31/Java%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E8%A1%A8%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/Java%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E8%A1%A8%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -446,7 +453,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/03/31/Java%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E8%A1%A8%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/" data-id="ckobghi9w006nz90l5r930iri" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/Java%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E8%A1%A8%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F.html" data-id="cln8csf4e009vl00lecr81fm1" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -468,7 +475,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/31/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8/">Java数据结构——双向链表</a>
+      <a class="article-title" href="/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8.html">Java数据结构——双向链表</a>
     </h1>
   
 
@@ -477,7 +484,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/03/31/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8/" class="article-date"><time datetime="2016-03-30T16:00:00.000Z" itemprop="datePublished">2016-03-31</time></a>
+  <a href="/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8.html" class="article-date"><time datetime="2016-03-30T16:00:00.000Z" itemprop="datePublished">2016-03-31</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -493,7 +500,7 @@ ga('send', 'pageview');
 <img src="/images/517519-20160331110144816-702423933.png" alt="" />
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2016/03/31/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -502,7 +509,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/03/31/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8/" data-id="ckobghia2006yz90lddcwe56l" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8.html" data-id="cln8csf4m00all00l9avrgvyc" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -524,7 +531,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/31/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E8%BF%AD%E4%BB%A3%E5%99%A8/">Java数据结构——迭代器</a>
+      <a class="article-title" href="/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E8%BF%AD%E4%BB%A3%E5%99%A8.html">Java数据结构——迭代器</a>
     </h1>
   
 
@@ -533,7 +540,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/03/31/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E8%BF%AD%E4%BB%A3%E5%99%A8/" class="article-date"><time datetime="2016-03-30T16:00:00.000Z" itemprop="datePublished">2016-03-31</time></a>
+  <a href="/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E8%BF%AD%E4%BB%A3%E5%99%A8.html" class="article-date"><time datetime="2016-03-30T16:00:00.000Z" itemprop="datePublished">2016-03-31</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -547,7 +554,7 @@ ga('send', 'pageview');
         <img src="/images/517519-20160418195007304-1029185640.png" alt="" />
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2016/03/31/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E8%BF%AD%E4%BB%A3%E5%99%A8/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E8%BF%AD%E4%BB%A3%E5%99%A8.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -556,7 +563,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/03/31/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E8%BF%AD%E4%BB%A3%E5%99%A8/" data-id="ckobghia7007dz90ldx8kdkrq" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E8%BF%AD%E4%BB%A3%E5%99%A8.html" data-id="cln8csf4v00bdl00lemu2462o" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -578,7 +585,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/31/OpenTSDB%20API%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/">OpenTSDB API基本操作</a>
+      <a class="article-title" href="/OpenTSDB%20API%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C.html">OpenTSDB API基本操作</a>
     </h1>
   
 
@@ -587,7 +594,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/03/31/OpenTSDB%20API%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" class="article-date"><time datetime="2016-03-30T16:00:00.000Z" itemprop="datePublished">2016-03-31</time></a>
+  <a href="/OpenTSDB%20API%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C.html" class="article-date"><time datetime="2016-03-30T16:00:00.000Z" itemprop="datePublished">2016-03-31</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -602,7 +609,7 @@ ga('send', 'pageview');
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://www.docs4dev.com/docs/zh/opentsdb/2.3/reference/user_guide-cli-index.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2016/03/31/OpenTSDB%20API%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/OpenTSDB%20API%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -611,7 +618,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/03/31/OpenTSDB%20API%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" data-id="ckzjdnrtf00069v0l9s126j8w" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/OpenTSDB%20API%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C.html" data-id="cln8csf5v00f9l00lc69n8vx3" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -627,13 +634,13 @@ ga('send', 'pageview');
 
 
   
-    <article id="post-使用java原生API，DOM4J，JDOM和SAX解析XML文件" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-screen使用教程" class="article article-type-post" itemscope itemprop="blogPost">
 
   <header class="article-header">
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/31/%E4%BD%BF%E7%94%A8java%E5%8E%9F%E7%94%9FAPI%EF%BC%8CDOM4J%EF%BC%8CJDOM%E5%92%8CSAX%E8%A7%A3%E6%9E%90XML%E6%96%87%E4%BB%B6/">使用java原生API，DOM4J，JDOM和SAX解析XML文件</a>
+      <a class="article-title" href="/screen%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html">screen使用教程</a>
     </h1>
   
 
@@ -642,7 +649,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/03/31/%E4%BD%BF%E7%94%A8java%E5%8E%9F%E7%94%9FAPI%EF%BC%8CDOM4J%EF%BC%8CJDOM%E5%92%8CSAX%E8%A7%A3%E6%9E%90XML%E6%96%87%E4%BB%B6/" class="article-date"><time datetime="2016-03-30T16:00:00.000Z" itemprop="datePublished">2016-03-31</time></a>
+  <a href="/screen%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html" class="article-date"><time datetime="2016-03-30T16:00:00.000Z" itemprop="datePublished">2016-03-31</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -653,26 +660,53 @@ ga('send', 'pageview');
 
     <div class="article-entry" itemprop="articleBody">
       
-        <img src="/images/517519-20160331214007488-1382884137.png" alt="" width="640" height="233" />
+        
+<div id="toc">
+  
+</div>
 
-<p>解析
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/2016/03/31/%E4%BD%BF%E7%94%A8java%E5%8E%9F%E7%94%9FAPI%EF%BC%8CDOM4J%EF%BC%8CJDOM%E5%92%8CSAX%E8%A7%A3%E6%9E%90XML%E6%96%87%E4%BB%B6/#more">全文 &gt;&gt;</a>
-          </p>
-        
+        <p>在terminal上使用跳板机远程登录其他机器的时候，经常会因为和跳板机的连接断开而丢失会话，如下</p>
+<img src="/images/517519-20230322234309773-711501839.png" width="400" height="61" loading="lazy">
+
+<p>这时候可以使用screen命令来创建和恢复会话</p>
+<p>1.创建会话</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">screen </span><br><span class="line">或者</span><br><span class="line">screen -S session_name</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这时我们就进到了一个screen会话中，比如我们进到/tmp目录下</p>
+<img src="/images/517519-20230322233429641-420003311.png" width="600" height="100" loading="lazy">
+
+<p>2.查看现有的会话</p>
+<p>这时候我们把这个terminal窗口直接关闭掉，另外开启一个terminal，输入如下命令来查看现有的会话</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">screen -ls</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>会发现当前的会话仍然存在，处于分离状态</p>
+<img src="/images/517519-20230322233647113-2032972234.png" width="500" height="78" loading="lazy">
+
+<p>3.恢复会话</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">screen -r session_name</span><br></pre></td></tr></table></figure>
+
+<img src="/images/517519-20230322233906904-1771483351.png" width="400" height="41" loading="lazy">
+
+<p>会发现我们刚才的/tmp目录的会话就被恢复了</p>
+<img src="/images/517519-20230322234007471-1708114574.png" width="500" height="80" loading="lazy">
+
+<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_34243930/article/details/106771285">Linux–screen远程必备 #screen常用命令-会话的创建、恢复、删除(&amp;重命名删除)用法</a></p>
+
       
     </div>
 
     
+      
+
+    
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/03/31/%E4%BD%BF%E7%94%A8java%E5%8E%9F%E7%94%9FAPI%EF%BC%8CDOM4J%EF%BC%8CJDOM%E5%92%8CSAX%E8%A7%A3%E6%9E%90XML%E6%96%87%E4%BB%B6/" data-id="ckzjdnrx1000a9v0lc0f68idw" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/screen%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html" data-id="cln8csf9200rel00lasxn2t5s" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" rel="tag">开发工具</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li></ul>
 
 
     </footer>
@@ -735,23 +769,23 @@ ga('send', 'pageview');
     <ul class="sidebar-module-list">
       
         <li>
-          <a href="/2022/07/22/kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94topic%E9%85%8D%E7%BD%AE/">kafka学习笔记——topic配置</a>
+          <a href="/kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94topic%E9%85%8D%E7%BD%AE.html">kafka学习笔记——topic配置</a>
         </li>
       
         <li>
-          <a href="/2022/01/13/HBase%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%A2%E6%88%B7%E7%AB%AFAPI/">HBase学习笔记——客户端API</a>
+          <a href="/HBase%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%A2%E6%88%B7%E7%AB%AFAPI.html">HBase学习笔记——客户端API</a>
         </li>
       
         <li>
-          <a href="/2022/01/12/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%AF%BB%E5%86%99HBase/">Flink学习笔记——读写HBase</a>
+          <a href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%AF%BB%E5%86%99HBase.html">Flink学习笔记——读写HBase</a>
         </li>
       
         <li>
-          <a href="/2021/12/26/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94metastore%20listener/">Hive学习笔记——metastore listener</a>
+          <a href="/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94metastore%20listener.html">Hive学习笔记——metastore listener</a>
         </li>
       
         <li>
-          <a href="/2021/12/02/mac%E4%B8%8B%E5%AE%89%E8%A3%85gradle7.3/">mac下安装gradle7.3</a>
+          <a href="/mac%E4%B8%8B%E5%AE%89%E8%A3%85gradle7.3.html">mac下安装gradle7.3</a>
         </li>
       
     </ul>

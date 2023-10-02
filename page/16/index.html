@@ -106,13 +106,13 @@ ga('send', 'pageview');
         <div class="col-sm-9 blog-main">
           
   
-    <article id="post-Spark学习笔记——spark listener" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Ubuntu安装redis缓存数据库" class="article article-type-post" itemscope itemprop="blogPost">
 
   <header class="article-header">
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/06/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94spark%20listener/">Spark学习笔记——spark listener</a>
+      <a class="article-title" href="/Ubuntu%E5%AE%89%E8%A3%85redis%E7%BC%93%E5%AD%98%E6%95%B0%E6%8D%AE%E5%BA%93.html">Ubuntu安装redis缓存数据库</a>
     </h1>
   
 
@@ -121,7 +121,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2017/05/06/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94spark%20listener/" class="article-date"><time datetime="2017-05-05T16:00:00.000Z" itemprop="datePublished">2017-05-06</time></a>
+  <a href="/Ubuntu%E5%AE%89%E8%A3%85redis%E7%BC%93%E5%AD%98%E6%95%B0%E6%8D%AE%E5%BA%93.html" class="article-date"><time datetime="2017-05-05T16:00:00.000Z" itemprop="datePublished">2017-05-06</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -132,21 +132,24 @@ ga('send', 'pageview');
 
     <div class="article-entry" itemprop="articleBody">
       
-        <p>spark可以使用SparkListener API在spark运行的过程中监控spark任务当前的运行状态，参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/yyy-blog/p/10253830.html">SparkListener监听使用方式及自定义的事件处理动作</a></p>
-<p>编写 MySparkAppListener</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">package com.bigdata.spark</span><br><span class="line"></span><br><span class="line">import org.apache.spark.internal.Logging</span><br><span class="line">import org.apache.spark.scheduler.&#123;SparkListener, SparkListenerApplicationEnd, SparkListenerApplicationStart&#125;</span><br><span class="line"></span><br><span class="line">class MySparkAppListener extends SparkListener with Logging &#123;</span><br><span class="line"></span><br><span class="line">  // 启动事件</span><br><span class="line">  override def onApplicationStart(applicationStart: SparkListenerApplicationStart): Unit = &#123;</span><br><span class="line">    val appId = applicationStart.appId</span><br><span class="line">    logInfo(&quot;spark job start =&gt; &quot; + appId.get)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // 结束事件</span><br><span class="line">  override def onApplicationEnd(applicationEnd: SparkListenerApplicationEnd): Unit = &#123;</span><br><span class="line">    logInfo(&quot;spark job end =&gt; &quot; + applicationEnd.time)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        <p>参考：<a target="_blank" rel="noopener" href="http://blog.csdn.net/xiangwanpeng/article/details/54586087">http://blog.csdn.net/xiangwanpeng/article/details/54586087</a></p>
+<p>1.在下载目录下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo wget http://download.redis.io/releases/redis-3.2.6.tar.gz</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>添加 spark.extraListeners 参数</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">val sparkSession = SparkSession.builder()</span><br><span class="line">  .master(&quot;local&quot;)</span><br><span class="line">  .config(&quot;spark.extraListeners&quot;, &quot;com.bigdata.spark.MySparkAppListener&quot;)</span><br><span class="line">  .appName(&quot;spark session example&quot;)</span><br><span class="line">  .getOrCreate()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>2.解压，并复制到/usr/local目录下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf redis-3.2.6.tar.gz</span><br><span class="line">mv redis-3.2.6 /usr/local/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>运行任务后就可以在日志当中看到对应的日志</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">21/12/27 23:13:46 INFO MySparkAppListener: spark job start =&gt; local-1640618026361</span><br><span class="line"></span><br><span class="line">21/12/27 23:13:48 INFO MySparkAppListener: spark job end =&gt; 1640618028287</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>3.编译和安装</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /redis</span><br><span class="line">sudo make</span><br><span class="line">sudo make install</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>还有其他的事件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">abstract class SparkListener extends SparkListenerInterface &#123;</span><br><span class="line">  //阶段完成时触发的事件</span><br><span class="line">  override def onStageCompleted(stageCompleted: SparkListenerStageCompleted): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  //阶段提交时触发的事件</span><br><span class="line">  override def onStageSubmitted(stageSubmitted: SparkListenerStageSubmitted): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  //任务启动时触发的事件</span><br><span class="line">  override def onTaskStart(taskStart: SparkListenerTaskStart): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  //下载任务结果的事件</span><br><span class="line">  override def onTaskGettingResult(taskGettingResult: SparkListenerTaskGettingResult): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  //任务结束的事件</span><br><span class="line">  override def onTaskEnd(taskEnd: SparkListenerTaskEnd): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  //job启动的事件</span><br><span class="line">  override def onJobStart(jobStart: SparkListenerJobStart): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  //job结束的事件</span><br><span class="line">  override def onJobEnd(jobEnd: SparkListenerJobEnd): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  //环境变量被更新的事件</span><br><span class="line">  override def onEnvironmentUpdate(environmentUpdate: SparkListenerEnvironmentUpdate): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  //块管理被添加的事件</span><br><span class="line">  override def onBlockManagerAdded(blockManagerAdded: SparkListenerBlockManagerAdded): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  override def onBlockManagerRemoved(</span><br><span class="line">      blockManagerRemoved: SparkListenerBlockManagerRemoved): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  //取消rdd缓存的事件</span><br><span class="line">  override def onUnpersistRDD(unpersistRDD: SparkListenerUnpersistRDD): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  //app启动的事件</span><br><span class="line">  override def onApplicationStart(applicationStart: SparkListenerApplicationStart): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  //app结束的事件 [以下各事件也如同函数名所表达各个阶段被触发的事件不在一一标注]</span><br><span class="line">  override def onApplicationEnd(applicationEnd: SparkListenerApplicationEnd): Unit = &#123; &#125; </span><br><span class="line"></span><br><span class="line">  override def onExecutorMetricsUpdate(</span><br><span class="line">      executorMetricsUpdate: SparkListenerExecutorMetricsUpdate): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  override def onExecutorAdded(executorAdded: SparkListenerExecutorAdded): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  override def onExecutorRemoved(executorRemoved: SparkListenerExecutorRemoved): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  override def onExecutorBlacklisted(</span><br><span class="line">      executorBlacklisted: SparkListenerExecutorBlacklisted): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  override def onExecutorUnblacklisted(</span><br><span class="line">      executorUnblacklisted: SparkListenerExecutorUnblacklisted): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  override def onNodeBlacklisted(</span><br><span class="line">      nodeBlacklisted: SparkListenerNodeBlacklisted): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  override def onNodeUnblacklisted(</span><br><span class="line">      nodeUnblacklisted: SparkListenerNodeUnblacklisted): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  override def onBlockUpdated(blockUpdated: SparkListenerBlockUpdated): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  override def onOtherEvent(event: SparkListenerEvent): Unit = &#123; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>4.在redis安装文件夹中修改文件redis.conf，使得redis在后台运行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim redis.conf</span><br><span class="line">#修改daemonize yes</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>5.启动redis</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">redis-server redis.conf</span><br><span class="line">redis-cli -p 6379</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2017/05/06/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94spark%20listener/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/Ubuntu%E5%AE%89%E8%A3%85redis%E7%BC%93%E5%AD%98%E6%95%B0%E6%8D%AE%E5%BA%93.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -155,12 +158,12 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2017/05/06/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94spark%20listener/" data-id="ckxou1arg0000ff0ldwxo5yyd" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/Ubuntu%E5%AE%89%E8%A3%85redis%E7%BC%93%E5%AD%98%E6%95%B0%E6%8D%AE%E5%BA%93.html" data-id="cln8csf7w00mul00lb3z8h5r9" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spark/" rel="tag">Spark</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/" rel="tag">redis</a></li></ul>
 
 
     </footer>
@@ -177,7 +180,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/06/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E2%80%94%E2%80%94CTR%E9%A2%84%E4%BC%B0/">广告系统架构——CTR预估</a>
+      <a class="article-title" href="/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E2%80%94%E2%80%94CTR%E9%A2%84%E4%BC%B0.html">广告系统架构——CTR预估</a>
     </h1>
   
 
@@ -186,7 +189,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2017/05/06/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E2%80%94%E2%80%94CTR%E9%A2%84%E4%BC%B0/" class="article-date"><time datetime="2017-05-05T16:00:00.000Z" itemprop="datePublished">2017-05-06</time></a>
+  <a href="/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E2%80%94%E2%80%94CTR%E9%A2%84%E4%BC%B0.html" class="article-date"><time datetime="2017-05-05T16:00:00.000Z" itemprop="datePublished">2017-05-06</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -205,7 +208,7 @@ ga('send', 'pageview');
 <p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/594275446">推荐系统(10):样本拼接工程实践</a></p>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2017/05/06/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E2%80%94%E2%80%94CTR%E9%A2%84%E4%BC%B0/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E2%80%94%E2%80%94CTR%E9%A2%84%E4%BC%B0.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -214,7 +217,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2017/05/06/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E2%80%94%E2%80%94CTR%E9%A2%84%E4%BC%B0/" data-id="clltg7oh50000zv0l62ky09ab" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E2%80%94%E2%80%94CTR%E9%A2%84%E4%BC%B0.html" data-id="cln8csfab00vxl00l08935xn6" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -236,7 +239,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/01/Python%E7%88%AC%E8%99%AB%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8selenium%E5%92%8Cphantomjs%E7%88%AC%E5%8F%96js%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E7%9A%84%E7%BD%91%E9%A1%B5/">Python爬虫学习——使用selenium和phantomjs爬取js动态加载的网页</a>
+      <a class="article-title" href="/Python%E7%88%AC%E8%99%AB%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8selenium%E5%92%8Cphantomjs%E7%88%AC%E5%8F%96js%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E7%9A%84%E7%BD%91%E9%A1%B5.html">Python爬虫学习——使用selenium和phantomjs爬取js动态加载的网页</a>
     </h1>
   
 
@@ -245,7 +248,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2017/05/01/Python%E7%88%AC%E8%99%AB%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8selenium%E5%92%8Cphantomjs%E7%88%AC%E5%8F%96js%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E7%9A%84%E7%BD%91%E9%A1%B5/" class="article-date"><time datetime="2017-04-30T16:00:00.000Z" itemprop="datePublished">2017-05-01</time></a>
+  <a href="/Python%E7%88%AC%E8%99%AB%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8selenium%E5%92%8Cphantomjs%E7%88%AC%E5%8F%96js%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E7%9A%84%E7%BD%91%E9%A1%B5.html" class="article-date"><time datetime="2017-04-30T16:00:00.000Z" itemprop="datePublished">2017-05-01</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -266,7 +269,7 @@ ga('send', 'pageview');
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo mv phantomjs-2.1.1-linux-x86_64 /usr/local/phantomjs</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2017/05/01/Python%E7%88%AC%E8%99%AB%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8selenium%E5%92%8Cphantomjs%E7%88%AC%E5%8F%96js%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E7%9A%84%E7%BD%91%E9%A1%B5/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/Python%E7%88%AC%E8%99%AB%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8selenium%E5%92%8Cphantomjs%E7%88%AC%E5%8F%96js%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E7%9A%84%E7%BD%91%E9%A1%B5.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -275,7 +278,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2017/05/01/Python%E7%88%AC%E8%99%AB%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8selenium%E5%92%8Cphantomjs%E7%88%AC%E5%8F%96js%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E7%9A%84%E7%BD%91%E9%A1%B5/" data-id="ckobghiav009gz90ld8av7f8s" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/Python%E7%88%AC%E8%99%AB%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8selenium%E5%92%8Cphantomjs%E7%88%AC%E5%8F%96js%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E7%9A%84%E7%BD%91%E9%A1%B5.html" data-id="cln8csf6000ful00l62cu9dzn" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -297,7 +300,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/01/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%9E%84%E5%BB%BA%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B/">Spark学习笔记——构建分类模型</a>
+      <a class="article-title" href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%9E%84%E5%BB%BA%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B.html">Spark学习笔记——构建分类模型</a>
     </h1>
   
 
@@ -306,7 +309,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2017/05/01/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%9E%84%E5%BB%BA%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B/" class="article-date"><time datetime="2017-04-30T16:00:00.000Z" itemprop="datePublished">2017-05-01</time></a>
+  <a href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%9E%84%E5%BB%BA%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B.html" class="article-date"><time datetime="2017-04-30T16:00:00.000Z" itemprop="datePublished">2017-05-01</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -323,7 +326,7 @@ ga('send', 'pageview');
 <p><strong>朴素贝叶斯模型</strong>简单、易训练，并且具有高效和并行的优点(实际中，模型训练只需要遍历所有数据集一次)。当采用合适的特征工程，这些模型在很多应用中都能达到不错的性能。而且，朴素贝叶斯模型可以作为一个很好的模型测试基准，用于比较其他模型的性能。</p>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2017/05/01/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%9E%84%E5%BB%BA%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%9E%84%E5%BB%BA%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -332,7 +335,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2017/05/01/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%9E%84%E5%BB%BA%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B/" data-id="ckobghib600afz90leso76mcn" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%9E%84%E5%BB%BA%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B.html" data-id="cln8csf6k00hvl00l6spug7h9" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -354,7 +357,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/04/29/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Spark%E4%B8%8A%E6%95%B0%E6%8D%AE%E7%9A%84%E8%8E%B7%E5%8F%96%E3%80%81%E5%A4%84%E7%90%86%E5%92%8C%E5%87%86%E5%A4%87/">Spark学习笔记——Spark上数据的获取、处理和准备</a>
+      <a class="article-title" href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Spark%E4%B8%8A%E6%95%B0%E6%8D%AE%E7%9A%84%E8%8E%B7%E5%8F%96%E3%80%81%E5%A4%84%E7%90%86%E5%92%8C%E5%87%86%E5%A4%87.html">Spark学习笔记——Spark上数据的获取、处理和准备</a>
     </h1>
   
 
@@ -363,7 +366,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2017/04/29/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Spark%E4%B8%8A%E6%95%B0%E6%8D%AE%E7%9A%84%E8%8E%B7%E5%8F%96%E3%80%81%E5%A4%84%E7%90%86%E5%92%8C%E5%87%86%E5%A4%87/" class="article-date"><time datetime="2017-04-28T16:00:00.000Z" itemprop="datePublished">2017-04-29</time></a>
+  <a href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Spark%E4%B8%8A%E6%95%B0%E6%8D%AE%E7%9A%84%E8%8E%B7%E5%8F%96%E3%80%81%E5%A4%84%E7%90%86%E5%92%8C%E5%87%86%E5%A4%87.html" class="article-date"><time datetime="2017-04-28T16:00:00.000Z" itemprop="datePublished">2017-04-29</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -381,7 +384,7 @@ ga('send', 'pageview');
 <p><strong>4.KDnuggets</strong>:这里包含一个详细的公开数据集列表,其中一些上面提到过的。该列表位于:<a target="_blank" rel="noopener" href="http://www.kdnuggets.com/datasets/index.html">http://www.kdnuggets.com/datasets/index.html</a></p>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2017/04/29/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Spark%E4%B8%8A%E6%95%B0%E6%8D%AE%E7%9A%84%E8%8E%B7%E5%8F%96%E3%80%81%E5%A4%84%E7%90%86%E5%92%8C%E5%87%86%E5%A4%87/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Spark%E4%B8%8A%E6%95%B0%E6%8D%AE%E7%9A%84%E8%8E%B7%E5%8F%96%E3%80%81%E5%A4%84%E7%90%86%E5%92%8C%E5%87%86%E5%A4%87.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -390,7 +393,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2017/04/29/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Spark%E4%B8%8A%E6%95%B0%E6%8D%AE%E7%9A%84%E8%8E%B7%E5%8F%96%E3%80%81%E5%A4%84%E7%90%86%E5%92%8C%E5%87%86%E5%A4%87/" data-id="ckobghib300a7z90l7uyp1sn0" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Spark%E4%B8%8A%E6%95%B0%E6%8D%AE%E7%9A%84%E8%8E%B7%E5%8F%96%E3%80%81%E5%A4%84%E7%90%86%E5%92%8C%E5%87%86%E5%A4%87.html" data-id="cln8csf6d00h3l00ldype86zq" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -412,7 +415,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/04/29/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8ESpark%E7%9A%84%E6%8E%A8%E8%8D%90%E5%BC%95%E6%93%8E/">Spark学习笔记——构建基于Spark的推荐引擎</a>
+      <a class="article-title" href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8ESpark%E7%9A%84%E6%8E%A8%E8%8D%90%E5%BC%95%E6%93%8E.html">Spark学习笔记——构建基于Spark的推荐引擎</a>
     </h1>
   
 
@@ -421,7 +424,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2017/04/29/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8ESpark%E7%9A%84%E6%8E%A8%E8%8D%90%E5%BC%95%E6%93%8E/" class="article-date"><time datetime="2017-04-28T16:00:00.000Z" itemprop="datePublished">2017-04-29</time></a>
+  <a href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8ESpark%E7%9A%84%E6%8E%A8%E8%8D%90%E5%BC%95%E6%93%8E.html" class="article-date"><time datetime="2017-04-28T16:00:00.000Z" itemprop="datePublished">2017-04-29</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -452,7 +455,7 @@ ga('send', 'pageview');
 <img src="/images/517519-20170430160031975-1941482174.png" alt="" width="391" height="299" />
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2017/04/29/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8ESpark%E7%9A%84%E6%8E%A8%E8%8D%90%E5%BC%95%E6%93%8E/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8ESpark%E7%9A%84%E6%8E%A8%E8%8D%90%E5%BC%95%E6%93%8E.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -461,7 +464,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2017/04/29/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8ESpark%E7%9A%84%E6%8E%A8%E8%8D%90%E5%BC%95%E6%93%8E/" data-id="ckobghib600agz90la0brcqau" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8ESpark%E7%9A%84%E6%8E%A8%E8%8D%90%E5%BC%95%E6%93%8E.html" data-id="cln8csf6k00hxl00l9n722lq2" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -483,7 +486,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/04/28/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E4%BA%8EMLlib%E7%9A%84%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">Spark学习笔记——基于MLlib的机器学习</a>
+      <a class="article-title" href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E4%BA%8EMLlib%E7%9A%84%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0.html">Spark学习笔记——基于MLlib的机器学习</a>
     </h1>
   
 
@@ -492,7 +495,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2017/04/28/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E4%BA%8EMLlib%E7%9A%84%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="article-date"><time datetime="2017-04-27T16:00:00.000Z" itemprop="datePublished">2017-04-28</time></a>
+  <a href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E4%BA%8EMLlib%E7%9A%84%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0.html" class="article-date"><time datetime="2017-04-27T16:00:00.000Z" itemprop="datePublished">2017-04-28</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -514,7 +517,7 @@ ga('send', 'pageview');
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.hadoop.io.&#123;IntWritable, LongWritable, MapWritable, Text&#125;</span><br><span class="line">import org.apache.spark.SparkContext</span><br><span class="line">import org.apache.spark.SparkConf</span><br><span class="line">import org.apache.spark._</span><br><span class="line">import org.apache.hadoop.mapreduce.Job</span><br><span class="line">import org.apache.hadoop.mapreduce.lib.input.KeyValueTextInputFormat</span><br><span class="line">import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat</span><br><span class="line">import org.apache.spark.sql.SQLContext</span><br><span class="line">import java.util.Properties</span><br><span class="line"></span><br><span class="line">import org.apache.spark.streaming.StreamingContext</span><br><span class="line">import org.apache.spark.streaming.StreamingContext._</span><br><span class="line">import org.apache.spark.streaming.dstream.DStream</span><br><span class="line">import org.apache.spark.streaming.Duration</span><br><span class="line">import org.apache.spark.streaming.Seconds</span><br><span class="line"></span><br><span class="line">import org.apache.spark.mllib.regression.LabeledPoint</span><br><span class="line">import org.apache.spark.mllib.feature.HashingTF</span><br><span class="line">import org.apache.spark.mllib.classification.LogisticRegressionWithSGD</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">  * Created by common on 17-4-6.</span><br><span class="line">  */</span><br><span class="line">object SparkRDD &#123;</span><br><span class="line"></span><br><span class="line">  def main(args: Array[String]) &#123;</span><br><span class="line">    val conf = new SparkConf().setAppName(&quot;WordCount&quot;).setMaster(&quot;local&quot;)</span><br><span class="line">    val sc = new SparkContext(conf)</span><br><span class="line"></span><br><span class="line">    val spam = sc.textFile(&quot;input/email/spam&quot;)</span><br><span class="line">    val normal = sc.textFile(&quot;input/email/ham&quot;)</span><br><span class="line"></span><br><span class="line">    // 创建一个HashingTF实例来把邮件文本映射为包含10000个特征的向量</span><br><span class="line">    val tf = new HashingTF(numFeatures = 10000)</span><br><span class="line">    // 各邮件都被切分为单词，每个单词被映射为一个特征</span><br><span class="line">    val spamFeatures = spam.map(email =&gt; tf.transform(email.split(&quot; &quot;)))</span><br><span class="line">    val normalFeatures = normal.map(email =&gt; tf.transform(email.split(&quot; &quot;)))</span><br><span class="line">    // 创建LabeledPoint数据集分别存放阳性（垃圾邮件）和阴性（正常邮件）的例子</span><br><span class="line">    val positiveExamples = spamFeatures.map(features =&gt; LabeledPoint(1, features))</span><br><span class="line">    val negativeExamples = normalFeatures.map(features =&gt; LabeledPoint(0, features))</span><br><span class="line">    val trainingData = positiveExamples.union(negativeExamples)</span><br><span class="line">    trainingData.cache() // 因为逻辑回归是迭代算法，所以缓存训练数据RDD</span><br><span class="line">    // 使用SGD算法运行逻辑回归</span><br><span class="line">    val model = new LogisticRegressionWithSGD().run(trainingData)</span><br><span class="line">    // 以阳性（垃圾邮件）和阴性（正常邮件）的例子分别进行测试</span><br><span class="line">    val posTest = tf.transform(</span><br><span class="line">      &quot;Experience with BiggerPenis Today! Grow 3-inches more ...&quot;.split(&quot; &quot;))</span><br><span class="line">    val negTest = tf.transform(</span><br><span class="line">      &quot;That is cold.  Is there going to be a retirement party? ...&quot;.split(&quot; &quot;))</span><br><span class="line">    println(&quot;Prediction for positive test example: &quot; + model.predict(posTest))</span><br><span class="line">    println(&quot;Prediction for negative test example: &quot; + model.predict(negTest))</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2017/04/28/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E4%BA%8EMLlib%E7%9A%84%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E4%BA%8EMLlib%E7%9A%84%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -523,7 +526,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2017/04/28/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E4%BA%8EMLlib%E7%9A%84%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" data-id="ckobghib400a9z90lao6t6o6i" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E4%BA%8EMLlib%E7%9A%84%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0.html" data-id="cln8csf6h00hil00lborq6va5" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -545,7 +548,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/04/25/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Spark%20Streaming/">Spark学习笔记——Spark Streaming</a>
+      <a class="article-title" href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Spark%20Streaming.html">Spark学习笔记——Spark Streaming</a>
     </h1>
   
 
@@ -554,7 +557,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2017/04/25/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Spark%20Streaming/" class="article-date"><time datetime="2017-04-24T16:00:00.000Z" itemprop="datePublished">2017-04-25</time></a>
+  <a href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Spark%20Streaming.html" class="article-date"><time datetime="2017-04-24T16:00:00.000Z" itemprop="datePublished">2017-04-25</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -570,7 +573,7 @@ ga('send', 'pageview');
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">name := &quot;spark-first&quot;</span><br><span class="line"></span><br><span class="line">version := &quot;1.0&quot;</span><br><span class="line"></span><br><span class="line">scalaVersion := &quot;2.11.8&quot;</span><br><span class="line"></span><br><span class="line">libraryDependencies ++= Seq(</span><br><span class="line">  &quot;org.apache.spark&quot; % &quot;spark-core_2.11&quot; % &quot;2.1.0&quot;,</span><br><span class="line">  &quot;org.apache.hadoop&quot; % &quot;hadoop-common&quot; % &quot;2.7.2&quot;,</span><br><span class="line">  &quot;mysql&quot; % &quot;mysql-connector-java&quot; % &quot;5.1.31&quot;,</span><br><span class="line">  &quot;org.apache.spark&quot; %% &quot;spark-sql&quot; % &quot;2.1.0&quot;,</span><br><span class="line">  &quot;org.apache.spark&quot; %% &quot;spark-streaming&quot; % &quot;2.1.0&quot;</span><br><span class="line"></span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2017/04/25/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Spark%20Streaming/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Spark%20Streaming.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -579,7 +582,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2017/04/25/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Spark%20Streaming/" data-id="ckobghib300a5z90l5zri9yzw" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Spark%20Streaming.html" data-id="cln8csf6c00gyl00le3utfqby" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -601,7 +604,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/04/19/Scala%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%96%AD%E8%A8%80%E5%92%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">Scala学习笔记——断言和单元测试</a>
+      <a class="article-title" href="/Scala%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%96%AD%E8%A8%80%E5%92%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95.html">Scala学习笔记——断言和单元测试</a>
     </h1>
   
 
@@ -610,7 +613,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2017/04/19/Scala%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%96%AD%E8%A8%80%E5%92%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" class="article-date"><time datetime="2017-04-18T16:00:00.000Z" itemprop="datePublished">2017-04-19</time></a>
+  <a href="/Scala%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%96%AD%E8%A8%80%E5%92%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95.html" class="article-date"><time datetime="2017-04-18T16:00:00.000Z" itemprop="datePublished">2017-04-19</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -627,7 +630,7 @@ ga('send', 'pageview');
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">package com.scala.first</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">  * Created by common on 17-4-19.</span><br><span class="line">  */</span><br><span class="line">object Assert &#123;</span><br><span class="line"></span><br><span class="line">  def main(args: Array[String]): Unit = &#123;</span><br><span class="line">    val a = new Assert()</span><br><span class="line">    a.above1(0)</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Assert &#123;</span><br><span class="line">  val value = 1</span><br><span class="line"></span><br><span class="line">  def above(that: Int): Unit = &#123;</span><br><span class="line">    val thatVal = that</span><br><span class="line">    val thisVal = this.value</span><br><span class="line">    //如果条件不满足，Exception in thread &quot;main&quot; java.lang.AssertionError: assertion failed</span><br><span class="line">    assert(thatVal == thisVal)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  //另一种断言</span><br><span class="line">  //如果条件不满足，Exception in thread &quot;main&quot; java.lang.AssertionError: assertion failed</span><br><span class="line">  def above1(that: Int): Unit = &#123;</span><br><span class="line">    &#123;</span><br><span class="line">      val thatVal = that</span><br><span class="line">      val thisVal = this.value</span><br><span class="line">    &#125; ensuring(that == this.value)</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2017/04/19/Scala%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%96%AD%E8%A8%80%E5%92%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/Scala%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%96%AD%E8%A8%80%E5%92%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -636,7 +639,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2017/04/19/Scala%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%96%AD%E8%A8%80%E5%92%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" data-id="ckobghi5x000dz90le62egp4s" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/Scala%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%96%AD%E8%A8%80%E5%92%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95.html" data-id="cln8csf6700gil00l415e67p1" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -658,7 +661,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/04/19/Scala%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%A0%B7%E6%9C%AC%E7%B1%BB%E5%92%8C%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/">Scala学习笔记——样本类和模式匹配</a>
+      <a class="article-title" href="/Scala%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%A0%B7%E6%9C%AC%E7%B1%BB%E5%92%8C%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D.html">Scala学习笔记——样本类和模式匹配</a>
     </h1>
   
 
@@ -667,7 +670,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2017/04/19/Scala%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%A0%B7%E6%9C%AC%E7%B1%BB%E5%92%8C%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/" class="article-date"><time datetime="2017-04-18T16:00:00.000Z" itemprop="datePublished">2017-04-19</time></a>
+  <a href="/Scala%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%A0%B7%E6%9C%AC%E7%B1%BB%E5%92%8C%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D.html" class="article-date"><time datetime="2017-04-18T16:00:00.000Z" itemprop="datePublished">2017-04-19</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -683,7 +686,7 @@ ga('send', 'pageview');
 <p>被申明为样本类的类的<strong>特点</strong>：1.会添加和类名一致的工厂方法；2.样本类参数列表中的所有参数隐式获得了val前缀，因此它被当做字段维护；3.编译器被这个样本类添加了toString、hashcode、equals方法的实现；4.支持了模式匹配</p>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2017/04/19/Scala%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%A0%B7%E6%9C%AC%E7%B1%BB%E5%92%8C%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/Scala%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%A0%B7%E6%9C%AC%E7%B1%BB%E5%92%8C%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -692,7 +695,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2017/04/19/Scala%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%A0%B7%E6%9C%AC%E7%B1%BB%E5%92%8C%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/" data-id="ckobghib0009vz90l2k1u8pq3" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/Scala%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%A0%B7%E6%9C%AC%E7%B1%BB%E5%92%8C%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D.html" data-id="cln8csf6700gkl00lcwsb1t5m" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -760,23 +763,23 @@ ga('send', 'pageview');
     <ul class="sidebar-module-list">
       
         <li>
-          <a href="/2022/07/22/kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94topic%E9%85%8D%E7%BD%AE/">kafka学习笔记——topic配置</a>
+          <a href="/kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94topic%E9%85%8D%E7%BD%AE.html">kafka学习笔记——topic配置</a>
         </li>
       
         <li>
-          <a href="/2022/01/13/HBase%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%A2%E6%88%B7%E7%AB%AFAPI/">HBase学习笔记——客户端API</a>
+          <a href="/HBase%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%A2%E6%88%B7%E7%AB%AFAPI.html">HBase学习笔记——客户端API</a>
         </li>
       
         <li>
-          <a href="/2022/01/12/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%AF%BB%E5%86%99HBase/">Flink学习笔记——读写HBase</a>
+          <a href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%AF%BB%E5%86%99HBase.html">Flink学习笔记——读写HBase</a>
         </li>
       
         <li>
-          <a href="/2021/12/26/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94metastore%20listener/">Hive学习笔记——metastore listener</a>
+          <a href="/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94metastore%20listener.html">Hive学习笔记——metastore listener</a>
         </li>
       
         <li>
-          <a href="/2021/12/02/mac%E4%B8%8B%E5%AE%89%E8%A3%85gradle7.3/">mac下安装gradle7.3</a>
+          <a href="/mac%E4%B8%8B%E5%AE%89%E8%A3%85gradle7.3.html">mac下安装gradle7.3</a>
         </li>
       
     </ul>

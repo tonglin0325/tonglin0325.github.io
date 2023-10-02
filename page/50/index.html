@@ -106,13 +106,13 @@ ga('send', 'pageview');
         <div class="col-sm-9 blog-main">
           
   
-    <article id="post-JavaScript排序算法——选择排序" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-JavaScript排序算法——快速排序" class="article article-type-post" itemscope itemprop="blogPost">
 
   <header class="article-header">
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/02/03/JavaScript%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/">JavaScript排序算法——选择排序</a>
+      <a class="article-title" href="/JavaScript%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F.html">JavaScript排序算法——快速排序</a>
     </h1>
   
 
@@ -121,7 +121,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/02/03/JavaScript%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/" class="article-date"><time datetime="2016-02-02T16:00:00.000Z" itemprop="datePublished">2016-02-03</time></a>
+  <a href="/JavaScript%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F.html" class="article-date"><time datetime="2016-02-02T16:00:00.000Z" itemprop="datePublished">2016-02-03</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -132,10 +132,10 @@ ga('send', 'pageview');
 
     <div class="article-entry" itemprop="articleBody">
       
-        <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;</span><br><span class="line">&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;</span><br><span class="line">&lt;title&gt;选择排序&lt;/title&gt;</span><br><span class="line">&lt;!--&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;../style/fdt.css&quot; /&gt;--&gt;</span><br><span class="line">&lt;script type=&quot;text/javascript&quot; src=&quot;../js/jquery-1.6.2.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script type=&quot;text/javascript&quot; src=&quot;../js/jquery.easydrag.handler.beta2.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line"></span><br><span class="line">	$(document).ready(</span><br><span class="line">		function() &#123; </span><br><span class="line">			</span><br><span class="line">			var array_1 = [9,8,7,6,5,4,3,2,1];</span><br><span class="line">			alert(array_1);</span><br><span class="line">			/*selectionSort*/</span><br><span class="line">		    alert(selectionSort(array_1));</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">	); </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style type=&quot;text/css&quot;&gt;</span><br><span class="line">	</span><br><span class="line">	* &#123; padding:0; margin:0; &#125;</span><br><span class="line"></span><br><span class="line">	body &#123;</span><br><span class="line">		padding: 100px;</span><br><span class="line">		font-size: 15px; </span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">	function selectionSort(array)&#123;</span><br><span class="line">		var len = array.length;</span><br><span class="line">		var index = 0;</span><br><span class="line">		var k;</span><br><span class="line">		var item;</span><br><span class="line">		var c;</span><br><span class="line">		for(var i=0; i&lt;len; i++)&#123;</span><br><span class="line">			</span><br><span class="line">			//最小的数</span><br><span class="line">			item = array[i];</span><br><span class="line">			//最小的数的位置编号</span><br><span class="line">			index = i;</span><br><span class="line">			//寻找最小的数位置</span><br><span class="line">			for(j=i+1; j&lt;len;j++)&#123;</span><br><span class="line">				if(array[j] &lt; item)&#123;</span><br><span class="line">					index = j;</span><br><span class="line">					item = array[j];</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			if(index != i)&#123;</span><br><span class="line">				c = array[i];</span><br><span class="line">				array[i] = array[index];</span><br><span class="line">				array[index] = c;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return array;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">	选择排序</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;</span><br><span class="line">&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;</span><br><span class="line">&lt;title&gt;快速排序&lt;/title&gt;</span><br><span class="line">&lt;!--&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;../style/fdt.css&quot; /&gt;--&gt;</span><br><span class="line">&lt;script type=&quot;text/javascript&quot; src=&quot;../js/jquery-1.6.2.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script type=&quot;text/javascript&quot; src=&quot;../js/jquery.easydrag.handler.beta2.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line"></span><br><span class="line">	$(document).ready(</span><br><span class="line">		function() &#123; </span><br><span class="line">			</span><br><span class="line">			var array_1 = [4,5,3,1,2];</span><br><span class="line">			alert(array_1);</span><br><span class="line">			/*quickSort*/</span><br><span class="line">		    alert(quickSort(array_1));</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">	); </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style type=&quot;text/css&quot;&gt;</span><br><span class="line">	</span><br><span class="line">	* &#123; padding:0; margin:0; &#125;</span><br><span class="line"></span><br><span class="line">	body &#123;</span><br><span class="line">		padding: 100px;</span><br><span class="line">		font-size: 15px; </span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">	function quickSort(array)&#123;</span><br><span class="line">		//var array = [8,4,6,2,7,9,3,5,74,5];</span><br><span class="line">		//var array = [0,1,2,44,4,324,5,65,6,6,34,4,5,6,2,43,5,6,62,43,5,1,4,51,56,76,7,7,2,1,45,4,6,7];</span><br><span class="line">		var i = 0;</span><br><span class="line">		var j = array.length - 1;</span><br><span class="line">		var Sort = function(i, j)&#123;</span><br><span class="line">			</span><br><span class="line">			// 结束条件</span><br><span class="line">			if(i == j )&#123; return &#125;;</span><br><span class="line">			</span><br><span class="line">			var key = array[i];</span><br><span class="line">			var stepi = i; // 记录开始位置</span><br><span class="line">			var stepj = j; // 记录结束位置</span><br><span class="line">			</span><br><span class="line">			while(j &gt; i)&#123;</span><br><span class="line">				alert(array);</span><br><span class="line">				// j &lt;&lt;-------------- 向前查找</span><br><span class="line">				if(array[j] &gt;= key)&#123;</span><br><span class="line">					j--;</span><br><span class="line">				&#125;else&#123;</span><br><span class="line">					array[i] = array[j]</span><br><span class="line">					//i++ ------------&gt;&gt;向后查找</span><br><span class="line">					while(j &gt; ++i)&#123;</span><br><span class="line">						if(array[i] &gt; key)&#123;</span><br><span class="line">							array[j] = array[i];</span><br><span class="line">							break;</span><br><span class="line">						&#125;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			alert(array);</span><br><span class="line">			alert(&quot;i=&quot;+i+&quot;,j=&quot;+j+&quot;,stepi=&quot;+stepi+&quot;,stepj=&quot;+stepj);</span><br><span class="line">			</span><br><span class="line">			// 如果第一个取出的 key 是最小的数</span><br><span class="line">			if(stepi == i)&#123;</span><br><span class="line">				Sort(++i, stepj);</span><br><span class="line">				return ;</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">			// 最后一个空位留给 key</span><br><span class="line">			array[i] = key;</span><br><span class="line">			</span><br><span class="line">			// 递归</span><br><span class="line">			Sort(stepi, i);</span><br><span class="line">			Sort(j, stepj);</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		Sort(i, j);</span><br><span class="line">		</span><br><span class="line">		return array;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">	快速排序</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2016/02/03/JavaScript%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/JavaScript%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -144,7 +144,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/02/03/JavaScript%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/" data-id="ckobghi8w003uz90l2oqvaizv" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/JavaScript%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F.html" data-id="cln8csf3n007kl00lb7xy6yoe" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -160,13 +160,13 @@ ga('send', 'pageview');
 
 
   
-    <article id="post-Flink学习笔记——报错合集" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-JavaScript排序算法——选择排序" class="article article-type-post" itemscope itemprop="blogPost">
 
   <header class="article-header">
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/02/03/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%8A%A5%E9%94%99%E5%90%88%E9%9B%86/">Flink学习笔记——报错合集</a>
+      <a class="article-title" href="/JavaScript%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F.html">JavaScript排序算法——选择排序</a>
     </h1>
   
 
@@ -175,7 +175,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/02/03/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%8A%A5%E9%94%99%E5%90%88%E9%9B%86/" class="article-date"><time datetime="2016-02-02T16:00:00.000Z" itemprop="datePublished">2016-02-03</time></a>
+  <a href="/JavaScript%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F.html" class="article-date"><time datetime="2016-02-02T16:00:00.000Z" itemprop="datePublished">2016-02-03</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -186,18 +186,10 @@ ga('send', 'pageview');
 
     <div class="article-entry" itemprop="articleBody">
       
-        <p>遇到的flink任务各种报错合集</p>
-<p>1.Exception in thread “main” java.lang.NoSuchMethodError: org.apache.commons.cli.Option.builder(Ljava/lang/String;)Lorg/apache/commons/cli/Option$Builder;</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Exception in thread &quot;main&quot; java.lang.NoSuchMethodError: org.apache.commons.cli.Option.builder(Ljava/lang/String;)Lorg/apache/commons/cli/Option$Builder;</span><br><span class="line">	at org.apache.flink.runtime.entrypoint.parser.CommandLineOptions.&lt;clinit&gt;(CommandLineOptions.java:27)</span><br><span class="line">	at org.apache.flink.runtime.entrypoint.DynamicParametersConfigurationParserFactory.options(DynamicParametersConfigurationParserFactory.java:43)</span><br><span class="line">	at org.apache.flink.runtime.entrypoint.DynamicParametersConfigurationParserFactory.getOptions(DynamicParametersConfigurationParserFactory.java:50)</span><br><span class="line">	at org.apache.flink.runtime.entrypoint.parser.CommandLineParser.parse(CommandLineParser.java:42)</span><br><span class="line">	at org.apache.flink.runtime.entrypoint.ClusterEntrypointUtils.parseParametersOrExit(ClusterEntrypointUtils.java:70)</span><br><span class="line">	at org.apache.flink.yarn.entrypoint.YarnApplicationClusterEntryPoint.main(YarnApplicationClusterEntryPoint.java:87)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>这是由于commons-cli包版本过低导致的，从1.2.升级到1.5.0可以解决这个问题</p>
-<p>2.Caused by: java.lang.ClassCastException: org.codehaus.janino.CompilerFactory cannot be cast to org.codehaus.commons.compiler.ICompilerFactory</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">org.apache.flink.client.program.ProgramInvocationException: The main method caused an error: Unable to instantiate java compiler</span><br><span class="line">	at org.apache.flink.client.program.PackagedProgram.callMainMethod(PackagedProgram.java:372)</span><br><span class="line">	at org.apache.flink.client.program.PackagedProgram.invokeInteractiveModeForExecution(PackagedProgram.java:222)</span><br><span class="line">	at org.apache.flink.client.ClientUtils.executeProgram(ClientUtils.java:114)</span><br><span class="line">	at org.apache.flink.client.cli.CliFrontend.executeProgram(CliFrontend.java:836)</span><br><span class="line">	at org.apache.flink.client.cli.CliFrontend.run(CliFrontend.java:247)</span><br><span class="line">	at org.apache.flink.client.cli.CliFrontend.parseAndRun(CliFrontend.java:1078)</span><br><span class="line">	at org.apache.flink.client.cli.CliFrontend.lambda$main$10(CliFrontend.java:1156)</span><br><span class="line">	at java.security.AccessController.doPrivileged(Native Method)</span><br><span class="line">	at javax.security.auth.Subject.doAs(Subject.java:422)</span><br><span class="line">	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1878)</span><br><span class="line">	at org.apache.flink.runtime.security.contexts.HadoopSecurityContext.runSecured(HadoopSecurityContext.java:41)</span><br><span class="line">	at org.apache.flink.client.cli.CliFrontend.main(CliFrontend.java:1156)</span><br><span class="line">Caused by: java.lang.IllegalStateException: Unable to instantiate java compiler</span><br><span class="line">	at org.apache.calcite.rel.metadata.JaninoRelMetadataProvider.compile(JaninoRelMetadataProvider.java:428)</span><br><span class="line">	at org.apache.calcite.rel.metadata.JaninoRelMetadataProvider.load3(JaninoRelMetadataProvider.java:374)</span><br><span class="line">	at org.apache.calcite.rel.metadata.JaninoRelMetadataProvider.lambda$static$0(JaninoRelMetadataProvider.java:109)</span><br><span class="line">	at org.apache.flink.calcite.shaded.com.google.common.cache.CacheLoader$FunctionToCacheLoader.load(CacheLoader.java:165)</span><br><span class="line">	at org.apache.flink.calcite.shaded.com.google.common.cache.LocalCache$LoadingValueReference.loadFuture(LocalCache.java:3529)</span><br><span class="line">	at org.apache.flink.calcite.shaded.com.google.common.cache.LocalCache$Segment.loadSync(LocalCache.java:2278)</span><br><span class="line">	at org.apache.flink.calcite.shaded.com.google.common.cache.LocalCache$Segment.lockedGetOrLoad(LocalCache.java:2155)</span><br><span class="line">	at org.apache.flink.calcite.shaded.com.google.common.cache.LocalCache$Segment.get(LocalCache.java:2045)</span><br><span class="line">	at org.apache.flink.calcite.shaded.com.google.common.cache.LocalCache.get(LocalCache.java:3951)</span><br><span class="line">	at org.apache.flink.calcite.shaded.com.google.common.cache.LocalCache.getOrLoad(LocalCache.java:3974)</span><br><span class="line">	at org.apache.flink.calcite.shaded.com.google.common.cache.LocalCache$LocalLoadingCache.get(LocalCache.java:4958)</span><br><span class="line">	at org.apache.calcite.rel.metadata.JaninoRelMetadataProvider.create(JaninoRelMetadataProvider.java:469)</span><br><span class="line">	at org.apache.calcite.rel.metadata.JaninoRelMetadataProvider.revise(JaninoRelMetadataProvider.java:481)</span><br><span class="line">	at org.apache.calcite.rel.metadata.RelMetadataQueryBase.revise(RelMetadataQueryBase.java:95)</span><br><span class="line">	at org.apache.calcite.rel.metadata.RelMetadataQuery.getPulledUpPredicates(RelMetadataQuery.java:784)</span><br><span class="line">	at org.apache.calcite.rel.rules.ReduceExpressionsRule$FilterReduceExpressionsRule.onMatch(ReduceExpressionsRule.java:151)</span><br><span class="line">	at org.apache.calcite.plan.AbstractRelOptPlanner.fireRule(AbstractRelOptPlanner.java:333)</span><br><span class="line">	at org.apache.calcite.plan.hep.HepPlanner.applyRule(HepPlanner.java:542)</span><br><span class="line">	at org.apache.calcite.plan.hep.HepPlanner.applyRules(HepPlanner.java:407)</span><br><span class="line">	at org.apache.calcite.plan.hep.HepPlanner.executeInstruction(HepPlanner.java:243)</span><br><span class="line">	at org.apache.calcite.plan.hep.HepInstruction$RuleInstance.execute(HepInstruction.java:127)</span><br><span class="line">	at org.apache.calcite.plan.hep.HepPlanner.executeProgram(HepPlanner.java:202)</span><br><span class="line">	at org.apache.calcite.plan.hep.HepPlanner.findBestExp(HepPlanner.java:189)</span><br><span class="line">	at org.apache.flink.table.planner.plan.optimize.program.FlinkHepProgram.optimize(FlinkHepProgram.scala:64)</span><br><span class="line">	at org.apache.flink.table.planner.plan.optimize.program.FlinkHepRuleSetProgram.optimize(FlinkHepRuleSetProgram.scala:78)</span><br><span class="line">	at org.apache.flink.table.planner.plan.optimize.program.FlinkChainedProgram.$anonfun$optimize$1(FlinkChainedProgram.scala:59)</span><br><span class="line">	at scala.collection.TraversableOnce.$anonfun$foldLeft$1(TraversableOnce.scala:156)</span><br><span class="line">	at scala.collection.TraversableOnce.$anonfun$foldLeft$1$adapted(TraversableOnce.scala:156)</span><br><span class="line">	at scala.collection.Iterator.foreach(Iterator.scala:937)</span><br><span class="line">	at scala.collection.Iterator.foreach$(Iterator.scala:937)</span><br><span class="line">	at scala.collection.AbstractIterator.foreach(Iterator.scala:1425)</span><br><span class="line">	at scala.collection.IterableLike.foreach(IterableLike.scala:70)</span><br><span class="line">	at scala.collection.IterableLike.foreach$(IterableLike.scala:69)</span><br><span class="line">	at scala.collection.AbstractIterable.foreach(Iterable.scala:54)</span><br><span class="line">	at scala.collection.TraversableOnce.foldLeft(TraversableOnce.scala:156)</span><br><span class="line">	at scala.collection.TraversableOnce.foldLeft$(TraversableOnce.scala:154)</span><br><span class="line">	at scala.collection.AbstractTraversable.foldLeft(Traversable.scala:104)</span><br><span class="line">	at org.apache.flink.table.planner.plan.optimize.program.FlinkChainedProgram.optimize(FlinkChainedProgram.scala:55)</span><br><span class="line">	at org.apache.flink.table.planner.plan.optimize.StreamCommonSubGraphBasedOptimizer.optimizeTree(StreamCommonSubGraphBasedOptimizer.scala:175)</span><br><span class="line">	at org.apache.flink.table.planner.plan.optimize.StreamCommonSubGraphBasedOptimizer.doOptimize(StreamCommonSubGraphBasedOptimizer.scala:82)</span><br><span class="line">	at org.apache.flink.table.planner.plan.optimize.CommonSubGraphBasedOptimizer.optimize(CommonSubGraphBasedOptimizer.scala:75)</span><br><span class="line">	at org.apache.flink.table.planner.delegation.PlannerBase.optimize(PlannerBase.scala:306)</span><br><span class="line">	at org.apache.flink.table.planner.delegation.PlannerBase.translate(PlannerBase.scala:186)</span><br><span class="line">	at org.apache.flink.table.api.internal.TableEnvironmentImpl.translate(TableEnvironmentImpl.java:1656)</span><br><span class="line">	at org.apache.flink.table.api.internal.TableEnvironmentImpl.executeInternal(TableEnvironmentImpl.java:782)</span><br><span class="line">	at org.apache.flink.table.api.internal.TableEnvironmentImpl.executeInternal(TableEnvironmentImpl.java:861)</span><br><span class="line">	at org.apache.flink.table.api.internal.TableEnvironmentImpl.executeSql(TableEnvironmentImpl.java:701)</span><br><span class="line">	at com.newsbreak.data.FlinkSQLDemo.main(FlinkSQLDemo.java:415)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">	at java.lang.reflect.Method.invoke(Method.java:498)</span><br><span class="line">	at org.apache.flink.client.program.PackagedProgram.callMainMethod(PackagedProgram.java:355)</span><br><span class="line">	... 11 more</span><br><span class="line">Caused by: java.lang.ClassCastException: org.codehaus.janino.CompilerFactory cannot be cast to org.codehaus.commons.compiler.ICompilerFactory</span><br><span class="line">	at org.codehaus.commons.compiler.CompilerFactoryFactory.getCompilerFactory(CompilerFactoryFactory.java:129)</span><br><span class="line">	at org.codehaus.commons.compiler.CompilerFactoryFactory.getDefaultCompilerFactory(CompilerFactoryFactory.java:79)</span><br><span class="line">	at org.apache.calcite.rel.metadata.JaninoRelMetadataProvider.compile(JaninoRelMetadataProvider.java:426)</span><br><span class="line">	... 63 more</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>在尝试了网上搜到的各种解决方案没有效果之后，将flink任务提交的命令从
+        <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;</span><br><span class="line">&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;</span><br><span class="line">&lt;title&gt;选择排序&lt;/title&gt;</span><br><span class="line">&lt;!--&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;../style/fdt.css&quot; /&gt;--&gt;</span><br><span class="line">&lt;script type=&quot;text/javascript&quot; src=&quot;../js/jquery-1.6.2.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script type=&quot;text/javascript&quot; src=&quot;../js/jquery.easydrag.handler.beta2.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line"></span><br><span class="line">	$(document).ready(</span><br><span class="line">		function() &#123; </span><br><span class="line">			</span><br><span class="line">			var array_1 = [9,8,7,6,5,4,3,2,1];</span><br><span class="line">			alert(array_1);</span><br><span class="line">			/*selectionSort*/</span><br><span class="line">		    alert(selectionSort(array_1));</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">	); </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style type=&quot;text/css&quot;&gt;</span><br><span class="line">	</span><br><span class="line">	* &#123; padding:0; margin:0; &#125;</span><br><span class="line"></span><br><span class="line">	body &#123;</span><br><span class="line">		padding: 100px;</span><br><span class="line">		font-size: 15px; </span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">	function selectionSort(array)&#123;</span><br><span class="line">		var len = array.length;</span><br><span class="line">		var index = 0;</span><br><span class="line">		var k;</span><br><span class="line">		var item;</span><br><span class="line">		var c;</span><br><span class="line">		for(var i=0; i&lt;len; i++)&#123;</span><br><span class="line">			</span><br><span class="line">			//最小的数</span><br><span class="line">			item = array[i];</span><br><span class="line">			//最小的数的位置编号</span><br><span class="line">			index = i;</span><br><span class="line">			//寻找最小的数位置</span><br><span class="line">			for(j=i+1; j&lt;len;j++)&#123;</span><br><span class="line">				if(array[j] &lt; item)&#123;</span><br><span class="line">					index = j;</span><br><span class="line">					item = array[j];</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			if(index != i)&#123;</span><br><span class="line">				c = array[i];</span><br><span class="line">				array[i] = array[index];</span><br><span class="line">				array[index] = c;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return array;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">	选择排序</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2016/02/03/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%8A%A5%E9%94%99%E5%90%88%E9%9B%86/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/JavaScript%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -206,12 +198,12 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2016/02/03/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%8A%A5%E9%94%99%E5%90%88%E9%9B%86/" data-id="cliacrhnu0000q60lbly0d7h1" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/JavaScript%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F.html" data-id="cln8csf3o007ml00l9n2hdpgn" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Flink/" rel="tag">Flink</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
 
 
     </footer>
@@ -228,7 +220,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/09/14/Ubuntu16.04%E5%AE%89%E8%A3%85opentsdb2.4.1/">Ubuntu16.04安装opentsdb2.4.1</a>
+      <a class="article-title" href="/Ubuntu16.04%E5%AE%89%E8%A3%85opentsdb2.4.1.html">Ubuntu16.04安装opentsdb2.4.1</a>
     </h1>
   
 
@@ -237,7 +229,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2015/09/14/Ubuntu16.04%E5%AE%89%E8%A3%85opentsdb2.4.1/" class="article-date"><time datetime="2015-09-13T16:00:00.000Z" itemprop="datePublished">2015-09-14</time></a>
+  <a href="/Ubuntu16.04%E5%AE%89%E8%A3%85opentsdb2.4.1.html" class="article-date"><time datetime="2015-09-13T16:00:00.000Z" itemprop="datePublished">2015-09-14</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -295,7 +287,7 @@ ga('send', 'pageview');
 <img src="/images/517519-20211230001803231-1457375643.png" width="800" height="351" loading="lazy" />
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2015/09/14/Ubuntu16.04%E5%AE%89%E8%A3%85opentsdb2.4.1/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/Ubuntu16.04%E5%AE%89%E8%A3%85opentsdb2.4.1.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -304,7 +296,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2015/09/14/Ubuntu16.04%E5%AE%89%E8%A3%85opentsdb2.4.1/" data-id="ckxrr1e0h0000h90l1ph1d3o5" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/Ubuntu16.04%E5%AE%89%E8%A3%85opentsdb2.4.1.html" data-id="cln8csf7l00lql00l1ys78pi2" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -326,7 +318,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/09/10/jQuery%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%BC%B9%E5%87%BA%E5%AF%B9%E8%AF%9D%E6%A1%86/">jQuery学习笔记——弹出对话框</a>
+      <a class="article-title" href="/jQuery%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%BC%B9%E5%87%BA%E5%AF%B9%E8%AF%9D%E6%A1%86.html">jQuery学习笔记——弹出对话框</a>
     </h1>
   
 
@@ -335,7 +327,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2015/09/10/jQuery%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%BC%B9%E5%87%BA%E5%AF%B9%E8%AF%9D%E6%A1%86/" class="article-date"><time datetime="2015-09-09T16:00:00.000Z" itemprop="datePublished">2015-09-10</time></a>
+  <a href="/jQuery%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%BC%B9%E5%87%BA%E5%AF%B9%E8%AF%9D%E6%A1%86.html" class="article-date"><time datetime="2015-09-09T16:00:00.000Z" itemprop="datePublished">2015-09-10</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -352,7 +344,7 @@ ga('send', 'pageview');
 <p><strong>其中的引用库文件的标签要放在后面自定义的标签的前面，不然不能实现弹出对话框的效果</strong></p>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2015/09/10/jQuery%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%BC%B9%E5%87%BA%E5%AF%B9%E8%AF%9D%E6%A1%86/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/jQuery%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%BC%B9%E5%87%BA%E5%AF%B9%E8%AF%9D%E6%A1%86.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -361,7 +353,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2015/09/10/jQuery%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%BC%B9%E5%87%BA%E5%AF%B9%E8%AF%9D%E6%A1%86/" data-id="ckobghibu00coz90ldh96ela3" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/jQuery%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%BC%B9%E5%87%BA%E5%AF%B9%E8%AF%9D%E6%A1%86.html" data-id="cln8csf8k00pel00lda7e5ftv" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -383,7 +375,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/26/CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%93%8D%E5%BA%94%E5%BC%8F%E5%B8%83%E5%B1%80/">CSS学习笔记——响应式布局</a>
+      <a class="article-title" href="/CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%93%8D%E5%BA%94%E5%BC%8F%E5%B8%83%E5%B1%80.html">CSS学习笔记——响应式布局</a>
     </h1>
   
 
@@ -392,7 +384,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2015/08/26/CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%93%8D%E5%BA%94%E5%BC%8F%E5%B8%83%E5%B1%80/" class="article-date"><time datetime="2015-08-25T16:00:00.000Z" itemprop="datePublished">2015-08-26</time></a>
+  <a href="/CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%93%8D%E5%BA%94%E5%BC%8F%E5%B8%83%E5%B1%80.html" class="article-date"><time datetime="2015-08-25T16:00:00.000Z" itemprop="datePublished">2015-08-26</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -407,7 +399,7 @@ ga('send', 'pageview');
 <p>　　响应式布局是现在很流行的一个设计理念，随着移动互联网的盛<br />行，<strong>为解决</strong>如今各式各样的<strong>浏览器分辨率</strong>以及<strong>不同移动设备的显示效</strong><br /><strong>果</strong>，设计师提出了响应式布局的设计方案。所谓的<strong>响应式布局</strong>，就是<br /><strong>一个网站能够兼容多个终端</strong>&mdash;&mdash;而不是为每个终端做一个特定的版本。<br />也就说一个页面可以在多个终端呈现出你想要的效果，能够兼容各个<br />终端。</p>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2015/08/26/CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%93%8D%E5%BA%94%E5%BC%8F%E5%B8%83%E5%B1%80/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%93%8D%E5%BA%94%E5%BC%8F%E5%B8%83%E5%B1%80.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -416,7 +408,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2015/08/26/CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%93%8D%E5%BA%94%E5%BC%8F%E5%B8%83%E5%B1%80/" data-id="ckobghi7x001hz90l8ywc1kox" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%93%8D%E5%BA%94%E5%BC%8F%E5%B8%83%E5%B1%80.html" data-id="cln8csf1q0017l00l82jd2a3z" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -438,7 +430,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/24/CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%80%89%E6%8B%A9%E5%99%A8/">CSS学习笔记——选择器</a>
+      <a class="article-title" href="/CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%80%89%E6%8B%A9%E5%99%A8.html">CSS学习笔记——选择器</a>
     </h1>
   
 
@@ -447,7 +439,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2015/08/24/CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%80%89%E6%8B%A9%E5%99%A8/" class="article-date"><time datetime="2015-08-23T16:00:00.000Z" itemprop="datePublished">2015-08-24</time></a>
+  <a href="/CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%80%89%E6%8B%A9%E5%99%A8.html" class="article-date"><time datetime="2015-08-23T16:00:00.000Z" itemprop="datePublished">2015-08-24</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -471,7 +463,7 @@ ga('send', 'pageview');
 <p>**　　7、通用选择器　　* {}**</p>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2015/08/24/CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%80%89%E6%8B%A9%E5%99%A8/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%80%89%E6%8B%A9%E5%99%A8.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -480,7 +472,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2015/08/24/CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="ckobghi7y001jz90l1zs42tm3" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/CSS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%80%89%E6%8B%A9%E5%99%A8.html" data-id="cln8csf1s001dl00lahjt7ehs" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -502,7 +494,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/19/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E4%BA%8B%E4%BB%B6/">JavaScript学习笔记——事件</a>
+      <a class="article-title" href="/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E4%BA%8B%E4%BB%B6.html">JavaScript学习笔记——事件</a>
     </h1>
   
 
@@ -511,7 +503,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2015/08/19/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E4%BA%8B%E4%BB%B6/" class="article-date"><time datetime="2015-08-18T16:00:00.000Z" itemprop="datePublished">2015-08-19</time></a>
+  <a href="/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E4%BA%8B%E4%BB%B6.html" class="article-date"><time datetime="2015-08-18T16:00:00.000Z" itemprop="datePublished">2015-08-19</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -526,7 +518,7 @@ ga('send', 'pageview');
 <p><strong>一、事件驱动</strong><br />    <strong>1.事件</strong><br />      　　javascript侦测到的用户的操作或是页面的一些行为(怎么发生的)<br />    <strong>2.事件源</strong><br />      　　引发事件的元素。(发生在谁的身上)<br /><strong>3.事件处理程序</strong><br />      　　对事件处理的程序或是函数 (发生了什么事)</p>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2015/08/19/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E4%BA%8B%E4%BB%B6/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E4%BA%8B%E4%BB%B6.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -535,7 +527,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2015/08/19/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E4%BA%8B%E4%BB%B6/" data-id="ckobghi8o003cz90lhaknc1wq" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E4%BA%8B%E4%BB%B6.html" data-id="cln8csf3i0070l00l8op9f2gz" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -557,7 +549,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/11/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%8A%82%E7%82%B9/">JavaScript学习笔记——节点</a>
+      <a class="article-title" href="/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%8A%82%E7%82%B9.html">JavaScript学习笔记——节点</a>
     </h1>
   
 
@@ -566,7 +558,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2015/08/11/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%8A%82%E7%82%B9/" class="article-date"><time datetime="2015-08-10T16:00:00.000Z" itemprop="datePublished">2015-08-11</time></a>
+  <a href="/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%8A%82%E7%82%B9.html" class="article-date"><time datetime="2015-08-10T16:00:00.000Z" itemprop="datePublished">2015-08-11</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -609,7 +601,7 @@ ga('send', 'pageview');
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> alert(outdiv.nodeType)     </span><br><span class="line">alert(document.nodeType)</span><br><span class="line">alert(document.nodeName)</span><br><span class="line"> alert(document.nodeValue)</span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2015/08/11/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%8A%82%E7%82%B9/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%8A%82%E7%82%B9.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -618,7 +610,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2015/08/11/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%8A%82%E7%82%B9/" data-id="ckobghi8t003mz90l8m6v1kxz" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%8A%82%E7%82%B9.html" data-id="cln8csf3k0075l00lhxthgny2" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -640,7 +632,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/10/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AF%B9%E8%A1%A8%E5%8D%95%E7%9A%84%E6%93%8D%E4%BD%9C/">JavaScript学习笔记——对表单的操作</a>
+      <a class="article-title" href="/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AF%B9%E8%A1%A8%E5%8D%95%E7%9A%84%E6%93%8D%E4%BD%9C.html">JavaScript学习笔记——对表单的操作</a>
     </h1>
   
 
@@ -649,7 +641,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2015/08/10/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AF%B9%E8%A1%A8%E5%8D%95%E7%9A%84%E6%93%8D%E4%BD%9C/" class="article-date"><time datetime="2015-08-09T16:00:00.000Z" itemprop="datePublished">2015-08-10</time></a>
+  <a href="/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AF%B9%E8%A1%A8%E5%8D%95%E7%9A%84%E6%93%8D%E4%BD%9C.html" class="article-date"><time datetime="2015-08-09T16:00:00.000Z" itemprop="datePublished">2015-08-10</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -664,7 +656,7 @@ ga('send', 'pageview');
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;form name=&quot;myform&quot; id=&quot;form1&quot; action=&quot;&quot; method=&quot;post&quot;&gt;</span><br><span class="line">   姓名:&lt;input type=&quot;text&quot; name=&quot;names&quot; id=&quot;names&quot; value=&quot;zhangsan&quot;&gt;&lt;br/&gt;</span><br><span class="line">   年龄:&lt;input type=&quot;text&quot; name=&quot;age&quot; value=&quot;19&quot;&gt;&lt;br/&gt;</span><br><span class="line">   性别：&lt;input type=&quot;radio&quot; name=&quot;sex&quot; value=&quot;man&quot;&gt;男 &lt;input type=&quot;radio&quot; name=&quot;sex&quot; value=&quot;woman&quot;&gt;女&lt;br/&gt;</span><br><span class="line">   爱好:&lt;input type=&quot;checkbox&quot; name=&quot;like[]&quot; value=&quot;play&quot;&gt;玩  </span><br><span class="line">        &lt;input type=&quot;checkbox&quot; name=&quot;like[]&quot; value=&quot;run&quot;&gt;跑步</span><br><span class="line">        &lt;input type=&quot;checkbox&quot; name=&quot;like[]&quot; value=&quot;study&quot;&gt;学习&lt;br/&gt;</span><br><span class="line">    毕业院校:</span><br><span class="line">        &lt;select name=&quot;school&quot;&gt;</span><br><span class="line">          &lt;option&gt;</span><br><span class="line">              北京大学</span><br><span class="line">          &lt;/option&gt;</span><br><span class="line">                &lt;option&gt;</span><br><span class="line">              清华大学</span><br><span class="line">          &lt;/option&gt;</span><br><span class="line">                &lt;option&gt;</span><br><span class="line">              南开大学</span><br><span class="line">          &lt;/option&gt;</span><br><span class="line">        &lt;/select&gt;</span><br><span class="line">        &lt;br/&gt;</span><br><span class="line">    简介：&lt;textarea cols=&quot;60&quot; rows=&quot;10&quot; name=&quot;info&quot;&gt;测试&lt;/textarea&gt;&lt;br/&gt;</span><br><span class="line">    &lt;input type=&quot;button&quot; value=&quot;提交&quot;&gt;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2015/08/10/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AF%B9%E8%A1%A8%E5%8D%95%E7%9A%84%E6%93%8D%E4%BD%9C/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AF%B9%E8%A1%A8%E5%8D%95%E7%9A%84%E6%93%8D%E4%BD%9C.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -673,7 +665,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2015/08/10/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AF%B9%E8%A1%A8%E5%8D%95%E7%9A%84%E6%93%8D%E4%BD%9C/" data-id="ckobghi8q003fz90l994kgw4k" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AF%B9%E8%A1%A8%E5%8D%95%E7%9A%84%E6%93%8D%E4%BD%9C.html" data-id="cln8csf3j0072l00l63041j9l" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -695,7 +687,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/09/parquet-tools%E4%BD%BF%E7%94%A8/">parquet-tools使用</a>
+      <a class="article-title" href="/parquet-tools%E4%BD%BF%E7%94%A8.html">parquet-tools使用</a>
     </h1>
   
 
@@ -704,7 +696,7 @@ ga('send', 'pageview');
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2015/08/09/parquet-tools%E4%BD%BF%E7%94%A8/" class="article-date"><time datetime="2015-08-08T16:00:00.000Z" itemprop="datePublished">2015-08-09</time></a>
+  <a href="/parquet-tools%E4%BD%BF%E7%94%A8.html" class="article-date"><time datetime="2015-08-08T16:00:00.000Z" itemprop="datePublished">2015-08-09</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -720,7 +712,7 @@ ga('send', 'pageview');
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lintong@master:/opt/cloudera/parcels/CDH/bin$ ls| grep parquet-tools</span><br><span class="line">parquet-tools</span><br><span class="line">lintong@master:/opt/cloudera/parcels/CDH/bin$ parquet-tools</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/2015/08/09/parquet-tools%E4%BD%BF%E7%94%A8/#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/parquet-tools%E4%BD%BF%E7%94%A8.html#more">全文 &gt;&gt;</a>
           </p>
         
       
@@ -729,7 +721,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/2015/08/09/parquet-tools%E4%BD%BF%E7%94%A8/" data-id="ckyd52nol0003pd0lfqo24t8g" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/parquet-tools%E4%BD%BF%E7%94%A8.html" data-id="cln8csf8z00r2l00l8ah7e50d" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
@@ -797,23 +789,23 @@ ga('send', 'pageview');
     <ul class="sidebar-module-list">
       
         <li>
-          <a href="/2022/07/22/kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94topic%E9%85%8D%E7%BD%AE/">kafka学习笔记——topic配置</a>
+          <a href="/kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94topic%E9%85%8D%E7%BD%AE.html">kafka学习笔记——topic配置</a>
         </li>
       
         <li>
-          <a href="/2022/01/13/HBase%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%A2%E6%88%B7%E7%AB%AFAPI/">HBase学习笔记——客户端API</a>
+          <a href="/HBase%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%A2%E6%88%B7%E7%AB%AFAPI.html">HBase学习笔记——客户端API</a>
         </li>
       
         <li>
-          <a href="/2022/01/12/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%AF%BB%E5%86%99HBase/">Flink学习笔记——读写HBase</a>
+          <a href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%AF%BB%E5%86%99HBase.html">Flink学习笔记——读写HBase</a>
         </li>
       
         <li>
-          <a href="/2021/12/26/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94metastore%20listener/">Hive学习笔记——metastore listener</a>
+          <a href="/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94metastore%20listener.html">Hive学习笔记——metastore listener</a>
         </li>
       
         <li>
-          <a href="/2021/12/02/mac%E4%B8%8B%E5%AE%89%E8%A3%85gradle7.3/">mac下安装gradle7.3</a>
+          <a href="/mac%E4%B8%8B%E5%AE%89%E8%A3%85gradle7.3.html">mac下安装gradle7.3</a>
         </li>
       
     </ul>
