@@ -22,7 +22,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20231025160859685-1913876165.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20231025164817092-1179721913.png">
 <meta property="article:published_time" content="2016-05-26T16:00:00.000Z">
-<meta property="article:modified_time" content="2023-10-27T16:39:45.612Z">
+<meta property="article:modified_time" content="2023-10-28T01:06:18.103Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="ML Infra">
 <meta name="twitter:card" content="summary">
@@ -525,18 +525,18 @@ ga('send', 'pageview');
 <p><strong>图左下表</strong>展现的是一个用户实际有没有点击广告的一些正样本和负样本的数据集，标注了在不同的时间点，用户所产生的正样本或负样本。为了将这两个数据集中的特征拼接起来，形成训练用的数据集，通常需要根据用户 ID 作为 key 进行特征拼接。如果只是简单地进行 Table Join，不考虑时间戳，就可能产生特征穿越问题。&nbsp;例如在 6:03 分时，用户最近 2 分钟点击数应该是 10，但拼接得到的特征值可能是来自 7:00 分时的 6。这种特征穿越会带来实际推理效果的下降。参考：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/43Gh-rl7oiCKEmePhNuHHA">流批一体的实时特征工程平台建设实践</a></p>
 <h3><span id="2-point-in-time-correct-join"><strong>2.point-in-time correct join</strong></span><a href="#2-point-in-time-correct-join" class="header-anchor">#</a></h3><p>SQL的思路就是先将曝光点击表和特征表进行inner join，曝光点击表的时间戳取曝光时间戳event_timestamp，特征表的时间戳为feature_timestamp</p>
 <p>曝光点击表</p>
-<p>&nbsp;<br>|用户id|文章id|曝光时间戳，event_timestamp``|点击时间戳|label，0没点击/1点击<br>|A|1|2022-01-01 10:01:30|2022-01-01 10:02:00|1<br>|A|2|2022-01-01 10:01:30|&nbsp;|0<br>|B|1|2022-01-01 10:02:30|&nbsp;|0<br>|B|2|2022-01-01 10:02:30|2022-01-01 10:03:00|1</p>
+<p>&nbsp;<br>|用户id|文章id|曝光时间戳（event_timestamp）|点击时间戳|label（0没点击/1点击）<br>|A|1|2022-01-01 10:01:30|2022-01-01 10:02:00|1<br>|A|2|2022-01-01 10:01:30|&nbsp;|0<br>|B|1|2022-01-01 10:02:30|&nbsp;|0<br>|B|2|2022-01-01 10:02:30|2022-01-01 10:03:00|1</p>
 <img src="/images/517519-20231025172509647-1243117856.png" width="800" height="108" loading="lazy">
 
 <p>特征表</p>
-<p>&nbsp;<br>|特征时间戳，每10分钟一个窗口，feature_timestamp|用户id|用户最近10分钟看的文章的数量|文章id|最近10分钟文章的点赞数量<br>|2022-01-01 09:40:00|B|5|1|5<br>|2022-01-01 09:50:00|A|20|1|10<br>|2022-01-01 09:50:00|B|10|2|50<br>|2022-01-01 10:00:00|A|10|1|100<br>|2022-01-01 10:00:00|A|10|2|200<br>|2022-01-01 10:00:00|B|20|1|100<br>|2022-01-01 10:00:00|B|20|2|200</p>
+<p>&nbsp;<br>|特征时间戳（每10分钟一个窗口、feature_timestamp）|用户id|用户最近10分钟看的文章的数量|文章id|最近10分钟文章的点赞数量<br>|2022-01-01 09:40:00|B|5|1|5<br>|2022-01-01 09:50:00|A|20|1|10<br>|2022-01-01 09:50:00|B|10|2|50<br>|2022-01-01 10:00:00|A|10|1|100<br>|2022-01-01 10:00:00|A|10|2|200<br>|2022-01-01 10:00:00|B|20|1|100<br>|2022-01-01 10:00:00|B|20|2|200</p>
 <img src="/images/517519-20231025172544423-1398210801.png" width="800" height="145" loading="lazy">
 
 <p>使用用户id和文章id进行inner join，得到如下表</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">CREATE VIEW feature_data AS</span><br><span class="line">    select feature_timestamp,</span><br><span class="line">           t1.user_id,</span><br><span class="line">           view_num_10_mins,</span><br><span class="line">           t1.doc_id,</span><br><span class="line">           doc_like_num_10_mins,</span><br><span class="line">           event_timestamp,</span><br><span class="line">           click_timestamp,</span><br><span class="line">           label</span><br><span class="line">    from (select * from click_view) t1</span><br><span class="line">             inner join</span><br><span class="line">             (select * from feature_table) t2</span><br><span class="line">             on t1.user_id = t2.user_id and t1.doc_id = t2.doc_id</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>可以看到由于特征有多个版本（例子里面有3个版本），所以join出来的结果会比较多，但是我们需要取得离event_timestamp最近的特征（红色标记），所以需要进行DeDuplicate操作</p>
-<p>&nbsp;<br>|特征时间戳，每10分钟一个窗口，feature_timestamp|用户id|用户最近10分钟看的文章的数量|文章id|最近10分钟文章的点赞数量|曝光时间戳，event_timestamp``|点击时间戳|label，0没点击/1点击<br>|2022-01-01 09:40:00|B|5|1|5|2022-01-01 10:02:30|&nbsp;|0<br>|2022-01-01 09:50:00|A|20|1|10|2022-01-01 10:01:30|2022-01-01 10:02:00|1<br>|2022-01-01 09:50:00|B|10|2|50|2022-01-01 10:02:30|2022-01-01 10:03:00|1<br>|2022-01-01 10:00:00|A|10|1|100|2022-01-01 10:01:30|2022-01-01 10:02:00|1<br>|2022-01-01 10:00:00|A|10|2|200|2022-01-01 10:01:30|&nbsp;|0<br>|2022-01-01 10:00:00|B|20|1|100|2022-01-01 10:02:30|&nbsp;|0<br>|2022-01-01 10:00:00|B|20|2|200|2022-01-01 10:02:30|2022-01-01 10:03:00|1</p>
+<p>&nbsp;<br>|特征时间戳（每10分钟一个窗口、feature_timestamp）|用户id|用户最近10分钟看的文章的数量|文章id|最近10分钟文章的点赞数量|曝光时间戳（event_timestamp）``|点击时间戳|label（0没点击/1点击）<br>|2022-01-01 09:40:00|B|5|1|5|2022-01-01 10:02:30|&nbsp;|0<br>|2022-01-01 09:50:00|A|20|1|10|2022-01-01 10:01:30|2022-01-01 10:02:00|1<br>|2022-01-01 09:50:00|B|10|2|50|2022-01-01 10:02:30|2022-01-01 10:03:00|1<br>|2022-01-01 10:00:00|A|10|1|100|2022-01-01 10:01:30|2022-01-01 10:02:00|1<br>|2022-01-01 10:00:00|A|10|2|200|2022-01-01 10:01:30|&nbsp;|0<br>|2022-01-01 10:00:00|B|20|1|100|2022-01-01 10:02:30|&nbsp;|0<br>|2022-01-01 10:00:00|B|20|2|200|2022-01-01 10:02:30|2022-01-01 10:03:00|1</p>
 <img src="/images/517519-20231025160859685-1913876165.png" alt loading="lazy">
 
 <p>DeDuplicate操作</p>
