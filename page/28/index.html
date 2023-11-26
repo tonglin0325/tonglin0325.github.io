@@ -383,6 +383,30 @@ ga('send', 'pageview');
 
 <p>连接clickhouse</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">lintong@master:~$ clickhouse-client</span><br><span class="line">ClickHouse client version 23.10.3.5 (official build).</span><br><span class="line">Connecting to localhost:9000 as user default.</span><br><span class="line">Password for user (default):</span><br><span class="line">Connecting to localhost:9000 as user default.</span><br><span class="line">Connected to ClickHouse server version 23.10.3 revision 54466.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>client使用的9000端口</p>
+<p>访问的话可以看到如下说明，如果想要使用http连接的话，需要使用8123端口</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Port 9000 is for clickhouse-client program</span><br><span class="line">You must use port 8123 for HTTP.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>使用datagrip连接clickhouse</p>
+<img src="/images/517519-20231116214654580-1651978963.png" width="800" height="476" loading="lazy" />
+
+<p>基础语法参考官方文档</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://clickhouse.com/docs/en/guides/creating-tables</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>创建database，默认会有一个default库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CREATE DATABASE IF NOT EXISTS helloworld</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>创建table</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE helloworld.my_first_table</span><br><span class="line">(</span><br><span class="line">    user_id UInt32,</span><br><span class="line">    message String,</span><br><span class="line">    timestamp DateTime,</span><br><span class="line">    metric Float32</span><br><span class="line">)</span><br><span class="line">ENGINE = MergeTree()</span><br><span class="line">PRIMARY KEY (user_id, timestamp)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>写入数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO helloworld.my_first_table (user_id, message, timestamp, metric) VALUES</span><br><span class="line">    (101, &#x27;Hello, ClickHouse!&#x27;,                                 now(),       -1.0    ),</span><br><span class="line">    (102, &#x27;Insert a lot of rows per batch&#x27;,                     yesterday(), 1.41421 ),</span><br><span class="line">    (102, &#x27;Sort your data based on your commonly-used queries&#x27;, today(),     2.718   ),</span><br><span class="line">    (101, &#x27;Granules are the smallest chunks of data read&#x27;,      now() + 5,   3.14159 )</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>查询数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM helloworld.my_first_table</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<img src="/images/517519-20231116215344910-1284823187.png" width="800" height="106" loading="lazy" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/ubuntu16.04%E5%AE%89%E8%A3%85clickhouse.html#more">全文 &gt;&gt;</a>
@@ -682,7 +706,7 @@ ga('send', 'pageview');
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># go</span><br><span class="line">export GOROOT=/usr/local/go</span><br><span class="line">export PATH=$PATH:$GOROOT/bin</span><br><span class="line">export GOPATH=$HOME/coding/go</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>其中</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">GOPATH： go工作区， 即编写代码存放的目录</span><br><span class="line">GOROOT： go的安装目录</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">GOPATH： go工作区， 下载的依赖会存放在此目录中，默认会在~/go目录下</span><br><span class="line">GOROOT： go的安装目录</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>在<code>GOPATH</code>工作区目录下，有3个目录</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">bin: 存储可执行bin文件</span><br><span class="line">pkg: 编译完成的文件</span><br><span class="line">src: 源代码文件</span><br><span class="line"></span><br></pre></td></tr></table></figure>
