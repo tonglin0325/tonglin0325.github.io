@@ -878,8 +878,38 @@ ga('send', 'pageview');
 <p>项目结构</p>
 <img src="/images/517519-20240114110648722-2006585277.png" width="300" height="569" loading="lazy" />
 
-<p>或者使用kratos run命令来运行</p>
-<p>debug模式运行</p>
+<p>Kratos项目如果想要使用<strong>debug模式</strong>来运行</p>
+<p>需要将run kind从File修改成Directory，并指定Directory为main.go和wire_gen.go所在的目录，否则会报</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># command-line-arguments</span><br><span class="line">./main.go:77:23: undefined: wireApp</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>同时还需要额外指定conf文件的路径，否则会报</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">panic: stat ../../configs: no such file or directory</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>配置如下</p>
+<img src="/images/517519-20240114150451846-1493406162.png" width="700" height="469" loading="lazy" />
+
+<p>debug成功</p>
+<img src="/images/517519-20240114151508054-414842422.png" width="700" height="392" loading="lazy" />
+
+<p>如果想要添加额外的API，需要先添加proto文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kratos proto add api/helloworld/demo.proto</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<img src="/images/517519-20240114113025510-266443633.png" width="700" height="430" loading="lazy" />
+
+<p>编译proto文件生成model和grpc代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kratos proto client api/helloworld/demo/demo.proto</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>或者使用make命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">make api</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<img src="/images/517519-20240114113514912-1396594130.png" width="300" height="162" loading="lazy" />
+
+<p>生成service模板代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kratos proto server api/helloworld/demo/demo.proto -t internal/service</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<img src="/images/517519-20240114114153099-1701711080.png" width="800" height="260" loading="lazy" />
+
+<p>参考文档：<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000043858476">从0到1安装启动Kratos框架</a> 和 <a target="_blank" rel="noopener" href="https://go-kratos.dev/en/docs/getting-started/usage">https://go-kratos.dev/en/docs/getting-started/usage</a></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Kratos%E6%A1%86%E6%9E%B6.html#more">全文 &gt;&gt;</a>

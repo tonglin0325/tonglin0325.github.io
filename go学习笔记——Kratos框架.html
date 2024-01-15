@@ -13,11 +13,13 @@
 <meta property="og:description" content="官方文档 12https:&#x2F;&#x2F;go-kratos.dev&#x2F;en&#x2F;docs&#x2F;getting-started&#x2F;start&#x2F;  1.安装Go参考：mac安装go1.20 2.安装Kratos框架kratos依赖protobuf grpc等框架，需要先进行安装 12345brew install grpcbrew install protobufbrew install protoc-gen-gobrew">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240114110648722-2006585277.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240114150451846-1493406162.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240114151508054-414842422.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240114113025510-266443633.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240114113514912-1396594130.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240114114153099-1701711080.png">
 <meta property="article:published_time" content="2016-06-02T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-01-14T04:21:29.318Z">
+<meta property="article:modified_time" content="2024-01-15T14:59:10.817Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="go">
 <meta name="twitter:card" content="summary">
@@ -167,11 +169,20 @@ ga('send', 'pageview');
 <p>项目结构</p>
 <img src="/images/517519-20240114110648722-2006585277.png" width="300" height="569" loading="lazy">
 
-<p>或者使用kratos run命令来运行</p>
-<p>debug模式运行</p>
-<span id="more"></span>
-<p>&nbsp;</p>
-<p>添加proto文件</p>
+<p>Kratos项目如果想要使用<strong>debug模式</strong>来运行</p>
+<p>需要将run kind从File修改成Directory，并指定Directory为main.go和wire_gen.go所在的目录，否则会报</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># command-line-arguments</span><br><span class="line">./main.go:77:23: undefined: wireApp</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>同时还需要额外指定conf文件的路径，否则会报</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">panic: stat ../../configs: no such file or directory</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>配置如下</p>
+<img src="/images/517519-20240114150451846-1493406162.png" width="700" height="469" loading="lazy">
+
+<p>debug成功</p>
+<img src="/images/517519-20240114151508054-414842422.png" width="700" height="392" loading="lazy">
+
+<p>如果想要添加额外的API，需要先添加proto文件</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kratos proto add api/helloworld/demo.proto</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <img src="/images/517519-20240114113025510-266443633.png" width="700" height="430" loading="lazy">
@@ -190,6 +201,7 @@ ga('send', 'pageview');
 <img src="/images/517519-20240114114153099-1701711080.png" width="800" height="260" loading="lazy">
 
 <p>参考文档：<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000043858476">从0到1安装启动Kratos框架</a> 和 <a target="_blank" rel="noopener" href="https://go-kratos.dev/en/docs/getting-started/usage">https://go-kratos.dev/en/docs/getting-started/usage</a></p>
+<span id="more"></span>
 <p>&nbsp;</p>
 
       
