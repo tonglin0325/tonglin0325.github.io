@@ -5,18 +5,20 @@
   
   <title>go学习笔记——wire依赖注入 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="wire是google开源的使用依赖注入来自动连接组件的代码生成工具 安装 12go install github.com&#x2F;google&#x2F;wire&#x2F;cmd&#x2F;wire@latest  官方使用文档 12https:&#x2F;&#x2F;github.com&#x2F;google&#x2F;wire&#x2F;blob&#x2F;main&#x2F;docs&#x2F;guide.md">
+  <meta name="description" content="wire是google开源的使用依赖注入来自动连接组件的代码生成工具 安装 12go install github.com&#x2F;google&#x2F;wire&#x2F;cmd&#x2F;wire@latest  官方使用文档：https:&#x2F;&#x2F;github.com&#x2F;google&#x2F;wire&#x2F;blob&#x2F;main&#x2F;docs&#x2F;guide.md">
 <meta property="og:type" content="article">
 <meta property="og:title" content="go学习笔记——wire依赖注入">
 <meta property="og:url" content="http://tonglin0325.github.io/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94wire%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="wire是google开源的使用依赖注入来自动连接组件的代码生成工具 安装 12go install github.com&#x2F;google&#x2F;wire&#x2F;cmd&#x2F;wire@latest  官方使用文档 12https:&#x2F;&#x2F;github.com&#x2F;google&#x2F;wire&#x2F;blob&#x2F;main&#x2F;docs&#x2F;guide.md">
+<meta property="og:description" content="wire是google开源的使用依赖注入来自动连接组件的代码生成工具 安装 12go install github.com&#x2F;google&#x2F;wire&#x2F;cmd&#x2F;wire@latest  官方使用文档：https:&#x2F;&#x2F;github.com&#x2F;google&#x2F;wire&#x2F;blob&#x2F;main&#x2F;docs&#x2F;guide.md">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240303155002954-1768762066.png">
 <meta property="article:published_time" content="2015-08-25T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-02-27T15:02:27.686Z">
+<meta property="article:modified_time" content="2024-03-03T11:11:22.507Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="golang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://tonglin0325.github.io/images/517519-20240303155002954-1768762066.png">
   
     <link rel="alternate" href="/atom.xml" title="tonglin0325的个人主页" type="application/atom+xml">
   
@@ -145,14 +147,22 @@ ga('send', 'pageview');
 <p>安装</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go install github.com/google/wire/cmd/wire@latest</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>官方使用文档</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/google/wire/blob/main/docs/guide.md</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
+<p>官方使用文档：<a target="_blank" rel="noopener" href="https://github.com/google/wire/blob/main/docs/guide.md">https://github.com/google/wire/blob/main/docs/guide.md</a></p>
 <span id="more"></span>
 <p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>参考：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7101966893522616356">手把手，带你从零封装Gin框架（十二）：使用 Wire 依赖注入重构</a></p>
+<p>文档参考：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7101966893522616356">手把手，带你从零封装Gin框架（十二）：使用 Wire 依赖注入重构</a></p>
 <p>参考项目：<a target="_blank" rel="noopener" href="https://github.com/jassue/gin-wire">https://github.com/jassue/gin-wire</a></p>
+<p>如果遇到下面报错</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wire: /xxx/cmd/server/wire.go:17:1: inject wireApp: unused provider set &quot;ProviderSet&quot;</span><br><span class="line">wire: xx/cmd/server: generate failed</span><br><span class="line">wire: at least one generate failure</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这是因为设置了依赖注入的方法没能找到调用者，在gin项目中，调用的顺序一般是data层-&gt;service层-&gt;handler层-&gt;router层-&gt;httpserver-&gt;app</p>
+<p>所以需要把调用的ProviderSet在wire.go文件中完整的写出来，不能出现中间中断的情况，wire_gen才能正常的生成</p>
+<p>比如写了data，service，router，httpserver和app，但是漏了handler，这样就会报上面的错误</p>
+<p>如果只写了router，httpserver和app，这样是可以正常生成的</p>
+<p>可以参考：<a target="_blank" rel="noopener" href="https://github.com/jassue/gin-wire/blob/main/cmd/app/wire_gen.go">https://github.com/jassue/gin-wire/blob/main/cmd/app/wire_gen.go</a> 中的调用层次</p>
+<img src="/images/517519-20240303155002954-1768762066.png" width="800" height="550" loading="lazy">
+
+<p>&nbsp;</p>
 
       
     </div>
