@@ -497,7 +497,11 @@ ga('send', 'pageview');
 
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1-使用docker镜像运行selenium-chrome环境"><a href="#1-使用docker镜像运行selenium-chrome环境" class="headerlink" title="1.使用docker镜像运行selenium+chrome环境"></a>1.使用docker镜像运行selenium+chrome环境</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull selenium/standalone-chrome:120.0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        <h2 id="1-使用docker镜像运行selenium-chrome环境"><a href="#1-使用docker镜像运行selenium-chrome环境" class="headerlink" title="1.使用docker镜像运行selenium+chrome环境"></a>1.使用docker镜像运行selenium+chrome环境</h2><p>官方镜像仓库<a target="_blank" rel="noopener" href="https://hub.docker.com/r/selenium/standalone-chrome">selenium/standalone-chrome</a>，只支持amd64</p>
+<img src="/images/517519-20240510221439592-929092042.png" width="350" height="442" loading="lazy" />
+
+<p>拉取镜像</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull selenium/standalone-chrome:120.0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>启动</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 4444:4444 -p 15900:5900 selenium/standalone-chrome:120.0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -555,6 +559,8 @@ ga('send', 'pageview');
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import undetected_chromedriver as uc</span><br><span class="line"></span><br><span class="line">driver = uc.Chrome(headless=True,use_subprocess=False)</span><br><span class="line">driver.get(&#x27;https://nowsecure.nl&#x27;)</span><br><span class="line">driver.save_screenshot(&#x27;nowsecure.png&#x27;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>参考：<a target="_blank" rel="noopener" href="https://github.com/ultrafunkamsterdam/undetected-chromedriver">https://github.com/ultrafunkamsterdam/undetected-chromedriver</a></p>
+<h2 id="5-M1芯片环境运行selenium-docker"><a href="#5-M1芯片环境运行selenium-docker" class="headerlink" title="5.M1芯片环境运行selenium docker"></a>5.M1芯片环境运行selenium docker</h2><p>由于selenium/standalone-chrome镜像只支持amd64架构，如果是M1芯片的话，需要使用支持arm64架构的镜像 <a target="_blank" rel="noopener" href="https://hub.docker.com/r/seleniarm/standalone-chromium/tags">seleniarm/standalone-chromium</a></p>
+<img src="/images/517519-20240510222901312-459312493.png" width="400" height="314" loading="lazy" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Python%E7%88%AC%E8%99%AB%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8selenium%E5%92%8Cchrome%E7%88%AC%E5%8F%96js%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E7%9A%84%E7%BD%91%E9%A1%B5.html#more">全文 &gt;&gt;</a>
