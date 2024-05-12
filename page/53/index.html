@@ -549,7 +549,7 @@ ga('send', 'pageview');
 <p>打开了python的网页</p>
 <img src="/images/517519-20240413113534962-963092156.png" width="600" height="503" loading="lazy" />
 
-<h2 id="4-cloudflare人机校验"><a href="#4-cloudflare人机校验" class="headerlink" title="4.cloudflare人机校验"></a>4.cloudflare人机校验</h2><p>如果语言cloudflare的人机校验，可以尝试使用 undetected_chromedriver 这个包来代替selenium的webdriver</p>
+<h2 id="4-cloudflare人机校验"><a href="#4-cloudflare人机校验" class="headerlink" title="4.cloudflare人机校验"></a>4.cloudflare人机校验</h2><p>如果语言cloudflare的人机校验，可以尝试使用 <strong>undetected_chromedriver</strong> 这个包来代替selenium的webdriver</p>
 <img src="/images/517519-20240422221602756-567501559.png" width="300" height="108" loading="lazy" />
 
 <p>安装 undetected_chromedriver</p>
@@ -561,6 +561,21 @@ ga('send', 'pageview');
 <p>参考：<a target="_blank" rel="noopener" href="https://github.com/ultrafunkamsterdam/undetected-chromedriver">https://github.com/ultrafunkamsterdam/undetected-chromedriver</a></p>
 <h2 id="5-M1芯片环境运行selenium-docker"><a href="#5-M1芯片环境运行selenium-docker" class="headerlink" title="5.M1芯片环境运行selenium docker"></a>5.M1芯片环境运行selenium docker</h2><p>由于selenium/standalone-chrome镜像只支持amd64架构，如果是M1芯片的话，需要使用支持arm64架构的镜像 <a target="_blank" rel="noopener" href="https://hub.docker.com/r/seleniarm/standalone-chromium/tags">seleniarm/standalone-chromium</a></p>
 <img src="/images/517519-20240510222901312-459312493.png" width="400" height="314" loading="lazy" />
+
+<p>拉取镜像</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull seleniarm/standalone-chromium:120.0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>启动，需要指定运行平台是linux/arm64</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 4444:4444 -p 15900:5900 -e SE_NODE_MAX_SESSIONS=5 --shm-size=2g --platform linux/arm64 selenium/standalone-chrome:120.0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>运行selenium</p>
+<p>seleniarm/standalone-chromium镜像中的浏览器是chromium，和chrome浏览器一些区别，需要指定webdriver的路径为/usr/bin/chromedriver</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">root@fce0fc2def31:/# python3</span><br><span class="line">Python 3.10.12 (main, Nov 20 2023, 15:14:05) [GCC 11.4.0] on linux</span><br><span class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span><br><span class="line"></span><br><span class="line">from selenium import webdriver</span><br><span class="line">from selenium.webdriver.chrome.options import Options</span><br><span class="line">from selenium.webdriver.chrome.service import Service</span><br><span class="line">from webdriver_manager.chrome import ChromeDriverManager</span><br><span class="line">options = Options()</span><br><span class="line">options.add_argument(&#x27;--disable-dev-shm-usage&#x27;)</span><br><span class="line">options.add_argument(&quot;--remote-debugging-port=9222&quot;) # 不加的话会报session not created: DevToolsActivePort file doesn&#x27;t exist</span><br><span class="line">options.add_argument(&#x27;--no-sandbox&#x27;) # 不加的话会报chrome not reachable</span><br><span class="line">driver = webdriver.Chrome(service=Service(&quot;/usr/bin/chromedriver&quot;), options=options)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果使用m1芯片想 <strong>undetected_chromedriver</strong> 来绕过cloudflare的人机校验的话</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import undetected_chromedriver as uc</span><br><span class="line"></span><br><span class="line">driver = uc.Chrome(executable_path=&quot;/usr/bin/chromedriver&quot;,headless=True,use_subprocess=False)</span><br><span class="line">driver.get(&#x27;https://nowsecure.nl&#x27;)</span><br><span class="line">driver.save_screenshot(&#x27;nowsecure.png&#x27;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>默认的下载路径在/root/Downloads </p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Python%E7%88%AC%E8%99%AB%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8selenium%E5%92%8Cchrome%E7%88%AC%E5%8F%96js%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E7%9A%84%E7%BD%91%E9%A1%B5.html#more">全文 &gt;&gt;</a>
