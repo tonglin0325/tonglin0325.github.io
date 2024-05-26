@@ -22,12 +22,14 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240422221602756-567501559.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240519114312295-1254688156.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240510222901312-459312493.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240526163339303-1598914985.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240526164647650-1495843455.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240519160912753-918274556.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240519161355206-1341677745.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240519161544058-842759858.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240519161713968-1099921196.png">
 <meta property="article:published_time" content="2015-07-20T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-05-26T02:10:30.973Z">
+<meta property="article:modified_time" content="2024-05-26T12:14:02.106Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary">
@@ -153,7 +155,7 @@ ga('send', 'pageview');
         <!-- 目录 -->
 
 <div id="toc">
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.使用docker镜像运行selenium+chrome环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.安装依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.运行selenium</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4.cloudflare人机校验</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.可以尝试使用 undetected_chromedriver 这个包来代替selenium的webdriver</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.也可以尝试使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">5.M1芯片环境运行selenium docker</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">6.hCaptcha验证码</span></a></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.使用docker镜像运行selenium+chrome环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.安装依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.运行selenium</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4.cloudflare人机校验</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.可以尝试使用 undetected_chromedriver 这个包来代替selenium的webdriver</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.也可以尝试使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">5.M1芯片环境运行selenium docker</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.M1运行selenium webdriver</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.M1运行undetected_chromedriver</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">6.验证码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.hCaptcha</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.reCaptcha</span></a></li></ol></li></ol>
 </div>
 
         <h2><span id="1-shi-yong-docker-jing-xiang-yun-xing-selenium-chrome-huan-jing">1.使用docker镜像运行selenium+chrome环境</span><a href="#1-shi-yong-docker-jing-xiang-yun-xing-selenium-chrome-huan-jing" class="header-anchor">#</a></h2><p>官方镜像仓库<a target="_blank" rel="noopener" href="https://hub.docker.com/r/selenium/standalone-chrome">selenium/standalone-chrome</a>，只支持amd64</p>
@@ -215,7 +217,7 @@ ga('send', 'pageview');
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip3 install undetected_chromedriver</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>替换seleniuim的web driver</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import undetected_chromedriver as uc</span><br><span class="line"></span><br><span class="line">driver = uc.Chrome(headless=False,use_subprocess=False)</span><br><span class="line">driver.get(&#x27;https://nowsecure.nl&#x27;)</span><br><span class="line">driver.save_screenshot(&#x27;nowsecure.png&#x27;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import undetected_chromedriver as uc</span><br><span class="line"></span><br><span class="line">driver = uc.Chrome(headless=False,use_subprocess=False)</span><br><span class="line">driver.maximize_window()</span><br><span class="line">driver.get(&#x27;https://nowsecure.nl&#x27;)</span><br><span class="line">driver.save_screenshot(&#x27;nowsecure.png&#x27;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>参考：<a target="_blank" rel="noopener" href="https://github.com/ultrafunkamsterdam/undetected-chromedriver">https://github.com/ultrafunkamsterdam/undetected-chromedriver</a></p>
 <p>如果报from session not created: This version of ChromeDriver only supports Chrome version 125</p>
@@ -242,18 +244,29 @@ ga('send', 'pageview');
 <p>启动，需要指定运行平台是linux/arm64</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 4444:4444 -p 15900:5900 -e SE_NODE_MAX_SESSIONS=5 --shm-size=2g --platform linux/arm64 seleniarm/standalone-chrome:120.0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>运行selenium</p>
-<p>seleniarm/standalone-chromium镜像中的浏览器是chromium，和chrome浏览器一些区别，需要指定webdriver的路径为/usr/bin/chromedriver</p>
+<h3><span id="1-m1-yun-xing-selenium-webdriver">1.M1运行selenium webdriver</span><a href="#1-m1-yun-xing-selenium-webdriver" class="header-anchor">#</a></h3><p>seleniarm/standalone-chromium镜像中的浏览器是chromium，和chrome浏览器一些区别，需要指定webdriver的路径为/usr/bin/chromedriver</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">root@fce0fc2def31:/# python3</span><br><span class="line">Python 3.10.12 (main, Nov 20 2023, 15:14:05) [GCC 11.4.0] on linux</span><br><span class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span><br><span class="line"></span><br><span class="line">from selenium import webdriver</span><br><span class="line">from selenium.webdriver.chrome.options import Options</span><br><span class="line">from selenium.webdriver.chrome.service import Service</span><br><span class="line">from webdriver_manager.chrome import ChromeDriverManager</span><br><span class="line">options = Options()</span><br><span class="line">options.add_argument(&#x27;--disable-dev-shm-usage&#x27;)</span><br><span class="line">options.add_argument(&quot;--remote-debugging-port=9222&quot;) # 不加的话会报session not created: DevToolsActivePort file doesn&#x27;t exist</span><br><span class="line">options.add_argument(&#x27;--no-sandbox&#x27;) # 不加的话会报chrome not reachable</span><br><span class="line">driver = webdriver.Chrome(service=Service(&quot;/usr/bin/chromedriver&quot;), options=options)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>如果使用m1芯片想 <strong>undetected_chromedriver</strong> 来绕过cloudflare的人机校验的话</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import undetected_chromedriver as uc</span><br><span class="line"></span><br><span class="line">driver = uc.Chrome(driver_executable_path=&quot;/usr/bin/chromedriver&quot;,headless=True,use_subprocess=False)</span><br><span class="line">driver.get(&#x27;https://nowsecure.nl&#x27;)</span><br><span class="line">driver.save_screenshot(&#x27;nowsecure.png&#x27;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3><span id="2-m1-yun-xing-undetected-chromedriver">2.M1运行<strong>undetected_chromedriver</strong></span><a href="#2-m1-yun-xing-undetected-chromedriver" class="header-anchor">#</a></h3><p>如果使用m1芯片想 <strong>undetected_chromedriver</strong> 来绕过cloudflare的人机校验的话</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import undetected_chromedriver as uc</span><br><span class="line"></span><br><span class="line">driver = uc.Chrome(driver_executable_path=&quot;/usr/bin/chromedriver&quot;,headless=True,use_subprocess=False)</span><br><span class="line">driver.maximize_window()</span><br><span class="line">driver.get(&#x27;https://nowsecure.nl&#x27;)</span><br><span class="line">driver.save_screenshot(&#x27;nowsecure.png&#x27;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>默认的下载路径在/root/Downloads</p>
-<h2><span id="6-hcaptcha-yan-zheng-ma">6.hCaptcha验证码</span><a href="#6-hcaptcha-yan-zheng-ma" class="header-anchor">#</a></h2><p>可以尝试使用<a target="_blank" rel="noopener" href="https://2captcha.com/">2captcha</a>服务来识别验证码，类似的服务还有<a target="_blank" rel="noopener" href="https://yescaptcha.com/">yescaptcha</a></p>
+<h2><span id="6-yan-zheng-ma">6.验证码</span><a href="#6-yan-zheng-ma" class="header-anchor">#</a></h2><h3><span id="1-hcaptcha">1.hCaptcha</span><a href="#1-hcaptcha" class="header-anchor">#</a></h3><p>方法1是使用hCaptcha的<strong>accessibility</strong>，这是hCaptcha提供用于视障人员用于跳过验证码的功能</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://www.hcaptcha.com/accessibility</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>通过注册hCaptcha视障账号 ，可以在如下页面中通过点击set cookie按钮来设置一个cookie用于跳过验证码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://dashboard.hcaptcha.com/welcome_accessibility</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<img src="/images/517519-20240526163339303-1598914985.png" width="500" height="527" loading="lazy">
+
+<p>但是set cookie不是所有情况下都能成功的，如果你的环境被检测是机器人，或者ip被封，set cookie的时候则有可能报401，</p>
+<p>报错是：无法发布Cookie。如果此问题继续发生，请发送电子邮件至<a href="mailto:&#115;&#x75;&#112;&#x70;&#x6f;&#114;&#x74;&#x40;&#104;&#x63;&#x61;&#x70;&#x74;&#x63;&#104;&#97;&#46;&#99;&#111;&#109;">&#115;&#x75;&#112;&#x70;&#x6f;&#114;&#x74;&#x40;&#104;&#x63;&#x61;&#x70;&#x74;&#x63;&#104;&#97;&#46;&#99;&#111;&#109;</a> </p>
+<img src="/images/517519-20240526164647650-1495843455.png" width="500" height="557" loading="lazy">
+
+<p>也可以尝试使用 <strong><a target="_blank" rel="noopener" href="https://2captcha.com/">2captcha</a>服务</strong> 来识别验证码，类似的服务还有<a target="_blank" rel="noopener" href="https://yescaptcha.com/">yescaptcha</a></p>
 <p>2captcha其支持多种验证码类型，比如reCaptcha，hCaptcha等，官方文档如下</p>
 <p><a target="_blank" rel="noopener" href="https://2captcha.com/api-docs">https://2captcha.com/api-docs</a></p>
-<img src="/images/517519-20240519160912753-918274556.png" width="500" height="561" loading="lazy">
+<img src="/images/517519-20240519160912753-918274556.png" width="500" height="561">
 
 <p>比如我们要识别hCaptcha的验证码，可以查看2Captcha的API v2下面hCaptcha对应的文档</p>
 <p><a target="_blank" rel="noopener" href="https://2captcha.com/api-docs/hcaptcha">https://2captcha.com/api-docs/hcaptcha</a></p>
@@ -271,11 +284,11 @@ ga('send', 'pageview');
 <img src="/images/517519-20240519161713968-1099921196.png" width="600" height="296" loading="lazy">
 
 <p>提交验证码答案</p>
-<p>如果使用的sleenium的话，可以使用chrome插件来自动提交</p>
+<p>如果使用的selenium的话，可以使用chrome插件来自动提交</p>
 <p>hCaptcha插件：<a target="_blank" rel="noopener" href="https://chromewebstore.google.com/detail/hcaptcha-solver-auto-capt/imgmoeegfjhhmljmphfkjeibkiffcdgl">https://chromewebstore.google.com/detail/hcaptcha-solver-auto-capt/imgmoeegfjhhmljmphfkjeibkiffcdgl</a></p>
 <p>reCaptcha插件：<a target="_blank" rel="noopener" href="https://chromewebstore.google.com/detail/recaptcha-solver-auto-cap/infdcenbdoibcacogknkjleclhnjdmfh">https://chromewebstore.google.com/detail/recaptcha-solver-auto-cap/infdcenbdoibcacogknkjleclhnjdmfh</a></p>
 <p>参考：<a target="_blank" rel="noopener" href="https://2captcha.com/p/selenium-captcha-solver">Selenium验证码和reCAPTCHA绕过</a></p>
-<p>&nbsp;</p>
+<h3><span id="2-recaptcha">2.reCaptcha</span><a href="#2-recaptcha" class="header-anchor">#</a></h3><p>&nbsp;</p>
 
       
     </div>
