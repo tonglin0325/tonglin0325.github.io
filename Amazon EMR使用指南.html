@@ -32,7 +32,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20231201222602615-1317760889.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20231201222642508-264363271.png">
 <meta property="article:published_time" content="2015-08-07T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-06-17T13:58:55.368Z">
+<meta property="article:modified_time" content="2024-06-17T14:29:38.991Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="AWS">
 <meta name="twitter:card" content="summary">
@@ -158,7 +158,7 @@ ga('send', 'pageview');
         <!-- 目录 -->
 
 <div id="toc">
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.创建EMR集群</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.EMR CLI使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.EMR角色分布</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4.EMR配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">5.EMR启动步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">6.EMR集群的动态伸缩</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.EMR-manager scaling配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.用户自行配置scaling策略</span></a></li></ol></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-chuang-jian-emr-ji-qun"><span class="toc-text">1.创建EMR集群</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-emr-cli-shi-yong"><span class="toc-text">2.EMR CLI使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-emr-jiao-se-fen-bu"><span class="toc-text">3.EMR角色分布</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-emr-pei-zhi-wen-jian"><span class="toc-text">4.EMR配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-emr-qi-dong-bu-zou"><span class="toc-text">5.EMR启动步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-emr-ji-qun-de-dong-tai-shen-suo"><span class="toc-text">6.EMR集群的动态伸缩</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-emr-manager-scaling-pei-zhi"><span class="toc-text">1.EMR-manager scaling配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-yong-hu-zi-xing-pei-zhi-scaling-ce-lue"><span class="toc-text">2.用户自行配置scaling策略</span></a></li></ol></li></ol>
 </div>
 
         <p>Amazon EMR是Amazon提供的托管大数据套件，可选的组件包括Hadoop，Hive，Hue，Hbase，Presto，Spark等</p>
@@ -170,7 +170,7 @@ ga('send', 'pageview');
 <p>2.Amazon EMR迁移指南</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://d1.awsstatic.com/whitepapers/amazon_emr_migration_guide.pdf</span><br></pre></td></tr></table></figure>
 
-<h2><span id="1-chuang-jian-emr-ji-qun">1.创建EMR集群</span><a href="#1-chuang-jian-emr-ji-qun" class="header-anchor">#</a></h2><p>在创建Amazon EMR集群的时候可以选择<strong>快速模式</strong>，界面如下</p>
+<h2 id="1-chuang-jian-emr-ji-qun"><a href="#1-创建EMR集群" class="headerlink" title="1.创建EMR集群"></a>1.创建EMR集群<a href="#1-chuang-jian-emr-ji-qun" class="header-anchor">#</a></h2><p>在创建Amazon EMR集群的时候可以选择<strong>快速模式</strong>，界面如下</p>
 <img src="/images/517519-20220129151433350-335157056.png" alt loading="lazy">
 
 <p>也可以选择<strong>高级模式</strong></p>
@@ -182,13 +182,13 @@ ga('send', 'pageview');
 <p>EMR管理组件的安装目录在/usr/share/aws/emr</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@ip-xxxxxxxxxx emr]$ ls</span><br><span class="line">cloudwatch-sink  ddb    emr-log-analytics-metrics  goodies              instance-controller  node-provisioner  s3select</span><br><span class="line">command-runner   emrfs  emr-metrics-collector      hadoop-state-pusher  kinesis              s3-dist-cp        scripts</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h2><span id="2-emr-cli-shi-yong">2.EMR CLI使用</span><a href="#2-emr-cli-shi-yong" class="header-anchor">#</a></h2><p>查看集群的cluster id，参考：<a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/zh_cn/emr/latest/ManagementGuide/emr-manage-view-clusters.html">https://docs.aws.amazon.com/zh_cn/emr/latest/ManagementGuide/emr-manage-view-clusters.html</a></p>
+<h2 id="2-emr-cli-shi-yong"><a href="#2-EMR-CLI使用" class="headerlink" title="2.EMR CLI使用"></a>2.EMR CLI使用<a href="#2-emr-cli-shi-yong" class="header-anchor">#</a></h2><p>查看集群的cluster id，参考：<a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/zh_cn/emr/latest/ManagementGuide/emr-manage-view-clusters.html">https://docs.aws.amazon.com/zh_cn/emr/latest/ManagementGuide/emr-manage-view-clusters.html</a></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">aws emr list-clusters</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>根据cluster id查看集群配置</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">aws emr describe-cluster --cluster-id j-xxxxxx</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h2><span id="3-emr-jiao-se-fen-bu">3.EMR角色分布</span><a href="#3-emr-jiao-se-fen-bu" class="header-anchor">#</a></h2><span id="more"></span>
+<h2 id="3-emr-jiao-se-fen-bu"><a href="#3-EMR角色分布" class="headerlink" title="3.EMR角色分布"></a>3.EMR角色分布<a href="#3-emr-jiao-se-fen-bu" class="header-anchor">#</a></h2><span id="more"></span>
 <p>&nbsp;amazon EMR的节点分成3类：主节点，核心节点和任务节点</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/zh_cn/emr/latest/ManagementGuide/emr-master-core-task-nodes.html">了解节点类型：主节点、核心节点和任务节点</a>&nbsp;和&nbsp;<a target="_blank" rel="noopener" href="https://aws.amazon.com/cn/blogs/china/amazon-emr-ha-for-your-service/">部署高可用的EMR集群，为您的业务连续性保驾护航</a></p>
 <p>主节点：</p>
@@ -284,16 +284,16 @@ ga('send', 'pageview');
 </tr>
 </tbody></table>
 <p>如果在YARN上运行的是flink任务的话，job manager只能运行在core节点上，不能运行在task节点，因为task节点并不会去/var/lib/flink路径下初始化flink相关组件，而task manager可以运行在task节点上</p>
-<h2><span id="4-emr-pei-zhi-wen-jian">4.EMR配置文件</span><a href="#4-emr-pei-zhi-wen-jian" class="header-anchor">#</a></h2><p>在EMR中对配置进行了修改，比如hive-metastore.xml, hive-server2.xml，core-site.xml，对应如何配置以及需要重启的组件可以参考如下表格：<a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/zh_cn/emr/latest/ReleaseGuide/emr-630-release.html">https://docs.aws.amazon.com/zh_cn/emr/latest/ReleaseGuide/emr-630-release.html</a></p>
+<h2 id="4-emr-pei-zhi-wen-jian"><a href="#4-EMR配置文件" class="headerlink" title="4.EMR配置文件"></a>4.EMR配置文件<a href="#4-emr-pei-zhi-wen-jian" class="header-anchor">#</a></h2><p>在EMR中对配置进行了修改，比如hive-metastore.xml, hive-server2.xml，core-site.xml，对应如何配置以及需要重启的组件可以参考如下表格：<a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/zh_cn/emr/latest/ReleaseGuide/emr-630-release.html">https://docs.aws.amazon.com/zh_cn/emr/latest/ReleaseGuide/emr-630-release.html</a></p>
 <img src="/images/517519-20221108110850032-771586928.png" width="1000" height="353" loading="lazy">
 
-<h2><span id="5-emr-qi-dong-bu-zou">5.EMR启动步骤</span><a href="#5-emr-qi-dong-bu-zou" class="header-anchor">#</a></h2><p>参考：<a target="_blank" rel="noopener" href="https://aws.amazon.com/cn/blogs/china/brief-introduction-to-emr-practical-experience/">Amazon EMR实战心得浅谈</a></p>
+<h2 id="5-emr-qi-dong-bu-zou"><a href="#5-EMR启动步骤" class="headerlink" title="5.EMR启动步骤"></a>5.EMR启动步骤<a href="#5-emr-qi-dong-bu-zou" class="header-anchor">#</a></h2><p>参考：<a target="_blank" rel="noopener" href="https://aws.amazon.com/cn/blogs/china/brief-introduction-to-emr-practical-experience/">Amazon EMR实战心得浅谈</a></p>
 <p>&nbsp;<img src="/images/517519-20221108171243676-922070496.png" alt loading="lazy"></p>
 <p>如果EMR集群启动失败的话，可以去Log URI查看日志，Terminated with errors后面会告诉你是哪台实例在哪个步骤的时候报错</p>
 <p>&nbsp;<img src="/images/517519-20221109130236672-464082794.png" alt loading="lazy"></p>
-<h2><span id="6-emr-ji-qun-de-dong-tai-shen-suo">6.EMR集群的动态伸缩</span><a href="#6-emr-ji-qun-de-dong-tai-shen-suo" class="header-anchor">#</a></h2><p>在创建AWS EMR集群的时候，可以选择开启cluster scaling，auto scaling有2种伸缩策略，一种是<strong>EMR-manager scaling</strong>，另一种是<strong>用户自行配置scaling策略</strong>来进行扩缩容</p>
+<h2 id="6-emr-ji-qun-de-dong-tai-shen-suo"><a href="#6-EMR集群的动态伸缩" class="headerlink" title="6.EMR集群的动态伸缩"></a>6.EMR集群的动态伸缩<a href="#6-emr-ji-qun-de-dong-tai-shen-suo" class="header-anchor">#</a></h2><p>在创建AWS EMR集群的时候，可以选择开启cluster scaling，auto scaling有2种伸缩策略，一种是<strong>EMR-manager scaling</strong>，另一种是<strong>用户自行配置scaling策略</strong>来进行扩缩容</p>
 <p>注意在<strong>只有core节点和task节点是可以进行扩缩容的</strong>，master主节点在EMR集群创建后就无法进行变更</p>
-<h3><span id="1-emr-manager-scaling-pei-zhi"><strong>1.EMR-manager scaling配置</strong></span><a href="#1-emr-manager-scaling-pei-zhi" class="header-anchor">#</a></h3><p>这里需要配置的参数主要控制的是core和task节点的扩缩容实例数量，参考：<a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-managed-scaling.html">Using managed scaling in Amazon EMR</a></p>
+<h3 id="1-emr-manager-scaling-pei-zhi"><a href="#1-EMR-manager-scaling配置" class="headerlink" title="1.EMR-manager scaling配置"></a><strong>1.EMR-manager scaling配置</strong><a href="#1-emr-manager-scaling-pei-zhi" class="header-anchor">#</a></h3><p>这里需要配置的参数主要控制的是core和task节点的扩缩容实例数量，参考：<a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-managed-scaling.html">Using managed scaling in Amazon EMR</a></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Minimum 3 (core + task 最小为3台机器)</span><br><span class="line">Maximum 15 （core + task 最大为15台机器)</span><br><span class="line">On-demand limit (非必须参数，假设Min为2台机器，max为100台机器，On-demand limit为10台，则扩容的时候会有10台机器的购买方式是按需购买，剩余的机器是竞价购买)</span><br><span class="line">Maximum Core Node (非必须参数，core 节点最多为3台)</span><br></pre></td></tr></table></figure>
 
 <img src="/images/517519-20230328141847752-1483912536.png" alt loading="lazy">
@@ -327,7 +327,7 @@ ga('send', 'pageview');
 <img src="/images/517519-20231201224638285-1651194717.png" width="700" height="281" loading="lazy">
 
 <p>参考：<a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/zh_cn/emr/latest/ManagementGuide/emr-scale-on-demand.html">https://docs.aws.amazon.com/zh_cn/emr/latest/ManagementGuide/emr-scale-on-demand.html</a></p>
-<h3><span id="2-yong-hu-zi-xing-pei-zhi-scaling-ce-lue"><strong>2.用户自行配置scaling策略</strong></span><a href="#2-yong-hu-zi-xing-pei-zhi-scaling-ce-lue" class="header-anchor">#</a></h3><p>这里配置的扩缩容的节点是Task节点，Core节点由于有HDFS，所以不进行扩缩容</p>
+<h3 id="2-yong-hu-zi-xing-pei-zhi-scaling-ce-lue"><a href="#2-用户自行配置scaling策略" class="headerlink" title="2.用户自行配置scaling策略"></a><strong>2.用户自行配置scaling策略</strong><a href="#2-yong-hu-zi-xing-pei-zhi-scaling-ce-lue" class="header-anchor">#</a></h3><p>这里配置的扩缩容的节点是Task节点，Core节点由于有HDFS，所以不进行扩缩容</p>
 <img src="/images/517519-20230328141435585-1463801639.png" alt loading="lazy">
 
 <p>自行编辑扩容策略，这里设置的扩容策略是当AppsPending这个指标大于等于1的时候，扩容2台机器</p>

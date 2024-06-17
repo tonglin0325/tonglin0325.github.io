@@ -13,7 +13,7 @@
 <meta property="og:description" content="1.CaseFormatCaseFormat是guava中用于字符串格式转换的工具，有以下几种类型 UPPER_CAMEL，比如 UpperCamel UPPER_UNDERSCORE，比如 UPPER_UNDERSCORE LOWER_CAMEL，比如 lowerCamel LOWER_HYPHEN，比如 lower-hyphen LOWER_UNDERSCORE，比如 lower_unders">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-07-24T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-06-17T13:58:47.783Z">
+<meta property="article:modified_time" content="2024-06-17T14:29:34.288Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="google">
 <meta name="twitter:card" content="summary">
@@ -138,10 +138,10 @@ ga('send', 'pageview');
         <!-- 目录 -->
 
 <div id="toc">
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.CaseFormat</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.guava cache</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.Preconditions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4.Hash</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">5.EventBus</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">6.RateLimiter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">7.去掉字符串的空格和换行</span></a></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-caseformat"><span class="toc-text">1.CaseFormat</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-guava-cache"><span class="toc-text">2.guava cache</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-preconditions"><span class="toc-text">3.Preconditions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-hash"><span class="toc-text">4.Hash</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-eventbus"><span class="toc-text">5.EventBus</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-ratelimiter"><span class="toc-text">6.RateLimiter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-qu-diao-zi-fu-chuan-de-kong-ge-he-huan-xing"><span class="toc-text">7.去掉字符串的空格和换行</span></a></li></ol>
 </div>
 
-        <h2><span id="1-caseformat">1.<strong>CaseFormat</strong></span><a href="#1-caseformat" class="header-anchor">#</a></h2><p><strong>CaseFormat</strong>是guava中用于字符串格式转换的工具<strong>，</strong>有以下几种类型</p>
+        <h2 id="1-caseformat"><a href="#1-CaseFormat" class="headerlink" title="1.CaseFormat"></a>1.<strong>CaseFormat</strong><a href="#1-caseformat" class="header-anchor">#</a></h2><p><strong>CaseFormat</strong>是guava中用于字符串格式转换的工具<strong>，</strong>有以下几种类型</p>
 <p>UPPER_CAMEL，比如 UpperCamel</p>
 <p>UPPER_UNDERSCORE，比如 UPPER_UNDERSCORE</p>
 <p>LOWER_CAMEL，比如 lowerCamel</p>
@@ -155,17 +155,17 @@ ga('send', 'pageview');
 <p>也可以使用converter进行转换</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Converter&lt;String, String&gt; converter = CaseFormat.UPPER_CAMEL.converterTo(CaseFormat.LOWER_CAMEL);</span><br><span class="line">System.out.println(converter.convert(&quot;UpperCamel&quot;));</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h2><span id="2-guava-cache">2.<strong>guava cache</strong></span><a href="#2-guava-cache" class="header-anchor">#</a></h2><p><strong>guava cache</strong>是一种非常优秀本地缓存解决方案，提供了基于容量，时间和引用的缓存回收方式</p>
+<h2 id="2-guava-cache"><a href="#2-guava-cache" class="headerlink" title="2.guava cache"></a>2.<strong>guava cache</strong><a href="#2-guava-cache" class="header-anchor">#</a></h2><p><strong>guava cache</strong>是一种非常优秀本地缓存解决方案，提供了基于容量，时间和引用的缓存回收方式</p>
 <p>guava cache作为本地缓存，对于redis，redis将会受到网卡等原因，所以缓存的方案可以是DB+redis+local cache</p>
 <p>使用的场景：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.愿意消耗一些内存空间来提升速度</span><br><span class="line">2.预料到某些键会被多次查询</span><br><span class="line">3.缓存中存放的数据总量不会超出内存容量</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>参考：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/38bd5f1cf2f2">https://www.jianshu.com/p/38bd5f1cf2f2</a></p>
 <p>其他的本地缓存方案还有：caffeine</p>
-<h2><span id="3-preconditions">3.<strong>Preconditions</strong></span><a href="#3-preconditions" class="header-anchor">#</a></h2><p>可以使用Preconditions来优雅的进行参数的校验，比如</p>
+<h2 id="3-preconditions"><a href="#3-Preconditions" class="headerlink" title="3.Preconditions"></a>3.<strong>Preconditions</strong><a href="#3-preconditions" class="header-anchor">#</a></h2><p>可以使用Preconditions来优雅的进行参数的校验，比如</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Preconditions.checkNotNull(jedisPoolConfig, &quot;Redis pool config should not be Null&quot;);</span><br><span class="line">Preconditions.checkArgument(minIdle &gt;= 0, &quot;minIdle value can not be negative&quot;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h2><span id="4-hash">4.<strong>Hash</strong></span><a href="#4-hash" class="header-anchor">#</a></h2><p>可以使用guava来对进行哈希</p>
+<h2 id="4-hash"><a href="#4-Hash" class="headerlink" title="4.Hash"></a>4.<strong>Hash</strong><a href="#4-hash" class="header-anchor">#</a></h2><p>可以使用guava来对进行哈希</p>
 <p>下面的例子使用了md5，还有其他的哈希方法，比如murmur3（es使用的路由哈希算法），sha256，crc32等</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">HashCode hash = Hashing.md5().hashString(&quot;123456&quot;); // 等同于Hashing.md5().hashString(&quot;123456&quot;, Charsets.UTF_16LE);</span><br><span class="line">System.out.println(hash.toString());</span><br><span class="line"></span><br><span class="line">HashCode hash2 = Hashing.md5().hashString(&quot;123456&quot;, StandardCharsets.UTF_8); // 等同于Hashing.md5().hashBytes(&quot;123456&quot;.getBytes()).toString()</span><br><span class="line">System.out.println(hash2.toString());</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
@@ -175,12 +175,12 @@ ga('send', 'pageview');
 <p>在Linux上使用md5sum，等同于使用&nbsp;Hashing.md5().hashString(“123456”, StandardCharsets.UTF_8)</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">echo -n &#x27;123456&#x27; | md5sum</span><br><span class="line">e10adc3949ba59abbe56e057f20f883e  -</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h2><span id="5-eventbus">5.EventBus</span><a href="#5-eventbus" class="header-anchor">#</a></h2><p>EventBus是guava提供的一种消息发布-订阅类库</p>
+<h2 id="5-eventbus"><a href="#5-EventBus" class="headerlink" title="5.EventBus"></a>5.EventBus<a href="#5-eventbus" class="header-anchor">#</a></h2><p>EventBus是guava提供的一种消息发布-订阅类库</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/93486a604c34">Guava-EventBus使用详解</a></p>
-<h2><span id="6-ratelimiter">6.RateLimiter</span><a href="#6-ratelimiter" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">RateLimiter limiter = RateLimiter.create(1.0); // 这里的1表示每秒允许处理的量为1个</span><br><span class="line">for (int i = 1; i &lt;= 10; i++) &#123; </span><br><span class="line">    limiter.acquire();// 请求RateLimiter, 超过permits会被阻塞</span><br><span class="line">    System.out.println(&quot;call execute..&quot; + i);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="6-ratelimiter"><a href="#6-RateLimiter" class="headerlink" title="6.RateLimiter"></a>6.RateLimiter<a href="#6-ratelimiter" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">RateLimiter limiter = RateLimiter.create(1.0); // 这里的1表示每秒允许处理的量为1个</span><br><span class="line">for (int i = 1; i &lt;= 10; i++) &#123; </span><br><span class="line">    limiter.acquire();// 请求RateLimiter, 超过permits会被阻塞</span><br><span class="line">    System.out.println(&quot;call execute..&quot; + i);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/fanrenxiang/article/details/80949079">Guava RateLimiter实现接口API限流</a></p>
-<h2><span id="7-qu-diao-zi-fu-chuan-de-kong-ge-he-huan-xing">7.去掉字符串的空格和换行</span><a href="#7-qu-diao-zi-fu-chuan-de-kong-ge-he-huan-xing" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CharMatcher.breakingWhitespace().removeFrom(str)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="7-qu-diao-zi-fu-chuan-de-kong-ge-he-huan-xing"><a href="#7-去掉字符串的空格和换行" class="headerlink" title="7.去掉字符串的空格和换行"></a>7.去掉字符串的空格和换行<a href="#7-qu-diao-zi-fu-chuan-de-kong-ge-he-huan-xing" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CharMatcher.breakingWhitespace().removeFrom(str)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>　　</p>
 <p>&nbsp;</p>

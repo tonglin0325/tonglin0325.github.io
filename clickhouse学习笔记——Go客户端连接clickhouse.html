@@ -14,7 +14,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240525202735281-1790572630.png">
 <meta property="article:published_time" content="2017-01-02T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-06-17T13:58:48.426Z">
+<meta property="article:modified_time" content="2024-06-17T14:29:34.978Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="clickhouse">
 <meta name="twitter:card" content="summary">
@@ -140,10 +140,10 @@ ga('send', 'pageview');
         <!-- 目录 -->
 
 <div id="toc">
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.创建clickhouse环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.使用client连接clickhouse</span></a></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-chuang-jian-clickhouse-huan-jing"><span class="toc-text">1.创建clickhouse环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-shi-yong-client-lian-jie-clickhouse"><span class="toc-text">2.使用client连接clickhouse</span></a></li></ol>
 </div>
 
-        <h2><span id="1-chuang-jian-clickhouse-huan-jing">1.创建clickhouse环境</span><a href="#1-chuang-jian-clickhouse-huan-jing" class="header-anchor">#</a></h2><p>安装clickhouse</p>
+        <h2 id="1-chuang-jian-clickhouse-huan-jing"><a href="#1-创建clickhouse环境" class="headerlink" title="1.创建clickhouse环境"></a>1.创建clickhouse环境<a href="#1-chuang-jian-clickhouse-huan-jing" class="header-anchor">#</a></h2><p>安装clickhouse</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/tonglin0325/p/5576803.html">ubuntu16.04安装clickhouse</a></p>
 <p>或者使用docker</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://hub.docker.com/r/clickhouse/clickhouse-server">https://hub.docker.com/r/clickhouse/clickhouse-server</a></p>
@@ -155,7 +155,7 @@ ga('send', 'pageview');
 <p>创建表和测试数据</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE default.my_first_table</span><br><span class="line">(</span><br><span class="line">    user_id UInt32,</span><br><span class="line">    message String,</span><br><span class="line">    timestamp DateTime,</span><br><span class="line">    metric Float32</span><br><span class="line">)</span><br><span class="line">ENGINE = MergeTree()</span><br><span class="line">PRIMARY KEY (user_id, timestamp);</span><br><span class="line"></span><br><span class="line">INSERT INTO default.my_first_table (user_id, message, timestamp, metric) VALUES</span><br><span class="line">    (101, &#x27;Hello, ClickHouse!&#x27;,                                 now(),       -1.0    ),</span><br><span class="line">    (102, &#x27;Insert a lot of rows per batch&#x27;,                     yesterday(), 1.41421 ),</span><br><span class="line">    (102, &#x27;Sort your data based on your commonly-used queries&#x27;, today(),     2.718   ),</span><br><span class="line">    (101, &#x27;Granules are the smallest chunks of data read&#x27;,      now() + 5,   3.14159 )</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h2><span id="2-shi-yong-client-lian-jie-clickhouse">2.使用client连接clickhouse</span><a href="#2-shi-yong-client-lian-jie-clickhouse" class="header-anchor">#</a></h2><p>golang客户端连接clickhouse，可以使用 <a target="_blank" rel="noopener" href="https://github.com/ClickHouse/clickhouse-go">clickhouse-go</a> 这个库</p>
+<h2 id="2-shi-yong-client-lian-jie-clickhouse"><a href="#2-使用client连接clickhouse" class="headerlink" title="2.使用client连接clickhouse"></a>2.使用client连接clickhouse<a href="#2-shi-yong-client-lian-jie-clickhouse" class="header-anchor">#</a></h2><p>golang客户端连接clickhouse，可以使用 <a target="_blank" rel="noopener" href="https://github.com/ClickHouse/clickhouse-go">clickhouse-go</a> 这个库</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_59801183/article/details/130575624">一文教你Go语言如何轻松使用ClickHouse</a></p>
 <p>引入依赖</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go get github.com/ClickHouse/clickhouse-go</span><br><span class="line"></span><br></pre></td></tr></table></figure>

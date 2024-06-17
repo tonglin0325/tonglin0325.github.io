@@ -32,7 +32,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20200510220427783-312885400.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20200510220500845-85600133.png">
 <meta property="article:published_time" content="2016-11-27T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-06-17T13:58:54.423Z">
+<meta property="article:modified_time" content="2024-06-17T14:29:37.966Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="ML">
 <meta name="twitter:card" content="summary">
@@ -158,7 +158,7 @@ ga('send', 'pageview');
         <!-- 目录 -->
 
 <div id="toc">
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">一、log对数损失函数（逻辑回归）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">二、平方损失函数（最小二乘法, Ordinary Least Squares ）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">三、指数损失函数（Adaboost）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">四、Hinge损失函数（SVM）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">五、其它损失函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">参考文献</span></a></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#yi-log-dui-shu-sun-shi-han-shu-luo-ji-hui-gui"><span class="toc-text">一、log对数损失函数（逻辑回归）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#er-ping-fang-sun-shi-han-shu-zui-xiao-er-cheng-fa-ordinary-least-squares"><span class="toc-text">二、平方损失函数（最小二乘法, Ordinary Least Squares ）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#san-zhi-shu-sun-shi-han-shu-adaboost"><span class="toc-text">三、指数损失函数（Adaboost）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#si-hinge-sun-shi-han-shu-svm"><span class="toc-text">四、Hinge损失函数（SVM）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wu-qi-ta-sun-shi-han-shu"><span class="toc-text">五、其它损失函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#can-kao-wen-xian"><span class="toc-text">参考文献</span></a></li></ol>
 </div>
 
         <p>参考</p>
@@ -168,7 +168,7 @@ ga('send', 'pageview');
 <p>&nbsp;</p>
 <p><strong>损失函数（loss function）</strong>是用来估量你模型的预测值f(x)与真实值Y的不一致程度，它是一个非负实值函数,通常使用L(Y, f(x))来表示，损失函数越小，模型的鲁棒性就越好。损失函数是<strong>经验风险函数</strong>的核心部分，也是<strong>结构风险函数</strong>重要组成部分。模型的结构风险函数包括了经验风险项和正则项，通常可以表示成如下式子：</p>
 <p>　　　　<img src="/images/517519-20161130211118865-802969511.png" alt></p>
-<h2><span id="yi-log-dui-shu-sun-shi-han-shu-luo-ji-hui-gui">一、log对数损失函数（逻辑回归）</span><a href="#yi-log-dui-shu-sun-shi-han-shu-luo-ji-hui-gui" class="header-anchor">#</a></h2><p>有些人可能觉得逻辑回归的损失函数就是平方损失，其实并不是。平方损失函数可以通过线性回归在假设样本是高斯分布的条件下推导得到，而逻辑回归得到的并不是平方损失。在逻辑回归的推导中，它假设样本服从<strong>伯努利分布（0-1分布）</strong>，然后求得满足该分布的似然函数，接着取对数求极值等等。而逻辑回归并没有求似然函数的极值，而是把极大化当做是一种思想，进而推导出它的经验风险函数为：**最小化负的似然函数（即max F(y, f(x)) &mdash;-&gt; min -F(y, f(x)))**。从损失函数的视角来看，它就成了log损失函数了。</p>
+<h2 id="yi-log-dui-shu-sun-shi-han-shu-luo-ji-hui-gui"><a href="#一、log对数损失函数（逻辑回归）" class="headerlink" title="一、log对数损失函数（逻辑回归）"></a>一、log对数损失函数（逻辑回归）<a href="#yi-log-dui-shu-sun-shi-han-shu-luo-ji-hui-gui" class="header-anchor">#</a></h2><p>有些人可能觉得逻辑回归的损失函数就是平方损失，其实并不是。平方损失函数可以通过线性回归在假设样本是高斯分布的条件下推导得到，而逻辑回归得到的并不是平方损失。在逻辑回归的推导中，它假设样本服从<strong>伯努利分布（0-1分布）</strong>，然后求得满足该分布的似然函数，接着取对数求极值等等。而逻辑回归并没有求似然函数的极值，而是把极大化当做是一种思想，进而推导出它的经验风险函数为：**最小化负的似然函数（即max F(y, f(x)) &mdash;-&gt; min -F(y, f(x)))**。从损失函数的视角来看，它就成了log损失函数了。</p>
 <p><strong>log损失函数的标准形式</strong>：<mi>L</mi><mo stretchy="&quot;false&quot;">(</mo><mi>Y</mi><mo>,</mo><mi>P</mi><mo stretchy="&quot;false&quot;">(</mo><mi>Y</mi><mrow class="&quot;MJX-TeXAtom-ORD&quot;"><mo stretchy="&quot;false&quot;">|</mo></mrow><mi>X</mi><mo stretchy="&quot;false&quot;">)</mo><mo stretchy="&quot;false&quot;">)</mo><mo>=</mo><mo>&amp;#x2212;</mo><mi>log</mi><mo>&amp;#x2061;</mo><mi>P</mi><mo stretchy="&quot;false&quot;">(</mo><mi>Y</mi><mrow class="&quot;MJX-TeXAtom-ORD&quot;"><mo stretchy="&quot;false&quot;">|</mo></mrow><mi>X</mi><mo stretchy="&quot;false&quot;">)</mo>“&gt;&amp;lt;br&amp;gt;</p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="/images/517519-20161130211308334-1632337962.png" alt><br>刚刚说到，取对数是为了方便计算极大似然估计，因为在MLE中，直接求导比较困难，所以通常都是先取对数再求导找极值点。损失函数L(Y, P(Y|X))表达的是样本X在分类Y的情况下，使概率P(Y|X)达到最大值（换言之，<strong>就是利用已知的样本分布，找到最有可能（即最大概率）导致这种分布的参数值；或者说什么样的参数才能使我们观测到目前这组数据的概率最大</strong>）。因为log函数是单调递增的，所以logP(Y|X)也会达到最大值，因此在前面加上负号之后，最大化P(Y|X)就等价于最小化L了。  </p>
 <p>逻辑回归的P(Y=y|x)表达式如下（为了将类别标签y统一为1和0，下面将表达式分开表示）：</p>
@@ -179,7 +179,7 @@ ga('send', 'pageview');
 <p>　　　　<img src="/images/517519-20161130211342240-1584548530.png" alt><mi>J</mi><mo stretchy="&quot;false&quot;">(</mo><mi>&amp;#x03B8;</mi><mo stretchy="&quot;false&quot;">)</mo><mo>=</mo><mo>&amp;#x2212;</mo><mfrac><mn>1</mn><mi>m</mi></mfrac><munderover><mo>&amp;#x2211;</mo><mrow class="&quot;MJX-TeXAtom-ORD&quot;"><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>m</mi></munderover><mrow><mo>[</mo><mrow><msup><mi>y</mi><mrow class="&quot;MJX-TeXAtom-ORD&quot;"><mo stretchy="&quot;false&quot;">(</mo><mi>i</mi><mo stretchy="&quot;false&quot;">)</mo></mrow></msup><mi>log</mi><mo>&amp;#x2061;</mo><msub><mi>h</mi><mrow class="&quot;MJX-TeXAtom-ORD&quot;"><mi>&amp;#x03B8;</mi></mrow></msub><mo stretchy="&quot;false&quot;">(</mo><msup><mi>x</mi><mrow class="&quot;MJX-TeXAtom-ORD&quot;"><mo stretchy="&quot;false&quot;">(</mo><mi>i</mi><mo stretchy="&quot;false&quot;">)</mo></mrow></msup><mo stretchy="&quot;false&quot;">)</mo><mo>+</mo><mo stretchy="&quot;false&quot;">(</mo><mn>1</mn><mo>&amp;#x2212;</mo><msup><mi>y</mi><mrow class="&quot;MJX-TeXAtom-ORD&quot;"><mo stretchy="&quot;false&quot;">(</mo><mi>i</mi><mo stretchy="&quot;false&quot;">)</mo></mrow></msup><mo stretchy="&quot;false&quot;">)</mo><mi>log</mi><mo>&amp;#x2061;</mo><mo stretchy="&quot;false&quot;">(</mo><mn>1</mn><mo>&amp;#x2212;</mo><msub><mi>h</mi><mrow class="&quot;MJX-TeXAtom-ORD&quot;"><mi>&amp;#x03B8;</mi></mrow></msub><mo stretchy="&quot;false&quot;">(</mo><msup><mi>x</mi><mrow class="&quot;MJX-TeXAtom-ORD&quot;"><mo stretchy="&quot;false&quot;">(</mo><mi>i</mi><mo stretchy="&quot;false&quot;">)</mo></mrow></msup><mo stretchy="&quot;false&quot;">)</mo><mo stretchy="&quot;false&quot;">)</mo></mrow><mo>]</mo></mrow>“&gt;</p>
 <p>上面是针对二分类而言的。这里需要解释一下：<strong>之所以有人认为逻辑回归是平方损失，是因为在使用梯度下降来求最优解的时候，它的迭代式子与平方损失求导后的式子非常相似，从而给人一种直观上的错觉</strong>。</p>
 <p>这里有个PDF可以参考一下：<a target="_blank" rel="noopener" href="https://www.cs.berkeley.edu/%7Erussell/classes/cs194/f11/lectures/CS194%20Fall%202011%20Lecture%2006.pdf">Lecture 6: logistic regression.pdf</a>.</p>
-<h2><span id="er-ping-fang-sun-shi-han-shu-zui-xiao-er-cheng-fa-ordinary-least-squares">二、平方损失函数（最小二乘法, Ordinary Least Squares ）</span><a href="#er-ping-fang-sun-shi-han-shu-zui-xiao-er-cheng-fa-ordinary-least-squares" class="header-anchor">#</a></h2><p>最小二乘法是线性回归的一种，OLS将问题转化成了一个凸优化问题。在线性回归中，它假设样本和噪声都服从高斯分布（为什么假设成高斯分布呢？其实这里隐藏了一个小知识点，就是<strong>中心极限定理</strong>，可以参考<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Central_limit_theorem">【central limit theorem】</a>），最后通过极大似然估计（MLE）可以推导出最小二乘式子。最小二乘的基本原则是：<strong>最优拟合直线应该是使各点到回归直线的距离和最小的直线，即平方和最小</strong>。换言之，OLS是基于距离的，而这个距离就是我们用的最多的欧几里得距离。为什么它会选择使用欧式距离作为误差度量呢（即Mean squared error， MSE），主要有以下几个原因：</p>
+<h2 id="er-ping-fang-sun-shi-han-shu-zui-xiao-er-cheng-fa-ordinary-least-squares"><a href="#二、平方损失函数（最小二乘法-Ordinary-Least-Squares-）" class="headerlink" title="二、平方损失函数（最小二乘法, Ordinary Least Squares ）"></a>二、平方损失函数（最小二乘法, Ordinary Least Squares ）<a href="#er-ping-fang-sun-shi-han-shu-zui-xiao-er-cheng-fa-ordinary-least-squares" class="header-anchor">#</a></h2><p>最小二乘法是线性回归的一种，OLS将问题转化成了一个凸优化问题。在线性回归中，它假设样本和噪声都服从高斯分布（为什么假设成高斯分布呢？其实这里隐藏了一个小知识点，就是<strong>中心极限定理</strong>，可以参考<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Central_limit_theorem">【central limit theorem】</a>），最后通过极大似然估计（MLE）可以推导出最小二乘式子。最小二乘的基本原则是：<strong>最优拟合直线应该是使各点到回归直线的距离和最小的直线，即平方和最小</strong>。换言之，OLS是基于距离的，而这个距离就是我们用的最多的欧几里得距离。为什么它会选择使用欧式距离作为误差度量呢（即Mean squared error， MSE），主要有以下几个原因：</p>
 <ul>
 <li>简单，计算方便；</li>
 <li>欧氏距离是一种很好的相似性度量标准；</li>
@@ -193,7 +193,7 @@ ga('send', 'pageview');
 <p>而在实际应用中，通常会使用均方差（MSE）作为一项衡量指标，公式如下</p>
 <p>　　<img src="/images/517519-20161130211453881-1727406827.png" alt></p>
 <p>的线性函数。在机器学习中，通常指的都是后一种情况。</p>
-<h2><span id="san-zhi-shu-sun-shi-han-shu-adaboost">三、指数损失函数（Adaboost）</span><a href="#san-zhi-shu-sun-shi-han-shu-adaboost" class="header-anchor">#</a></h2><p>学过Adaboost算法的人都知道，它是前向分步加法算法的特例，是一个加和模型，损失函数就是指数函数。在Adaboost中，经过m此迭代之后，可以得到fm(x):</p>
+<h2 id="san-zhi-shu-sun-shi-han-shu-adaboost"><a href="#三、指数损失函数（Adaboost）" class="headerlink" title="三、指数损失函数（Adaboost）"></a>三、指数损失函数（Adaboost）<a href="#san-zhi-shu-sun-shi-han-shu-adaboost" class="header-anchor">#</a></h2><p>学过Adaboost算法的人都知道，它是前向分步加法算法的特例，是一个加和模型，损失函数就是指数函数。在Adaboost中，经过m此迭代之后，可以得到fm(x):</p>
 <p>　　　　<img src="/images/517519-20200510215311531-852193725.png" alt width="250" height="53"></p>
 <p>Adaboost每次迭代时的目的是为了找到最小化下列式子时的参数alpha和G：</p>
 <p>　　　　<img src="/images/517519-20200510215355332-1320712481.png" alt width="300" height="60"></p>
@@ -202,7 +202,7 @@ ga('send', 'pageview');
 <p>可以看出，Adaboost的目标式子就是指数损失，在给定n个样本的情况下，Adaboost的损失函数为：</p>
 <p>　　　　<img src="/images/517519-20200510220857711-938623529.png" alt width="300" height="70"></p>
 <p>关于Adaboost的推导，可以参考Wikipedia：<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/AdaBoost">AdaBoost</a>或者《统计学习方法》P145.</p>
-<h2><span id="si-hinge-sun-shi-han-shu-svm">四、Hinge损失函数（SVM）</span><a href="#si-hinge-sun-shi-han-shu-svm" class="header-anchor">#</a></h2><p>在机器学习算法中，hinge损失函数和SVM是息息相关的。在<strong>线性支持向量机</strong>中，最优化问题可以等价于下列式子：<br>　　　　<img src="/images/517519-20200510215543464-843436473.png" alt width="300" height="81"></p>
+<h2 id="si-hinge-sun-shi-han-shu-svm"><a href="#四、Hinge损失函数（SVM）" class="headerlink" title="四、Hinge损失函数（SVM）"></a>四、Hinge损失函数（SVM）<a href="#si-hinge-sun-shi-han-shu-svm" class="header-anchor">#</a></h2><p>在机器学习算法中，hinge损失函数和SVM是息息相关的。在<strong>线性支持向量机</strong>中，最优化问题可以等价于下列式子：<br>　　　　<img src="/images/517519-20200510215543464-843436473.png" alt width="300" height="81"></p>
 <p>下面来对式子做个变形，令：</p>
 <p>　　　　<img src="/images/517519-20200510215616002-2016862431.png" alt width="300" height="88"></p>
 <p>于是，原式就变成了：<br>　　　　<img src="/images/517519-20200510215641556-208247395.png" alt width="250" height="89"></p>
@@ -220,7 +220,7 @@ ga('send', 'pageview');
 <li>2-RBF核；</li>
 <li>3-sigmoid核。</li>
 </ul>
-<h2><span id="wu-qi-ta-sun-shi-han-shu">五、其它损失函数</span><a href="#wu-qi-ta-sun-shi-han-shu" class="header-anchor">#</a></h2><p>除了以上这几种损失函数，常用的还有：</p>
+<h2 id="wu-qi-ta-sun-shi-han-shu"><a href="#五、其它损失函数" class="headerlink" title="五、其它损失函数"></a>五、其它损失函数<a href="#wu-qi-ta-sun-shi-han-shu" class="header-anchor">#</a></h2><p>除了以上这几种损失函数，常用的还有：</p>
 <p><strong>0-1损失函数</strong></p>
 <img src="/images/517519-20200510220427783-312885400.png" alt width="250" height="66">
 
@@ -229,7 +229,7 @@ ga('send', 'pageview');
 
 <p>下面来看看几种损失函数的可视化图像，对着图看看横坐标，看看纵坐标，再看看每条线都表示什么损失函数，多看几次好好消化消化。<br>最后，需要记住的是：<strong>参数越多，模型越复杂，而越复杂的模型越容易过拟合</strong>。过拟合就是说模型在训练数据上的效果远远好于在测试集上的性能。此时可以考虑正则化，通过设置正则项前面的hyper parameter，来权衡损失函数和正则项，减小参数规模，达到模型简化的目的，从而使模型具有更好的泛化能力。</p>
 <p>&nbsp;</p>
-<h2><span id="can-kao-wen-xian">参考文献</span><a href="#can-kao-wen-xian" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/JohnLangford/vowpal_wabbit/wiki/Loss-functions</span><br><span class="line">library_design/losses</span><br><span class="line">http://www.cs.cmu.edu/~yandongl/loss.html</span><br><span class="line">http://math.stackexchange.com/questions/782586/how-do-you-minimize-hinge-loss</span><br><span class="line">《统计学习方法》 李航 著.    </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="can-kao-wen-xian"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献<a href="#can-kao-wen-xian" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/JohnLangford/vowpal_wabbit/wiki/Loss-functions</span><br><span class="line">library_design/losses</span><br><span class="line">http://www.cs.cmu.edu/~yandongl/loss.html</span><br><span class="line">http://math.stackexchange.com/questions/782586/how-do-you-minimize-hinge-loss</span><br><span class="line">《统计学习方法》 李航 著.    </span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>&nbsp;</p>
 

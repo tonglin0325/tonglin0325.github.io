@@ -13,7 +13,7 @@
 <meta property="og:description" content="1.数据库约束简介1.约束是在表上强制执行的数据检验规则，约束主要用于保证数据库的完整性。 2.当表中数据有相互依赖性时，可以保护相关的数据不被删除。 3.大部分数据库支持下面五类完整性约束： 　　- NOT NULL非空 　　- UNIQUE Key唯一值 　　- PRIMARY KEY主键 　　- FOREIGN KEY外键 　　- CHECK检查 4.约束作为数据库对象，存放在系统表中，也有">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2015-07-15T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-06-17T13:58:56.347Z">
+<meta property="article:modified_time" content="2024-06-17T14:29:39.962Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary">
@@ -138,11 +138,11 @@ ga('send', 'pageview');
         <!-- 目录 -->
 
 <div id="toc">
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.数据库约束简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.列级约束和表级约束</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.非空约束(NOT NULL)
-</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.唯一约束(UNIQUE)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.外键约束(FOREIGN KEY REFERENCE)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4.CHECK约束</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.增加约束</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4.删除约束</span></a></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-shu-ju-ku-yue-shu-jian-jie"><span class="toc-text">1.数据库约束简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-lie-ji-yue-shu-he-biao-ji-yue-shu"><span class="toc-text">2.列级约束和表级约束</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-fei-kong-yue-shu-not-null"><span class="toc-text">1.非空约束(NOT NULL)
+</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-wei-yi-yue-shu-unique"><span class="toc-text">2.唯一约束(UNIQUE)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-wai-jian-yue-shu-foreign-key-nbsp-reference"><span class="toc-text">3.外键约束(FOREIGN KEY REFERENCE)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-check-yue-shu"><span class="toc-text">4.CHECK约束</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-zeng-jia-yue-shu"><span class="toc-text">3.增加约束</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-shan-chu-yue-shu"><span class="toc-text">4.删除约束</span></a></li></ol>
 </div>
 
-        <h2><span id="1-shu-ju-ku-yue-shu-jian-jie">1.数据库约束简介</span><a href="#1-shu-ju-ku-yue-shu-jian-jie" class="header-anchor">#</a></h2><p>1.约束是在表上强制执行的数据检验规则，约束主要用于保证数据库的完整性。</p>
+        <h2 id="1-shu-ju-ku-yue-shu-jian-jie"><a href="#1-数据库约束简介" class="headerlink" title="1.数据库约束简介"></a>1.数据库约束简介<a href="#1-shu-ju-ku-yue-shu-jian-jie" class="header-anchor">#</a></h2><p>1.约束是在表上强制执行的数据检验规则，约束主要用于保证数据库的完整性。</p>
 <p>2.当表中数据有相互依赖性时，可以保护相关的数据不被删除。</p>
 <p>3.大部分数据库支持下面五类完整性约束：</p>
 <p>　　- NOT NULL非空</p>
@@ -155,17 +155,17 @@ ga('send', 'pageview');
 <p>　　-在建表的同时创建</p>
 <p>　　-建表后创建（修改表）</p>
 <p>6.有单列约束和多列约束</p>
-<h2><span id="2-lie-ji-yue-shu-he-biao-ji-yue-shu">2.列级约束和表级约束</span><a href="#2-lie-ji-yue-shu-he-biao-ji-yue-shu" class="header-anchor">#</a></h2><p>列级约束直接跟在列后面定义，不再需要指定列名，与列定义之间用空格分开</p>
+<h2 id="2-lie-ji-yue-shu-he-biao-ji-yue-shu"><a href="#2-列级约束和表级约束" class="headerlink" title="2.列级约束和表级约束"></a>2.列级约束和表级约束<a href="#2-lie-ji-yue-shu-he-biao-ji-yue-shu" class="header-anchor">#</a></h2><p>列级约束直接跟在列后面定义，不再需要指定列名，与列定义之间用空格分开</p>
 <p>表级约束通常放在所有的列定义之后定义，要显式指定对哪些列建立列级约束，与列定义之间采用英语逗号，隔开</p>
 <p>如果是对多列建联合约束，只能使用表级约束语法</p>
-<h3><span id="1-fei-kong-yue-shu-not-null">1.非空约束(NOT NULL)<br></span><a href="#1-fei-kong-yue-shu-not-null" class="header-anchor">#</a></h3><span id="more"></span>
+<h3 id="1-fei-kong-yue-shu-not-null"><a href="#1-非空约束-NOT-NULL" class="headerlink" title="1.非空约束(NOT NULL)"></a>1.非空约束(NOT NULL)<br><a href="#1-fei-kong-yue-shu-not-null" class="header-anchor">#</a></h3><span id="more"></span>
 <p>&nbsp;</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NAME VARCHAR(18) NOT NULL</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>&nbsp;</p>
 <p>列级约束：只能使用列级约束语法定义；确保字段值不允许为空；只能在字段级定义；　　　　</p>
 <p>NULL值：所有数据类型的值都可以是NULL；空字符串不等于NULL；0也不等于NULL；</p>
-<h3><span id="2-wei-yi-yue-shu-unique">2.唯一约束(UNIQUE)</span><a href="#2-wei-yi-yue-shu-unique" class="header-anchor">#</a></h3><p>&nbsp;</p>
+<h3 id="2-wei-yi-yue-shu-unique"><a href="#2-唯一约束-UNIQUE" class="headerlink" title="2.唯一约束(UNIQUE)"></a>2.唯一约束(UNIQUE)<a href="#2-wei-yi-yue-shu-unique" class="header-anchor">#</a></h3><p>&nbsp;</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NAME VARCHAR(18) UNIQUE NOT NULL</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>唯一性约束条件确保所在的字段或者字段组合不出现重复值；<br></p>
@@ -181,7 +181,7 @@ ga('send', 'pageview');
 <p>　　　　　　主键字段可以是单字段或者是多字段组合</p>
 <p>　　　　　　当建立主键约束时，MySQL为主键创建对应的索引</p>
 <p>　　　　　　主键约束名总为PRIMARY KEY</p>
-<h3><span id="3-wai-jian-yue-shu-foreign-key-nbsp-reference">3.外键约束(FOREIGN KEY&nbsp;REFERENCE)</span><a href="#3-wai-jian-yue-shu-foreign-key-nbsp-reference" class="header-anchor">#</a></h3><ol>
+<h3 id="3-wai-jian-yue-shu-foreign-key-nbsp-reference"><a href="#3-外键约束-FOREIGN-KEY-nbsp-REFERENCE" class="headerlink" title="3.外键约束(FOREIGN KEY&nbsp;REFERENCE)"></a>3.外键约束(FOREIGN KEY&nbsp;REFERENCE)<a href="#3-wai-jian-yue-shu-foreign-key-nbsp-reference" class="header-anchor">#</a></h3><ol>
 <li><p>dept_id INT REFERENCE tb_dept(id)&nbsp;</p>
 </li>
 <li><p>表内 &nbsp;CONSTRAINT&nbsp;FOREIGN KEY 外键名（建议是表名_约束名） （外键）&nbsp;REFERENCE &nbsp;主表 （字段）</p>
@@ -200,7 +200,7 @@ ga('send', 'pageview');
 <p>　　　　　　当主表的记录被子表参照时，主表记录不允许被删除</p>
 <p>　　　　　　外键参照的只能是主表主键或者唯一键，保证子表记录可以准确定位到被参照的记录</p>
 <p>　　　　　　格式FOREIGN KEY（外键列名） REFERENCE 主表（参照列）</p>
-<h3><span id="4-check-yue-shu">4.CHECK约束</span><a href="#4-check-yue-shu" class="header-anchor">#</a></h3><p>&nbsp;</p>
+<h3 id="4-check-yue-shu"><a href="#4-CHECK约束" class="headerlink" title="4.CHECK约束"></a>4.CHECK约束<a href="#4-check-yue-shu" class="header-anchor">#</a></h3><p>&nbsp;</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">age INT CHECK(age&gt;18 AND age&lt;60) 或者 sex VARCHAR(2) (sex=&#x27;男&#x27; OR sex=&#x27;女&#x27;) check约束在MySQL中不起作用</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>　　　　　　既可作为列级约束，也可作为表级约束</p>
@@ -208,7 +208,7 @@ ga('send', 'pageview');
 <p>　　　　　　在CHECK中定义检查的条件表达式，数据需要符合设置的条件</p>
 <p>　　　　　　条件表达式不允许使用</p>
 <p>　　　　　　参照其他记录的值</p>
-<h2><span id="3-zeng-jia-yue-shu">3.增加约束</span><a href="#3-zeng-jia-yue-shu" class="header-anchor">#</a></h2><p>i&gt;　在建表之后，即表外　ALTER TABLE table ADD [CONSTRAINT constraint] type (column);&nbsp;</p>
+<h2 id="3-zeng-jia-yue-shu"><a href="#3-增加约束" class="headerlink" title="3.增加约束"></a>3.增加约束<a href="#3-zeng-jia-yue-shu" class="header-anchor">#</a></h2><p>i&gt;　在建表之后，即表外　ALTER TABLE table ADD [CONSTRAINT constraint] type (column);&nbsp;</p>
 <p>ii&gt;　在建表的时候，即表内　CONSTRAINT&nbsp;FOREIGN KEY tb_eployee_fk (dept_id)&nbsp;REFERENCE tb_dept(dept_id)</p>
 <p>　　　　可增加或删除约束，但不能直接修改</p>
 <p>　　　　可使约束启用和禁用</p>
@@ -216,8 +216,8 @@ ga('send', 'pageview');
 <p>　　　　只要是可以使用列级约束语法来定义的约束，都可以通过modify来增加该约束</p>
 <p>插入数据测试，这两句执行一次添加一行数据</p>
 <p>　　　　INSERT INTO tb_emp(NAME,sex,age,addresss,email,dept_id)</p>
-<p>　　　　VALUE(‘a’,’男’,’23’,’gz’,‘<a href="mailto:&#x31;&#50;&#x33;&#x40;&#x31;&#54;&#x33;&#x2e;&#99;&#x6f;&#x6d;">&#x31;&#50;&#x33;&#x40;&#x31;&#54;&#x33;&#x2e;&#99;&#x6f;&#x6d;</a>‘,1);</p>
-<h2><span id="4-shan-chu-yue-shu">4.删除约束</span><a href="#4-shan-chu-yue-shu" class="header-anchor">#</a></h2><p>　　　　约束可被删除，删除约束不会对数据产生影响</p>
+<p>　　　　VALUE(‘a’,’男’,’23’,’gz’,‘<a href="mailto:&#x31;&#50;&#x33;&#x40;&#49;&#54;&#51;&#46;&#99;&#111;&#109;">&#x31;&#50;&#x33;&#x40;&#49;&#54;&#51;&#46;&#99;&#111;&#109;</a>‘,1);</p>
+<h2 id="4-shan-chu-yue-shu"><a href="#4-删除约束" class="headerlink" title="4.删除约束"></a>4.删除约束<a href="#4-shan-chu-yue-shu" class="header-anchor">#</a></h2><p>　　　　约束可被删除，删除约束不会对数据产生影响</p>
 <p>　　　　当删除被外键参照的主键时候，应该采用CASCADE关键字来级联删除外键，否则无法删除主键</p>
 <p>　　　　语法如下：ALTER TABLE 表名 DROP CONSTRAINT 约束名</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#删除约束</span><br><span class="line"></span><br><span class="line">#删除NOT NULL约束</span><br><span class="line">ALTER TABLE tb_emp MODIFY NAME VARCHAR(18)</span><br><span class="line"></span><br><span class="line">#删除UNIQUE约束</span><br><span class="line">ALTER TABLE tb_emp DROP INDEX email</span><br><span class="line"></span><br><span class="line">#删除PRIMAEY KEY约束 自动增长不能删除</span><br><span class="line">ALTER TABLE tb_emp MODIFY id INT</span><br><span class="line">ALTER TABLE tb_emp DROP PRIMARY KEY</span><br><span class="line"></span><br><span class="line">#删除外键约束</span><br><span class="line">ALTER TABLE tb_emp DROP FOREIGN KEY tb_emp_ibfk_1</span><br></pre></td></tr></table></figure>

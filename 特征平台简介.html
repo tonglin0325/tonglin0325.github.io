@@ -22,7 +22,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20231025160859685-1913876165.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20231025164817092-1179721913.png">
 <meta property="article:published_time" content="2016-05-26T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-06-17T13:58:54.624Z">
+<meta property="article:modified_time" content="2024-06-17T14:29:38.184Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="ML Infra">
 <meta name="twitter:card" content="summary">
@@ -148,11 +148,11 @@ ga('send', 'pageview');
         <!-- 目录 -->
 
 <div id="toc">
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.特征平台业界实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.uber</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.美团</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.字节跳动</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.特征拼接问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.离线拼接（离线特征）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.实时拼接（离线特征+实时特征）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.使用支持partial update的存储</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.特征的生成方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4.Embedding特征</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">5.正排和倒排</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">6.特征穿越问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.什么是特征穿越</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.point-in-time correct join</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">7.离在线一致性问题</span></a></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-te-zheng-ping-tai-ye-jie-shi-xian"><span class="toc-text">1.特征平台业界实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-uber"><span class="toc-text">1.uber</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-mei-tuan"><span class="toc-text">2.美团</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-zi-jie-tiao-dong"><span class="toc-text">3.字节跳动</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-te-zheng-pin-jie-wen-ti"><span class="toc-text">2.特征拼接问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-chi-xian-pin-jie-chi-xian-te-zheng"><span class="toc-text">1.离线拼接（离线特征）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-shi-shi-pin-jie-chi-xian-te-zheng-shi-shi-te-zheng"><span class="toc-text">2.实时拼接（离线特征+实时特征）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-shi-yong-zhi-chi-partial-update-de-cun-chu"><span class="toc-text">3.使用支持partial update的存储</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-te-zheng-de-sheng-cheng-fang-shi"><span class="toc-text">3.特征的生成方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-embedding-te-zheng"><span class="toc-text">4.Embedding特征</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-zheng-pai-he-dao-pai"><span class="toc-text">5.正排和倒排</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-te-zheng-chuan-yue-wen-ti"><span class="toc-text">6.特征穿越问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-shi-me-shi-te-zheng-chuan-yue"><span class="toc-text">1.什么是特征穿越</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-point-in-time-correct-join"><span class="toc-text">2.point-in-time correct join</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-chi-zai-xian-yi-zhi-xing-wen-ti"><span class="toc-text">7.离在线一致性问题</span></a></li></ol>
 </div>
 
         <p>特征平台（feature store）的定义：一个用于机器学习的数据管理层，允许共享和发现特征并创建更有效的机器学习管道。</p>
-<h2><span id="1-te-zheng-ping-tai-ye-jie-shi-xian">1.特征平台业界实现</span><a href="#1-te-zheng-ping-tai-ye-jie-shi-xian" class="header-anchor">#</a></h2><h3><span id="1-uber">1.uber</span><a href="#1-uber" class="header-anchor">#</a></h3><p>其最早由uber于2017年提出，uber的feature store名为Michaelangelo，参考：<a target="_blank" rel="noopener" href="https://www.uber.com/blog/michelangelo-machine-learning-platform/">Meet Michelangelo: Uber&rsquo;s Machine Learning Platform</a></p>
+<h2 id="1-te-zheng-ping-tai-ye-jie-shi-xian"><a href="#1-特征平台业界实现" class="headerlink" title="1.特征平台业界实现"></a>1.特征平台业界实现<a href="#1-te-zheng-ping-tai-ye-jie-shi-xian" class="header-anchor">#</a></h2><h3 id="1-uber"><a href="#1-uber" class="headerlink" title="1.uber"></a>1.uber<a href="#1-uber" class="header-anchor">#</a></h3><p>其最早由uber于2017年提出，uber的feature store名为Michaelangelo，参考：<a target="_blank" rel="noopener" href="https://www.uber.com/blog/michelangelo-machine-learning-platform/">Meet Michelangelo: Uber&rsquo;s Machine Learning Platform</a></p>
 <img src="/images/517519-20230921205657081-1677260283.png" width="800" height="381" loading="lazy">
 
 <p>Michaelangelo主要提供以下6种特性，如下图所示：</p>
@@ -166,7 +166,7 @@ ga('send', 'pageview');
 </ol>
 <img src="/images/517519-20230921210709760-217846670.png" width="800" height="448" loading="lazy">
 
-<h3><span id="2-mei-tuan">2.美团</span><a href="#2-mei-tuan" class="header-anchor">#</a></h3><p>特征平台所能解决的一些问题：</p>
+<h3 id="2-mei-tuan"><a href="#2-美团" class="headerlink" title="2.美团"></a>2.美团<a href="#2-mei-tuan" class="header-anchor">#</a></h3><p>特征平台所能解决的一些问题：</p>
 <ul>
 <li><strong>特征迭代成本高</strong>：框架缺乏配置化管理，新特征上线需要同时改动离线侧和在线侧代码，迭代周期较长。</li>
 <li><strong>特征复用困难</strong>：外卖不同业务线间存在相似场景，使特征的复用成为可能，但框架缺乏对复用能力的很好支撑，导致资源浪费、特征价值无法充分发挥。</li>
@@ -174,7 +174,7 @@ ga('send', 'pageview');
 </ul>
 <p>参考：<a target="_blank" rel="noopener" href="https://tech.meituan.com/2021/03/04/featureplatform-in-mtwaimai.html">美团外卖特征平台的建设与实践</a></p>
 <p>其他美团的文章：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/gafduk7jhD9QnB1Lmmb1qw">美团配送实时特征平台建设实践</a></p>
-<h3><span id="3-zi-jie-tiao-dong">3.字节跳动</span><a href="#3-zi-jie-tiao-dong" class="header-anchor">#</a></h3><p>特征存储所解决的一些问题：</p>
+<h3 id="3-zi-jie-tiao-dong"><a href="#3-字节跳动" class="headerlink" title="3.字节跳动"></a>3.字节跳动<a href="#3-zi-jie-tiao-dong" class="header-anchor">#</a></h3><p>特征存储所解决的一些问题：</p>
 <ol>
 <li><p>存储原始特征：由于在线特征抽取在特征调研上的低效率，我们期望能够存储原始特征；</p>
 </li>
@@ -190,7 +190,7 @@ ga('send', 'pageview');
 </li>
 </ol>
 <p>参考：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7109391565855916045">字节跳动基于 Iceberg 的海量特征存储实践</a></p>
-<h2><span id="2-te-zheng-pin-jie-wen-ti">2.特征拼接问题</span><a href="#2-te-zheng-pin-jie-wen-ti" class="header-anchor">#</a></h2><h3><span id="1-chi-xian-pin-jie-chi-xian-te-zheng">1.离线拼接（离线特征）</span><a href="#1-chi-xian-pin-jie-chi-xian-te-zheng" class="header-anchor">#</a></h3><p>以天级的batch任务来实现特征和曝光/点击的join，比如</p>
+<h2 id="2-te-zheng-pin-jie-wen-ti"><a href="#2-特征拼接问题" class="headerlink" title="2.特征拼接问题"></a>2.特征拼接问题<a href="#2-te-zheng-pin-jie-wen-ti" class="header-anchor">#</a></h2><h3 id="1-chi-xian-pin-jie-chi-xian-te-zheng"><a href="#1-离线拼接（离线特征）" class="headerlink" title="1.离线拼接（离线特征）"></a>1.离线拼接（离线特征）<a href="#1-chi-xian-pin-jie-chi-xian-te-zheng" class="header-anchor">#</a></h3><p>以天级的batch任务来实现特征和曝光/点击的join，比如</p>
 <span id="more"></span>
 <p>&nbsp;</p>
 <p>曝光流，假设用户A在10点1分30秒，用户B在10点2分30秒刷到了文章1和文章2</p>
@@ -351,7 +351,7 @@ ga('send', 'pageview');
 </tr>
 </tbody></table>
 <p>这时候就获得了一张可以用于训练的训练集，但是该方案的问题也很明显，训练的周期是天级别的，无法支持在线学习（即实时特征），join的计算量大</p>
-<h3><span id="2-shi-shi-pin-jie-chi-xian-te-zheng-shi-shi-te-zheng">2.实时拼接（离线特征+实时特征）</span><a href="#2-shi-shi-pin-jie-chi-xian-te-zheng-shi-shi-te-zheng" class="header-anchor">#</a></h3><p>如果想添加一些实时特征的话，比如</p>
+<h3 id="2-shi-shi-pin-jie-chi-xian-te-zheng-shi-shi-te-zheng"><a href="#2-实时拼接（离线特征-实时特征）" class="headerlink" title="2.实时拼接（离线特征+实时特征）"></a>2.实时拼接（离线特征+实时特征）<a href="#2-shi-shi-pin-jie-chi-xian-te-zheng-shi-shi-te-zheng" class="header-anchor">#</a></h3><p>如果想添加一些实时特征的话，比如</p>
 <p>&nbsp;</p>
 <p>用户实时特征流，包含1个特征：用户最近10分钟看的文章的数量</p>
 <p>&nbsp;<br>|用户id|用户最近10分钟看的文章的数量|时间戳<br>|A|10|2022-01-01 10:00:00<br>|B|20|2022-01-01 10:00:00</p>
@@ -491,7 +491,7 @@ ga('send', 'pageview');
 <td>1</td>
 </tr>
 </tbody></table>
-<h3><span id="3-shi-yong-zhi-chi-partial-update-de-cun-chu">3.使用支持partial update的存储</span><a href="#3-shi-yong-zhi-chi-partial-update-de-cun-chu" class="header-anchor">#</a></h3><p>比如HBase和Hudi，把两表Join过程转化为两表写入数据库的过程</p>
+<h3 id="3-shi-yong-zhi-chi-partial-update-de-cun-chu"><a href="#3-使用支持partial-update的存储" class="headerlink" title="3.使用支持partial update的存储"></a>3.使用支持partial update的存储<a href="#3-shi-yong-zhi-chi-partial-update-de-cun-chu" class="header-anchor">#</a></h3><p>比如HBase和Hudi，把两表Join过程转化为两表写入数据库的过程</p>
 <p>美团最终的流式样本生成方案如下图：</p>
 <ol>
 <li>特征快照中只包含流式、即时特征</li>
@@ -503,17 +503,17 @@ ga('send', 'pageview');
 <img src="/images/517519-20231020105617049-807537534.png" width="800" height="357" loading="lazy">
 
 <p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/546493272">模型样本构建方案演进之路</a> 和 <a target="_blank" rel="noopener" href="https://tech.meituan.com/2022/07/06/largescaledeeplearningmodel-engineeringpractice-in-mtwaimaiad.html">外卖广告大规模深度学习模型工程实践 | 美团外卖广告工程实践专题连载</a></p>
-<h2><span id="3-te-zheng-de-sheng-cheng-fang-shi">3.特征的生成方式</span><a href="#3-te-zheng-de-sheng-cheng-fang-shi" class="header-anchor">#</a></h2><p>1.特征回填（Backfilling Data）</p>
+<h2 id="3-te-zheng-de-sheng-cheng-fang-shi"><a href="#3-特征的生成方式" class="headerlink" title="3.特征的生成方式"></a>3.特征的生成方式<a href="#3-te-zheng-de-sheng-cheng-fang-shi" class="header-anchor">#</a></h2><p>1.特征回填（Backfilling Data）</p>
 <p>2.特征快照（Snapshot）</p>
 <p>3.特征请求快照（Request Snapshot）</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/402812843">AI算法模型中的特征穿越问题：原理篇</a></p>
-<h2><span id="4-embedding-te-zheng">4.Embedding特征</span><a href="#4-embedding-te-zheng" class="header-anchor">#</a></h2><p>特征数据除了可以分成离线特征和实时特征之外，还可以按特征的稀疏程度进行分类，比如文本类，用户标签之类的特征就属于稀疏特征（Sparse Feature），而各种隐因子模型产出的特征，就属于稠密特征（Dense Feature），即Embedding特征。</p>
+<h2 id="4-embedding-te-zheng"><a href="#4-Embedding特征" class="headerlink" title="4.Embedding特征"></a>4.Embedding特征<a href="#4-embedding-te-zheng" class="header-anchor">#</a></h2><p>特征数据除了可以分成离线特征和实时特征之外，还可以按特征的稀疏程度进行分类，比如文本类，用户标签之类的特征就属于稀疏特征（Sparse Feature），而各种隐因子模型产出的特征，就属于稠密特征（Dense Feature），即Embedding特征。</p>
 <p>对于稠密特征向量，例如各种隐因子向量，Embedding 向量，可以考虑文件存储，采用内存映射的方式，会更加高效地读取和使用。</p>
-<h2><span id="5-zheng-pai-he-dao-pai">5.正排和倒排</span><a href="#5-zheng-pai-he-dao-pai" class="header-anchor">#</a></h2><p>正排特征就使用的是用户ID或者文章ID来作为查询的主键，正排用于将用户特征+文章特征+曝光点击数据，拼凑成训练样本用于离线模型训练；同时在推荐系统或者广告系统中也会用于模型的online serving或者过滤（比如说基于规则、黑白名单、广告主预算 pacing 过滤等）。由于查询层需要支持按一些特定的字段进行筛选过滤，所以在选择反序列化方案的时候，就需要考虑性能问题，参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/539966796">推荐系统倒排索引</a> 和 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/110112102">广告召回系统的演进</a></p>
+<h2 id="5-zheng-pai-he-dao-pai"><a href="#5-正排和倒排" class="headerlink" title="5.正排和倒排"></a>5.正排和倒排<a href="#5-zheng-pai-he-dao-pai" class="header-anchor">#</a></h2><p>正排特征就使用的是用户ID或者文章ID来作为查询的主键，正排用于将用户特征+文章特征+曝光点击数据，拼凑成训练样本用于离线模型训练；同时在推荐系统或者广告系统中也会用于模型的online serving或者过滤（比如说基于规则、黑白名单、广告主预算 pacing 过滤等）。由于查询层需要支持按一些特定的字段进行筛选过滤，所以在选择反序列化方案的时候，就需要考虑性能问题，参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/539966796">推荐系统倒排索引</a> 和 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/110112102">广告召回系统的演进</a></p>
 <p>倒排特征则是使用特征作为查询的主键，比如用户的标签，倒排用于召回候选集的时候，比如已知用户的个人标签，要用个人标签召回新闻，那么就需要提前准备好标签对应的新闻文章的倒排索引，最后再通过itemId去正排里拉取详情。</p>
 <p>这两种形态的特征数据，需要用不同的数据库存储。正排特征如果是用于离线模型训练，一般是存在Hive或者Hudi表中；正排特征如果是用于模型的online serving或者filter的话，则需要用列式数据库存储，比如HBase 和 Cassandra；倒排索引需要用 KV 数据库存储比如 Redis 或 Memcached。</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://time.geekbang.org/column/article/6803">30 | 推荐系统服务化、存储选型及API设计</a> 和 <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/ed14ad295619">推荐系统从0到1</a></p>
-<h2><span id="6-te-zheng-chuan-yue-wen-ti">6.特征穿越问题</span><a href="#6-te-zheng-chuan-yue-wen-ti" class="header-anchor">#</a></h2><h3><span id="1-shi-me-shi-te-zheng-chuan-yue"><strong>1.什么是特征穿越</strong></span><a href="#1-shi-me-shi-te-zheng-chuan-yue" class="header-anchor">#</a></h3><p><strong>特征穿越</strong>指的是特征的时间戳和label的时间戳不匹配，特征穿越一般发生在<strong>实时特征</strong>上面</p>
+<h2 id="6-te-zheng-chuan-yue-wen-ti"><a href="#6-特征穿越问题" class="headerlink" title="6.特征穿越问题"></a>6.特征穿越问题<a href="#6-te-zheng-chuan-yue-wen-ti" class="header-anchor">#</a></h2><h3 id="1-shi-me-shi-te-zheng-chuan-yue"><a href="#1-什么是特征穿越" class="headerlink" title="1.什么是特征穿越"></a><strong>1.什么是特征穿越</strong><a href="#1-shi-me-shi-te-zheng-chuan-yue" class="header-anchor">#</a></h3><p><strong>特征穿越</strong>指的是特征的时间戳和label的时间戳不匹配，特征穿越一般发生在<strong>实时特征</strong>上面</p>
 <p>错误的join</p>
 <img src="/images/517519-20230921220658735-1302956805.png" width="500" height="353" loading="lazy">
 
@@ -523,7 +523,7 @@ ga('send', 'pageview');
 <p>为了让大家能够理解什么叫<strong>特征穿越</strong>，上图给出了一个简单例子，来展现这个问题。</p>
 <p><strong>图左上表</strong>是用户的一个行为特征，表达了在不同时间节点，对于一个给定 ID 的用户，在最近两分钟内的点击数。这个点击数可能帮助我们推理用户是否会点击某个广告。为了用这些特征去做训练，通常需要将特征拼接到用户带有 Label 的一些数据集上。</p>
 <p><strong>图左下表</strong>展现的是一个用户实际有没有点击广告的一些正样本和负样本的数据集，标注了在不同的时间点，用户所产生的正样本或负样本。为了将这两个数据集中的特征拼接起来，形成训练用的数据集，通常需要根据用户 ID 作为 key 进行特征拼接。如果只是简单地进行 Table Join，不考虑时间戳，就可能产生特征穿越问题。&nbsp;例如在 6:03 分时，用户最近 2 分钟点击数应该是 10，但拼接得到的特征值可能是来自 7:00 分时的 6。这种特征穿越会带来实际推理效果的下降。参考：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/43Gh-rl7oiCKEmePhNuHHA">流批一体的实时特征工程平台建设实践</a></p>
-<h3><span id="2-point-in-time-correct-join"><strong>2.point-in-time correct join</strong></span><a href="#2-point-in-time-correct-join" class="header-anchor">#</a></h3><p>SQL的思路就是先将曝光点击表和特征表进行inner join，曝光点击表的时间戳取曝光时间戳event_timestamp，特征表的时间戳为feature_timestamp</p>
+<h3 id="2-point-in-time-correct-join"><a href="#2-point-in-time-correct-join" class="headerlink" title="2.point-in-time correct join"></a><strong>2.point-in-time correct join</strong><a href="#2-point-in-time-correct-join" class="header-anchor">#</a></h3><p>SQL的思路就是先将曝光点击表和特征表进行inner join，曝光点击表的时间戳取曝光时间戳event_timestamp，特征表的时间戳为feature_timestamp</p>
 <p>曝光点击表</p>
 <p>&nbsp;<br>|用户id|文章id|曝光时间戳（event_timestamp）|点击时间戳|label（0没点击/1点击）<br>|A|1|2022-01-01 10:01:30|2022-01-01 10:02:00|1<br>|A|2|2022-01-01 10:01:30|&nbsp;|0<br>|B|1|2022-01-01 10:02:30|&nbsp;|0<br>|B|2|2022-01-01 10:02:30|2022-01-01 10:03:00|1</p>
 <img src="/images/517519-20231025172509647-1243117856.png" width="800" height="108" loading="lazy">
@@ -547,7 +547,7 @@ ga('send', 'pageview');
 <img src="/images/517519-20231025164817092-1179721913.png" alt loading="lazy">
 
 <p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/480122449">Point-in-Time Correct Join：Feast Spark版实现</a> 和 <a target="_blank" rel="noopener" href="https://aws.amazon.com/cn/blogs/china/feast-on-aws-solutions/">Feast on AWS 解决方案</a></p>
-<h2><span id="7-chi-zai-xian-yi-zhi-xing-wen-ti">7.离在线一致性问题</span><a href="#7-chi-zai-xian-yi-zhi-xing-wen-ti" class="header-anchor">#</a></h2><p>参考：<a target="_blank" rel="noopener" href="https://qiankunli.github.io/2022/06/27/feature_platform.html">特征平台</a></p>
+<h2 id="7-chi-zai-xian-yi-zhi-xing-wen-ti"><a href="#7-离在线一致性问题" class="headerlink" title="7.离在线一致性问题"></a>7.离在线一致性问题<a href="#7-chi-zai-xian-yi-zhi-xing-wen-ti" class="header-anchor">#</a></h2><p>参考：<a target="_blank" rel="noopener" href="https://qiankunli.github.io/2022/06/27/feature_platform.html">特征平台</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.infoq.cn/article/km8utqyaatc4uedgzpyr">推荐系统中模型训练及使用流程的标准化</a></p>
 
       

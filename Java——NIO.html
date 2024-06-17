@@ -30,7 +30,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20160326234349636-771283869.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20160326234409401-1351061590.png">
 <meta property="article:published_time" content="2016-03-25T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-06-17T13:58:54.876Z">
+<meta property="article:modified_time" content="2024-06-17T14:29:38.497Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="JavaSE">
 <meta name="twitter:card" content="summary">
@@ -156,12 +156,12 @@ ga('send', 'pageview');
         <!-- 目录 -->
 
 <div id="toc">
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.缓冲区Buffer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.通道Channel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.Selector</span></a></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-huan-chong-qu-buffer"><span class="toc-text">1.缓冲区Buffer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-tong-dao-channel"><span class="toc-text">2.通道Channel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-selector"><span class="toc-text">3.Selector</span></a></li></ol>
 </div>
 
         <img src="/images/517519-20160326215416808-786433959.png" alt>
 
-<h2><span id="1-huan-chong-qu-buffer"><strong>1.缓冲区Buffer</strong></span><a href="#1-huan-chong-qu-buffer" class="header-anchor">#</a></h2><p><strong><img src="/images/517519-20160326215624433-605360240.png" alt></strong></p>
+<h2 id="1-huan-chong-qu-buffer"><a href="#1-缓冲区Buffer" class="headerlink" title="1.缓冲区Buffer"></a><strong>1.缓冲区Buffer</strong><a href="#1-huan-chong-qu-buffer" class="header-anchor">#</a></h2><p><strong><img src="/images/517519-20160326215624433-605360240.png" alt></strong></p>
 <span id="more"></span>
 <p>&nbsp;</p>
 <img src="/images/517519-20160326215652120-387254333.png" alt>
@@ -184,7 +184,7 @@ ga('send', 'pageview');
 <p>&nbsp;<img src="/images/517519-20160326224642511-22857013.png" alt></p>
 <img src="/images/517519-20160326224727542-1438121961.png" alt>
 
-<h2><span id="2-tong-dao-channel"><strong>2.通道Channel</strong></span><a href="#2-tong-dao-channel" class="header-anchor">#</a></h2><img src="/images/517519-20160326224905276-1782427384.png" alt>
+<h2 id="2-tong-dao-channel"><a href="#2-通道Channel" class="headerlink" title="2.通道Channel"></a><strong>2.通道Channel</strong><a href="#2-tong-dao-channel" class="header-anchor">#</a></h2><img src="/images/517519-20160326224905276-1782427384.png" alt>
 
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">import java.io.File;</span><br><span class="line">import java.io.FileOutputStream;</span><br><span class="line">import java.nio.ByteBuffer;</span><br><span class="line">import java.nio.channels.FileChannel;</span><br><span class="line"></span><br><span class="line">//主类</span><br><span class="line">//Function        : 	FileChannel_demo</span><br><span class="line">public class FileChannel_demo &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) throws Exception&#123;</span><br><span class="line">		// TODO 自动生成的方法存根</span><br><span class="line">		String info[] = &#123;&quot;123&quot;,&quot;456&quot;,&quot;789&quot;&#125;;</span><br><span class="line">		File f = new File(&quot;/home/common/software/coding/HelloWord/HelloWord/out.txt&quot;);//路径</span><br><span class="line">		FileOutputStream output = null;</span><br><span class="line">		output = new FileOutputStream(f);	</span><br><span class="line">		FileChannel fout = null;							//声明输出的通道</span><br><span class="line">		fout = output.getChannel();						//得到输出的文件通道</span><br><span class="line">		ByteBuffer buf = ByteBuffer.allocate(1024);		//开辟缓冲</span><br><span class="line">		for(int i=0;i&lt;info.length;i++)&#123;</span><br><span class="line">			buf.put(info[i].getBytes());</span><br><span class="line">		&#125;</span><br><span class="line">		buf.flip();				//重设缓冲区，准备输出</span><br><span class="line">		fout.write(buf);	//输出</span><br><span class="line">		fout.close();</span><br><span class="line">		output.close();</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
@@ -195,7 +195,7 @@ ga('send', 'pageview');
 <p>&nbsp;</p>
 <img src="/images/517519-20160326233852964-1007188044.png" alt>
 
-<h2><span id="3-selector">3.Selector</span><a href="#3-selector" class="header-anchor">#</a></h2><img src="/images/517519-20160326234154245-250110520.png" alt>
+<h2 id="3-selector"><a href="#3-Selector" class="headerlink" title="3.Selector"></a>3.Selector<a href="#3-selector" class="header-anchor">#</a></h2><img src="/images/517519-20160326234154245-250110520.png" alt>
 
 <img src="/images/517519-20160326234330823-1777848443.png" alt>
 

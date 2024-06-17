@@ -15,7 +15,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230308215908824-235391100.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230418144035519-1571562662.png">
 <meta property="article:published_time" content="2018-09-24T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-06-17T13:58:48.030Z">
+<meta property="article:modified_time" content="2024-06-17T14:29:34.568Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Flink">
 <meta property="article:tag" content="Hudi">
@@ -142,17 +142,17 @@ ga('send', 'pageview');
         <!-- 目录 -->
 
 <div id="toc">
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.Flink SQL API</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.使用交互式的sql client</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.编写flink job，使用StreamExecutionEnvironment</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.Flink DataStream API</span></a></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-flink-sql-api"><span class="toc-text">1.Flink SQL API</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-shi-yong-jiao-hu-shi-de-sql-client"><span class="toc-text">1.使用交互式的sql client</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-bian-xie-flink-job-shi-yong-streamexecutionenvironment"><span class="toc-text">2.编写flink job，使用StreamExecutionEnvironment</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-flink-datastream-api"><span class="toc-text">2.Flink DataStream API</span></a></li></ol>
 </div>
 
         <p>使用flink来读写hudi有2种API，一个是Flink SQL API，另一个是DataStream API，参考</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://hudi.apache.org/cn/docs/flink-quick-start-guide</span><br></pre></td></tr></table></figure>
 
-<h2><span id="1-flink-sql-api">1.Flink SQL API</span><a href="#1-flink-sql-api" class="header-anchor">#</a></h2><p>首先启动yarn session</p>
+<h2 id="1-flink-sql-api"><a href="#1-Flink-SQL-API" class="headerlink" title="1.Flink SQL API"></a>1.Flink SQL API<a href="#1-flink-sql-api" class="header-anchor">#</a></h2><p>首先启动yarn session</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/lib/flink/bin/yarn-session.sh -n 3 -s 5 -jm 1024 -tm 4096 -d</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>使用SQL API提交任务到YARN上的方式有以下几种：</p>
-<h3><span id="1-shi-yong-jiao-hu-shi-de-sql-client">1.使用交互式的sql client</span><a href="#1-shi-yong-jiao-hu-shi-de-sql-client" class="header-anchor">#</a></h3><p>不过由于sql client目前处于beta版本，所以建议用于原型验证，不建议在生产环境中使用，参考：<a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/709475">Apache Flink 零基础入门（四）：客户端操作的 5 种模式</a></p>
+<h3 id="1-shi-yong-jiao-hu-shi-de-sql-client"><a href="#1-使用交互式的sql-client" class="headerlink" title="1.使用交互式的sql client"></a>1.使用交互式的sql client<a href="#1-shi-yong-jiao-hu-shi-de-sql-client" class="header-anchor">#</a></h3><p>不过由于sql client目前处于beta版本，所以建议用于原型验证，不建议在生产环境中使用，参考：<a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/709475">Apache Flink 零基础入门（四）：客户端操作的 5 种模式</a></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://nightlies.apache.org/flink/flink-docs-release-1.13/docs/dev/table/sqlclient/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>启动</p>
@@ -169,11 +169,11 @@ ga('send', 'pageview');
 <p>查询结果</p>
 <img src="/images/517519-20230418144035519-1571562662.png" alt loading="lazy">
 
-<h3><span id="2-bian-xie-flink-job-shi-yong-streamexecutionenvironment">2.编写flink job，使用StreamExecutionEnvironment</span><a href="#2-bian-xie-flink-job-shi-yong-streamexecutionenvironment" class="header-anchor">#</a></h3><p>在生产环境中如果使用FlinkSQL，建议使用<span id="more"></span><br>&nbsp;StreamExecutionEnvironment，参考</p>
+<h3 id="2-bian-xie-flink-job-shi-yong-streamexecutionenvironment"><a href="#2-编写flink-job，使用StreamExecutionEnvironment" class="headerlink" title="2.编写flink job，使用StreamExecutionEnvironment"></a>2.编写flink job，使用StreamExecutionEnvironment<a href="#2-bian-xie-flink-job-shi-yong-streamexecutionenvironment" class="header-anchor">#</a></h3><p>在生产环境中如果使用FlinkSQL，建议使用<span id="more"></span><br>&nbsp;StreamExecutionEnvironment，参考</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://nightlies.apache.org/flink/flink-docs-master/docs/dev/table/sql/queries/overview/</span><br></pre></td></tr></table></figure>
 
 <p>&nbsp;</p>
-<h2><span id="2-flink-datastream-api">2.Flink DataStream API</span><a href="#2-flink-datastream-api" class="header-anchor">#</a></h2><p>首先同样是启动yarn session</p>
+<h2 id="2-flink-datastream-api"><a href="#2-Flink-DataStream-API" class="headerlink" title="2.Flink DataStream API"></a>2.Flink DataStream API<a href="#2-flink-datastream-api" class="header-anchor">#</a></h2><p>首先同样是启动yarn session</p>
 <p>&nbsp;</p>
 
       

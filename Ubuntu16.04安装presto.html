@@ -24,7 +24,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20220914161006650-195549206.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20220914160348340-1192378928.png">
 <meta property="article:published_time" content="2015-07-25T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-06-17T13:58:55.392Z">
+<meta property="article:modified_time" content="2024-06-17T14:29:39.026Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="presto">
 <meta name="twitter:card" content="summary">
@@ -150,7 +150,7 @@ ga('send', 'pageview');
         <!-- 目录 -->
 
 <div id="toc">
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">PrestoSQL安装步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">安装prestoSQL330</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">1.下载和安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">2.配置文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">3.启动和停止</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">4.集成CDH的hive</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">安装prestoSQL333</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Amazon EMR Presto</span></a></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#prestosql-an-zhuang-bu-zou"><span class="toc-text">PrestoSQL安装步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#an-zhuang-prestosql330"><span class="toc-text">安装prestoSQL330</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-xia-zai-he-an-zhuang"><span class="toc-text">1.下载和安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-pei-zhi-wen-jian"><span class="toc-text">2.配置文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-qi-dong-he-ting-zhi"><span class="toc-text">3.启动和停止</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-ji-cheng-cdh-de-hive"><span class="toc-text">4.集成CDH的hive</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#an-zhuang-prestosql333"><span class="toc-text">安装prestoSQL333</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#amazon-emr-presto"><span class="toc-text">Amazon EMR Presto</span></a></li></ol>
 </div>
 
         <p>presto有2个社区，一个是PrestoDB（由Facebook员工维护，版本号是0.xxx），一个是PrestoSQL（由一些离开Facebook的Presto主力开发者维护，版本号是xxx，PrestoSQL 从版本 351 开始将其名称变更为 Trino）</p>
@@ -179,21 +179,21 @@ ga('send', 'pageview');
 <td><a target="_blank" rel="noopener" href="https://trino.io/docs/current/installation/deployment.html">https://trino.io/docs/current/installation/deployment.html</a></td>
 </tr>
 </tbody></table>
-<h2><span id="prestosql-an-zhuang-bu-zou">PrestoSQL安装步骤</span><a href="#prestosql-an-zhuang-bu-zou" class="header-anchor">#</a></h2><h3><span id="an-zhuang-prestosql330">安装prestoSQL330</span><a href="#an-zhuang-prestosql330" class="header-anchor">#</a></h3><h4><span id="1-xia-zai-he-an-zhuang">1.下载和安装</span><a href="#1-xia-zai-he-an-zhuang" class="header-anchor">#</a></h4><p>330是presto最后一个支持java8的版本，高于330的版本需要java11的支持，且java8的版本最低要8u161，否则会报下面错误：ERROR: Presto requires Java 11+ (found 1.8.0_121) 以及 ERROR: Presto requires Java 8u161+ (found 1.8.0_121)</p>
+<h2 id="prestosql-an-zhuang-bu-zou"><a href="#PrestoSQL安装步骤" class="headerlink" title="PrestoSQL安装步骤"></a>PrestoSQL安装步骤<a href="#prestosql-an-zhuang-bu-zou" class="header-anchor">#</a></h2><h3 id="an-zhuang-prestosql330"><a href="#安装prestoSQL330" class="headerlink" title="安装prestoSQL330"></a>安装prestoSQL330<a href="#an-zhuang-prestosql330" class="header-anchor">#</a></h3><h4 id="1-xia-zai-he-an-zhuang"><a href="#1-下载和安装" class="headerlink" title="1.下载和安装"></a>1.下载和安装<a href="#1-xia-zai-he-an-zhuang" class="header-anchor">#</a></h4><p>330是presto最后一个支持java8的版本，高于330的版本需要java11的支持，且java8的版本最低要8u161，否则会报下面错误：ERROR: Presto requires Java 11+ (found 1.8.0_121) 以及 ERROR: Presto requires Java 8u161+ (found 1.8.0_121)</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://repo1.maven.org/maven2/io/prestosql/presto-server/330/presto-server-330.tar.gz</span><br><span class="line">tar -zxvf presto-server-330.tar.gz</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>创建presto用户</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo groupadd presto</span><br><span class="line">sudo useradd presto -g presto -r --no-log-init -d /var/lib/presto</span><br><span class="line">sudo mkdir /var/lib/presto</span><br><span class="line">sudo mv ~/software/presto-server-330 /opt/cloudera/parcels</span><br><span class="line">sudo ln -s /opt/cloudera/parcels/presto-server-330 /opt/cloudera/parcels/presto</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h4><span id="2-pei-zhi-wen-jian">2.配置文件</span><a href="#2-pei-zhi-wen-jian" class="header-anchor">#</a></h4><p>在presto的安装目录下创建etc目录，以及若干配置文件</p>
+<h4 id="2-pei-zhi-wen-jian"><a href="#2-配置文件" class="headerlink" title="2.配置文件"></a>2.配置文件<a href="#2-pei-zhi-wen-jian" class="header-anchor">#</a></h4><p>在presto的安装目录下创建etc目录，以及若干配置文件</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">lintong@master:/opt/cloudera/parcels/presto$ ls</span><br><span class="line">catalog  config.properties  jvm.config  log.properties  node.properties</span><br><span class="line">lintong@master:/opt/cloudera/parcels/presto$ ls ./catalog/</span><br><span class="line">jmx.properties</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>具体配置文件内容请参考上面表格中列出的presto安装文档</p>
-<h4><span id="3-qi-dong-he-ting-zhi">3.启动和停止</span><a href="#3-qi-dong-he-ting-zhi" class="header-anchor">#</a></h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sudo -iu presto</span><br><span class="line">$ cd /opt/cloudera/parcels/presto</span><br><span class="line">$ ./bin/launcher status</span><br><span class="line">Not running</span><br><span class="line">$ ./bin/launcher start</span><br><span class="line">Started as 14252</span><br><span class="line">$ ./bin/launcher stop</span><br><span class="line">Stopped 1425</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="3-qi-dong-he-ting-zhi"><a href="#3-启动和停止" class="headerlink" title="3.启动和停止"></a>3.启动和停止<a href="#3-qi-dong-he-ting-zhi" class="header-anchor">#</a></h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sudo -iu presto</span><br><span class="line">$ cd /opt/cloudera/parcels/presto</span><br><span class="line">$ ./bin/launcher status</span><br><span class="line">Not running</span><br><span class="line">$ ./bin/launcher start</span><br><span class="line">Started as 14252</span><br><span class="line">$ ./bin/launcher stop</span><br><span class="line">Stopped 1425</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <img src="/images/517519-20220917140050876-818842263.png" width="800" height="383" loading="lazy">
 
-<h4><span id="4-ji-cheng-cdh-de-hive">4.集成CDH的hive</span><a href="#4-ji-cheng-cdh-de-hive" class="header-anchor">#</a></h4><p>由于CDH的hive开启了kerberos，且集成了LDAP，所以需要进行额外的配置，参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1158360">如何在CDH集群中部署Presto</a> 以及 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/erlou96/p/14592749.html">presto安装和集成kerberos的hive</a></p>
+<h4 id="4-ji-cheng-cdh-de-hive"><a href="#4-集成CDH的hive" class="headerlink" title="4.集成CDH的hive"></a>4.集成CDH的hive<a href="#4-ji-cheng-cdh-de-hive" class="header-anchor">#</a></h4><p>由于CDH的hive开启了kerberos，且集成了LDAP，所以需要进行额外的配置，参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1158360">如何在CDH集群中部署Presto</a> 以及 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/erlou96/p/14592749.html">presto安装和集成kerberos的hive</a></p>
 <p>同步presto用户和组的信息到ldap中，参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/tonglin0325/p/13661323.html">Ubuntu16.04安装openldap和phpldapadmin</a></p>
 <p><img src="/images/517519-20220918205948699-1646626289.png" width="300" height="1018" loading="lazy"><img src="/images/517519-20220918210025927-1847875947.png" width="300" height="660" loading="lazy"></p>
 <span id="more"></span>
@@ -226,7 +226,7 @@ ga('send', 'pageview');
 <p>也可以使用datagrip验证一下，可以正常查询hive表</p>
 <p>&nbsp;<img src="/images/517519-20220918211622692-423703942.png" width="800" height="407" loading="lazy"></p>
 <p>&nbsp;</p>
-<h3><span id="an-zhuang-prestosql333">安装prestoSQL333</span><a href="#an-zhuang-prestosql333" class="header-anchor">#</a></h3><p>使用老版本是没有前途的，所以还是装了java11来使用prestoSQL333，参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/pandani/article/details/120771547">Ranger+LDAP+Presto实现权限控制</a></p>
+<h3 id="an-zhuang-prestosql333"><a href="#安装prestoSQL333" class="headerlink" title="安装prestoSQL333"></a>安装prestoSQL333<a href="#an-zhuang-prestosql333" class="header-anchor">#</a></h3><p>使用老版本是没有前途的，所以还是装了java11来使用prestoSQL333，参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/pandani/article/details/120771547">Ranger+LDAP+Presto实现权限控制</a></p>
 <p>333要求java11，首先下载和解压java11，下载java11去oracle官网下载，需要注册oracle账号才可以下载</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lintong@master:/usr/java$ ls | grep jdk-11</span><br><span class="line">jdk-11.0.16.1</span><br><span class="line">jdk-11.0.16.1_linux-x64_bin.tar.gz</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
@@ -244,7 +244,7 @@ ga('send', 'pageview');
 
 <p>　　</p>
 <p>&nbsp;</p>
-<h2><span id="amazon-emr-presto">Amazon EMR Presto</span><a href="#amazon-emr-presto" class="header-anchor">#</a></h2><p>如果是在Amazon EMR中使用presto的话，可以在创建集群的时候选择是使用PrestoDB还是Trino（PrestoSQL），但不能在同一个集群上同时安装两者。如果在尝试创建集群时同时指定了 PrestoDB 和 Trino，则会发生验证错误，而且集群创建请求失败。</p>
+<h2 id="amazon-emr-presto"><a href="#Amazon-EMR-Presto" class="headerlink" title="Amazon EMR Presto"></a>Amazon EMR Presto<a href="#amazon-emr-presto" class="header-anchor">#</a></h2><p>如果是在Amazon EMR中使用presto的话，可以在创建集群的时候选择是使用PrestoDB还是Trino（PrestoSQL），但不能在同一个集群上同时安装两者。如果在尝试创建集群时同时指定了 PrestoDB 和 Trino，则会发生验证错误，而且集群创建请求失败。</p>
 <p>创建emr6.3.0</p>
 <img src="/images/517519-20220914161006650-195549206.png" alt loading="lazy">
 

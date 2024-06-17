@@ -13,7 +13,7 @@
 <meta property="og:description" content="对于标称型数据，在特征处理的时候，需要对其进行编码 在编码之前，如果训练集和测试集是分开的，则需要对其进行合并，避免标称数据丢失 12345# 合并df &#x3D; train.append(test).reset_index()# 列名original_columns &#x3D; list(df.columns)  常用的编码方式如下 1.Label编码对于一个有m个category的特征，经过label en">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-09-25T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-06-17T13:58:54.517Z">
+<meta property="article:modified_time" content="2024-06-17T14:29:38.062Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary">
@@ -138,7 +138,7 @@ ga('send', 'pageview');
         <!-- 目录 -->
 
 <div id="toc">
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.Label编码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.顺序编码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.one-hot编码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4.target编码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">5.模型自动编码</span></a></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-label-bian-ma"><span class="toc-text">1.Label编码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-shun-xu-bian-ma"><span class="toc-text">2.顺序编码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-one-hot-bian-ma"><span class="toc-text">3.one-hot编码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-target-bian-ma"><span class="toc-text">4.target编码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-mo-xing-zi-dong-bian-ma"><span class="toc-text">5.模型自动编码</span></a></li></ol>
 </div>
 
         <p>对于标称型数据，在特征处理的时候，需要对其进行编码</p>
@@ -146,17 +146,17 @@ ga('send', 'pageview');
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 合并</span><br><span class="line">df = train.append(test).reset_index()</span><br><span class="line"># 列名</span><br><span class="line">original_columns = list(df.columns)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>常用的编码方式如下</p>
-<h2><span id="1-label-bian-ma">1.Label编码</span><a href="#1-label-bian-ma" class="header-anchor">#</a></h2><p>对于一个有m个category的特征，经过label encoding以后，每个category会映射到0到m-1之间的一个数。label encoding适用于ordinal feature （特征存在内在顺序）。</p>
+<h2 id="1-label-bian-ma"><a href="#1-Label编码" class="headerlink" title="1.Label编码"></a>1.Label编码<a href="#1-label-bian-ma" class="header-anchor">#</a></h2><p>对于一个有m个category的特征，经过label encoding以后，每个category会映射到0到m-1之间的一个数。label encoding适用于ordinal feature （特征存在内在顺序）。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">from sklearn import preprocessing</span><br><span class="line"></span><br><span class="line">for col in original_columns:</span><br><span class="line">    enc = preprocessing.LabelEncoder()</span><br><span class="line">    enc.fit(np.concatenate([train[col], test[col]]))</span><br><span class="line">    train[col] = enc.transform(train[col])</span><br><span class="line">    test[col] = enc.transform(test[col])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>或者</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">train_data = train_data.replace(&#123;&#x27;BsmtQual&#x27;: &#123;&#x27;Ex&#x27;: 5, &#x27;Gd&#x27;: 4, &#x27;TA&#x27;: 3, &#x27;Fa&#x27;: 2, &#x27;Po&#x27;: 1, np.NaN: 0&#125;&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h2><span id="2-shun-xu-bian-ma">2.顺序编码</span><a href="#2-shun-xu-bian-ma" class="header-anchor">#</a></h2><p>类似于Label编码</p>
+<h2 id="2-shun-xu-bian-ma"><a href="#2-顺序编码" class="headerlink" title="2.顺序编码"></a>2.顺序编码<a href="#2-shun-xu-bian-ma" class="header-anchor">#</a></h2><p>类似于Label编码</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://wutaoblog.com.cn/2021/08/20/data_preprocess/">数据转化</a></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">from sklearn import preprocessing</span><br><span class="line"></span><br><span class="line">enc = preprocessing.OrdinalEncoder()</span><br><span class="line">X = [[&#x27;male&#x27;, &#x27;from US&#x27;, &#x27;uses Safari&#x27;], [&#x27;female&#x27;, &#x27;from Europe&#x27;, &#x27;uses Firefox&#x27;]]</span><br><span class="line">enc.fit(X)</span><br><span class="line">&gt;&gt; OrdinalEncoder()</span><br><span class="line"></span><br><span class="line">enc.transform([[&#x27;female&#x27;, &#x27;from US&#x27;, &#x27;uses Safari&#x27;]])</span><br><span class="line">&gt;&gt; array([[0., 1., 1.]])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h2><span id="3-one-hot-bian-ma">3.one-hot编码</span><a href="#3-one-hot-bian-ma" class="header-anchor">#</a></h2><p>对于一个有m个category的特征，经过独热编码（OHE）处理后，会变为m个二元特征，每个特征对应于一个category。这m个二元特征互斥，每次只有一个激活。</p>
+<h2 id="3-one-hot-bian-ma"><a href="#3-one-hot编码" class="headerlink" title="3.one-hot编码"></a>3.one-hot编码<a href="#3-one-hot-bian-ma" class="header-anchor">#</a></h2><p>对于一个有m个category的特征，经过独热编码（OHE）处理后，会变为m个二元特征，每个特征对应于一个category。这m个二元特征互斥，每次只有一个激活。</p>
 <p>独热编码解决了原始特征缺少内在顺序的问题，但是缺点是对于high-cardinality categorical feature (category数量很多)，编码之后特征空间过大（此处可以考虑PCA降维），而且由于one-hot feature 比较unbalanced，树模型里每次的切分增益较小，树模型通常需要grow very deep才能得到不错的精度。因此OHE一般用于category数量 &lt;4的情况。</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://xie.infoq.cn/article/1a72c74d073a807c4a738284f">机器学习 | 数据缩放与转换方法（1）</a> 和 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/40231966">kaggle编码categorical feature总结</a></p>
 <p>使用sklearn来one-hot编码</p>
@@ -165,7 +165,7 @@ ga('send', 'pageview');
 <p>使用pandas来one-hot编码</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">import pandas as pd</span><br><span class="line"></span><br><span class="line">X = [[&#x27;male&#x27;, &#x27;from US&#x27;, &#x27;uses Safari&#x27;], [&#x27;female&#x27;, &#x27;from Europe&#x27;, &#x27;uses Firefox&#x27;]]</span><br><span class="line">df = pd.DataFrame(X, columns=[&#x27;sex&#x27;,&#x27;country&#x27;,&#x27;browser&#x27;])</span><br><span class="line"># columns是需要编码的列名</span><br><span class="line">df = pd.get_dummies(df, columns=[&#x27;sex&#x27;,&#x27;country&#x27;], dummy_na = True)</span><br><span class="line">print(df)</span><br><span class="line"></span><br><span class="line">        browser  sex_female  sex_male  sex_nan  country_from Europe  country_from US  country_nan</span><br><span class="line">0   uses Safari           0         1        0                    0                1            0</span><br><span class="line">1  uses Firefox           1         0        0                    1                0            0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h2><span id="4-target-bian-ma">4.target编码</span><a href="#4-target-bian-ma" class="header-anchor">#</a></h2><p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/466389890">三种Target Encoding方式总结</a><span id="more"></span><br>&nbsp;和 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/40231966">kaggle编码categorical feature总结</a></p>
+<h2 id="4-target-bian-ma"><a href="#4-target编码" class="headerlink" title="4.target编码"></a>4.target编码<a href="#4-target-bian-ma" class="header-anchor">#</a></h2><p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/466389890">三种Target Encoding方式总结</a><span id="more"></span><br>&nbsp;和 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/40231966">kaggle编码categorical feature总结</a></p>
 <p><strong>Target Encoding</strong>是任何一种可以从目标中派生出数字替换特征类别的编码方式。这种目标编码有时被称为平均编码。应用于二进制目标时，也被称为bin counting。</p>
 <p>target encoding的缺点主要有：</p>
 <ul>
@@ -178,7 +178,7 @@ ga('send', 'pageview');
 <li><strong>高维数据特征：</strong>具有大量类别的可能很难编码：One-hot会生成太多维度，而替代方案（如标签编码）可能不适合该类型。Target encoding在此处就很好的解决了这个问题；</li>
 <li><strong>领域经验特征：</strong>根据之前的经验，即使某项数据它在特征度量方面得分很低，你也可能会觉得一个分类特征应该很重要。Target encoding有助于揭示特征的真实信息。</li>
 </ul>
-<h2><span id="5-mo-xing-zi-dong-bian-ma">5.模型自动编码</span><a href="#5-mo-xing-zi-dong-bian-ma" class="header-anchor">#</a></h2><ul>
+<h2 id="5-mo-xing-zi-dong-bian-ma"><a href="#5-模型自动编码" class="headerlink" title="5.模型自动编码"></a>5.模型自动编码<a href="#5-mo-xing-zi-dong-bian-ma" class="header-anchor">#</a></h2><ul>
 <li>XGBoost和Random Forest，不能直接处理categorical feature，必须先编码成为numerical feature。</li>
 <li>lightGBM和CatBoost，可以直接处理categorical feature。<ul></ul></li>
 <li>lightgbm： 需要先做label encoding。用特定算法（<a href="https://link.zhihu.com/?target=https://www.researchgate.net/publication/242580910_On_Grouping_for_Maximum_Homogeneity">On Grouping for Maximum Homogeneity</a>）找到optimal split，效果优于ONE。也可以选择采用one-hot encoding，。<a href="https://link.zhihu.com/?target=https://lightgbm.readthedocs.io/en/latest/Features.html?highlight=categorical%23optimal-split-for-categorical-features">Features - LightGBM documentation</a></li>

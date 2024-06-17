@@ -16,7 +16,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20220623145612645-719439704.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20220623164725323-399603233.png">
 <meta property="article:published_time" content="2016-03-13T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-06-17T13:58:55.042Z">
+<meta property="article:modified_time" content="2024-06-17T14:29:38.681Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Prometheus">
 <meta name="twitter:card" content="summary">
@@ -142,22 +142,22 @@ ga('send', 'pageview');
         <!-- 目录 -->
 
 <div id="toc">
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.安装Prometheus</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.修改prometheus配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.prometheus定时通过exporter暴露的HTTP端口主动去采集监控数据的方式就是拉</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.程序主动上报metrics给prometheus的pushgateway则是推</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.启动Prometheus</span></a></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-an-zhuang-prometheus"><span class="toc-text">1.安装Prometheus</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-xiu-gai-prometheus-pei-zhi"><span class="toc-text">2.修改prometheus配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-prometheus-ding-shi-tong-guo-exporter-bao-lu-de-http-duan-kou-zhu-dong-qu-cai-ji-jian-kong-shu-ju-de-fang-shi-jiu-shi-la"><span class="toc-text">1.prometheus定时通过exporter暴露的HTTP端口主动去采集监控数据的方式就是拉</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-cheng-xu-zhu-dong-shang-bao-metrics-gei-prometheus-de-pushgateway-ze-shi-tui"><span class="toc-text">2.程序主动上报metrics给prometheus的pushgateway则是推</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-qi-dong-prometheus"><span class="toc-text">3.启动Prometheus</span></a></li></ol>
 </div>
 
         <p>官方文档：<a target="_blank" rel="noopener" href="https://prometheus.io/docs/prometheus/latest/getting_started/">https://prometheus.io/docs/prometheus/latest/getting_started/</a></p>
 <p>其他参考：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/967cb76cd5ca">CentOS7安装部署Prometheus+Grafana<span id="more"></span><br>&nbsp;</a></p>
-<h2><span id="1-an-zhuang-prometheus">1.安装Prometheus</span><a href="#1-an-zhuang-prometheus" class="header-anchor">#</a></h2><p>官方网站下载二进制安装包：<a target="_blank" rel="noopener" href="https://prometheus.io/download/">https://prometheus.io/download/</a></p>
+<h2 id="1-an-zhuang-prometheus"><a href="#1-安装Prometheus" class="headerlink" title="1.安装Prometheus"></a>1.安装Prometheus<a href="#1-an-zhuang-prometheus" class="header-anchor">#</a></h2><p>官方网站下载二进制安装包：<a target="_blank" rel="noopener" href="https://prometheus.io/download/">https://prometheus.io/download/</a></p>
 <p>可以选择mac，linux和Windows版本</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/prometheus/prometheus/releases/download/v2.36.1/prometheus-2.36.1.linux-amd64.tar.gz</span><br><span class="line">tar -zxvf prometheus-2.36.1.linux-amd64.tar.gz</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>　　</p>
-<h2><span id="2-xiu-gai-prometheus-pei-zhi">2.修改prometheus配置</span><a href="#2-xiu-gai-prometheus-pei-zhi" class="header-anchor">#</a></h2><p>配置文件为prometheus.yml</p>
+<h2 id="2-xiu-gai-prometheus-pei-zhi"><a href="#2-修改prometheus配置" class="headerlink" title="2.修改prometheus配置"></a>2.修改prometheus配置<a href="#2-xiu-gai-prometheus-pei-zhi" class="header-anchor">#</a></h2><p>配置文件为prometheus.yml</p>
 <p><strong>prometheus采集数据的方法分成推和拉</strong></p>
-<h3><span id="1-prometheus-ding-shi-tong-guo-exporter-bao-lu-de-http-duan-kou-zhu-dong-qu-cai-ji-jian-kong-shu-ju-de-fang-shi-jiu-shi-la">1.prometheus定时通过exporter暴露的HTTP端口主动去采集监控数据的方式就是拉</span><a href="#1-prometheus-ding-shi-tong-guo-exporter-bao-lu-de-http-duan-kou-zhu-dong-qu-cai-ji-jian-kong-shu-ju-de-fang-shi-jiu-shi-la" class="header-anchor">#</a></h3><p>下面就是配置一个exporter采集任务的例子</p>
+<h3 id="1-prometheus-ding-shi-tong-guo-exporter-bao-lu-de-http-duan-kou-zhu-dong-qu-cai-ji-jian-kong-shu-ju-de-fang-shi-jiu-shi-la"><a href="#1-prometheus定时通过exporter暴露的HTTP端口主动去采集监控数据的方式就是拉" class="headerlink" title="1.prometheus定时通过exporter暴露的HTTP端口主动去采集监控数据的方式就是拉"></a>1.prometheus定时通过exporter暴露的HTTP端口主动去采集监控数据的方式就是拉<a href="#1-prometheus-ding-shi-tong-guo-exporter-bao-lu-de-http-duan-kou-zhu-dong-qu-cai-ji-jian-kong-shu-ju-de-fang-shi-jiu-shi-la" class="header-anchor">#</a></h3><p>下面就是配置一个exporter采集任务的例子</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">scrape_configs:</span><br><span class="line">  # The job name is added as a label `job=&lt;job_name&gt;` to any timeseries scraped from this config.</span><br><span class="line">  - job_name: &quot;prometheus&quot;</span><br><span class="line"></span><br><span class="line">    # metrics_path defaults to &#x27;/metrics&#x27;</span><br><span class="line">    # scheme defaults to &#x27;http&#x27;.</span><br><span class="line"></span><br><span class="line">    static_configs:</span><br><span class="line">      - targets: [&quot;xx:xx&quot;]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h3><span id="2-cheng-xu-zhu-dong-shang-bao-metrics-gei-prometheus-de-pushgateway-ze-shi-tui">2.程序主动上报metrics给prometheus的pushgateway则是推</span><a href="#2-cheng-xu-zhu-dong-shang-bao-metrics-gei-prometheus-de-pushgateway-ze-shi-tui" class="header-anchor">#</a></h3><p>要主动上报metrics首先要安装pushgateway，参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/huandada/p/10932953.html">prometheus-pushgateway安装</a></p>
+<h3 id="2-cheng-xu-zhu-dong-shang-bao-metrics-gei-prometheus-de-pushgateway-ze-shi-tui"><a href="#2-程序主动上报metrics给prometheus的pushgateway则是推" class="headerlink" title="2.程序主动上报metrics给prometheus的pushgateway则是推"></a>2.程序主动上报metrics给prometheus的pushgateway则是推<a href="#2-cheng-xu-zhu-dong-shang-bao-metrics-gei-prometheus-de-pushgateway-ze-shi-tui" class="header-anchor">#</a></h3><p>要主动上报metrics首先要安装pushgateway，参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/huandada/p/10932953.html">prometheus-pushgateway安装</a></p>
 <p>在官方的文档当中，pushgateway唯一推荐使用的场景是在批处理作业运行结果的采集上，其他的建议使用exporter：<a target="_blank" rel="noopener" href="https://prometheus.io/docs/practices/pushing/#when-to-use-the-pushgateway">when-to-use-the-pushgateway</a></p>
 <p>官方地址</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://prometheus.io/download/#pushgateway/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -183,7 +183,7 @@ ga('send', 'pageview');
 
 <p>&nbsp;</p>
 <p>　&nbsp;</p>
-<h2><span id="3-qi-dong-prometheus">3.启动Prometheus</span><a href="#3-qi-dong-prometheus" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./prometheus --config.file=prometheus.yml</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="3-qi-dong-prometheus"><a href="#3-启动Prometheus" class="headerlink" title="3.启动Prometheus"></a>3.启动Prometheus<a href="#3-qi-dong-prometheus" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./prometheus --config.file=prometheus.yml</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>其默认的存储目录在data目录下</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/Users/lintong/software/prometheus-2.36.1.darwin-amd64/data $ ls</span><br><span class="line">chunks_head    lock           queries.active wal</span><br><span class="line"></span><br></pre></td></tr></table></figure>

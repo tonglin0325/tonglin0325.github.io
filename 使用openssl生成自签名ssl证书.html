@@ -15,7 +15,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240323141523460-1115943310.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240323142619913-2003308091.png">
 <meta property="article:published_time" content="2016-12-13T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-06-17T13:58:54.408Z">
+<meta property="article:modified_time" content="2024-06-17T14:29:37.950Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary">
@@ -141,7 +141,7 @@ ga('send', 'pageview');
         <!-- 目录 -->
 
 <div id="toc">
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">生成CA私钥</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">生成CA证书</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">生成服务器ssl证书私钥</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">生成服务器ssl证书CSR</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">创建域名附加配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">使用CA签署服务器ssl证书</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">查看证书的签署信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">使用CA验证证书是否通过</span></a></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#sheng-cheng-ca-si-yao"><span class="toc-text">生成CA私钥</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sheng-cheng-ca-zheng-shu"><span class="toc-text">生成CA证书</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sheng-cheng-fu-wu-qi-ssl-zheng-shu-si-yao"><span class="toc-text">生成服务器ssl证书私钥</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sheng-cheng-fu-wu-qi-ssl-zheng-shu-csr"><span class="toc-text">生成服务器ssl证书CSR</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#chuang-jian-yu-ming-fu-jia-pei-zhi-wen-jian"><span class="toc-text">创建域名附加配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#shi-yong-ca-qian-shu-fu-wu-qi-ssl-zheng-shu"><span class="toc-text">使用CA签署服务器ssl证书</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cha-kan-zheng-shu-de-qian-shu-xin-xi"><span class="toc-text">查看证书的签署信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#shi-yong-ca-yan-zheng-zheng-shu-shi-fou-tong-guo"><span class="toc-text">使用CA验证证书是否通过</span></a></li></ol>
 </div>
 
         <p>使用自签名的证书的网站默认不会被浏览器信任，使用浏览器带打开可能会弹出如下界面，需要在浏览器中点击继续前往或者添加例外</p>
@@ -150,28 +150,28 @@ ga('send', 'pageview');
 <p>添加的例外可以在Firefox浏览器中如下界面中设置&mdash;&mdash;隐私与安全&mdash;&mdash;证书中进行查看</p>
 <img src="/images/517519-20240323142619913-2003308091.png" width="600" height="392" loading="lazy">
 
-<h2><span id="sheng-cheng-ca-si-yao">生成CA私钥</span><a href="#sheng-cheng-ca-si-yao" class="header-anchor">#</a></h2><p>ca.key是证书颁发机构（Certificate Authority，CA）的私钥文件，CA私钥用于签署证书并保护证书颁发机构的安全性。</p>
+<h2 id="sheng-cheng-ca-si-yao"><a href="#生成CA私钥" class="headerlink" title="生成CA私钥"></a>生成CA私钥<a href="#sheng-cheng-ca-si-yao" class="header-anchor">#</a></h2><p>ca.key是证书颁发机构（Certificate Authority，CA）的私钥文件，CA私钥用于签署证书并保护证书颁发机构的安全性。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">openssl genrsa -out ca.key 2048</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h2><span id="sheng-cheng-ca-zheng-shu">生成CA证书</span><a href="#sheng-cheng-ca-zheng-shu" class="header-anchor">#</a></h2><p>ca.crt是证书颁发机构（Certificate Authority，CA）的证书文件，CA证书用于签名其他证书，验证证书的合法性。</p>
+<h2 id="sheng-cheng-ca-zheng-shu"><a href="#生成CA证书" class="headerlink" title="生成CA证书"></a>生成CA证书<a href="#sheng-cheng-ca-zheng-shu" class="header-anchor">#</a></h2><p>ca.crt是证书颁发机构（Certificate Authority，CA）的证书文件，CA证书用于签名其他证书，验证证书的合法性。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 20 年有效期</span><br><span class="line">openssl req -x509 -new -nodes -key ca.key -sha256 -days 7300 -out ca.crt</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h2><span id="sheng-cheng-fu-wu-qi-ssl-zheng-shu-si-yao">生成服务器ssl证书私钥</span><a href="#sheng-cheng-fu-wu-qi-ssl-zheng-shu-si-yao" class="header-anchor">#</a></h2><p>server.key是服务器私钥，用于生成服务器证书、加密通信和验证身份。</p>
+<h2 id="sheng-cheng-fu-wu-qi-ssl-zheng-shu-si-yao"><a href="#生成服务器ssl证书私钥" class="headerlink" title="生成服务器ssl证书私钥"></a>生成服务器ssl证书私钥<a href="#sheng-cheng-fu-wu-qi-ssl-zheng-shu-si-yao" class="header-anchor">#</a></h2><p>server.key是服务器私钥，用于生成服务器证书、加密通信和验证身份。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">openssl genrsa -out server.key 2048</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h2><span id="sheng-cheng-fu-wu-qi-ssl-zheng-shu-csr">生成服务器ssl证书CSR</span><a href="#sheng-cheng-fu-wu-qi-ssl-zheng-shu-csr" class="header-anchor">#</a></h2><p><strong>server.csr</strong> 是指服务器证书签名请求（Certificate Signing Request，CSR）文件。</p>
+<h2 id="sheng-cheng-fu-wu-qi-ssl-zheng-shu-csr"><a href="#生成服务器ssl证书CSR" class="headerlink" title="生成服务器ssl证书CSR"></a>生成服务器ssl证书CSR<a href="#sheng-cheng-fu-wu-qi-ssl-zheng-shu-csr" class="header-anchor">#</a></h2><p><strong>server.csr</strong> 是指服务器证书签名请求（Certificate Signing Request，CSR）文件。</p>
 <p>在创建 SSL/TLS 证书时，CSR 是一个包含有组织或个人身份信息的加密文本块，用于向证书颁发机构（CA）请求签署数字证书。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">openssl req -new -sha256 -key server.key -out server.csr</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h2><span id="chuang-jian-yu-ming-fu-jia-pei-zhi-wen-jian">创建域名附加配置文件</span><a href="#chuang-jian-yu-ming-fu-jia-pei-zhi-wen-jian" class="header-anchor">#</a></h2><p>cert.ext是域名附加配置文件</p>
+<h2 id="chuang-jian-yu-ming-fu-jia-pei-zhi-wen-jian"><a href="#创建域名附加配置文件" class="headerlink" title="创建域名附加配置文件"></a>创建域名附加配置文件<a href="#chuang-jian-yu-ming-fu-jia-pei-zhi-wen-jian" class="header-anchor">#</a></h2><p>cert.ext是域名附加配置文件</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">extendedKeyUsage=serverAuth</span><br><span class="line">subjectAltName=DNS:xx.com,DNS:*.xx.com</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h2><span id="shi-yong-ca-qian-shu-fu-wu-qi-ssl-zheng-shu">使用CA签署服务器ssl证书</span><a href="#shi-yong-ca-qian-shu-fu-wu-qi-ssl-zheng-shu" class="header-anchor">#</a></h2><p><strong>server.crt</strong>：这是服务器的公钥证书文件。它包含服务器的公钥以及与该公钥相关联的其他信息，比如服务器的域名等</p>
+<h2 id="shi-yong-ca-qian-shu-fu-wu-qi-ssl-zheng-shu"><a href="#使用CA签署服务器ssl证书" class="headerlink" title="使用CA签署服务器ssl证书"></a>使用CA签署服务器ssl证书<a href="#shi-yong-ca-qian-shu-fu-wu-qi-ssl-zheng-shu" class="header-anchor">#</a></h2><p><strong>server.crt</strong>：这是服务器的公钥证书文件。它包含服务器的公钥以及与该公钥相关联的其他信息，比如服务器的域名等</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># ssl证书有效期10年</span><br><span class="line">openssl x509 -req -in server.csr -sha256 -days 3650 \</span><br><span class="line">  -CAcreateserial -CA ca.crt -CAkey ca.key \</span><br><span class="line">  -CAserial serial -extfile cert.ext -out server.crt </span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h2><span id="cha-kan-zheng-shu-de-qian-shu-xin-xi">查看证书的签署信息</span><a href="#cha-kan-zheng-shu-de-qian-shu-xin-xi" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 -in server.crt -noout -text</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="cha-kan-zheng-shu-de-qian-shu-xin-xi"><a href="#查看证书的签署信息" class="headerlink" title="查看证书的签署信息"></a>查看证书的签署信息<a href="#cha-kan-zheng-shu-de-qian-shu-xin-xi" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 -in server.crt -noout -text</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h2><span id="shi-yong-ca-yan-zheng-zheng-shu-shi-fou-tong-guo">使用CA验证证书是否通过</span><a href="#shi-yong-ca-yan-zheng-zheng-shu-shi-fou-tong-guo" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">openssl verify -CAfile ca.crt server.crt</span><br><span class="line">server.crt: OK</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="shi-yong-ca-yan-zheng-zheng-shu-shi-fou-tong-guo"><a href="#使用CA验证证书是否通过" class="headerlink" title="使用CA验证证书是否通过"></a>使用CA验证证书是否通过<a href="#shi-yong-ca-yan-zheng-zheng-shu-shi-fou-tong-guo" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">openssl verify -CAfile ca.crt server.crt</span><br><span class="line">server.crt: OK</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>参考：<a target="_blank" rel="noopener" href="https://gist.github.com/liuguangw/4d4b87b750be8edb700ff94c783b1dd4">使用openssl制作自定义CA、自签名ssl证书</a></p>
 <p><a target="_blank" rel="noopener" href="https://github.com/UnblockNeteaseMusic/server/blob/enhanced/generate-cert.sh">https://github.com/UnblockNeteaseMusic/server/blob/enhanced/generate-cert.sh</a></p>

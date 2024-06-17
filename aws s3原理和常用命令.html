@@ -16,7 +16,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20211008140251893-1108561049.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20220620225617902-1226295500.png">
 <meta property="article:published_time" content="2020-09-16T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-06-17T13:58:47.762Z">
+<meta property="article:modified_time" content="2024-06-17T14:29:34.247Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="AWS">
 <meta name="twitter:card" content="summary">
@@ -142,10 +142,10 @@ ga('send', 'pageview');
         <!-- 目录 -->
 
 <div id="toc">
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.s3性能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.对象存储和文件系统的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4.s3协议的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">5.常用命令</span></a></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-gai-nian"><span class="toc-text">1.概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-s3-xing-neng"><span class="toc-text">2.s3性能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-dui-xiang-cun-chu-he-wen-jian-xi-tong-de-qu-bie"><span class="toc-text">3.对象存储和文件系统的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-s3-xie-yi-de-qu-bie"><span class="toc-text">4.s3协议的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-chang-yong-ming-ling"><span class="toc-text">5.常用命令</span></a></li></ol>
 </div>
 
-        <h2><span id="1-gai-nian"><strong>1.概念</strong></span><a href="#1-gai-nian" class="header-anchor">#</a></h2><p><strong>Amazon s3</strong>全称Amazon Simple Storage Service，是一个对象存储，不是一个file system，所以在使用s3的时候，list dir会很慢</p>
+        <h2 id="1-gai-nian"><a href="#1-概念" class="headerlink" title="1.概念"></a><strong>1.概念</strong><a href="#1-gai-nian" class="header-anchor">#</a></h2><p><strong>Amazon s3</strong>全称Amazon Simple Storage Service，是一个对象存储，不是一个file system，所以在使用s3的时候，list dir会很慢</p>
 <p>kv存储：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/351897096">从零开始写KV数据库：基于哈希索引</a></p>
 <span id="more"></span>
 <p>&nbsp;</p>
@@ -160,14 +160,14 @@ ga('send', 'pageview');
 <p>参考：<a target="_blank" rel="noopener" href="https://aws.amazon.com/cn/premiumsupport/knowledge-center/s3-prefix-nested-folders-difference/#:~:text=A%20prefix%20is%20the%20complete,%2FProject%2FWordFiles%2F%E2%80%9D.">对于 Amazon S3 请求速率，前缀和嵌套文件夹之间有何区别？ S3 存储桶中可以有多少个前缀？</a></p>
 <p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/52443839/s3-what-exactly-is-a-prefix-and-what-ratelimits-apply">S3 - What Exactly Is A Prefix? And what Ratelimits apply?</a></p>
 <p><a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-prefixes.html">Organizing objects using prefixes</a></p>
-<h2><span id="2-s3-xing-neng">2.s3性能</span><a href="#2-s3-xing-neng" class="header-anchor">#</a></h2><p>Amazon S3 是一个非常大的分布式系统，在应用程序对 Amazon S3 读写数据时，您可以将请求性能扩展到每秒数千个事务。</p>
+<h2 id="2-s3-xing-neng"><a href="#2-s3性能" class="headerlink" title="2.s3性能"></a>2.s3性能<a href="#2-s3-xing-neng" class="header-anchor">#</a></h2><p>Amazon S3 是一个非常大的分布式系统，在应用程序对 Amazon S3 读写数据时，您可以将请求性能扩展到每秒数千个事务。</p>
 <p>Amazon S3 性能不是按存储桶定义的，而是按存储桶中的<a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/general/latest/gr/glos-chap.html#keyprefix">前缀</a>。在一个存储桶中，对于每个前缀，应用程序每秒可以处理至少 3500 个 PUT/COPY/POST/DELETE 请求或 5500 个 GET/HEAD 请求。</p>
 <p>此外，存储桶中的前缀数量没有限制，因此您可以利用并行处理，横向扩展读取或写入性能。</p>
 <p>例如，如果您在 S3 存储桶中创建 10 个前缀来并行执行读取操作，则可以将读取性能扩展到每秒 55000 个读取请求。同样，您也可以利用多个前缀写入数据来扩展写入性能。</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/optimizing-performance.html">Best practices design patterns: optimizing Amazon S3 performance</a></p>
 <p><a target="_blank" rel="noopener" href="https://aws.amazon.com/cn/blogs/china/best-practices-to-optimize-data-access-performance-from-amazon-emr-and-aws-glue-to-amazon-s3/">从 Amazon EMR 和 AWS Glue 访问 Amazon S3 中数据的性能优化最佳实践</a></p>
 <p>&nbsp;</p>
-<h2><span id="3-dui-xiang-cun-chu-he-wen-jian-xi-tong-de-qu-bie"><strong>3.对象存储和文件系统的区别</strong></span><a href="#3-dui-xiang-cun-chu-he-wen-jian-xi-tong-de-qu-bie" class="header-anchor">#</a></h2><p>参考：<a target="_blank" rel="noopener" href="https://aws.amazon.com/cn/premiumsupport/knowledge-center/configure-emr-s3-hadoop-storage/">是否可以将 Amazon S3 而不是 HDFS 作为 Hadoop 存储？</a></p>
+<h2 id="3-dui-xiang-cun-chu-he-wen-jian-xi-tong-de-qu-bie"><a href="#3-对象存储和文件系统的区别" class="headerlink" title="3.对象存储和文件系统的区别"></a><strong>3.对象存储和文件系统的区别</strong><a href="#3-dui-xiang-cun-chu-he-wen-jian-xi-tong-de-qu-bie" class="header-anchor">#</a></h2><p>参考：<a target="_blank" rel="noopener" href="https://aws.amazon.com/cn/premiumsupport/knowledge-center/configure-emr-s3-hadoop-storage/">是否可以将 Amazon S3 而不是 HDFS 作为 Hadoop 存储？</a></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://hadoop.apache.org/docs/stable2/hadoop-project-dist/hadoop-common/filesystem/introduction.html#Object_Stores_vs._Filesystems</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>脉脉上老哥的解答</p>
@@ -175,7 +175,7 @@ ga('send', 'pageview');
 
 <p>&nbsp;<img src="/images/517519-20211008140251893-1108561049.png" width="300" height="230" loading="lazy"></p>
 <p>对于hdfs这种的fs而言，rename和list操作很快，而s3作为KV存储，rename和list操作很慢，因此s3使用了dynamodb使用了索引对齐做加速，尤其是rename操作，s3的rename等于copy+delete</p>
-<h2><span id="4-s3-xie-yi-de-qu-bie"><strong>4.s3协议的区别</strong></span><a href="#4-s3-xie-yi-de-qu-bie" class="header-anchor">#</a></h2><p>|Generation|Usage|Description<br>|First|s3:\|s3&nbsp;which is also called classic&nbsp;(s3:&nbsp;filesystem for reading from or storing objects in Amazon S3 This has been deprecated and recommends to use either the second or third generation library.<br>|Second|s3n:\|s3n&nbsp;uses native s3 object and makes easy to use it with Hadoop and other files systems.<br>|Third|s3a:\|s3a&nbsp;&ndash; This is a replacement of&nbsp;s3n&nbsp;which supports larger files and improves in performance.</p>
+<h2 id="4-s3-xie-yi-de-qu-bie"><a href="#4-s3协议的区别" class="headerlink" title="4.s3协议的区别"></a><strong>4.s3协议的区别</strong><a href="#4-s3-xie-yi-de-qu-bie" class="header-anchor">#</a></h2><p>|Generation|Usage|Description<br>|First|s3:\|s3&nbsp;which is also called classic&nbsp;(s3:&nbsp;filesystem for reading from or storing objects in Amazon S3 This has been deprecated and recommends to use either the second or third generation library.<br>|Second|s3n:\|s3n&nbsp;uses native s3 object and makes easy to use it with Hadoop and other files systems.<br>|Third|s3a:\|s3a&nbsp;&ndash; This is a replacement of&nbsp;s3n&nbsp;which supports larger files and improves in performance.</p>
 <p><strong>在EMR中，还是建议使用s3协议</strong></p>
 <p><strong><img src="/images/517519-20220620225617902-1226295500.png" width="700" height="135" loading="lazy"></strong></p>
 <p>&nbsp;</p>
@@ -192,7 +192,7 @@ ga('send', 'pageview');
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://docs.aws.amazon.com/zh_cn/cli/latest/userguide/cli-services-s3.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>&nbsp;</p>
-<h2><span id="5-chang-yong-ming-ling"><strong>5.常用命令</strong></span><a href="#5-chang-yong-ming-ling" class="header-anchor">#</a></h2><p>1.安装awscli</p>
+<h2 id="5-chang-yong-ming-ling"><a href="#5-常用命令" class="headerlink" title="5.常用命令"></a><strong>5.常用命令</strong><a href="#5-chang-yong-ming-ling" class="header-anchor">#</a></h2><p>1.安装awscli</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install awscli</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>版本</p>

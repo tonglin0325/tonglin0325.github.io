@@ -16,7 +16,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20220605192549919-2007285929.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20220604225500730-1619604504.png">
 <meta property="article:published_time" content="2016-03-13T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-06-17T13:58:55.031Z">
+<meta property="article:modified_time" content="2024-06-17T14:29:38.673Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="k8s">
 <meta name="twitter:card" content="summary">
@@ -142,19 +142,19 @@ ga('send', 'pageview');
         <!-- 目录 -->
 
 <div id="toc">
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">首先添加源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">查找chart</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">部署release</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">访问kubernetes dashboard</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.修改kubernetes-dashboard的svc，将ClusterIp改成NodePort</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.也使用kubectl proxy来访问</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.在局域网访问kubernetes-dashboard</span></a></li></ol></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#shou-xian-tian-jia-yuan"><span class="toc-text">首先添加源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cha-zhao-chart"><span class="toc-text">查找chart</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bu-shu-release"><span class="toc-text">部署release</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#fang-wen-kubernetes-dashboard"><span class="toc-text">访问kubernetes dashboard</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-xiu-gai-kubernetes-dashboard-de-svc-jiang-clusterip-gai-cheng-nodeport"><span class="toc-text">1.修改kubernetes-dashboard的svc，将ClusterIp改成NodePort</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-ye-shi-yong-kubectl-proxy-lai-fang-wen"><span class="toc-text">2.也使用kubectl proxy来访问</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-zai-ju-yu-wang-fang-wen-kubernetes-dashboard"><span class="toc-text">3.在局域网访问kubernetes-dashboard</span></a></li></ol></li></ol>
 </div>
 
         <p>kuberbetes-dashboard是K8S的管理工具，下面使用helm来进行部署，参考：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://artifacthub.io/packages/helm/k8s-dashboard/kubernetes-dashboard</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h2><span id="shou-xian-tian-jia-yuan">首先添加源</span><a href="#shou-xian-tian-jia-yuan" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="shou-xian-tian-jia-yuan"><a href="#首先添加源" class="headerlink" title="首先添加源"></a>首先添加源<a href="#shou-xian-tian-jia-yuan" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h2><span id="cha-zhao-chart">查找chart</span><a href="#cha-zhao-chart" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">helm search repo kubernetes-dashboard</span><br><span class="line"></span><br><span class="line">NAME                                     	CHART VERSION	APP VERSION	DESCRIPTION</span><br><span class="line">kubernetes-dashboard/kubernetes-dashboard	5.4.1        	2.5.1      	General-purpose web UI for Kubernetes clusters</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="cha-zhao-chart"><a href="#查找chart" class="headerlink" title="查找chart"></a>查找chart<a href="#cha-zhao-chart" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">helm search repo kubernetes-dashboard</span><br><span class="line"></span><br><span class="line">NAME                                     	CHART VERSION	APP VERSION	DESCRIPTION</span><br><span class="line">kubernetes-dashboard/kubernetes-dashboard	5.4.1        	2.5.1      	General-purpose web UI for Kubernetes clusters</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h2><span id="bu-shu-release">部署release</span><a href="#bu-shu-release" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">helm install my-k8s-dashboard kubernetes-dashboard/kubernetes-dashboard</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="bu-shu-release"><a href="#部署release" class="headerlink" title="部署release"></a>部署release<a href="#bu-shu-release" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">helm install my-k8s-dashboard kubernetes-dashboard/kubernetes-dashboard</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h2><span id="fang-wen-kubernetes-dashboard">访问kubernetes dashboard</span><a href="#fang-wen-kubernetes-dashboard" class="header-anchor">#</a></h2><h3><span id="1-xiu-gai-kubernetes-dashboard-de-svc-jiang-clusterip-gai-cheng-nodeport">1.修改kubernetes-dashboard的svc，将ClusterIp改成NodePort</span><a href="#1-xiu-gai-kubernetes-dashboard-de-svc-jiang-clusterip-gai-cheng-nodeport" class="header-anchor">#</a></h3><img src="/images/517519-20220605192103426-1309192824.png" width="400" height="208" loading="lazy">
+<h2 id="fang-wen-kubernetes-dashboard"><a href="#访问kubernetes-dashboard" class="headerlink" title="访问kubernetes dashboard"></a>访问kubernetes dashboard<a href="#fang-wen-kubernetes-dashboard" class="header-anchor">#</a></h2><h3 id="1-xiu-gai-kubernetes-dashboard-de-svc-jiang-clusterip-gai-cheng-nodeport"><a href="#1-修改kubernetes-dashboard的svc，将ClusterIp改成NodePort" class="headerlink" title="1.修改kubernetes-dashboard的svc，将ClusterIp改成NodePort"></a>1.修改kubernetes-dashboard的svc，将ClusterIp改成NodePort<a href="#1-xiu-gai-kubernetes-dashboard-de-svc-jiang-clusterip-gai-cheng-nodeport" class="header-anchor">#</a></h3><img src="/images/517519-20220605192103426-1309192824.png" width="400" height="208" loading="lazy">
 
 <span id="more"></span>
 <p>&nbsp;</p>
@@ -167,7 +167,7 @@ ga('send', 'pageview');
 <img src="/images/517519-20220605192549919-2007285929.png" width="600" height="438" loading="lazy">
 
 <p>&nbsp;</p>
-<h3><span id="2-ye-shi-yong-kubectl-proxy-lai-fang-wen">2.也使用kubectl proxy来访问</span><a href="#2-ye-shi-yong-kubectl-proxy-lai-fang-wen" class="header-anchor">#</a></h3><p>参考</p>
+<h3 id="2-ye-shi-yong-kubectl-proxy-lai-fang-wen"><a href="#2-也使用kubectl-proxy来访问" class="headerlink" title="2.也使用kubectl proxy来访问"></a>2.也使用kubectl proxy来访问<a href="#2-ye-shi-yong-kubectl-proxy-lai-fang-wen" class="header-anchor">#</a></h3><p>参考</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://kubernetes.io/zh/docs/tasks/access-application-cluster/web-ui-dashboard/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>设置proxy，address是你的运行minikube或者docker-desktop的机器ip，port是对外暴露的端口</p>
@@ -183,7 +183,7 @@ ga('send', 'pageview');
 <img src="/images/517519-20220604225500730-1619604504.png" width="800" height="460" loading="lazy">
 
 <p>这时候部署的dashboard是HTTPS的</p>
-<h3><span id="3-zai-ju-yu-wang-fang-wen-kubernetes-dashboard">3.在局域网访问kubernetes-dashboard</span><a href="#3-zai-ju-yu-wang-fang-wen-kubernetes-dashboard" class="header-anchor">#</a></h3>
+<h3 id="3-zai-ju-yu-wang-fang-wen-kubernetes-dashboard"><a href="#3-在局域网访问kubernetes-dashboard" class="headerlink" title="3.在局域网访问kubernetes-dashboard"></a>3.在局域网访问kubernetes-dashboard<a href="#3-zai-ju-yu-wang-fang-wen-kubernetes-dashboard" class="header-anchor">#</a></h3>
       
     </div>
 

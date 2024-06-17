@@ -479,11 +479,11 @@ ga('send', 'pageview');
         <!-- 目录 -->
 
 <div id="toc">
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.B+树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.LSM树(Log-structured Merge-Tree&#x2F;日志结构的合并树)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.跳表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">Mysql的索引为什么使用B+树而不使用跳表?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">redis为什么使用跳表而不使用B+树或二叉树呢?</span></a></li></ol></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-b-shu"><span class="toc-text">1.B+树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-lsm-shu-log-structured-merge-tree-ri-zhi-jie-gou-de-he-bing-shu"><span class="toc-text">2.LSM树(Log-structured Merge-Tree&#x2F;日志结构的合并树)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-tiao-biao"><span class="toc-text">3.跳表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mysql-de-suo-yin-wei-shi-me-shi-yong-b-shu-er-bu-shi-yong-tiao-biao"><span class="toc-text">Mysql的索引为什么使用B+树而不使用跳表?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#redis-wei-shi-me-shi-yong-tiao-biao-er-bu-shi-yong-b-shu-huo-er-cha-shu-ni"><span class="toc-text">redis为什么使用跳表而不使用B+树或二叉树呢?</span></a></li></ol></li></ol>
 </div>
 
         <p>该文章对比了常用的一些存储底层所使用的数据结构。</p>
-<h2><span id="1-b-shu">1.B+树</span><a href="#1-b-shu" class="header-anchor">#</a></h2><p>MySQL，MongoDB的索引使用的就是B+树</p>
+<h2 id="1-b-shu"><a href="#1-B-树" class="headerlink" title="1.B+树"></a>1.B+树<a href="#1-b-shu" class="header-anchor">#</a></h2><p>MySQL，MongoDB的索引使用的就是B+树</p>
 <p>B+树在多读少写（相对而言）的情境下比较有优势。</p>
 <p><strong>B+树的主要优点：</strong></p>
 <ul>
@@ -497,7 +497,7 @@ ga('send', 'pageview');
 <li>2.如果B+树已经运行了很长时间，写入了很多数据，随着叶子节点分裂，其对应的块会不再顺序存储，而变得分散。这时执行范围查询也会变成随机读，效率降低了。</li>
 </ul>
 <p>参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/2016024">从B+树到LSM树，及LSM树在HBase中的应用</a></p>
-<h2><span id="2-lsm-shu-log-structured-merge-tree-ri-zhi-jie-gou-de-he-bing-shu">2.LSM树(Log-structured Merge-Tree/日志结构的合并树)</span><a href="#2-lsm-shu-log-structured-merge-tree-ri-zhi-jie-gou-de-he-bing-shu" class="header-anchor">#</a></h2><p>RocksDB，HBase，Cassandra，Kudu底层使用的是LSM树</p>
+<h2 id="2-lsm-shu-log-structured-merge-tree-ri-zhi-jie-gou-de-he-bing-shu"><a href="#2-LSM树-Log-structured-Merge-Tree-日志结构的合并树" class="headerlink" title="2.LSM树(Log-structured Merge-Tree/日志结构的合并树)"></a>2.LSM树(Log-structured Merge-Tree/日志结构的合并树)<a href="#2-lsm-shu-log-structured-merge-tree-ri-zhi-jie-gou-de-he-bing-shu" class="header-anchor">#</a></h2><p>RocksDB，HBase，Cassandra，Kudu底层使用的是LSM树</p>
 <p><strong>LSM树的优点</strong>：</p>
 <ul>
 <li>1.LSM树由于数据按顺序存储，因此可以有效地执行区间查询（从最小值到最大值扫描所有的键），并且由于磁盘是顺序写入的（以顺序方式写入紧凑的SSTable文件，而不必重写树中的多个页），所以LSM-Tree可以支持非常高的写入吞吐量。</li>
@@ -507,12 +507,12 @@ ga('send', 'pageview');
 <li>1.压缩过程中有时会干扰正在进行的读写操作。即使存储引擎尝试增量地执行压缩，并且不影响并发访问，但由于磁盘的并发资源有限，所以当磁盘执行昂贵的压缩操作时，很容易发生读写请求等待的情况。而B-tree的响应延迟则更具确定性。</li>
 </ul>
 <p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/yanghuahui/p/3483754.html">LSM树由来、设计思想以及应用到HBase的索引</a> 和 数据密集型应用系统设计第3章</p>
-<h2><span id="3-tiao-biao">3.跳表</span><a href="#3-tiao-biao" class="header-anchor">#</a></h2><p>Redis底层使用的是SkipTable</p>
-<h3><span id="mysql-de-suo-yin-wei-shi-me-shi-yong-b-shu-er-bu-shi-yong-tiao-biao">Mysql的索引为什么使用B+树而不使用跳表?</span><a href="#mysql-de-suo-yin-wei-shi-me-shi-yong-b-shu-er-bu-shi-yong-tiao-biao" class="header-anchor">#</a></h3><p>B+树是多叉树结构，每个结点都是一个16k的数据页，能存放较多索引信息，所以扇出很高。三层左右就可以存储2kw左右的数据(知道结论就行，想知道原因可以看之前的文章)。也就是说查询一次数据，如果这些数据页都在磁盘里，那么最多需要查询三次磁盘IO。</p>
+<h2 id="3-tiao-biao"><a href="#3-跳表" class="headerlink" title="3.跳表"></a>3.跳表<a href="#3-tiao-biao" class="header-anchor">#</a></h2><p>Redis底层使用的是SkipTable</p>
+<h3 id="mysql-de-suo-yin-wei-shi-me-shi-yong-b-shu-er-bu-shi-yong-tiao-biao"><a href="#Mysql的索引为什么使用B-树而不使用跳表" class="headerlink" title="Mysql的索引为什么使用B+树而不使用跳表?"></a>Mysql的索引为什么使用B+树而不使用跳表?<a href="#mysql-de-suo-yin-wei-shi-me-shi-yong-b-shu-er-bu-shi-yong-tiao-biao" class="header-anchor">#</a></h3><p>B+树是多叉树结构，每个结点都是一个16k的数据页，能存放较多索引信息，所以扇出很高。三层左右就可以存储2kw左右的数据(知道结论就行，想知道原因可以看之前的文章)。也就是说查询一次数据，如果这些数据页都在磁盘里，那么最多需要查询三次磁盘IO。</p>
 <p>跳表是链表结构，一条数据一个结点，如果最底层要存放2kw数据，且每次查询都要能达到二分查找的效果，2kw大概在2的24次方左右，所以，跳表大概高度在24层左右。最坏情况下，这24层数据会分散在不同的数据页里，也即是查一次数据会经历24次磁盘IO。</p>
 <p>因此存放同样量级的数据，B+树的高度比跳表的要少，如果放在mysql数据库上来说，就是磁盘IO次数更少，因此B+树查询更快。</p>
 <p>而针对写操作，B+树需要拆分合并索引数据页，跳表则独立插入，并根据随机函数确定层数，没有旋转和维持平衡的开销，因此跳表的写入性能会比B+树要好。</p>
-<h3><span id="redis-wei-shi-me-shi-yong-tiao-biao-er-bu-shi-yong-b-shu-huo-er-cha-shu-ni">redis为什么使用跳表而不使用B+树或二叉树呢?</span><a href="#redis-wei-shi-me-shi-yong-tiao-biao-er-bu-shi-yong-b-shu-huo-er-cha-shu-ni" class="header-anchor">#</a></h3><p>redis支持多种数据结构，里面有个有序集合，也叫ZSET。内部实现就是跳表。那为什么要用跳表而不用B+树等结构呢?</p>
+<h3 id="redis-wei-shi-me-shi-yong-tiao-biao-er-bu-shi-yong-b-shu-huo-er-cha-shu-ni"><a href="#redis为什么使用跳表而不使用B-树或二叉树呢" class="headerlink" title="redis为什么使用跳表而不使用B+树或二叉树呢?"></a>redis为什么使用跳表而不使用B+树或二叉树呢?<a href="#redis-wei-shi-me-shi-yong-tiao-biao-er-bu-shi-yong-b-shu-huo-er-cha-shu-ni" class="header-anchor">#</a></h3><p>redis支持多种数据结构，里面有个有序集合，也叫ZSET。内部实现就是跳表。那为什么要用跳表而不用B+树等结构呢?</p>
 <p>大家知道，redis 是纯纯的内存数据库。</p>
 <p>进行读写数据都是操作内存，跟磁盘没啥关系，因此也不存在磁盘IO了，所以层高就不再是跳表的劣势了。</p>
 <p>并且前面也提到B+树是有一系列合并拆分操作的，换成红黑树或者其他AVL树的话也是各种旋转，目的也是为了保持树的平衡。</p>
