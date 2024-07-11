@@ -611,12 +611,12 @@ ga('send', 'pageview');
         <!-- 目录 -->
 
 <div id="toc">
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-ha-fu-man-shu"><span class="toc-text">1.哈夫曼树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-shu-de-dai-quan-lu-jing-chang-du-wpl-weighted-path-length-of-tree"><span class="toc-text">2.树的带权路径长度（WPL，Weighted Path Length of Tree）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-ha-fu-man-shu-de-ying-yong"><span class="toc-text">3.哈夫曼树的应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-ha-fu-man-bian-ma"><span class="toc-text">1.哈夫曼编码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-ha-fu-man-bian-ma-de-shi-xian"><span class="toc-text">4.哈夫曼编码的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-ha-fu-man-bian-ma-de-bu-zou"><span class="toc-text">1.哈夫曼编码的步骤：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-jian-li-ha-fu-man-shu-de-bu-zou"><span class="toc-text">2.建立哈夫曼树的步骤：</span></a></li></ol></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-ha-fu-man-shu"><span class="toc-text">1.哈夫曼树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-shu-de-dai-quan-lu-jing-chang-du-wpl-weighted-path-length-of-tree"><span class="toc-text">2.树的带权路径长度（WPL，Weighted Path Length of Tree）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-ha-fu-man-shu-de-ying-yong"><span class="toc-text">3.哈夫曼树的应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-ha-fu-man-bian-ma"><span class="toc-text">1.哈夫曼编码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-ha-fu-man-bian-ma-de-shi-xian"><span class="toc-text">4.哈夫曼编码的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-ha-fu-man-bian-ma-de-bu-zou"><span class="toc-text">1.哈夫曼编码的步骤：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-jian-li-ha-fu-man-shu-de-bu-zou"><span class="toc-text">2.建立哈夫曼树的步骤：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-dai-ma-shi-xian"><span class="toc-text">3.代码实现：</span></a></li></ol></li></ol>
 </div>
 
         <h2 id="1-ha-fu-man-shu"><a href="#1-哈夫曼树" class="headerlink" title="1.哈夫曼树"></a>1.哈夫曼树<a href="#1-ha-fu-man-shu" class="header-anchor">#</a></h2><p>给定N个权值作为N个叶子节点，构造一棵二叉树，若该树的<strong>带权路径长度****（WPL）</strong>达到<strong>最小</strong>，称这样的二叉树为最优二叉树，也称为**哈夫曼树(Huffman Tree)**。</p>
 <p>哈夫曼树是带权路径长度最短的树，权值较大的结点离根较近。</p>
-<p>参考：<a target="_blank" rel="noopener" href="https://oi-wiki.org/ds/huffman-tree/">霍夫曼树</a></p>
+<p>参考：<a target="_blank" rel="noopener" href="https://oi-wiki.org/ds/huffman-tree/">霍夫曼树</a>（参考该文章中的概念，其中代码不对）</p>
 <h2 id="2-shu-de-dai-quan-lu-jing-chang-du-wpl-weighted-path-length-of-tree"><a href="#2-树的带权路径长度（WPL，Weighted-Path-Length-of-Tree）" class="headerlink" title="2.树的带权路径长度（WPL，Weighted Path Length of Tree）"></a>2.树的带权路径长度（WPL，Weighted Path Length of Tree）<a href="#2-shu-de-dai-quan-lu-jing-chang-du-wpl-weighted-path-length-of-tree" class="header-anchor">#</a></h2><p>树的<strong>带权路径长度</strong>，就是树中所有的<strong>叶结点的权值</strong>乘上<strong>其到根结点的路径长度</strong>（若根结点为0层，叶结点到根结点的路径长度为叶结点的层数）</p>
 <p>如下图中的哈夫曼树，其WPL的值 = (2+3) * 3 + 4 * 2 + 6 * 1 = 29<br></p>
 <img src="/images/517519-20240512150425132-1418014129.png" width="350" height="367" loading="lazy">
@@ -629,16 +629,20 @@ ga('send', 'pageview');
 1. 所有字符按频率降序排列；
 1. 建立哈夫曼树：
 
+
+
+
 <ol>
 <li>将哈夫曼树存入结果数据；</li>
 <li>重新编码原始数据到结果数据</li>
 </ol>
 <h3 id="2-jian-li-ha-fu-man-shu-de-bu-zou"><a href="#2-建立哈夫曼树的步骤：" class="headerlink" title="2.建立哈夫曼树的步骤："></a>2.建立哈夫曼树的步骤：<a href="#2-jian-li-ha-fu-man-shu-de-bu-zou" class="header-anchor">#</a></h3><ol>
-<li><strong>初始化</strong>：由给定的 <img src="/images/517519-20240512160759128-417111981.gif" title="n"> 个权值构造 <img src="/images/517519-20240512160759128-417111981.gif" title="n"> 棵只有一个根节点的二叉树，得到一个二叉树集合 <img src="/images/517519-20240512160759128-417111981.gif" title="F">。</li>
-<li><strong>选取与合并</strong>：从二叉树集合 <img src="/images/517519-20240512160759128-417111981.gif" title="F"> 中选取根节点权值 <strong>最小的两棵</strong> 二叉树分别作为左右子树构造一棵新的二叉树，这棵新二叉树的根节点的权值为其左、右子树根结点的权值和。</li>
-<li><strong>删除与加入</strong>：从 <img src="/images/517519-20240512160759128-417111981.gif" title="F"> 中删除作为左、右子树的两棵二叉树，并将新建立的二叉树加入到 <img src="/images/517519-20240512160759128-417111981.gif" title="F"> 中。</li>
+<li><strong>初始化</strong>：由给定的 N<img src="/images/517519-20240512160759128-417111981.gif" title="n"> 个权值构造 N<img src="/images/517519-20240512160759128-417111981.gif" title="n"> 棵只有一个根节点的二叉树，得到一个二叉树集合 <img src="/images/517519-20240512160759128-417111981.gif" title="F">。</li>
+<li><strong>选取与合并</strong>：从二叉树集合 PriorityQueue<img src="/images/517519-20240512160759128-417111981.gif" title="F"> 中选取根节点权值 <strong>最小的两棵</strong> 二叉树分别作为左右子树构造一棵新的二叉树，这棵新二叉树的根节点的权值为其左、右子树根结点的权值和。</li>
+<li><strong>删除与加入</strong>：从 <img src="/images/517519-20240512160759128-417111981.gif" title="F">PriorityQueue<img src="/images/517519-20240512160759128-417111981.gif" title="F"> 中删除作为左、右子树的两棵二叉树，并将新建立的二叉树加入到 <img src="/images/517519-20240512160759128-417111981.gif" title="F">PriorityQueue<img src="/images/517519-20240512160759128-417111981.gif" title="F"> 中。</li>
 <li>重复 2、3 步，当集合中只剩下一棵二叉树时，这棵二叉树就是霍夫曼树。</li>
 </ol>
+<h3 id="3-dai-ma-shi-xian"><a href="#3-代码实现：" class="headerlink" title="3.代码实现："></a>3.代码实现：<a href="#3-dai-ma-shi-xian" class="header-anchor">#</a></h3><p>下面的2个网站中的实现都差不多，都借助了优先队列来进行排序（java是PriorityQueue，python是heapq）</p>
 </ol></li>
       
     </div>
