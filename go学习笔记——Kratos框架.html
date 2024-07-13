@@ -20,7 +20,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240114113514912-1396594130.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240114114153099-1701711080.png">
 <meta property="article:published_time" content="2024-05-08T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-07-13T03:32:34.611Z">
+<meta property="article:modified_time" content="2024-07-13T06:56:15.232Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="golang">
 <meta name="twitter:card" content="summary">
@@ -212,6 +212,15 @@ ga('send', 'pageview');
 <h2 id="5-middleware"><a href="#5-Middleware" class="headerlink" title="5.Middleware"></a>5.Middleware<a href="#5-middleware" class="header-anchor">#</a></h2><p>区别于gin的middleware实现的是<strong>gin.HandlerFunc</strong>以及在gin中基于<strong>http.Handler</strong>的实现，参考：<span id="more"></span><br>&nbsp;<a target="_blank" rel="noopener" href="https://www.cnblogs.com/tonglin0325/p/18183202">go学习笔记&mdash;&mdash;gin框架</a></p>
 <h3 id="1-kratos-de-middleware-middleware"><a href="#1-Kratos的middleware-Middleware" class="headerlink" title="1.Kratos的middleware.Middleware"></a>1.Kratos的middleware.Middleware<a href="#1-kratos-de-middleware-middleware" class="header-anchor">#</a></h3><p>kratos的middleware需要实现的是<strong>middleware.Middleware</strong>，可以参考官方例子：<a target="_blank" rel="noopener" href="https://github.com/go-kratos/examples/blob/main/i18n/internal/pkg/middleware/localize/localize.go">https://github.com/go-kratos/examples/blob/main/i18n/internal/pkg/middleware/localize/localize.go</a></p>
 <p>可以通过context的transport中获得header等信息</p>
+<p>在middleware之后执行某些逻辑使用</p>
+<p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">defer func() &#123;</span><br><span class="line">                // Do something on exiting</span><br><span class="line">                 &#125;()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p>&nbsp;参考：<a target="_blank" rel="noopener" href="https://go-kratos.dev/docs/component/middleware/overview/">https://go-kratos.dev/docs/component/middleware/overview/</a></p>
+<p>middleware中设置header，参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/xmcy001122/article/details/126618680">go kratos框架跨域中间件实现(v2)</a></p>
+<p>其他：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/zly-go/p/15532783.html">go微服务框架Kratos笔记（七）使用jwt认证中间件</a></p>
+<p>&nbsp;</p>
 <h3 id="2-zai-middle-middleware-zhong-shi-yong-bai-ming-dan"><a href="#2-在middle-Middleware中使用白名单" class="headerlink" title="2.在middle.Middleware中使用白名单"></a>2.在middle.Middleware中使用白名单<a href="#2-zai-middle-middleware-zhong-shi-yong-bai-ming-dan" class="header-anchor">#</a></h3><p>参考：<a target="_blank" rel="noopener" href="https://github.com/go-kratos/beer-shop/blob/main/app/shop/interface/internal/server/http.go#L21">https://github.com/go-kratos/beer-shop/blob/main/app/shop/interface/internal/server/http.go#L21</a></p>
 <h3 id="3-kratos-zhong-shi-yong-net-http-bao-de-http-handler"><a href="#3-Kratos中使用net-http包的http-Handler" class="headerlink" title="3.Kratos中使用net/http包的http.Handler"></a>3.Kratos中使用net/http包的http.Handler<a href="#3-kratos-zhong-shi-yong-net-http-bao-de-http-handler" class="header-anchor">#</a></h3><p>如果想在kratos中使用<strong>http.Handler</strong>，可以参考官方例子：<a target="_blank" rel="noopener" href="https://github.com/go-kratos/examples/blob/main/http/middlewares/middlewares.go">https://github.com/go-kratos/examples/blob/main/http/middlewares/middlewares.go</a></p>
 <p>以及 <a target="_blank" rel="noopener" href="https://github.com/tx7do/kratos-cms/blob/main/backend/pkg/middleware/auth/auth.go">https://github.com/tx7do/kratos-cms/blob/main/backend/pkg/middleware/auth/auth.go</a> 或者 <a target="_blank" rel="noopener" href="https://cit965.netlify.app/docs/go-kratos/%E5%8F%82%E6%95%B0%E6%A0%A1%E9%AA%8C%E4%B8%AD%E9%97%B4%E4%BB%B6/">04-参数校验中间件</a></p>
