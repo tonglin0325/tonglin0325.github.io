@@ -49,7 +49,7 @@ var searchFunc = function (path, search_id, content_id) {
                     var isMatch = true;
                     var content_index = [];
                     var data_title = data.title.trim().toLowerCase();
-                    var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                    var data_content = data.content;
                     var data_url = data.url;
                     var index_title = -1;
                     var index_content = -1;
@@ -57,6 +57,7 @@ var searchFunc = function (path, search_id, content_id) {
                     // only match artiles with not empty titles and contents
                     if (data_title != '' && data_content != '') {
                         keywords.forEach(function (keyword, i) {
+                            data_content = data_content.trim().replace(/<[^>]+>/g, "").toLowerCase();
                             index_title = data_title.indexOf(keyword);
                             index_content = data_content.indexOf(keyword);
                             if (index_title < 0 && index_content < 0) {
