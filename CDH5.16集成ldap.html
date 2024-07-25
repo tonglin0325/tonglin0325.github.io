@@ -110,6 +110,25 @@ ga('send', 'pageview');
   <input type="search" placeholder="站内搜索" id="local-search-input" class="local-search-input-cls" style="">
   <div id="local-search-result" class="local-search-result-cls"></div>
 </span>
+
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    const div = document.getElementById('local-search-result');
+    const input = document.getElementById('local-search-input');
+
+    // 点击 input 显示 div
+    input.addEventListener('click', function() {
+        div.style.display = 'block';
+    });
+
+    // 点击 div 之外的地方隐藏 div
+    document.addEventListener('click', function(event) {
+        if (!div.contains(event.target) && event.target !== div && event.target !== input) {
+            div.style.display = 'none';
+        }
+    });
+});
+</script>
         </li>
       </ul>
 
@@ -154,6 +173,15 @@ if ($('.local-search').resize() && !isMobile.any()) {
 	  searchFunc("/search.json", 'local-search-input', 'local-search-result');
 	});
 }
+// document.addEventListener('DOMContentLoaded', (event) => {
+//
+//     const input = document.getElementById('.local-search-input');
+//     const div = document.getElementById('.local-search-result');
+//
+//     input.addEventListener('blur', function() {
+//         div.style.display = 'none';
+//     });
+// });
 </script>
   <div class="container">
     <div class="blog-header">
