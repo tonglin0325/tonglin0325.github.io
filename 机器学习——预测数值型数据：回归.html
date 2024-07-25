@@ -115,6 +115,12 @@ ga('send', 'pageview');
           <li><a class=""
                  target="_blank" rel="noopener" href="https://www.linkedin.com/in/tonglin0325/">LinkedIn</a></li>
         
+        <li>
+          <span class="local-search local-search-google local-search-plugin" style="">
+  <input type="search" placeholder="站内搜索" id="local-search-input" class="local-search-input-cls" style="">
+  <div id="local-search-result" class="local-search-result-cls"></div>
+</span>
+        </li>
       </ul>
 
       <!--
@@ -128,6 +134,37 @@ ga('send', 'pageview');
   </div><!-- /.container-fluid -->
 </nav>
 
+
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script>
+// 移动设备侦测
+var isMobile = {
+  Android: function () {
+    return navigator.userAgent.match(/Android/i);
+  },
+  BlackBerry: function () {
+    return navigator.userAgent.match(/BlackBerry/i);
+  },
+  iOS: function () {
+    return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+  },
+  Opera: function () {
+    return navigator.userAgent.match(/Opera Mini/i);
+  },
+  Windows: function () {
+    return navigator.userAgent.match(/IEMobile/i);
+  },
+  any: function () {
+    return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+  }
+};
+
+if ($('.local-search').resize() && !isMobile.any()) {
+	$.getScript('/js/search.js', function() {
+	  searchFunc("/search.json", 'local-search-input', 'local-search-result');
+	});
+}
+</script>
   <div class="container">
     <div class="blog-header">
   <h1 class="blog-title">tonglin0325的个人主页</h1>
