@@ -372,6 +372,12 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
+        <!-- 目录 -->
+
+<div id="toc">
+  
+</div>
+
         <p>1.安装的docker版本</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker -v</span><br><span class="line">Docker version 17.03.2-ce</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
@@ -447,17 +453,50 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>13.<strong>mac使用docker的时候配置仓库</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">https://registry.docker-cn.com</span><br><span class="line">http://docker.mirrors.ustc.edu.cn</span><br><span class="line">http://hub-mirror.c.163.com</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<img src="/images/517519-20200322162611354-629263110.png" width="500" height="573" />
+<img src="/images/517519-20200322162611354-629263110.png" width="500" height="573">
 
 <p>注意：mac版本docker升级到高版本后Daemon选项没了，需要在docker engine中填写json配置</p>
-<img src="/images/517519-20220606165651191-975979512.png" width="500" height="269" loading="lazy" />
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/docker%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8.html#more">全文 &gt;&gt;</a>
-          </p>
-        
+<img src="/images/517519-20220606165651191-975979512.png" width="500" height="269" loading="lazy">
+
+<p>14.<strong>ubuntu配置docker仓库</strong>，在/etc/docker目录下新建daemon.json，内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;https://registry.docker-cn.com&quot;,&quot;http://docker.mirrors.ustc.edu.cn&quot;,&quot;http://hub-mirror.c.163.com&quot;,&quot;https://3laho3y3.mirror.aliyuncs.com&quot;,&quot;http://f1361db2.m.daocloud.io&quot;]</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>重启docker服务</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart docker</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>15.查看docker的磁盘使用情况</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">lintong@master:~$ docker system df</span><br><span class="line">TYPE            TOTAL     ACTIVE    SIZE      RECLAIMABLE</span><br><span class="line">Images          31        1         19.17GB   19.11GB (99%)</span><br><span class="line">Containers      1         1         0B        0B</span><br><span class="line">Local Volumes   48        0         0B        0B</span><br><span class="line">Build Cache     0         0         0B        0B</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>清理磁盘，删除关闭的容器、无用的数据卷和网络，以及dangling镜像(即无tag的镜像)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker system prune</span><br><span class="line">WARNING! This will remove:</span><br><span class="line">        - all stopped containers</span><br><span class="line">        - all networks not used by at least one container</span><br><span class="line">        - all dangling images</span><br><span class="line">        - all build cache</span><br><span class="line">Are you sure you want to continue? [y/N] y</span><br><span class="line">Total reclaimed space: 0B</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果有2个镜像的id相同，则删除的时候会报</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker rmi 85f602b72c3c</span><br><span class="line">Error response from daemon: conflict: unable to delete 85f602b72c3c (must be forced) - image is referenced in multiple repositories</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>此时应该找到2个id相同的镜像，然后一个个进行删除</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker images | grep 85f602b72c3c</span><br><span class="line">xxxxx                                   v0.9.1          85f602b72c3c   6 weeks ago     2.65GB</span><br><span class="line">xxxxx   &lt;none&gt;             85f602b72c3c   6 weeks ago     2.65GB</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>删除第一个</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker rmi xxxxx:v0.9.1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>再删除另一个</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker rmi 85f602b72c3c</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>15.<a target="_blank" rel="noopener" href="https://www.oschina.net/translate/10-things-to-avoid-in-docker-containers">使用 Docker 容器应该避免的 10 个事情</a> </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1.不要在容器中存储数据 &amp;ndash;  容器可能被停止，销毁，或替换。</span><br><span class="line">2.不要将你的应用发布两份 &amp;ndash;  一些人将容器视为虚拟机。</span><br><span class="line">3.不要创建超大镜像 &amp;ndash; 一个超大镜像只会难以分发。</span><br><span class="line">4.不要使用单层镜像</span><br><span class="line">5.不要为运行中的容器创建镜像</span><br><span class="line">6.不要只使用&amp;ldquo;最新&amp;rdquo;标签</span><br><span class="line">7.不要在单一容器中运行超过一个进程</span><br><span class="line">8.不要在镜像中存储凭据</span><br><span class="line">9.使用非root用户运行进程</span><br><span class="line">10.不要依赖IP地址</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>参考：<a target="_blank" rel="noopener" href="https://developers.redhat.com/blog/2016/02/24/10-things-to-avoid-in-docker-containers/">10 things to avoid in docker containers</a></p>
+<p>16.docker设置时区</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ENV TZ=Asia/Shanghai</span><br><span class="line"># ENV TZ=America/Los_Angeles</span><br><span class="line"></span><br><span class="line">RUN echo $&#123;TZ&#125; &gt; /etc/timezone \</span><br><span class="line">    &amp;amp;&amp;amp; ln -fs /usr/share/zoneinfo/$&#123;TZ&#125; /etc/localtime \</span><br><span class="line">    &amp;amp;&amp;amp; apt update \</span><br><span class="line">    &amp;amp;&amp;amp; apt install -y tzdata</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>17.ubuntu镜像换源</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list &amp;amp;&amp;amp; \</span><br><span class="line">	sed -i s@/security.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list &amp;amp;&amp;amp; \</span><br><span class="line">	apt-get clean &amp;amp;&amp;amp; \</span><br><span class="line">	apt-get update</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
       
     </div>
+
+    
+      
 
     
 
