@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Ubuntu16.04安装openldap和phpldapadmin | tonglin0325的个人主页</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="安装openldap，参考： 123https:&#x2F;&#x2F;www.alibabacloud.com&#x2F;blog&#x2F;how-to-install-openldap-and-phpldapadmin-on-ubuntu-16-04_594318https:&#x2F;&#x2F;www.cnblogs.com&#x2F;hzw97&#x2F;p&#x2F;11592244.html#_lab2_3_0  先卸载干净 12sudo apt remove --pu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu16.04安装openldap和phpldapadmin">
+<meta property="og:url" content="http://tonglin0325.github.io/Ubuntu16.04%E5%AE%89%E8%A3%85openldap%E5%92%8Cphpldapadmin.html">
+<meta property="og:site_name" content="tonglin0325的个人主页">
+<meta property="og:description" content="安装openldap，参考： 123https:&#x2F;&#x2F;www.alibabacloud.com&#x2F;blog&#x2F;how-to-install-openldap-and-phpldapadmin-on-ubuntu-16-04_594318https:&#x2F;&#x2F;www.cnblogs.com&#x2F;hzw97&#x2F;p&#x2F;11592244.html#_lab2_3_0  先卸载干净 12sudo apt remove --pu">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20211031212435032-848971249.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20211031212551991-885205825.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20211031212634396-1154026409.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20211031212709924-228195399.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20211031212820091-1733752138.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20211031212858297-1196615075.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20211031212934218-1000041861.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20211031213428290-1922290766.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20211031213557091-1741767788.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20200913134843137-571281073.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20200913135355694-1218301642.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20200913141432864-506115724.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20200913141906577-645772149.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20200913142301735-655420957.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20200913142646604-908498246.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20200913170422890-1420762396.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20200913171906185-885521727.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20200913174730034-609924589.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20200913182121545-1317847895.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20200913235617167-1373349770.png">
+<meta property="article:published_time" content="2020-09-12T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-09-28T14:18:40.895Z">
+<meta property="article:author" content="tonglin0325">
+<meta property="article:tag" content="ldap">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://tonglin0325.github.io/images/517519-20211031212435032-848971249.png">
+  
+    <link rel="alternate" href="/atom.xml" title="tonglin0325的个人主页" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="https://tonglin0325.github.io/images/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+
+  
+<link rel="stylesheet" href="/css/styles.css">
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-166238833-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5884015902351015"
+     crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-menu-navbar">
+      <ul class="nav navbar-nav">
+        
+          <li><a class=""
+                 href="/index.html">主页</a></li>
+        
+          <li><a class=""
+                 href="/archives/">所有文章</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="http://www.cnblogs.com/tonglin0325/">博客园</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="https://github.com/tonglin0325">Github</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="https://www.linkedin.com/in/tonglin0325/">LinkedIn</a></li>
+        
+        <li>
+          <span class="local-search local-search-google local-search-plugin" style="">
+  <input type="search" placeholder="站内搜索" id="local-search-input" class="local-search-input-cls" style="">
+  <div id="local-search-result" class="local-search-result-cls"></div>
+</span>
+
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    const div = document.getElementById('local-search-result');
+    const input = document.getElementById('local-search-input');
+
+    // 点击 input 显示 div
+    input.addEventListener('click', function() {
+        div.style.display = 'block';
+    });
+
+    // 点击 div 之外的地方隐藏 div
+    document.addEventListener('click', function(event) {
+        if (!div.contains(event.target) && event.target !== div && event.target !== input) {
+            div.style.display = 'none';
+        }
+    });
+});
+</script>
+        </li>
+      </ul>
+
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        
+          <li><a href="/atom.xml" title="RSS Feed"><i class="fa fa-rss"></i></a></li>
+        
+      </ul>
+      -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script>
+// 移动设备侦测
+var isMobile = {
+  Android: function () {
+    return navigator.userAgent.match(/Android/i);
+  },
+  BlackBerry: function () {
+    return navigator.userAgent.match(/BlackBerry/i);
+  },
+  iOS: function () {
+    return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+  },
+  Opera: function () {
+    return navigator.userAgent.match(/Opera Mini/i);
+  },
+  Windows: function () {
+    return navigator.userAgent.match(/IEMobile/i);
+  },
+  any: function () {
+    return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+  }
+};
+
+if ($('.local-search').resize() && !isMobile.any()) {
+	$.getScript('/js/search.js', function() {
+	  searchFunc("/search.json", 'local-search-input', 'local-search-result');
+	});
+}
+
+// document.addEventListener('DOMContentLoaded', (event) => {
+//
+//     const input = document.getElementById('.local-search-input');
+//     const div = document.getElementById('.local-search-result');
+//
+//     input.addEventListener('blur', function() {
+//         div.style.display = 'none';
+//     });
+// });
+</script>
+  <div class="container">
+    <div class="blog-header">
+  <h1 class="blog-title">tonglin0325的个人主页</h1>
+  
+</div>
+
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+          <article id="post-Ubuntu16.04安装openldap和phpldapadmin" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 class="article-title" itemprop="name">
+      Ubuntu16.04安装openldap和phpldapadmin
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/Ubuntu16.04%E5%AE%89%E8%A3%85openldap%E5%92%8Cphpldapadmin.html" class="article-date"><time datetime="2020-09-12T16:00:00.000Z" itemprop="datePublished">2020-09-13</time></a>
+</div>
+
+    <div class="article-author">tonglin0325</div>
+    
+
+  </div>
+
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- 目录 -->
+
+<div id="toc">
+  
+</div>
+
+        <p>安装openldap，参考：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">https://www.alibabacloud.com/blog/how-to-install-openldap-and-phpldapadmin-on-ubuntu-16-04_594318</span><br><span class="line">https://www.cnblogs.com/hzw97/p/11592244.html#_lab2_3_0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>先卸载干净</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt remove --purge slapd ldap-utils</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>再安装</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install slapd ldap-utils</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>设置管理员密码，直接确定，后面配置admin的时候会再次配置</p>
+<img src="/images/517519-20211031212435032-848971249.png" width="500" height="239" loading="lazy">
+
+<p>配置ldap admin账号密码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo dpkg-reconfigure slapd</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<img src="/images/517519-20211031212551991-885205825.png" width="600" height="216" loading="lazy">
+
+<p>配置dc</p>
+<img src="/images/517519-20211031212634396-1154026409.png" width="600" height="182" loading="lazy">
+
+<p>组织名</p>
+<img src="/images/517519-20211031212709924-228195399.png" width="600" height="218" loading="lazy">
+
+<p>设置admin账号密码</p>
+<img src="/images/517519-20211031212820091-1733752138.png" width="500" height="220" loading="lazy">
+
+<p>database选择MDB</p>
+<img src="/images/517519-20211031212858297-1196615075.png" width="700" height="302" loading="lazy">
+
+<p>否</p>
+<img src="/images/517519-20211031212934218-1000041861.png" width="400" height="185" loading="lazy">
+
+<p>是</p>
+<img src="/images/517519-20211031213428290-1922290766.png" width="700" height="193" loading="lazy">
+
+<p>否</p>
+<img src="/images/517519-20211031213557091-1741767788.png" width="700" height="172" loading="lazy">
+
+<p>查看ldap状态</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl status slapd</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+<p>&nbsp;</p>
+<p>安装phpldapadmin</p>
+<p>1.首先卸载掉老的phpldapadmin</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt remove --purge phpldapadmin</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>2.安装</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install phpldapadmin</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>3.修改config.php</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/phpldapadmin/config.php</span><br><span class="line"></span><br><span class="line">$servers-&gt;setValue(&#x27;server&#x27;,&#x27;base&#x27;,array(&#x27;dc=hadoop,dc=com&#x27;));</span><br><span class="line">$servers-&gt;setValue(&#x27;login&#x27;,&#x27;bind_id&#x27;,&#x27;cn=admin,dc=hadoop,dc=com&#x27;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p>如果出现报错</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Conf phpldapadmin disabled.</span><br><span class="line">apache2_invoke postrm: Disable configuration phpldapadmin.conf</span><br><span class="line">apache2.service is not active, cannot reload.</span><br><span class="line">invoke-rc.d: initscript apache2, action &quot;reload&quot; failed</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;<img src="/images/517519-20200913134843137-571281073.png" width="500" height="134" loading="lazy"></p>
+<p>然后访问页面，出现的是404</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://master/phpldapadmin</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<img src="/images/517519-20200913135355694-1218301642.png" width="600" height="111" loading="lazy">
+
+<p>那是phpldapadmin安装失败</p>
+<p>有可能是apache2的80端口被nginx占用导致的，输出命令查看80端口的占用情况</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo netstat -tulpn | grep :80</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;可以看到nginx占用了apache2的80端口，但是ldap又需要使用apache2</p>
+<p>&nbsp;<img src="/images/517519-20200913141432864-506115724.png" width="600" height="267" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;查看apache2的状态</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/apache2 reload</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;<img src="/images/517519-20200913141906577-645772149.png" width="800" height="61" loading="lazy"></p>
+<p>所以apache2服务是有问题的</p>
+<p>关闭nginx</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo service nginx stop</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>打开apache2</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo service apache2 start</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;<img src="/images/517519-20200913142301735-655420957.png" width="600" height="49" loading="lazy"></p>
+<p>或者也可以修改apache2的默认端口</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/apache2/ports.conf</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>修改80成其他的，然后</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/apache2/sites-enabled/000-default.conf</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>修改 &lt;VirtualHost *:80&gt;</p>
+<p>然后重启apache2</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo service apache2 restart</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>重新安装phpldapadmin，正常安装</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">apt-get install phpldapadmin</span><br><span class="line">正在读取软件包列表... 完成</span><br><span class="line">正在分析软件包的依赖关系树</span><br><span class="line">正在读取状态信息... 完成</span><br><span class="line">下列软件包是自动安装的并且现在不需要了：</span><br><span class="line">  gimp-data gimp-help-common gimp-help-en lame libamd2.4.1 libbabl-0.1-0 libcamd2.4.1 libccolamd2.9.1 libcholmod3.0.6</span><br><span class="line">  libgegl-0.3-0 libgimp2.0 libjavascriptcoregtk-1.0-0 libqgsttools-p1 libqt4-svg libqt5multimedia5-plugins</span><br><span class="line">  libqt5multimediawidgets5 libumfpack5.7.1 libwebkitgtk-1.0-0 libwebkitgtk-1.0-common</span><br><span class="line">使用&#x27;sudo apt autoremove&#x27;来卸载它(它们)。</span><br><span class="line">下列【新】软件包将被安装：</span><br><span class="line">  phpldapadmin</span><br><span class="line">升级了 0 个软件包，新安装了 1 个软件包，要卸载 0 个软件包，有 0 个软件包未被升级。</span><br><span class="line">需要下载 0 B/727 kB 的归档。</span><br><span class="line">解压缩后会消耗 5,104 kB 的额外空间。</span><br><span class="line">正在预设定软件包 ...</span><br><span class="line">正在选中未选择的软件包 phpldapadmin。</span><br><span class="line">(正在读取数据库 ... 系统当前共安装有 288553 个文件和目录。)</span><br><span class="line">正准备解包 .../phpldapadmin_1.2.2-5.2ubuntu2.1_all.deb  ...</span><br><span class="line">正在解包 phpldapadmin (1.2.2-5.2ubuntu2.1) ...</span><br><span class="line">正在设置 phpldapadmin (1.2.2-5.2ubuntu2.1) ...</span><br><span class="line"></span><br><span class="line">Creating config file /etc/phpldapadmin/config.php with new version</span><br><span class="line">apache2_invoke: Enable configuration phpldapadmin.conf</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>访问页面，成功</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://master/phpldapadmin</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;<img src="/images/517519-20200913142646604-908498246.png" width="1000" height="307" loading="lazy"></p>
+<p>账号就是admin和刚刚安装ldap的时候设置的password</p>
+<p>往ldap上导入os上的组织</p>
+<p>可以选择自己新建ou，选择 Generic: Organisational Unit，新建Group和People两个ou</p>
+<img src="/images/517519-20200913170422890-1420762396.png" width="600" height="322" loading="lazy">
+
+<p>&nbsp;</p>
+<p>也可以使用命令批量导入os上的ou</p>
+<p>首先安装迁移工具 migrationtools</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install migrationtools</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>修改配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/migrationtools/migrate_common.ph</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>将下面</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># Default DNS domain</span><br><span class="line">$DEFAULT_MAIL_DOMAIN =  &quot;padl.com&quot;;</span><br><span class="line"></span><br><span class="line"># Default base </span><br><span class="line">$DEFAULT_BASE =  &quot;dc=padl,dc=com&quot;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>修改成</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># Default DNS domain</span><br><span class="line">$DEFAULT_MAIL_DOMAIN = &quot;example.com&quot;;</span><br><span class="line"></span><br><span class="line"># Default base</span><br><span class="line">$DEFAULT_BASE = &quot;dc=example,dc=com&quot;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>参考了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://www.cnblogs.com/hzw97/p/11592244.html#_lab2_3_0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;生成文件模板</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lintong@master:~/下载$ /usr/share/migrationtools/migrate_base.pl &gt; ./linux_base.ldif</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>将模板中将ldap上已有的entry去掉，否则会导入失败</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dn: dc=example,dc=com</span><br><span class="line">dc: example</span><br><span class="line">objectClass: top</span><br><span class="line">objectClass: domain</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如下报错</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">adding new entry &quot;dc=example,dc=com&quot;</span><br><span class="line">ldap_add: Already exists (68)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>去掉后再次导入，XXXXXX是bind_password</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo ldapadd -x -D &quot;cn=admin,dc=example,dc=com&quot; -w XXXXXX -f ./linux_base.ldif</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;导入成功</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">adding new entry &quot;ou=Protocols,dc=example,dc=com&quot;</span><br><span class="line"></span><br><span class="line">adding new entry &quot;nisMapName=netgroup.byuser,dc=example,dc=com&quot;</span><br><span class="line"></span><br><span class="line">adding new entry &quot;ou=Services,dc=example,dc=com&quot;</span><br><span class="line"></span><br><span class="line">adding new entry &quot;ou=Networks,dc=example,dc=com&quot;</span><br><span class="line"></span><br><span class="line">adding new entry &quot;ou=People,dc=example,dc=com&quot;</span><br><span class="line"></span><br><span class="line">adding new entry &quot;nisMapName=netgroup.byhost,dc=example,dc=com&quot;</span><br><span class="line"></span><br><span class="line">adding new entry &quot;ou=Rpc,dc=example,dc=com&quot;</span><br><span class="line"></span><br><span class="line">adding new entry &quot;ou=Netgroup,dc=example,dc=com&quot;</span><br><span class="line"></span><br><span class="line">adding new entry &quot;ou=Group,dc=example,dc=com&quot;</span><br><span class="line"></span><br><span class="line">adding new entry &quot;ou=Mounts,dc=example,dc=com&quot;</span><br><span class="line"></span><br><span class="line">adding new entry &quot;ou=Aliases,dc=example,dc=com&quot;</span><br><span class="line"></span><br><span class="line">adding new entry &quot;ou=Hosts,dc=example,dc=com&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;去phpldapadmin上查看</p>
+<img src="/images/517519-20200913171906185-885521727.png" width="400" height="552" loading="lazy">
+
+<p>&nbsp;导入os用户，<code>/etc/passwd文件中记录了linux上所有的os用户</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/passwd &gt; ./people.txt</span><br><span class="line">/usr/share/migrationtools/migrate_passwd.pl ./people.txt ./people.ldif</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>迁移到ldap中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo ldapadd -x -D &quot;cn=admin,dc=example,dc=com&quot; -w XXXXXX -f ./people.ldif</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;去phpldapadmin上查看</p>
+<img src="/images/517519-20200913174730034-609924589.png" width="300" height="685" loading="lazy">
+
+<p>导入os组</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/group &gt; ./group.txt</span><br><span class="line">/usr/share/migrationtools/migrate_group.pl ./group.txt ./group.ldif</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;迁移到ldap中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo ldapadd -x -D &quot;cn=admin,dc=example,dc=com&quot; -w XXXXXX -f ./group.ldif</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;成功</p>
+<img src="/images/517519-20200913182121545-1317847895.png" width="300" height="759" loading="lazy">
+
+<p>&nbsp;ldap查询entry，-W是交互式输入密码，-w “密码”</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ldapsearch -x -LLL -H ldap://master:389 -D &quot;cn=admin,dc=example,dc=com&quot; -W -b &quot;dc=example,dc=com&quot;  -s base</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;<img src="/images/517519-20200913235617167-1373349770.png" width="300" height="154" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>ldap的备份和迁移参考：<a target="_blank" rel="noopener" href="https://tylersguides.com/articles/backup-restore-openldap/">How To Backup and Restore OpenLDAP</a></p>
+
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/Ubuntu16.04%E5%AE%89%E8%A3%85openldap%E5%92%8Cphpldapadmin.html">Ubuntu16.04安装openldap和phpldapadmin</a>
+          </div>
+        </div>
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://tonglin0325.github.io/Ubuntu16.04%E5%AE%89%E8%A3%85openldap%E5%92%8Cphpldapadmin.html" data-id="cln8csf7l00lol00lgg1773kg" class="article-share-link">
+        <i class="fa fa-share"></i> 分享
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ldap/" rel="tag">ldap</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/JVM%E8%B0%83%E4%BC%98%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.html" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">JVM调优常用命令</span>
+    </a>
+  </li>
+  
+  
+  <li role="presentation">
+    <a href="/aws%20s3%E5%8E%9F%E7%90%86%E5%92%8C%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <span class="article-nav-link-title">aws s3原理和常用命令</span>
+      <i class="fa fa-chevron-right pull-right"></i>
+    </a>
+  </li>
+  
+</ul>
+
+
+  
+</article>
+
+
+
+
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>tonglin0325</h4>
+  <div style="text-align:center;"><img src="/images/WechatIMG1.jpeg" width="150" height="150" style="vertical-align:middle;"/></div>
+</div>
+
+
+  
+
+
+  
+  <div class="sidebar-module">
+    <h4>标签</h4>
+    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/AWS/" rel="tag">AWS</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Airbnb/" rel="tag">Airbnb</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Android/" rel="tag">Android</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/CDH/" rel="tag">CDH</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Doris/" rel="tag">Doris</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ELK/" rel="tag">ELK</a><span class="sidebar-module-list-count">14</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Flink/" rel="tag">Flink</a><span class="sidebar-module-list-count">29</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Git/" rel="tag">Git</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Grafana/" rel="tag">Grafana</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HAProxy/" rel="tag">HAProxy</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HBase/" rel="tag">HBase</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hadoop/" rel="tag">Hadoop</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hive/" rel="tag">Hive</a><span class="sidebar-module-list-count">20</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hudi/" rel="tag">Hudi</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/InfluxDB/" rel="tag">InfluxDB</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JDBC/" rel="tag">JDBC</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JMeter/" rel="tag">JMeter</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Java/" rel="tag">Java</a><span class="sidebar-module-list-count">19</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JavaWeb/" rel="tag">JavaWeb</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/LaTex/" rel="tag">LaTex</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Linkedin/" rel="tag">Linkedin</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="sidebar-module-list-count">35</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ML/" rel="tag">ML</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ML-Infra/" rel="tag">ML Infra</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/MPP/" rel="tag">MPP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Maven/" rel="tag">Maven</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/MySQL/" rel="tag">MySQL</a><span class="sidebar-module-list-count">16</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Nexus/" rel="tag">Nexus</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/OpenTSDB/" rel="tag">OpenTSDB</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Paper/" rel="tag">Paper</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Play/" rel="tag">Play</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Prometheus/" rel="tag">Prometheus</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Python/" rel="tag">Python</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/React/" rel="tag">React</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/RocksDB/" rel="tag">RocksDB</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Scala/" rel="tag">Scala</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Solr/" rel="tag">Solr</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Spark/" rel="tag">Spark</a><span class="sidebar-module-list-count">25</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SpringMVC/" rel="tag">SpringMVC</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Thrift/" rel="tag">Thrift</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/YARN/" rel="tag">YARN</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/antlr/" rel="tag">antlr</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/arthas/" rel="tag">arthas</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/avro/" rel="tag">avro</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/cassandra/" rel="tag">cassandra</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/clickhouse/" rel="tag">clickhouse</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/confluent/" rel="tag">confluent</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/docker/" rel="tag">docker</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/filebeat/" rel="tag">filebeat</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/flume/" rel="tag">flume</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/golang/" rel="tag">golang</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/google/" rel="tag">google</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/gradle/" rel="tag">gradle</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hexo/" rel="tag">hexo</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/impala/" rel="tag">impala</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/jenkins/" rel="tag">jenkins</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/k8s/" rel="tag">k8s</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kafka/" rel="tag">kafka</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kerberos/" rel="tag">kerberos</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kudu/" rel="tag">kudu</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ldap/" rel="tag">ldap</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mac/" rel="tag">mac</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mongo/" rel="tag">mongo</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mybatis/" rel="tag">mybatis</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nginx/" rel="tag">nginx</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nlp/" rel="tag">nlp</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/open-falcon/" rel="tag">open-falcon</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/openwrt/" rel="tag">openwrt</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/parquet/" rel="tag">parquet</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/presto/" rel="tag">presto</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ranger/" rel="tag">ranger</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/scyllaDB/" rel="tag">scyllaDB</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/twitter/" rel="tag">twitter</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/zookeeper/" rel="tag">zookeeper</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%88%B7%E9%A2%98/" rel="tag">刷题</a><span class="sidebar-module-list-count">22</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%9B%BE%E5%AD%98%E5%82%A8%E5%8F%8A%E8%AE%A1%E7%AE%97/" rel="tag">图存储及计算</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F/" rel="tag">广告系统</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" rel="tag">开发工具</a><span class="sidebar-module-list-count">19</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="sidebar-module-list-count">25</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" rel="tag">系统设计</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="sidebar-module-list-count">5</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>标签云</h4>
+    <p class="tagcloud">
+      <a href="/tags/AWS/" style="font-size: 11.3px;">AWS</a> <a href="/tags/Airbnb/" style="font-size: 14.35px;">Airbnb</a> <a href="/tags/Android/" style="font-size: 11.74px;">Android</a> <a href="/tags/CDH/" style="font-size: 14.35px;">CDH</a> <a href="/tags/Doris/" style="font-size: 10px;">Doris</a> <a href="/tags/ELK/" style="font-size: 15.65px;">ELK</a> <a href="/tags/Flink/" style="font-size: 19.57px;">Flink</a> <a href="/tags/Git/" style="font-size: 10.43px;">Git</a> <a href="/tags/Grafana/" style="font-size: 10px;">Grafana</a> <a href="/tags/HAProxy/" style="font-size: 10.87px;">HAProxy</a> <a href="/tags/HBase/" style="font-size: 12.61px;">HBase</a> <a href="/tags/Hadoop/" style="font-size: 12.61px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 17.39px;">Hive</a> <a href="/tags/Hudi/" style="font-size: 11.3px;">Hudi</a> <a href="/tags/InfluxDB/" style="font-size: 10px;">InfluxDB</a> <a href="/tags/JDBC/" style="font-size: 13.48px;">JDBC</a> <a href="/tags/JMeter/" style="font-size: 10px;">JMeter</a> <a href="/tags/JVM/" style="font-size: 11.74px;">JVM</a> <a href="/tags/Java/" style="font-size: 16.96px;">Java</a> <a href="/tags/JavaWeb/" style="font-size: 11.3px;">JavaWeb</a> <a href="/tags/LaTex/" style="font-size: 10px;">LaTex</a> <a href="/tags/Linkedin/" style="font-size: 10px;">Linkedin</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/ML/" style="font-size: 18.7px;">ML</a> <a href="/tags/ML-Infra/" style="font-size: 11.3px;">ML Infra</a> <a href="/tags/MPP/" style="font-size: 10px;">MPP</a> <a href="/tags/Maven/" style="font-size: 10.43px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 16.09px;">MySQL</a> <a href="/tags/Nexus/" style="font-size: 11.74px;">Nexus</a> <a href="/tags/OpenTSDB/" style="font-size: 10.43px;">OpenTSDB</a> <a href="/tags/Paper/" style="font-size: 10px;">Paper</a> <a href="/tags/Play/" style="font-size: 10px;">Play</a> <a href="/tags/Prometheus/" style="font-size: 10.43px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 17.83px;">Python</a> <a href="/tags/React/" style="font-size: 10.43px;">React</a> <a href="/tags/Redis/" style="font-size: 10.87px;">Redis</a> <a href="/tags/RocksDB/" style="font-size: 10px;">RocksDB</a> <a href="/tags/Scala/" style="font-size: 13.91px;">Scala</a> <a href="/tags/Solr/" style="font-size: 10.87px;">Solr</a> <a href="/tags/Spark/" style="font-size: 19.13px;">Spark</a> <a href="/tags/SpringBoot/" style="font-size: 16.52px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 14.35px;">SpringMVC</a> <a href="/tags/Thrift/" style="font-size: 12.17px;">Thrift</a> <a href="/tags/YARN/" style="font-size: 11.74px;">YARN</a> <a href="/tags/antlr/" style="font-size: 10.43px;">antlr</a> <a href="/tags/arthas/" style="font-size: 10px;">arthas</a> <a href="/tags/avro/" style="font-size: 13.91px;">avro</a> <a href="/tags/cassandra/" style="font-size: 10px;">cassandra</a> <a href="/tags/clickhouse/" style="font-size: 10.43px;">clickhouse</a> <a href="/tags/confluent/" style="font-size: 10.43px;">confluent</a> <a href="/tags/docker/" style="font-size: 10.87px;">docker</a> <a href="/tags/filebeat/" style="font-size: 11.3px;">filebeat</a> <a href="/tags/flume/" style="font-size: 10.43px;">flume</a> <a href="/tags/golang/" style="font-size: 15.22px;">golang</a> <a href="/tags/google/" style="font-size: 13.04px;">google</a> <a href="/tags/gradle/" style="font-size: 10px;">gradle</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/impala/" style="font-size: 11.3px;">impala</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/k8s/" style="font-size: 14.35px;">k8s</a> <a href="/tags/kafka/" style="font-size: 14.78px;">kafka</a> <a href="/tags/kerberos/" style="font-size: 10px;">kerberos</a> <a href="/tags/kudu/" style="font-size: 10.43px;">kudu</a> <a href="/tags/ldap/" style="font-size: 10.43px;">ldap</a> <a href="/tags/mac/" style="font-size: 11.74px;">mac</a> <a href="/tags/mongo/" style="font-size: 11.74px;">mongo</a> <a href="/tags/mybatis/" style="font-size: 10.87px;">mybatis</a> <a href="/tags/nginx/" style="font-size: 12.17px;">nginx</a> <a href="/tags/nlp/" style="font-size: 10px;">nlp</a> <a href="/tags/open-falcon/" style="font-size: 10.87px;">open-falcon</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/parquet/" style="font-size: 10.87px;">parquet</a> <a href="/tags/presto/" style="font-size: 12.17px;">presto</a> <a href="/tags/ranger/" style="font-size: 10px;">ranger</a> <a href="/tags/scyllaDB/" style="font-size: 10.87px;">scyllaDB</a> <a href="/tags/twitter/" style="font-size: 10.43px;">twitter</a> <a href="/tags/zookeeper/" style="font-size: 14.78px;">zookeeper</a> <a href="/tags/%E5%88%B7%E9%A2%98/" style="font-size: 18.26px;">刷题</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 12.17px;">前端</a> <a href="/tags/%E5%9B%BE%E5%AD%98%E5%82%A8%E5%8F%8A%E8%AE%A1%E7%AE%97/" style="font-size: 10.43px;">图存储及计算</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.91px;">多线程</a> <a href="/tags/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F/" style="font-size: 13.04px;">广告系统</a> <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" style="font-size: 16.96px;">开发工具</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 16.52px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 13.48px;">杂谈</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 19.13px;">算法</a> <a href="/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" style="font-size: 10.43px;">系统设计</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 13.04px;">计算机网络</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 11.74px;">设计模式</a>
+    </p>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>文章归档</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/08/">八月 2024</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/05/">五月 2024</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2023/08/">八月 2023</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/07/">七月 2022</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/01/">一月 2022</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/12/">十二月 2021</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/11/">十一月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/09/">九月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">七月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/05/">五月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/03/">三月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/01/">一月 2021</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/12/">十二月 2020</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/11/">十一月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/10/">十月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/09/">九月 2020</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/08/">八月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/07/">七月 2020</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/06/">六月 2020</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/05/">五月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/04/">四月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/03/">三月 2020</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">二月 2020</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/01/">一月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">十月 2019</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/09/">九月 2019</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">八月 2019</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/07/">七月 2019</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/04/">四月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/03/">三月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/01/">一月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/12/">十二月 2018</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/11/">十一月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/09/">九月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/06/">六月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/05/">五月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/04/">四月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/02/">二月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/01/">一月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/11/">十一月 2017</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/09/">九月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/07/">七月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/06/">六月 2017</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/05/">五月 2017</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/04/">四月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/03/">三月 2017</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/01/">一月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/12/">十二月 2016</a><span class="sidebar-module-list-count">15</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/11/">十一月 2016</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">十月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">九月 2016</a><span class="sidebar-module-list-count">16</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/08/">八月 2016</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/07/">七月 2016</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">六月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">五月 2016</a><span class="sidebar-module-list-count">32</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/04/">四月 2016</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/03/">三月 2016</a><span class="sidebar-module-list-count">136</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/02/">二月 2016</a><span class="sidebar-module-list-count">22</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/09/">九月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/08/">八月 2015</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/07/">七月 2015</a><span class="sidebar-module-list-count">30</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/06/">六月 2015</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/04/">四月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2013/04/">四月 2013</a><span class="sidebar-module-list-count">2</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>最近文章</h4>
+    <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Istio%E5%92%8CKong.html">k8s学习笔记——Istio和Kong</a>
+        </li>
+      
+        <li>
+          <a href="/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ingress.html">k8s学习笔记——ingress</a>
+        </li>
+      
+        <li>
+          <a href="/Presto%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Go%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5Presto.html">Presto学习笔记——Go客户端连接Presto</a>
+        </li>
+      
+        <li>
+          <a href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94wire%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5.html">go学习笔记——wire依赖注入</a>
+        </li>
+      
+        <li>
+          <a href="/screen%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html">screen使用教程</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+
+        </div>
+    </div>
+  </div>
+  <footer class="blog-footer">
+  <div class="container">
+    <div id="footer-info" class="inner">
+      &copy; 2024 tonglin0325<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+  
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" integrity="sha384-8gBf6Y4YYq7Jx97PIqmTwLPin4hxIzQw5aDmUg/DDhul9fFpbbLcLh3nTIIDJKhx" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9HZSXL1LDJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9HZSXL1LDJ');
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+<script src="/js/jquery.qrcode.min.js"></script>
+
+
+
+<script src="/js/jquery-1.6.2.min.js"></script>
+
+
+</body>
+</html>

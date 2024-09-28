@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>机器学习——AdaBoost元算法 | tonglin0325的个人主页</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="当做重要决定时，我们可能会考虑吸取多个专家而不只是一个人的意见。机器学习处理问题也是这样，这就是元算法（meta-algorithm）背后的思路。 **　　元算法是对其他算法进行组合的一种方式，其中最流行的一种算法就是AdaBoost算法。某些人认为AdaBoost是最好的监督学习的方法**，所以该方法是机器学习工具箱中最强有力的工具之一。 　　集成学习或者元算法的一般结构是：先产生一组**&amp;ld">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习——AdaBoost元算法">
+<meta property="og:url" content="http://tonglin0325.github.io/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94AdaBoost%E5%85%83%E7%AE%97%E6%B3%95.html">
+<meta property="og:site_name" content="tonglin0325的个人主页">
+<meta property="og:description" content="当做重要决定时，我们可能会考虑吸取多个专家而不只是一个人的意见。机器学习处理问题也是这样，这就是元算法（meta-algorithm）背后的思路。 **　　元算法是对其他算法进行组合的一种方式，其中最流行的一种算法就是AdaBoost算法。某些人认为AdaBoost是最好的监督学习的方法**，所以该方法是机器学习工具箱中最强有力的工具之一。 　　集成学习或者元算法的一般结构是：先产生一组**&amp;ld">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161127224516753-1518470281.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161216210816511-1819415414.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161216211155276-864361291.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161216215245886-1741463451.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161130210322177-1513831152.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161130210401146-1546111983.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161216221341667-1659955469.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161216222906339-1896357023.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161216222912151-1229615814.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161216223025245-1601671422.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161216223057401-1572250285.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161216223149401-17227164.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161128094840787-1341809821.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161128094840787-1341809821.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161128095013943-1500762234.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161216231408401-1888397285.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161216232153198-2061695919.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161216232322714-277179853.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161217111119323-93392128.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161216231408401-1888397285.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161217111715417-844931160.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161217111806386-774519091.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161219160113463-1616562119.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161219165612260-1041210981.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161219165633275-873247263.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161219165647213-1007997440.png">
+<meta property="article:published_time" content="2016-11-26T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-09-28T14:18:43.129Z">
+<meta property="article:author" content="tonglin0325">
+<meta property="article:tag" content="ML">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://tonglin0325.github.io/images/517519-20161127224516753-1518470281.png">
+  
+    <link rel="alternate" href="/atom.xml" title="tonglin0325的个人主页" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="https://tonglin0325.github.io/images/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+
+  
+<link rel="stylesheet" href="/css/styles.css">
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-166238833-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5884015902351015"
+     crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-menu-navbar">
+      <ul class="nav navbar-nav">
+        
+          <li><a class=""
+                 href="/index.html">主页</a></li>
+        
+          <li><a class=""
+                 href="/archives/">所有文章</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="http://www.cnblogs.com/tonglin0325/">博客园</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="https://github.com/tonglin0325">Github</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="https://www.linkedin.com/in/tonglin0325/">LinkedIn</a></li>
+        
+        <li>
+          <span class="local-search local-search-google local-search-plugin" style="">
+  <input type="search" placeholder="站内搜索" id="local-search-input" class="local-search-input-cls" style="">
+  <div id="local-search-result" class="local-search-result-cls"></div>
+</span>
+
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    const div = document.getElementById('local-search-result');
+    const input = document.getElementById('local-search-input');
+
+    // 点击 input 显示 div
+    input.addEventListener('click', function() {
+        div.style.display = 'block';
+    });
+
+    // 点击 div 之外的地方隐藏 div
+    document.addEventListener('click', function(event) {
+        if (!div.contains(event.target) && event.target !== div && event.target !== input) {
+            div.style.display = 'none';
+        }
+    });
+});
+</script>
+        </li>
+      </ul>
+
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        
+          <li><a href="/atom.xml" title="RSS Feed"><i class="fa fa-rss"></i></a></li>
+        
+      </ul>
+      -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script>
+// 移动设备侦测
+var isMobile = {
+  Android: function () {
+    return navigator.userAgent.match(/Android/i);
+  },
+  BlackBerry: function () {
+    return navigator.userAgent.match(/BlackBerry/i);
+  },
+  iOS: function () {
+    return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+  },
+  Opera: function () {
+    return navigator.userAgent.match(/Opera Mini/i);
+  },
+  Windows: function () {
+    return navigator.userAgent.match(/IEMobile/i);
+  },
+  any: function () {
+    return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+  }
+};
+
+if ($('.local-search').resize() && !isMobile.any()) {
+	$.getScript('/js/search.js', function() {
+	  searchFunc("/search.json", 'local-search-input', 'local-search-result');
+	});
+}
+
+// document.addEventListener('DOMContentLoaded', (event) => {
+//
+//     const input = document.getElementById('.local-search-input');
+//     const div = document.getElementById('.local-search-result');
+//
+//     input.addEventListener('blur', function() {
+//         div.style.display = 'none';
+//     });
+// });
+</script>
+  <div class="container">
+    <div class="blog-header">
+  <h1 class="blog-title">tonglin0325的个人主页</h1>
+  
+</div>
+
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+          <article id="post-机器学习——AdaBoost元算法" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 class="article-title" itemprop="name">
+      机器学习——AdaBoost元算法
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94AdaBoost%E5%85%83%E7%AE%97%E6%B3%95.html" class="article-date"><time datetime="2016-11-26T16:00:00.000Z" itemprop="datePublished">2016-11-27</time></a>
+</div>
+
+    <div class="article-author">tonglin0325</div>
+    
+
+  </div>
+
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- 目录 -->
+
+<div id="toc">
+  
+</div>
+
+        <p>当做重要决定时，我们可能会考虑<strong>吸取多个</strong>专家而<strong>不只是一个</strong>人的意见。机器学习处理问题也是这样，这就是<strong>元算法（meta-algorithm）</strong>背后的思路。</p>
+<p>**　　元算法<strong>是</strong>对其他算法进行组合<strong>的一种方式，其中最流行的一种算法就是</strong>AdaBoost算法<strong>。</strong>某些人认为AdaBoost是最好的监督学习的方法**，所以该方法是机器学习工具箱中最强有力的工具之一。</p>
+<p>　　<strong>集成学习</strong>或者<strong>元算法</strong>的一般结构是：先产生一组**&ldquo;个体学习器&rdquo;<strong>，再用某种策略将他们结合起来。</strong>个体学习器**通常是由一个现有的学习算法从训练数据产生。</p>
+<p>　　根据<strong>个体学习器的生成方式</strong>，目前的集成学习方法大致可分为<strong>两大类</strong>，即</p>
+<p>　　1.个体学习器间存在强依赖关系、必须串行生成的<strong>序列化方法</strong>，典型的代表是<strong>Boosting</strong>，其中<strong>AdaBoost</strong>就是<strong>Boosting</strong>的最流行的一个版本</p>
+<p>　　2.个体学习器间不存在强依赖关系、可同时生成的<strong>并行化方法</strong>，典型的代表是<strong>Bagging和&ldquo;随机森林&rdquo;（Random Forest）</strong></p>
+<span id="more"></span>
+<p>&nbsp;</p>
+<p><strong>AdaBoost</strong></p>
+<p><strong>优点：泛化错误率低，易编码，可以应用在大部分分类器上，无参数调整</strong></p>
+<p><strong>缺点：对离群点敏感</strong></p>
+<p><strong>使用数据类型：数值型和标称型数据</strong></p>
+<p>&nbsp;</p>
+<p><strong>bagging：基于数据随机重抽样的分类器构建方法</strong></p>
+<p><strong>自举汇聚法（bootstrap aggregating）</strong>，也称为<strong>bagging方法</strong>，它直接基于自助采样法（bootstrap samping）。</p>
+<p>给定包含<strong>m个样本的数据集</strong>，我们先<strong>随机取出一个样本</strong>放入采样集中，再<strong>把该样本放回初始数据集</strong>，使得下次采样时该样本仍有可能被选中，这样，经过<strong>m次随机采样操作</strong>，我们<strong>得到了含m个样本的采样集。</strong>这样从原始数据集<strong>选择T次</strong>后得到T<strong>个新数据集</strong>，且每个新数据集的大小和原数据集的大小相等。在T个新数据集建好之后，将某个学习算法<strong>分别作用于每个数据集</strong>就得到了<strong>T个分类器</strong>。当我们要对新数据集进行分类时，就可以应用这T个分类器进行分类。与此同时，选择分类器<strong>投票结果中最多</strong>的类别作为最后的分类结果（权重相等）。</p>
+<p>&nbsp;</p>
+<p><strong>Boosting</strong></p>
+<p>boosting是一种和bagging很类似的技术。其使用的多个分类器的类型都是一致的。</p>
+<p><strong>在boosting中</strong>，不同的分类器是通过<strong>串行训练</strong>而获得的，每个新分类器都<strong>根据已训练出的分类器的性能来进行训练</strong>。boosting是通过<strong>集中关注被已有分类器错分的那些数据</strong>来获得新的分类器。</p>
+<p><strong>boosting分类的结果是基于所有分类器的加权求和结果</strong>的，在bagging中的分类器权重是相等的，而boosting中的分类器<strong>权重并不相等</strong>，每个权重代表的是其对应分类器在上一轮迭代中的成功度。</p>
+<p>&nbsp;</p>
+<p>现在介绍其中的<strong>AdaBoost</strong></p>
+<p><strong><img src="/images/517519-20161127224516753-1518470281.png" alt></strong></p>
+<p>&nbsp;</p>
+<p><strong>弱分类器</strong>的&ldquo;弱&rdquo;意味着分类器的性能比随机猜测要略好，但是也不会好太多。这就是说，在二分类情况下，弱分类器的错误率会高于50%，而强分类器的错误率会低很多。</p>
+<p><strong>AdaBoost</strong>是<strong>adaptive boosting（自适应boosting）</strong>的缩写，其运行过程如下：</p>
+<p>假设一个二类分类的<strong>训练数据集</strong></p>
+<p><strong><img src="/images/517519-20161216210816511-1819415414.gif" alt></strong></p>
+<p>&lt;1&gt;训练数据中的每个样本，并赋予其一个权重，这些权重构成了<strong>初始向量D</strong>。一开始，这些权重都初始化成相等值。</p>
+<img src="/images/517519-20161216211155276-864361291.gif" alt>
+
+<p>&nbsp;</p>
+<p>AdaBoost算法多种推导方式，比较容易理解的是基于&ldquo;<strong>加性模型</strong>&rdquo;，即<strong>基学习器的线性组合</strong></p>
+<p>　　<img src="/images/517519-20161216215245886-1741463451.gif" alt>，其中 <img src="/images/517519-20161130210322177-1513831152.gif" alt> 为基学习器，<img src="/images/517519-20161130210401146-1546111983.gif" alt> 为系数</p>
+<p>来最小化<strong>指数损失函数（exponential loss function），损失函数见 <a target="_blank" rel="noopener" href="http://www.cnblogs.com/tonglin0325/p/6109470.html">机器学习-损失函数 （转）</a><br></strong></p>
+<p>**　　 <img src="/images/517519-20161216221341667-1659955469.gif" alt><strong>，其中f(x)是正确的分类，等于-1或者1，H(x)是分类器的分类结果，等于-1或者1**</strong></p>
+<p>**　　<img src="/images/517519-20161216222906339-1896357023.gif" alt>**</p>
+<p>　　　　　　　　　　<img src="/images/517519-20161216222912151-1229615814.gif" alt>　　</p>
+<p><strong>，所以对该式子求<img src="/images/517519-20161216223025245-1601671422.gif" alt>的偏导，得&nbsp;<img src="/images/517519-20161216223057401-1572250285.gif" alt>，并令其等于0，得</strong></p>
+<p>**　　<img src="/images/517519-20161216223149401-17227164.gif" alt>　**</p>
+<p>&lt;2&gt;首先在训练分类器上<strong>训练出一个弱分类器并计算该分类的错误率</strong>，然后在同一数据集上再次训练弱分类器。</p>
+<p><strong>在分类器的第二次训练中，将会重新调整每个样本的权重，其中第一次分对的样本的权重将会降低，而第一次分错的样本的权重将会提高。</strong>为了从所有弱分类器中得到最终的分类结果，<strong>AdaBoost为每个分类器都分配了一个权重值alpha，这些alpha值是基于每个弱分类器的错误率进行计算的。</strong></p>
+<p>其中，<strong>错误率</strong> <img src="/images/517519-20161128094840787-1341809821.gif" alt> 的定义为</p>
+<p>　　<img src="/images/517519-20161128094840787-1341809821.gif" alt>= 为正确分类的样本数目/所有样本数目</p>
+<p>而<strong>alpha</strong>的计算公式如下：</p>
+<p>　　<img src="/images/517519-20161128095013943-1500762234.gif" alt></p>
+<p>计算出alpha值之后，可以<strong>对权重向量D进行更新</strong>，以使得那些正确分类的样本的权重降低而错分样本的权重升高。D的计算方法如下：</p>
+<p>　　&nbsp;<img src="/images/517519-20161216231408401-1888397285.gif" alt></p>
+<p>其中，<img src="/images/517519-20161216232153198-2061695919.gif" alt>，<img src="/images/517519-20161216232322714-277179853.gif" alt>是<strong>规范化因子</strong></p>
+<p>　　<img src="/images/517519-20161217111119323-93392128.gif" alt></p>
+<p>它使得<img src="/images/517519-20161216231408401-1888397285.gif" alt>成为一个概率分布</p>
+<p>如果某个样本被<strong>正确分类</strong>，那么该样本的权重更改为</p>
+<p>　　<img src="/images/517519-20161217111715417-844931160.gif" alt></p>
+<p>如果某个样本被<strong>错误分类</strong>，那么该样本的权重更改为</p>
+<p>　　<img src="/images/517519-20161217111806386-774519091.gif" alt></p>
+<p>在计算出D之后，AdaBoost算法<strong>又开始进入下一轮迭代</strong>。</p>
+<p>AdaBoost算法会不断地重复训练和调整权重的过程，直到<strong>训练错误率为0</strong>或者<strong>弱分类器的数目达到用户的指定值</strong>为止。</p>
+<p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">from numpy import *</span><br><span class="line"></span><br><span class="line">def loadSimpData():</span><br><span class="line">    datMat = matrix([[ 1. ,  2.1],</span><br><span class="line">        [ 1.5,  1.6],</span><br><span class="line">        [ 1.3,  1. ],</span><br><span class="line">        [ 1. ,  1. ],</span><br><span class="line">        [ 2. ,  1. ]])</span><br><span class="line">    classLabels = [1.0, 1.0, -1.0, -1.0, 1.0]</span><br><span class="line">    return datMat,classLabels</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;<img src="/images/517519-20161219160113463-1616562119.png" alt width="433" height="367"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line">def plotBestFit(weakClassArr):		#画出数据集和所有的基学习器</span><br><span class="line">	#import matplotlib.pyplot as plt</span><br><span class="line">	dataMat,labelMat=loadSimpData()	#数据矩阵和标签向量</span><br><span class="line">	dataArr = array(dataMat)		#转换成数组</span><br><span class="line">	n = shape(dataArr)[0] </span><br><span class="line">	xcord1 = []; ycord1 = []		#声明两个不同颜色的点的坐标</span><br><span class="line">	xcord2 = []; ycord2 = []</span><br><span class="line">	for i in range(n):</span><br><span class="line">		if int(labelMat[i])== 1:</span><br><span class="line">			xcord1.append(dataArr[i,0]); ycord1.append(dataArr[i,1])</span><br><span class="line">		else:</span><br><span class="line">			xcord2.append(dataArr[i,0]); ycord2.append(dataArr[i,1])</span><br><span class="line">	fig = plt.figure()</span><br><span class="line">	ax = fig.add_subplot(111)</span><br><span class="line">	ax.scatter(xcord1, ycord1, s=30, c=&#x27;red&#x27;, marker=&#x27;s&#x27;)</span><br><span class="line">	ax.scatter(xcord2, ycord2, s=30, c=&#x27;green&#x27;)</span><br><span class="line">	print &quot;weakClassArr[0][&#x27;thresh&#x27;]&quot;,weakClassArr[0][&#x27;dim&#x27;]</span><br><span class="line">	for j in range(len(weakClassArr)):</span><br><span class="line">		if(weakClassArr[j][&#x27;dim&#x27;] == 1):</span><br><span class="line">			x = arange(-0.0, 2.5, 0.1)</span><br><span class="line">			y = x*0+weakClassArr[j][&#x27;thresh&#x27;]</span><br><span class="line">			ax.plot(x, y)</span><br><span class="line">		else:</span><br><span class="line">			y = array(arange(-0.0, 2.5, 0.1))</span><br><span class="line">			x = y*0+weakClassArr[j][&#x27;thresh&#x27;]</span><br><span class="line">			ax.plot(x, y)</span><br><span class="line">	plt.xlabel(&#x27;X1&#x27;); plt.ylabel(&#x27;X2&#x27;);</span><br><span class="line">	plt.show()</span><br><span class="line"></span><br><span class="line">def stumpClassify(dataMatrix,dimen,threshVal,threshIneq):	#通过阈值比较对数据进行分类</span><br><span class="line">    retArray = ones((shape(dataMatrix)[0],1))				#首先将返回的数组的全部元素设置为1</span><br><span class="line">    if threshIneq == &#x27;lt&#x27;:</span><br><span class="line">        retArray[dataMatrix[:,dimen] &lt;= threshVal] = -1.0	#将满足&lt;=不等式的元素设为-1</span><br><span class="line">    else:</span><br><span class="line">        retArray[dataMatrix[:,dimen] &gt; threshVal] = -1.0	#将满足&gt;不等式的元素设为-1</span><br><span class="line">    return retArray</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">def buildStump(dataArr,classLabels,D):		#遍历stumpClassify()函数所有的可能输入值，并找到数据集上最佳的单层决策树</span><br><span class="line">    dataMatrix = mat(dataArr); labelMat = mat(classLabels).T</span><br><span class="line">    m,n = shape(dataMatrix)					#m=5,n=2</span><br><span class="line">    numSteps = 10.0; bestStump = &#123;&#125;; bestClasEst = mat(zeros((m,1)))</span><br><span class="line">    minError = inf 							#初始误差总和，为无穷大</span><br><span class="line">    for i in range(n):						#循环X和Y两个维度</span><br><span class="line">        rangeMin = dataMatrix[:,i].min(); rangeMax = dataMatrix[:,i].max();		#取得X和Y两个维度的最大值和最小值特征</span><br><span class="line">        stepSize = (rangeMax-rangeMin)/numSteps									#步进长度</span><br><span class="line">        for j in range(-1,int(numSteps)+1):				#从-1到10步进</span><br><span class="line">            for inequal in [&#x27;lt&#x27;, &#x27;gt&#x27;]: 				#&quot;lt&quot;为满足&lt;=不等式，&quot;gt&quot;为满足&gt;不等式</span><br><span class="line">                threshVal = (rangeMin + float(j) * stepSize)					#当前阈值</span><br><span class="line">                predictedVals = stumpClassify(dataMatrix,i,threshVal,inequal)	#根据阈值和不等式，计算预测的分类</span><br><span class="line">                errArr = mat(ones((m,1)))</span><br><span class="line">                errArr[predictedVals == labelMat] = 0	#样本估计错误的标记为1</span><br><span class="line">                weightedError = D.T*errArr  			#通过权重和错误标记，计算泛化误差</span><br><span class="line">                #print &quot;split: dim %d, thresh %.2f, thresh ineqal: %s, the weighted error is %.3f&quot; % (i, threshVal, inequal, weightedError)</span><br><span class="line">                if weightedError &lt; minError:			#如果泛化误差是最小的</span><br><span class="line">                    minError = weightedError</span><br><span class="line">                    bestClasEst = predictedVals.copy()	#保存最佳预测结果</span><br><span class="line">                    bestStump[&#x27;dim&#x27;] = i				#保存维度、阈值、不等式符号</span><br><span class="line">                    bestStump[&#x27;thresh&#x27;] = threshVal</span><br><span class="line">                    bestStump[&#x27;ineq&#x27;] = inequal</span><br><span class="line">    return bestStump,minError,bestClasEst</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def adaBoostTrainDS(dataArr,classLabels,numIt=40):	#基于单层决策树的AdaBoost训练</span><br><span class="line">    weakClassArr = []</span><br><span class="line">    m = shape(dataArr)[0]							#需要分类的数据量，m=5</span><br><span class="line">    D = mat(ones((m,1))/m)   						#D为权重向量，初始D1...D5的和等于1</span><br><span class="line">    aggClassEst = mat(zeros((m,1)))					#基分类器的线性组合</span><br><span class="line">    for i in range(numIt):</span><br><span class="line">	    #建立单层决策树，bestStump包括维度，不等式，阈值，error泛化误差，classEst是每个基分类器</span><br><span class="line">        bestStump,error,classEst = buildStump(dataArr,classLabels,D)	</span><br><span class="line">        print &quot;最佳决策树=&quot;,bestStump,&quot;泛化误差=&quot;,error,&quot;更新前的分类器预测结果=&quot;,classEst.T </span><br><span class="line">        #print &quot;D:&quot;,D.T</span><br><span class="line">        alpha = float(0.5*log((1.0-error)/max(error,1e-16)))	#根据泛化误差，计算基分类器的权重&amp;alpha;值</span><br><span class="line">        bestStump[&#x27;alpha&#x27;] = alpha  							#把权重&amp;alpha;值添加到最佳决策树的列表中</span><br><span class="line">        print &quot;最佳决策树=&quot;,bestStump</span><br><span class="line">        weakClassArr.append(bestStump)                  		#保存单层最佳决策树参数到数组中</span><br><span class="line">        print &quot;预测分类: &quot;,classEst.T</span><br><span class="line">        expon = multiply(-1*alpha*mat(classLabels).T,classEst) 	#权重&amp;alpha;&amp;times;真实分类&amp;times;预测分类，multiply为对应元素相乘，不是矩阵相乘</span><br><span class="line">        D = multiply(D,exp(expon))                              #Calc New D for next iteration</span><br><span class="line">        D = D/D.sum()											#更新D,D.sum()为规范化因子</span><br><span class="line">        #calc training error of all classifiers, if this is 0 quit for loop early (use break)</span><br><span class="line">        aggClassEst += alpha*classEst</span><br><span class="line">        print &quot;更新后的分类器预测结果: &quot;,aggClassEst.T</span><br><span class="line">        aggErrors = multiply(sign(aggClassEst) != mat(classLabels).T,ones((m,1)))	#boolean值和1相乘</span><br><span class="line">        errorRate = aggErrors.sum()/m												#计算错误率</span><br><span class="line">        print &quot;total error: &quot;,errorRate</span><br><span class="line">        if errorRate == 0.0: break</span><br><span class="line">    return weakClassArr,aggClassEst</span><br><span class="line"></span><br><span class="line">def adaClassify(datToClass,classifierArr):			#AdaBoost分类函数</span><br><span class="line">    dataMatrix = mat(datToClass)					#输入[0,0]转换成[[0,0]]矩阵</span><br><span class="line">    m = shape(dataMatrix)[0]</span><br><span class="line">    aggClassEst = mat(zeros((m,1)))</span><br><span class="line">    for i in range(len(classifierArr)):</span><br><span class="line">        classEst = stumpClassify(dataMatrix,classifierArr[i][&#x27;dim&#x27;],\</span><br><span class="line">                                 classifierArr[i][&#x27;thresh&#x27;],\</span><br><span class="line">                                 classifierArr[i][&#x27;ineq&#x27;])				#维度、阈值、不等式符号</span><br><span class="line">        aggClassEst += classifierArr[i][&#x27;alpha&#x27;]*classEst				#计算在每一个基分类器上的预测值的累加和</span><br><span class="line">        print &quot;aggClassEst=&quot;,aggClassEst</span><br><span class="line">    return sign(aggClassEst)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p><strong>main.py</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># coding:utf-8</span><br><span class="line"># !/usr/bin/env python</span><br><span class="line"></span><br><span class="line">import adaboost</span><br><span class="line"></span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">	datMat,classLabels = adaboost.loadSimpData()</span><br><span class="line">	weakClassArr,aggClassEst = adaboost.adaBoostTrainDS(datMat,classLabels)</span><br><span class="line">	print &quot;弱分类器组合:&quot;,weakClassArr</span><br><span class="line">	print adaboost.adaClassify([[0,0],[5,5]],weakClassArr)</span><br><span class="line">	adaboost.plotBestFit(weakClassArr)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p><strong>1个分类器&mdash;&mdash;&mdash;&mdash;　　　　　　　　　　　　2个分类器&mdash;&mdash;&mdash;&mdash;　　　　　　　　　　　　3个分类器&mdash;&mdash;&mdash;&mdash;</strong></p>
+<p><img src="/images/517519-20161219165612260-1041210981.png" alt width="301" height="255"> <img src="/images/517519-20161219165633275-873247263.png" alt width="296" height="255"> <img src="/images/517519-20161219165647213-1007997440.png" alt width="301" height="256"></p>
+<p>&nbsp;</p>
+
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94AdaBoost%E5%85%83%E7%AE%97%E6%B3%95.html">机器学习——AdaBoost元算法</a>
+          </div>
+        </div>
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://tonglin0325.github.io/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94AdaBoost%E5%85%83%E7%AE%97%E6%B3%95.html" data-id="cln8csfae00w7l00l8pchfnuq" class="article-share-link">
+        <i class="fa fa-share"></i> 分享
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ML/" rel="tag">ML</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA(SVM)%E4%B9%8B%E6%A0%B8%E5%87%BD%E6%95%B0(kernel).html" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">机器学习——支持向量机(SVM)之核函数(kernel)</span>
+    </a>
+  </li>
+  
+  
+  <li role="presentation">
+    <a href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%20%EF%BC%88%E8%BD%AC%EF%BC%89.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <span class="article-nav-link-title">机器学习-损失函数 （转）</span>
+      <i class="fa fa-chevron-right pull-right"></i>
+    </a>
+  </li>
+  
+</ul>
+
+
+  
+</article>
+
+
+
+
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>tonglin0325</h4>
+  <div style="text-align:center;"><img src="/images/WechatIMG1.jpeg" width="150" height="150" style="vertical-align:middle;"/></div>
+</div>
+
+
+  
+
+
+  
+  <div class="sidebar-module">
+    <h4>标签</h4>
+    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/AWS/" rel="tag">AWS</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Airbnb/" rel="tag">Airbnb</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Android/" rel="tag">Android</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/CDH/" rel="tag">CDH</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Doris/" rel="tag">Doris</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ELK/" rel="tag">ELK</a><span class="sidebar-module-list-count">14</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Flink/" rel="tag">Flink</a><span class="sidebar-module-list-count">29</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Git/" rel="tag">Git</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Grafana/" rel="tag">Grafana</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HAProxy/" rel="tag">HAProxy</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HBase/" rel="tag">HBase</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hadoop/" rel="tag">Hadoop</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hive/" rel="tag">Hive</a><span class="sidebar-module-list-count">20</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hudi/" rel="tag">Hudi</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/InfluxDB/" rel="tag">InfluxDB</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JDBC/" rel="tag">JDBC</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JMeter/" rel="tag">JMeter</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Java/" rel="tag">Java</a><span class="sidebar-module-list-count">19</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JavaWeb/" rel="tag">JavaWeb</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/LaTex/" rel="tag">LaTex</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Linkedin/" rel="tag">Linkedin</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="sidebar-module-list-count">35</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ML/" rel="tag">ML</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ML-Infra/" rel="tag">ML Infra</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/MPP/" rel="tag">MPP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Maven/" rel="tag">Maven</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/MySQL/" rel="tag">MySQL</a><span class="sidebar-module-list-count">16</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Nexus/" rel="tag">Nexus</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/OpenTSDB/" rel="tag">OpenTSDB</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Paper/" rel="tag">Paper</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Play/" rel="tag">Play</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Prometheus/" rel="tag">Prometheus</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Python/" rel="tag">Python</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/React/" rel="tag">React</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/RocksDB/" rel="tag">RocksDB</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Scala/" rel="tag">Scala</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Solr/" rel="tag">Solr</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Spark/" rel="tag">Spark</a><span class="sidebar-module-list-count">25</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SpringMVC/" rel="tag">SpringMVC</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Thrift/" rel="tag">Thrift</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/YARN/" rel="tag">YARN</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/antlr/" rel="tag">antlr</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/arthas/" rel="tag">arthas</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/avro/" rel="tag">avro</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/cassandra/" rel="tag">cassandra</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/clickhouse/" rel="tag">clickhouse</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/confluent/" rel="tag">confluent</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/docker/" rel="tag">docker</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/filebeat/" rel="tag">filebeat</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/flume/" rel="tag">flume</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/golang/" rel="tag">golang</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/google/" rel="tag">google</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/gradle/" rel="tag">gradle</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hexo/" rel="tag">hexo</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/impala/" rel="tag">impala</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/jenkins/" rel="tag">jenkins</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/k8s/" rel="tag">k8s</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kafka/" rel="tag">kafka</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kerberos/" rel="tag">kerberos</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kudu/" rel="tag">kudu</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ldap/" rel="tag">ldap</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mac/" rel="tag">mac</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mongo/" rel="tag">mongo</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mybatis/" rel="tag">mybatis</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nginx/" rel="tag">nginx</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nlp/" rel="tag">nlp</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/open-falcon/" rel="tag">open-falcon</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/openwrt/" rel="tag">openwrt</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/parquet/" rel="tag">parquet</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/presto/" rel="tag">presto</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ranger/" rel="tag">ranger</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/scyllaDB/" rel="tag">scyllaDB</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/twitter/" rel="tag">twitter</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/zookeeper/" rel="tag">zookeeper</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%88%B7%E9%A2%98/" rel="tag">刷题</a><span class="sidebar-module-list-count">22</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%9B%BE%E5%AD%98%E5%82%A8%E5%8F%8A%E8%AE%A1%E7%AE%97/" rel="tag">图存储及计算</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F/" rel="tag">广告系统</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" rel="tag">开发工具</a><span class="sidebar-module-list-count">19</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="sidebar-module-list-count">25</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" rel="tag">系统设计</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="sidebar-module-list-count">5</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>标签云</h4>
+    <p class="tagcloud">
+      <a href="/tags/AWS/" style="font-size: 11.3px;">AWS</a> <a href="/tags/Airbnb/" style="font-size: 14.35px;">Airbnb</a> <a href="/tags/Android/" style="font-size: 11.74px;">Android</a> <a href="/tags/CDH/" style="font-size: 14.35px;">CDH</a> <a href="/tags/Doris/" style="font-size: 10px;">Doris</a> <a href="/tags/ELK/" style="font-size: 15.65px;">ELK</a> <a href="/tags/Flink/" style="font-size: 19.57px;">Flink</a> <a href="/tags/Git/" style="font-size: 10.43px;">Git</a> <a href="/tags/Grafana/" style="font-size: 10px;">Grafana</a> <a href="/tags/HAProxy/" style="font-size: 10.87px;">HAProxy</a> <a href="/tags/HBase/" style="font-size: 12.61px;">HBase</a> <a href="/tags/Hadoop/" style="font-size: 12.61px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 17.39px;">Hive</a> <a href="/tags/Hudi/" style="font-size: 11.3px;">Hudi</a> <a href="/tags/InfluxDB/" style="font-size: 10px;">InfluxDB</a> <a href="/tags/JDBC/" style="font-size: 13.48px;">JDBC</a> <a href="/tags/JMeter/" style="font-size: 10px;">JMeter</a> <a href="/tags/JVM/" style="font-size: 11.74px;">JVM</a> <a href="/tags/Java/" style="font-size: 16.96px;">Java</a> <a href="/tags/JavaWeb/" style="font-size: 11.3px;">JavaWeb</a> <a href="/tags/LaTex/" style="font-size: 10px;">LaTex</a> <a href="/tags/Linkedin/" style="font-size: 10px;">Linkedin</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/ML/" style="font-size: 18.7px;">ML</a> <a href="/tags/ML-Infra/" style="font-size: 11.3px;">ML Infra</a> <a href="/tags/MPP/" style="font-size: 10px;">MPP</a> <a href="/tags/Maven/" style="font-size: 10.43px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 16.09px;">MySQL</a> <a href="/tags/Nexus/" style="font-size: 11.74px;">Nexus</a> <a href="/tags/OpenTSDB/" style="font-size: 10.43px;">OpenTSDB</a> <a href="/tags/Paper/" style="font-size: 10px;">Paper</a> <a href="/tags/Play/" style="font-size: 10px;">Play</a> <a href="/tags/Prometheus/" style="font-size: 10.43px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 17.83px;">Python</a> <a href="/tags/React/" style="font-size: 10.43px;">React</a> <a href="/tags/Redis/" style="font-size: 10.87px;">Redis</a> <a href="/tags/RocksDB/" style="font-size: 10px;">RocksDB</a> <a href="/tags/Scala/" style="font-size: 13.91px;">Scala</a> <a href="/tags/Solr/" style="font-size: 10.87px;">Solr</a> <a href="/tags/Spark/" style="font-size: 19.13px;">Spark</a> <a href="/tags/SpringBoot/" style="font-size: 16.52px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 14.35px;">SpringMVC</a> <a href="/tags/Thrift/" style="font-size: 12.17px;">Thrift</a> <a href="/tags/YARN/" style="font-size: 11.74px;">YARN</a> <a href="/tags/antlr/" style="font-size: 10.43px;">antlr</a> <a href="/tags/arthas/" style="font-size: 10px;">arthas</a> <a href="/tags/avro/" style="font-size: 13.91px;">avro</a> <a href="/tags/cassandra/" style="font-size: 10px;">cassandra</a> <a href="/tags/clickhouse/" style="font-size: 10.43px;">clickhouse</a> <a href="/tags/confluent/" style="font-size: 10.43px;">confluent</a> <a href="/tags/docker/" style="font-size: 10.87px;">docker</a> <a href="/tags/filebeat/" style="font-size: 11.3px;">filebeat</a> <a href="/tags/flume/" style="font-size: 10.43px;">flume</a> <a href="/tags/golang/" style="font-size: 15.22px;">golang</a> <a href="/tags/google/" style="font-size: 13.04px;">google</a> <a href="/tags/gradle/" style="font-size: 10px;">gradle</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/impala/" style="font-size: 11.3px;">impala</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/k8s/" style="font-size: 14.35px;">k8s</a> <a href="/tags/kafka/" style="font-size: 14.78px;">kafka</a> <a href="/tags/kerberos/" style="font-size: 10px;">kerberos</a> <a href="/tags/kudu/" style="font-size: 10.43px;">kudu</a> <a href="/tags/ldap/" style="font-size: 10.43px;">ldap</a> <a href="/tags/mac/" style="font-size: 11.74px;">mac</a> <a href="/tags/mongo/" style="font-size: 11.74px;">mongo</a> <a href="/tags/mybatis/" style="font-size: 10.87px;">mybatis</a> <a href="/tags/nginx/" style="font-size: 12.17px;">nginx</a> <a href="/tags/nlp/" style="font-size: 10px;">nlp</a> <a href="/tags/open-falcon/" style="font-size: 10.87px;">open-falcon</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/parquet/" style="font-size: 10.87px;">parquet</a> <a href="/tags/presto/" style="font-size: 12.17px;">presto</a> <a href="/tags/ranger/" style="font-size: 10px;">ranger</a> <a href="/tags/scyllaDB/" style="font-size: 10.87px;">scyllaDB</a> <a href="/tags/twitter/" style="font-size: 10.43px;">twitter</a> <a href="/tags/zookeeper/" style="font-size: 14.78px;">zookeeper</a> <a href="/tags/%E5%88%B7%E9%A2%98/" style="font-size: 18.26px;">刷题</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 12.17px;">前端</a> <a href="/tags/%E5%9B%BE%E5%AD%98%E5%82%A8%E5%8F%8A%E8%AE%A1%E7%AE%97/" style="font-size: 10.43px;">图存储及计算</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.91px;">多线程</a> <a href="/tags/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F/" style="font-size: 13.04px;">广告系统</a> <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" style="font-size: 16.96px;">开发工具</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 16.52px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 13.48px;">杂谈</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 19.13px;">算法</a> <a href="/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" style="font-size: 10.43px;">系统设计</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 13.04px;">计算机网络</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 11.74px;">设计模式</a>
+    </p>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>文章归档</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/08/">八月 2024</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/05/">五月 2024</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2023/08/">八月 2023</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/07/">七月 2022</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/01/">一月 2022</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/12/">十二月 2021</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/11/">十一月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/09/">九月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">七月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/05/">五月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/03/">三月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/01/">一月 2021</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/12/">十二月 2020</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/11/">十一月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/10/">十月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/09/">九月 2020</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/08/">八月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/07/">七月 2020</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/06/">六月 2020</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/05/">五月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/04/">四月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/03/">三月 2020</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">二月 2020</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/01/">一月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">十月 2019</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/09/">九月 2019</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">八月 2019</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/07/">七月 2019</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/04/">四月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/03/">三月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/01/">一月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/12/">十二月 2018</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/11/">十一月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/09/">九月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/06/">六月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/05/">五月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/04/">四月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/02/">二月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/01/">一月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/11/">十一月 2017</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/09/">九月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/07/">七月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/06/">六月 2017</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/05/">五月 2017</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/04/">四月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/03/">三月 2017</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/01/">一月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/12/">十二月 2016</a><span class="sidebar-module-list-count">15</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/11/">十一月 2016</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">十月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">九月 2016</a><span class="sidebar-module-list-count">16</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/08/">八月 2016</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/07/">七月 2016</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">六月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">五月 2016</a><span class="sidebar-module-list-count">32</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/04/">四月 2016</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/03/">三月 2016</a><span class="sidebar-module-list-count">136</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/02/">二月 2016</a><span class="sidebar-module-list-count">22</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/09/">九月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/08/">八月 2015</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/07/">七月 2015</a><span class="sidebar-module-list-count">30</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/06/">六月 2015</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/04/">四月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2013/04/">四月 2013</a><span class="sidebar-module-list-count">2</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>最近文章</h4>
+    <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Istio%E5%92%8CKong.html">k8s学习笔记——Istio和Kong</a>
+        </li>
+      
+        <li>
+          <a href="/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ingress.html">k8s学习笔记——ingress</a>
+        </li>
+      
+        <li>
+          <a href="/Presto%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Go%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5Presto.html">Presto学习笔记——Go客户端连接Presto</a>
+        </li>
+      
+        <li>
+          <a href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94wire%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5.html">go学习笔记——wire依赖注入</a>
+        </li>
+      
+        <li>
+          <a href="/screen%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html">screen使用教程</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+
+        </div>
+    </div>
+  </div>
+  <footer class="blog-footer">
+  <div class="container">
+    <div id="footer-info" class="inner">
+      &copy; 2024 tonglin0325<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+  
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" integrity="sha384-8gBf6Y4YYq7Jx97PIqmTwLPin4hxIzQw5aDmUg/DDhul9fFpbbLcLh3nTIIDJKhx" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9HZSXL1LDJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9HZSXL1LDJ');
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+<script src="/js/jquery.qrcode.min.js"></script>
+
+
+
+<script src="/js/jquery-1.6.2.min.js"></script>
+
+
+</body>
+</html>

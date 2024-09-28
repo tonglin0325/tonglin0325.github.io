@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>机器学习——决策树 | tonglin0325的个人主页</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1.决策树的构造 优点：计算复杂度不高，输出结果易于理解，对中间值的缺失不敏感，可以处理不相关特征数据 缺点：可能会产生过度匹配问题 适用数据类型：数值型和标称型">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习——决策树">
+<meta property="og:url" content="http://tonglin0325.github.io/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E5%86%B3%E7%AD%96%E6%A0%91.html">
+<meta property="og:site_name" content="tonglin0325的个人主页">
+<meta property="og:description" content="1.决策树的构造 优点：计算复杂度不高，输出结果易于理解，对中间值的缺失不敏感，可以处理不相关特征数据 缺点：可能会产生过度匹配问题 适用数据类型：数值型和标称型">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161110105603858-1755597109.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161110105926045-430376645.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161110114028577-599745723.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161110170806452-174749686.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161110201519186-1849265480.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161110211659967-1907219120.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161110211831420-49413193.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161110220503233-1374927553.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161111111451639-181697891.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161111111539952-1822098321.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161112155409186-677545778.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161113153533686-1056298409.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161113153641670-1959801477.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161113193400608-477071066.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161113193437124-1835980705.png">
+<meta property="article:published_time" content="2016-11-09T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-09-28T14:18:43.190Z">
+<meta property="article:author" content="tonglin0325">
+<meta property="article:tag" content="ML">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://tonglin0325.github.io/images/517519-20161110105603858-1755597109.png">
+  
+    <link rel="alternate" href="/atom.xml" title="tonglin0325的个人主页" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="https://tonglin0325.github.io/images/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+
+  
+<link rel="stylesheet" href="/css/styles.css">
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-166238833-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5884015902351015"
+     crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-menu-navbar">
+      <ul class="nav navbar-nav">
+        
+          <li><a class=""
+                 href="/index.html">主页</a></li>
+        
+          <li><a class=""
+                 href="/archives/">所有文章</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="http://www.cnblogs.com/tonglin0325/">博客园</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="https://github.com/tonglin0325">Github</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="https://www.linkedin.com/in/tonglin0325/">LinkedIn</a></li>
+        
+        <li>
+          <span class="local-search local-search-google local-search-plugin" style="">
+  <input type="search" placeholder="站内搜索" id="local-search-input" class="local-search-input-cls" style="">
+  <div id="local-search-result" class="local-search-result-cls"></div>
+</span>
+
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    const div = document.getElementById('local-search-result');
+    const input = document.getElementById('local-search-input');
+
+    // 点击 input 显示 div
+    input.addEventListener('click', function() {
+        div.style.display = 'block';
+    });
+
+    // 点击 div 之外的地方隐藏 div
+    document.addEventListener('click', function(event) {
+        if (!div.contains(event.target) && event.target !== div && event.target !== input) {
+            div.style.display = 'none';
+        }
+    });
+});
+</script>
+        </li>
+      </ul>
+
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        
+          <li><a href="/atom.xml" title="RSS Feed"><i class="fa fa-rss"></i></a></li>
+        
+      </ul>
+      -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script>
+// 移动设备侦测
+var isMobile = {
+  Android: function () {
+    return navigator.userAgent.match(/Android/i);
+  },
+  BlackBerry: function () {
+    return navigator.userAgent.match(/BlackBerry/i);
+  },
+  iOS: function () {
+    return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+  },
+  Opera: function () {
+    return navigator.userAgent.match(/Opera Mini/i);
+  },
+  Windows: function () {
+    return navigator.userAgent.match(/IEMobile/i);
+  },
+  any: function () {
+    return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+  }
+};
+
+if ($('.local-search').resize() && !isMobile.any()) {
+	$.getScript('/js/search.js', function() {
+	  searchFunc("/search.json", 'local-search-input', 'local-search-result');
+	});
+}
+
+// document.addEventListener('DOMContentLoaded', (event) => {
+//
+//     const input = document.getElementById('.local-search-input');
+//     const div = document.getElementById('.local-search-result');
+//
+//     input.addEventListener('blur', function() {
+//         div.style.display = 'none';
+//     });
+// });
+</script>
+  <div class="container">
+    <div class="blog-header">
+  <h1 class="blog-title">tonglin0325的个人主页</h1>
+  
+</div>
+
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+          <article id="post-机器学习——决策树" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 class="article-title" itemprop="name">
+      机器学习——决策树
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E5%86%B3%E7%AD%96%E6%A0%91.html" class="article-date"><time datetime="2016-11-09T16:00:00.000Z" itemprop="datePublished">2016-11-10</time></a>
+</div>
+
+    <div class="article-author">tonglin0325</div>
+    
+
+  </div>
+
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- 目录 -->
+
+<div id="toc">
+  
+</div>
+
+        <p><strong>1.决策树的构造</strong></p>
+<p>优点：计算复杂度不高，输出结果易于理解，对中间值的缺失不敏感，可以处理不相关特征数据</p>
+<p>缺点：可能会产生过度匹配问题</p>
+<p>适用数据类型：数值型和标称型</p>
+<span id="more"></span>
+<p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><span class="line"># coding:utf-8</span><br><span class="line"># !/usr/bin/env python</span><br><span class="line"></span><br><span class="line">&#x27;&#x27;&#x27;</span><br><span class="line">Created on Oct 12, 2010</span><br><span class="line">Decision Tree Source Code for Machine Learning in Action Ch. 3</span><br><span class="line">@author: Peter Harrington</span><br><span class="line">&#x27;&#x27;&#x27;</span><br><span class="line">from math import log</span><br><span class="line">import operator</span><br><span class="line"></span><br><span class="line">#通过是否浮出水面和是否有脚蹼，来划分鱼类和非鱼类</span><br><span class="line">def createDataSet():</span><br><span class="line">    dataSet = [[1, 1, &#x27;yes&#x27;],</span><br><span class="line">               [1, 1, &#x27;yes&#x27;],</span><br><span class="line">               [1, 0, &#x27;no&#x27;],</span><br><span class="line">               [0, 1, &#x27;no&#x27;],</span><br><span class="line">               [0, 1, &#x27;no&#x27;]]</span><br><span class="line">    labels = [&#x27;no surfacing&#x27;,&#x27;flippers&#x27;]</span><br><span class="line">    #change to discrete values</span><br><span class="line">    return dataSet, labels</span><br><span class="line"></span><br><span class="line">def calcShannonEnt(dataSet):	#计算给定数据集的香农熵</span><br><span class="line">    numEntries = len(dataSet)	#数据集中的实例总数</span><br><span class="line">    labelCounts = &#123;&#125;</span><br><span class="line">    #为所有可能的分类创建字典，键是可能的特征属性，值是含有这个特征属性的总数</span><br><span class="line">    for featVec in dataSet:</span><br><span class="line">        currentLabel = featVec[-1]</span><br><span class="line">        if currentLabel not in labelCounts.keys(): labelCounts[currentLabel] = 0</span><br><span class="line">        labelCounts[currentLabel] += 1</span><br><span class="line">    #计算香农熵</span><br><span class="line">    shannonEnt = 0.0</span><br><span class="line">    #为所有的分类计算香农熵</span><br><span class="line">    for key in labelCounts:</span><br><span class="line">        prob = float(labelCounts[key])/numEntries</span><br><span class="line">        shannonEnt -= prob * log(prob,2) 	#以2为底求对数</span><br><span class="line">    #香农熵Ent的值越小，纯度越高，即通过这个特征属性来分类，属于同一类别的结点会比较多</span><br><span class="line">    return shannonEnt</span><br><span class="line">    </span><br><span class="line">def splitDataSet(dataSet, axis, value):</span><br><span class="line">    retDataSet = []</span><br><span class="line">    for featVec in dataSet:</span><br><span class="line">        if featVec[axis] == value:</span><br><span class="line">            reducedFeatVec = featVec[:axis]     #chop out axis used for splitting</span><br><span class="line">            reducedFeatVec.extend(featVec[axis+1:])</span><br><span class="line">            retDataSet.append(reducedFeatVec)</span><br><span class="line">    return retDataSet</span><br><span class="line">    </span><br><span class="line">def chooseBestFeatureToSplit(dataSet):</span><br><span class="line">    numFeatures = len(dataSet[0]) - 1      #the last column is used for the labels</span><br><span class="line">    baseEntropy = calcShannonEnt(dataSet)</span><br><span class="line">    bestInfoGain = 0.0; bestFeature = -1</span><br><span class="line">    for i in range(numFeatures):        #iterate over all the features</span><br><span class="line">        featList = [example[i] for example in dataSet]#create a list of all the examples of this feature</span><br><span class="line">        uniqueVals = set(featList)       #get a set of unique values</span><br><span class="line">        newEntropy = 0.0</span><br><span class="line">        for value in uniqueVals:</span><br><span class="line">            subDataSet = splitDataSet(dataSet, i, value)</span><br><span class="line">            prob = len(subDataSet)/float(len(dataSet))</span><br><span class="line">            newEntropy += prob * calcShannonEnt(subDataSet)     </span><br><span class="line">        infoGain = baseEntropy - newEntropy     #calculate the info gain; ie reduction in entropy</span><br><span class="line">        if (infoGain &gt; bestInfoGain):       #compare this to the best gain so far</span><br><span class="line">            bestInfoGain = infoGain         #if better than current best, set to best</span><br><span class="line">            bestFeature = i</span><br><span class="line">    return bestFeature                      #returns an integer</span><br><span class="line"></span><br><span class="line">def majorityCnt(classList):</span><br><span class="line">    classCount=&#123;&#125;</span><br><span class="line">    for vote in classList:</span><br><span class="line">        if vote not in classCount.keys(): classCount[vote] = 0</span><br><span class="line">        classCount[vote] += 1</span><br><span class="line">    sortedClassCount = sorted(classCount.iteritems(), key=operator.itemgetter(1), reverse=True)</span><br><span class="line">    return sortedClassCount[0][0]</span><br><span class="line"></span><br><span class="line">def createTree(dataSet,labels):</span><br><span class="line">    classList = [example[-1] for example in dataSet]</span><br><span class="line">    if classList.count(classList[0]) == len(classList): </span><br><span class="line">        return classList[0]#stop splitting when all of the classes are equal</span><br><span class="line">    if len(dataSet[0]) == 1: #stop splitting when there are no more features in dataSet</span><br><span class="line">        return majorityCnt(classList)</span><br><span class="line">    bestFeat = chooseBestFeatureToSplit(dataSet)</span><br><span class="line">    bestFeatLabel = labels[bestFeat]</span><br><span class="line">    myTree = &#123;bestFeatLabel:&#123;&#125;&#125;</span><br><span class="line">    del(labels[bestFeat])</span><br><span class="line">    featValues = [example[bestFeat] for example in dataSet]</span><br><span class="line">    uniqueVals = set(featValues)</span><br><span class="line">    for value in uniqueVals:</span><br><span class="line">        subLabels = labels[:]       #copy all of labels, so trees don&#x27;t mess up existing labels</span><br><span class="line">        myTree[bestFeatLabel][value] = createTree(splitDataSet(dataSet, bestFeat, value),subLabels)</span><br><span class="line">    return myTree                            </span><br><span class="line">    </span><br><span class="line">def classify(inputTree,featLabels,testVec):</span><br><span class="line">    firstStr = inputTree.keys()[0]</span><br><span class="line">    secondDict = inputTree[firstStr]</span><br><span class="line">    featIndex = featLabels.index(firstStr)</span><br><span class="line">    key = testVec[featIndex]</span><br><span class="line">    valueOfFeat = secondDict[key]</span><br><span class="line">    if isinstance(valueOfFeat, dict): </span><br><span class="line">        classLabel = classify(valueOfFeat, featLabels, testVec)</span><br><span class="line">    else: classLabel = valueOfFeat</span><br><span class="line">    return classLabel</span><br><span class="line"></span><br><span class="line">def storeTree(inputTree,filename):</span><br><span class="line">    import pickle</span><br><span class="line">    fw = open(filename,&#x27;w&#x27;)</span><br><span class="line">    pickle.dump(inputTree,fw)</span><br><span class="line">    fw.close()</span><br><span class="line">    </span><br><span class="line">def grabTree(filename):</span><br><span class="line">    import pickle</span><br><span class="line">    fr = open(filename)</span><br><span class="line">    return pickle.load(fr)</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">    myDat,labels = createDataSet()</span><br><span class="line">    print myDat</span><br><span class="line">    print calcShannonEnt(myDat)</span><br><span class="line">	</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<img src="/images/517519-20161110105603858-1755597109.png" alt>
+
+<img src="/images/517519-20161110105926045-430376645.png" alt>
+
+<p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">#通过是否浮出水面和是否有脚蹼，来划分鱼类和非鱼类</span><br><span class="line">def createDataSet():</span><br><span class="line">    dataSet = [[1, 1, &#x27;yes&#x27;],</span><br><span class="line">               [1, 1, &#x27;yes&#x27;],</span><br><span class="line">               [1, 0, &#x27;no&#x27;],</span><br><span class="line">               [0, 1, &#x27;no&#x27;],</span><br><span class="line">               [0, 1, &#x27;no&#x27;]]</span><br><span class="line">    labels = [&#x27;no surfacing&#x27;,&#x27;flippers&#x27;]</span><br><span class="line">    #change to discrete values</span><br><span class="line">    return dataSet, labels</span><br><span class="line"></span><br><span class="line">def calcShannonEnt(dataSet):	#计算给定数据集的香农熵</span><br><span class="line">    numEntries = len(dataSet)	#数据集中的实例总数</span><br><span class="line">    labelCounts = &#123;&#125;</span><br><span class="line">    #为所有可能的分类创建字典，键是可能的特征属性，值是含有这个特征属性的总数</span><br><span class="line">    for featVec in dataSet:</span><br><span class="line">        currentLabel = featVec[-1]</span><br><span class="line">        if currentLabel not in labelCounts.keys(): labelCounts[currentLabel] = 0</span><br><span class="line">        labelCounts[currentLabel] += 1</span><br><span class="line">    #计算香农熵</span><br><span class="line">    shannonEnt = 0.0</span><br><span class="line">    #为所有的分类计算香农熵</span><br><span class="line">    for key in labelCounts:</span><br><span class="line">        prob = float(labelCounts[key])/numEntries</span><br><span class="line">        shannonEnt -= prob * log(prob,2) 	#以2为底求对数</span><br><span class="line">    #香农熵Ent的值越小，纯度越高，即通过这个特征属性来分类，属于同一类别的结点会比较多</span><br><span class="line">    return shannonEnt</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">myDat,labels = createDataSet()</span><br><span class="line">print myDat</span><br><span class="line">print calcShannonEnt(myDat)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;<img src="/images/517519-20161110114028577-599745723.png" alt></p>
+<p>&nbsp;</p>
+<p><strong>2.划分数据集</strong></p>
+<p><strong><img src="/images/517519-20161110170806452-174749686.png" alt></strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">def splitDataSet(dataSet, axis, value):		#按照给定特征划分数据集，axis表示根据第几个特征，value表示特征的值</span><br><span class="line">    retDataSet = []				#创建新的list对象</span><br><span class="line">    for featVec in dataSet:</span><br><span class="line">        if featVec[axis] == value:</span><br><span class="line">            reducedFeatVec = featVec[:axis]     #切片</span><br><span class="line">            reducedFeatVec.extend(featVec[axis+1:])	#把序列添加到列表reducedFeatVec中</span><br><span class="line">            #print reducedFeatVec</span><br><span class="line">            retDataSet.append(reducedFeatVec)		#把对象reducedFeatVec（是一个list）添加到列表retDataSet中</span><br><span class="line">    return retDataSet</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">def chooseBestFeatureToSplit(dataSet):		#选择最好的数据集划分方式</span><br><span class="line">    numFeatures = len(dataSet[0]) - 1      	#特征的数量，最后一列是标签，所以减去1</span><br><span class="line">    baseEntropy = calcShannonEnt(dataSet)</span><br><span class="line">    bestInfoGain = 0.0; bestFeature = -1	#信息增益和最好的特征下标</span><br><span class="line">    for i in range(numFeatures):        	#递归所有特征</span><br><span class="line">        featList = [example[i] for example in dataSet]	#创建一个列表，包含第i个特征的所有值</span><br><span class="line">        uniqueVals = set(featList)       	#创建一个集合set，由不同的元素组成</span><br><span class="line">        newEntropy = 0.0</span><br><span class="line">        for value in uniqueVals:</span><br><span class="line">            subDataSet = splitDataSet(dataSet, i, value)	#按照所有特征的可能划分数据集</span><br><span class="line">            prob = len(subDataSet)/float(len(dataSet))		#计算所有特征的可能性</span><br><span class="line">            newEntropy += prob * calcShannonEnt(subDataSet)     </span><br><span class="line">        infoGain = baseEntropy - newEntropy     #计算信息增益</span><br><span class="line">        if (infoGain &gt; bestInfoGain):       	#比较不同特征之间信息增益的大小</span><br><span class="line">            bestInfoGain = infoGain         	#选取信息增益大的特征</span><br><span class="line">            bestFeature = i</span><br><span class="line">    return bestFeature                      	#返回特征的下标</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<img src="/images/517519-20161110201519186-1849265480.png" alt>
+
+<p>&nbsp;</p>
+<p><strong>3.递归构建决策树</strong></p>
+<p>&nbsp;<img src="/images/517519-20161110211659967-1907219120.png" alt></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">def createTree(dataSet,labels):		#创建决策树的函数，采用字典的表示形式</span><br><span class="line">    classList = [example[-1] for example in dataSet]</span><br><span class="line">    if classList.count(classList[0]) == len(classList): 	#如果类别完全相同则停止继续划分</span><br><span class="line">        return classList[0]</span><br><span class="line">    if len(dataSet[0]) == 1: 					#遍历完所有特征时返回出现次数最多的</span><br><span class="line">        return majorityCnt(classList)</span><br><span class="line">    bestFeat = chooseBestFeatureToSplit(dataSet)		#选择信息增益最大的特征下标</span><br><span class="line">    bestFeatLabel = labels[bestFeat]				#选择信息增益最大的特征</span><br><span class="line">    myTree = &#123;bestFeatLabel:&#123;&#125;&#125;</span><br><span class="line">    del(labels[bestFeat])					#从标签中删除已经划分好的特征</span><br><span class="line">    featValues = [example[bestFeat] for example in dataSet]	#取得该特征的所有可能取值</span><br><span class="line">    uniqueVals = set(featValues)				#建立一个集合</span><br><span class="line">    for value in uniqueVals:</span><br><span class="line">        subLabels = labels[:]       </span><br><span class="line">        myTree[bestFeatLabel][value] = createTree(splitDataSet(dataSet, bestFeat, value),subLabels)	#递归createTree</span><br><span class="line">    return myTree  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">myDat,labels = createDataSet()</span><br><span class="line">myTree = createTree(myDat,labels)</span><br><span class="line">print myTree</span><br><span class="line"></span><br><span class="line">&#123;&#x27;no surfacing&#x27;: &#123;0: &#x27;no&#x27;, 1: &#123;&#x27;flippers&#x27;: &#123;0: &#x27;no&#x27;, 1: &#x27;yes&#x27;&#125;&#125;&#125;&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;<img src="/images/517519-20161110211831420-49413193.png" alt></p>
+<p>&nbsp;</p>
+<p><strong>4.在Python中使用Matplotlib注解绘制树形图</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">myDat,labels = createDataSet()</span><br><span class="line">print myDat</span><br><span class="line">import treePlotter</span><br><span class="line">treePlotter.createPlot(myTree)　　#绘制树形图</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;<img src="/images/517519-20161110220503233-1374927553.png" alt></p>
+<p>&nbsp;</p>
+<p><strong>5.构造注解树</strong></p>
+<p><strong>&nbsp;获取叶节点的数目和树的层数</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">import matplotlib.pyplot as plt</span><br><span class="line"></span><br><span class="line">decisionNode = dict(boxstyle=&quot;sawtooth&quot;, fc=&quot;0.8&quot;)</span><br><span class="line">leafNode = dict(boxstyle=&quot;round4&quot;, fc=&quot;0.8&quot;)</span><br><span class="line">arrow_args = dict(arrowstyle=&quot;&lt;-&quot;)</span><br><span class="line"></span><br><span class="line">def getNumLeafs(myTree):		#获取叶子节点的数目</span><br><span class="line">    numLeafs = 0</span><br><span class="line">    firstStr = myTree.keys()[0]</span><br><span class="line">    secondDict = myTree[firstStr]</span><br><span class="line">    for key in secondDict.keys():</span><br><span class="line">        if type(secondDict[key]).__name__==&#x27;dict&#x27;:	#测试节点的数据类型是否为字典</span><br><span class="line">            numLeafs += getNumLeafs(secondDict[key])	#递归</span><br><span class="line">        else:   numLeafs +=1				#如果不是字典，则说明是叶子节点</span><br><span class="line">    return numLeafs</span><br><span class="line"></span><br><span class="line">def getTreeDepth(myTree):		#获取树的层数</span><br><span class="line">    maxDepth = 0</span><br><span class="line">    firstStr = myTree.keys()[0]</span><br><span class="line">    secondDict = myTree[firstStr]</span><br><span class="line">    for key in secondDict.keys():</span><br><span class="line">        if type(secondDict[key]).__name__==&#x27;dict&#x27;:	#测试节点的数据类型是否为字典，如果不是字典，则说明是叶子节点</span><br><span class="line">            thisDepth = 1 + getTreeDepth(secondDict[key])	#递归</span><br><span class="line">        else:   thisDepth = 1				</span><br><span class="line">        if thisDepth &gt; maxDepth: maxDepth = thisDepth</span><br><span class="line">    return maxDepth</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>&nbsp;绘制树形图</strong></p>
+<p><strong><img src="/images/517519-20161111111451639-181697891.png" alt><img src="/images/517519-20161111111539952-1822098321.png" alt></strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">def plotNode(nodeTxt, centerPt, parentPt, nodeType):	#绘制带箭头的注解</span><br><span class="line">    #annotate参数：nodeTxt：标注文本，xy：所要标注的位置坐标，xytext：标注文本所在位置，arrowprops：标注箭头属性信息</span><br><span class="line">    createPlot.ax1.annotate(nodeTxt, xy=parentPt,  xycoords=&#x27;axes fraction&#x27;,</span><br><span class="line">             xytext=centerPt, textcoords=&#x27;axes fraction&#x27;,</span><br><span class="line">             va=&quot;center&quot;, ha=&quot;center&quot;, bbox=nodeType, arrowprops=arrow_args )</span><br><span class="line">    </span><br><span class="line">def plotMidText(cntrPt, parentPt, txtString):		#在父子节点间填充文本信息</span><br><span class="line">    xMid = (parentPt[0]-cntrPt[0])/2.0 + cntrPt[0]</span><br><span class="line">    yMid = (parentPt[1]-cntrPt[1])/2.0 + cntrPt[1]</span><br><span class="line">    createPlot.ax1.text(xMid, yMid, txtString, va=&quot;center&quot;, ha=&quot;center&quot;, rotation=30)</span><br><span class="line"></span><br><span class="line">def plotTree(myTree, parentPt, nodeTxt):		#if the first key tells you what feat was split on</span><br><span class="line">    numLeafs = getNumLeafs(myTree)  			#计算宽与高</span><br><span class="line">    depth = getTreeDepth(myTree)</span><br><span class="line">    firstStr = myTree.keys()[0]     			#the text label for this node should be this</span><br><span class="line">    print plotTree.xOff</span><br><span class="line">    cntrPt = (plotTree.xOff + (1.0 + float(numLeafs))/2.0/plotTree.totalW, plotTree.yOff)</span><br><span class="line">    print parentPt</span><br><span class="line">    print cntrPt</span><br><span class="line">    plotMidText(cntrPt, parentPt, nodeTxt)		#标记子节点属性值</span><br><span class="line">    plotNode(firstStr, cntrPt, parentPt, decisionNode)</span><br><span class="line">    secondDict = myTree[firstStr]</span><br><span class="line">    plotTree.yOff = plotTree.yOff - 1.0/plotTree.totalD	#减少y偏移</span><br><span class="line">    for key in secondDict.keys():</span><br><span class="line">        if type(secondDict[key]).__name__==&#x27;dict&#x27;:	#test to see if the nodes are dictonaires, if not they are leaf nodes   </span><br><span class="line">            plotTree(secondDict[key],cntrPt,str(key))        #recursion</span><br><span class="line">        else:   #it&#x27;s a leaf node print the leaf node</span><br><span class="line">            plotTree.xOff = plotTree.xOff + 1.0/plotTree.totalW</span><br><span class="line">            plotNode(secondDict[key], (plotTree.xOff, plotTree.yOff), cntrPt, leafNode)</span><br><span class="line">            plotMidText((plotTree.xOff, plotTree.yOff), cntrPt, str(key))</span><br><span class="line">    plotTree.yOff = plotTree.yOff + 1.0/plotTree.totalD</span><br><span class="line">#if you do get a dictonary you know it&#x27;s a tree, and the first element will be another dict</span><br><span class="line"></span><br><span class="line">def createPlot(inTree):			#绘制树形图，调用了plotTree()</span><br><span class="line">    fig = plt.figure(1, facecolor=&#x27;white&#x27;)</span><br><span class="line">    fig.clf()</span><br><span class="line">    axprops = dict(xticks=[], yticks=[])</span><br><span class="line">    createPlot.ax1 = plt.subplot(111, frameon=False, **axprops)    #no ticks</span><br><span class="line">    #createPlot.ax1 = plt.subplot(111, frameon=False) #ticks for demo puropses </span><br><span class="line">    plotTree.totalW = float(getNumLeafs(inTree))	#存储树的宽度</span><br><span class="line">    plotTree.totalD = float(getTreeDepth(inTree))	#存储树的深度</span><br><span class="line">    plotTree.xOff = -0.5/plotTree.totalW; plotTree.yOff = 1.0;</span><br><span class="line">    plotTree(inTree, (0.5,1.0), &#x27;&#x27;)</span><br><span class="line">    plt.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>测试和存储分类器</strong></p>
+<p><strong>1.测试算法：使用决策树执行分类</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">def classify(inputTree,featLabels,testVec):	#使用决策树的分类函数</span><br><span class="line">    firstStr = inputTree.keys()[0]</span><br><span class="line">    secondDict = inputTree[firstStr]</span><br><span class="line">    featIndex = featLabels.index(firstStr)	#将标签字符串转换为索引</span><br><span class="line">    key = testVec[featIndex]</span><br><span class="line">    valueOfFeat = secondDict[key]</span><br><span class="line">    if isinstance(valueOfFeat, dict): </span><br><span class="line">        classLabel = classify(valueOfFeat, featLabels, testVec)</span><br><span class="line">    else: classLabel = valueOfFeat</span><br><span class="line">    return classLabel</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">myDat,labels = createDataSet()</span><br><span class="line">Labels = labels</span><br><span class="line">print &quot;myDat=&quot;</span><br><span class="line">print myDat</span><br><span class="line">print &quot;labels=&quot;</span><br><span class="line">print labels</span><br><span class="line"></span><br><span class="line">import treePlotter</span><br><span class="line">myTree = treePlotter.retrieveTree(0)	#绘制树形图</span><br><span class="line">print myTree</span><br><span class="line">print classify(myTree,Labels,[0,1])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p><strong>&nbsp;2.使用算法：决策树的存储</strong></p>
+<p><strong><img src="/images/517519-20161112155409186-677545778.png" alt></strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">def storeTree(inputTree,filename):	#使用pickle模块存储决策树</span><br><span class="line">    import pickle</span><br><span class="line">    fw = open(filename,&#x27;w&#x27;)</span><br><span class="line">    pickle.dump(inputTree,fw)</span><br><span class="line">    fw.close()</span><br><span class="line">    </span><br><span class="line">def grabTree(filename):			#查看决策树</span><br><span class="line">    import pickle</span><br><span class="line">    fr = open(filename)</span><br><span class="line">    return pickle.load(fr)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">myDat,labels = createDataSet()</span><br><span class="line">Labels = labels</span><br><span class="line">print &quot;myDat=&quot;</span><br><span class="line">print myDat</span><br><span class="line">print &quot;labels=&quot;</span><br><span class="line">print labels</span><br><span class="line">import treePlotter</span><br><span class="line">myTree = treePlotter.retrieveTree(0)	#绘制树形图</span><br><span class="line">print myTree</span><br><span class="line">storeTree(myTree,&#x27;classifierStorage.txt&#x27;)</span><br><span class="line">print grabTree(&#x27;classifierStorage.txt&#x27;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p><strong>示例：使用决策树预测隐形眼镜类型</strong></p>
+<p><strong><img src="/images/517519-20161113153533686-1056298409.png" alt><img src="/images/517519-20161113153641670-1959801477.png" alt></strong></p>
+<p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">import treePlotter</span><br><span class="line">import simplejson</span><br><span class="line">import ch</span><br><span class="line">ch.set_ch()</span><br><span class="line">from matplotlib import pyplot as plt</span><br><span class="line">fr = open(&#x27;lenses.txt&#x27;)</span><br><span class="line">lenses = [inst.strip().split(&#x27;\t&#x27;) for inst in fr.readlines()]	#读取一行数据，以tab键分割并去掉空格</span><br><span class="line">lensesLabels = [u&#x27;年龄&#x27;,u&#x27;近远视&#x27;,u&#x27;散光&#x27;,u&#x27;眼泪等级&#x27;]			#使用unicode，不然编码会报错</span><br><span class="line">lensesTree = createTree(lenses,lensesLabels)</span><br><span class="line">print simplejson.dumps(lensesTree, encoding=&quot;UTF-8&quot;, ensure_ascii=False)	#使用simplejson模块输出对象中的中文</span><br><span class="line">treePlotter.createPlot(lensesTree)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;<img src="/images/517519-20161113193400608-477071066.png" alt></p>
+<img src="/images/517519-20161113193437124-1835980705.png" alt>
+
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E5%86%B3%E7%AD%96%E6%A0%91.html">机器学习——决策树</a>
+          </div>
+        </div>
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://tonglin0325.github.io/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E5%86%B3%E7%AD%96%E6%A0%91.html" data-id="cln8csfcx016ql00l4m5qayod" class="article-share-link">
+        <i class="fa fa-share"></i> 分享
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ML/" rel="tag">ML</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/Datagrip%E6%9F%A5%E8%AF%A2%E5%BC%80%E5%90%AFkerberos%E7%9A%84hive.html" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">Datagrip查询开启kerberos的hive</span>
+    </a>
+  </li>
+  
+  
+  <li role="presentation">
+    <a href="/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94pandas.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <span class="article-nav-link-title">Python学习笔记——pandas</span>
+      <i class="fa fa-chevron-right pull-right"></i>
+    </a>
+  </li>
+  
+</ul>
+
+
+  
+</article>
+
+
+
+
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>tonglin0325</h4>
+  <div style="text-align:center;"><img src="/images/WechatIMG1.jpeg" width="150" height="150" style="vertical-align:middle;"/></div>
+</div>
+
+
+  
+
+
+  
+  <div class="sidebar-module">
+    <h4>标签</h4>
+    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/AWS/" rel="tag">AWS</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Airbnb/" rel="tag">Airbnb</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Android/" rel="tag">Android</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/CDH/" rel="tag">CDH</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Doris/" rel="tag">Doris</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ELK/" rel="tag">ELK</a><span class="sidebar-module-list-count">14</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Flink/" rel="tag">Flink</a><span class="sidebar-module-list-count">29</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Git/" rel="tag">Git</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Grafana/" rel="tag">Grafana</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HAProxy/" rel="tag">HAProxy</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HBase/" rel="tag">HBase</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hadoop/" rel="tag">Hadoop</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hive/" rel="tag">Hive</a><span class="sidebar-module-list-count">20</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hudi/" rel="tag">Hudi</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/InfluxDB/" rel="tag">InfluxDB</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JDBC/" rel="tag">JDBC</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JMeter/" rel="tag">JMeter</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Java/" rel="tag">Java</a><span class="sidebar-module-list-count">19</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JavaWeb/" rel="tag">JavaWeb</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/LaTex/" rel="tag">LaTex</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Linkedin/" rel="tag">Linkedin</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="sidebar-module-list-count">35</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ML/" rel="tag">ML</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ML-Infra/" rel="tag">ML Infra</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/MPP/" rel="tag">MPP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Maven/" rel="tag">Maven</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/MySQL/" rel="tag">MySQL</a><span class="sidebar-module-list-count">16</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Nexus/" rel="tag">Nexus</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/OpenTSDB/" rel="tag">OpenTSDB</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Paper/" rel="tag">Paper</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Play/" rel="tag">Play</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Prometheus/" rel="tag">Prometheus</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Python/" rel="tag">Python</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/React/" rel="tag">React</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/RocksDB/" rel="tag">RocksDB</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Scala/" rel="tag">Scala</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Solr/" rel="tag">Solr</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Spark/" rel="tag">Spark</a><span class="sidebar-module-list-count">25</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SpringMVC/" rel="tag">SpringMVC</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Thrift/" rel="tag">Thrift</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/YARN/" rel="tag">YARN</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/antlr/" rel="tag">antlr</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/arthas/" rel="tag">arthas</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/avro/" rel="tag">avro</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/cassandra/" rel="tag">cassandra</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/clickhouse/" rel="tag">clickhouse</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/confluent/" rel="tag">confluent</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/docker/" rel="tag">docker</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/filebeat/" rel="tag">filebeat</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/flume/" rel="tag">flume</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/golang/" rel="tag">golang</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/google/" rel="tag">google</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/gradle/" rel="tag">gradle</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hexo/" rel="tag">hexo</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/impala/" rel="tag">impala</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/jenkins/" rel="tag">jenkins</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/k8s/" rel="tag">k8s</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kafka/" rel="tag">kafka</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kerberos/" rel="tag">kerberos</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kudu/" rel="tag">kudu</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ldap/" rel="tag">ldap</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mac/" rel="tag">mac</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mongo/" rel="tag">mongo</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mybatis/" rel="tag">mybatis</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nginx/" rel="tag">nginx</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nlp/" rel="tag">nlp</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/open-falcon/" rel="tag">open-falcon</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/openwrt/" rel="tag">openwrt</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/parquet/" rel="tag">parquet</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/presto/" rel="tag">presto</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ranger/" rel="tag">ranger</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/scyllaDB/" rel="tag">scyllaDB</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/twitter/" rel="tag">twitter</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/zookeeper/" rel="tag">zookeeper</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%88%B7%E9%A2%98/" rel="tag">刷题</a><span class="sidebar-module-list-count">22</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%9B%BE%E5%AD%98%E5%82%A8%E5%8F%8A%E8%AE%A1%E7%AE%97/" rel="tag">图存储及计算</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F/" rel="tag">广告系统</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" rel="tag">开发工具</a><span class="sidebar-module-list-count">19</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="sidebar-module-list-count">25</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" rel="tag">系统设计</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="sidebar-module-list-count">5</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>标签云</h4>
+    <p class="tagcloud">
+      <a href="/tags/AWS/" style="font-size: 11.3px;">AWS</a> <a href="/tags/Airbnb/" style="font-size: 14.35px;">Airbnb</a> <a href="/tags/Android/" style="font-size: 11.74px;">Android</a> <a href="/tags/CDH/" style="font-size: 14.35px;">CDH</a> <a href="/tags/Doris/" style="font-size: 10px;">Doris</a> <a href="/tags/ELK/" style="font-size: 15.65px;">ELK</a> <a href="/tags/Flink/" style="font-size: 19.57px;">Flink</a> <a href="/tags/Git/" style="font-size: 10.43px;">Git</a> <a href="/tags/Grafana/" style="font-size: 10px;">Grafana</a> <a href="/tags/HAProxy/" style="font-size: 10.87px;">HAProxy</a> <a href="/tags/HBase/" style="font-size: 12.61px;">HBase</a> <a href="/tags/Hadoop/" style="font-size: 12.61px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 17.39px;">Hive</a> <a href="/tags/Hudi/" style="font-size: 11.3px;">Hudi</a> <a href="/tags/InfluxDB/" style="font-size: 10px;">InfluxDB</a> <a href="/tags/JDBC/" style="font-size: 13.48px;">JDBC</a> <a href="/tags/JMeter/" style="font-size: 10px;">JMeter</a> <a href="/tags/JVM/" style="font-size: 11.74px;">JVM</a> <a href="/tags/Java/" style="font-size: 16.96px;">Java</a> <a href="/tags/JavaWeb/" style="font-size: 11.3px;">JavaWeb</a> <a href="/tags/LaTex/" style="font-size: 10px;">LaTex</a> <a href="/tags/Linkedin/" style="font-size: 10px;">Linkedin</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/ML/" style="font-size: 18.7px;">ML</a> <a href="/tags/ML-Infra/" style="font-size: 11.3px;">ML Infra</a> <a href="/tags/MPP/" style="font-size: 10px;">MPP</a> <a href="/tags/Maven/" style="font-size: 10.43px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 16.09px;">MySQL</a> <a href="/tags/Nexus/" style="font-size: 11.74px;">Nexus</a> <a href="/tags/OpenTSDB/" style="font-size: 10.43px;">OpenTSDB</a> <a href="/tags/Paper/" style="font-size: 10px;">Paper</a> <a href="/tags/Play/" style="font-size: 10px;">Play</a> <a href="/tags/Prometheus/" style="font-size: 10.43px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 17.83px;">Python</a> <a href="/tags/React/" style="font-size: 10.43px;">React</a> <a href="/tags/Redis/" style="font-size: 10.87px;">Redis</a> <a href="/tags/RocksDB/" style="font-size: 10px;">RocksDB</a> <a href="/tags/Scala/" style="font-size: 13.91px;">Scala</a> <a href="/tags/Solr/" style="font-size: 10.87px;">Solr</a> <a href="/tags/Spark/" style="font-size: 19.13px;">Spark</a> <a href="/tags/SpringBoot/" style="font-size: 16.52px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 14.35px;">SpringMVC</a> <a href="/tags/Thrift/" style="font-size: 12.17px;">Thrift</a> <a href="/tags/YARN/" style="font-size: 11.74px;">YARN</a> <a href="/tags/antlr/" style="font-size: 10.43px;">antlr</a> <a href="/tags/arthas/" style="font-size: 10px;">arthas</a> <a href="/tags/avro/" style="font-size: 13.91px;">avro</a> <a href="/tags/cassandra/" style="font-size: 10px;">cassandra</a> <a href="/tags/clickhouse/" style="font-size: 10.43px;">clickhouse</a> <a href="/tags/confluent/" style="font-size: 10.43px;">confluent</a> <a href="/tags/docker/" style="font-size: 10.87px;">docker</a> <a href="/tags/filebeat/" style="font-size: 11.3px;">filebeat</a> <a href="/tags/flume/" style="font-size: 10.43px;">flume</a> <a href="/tags/golang/" style="font-size: 15.22px;">golang</a> <a href="/tags/google/" style="font-size: 13.04px;">google</a> <a href="/tags/gradle/" style="font-size: 10px;">gradle</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/impala/" style="font-size: 11.3px;">impala</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/k8s/" style="font-size: 14.35px;">k8s</a> <a href="/tags/kafka/" style="font-size: 14.78px;">kafka</a> <a href="/tags/kerberos/" style="font-size: 10px;">kerberos</a> <a href="/tags/kudu/" style="font-size: 10.43px;">kudu</a> <a href="/tags/ldap/" style="font-size: 10.43px;">ldap</a> <a href="/tags/mac/" style="font-size: 11.74px;">mac</a> <a href="/tags/mongo/" style="font-size: 11.74px;">mongo</a> <a href="/tags/mybatis/" style="font-size: 10.87px;">mybatis</a> <a href="/tags/nginx/" style="font-size: 12.17px;">nginx</a> <a href="/tags/nlp/" style="font-size: 10px;">nlp</a> <a href="/tags/open-falcon/" style="font-size: 10.87px;">open-falcon</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/parquet/" style="font-size: 10.87px;">parquet</a> <a href="/tags/presto/" style="font-size: 12.17px;">presto</a> <a href="/tags/ranger/" style="font-size: 10px;">ranger</a> <a href="/tags/scyllaDB/" style="font-size: 10.87px;">scyllaDB</a> <a href="/tags/twitter/" style="font-size: 10.43px;">twitter</a> <a href="/tags/zookeeper/" style="font-size: 14.78px;">zookeeper</a> <a href="/tags/%E5%88%B7%E9%A2%98/" style="font-size: 18.26px;">刷题</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 12.17px;">前端</a> <a href="/tags/%E5%9B%BE%E5%AD%98%E5%82%A8%E5%8F%8A%E8%AE%A1%E7%AE%97/" style="font-size: 10.43px;">图存储及计算</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.91px;">多线程</a> <a href="/tags/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F/" style="font-size: 13.04px;">广告系统</a> <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" style="font-size: 16.96px;">开发工具</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 16.52px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 13.48px;">杂谈</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 19.13px;">算法</a> <a href="/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" style="font-size: 10.43px;">系统设计</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 13.04px;">计算机网络</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 11.74px;">设计模式</a>
+    </p>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>文章归档</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/08/">八月 2024</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/05/">五月 2024</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2023/08/">八月 2023</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/07/">七月 2022</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/01/">一月 2022</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/12/">十二月 2021</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/11/">十一月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/09/">九月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">七月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/05/">五月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/03/">三月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/01/">一月 2021</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/12/">十二月 2020</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/11/">十一月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/10/">十月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/09/">九月 2020</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/08/">八月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/07/">七月 2020</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/06/">六月 2020</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/05/">五月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/04/">四月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/03/">三月 2020</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">二月 2020</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/01/">一月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">十月 2019</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/09/">九月 2019</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">八月 2019</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/07/">七月 2019</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/04/">四月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/03/">三月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/01/">一月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/12/">十二月 2018</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/11/">十一月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/09/">九月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/06/">六月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/05/">五月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/04/">四月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/02/">二月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/01/">一月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/11/">十一月 2017</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/09/">九月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/07/">七月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/06/">六月 2017</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/05/">五月 2017</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/04/">四月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/03/">三月 2017</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/01/">一月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/12/">十二月 2016</a><span class="sidebar-module-list-count">15</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/11/">十一月 2016</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">十月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">九月 2016</a><span class="sidebar-module-list-count">16</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/08/">八月 2016</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/07/">七月 2016</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">六月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">五月 2016</a><span class="sidebar-module-list-count">32</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/04/">四月 2016</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/03/">三月 2016</a><span class="sidebar-module-list-count">136</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/02/">二月 2016</a><span class="sidebar-module-list-count">22</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/09/">九月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/08/">八月 2015</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/07/">七月 2015</a><span class="sidebar-module-list-count">30</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/06/">六月 2015</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/04/">四月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2013/04/">四月 2013</a><span class="sidebar-module-list-count">2</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>最近文章</h4>
+    <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Istio%E5%92%8CKong.html">k8s学习笔记——Istio和Kong</a>
+        </li>
+      
+        <li>
+          <a href="/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ingress.html">k8s学习笔记——ingress</a>
+        </li>
+      
+        <li>
+          <a href="/Presto%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Go%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5Presto.html">Presto学习笔记——Go客户端连接Presto</a>
+        </li>
+      
+        <li>
+          <a href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94wire%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5.html">go学习笔记——wire依赖注入</a>
+        </li>
+      
+        <li>
+          <a href="/screen%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html">screen使用教程</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+
+        </div>
+    </div>
+  </div>
+  <footer class="blog-footer">
+  <div class="container">
+    <div id="footer-info" class="inner">
+      &copy; 2024 tonglin0325<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+  
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" integrity="sha384-8gBf6Y4YYq7Jx97PIqmTwLPin4hxIzQw5aDmUg/DDhul9fFpbbLcLh3nTIIDJKhx" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9HZSXL1LDJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9HZSXL1LDJ');
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+<script src="/js/jquery.qrcode.min.js"></script>
+
+
+
+<script src="/js/jquery-1.6.2.min.js"></script>
+
+
+</body>
+</html>

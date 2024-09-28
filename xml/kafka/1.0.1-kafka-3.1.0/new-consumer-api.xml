@@ -1,0 +1,559 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<!--
+    In 0.9.0.0 we introduced the new Java consumer as a replacement
+    for the older Scala-based simple and high-level consumers.
+    The configs for both new and old consumers are described below.
+-->
+
+<configuration>
+
+<property>
+  <name>bootstrap.servers</name>
+  <description>
+    A list of host/port pairs to use for establishing the initial connection to the Kafka cluster.
+      The client will make use of all servers irrespective of which servers are specified here for
+      bootstrapping—this list only impacts the initial hosts used to discover the full set of servers.
+      This list should be in the form host1:port1,host2:port2,.... Since these servers are just used
+      for the initial connection to discover the full cluster membership (which may change dynamically),
+      this list need not contain the full set of servers (you may want more than one, though,
+      in case a server is down).
+  </description>
+  <cn_description>kafka集群地址</cn_description>
+  <type>list</type>
+  <default></default>
+  <valid_values></valid_values>
+  <importance>high</importance>
+  <suggest>比如localhost:2181</suggest>
+</property>
+
+<property>
+  <name>key.deserializer</name>
+  <description>
+    Deserializer class for key that implements the org.apache.kafka.common.serialization.Deserializer interface.
+  </description>
+  <cn_description>kafka消息中key的反序列化类</cn_description>
+  <type>class</type>
+  <default></default>
+  <valid_values></valid_values>
+  <importance>high</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>value.deserializer</name>
+  <description>
+    Deserializer class for value that implements the org.apache.kafka.common.serialization.Deserializer interface.
+  </description>
+  <cn_description>kafka消息中value的反序列化类</cn_description>
+  <type>class</type>
+  <default></default>
+  <valid_values></valid_values>
+  <importance>high</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>fetch.min.bytes</name>
+  <description>
+    The minimum amount of data the server should return for a fetch request.
+    If insufficient data is available the request will wait for that much data to accumulate before answering the request.
+    The default setting of 1 byte means that fetch requests are answered as soon as a single byte of data is available
+    or the fetch request times out waiting for data to arrive. Setting this to something greater than 1 will cause the
+    server to wait for larger amounts of data to accumulate which can improve server throughput a bit at the cost of
+    some additional latency.
+  </description>
+  <cn_description>指定消费者从服务器获取记录的最小字节数，默认为1字节</cn_description>
+  <type>int</type>
+  <default>1</default>
+  <valid_values>[0,...]</valid_values>
+  <importance>high</importance>
+  <suggest>如果消费者的数量比较多，把该属性的值设置得大一点可以降低broker的工作负载</suggest>
+</property>
+
+<property>
+  <name>group.id</name>
+  <description>
+    A unique string that identifies the consumer group this consumer belongs to.
+    This property is required if the consumer uses either the group management functionality by using subscribe(topic)
+    or the Kafka-based offset management strategy.
+  </description>
+  <cn_description>消费者的group id</cn_description>
+  <type>string</type>
+  <default>""</default>
+  <valid_values></valid_values>
+  <importance>high</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>heartbeat.interval.ms</name>
+  <description>
+    The expected time between heartbeats to the consumer coordinator when using Kafka's group management facilities.
+    Heartbeats are used to ensure that the consumer's session stays active and to facilitate rebalancing when
+    new consumers join or leave the group. The value must be set lower than session.timeout.ms, but typically
+    should be set no higher than 1/3 of that value. It can be adjusted even lower to control the expected time for
+    normal rebalances.
+  </description>
+  <cn_description>poll()方法向协调器发送心跳的频率，必须比session.timeout.ms小，一般是session.timeout.ms的1/3，默认为3s</cn_description>
+  <type>int</type>
+  <default>3000</default>
+  <valid_values></valid_values>
+  <importance>high</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>max.partition.fetch.bytes</name>
+  <description>
+    The maximum amount of data per-partition the server will return. Records are fetched in batches by the consumer.
+    If the first record batch in the first non-empty partition of the fetch is larger than this limit,
+    the batch will still be returned to ensure that the consumer can make progress. The maximum record batch size
+    accepted by the broker is defined via message.max.bytes (broker config) or max.message.bytes (topic config).
+    See fetch.max.bytes for limiting the consumer request size.
+  </description>
+  <cn_description>指定服务器从每个分区里返回给消费者的最大字节数，默认值是1MB</cn_description>
+  <type>int</type>
+  <default>1048576</default>
+  <valid_values>[0,...]</valid_values>
+  <importance>high</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>session.timeout.ms</name>
+  <description>
+    The timeout used to detect consumer failures when using Kafka's group management facility.
+    The consumer sends periodic heartbeats to indicate its liveness to the broker.
+    If no heartbeats are received by the broker before the expiration of this session timeout,
+    then the broker will remove this consumer from the group and initiate a rebalance.
+    Note that the value must be in the allowable range as configured in the broker configuration by
+    group.min.session.timeout.ms and group.max.session.timeout.ms.
+  </description>
+  <cn_description>指定了消费者在被认为死亡之前可以与服务器断开连接的时间，默认为10s</cn_description>
+  <type>int</type>
+  <default>10000</default>
+  <valid_values></valid_values>
+  <importance>high</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>ssl.key.password</name>
+  <description>
+    The password of the private key in the key store file. This is optional for client.
+  </description>
+  <cn_description></cn_description>
+  <type>password</type>
+  <default>null</default>
+  <valid_values></valid_values>
+  <importance>high</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>ssl.keystore.location</name>
+  <description>
+    The location of the key store file. This is optional for client and can be used for two-way authentication for client.
+  </description>
+  <cn_description></cn_description>
+  <type>string</type>
+  <default>null</default>
+  <valid_values></valid_values>
+  <importance>high</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>ssl.keystore.password</name>
+  <description>
+    The store password for the key store file. This is optional for client and only needed if ssl.keystore.location is configured.
+  </description>
+  <cn_description></cn_description>
+  <type>password</type>
+  <default>null</default>
+  <valid_values></valid_values>
+  <importance>high</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>ssl.truststore.location</name>
+  <description>
+    The location of the trust store file.
+  </description>
+  <cn_description></cn_description>
+  <type>string</type>
+  <default>null</default>
+  <valid_values></valid_values>
+  <importance>high</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>ssl.truststore.password</name>
+  <description>
+    The password for the trust store file.
+    If a password is not set access to the truststore is still available, but integrity checking is disabled.
+  </description>
+  <cn_description></cn_description>
+  <type>password</type>
+  <default>null</default>
+  <valid_values></valid_values>
+  <importance>high</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>auto.offset.reset</name>
+  <description>
+    What to do when there is no initial offset in Kafka or if the current offset does not exist any more on the server
+    (e.g. because that data has been deleted):
+
+    earliest: automatically reset the offset to the earliest offset
+    latest: automatically reset the offset to the latest offset
+    none: throw exception to the consumer if no previous offset is found for the consumer's group
+    anything else: throw exception to the consumer.
+  </description>
+  <cn_description>指定了消费者在读取一个没有偏移量的分区或者偏移量无效的情况下该作何处理</cn_description>
+  <type>string</type>
+  <default>latest</default>
+  <valid_values>[latest, earliest, none]</valid_values>
+  <importance>medium</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>connections.max.idle.ms</name>
+  <description>
+    Close idle connections after the number of milliseconds specified by this config.
+  </description>
+  <cn_description>关闭空闲连接时间，单位毫秒</cn_description>
+  <type>long</type>
+  <default>540000</default>
+  <valid_values></valid_values>
+  <importance>medium</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>enable.auto.commit</name>
+  <description>
+    If true the consumer's offset will be periodically committed in the background.
+  </description>
+  <cn_description>如果为true，consumer的偏移量将在后台定期提交。</cn_description>
+  <type>boolean</type>
+  <default>true</default>
+  <valid_values></valid_values>
+  <importance>medium</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>exclude.internal.topics</name>
+  <description>
+    Whether records from internal topics (such as offsets) should be exposed to the consumer.
+    If set to true the only way to receive records from an internal topic is subscribing to it.
+  </description>
+  <cn_description>是否公开内部topic，比如__consumer_offsets这种，默认是true</cn_description>
+  <type>boolean</type>
+  <default>true</default>
+  <valid_values></valid_values>
+  <importance>medium</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>fetch.max.bytes</name>
+  <description>
+    The maximum amount of data the server should return for a fetch request.
+    Records are fetched in batches by the consumer, and if the first record batch in the first
+    non-empty partition of the fetch is larger than this value, the record batch will still be
+    returned to ensure that the consumer can make progress. As such, this is not a absolute maximum.
+    The maximum record batch size accepted by the broker is defined via message.max.bytes (broker config)
+    or max.message.bytes (topic config).
+    Note that the consumer performs multiple fetches in parallel.
+  </description>
+  <cn_description>一个fetch request所能拉取的最大字节，默认：52428800，50M</cn_description>
+  <type>int</type>
+  <default>52428800</default>
+  <valid_values>[0,...]</valid_values>
+  <importance>medium</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>isolation.levels</name>
+  <description>
+    Controls how to read messages written transactionally. If set to read_committed, consumer.poll()
+    will only return transactional messages which have been committed. If set to read_uncommitted' (the default),
+    consumer.poll() will return all messages, even transactional messages which have been aborted.
+    Non-transactional messages will be returned unconditionally in either mode.
+
+    Messages will always be returned in offset order. Hence, in read_committed mode, consumer.poll()
+    will only return messages up to the last stable offset (LSO), which is the one less than the offset of
+    the first open transaction. In particular any messages appearing after messages belonging to ongoing
+    transactions will be withheld until the relevant transaction has been completed.
+
+    As a result, read_committed consumers will not be able to read up to the high watermark when there are in flight transactions.
+
+    Further, when in read_committed the seekToEnd method will return the LSO
+  </description>
+  <cn_description>隔离级别，默认：read_uncommitted</cn_description>
+  <type>string</type>
+  <default>read_uncommitted</default>
+  <valid_values>[read_committed, read_uncommitted]</valid_values>
+  <importance>medium</importance>
+  <suggest>控制如何以事务方式读取写入的消息。如果设置为read_committed, consumer.poll()将只返回已提交的事务消息。
+    如果设置为'read_uncommitted'(默认)，consumer.poll()将返回所有消息，甚至是已经中止的事务消息。在任何一种模式下，非事务性消息都将无条件返回。</suggest>
+</property>
+
+<property>
+  <name>max.poll.interval.ms</name>
+  <description>
+    The maximum delay between invocations of poll() when using consumer group management.
+    This places an upper bound on the amount of time that the consumer can be idle before fetching more records.
+    If poll() is not called before expiration of this timeout, then the consumer is considered failed and the group
+    will rebalance in order to reassign the partitions to another member.
+  </description>
+  <cn_description>拉取记录间隔，默认：300000，5分钟</cn_description>
+  <type>int</type>
+  <default>300000</default>
+  <valid_values>[1,...]</valid_values>
+  <importance>medium</importance>
+  <suggest>每2次poll拉取数据时间间隔最大超时时间，超过这个值，broker就会认为你这个消费者挂了，并且重新平衡</suggest>
+</property>
+
+<property>
+  <name>max.poll.records</name>
+  <description>
+    The maximum number of records returned in a single call to poll().
+  </description>
+  <cn_description>单次轮询()调用中返回的记录的最大数量</cn_description>
+  <type>int</type>
+  <default>500</default>
+  <valid_values>[1,...]</valid_values>
+  <importance>medium</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>partition.assignment.strategy</name>
+  <description>
+    The class name of the partition assignment strategy that the client will use to distribute partition
+    ownership amongst consumer instances when group management is used
+  </description>
+  <cn_description>consumer订阅分区策略</cn_description>
+  <type>list</type>
+  <default>class org.apache.kafka.clients.consumer.RangeAssignor</default>
+  <valid_values></valid_values>
+  <importance>medium</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>receive.buffer.bytes</name>
+  <description>
+    The size of the TCP receive buffer (SO_RCVBUF) to use when reading data.
+    If the value is -1, the OS default will be used.
+  </description>
+  <cn_description>读取数据时使用的TCP接收缓冲区(SO_RCVBUF)的大小。如果值是-1，将使用OS默认值。</cn_description>
+  <type>int</type>
+  <default>65536</default>
+  <valid_values>[-1,...]</valid_values>
+  <importance>medium</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>request.timeout.ms</name>
+  <description>
+    The configuration controls the maximum amount of time the client will wait for the response of a request.
+    If the response is not received before the timeout elapses the client will resend the request if necessary or fail the request if retries are exhausted.
+  </description>
+  <cn_description>请求超时时间（默认：30000 ，30S）</cn_description>
+  <type>int</type>
+  <default>305000</default>
+  <valid_values>[0,...]</valid_values>
+  <importance>medium</importance>
+  <suggest>配置控制客户机等待请求响应的最长时间。如果在超时超时之前没有收到响应，客户端将在需要时重新发送请求，或者在重试耗尽时失败请求。</suggest>
+</property>
+
+<property>
+  <name>sasl.jaas.config</name>
+  <description>
+    JAAS login context parameters for SASL connections in the format used by JAAS configuration files.
+    JAAS configuration file format is described here. The format for the value is: ' (=)*;'
+  </description>
+  <cn_description>认证相关</cn_description>
+  <type>password</type>
+  <default>null</default>
+  <valid_values></valid_values>
+  <importance>medium</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>sasl.kerberos.service.name</name>
+  <description>
+    The Kerberos principal name that Kafka runs as. This can be defined either in Kafka's JAAS config or in Kafka's config.
+  </description>
+  <cn_description>认证相关</cn_description>
+  <type>string</type>
+  <default>null</default>
+  <valid_values></valid_values>
+  <importance>medium</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>sasl.mechanism</name>
+  <description>
+    SASL mechanism used for client connections.
+    This may be any mechanism for which a security provider is available. GSSAPI is the default mechanism.
+  </description>
+  <cn_description>认证相关</cn_description>
+  <type>string</type>
+  <default>GSSAPI</default>
+  <valid_values></valid_values>
+  <importance>medium</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>security.protocol</name>
+  <description>
+    Protocol used to communicate with brokers. Valid values are: PLAINTEXT, SSL, SASL_PLAINTEXT, SASL_SSL.
+  </description>
+  <cn_description>认证相关</cn_description>
+  <type>string</type>
+  <default>PLAINTEXT</default>
+  <valid_values></valid_values>
+  <importance>medium</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>send.buffer.bytes</name>
+  <description>
+    The size of the TCP send buffer (SO_SNDBUF) to use when sending data. If the value is -1, the OS default will be used.
+  </description>
+  <cn_description>发送数据时使用的TCP发送缓冲区(SO_SNDBUF)的大小</cn_description>
+  <type>int</type>
+  <default>131072</default>
+  <valid_values>[-1,...]</valid_values>
+  <importance>medium</importance>
+  <suggest>发送数据时使用的TCP发送缓冲区(SO_SNDBUF)的大小。如果值是-1，将使用OS默认值。</suggest>
+</property>
+
+<property>
+  <name>ssl.enabled.protocols</name>
+  <description>
+    The list of protocols enabled for SSL connections.
+  </description>
+  <cn_description></cn_description>
+  <type>list</type>
+  <default>TLSv1.2,TLSv1.1,TLSv1</default>
+  <valid_values></valid_values>
+  <importance>medium</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>ssl.keystore.type</name>
+  <description>
+    The file format of the key store file. This is optional for client.
+  </description>
+  <cn_description></cn_description>
+  <type>string</type>
+  <default>JKS</default>
+  <valid_values></valid_values>
+  <importance>medium</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>ssl.protocol</name>
+  <description>
+    The SSL protocol used to generate the SSLContext. Default setting is TLS, which is fine for most cases.
+    Allowed values in recent JVMs are TLS, TLSv1.1 and TLSv1.2. SSL, SSLv2 and SSLv3 may be supported in older JVMs,
+    but their usage is discouraged due to known security vulnerabilities.
+  </description>
+  <cn_description></cn_description>
+  <type>string</type>
+  <default>TLS</default>
+  <valid_values></valid_values>
+  <importance>medium</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>ssl.provider</name>
+  <description>
+    The name of the security provider used for SSL connections. Default value is the default security provider of the JVM.
+  </description>
+  <cn_description></cn_description>
+  <type>string</type>
+  <default>null</default>
+  <valid_values></valid_values>
+  <importance>medium</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>ssl.truststore.type</name>
+  <description>
+    The file format of the trust store file.
+  </description>
+  <cn_description></cn_description>
+  <type>string</type>
+  <default>JKS</default>
+  <valid_values></valid_values>
+  <importance>medium</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>worker.sync.timeout.ms</name>
+  <description>
+    When the worker is out of sync with other workers and needs to resynchronize configurations,
+    wait up to this amount of time before giving up, leaving the group, and waiting a backoff period before rejoining.
+  </description>
+  <cn_description>当worker与其他worker不同步并需要重新同步配置时，需等待一段时间才能离开组，然后才能重新加入。</cn_description>
+  <type>int</type>
+  <default>3000</default>
+  <valid_values></valid_values>
+  <importance>medium</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>worker.unsync.backoff.ms</name>
+  <description>
+    When the worker is out of sync with other workers and fails to catch up within worker.sync.timeout.ms,
+    leave the Connect cluster for this long before rejoining.
+  </description>
+  <cn_description>当worker与其他worker不同步，并且无法在worker.sync.timeout.ms 期间追赶上，在重新连接之前，退出Connect集群的时间。</cn_description>
+  <type>int</type>
+  <default>300000</default>
+  <valid_values></valid_values>
+  <importance>medium</importance>
+  <suggest></suggest>
+</property>
+
+<property>
+  <name>access.control.allow.methods</name>
+  <description>
+    Sets the methods supported for cross origin requests by setting the Access-Control-Allow-Methods header.
+    The default value of the Access-Control-Allow-Methods header allows cross origin requests for GET, POST and HEAD.
+  </description>
+  <cn_description>当worker与其他worker不同步，并且无法在worker.sync.timeout.ms 期间追赶上，在重新连接之前，退出Connect集群的时间。</cn_description>
+  <type>string</type>
+  <default>""</default>
+  <valid_values></valid_values>
+  <importance>low</importance>
+  <suggest></suggest>
+</property>
+
+</configuration>

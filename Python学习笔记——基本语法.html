@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Python学习笔记——基本语法 | tonglin0325的个人主页</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1.程序输入和输出raw_input()内建函数 12345&gt;&gt;&gt; user &#x3D; raw_input(&amp;#x27;Enter your name:&amp;#x27;)Enter your name:root&gt;&gt;&gt; print &amp;#x27;Your name is:&amp;#x27;,userYour name is: root  print语句 123456&gt;&gt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python学习笔记——基本语法">
+<meta property="og:url" content="http://tonglin0325.github.io/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95.html">
+<meta property="og:site_name" content="tonglin0325的个人主页">
+<meta property="og:description" content="1.程序输入和输出raw_input()内建函数 12345&gt;&gt;&gt; user &#x3D; raw_input(&amp;#x27;Enter your name:&amp;#x27;)Enter your name:root&gt;&gt;&gt; print &amp;#x27;Your name is:&amp;#x27;,userYour name is: root  print语句 123456&gt;&gt;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161110163304264-1576701809.png">
+<meta property="article:published_time" content="2016-07-23T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-09-28T14:18:43.377Z">
+<meta property="article:author" content="tonglin0325">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://tonglin0325.github.io/images/517519-20161110163304264-1576701809.png">
+  
+    <link rel="alternate" href="/atom.xml" title="tonglin0325的个人主页" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="https://tonglin0325.github.io/images/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+
+  
+<link rel="stylesheet" href="/css/styles.css">
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-166238833-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5884015902351015"
+     crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-menu-navbar">
+      <ul class="nav navbar-nav">
+        
+          <li><a class=""
+                 href="/index.html">主页</a></li>
+        
+          <li><a class=""
+                 href="/archives/">所有文章</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="http://www.cnblogs.com/tonglin0325/">博客园</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="https://github.com/tonglin0325">Github</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="https://www.linkedin.com/in/tonglin0325/">LinkedIn</a></li>
+        
+        <li>
+          <span class="local-search local-search-google local-search-plugin" style="">
+  <input type="search" placeholder="站内搜索" id="local-search-input" class="local-search-input-cls" style="">
+  <div id="local-search-result" class="local-search-result-cls"></div>
+</span>
+
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    const div = document.getElementById('local-search-result');
+    const input = document.getElementById('local-search-input');
+
+    // 点击 input 显示 div
+    input.addEventListener('click', function() {
+        div.style.display = 'block';
+    });
+
+    // 点击 div 之外的地方隐藏 div
+    document.addEventListener('click', function(event) {
+        if (!div.contains(event.target) && event.target !== div && event.target !== input) {
+            div.style.display = 'none';
+        }
+    });
+});
+</script>
+        </li>
+      </ul>
+
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        
+          <li><a href="/atom.xml" title="RSS Feed"><i class="fa fa-rss"></i></a></li>
+        
+      </ul>
+      -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script>
+// 移动设备侦测
+var isMobile = {
+  Android: function () {
+    return navigator.userAgent.match(/Android/i);
+  },
+  BlackBerry: function () {
+    return navigator.userAgent.match(/BlackBerry/i);
+  },
+  iOS: function () {
+    return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+  },
+  Opera: function () {
+    return navigator.userAgent.match(/Opera Mini/i);
+  },
+  Windows: function () {
+    return navigator.userAgent.match(/IEMobile/i);
+  },
+  any: function () {
+    return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+  }
+};
+
+if ($('.local-search').resize() && !isMobile.any()) {
+	$.getScript('/js/search.js', function() {
+	  searchFunc("/search.json", 'local-search-input', 'local-search-result');
+	});
+}
+
+// document.addEventListener('DOMContentLoaded', (event) => {
+//
+//     const input = document.getElementById('.local-search-input');
+//     const div = document.getElementById('.local-search-result');
+//
+//     input.addEventListener('blur', function() {
+//         div.style.display = 'none';
+//     });
+// });
+</script>
+  <div class="container">
+    <div class="blog-header">
+  <h1 class="blog-title">tonglin0325的个人主页</h1>
+  
+</div>
+
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+          <article id="post-Python学习笔记——基本语法" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 class="article-title" itemprop="name">
+      Python学习笔记——基本语法
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95.html" class="article-date"><time datetime="2016-07-23T16:00:00.000Z" itemprop="datePublished">2016-07-24</time></a>
+</div>
+
+    <div class="article-author">tonglin0325</div>
+    
+
+  </div>
+
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- 目录 -->
+
+<div id="toc">
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-cheng-xu-shu-ru-he-shu-chu"><span class="toc-text">1.程序输入和输出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-cao-zuo-fu"><span class="toc-text">2.操作符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-bian-liang-he-fu-zhi"><span class="toc-text">3.变量和赋值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-shu-zi"><span class="toc-text">4.数字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-zi-fu-chuan"><span class="toc-text">5.字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-tiao-jian-yu-ju"><span class="toc-text">6.条件语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-xun-huan-yu-ju"><span class="toc-text">7.循环语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-die-dai-qi-randseq-he-anyiter"><span class="toc-text">8.迭代器（RandSeq和AnyIter）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-randseq"><span class="toc-text">1.RandSeq</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-wen-jian-he-nei-jian-han-shu-open-file"><span class="toc-text">9.文件和内建函数open()、file()</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#wen-jian-xie-ru"><span class="toc-text">文件写入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#wen-jian-du-qu-he-xian-shi"><span class="toc-text">文件读取和显示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-han-shu"><span class="toc-text">10.函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#biao-zhun-lei-xing-nei-jian-han-shu"><span class="toc-text">标准类型内建函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#xu-lie-lei-xing-han-shu"><span class="toc-text">序列类型函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zi-fu-chuan-lei-xing-han-shu"><span class="toc-text">字符串类型函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-lei"><span class="toc-text">11.类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-mo-kuai"><span class="toc-text">12.模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-ji-ben-gui-ze-he-te-shu-zi-fu"><span class="toc-text">13.基本规则和特殊字符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#14-python-dui-xiang"><span class="toc-text">14.Python对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#lie-biao"><span class="toc-text">列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#yuan-zu"><span class="toc-text">元组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ji-he"><span class="toc-text">集合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zi-dian"><span class="toc-text">字典</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#15-cao-zuo-fu"><span class="toc-text">15.操作符</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#bi-jiao-lei-xing-cao-zuo-fu"><span class="toc-text">比较类型操作符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ge-shi-hua-cao-zuo-fu"><span class="toc-text">格式化操作符（%）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#16-qi-ta"><span class="toc-text">16.其他</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-non-ascii-character-cuo-wu"><span class="toc-text">1.Non-ASCII character错误</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-python-zhong-duan-zi-dong-bu-quan"><span class="toc-text">2.Python终端自动补全</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-jie-xi-json"><span class="toc-text">3.解析json</span></a></li></ol></li></ol>
+</div>
+
+        <h2 id="1-cheng-xu-shu-ru-he-shu-chu"><a href="#1-程序输入和输出" class="headerlink" title="1.程序输入和输出"></a><strong>1.<strong>程序输入和输出</strong></strong><a href="#1-cheng-xu-shu-ru-he-shu-chu" class="header-anchor">#</a></h2><p><strong><strong>raw_input()内建函数</strong></strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; user = raw_input(&#x27;Enter your name:&#x27;)</span><br><span class="line">Enter your name:root</span><br><span class="line">&gt;&gt;&gt; print &#x27;Your name is:&#x27;,user</span><br><span class="line">Your name is: root</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>print语句</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; myString = &#x27;Hello World!&#x27;</span><br><span class="line">&gt;&gt;&gt; print myString</span><br><span class="line">Hello World!</span><br><span class="line">&gt;&gt;&gt; myString</span><br><span class="line">&#x27;Hello World!&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; print type(u&quot;你&quot;)    #都能输出汉字，但是输出的类型不一样</span><br><span class="line">&lt;type &#x27;unicode&#x27;&gt;</span><br><span class="line">&gt;&gt;&gt; print type(&quot;你&quot;)</span><br><span class="line">&lt;type &#x27;str&#x27;&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+<p>&nbsp;注意：在仅用变量名的时候，输出的字符串是用单引号括起来的</p>
+<h2 id="2-cao-zuo-fu"><a href="#2-操作符" class="headerlink" title="2.操作符"></a><strong>2.操作符</strong><a href="#2-cao-zuo-fu" class="header-anchor">#</a></h2><p><strong>&lt;1&gt;两种除法&mdash;&mdash;单斜杠/用于传统的除法，双斜杠//用作浮点除法（对结果进行四舍五入）</strong></p>
+<p><strong>&lt;2&gt;乘方操作符&mdash;&mdash;双星号</strong>**</p>
+<p><strong>&lt;3&gt;标准比较操作符&mdash;&mdash;&lt; &lt;= &gt; &gt;= == != &lt;&gt;</strong></p>
+<p><strong>&lt;4&gt;逻辑操作符&mdash;&mdash;and or not</strong></p>
+<h2 id="3-bian-liang-he-fu-zhi"><a href="#3-变量和赋值" class="headerlink" title="3.变量和赋值"></a><strong>3.变量和赋值</strong><a href="#3-bian-liang-he-fu-zhi" class="header-anchor">#</a></h2><p><strong>Python是动态类型语言，不需要预先声明变量的类型</strong></p>
+<p><strong>Python不支持C语言中的自增1和自减1操作符</strong></p>
+<h2 id="4-shu-zi"><a href="#4-数字" class="headerlink" title="4.数字"></a><strong>4.数字</strong><a href="#4-shu-zi" class="header-anchor">#</a></h2><p><strong>&lt;1&gt;有符号整型 长整型 布尔值</strong></p>
+<p><strong>&lt;2&gt;浮点值</strong></p>
+<p><strong>&lt;3&gt;复数</strong></p>
+<h2 id="5-zi-fu-chuan"><a href="#5-字符串" class="headerlink" title="5.字符串"></a><strong>5.字符串</strong><a href="#5-zi-fu-chuan" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; myString = &quot;Hello&quot;</span><br><span class="line">&gt;&gt;&gt; myString[0]</span><br><span class="line">&#x27;H&#x27;</span><br><span class="line">&gt;&gt;&gt; myString[2:4]</span><br><span class="line">&#x27;ll&#x27;</span><br><span class="line">&gt;&gt;&gt; myString[1:]</span><br><span class="line">&#x27;ello&#x27;</span><br><span class="line">&gt;&gt;&gt; myString[:4]</span><br><span class="line">&#x27;Hell&#x27;</span><br><span class="line">&gt;&gt;&gt; myString[-1]</span><br><span class="line">&#x27;o&#x27;</span><br><span class="line">&gt;&gt;&gt; myString * 2</span><br><span class="line">&#x27;HelloHello&#x27;</span><br><span class="line">&gt;&gt;&gt; myString + myString</span><br><span class="line">&#x27;HelloHello&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; myString = &#x27;&#x27;&#x27;python</span><br><span class="line">... is cool&#x27;&#x27;&#x27;</span><br><span class="line">&gt;&gt;&gt; myString</span><br><span class="line">&#x27;python\nis cool&#x27;</span><br><span class="line">&gt;&gt;&gt; print myString</span><br><span class="line">python</span><br><span class="line">is cool</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="6-tiao-jian-yu-ju"><a href="#6-条件语句" class="headerlink" title="6.条件语句"></a><strong>6.条件语句</strong><a href="#6-tiao-jian-yu-ju" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; if x&gt;1:</span><br><span class="line">...     x -= 1</span><br><span class="line">...     print &#x27;#%d&#x27; % (x)</span><br><span class="line">... </span><br><span class="line">#2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>条件表达式</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; x = 3</span><br><span class="line">&gt;&gt;&gt; x = 1 if x&lt;3 else 2</span><br><span class="line">&gt;&gt;&gt; x</span><br><span class="line">2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p><strong>else语句</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#coding:utf-8</span><br><span class="line">#!/usr/bin/env python</span><br><span class="line">&#x27;maxFact.py -- 寻找一个数的最大约数&#x27;</span><br><span class="line"></span><br><span class="line">def showMaxFactor(num):</span><br><span class="line">	count = num/2</span><br><span class="line">	while count &gt; 1:</span><br><span class="line">		if num % count == 0:</span><br><span class="line">			print &#x27;%d 的最大约数是 %d&#x27; % (num,count)</span><br><span class="line">			break</span><br><span class="line">		count -= 1</span><br><span class="line">	else:</span><br><span class="line">		print num,&#x27;没有最大公约数&#x27;</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">for eachNum in range(10,21):</span><br><span class="line">	showMaxFactor(eachNum)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="7-xun-huan-yu-ju"><a href="#7-循环语句" class="headerlink" title="7.循环语句"></a><strong>7.循环语句</strong><a href="#7-xun-huan-yu-ju" class="header-anchor">#</a></h2><p><strong>while循环</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; x = 0</span><br><span class="line">&gt;&gt;&gt; while x&lt;3:</span><br><span class="line">...     print x</span><br><span class="line">...     x += 1</span><br><span class="line">... </span><br><span class="line">0</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">&gt;&gt;&gt; </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;<strong>for循环和range()内建函数</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; for x in [&#x27;A&#x27;,&#x27;B&#x27;,&#x27;C&#x27;,&#x27;D&#x27;]:</span><br><span class="line">...     print x</span><br><span class="line">... </span><br><span class="line">A</span><br><span class="line">B</span><br><span class="line">C</span><br><span class="line">D</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; for x in [&#x27;A&#x27;,&#x27;B&#x27;,&#x27;C&#x27;,&#x27;D&#x27;]:</span><br><span class="line">...     print x,</span><br><span class="line">... </span><br><span class="line">A B C D</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>使用range()内建函数</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; for x in range(3):　　#循环从0到2</span><br><span class="line">...     print x,</span><br><span class="line">... </span><br><span class="line">0 1 2</span><br><span class="line">&gt;&gt;&gt; </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; myString = &#x27;ABCD&#x27;　　#循环字符串中的每一个字母</span><br><span class="line">&gt;&gt;&gt; for x in myString:</span><br><span class="line">...     print x,</span><br><span class="line">... </span><br><span class="line">A B C D</span><br><span class="line">&gt;&gt;&gt; </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>使用len()内建函数</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; myString</span><br><span class="line">&#x27;ABCD&#x27;</span><br><span class="line">&gt;&gt;&gt; for i in range(len(myString)):</span><br><span class="line">...     print myString[i],i</span><br><span class="line">... </span><br><span class="line">A 0</span><br><span class="line">B 1</span><br><span class="line">C 2</span><br><span class="line">D 3</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>for语句用于序列类型</strong></p>
+<p>&lt;1&gt;通过序列项迭代</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; List = [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;]</span><br><span class="line">&gt;&gt;&gt; for eachList in List:</span><br><span class="line">...     print eachList</span><br><span class="line">... </span><br><span class="line">a</span><br><span class="line">b</span><br><span class="line">c</span><br><span class="line">d</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&lt;2&gt;通过序列索引迭代</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; for eachList in range(len(List)):</span><br><span class="line">...     print List[eachList]</span><br><span class="line">... </span><br><span class="line">a</span><br><span class="line">b</span><br><span class="line">c</span><br><span class="line">d</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&lt;3&gt;使用项和索引迭代</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; for i,eachList in enumerate(List):</span><br><span class="line">...     print &quot;%d %s&quot; % (i,eachList)</span><br><span class="line">... </span><br><span class="line">0 a</span><br><span class="line">1 b</span><br><span class="line">2 c</span><br><span class="line">3 d</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p>&nbsp;<strong>列表解析</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; square = [x ** 2 for x in range(4)]</span><br><span class="line">&gt;&gt;&gt; for i in square:</span><br><span class="line">...     print i</span><br><span class="line">... </span><br><span class="line">0</span><br><span class="line">1</span><br><span class="line">4</span><br><span class="line">9</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; square = [x ** 2 for x in range(4) if not x % 2]    #如果整除2</span><br><span class="line">&gt;&gt;&gt; for i in square:</span><br><span class="line">...     print i</span><br><span class="line">... </span><br><span class="line">0</span><br><span class="line">4</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="8-die-dai-qi-randseq-he-anyiter"><a href="#8-迭代器（RandSeq和AnyIter）" class="headerlink" title="8.迭代器（RandSeq和AnyIter）"></a><strong>8.迭代器（RandSeq和AnyIter）</strong><a href="#8-die-dai-qi-randseq-he-anyiter" class="header-anchor">#</a></h2><h3 id="1-randseq"><a href="#1-RandSeq" class="headerlink" title="1.RandSeq"></a><strong>1.RandSeq</strong><a href="#1-randseq" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">#coding:utf-8</span><br><span class="line">#!/usr/bin/env python</span><br><span class="line">&#x27;randSeq.py -- 迭代&#x27;</span><br><span class="line"></span><br><span class="line">#从random模块里仅仅导入choice方法</span><br><span class="line">from random import choice	</span><br><span class="line"></span><br><span class="line">class RandSeq(object):</span><br><span class="line">	def __init__(self,seq):</span><br><span class="line">		self.data = seq;</span><br><span class="line">		</span><br><span class="line">	def __iter__(self):</span><br><span class="line">		return self;</span><br><span class="line">	</span><br><span class="line">	def next(self):</span><br><span class="line">		return choice(self.data)</span><br><span class="line">		</span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">	for eachItem in RandSeq((&#x27;rock&#x27;,&#x27;paper&#x27;,&#x27;scisc&#x27;)):</span><br><span class="line">		print eachItem</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="9-wen-jian-he-nei-jian-han-shu-open-file"><a href="#9-文件和内建函数open-、file" class="headerlink" title="9.文件和内建函数open()、file()"></a><strong>9.文件和内建函数open()、file()</strong><a href="#9-wen-jian-he-nei-jian-han-shu-open-file" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; filename = raw_input(&#x27;Enter file name:&#x27;)</span><br><span class="line">Enter file name:/home/common/software/hexo/source/_posts/book_2016.md</span><br><span class="line">&gt;&gt;&gt; fobj = open(filename,&#x27;r&#x27;)</span><br><span class="line">&gt;&gt;&gt; for eachLine in fobj:</span><br><span class="line">...     print eachLine,</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; fobj.close()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="wen-jian-xie-ru"><a href="#文件写入" class="headerlink" title="文件写入"></a><strong>文件写入</strong><a href="#wen-jian-xie-ru" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">#coding:utf-8</span><br><span class="line">#!/usr/bin/env python</span><br><span class="line">&#x27;makeTextPyhton.py -- create text file&#x27;</span><br><span class="line"></span><br><span class="line">import os</span><br><span class="line">ls = os.linesep</span><br><span class="line"></span><br><span class="line">#输入文件名</span><br><span class="line">fname = raw_input(&#x27;Enter file name:&#x27;)</span><br><span class="line"></span><br><span class="line"># 判断输入的文件名是否存在</span><br><span class="line">while True:</span><br><span class="line"></span><br><span class="line">	if os.path.exists(fname):</span><br><span class="line">		print &quot;错误：&#x27;%s&#x27; 已经存在&quot; % fname</span><br><span class="line">	else:</span><br><span class="line">		break</span><br><span class="line"></span><br><span class="line">#按行输入文件的内容，以.为结束每一行，以单个.结束整个输入</span><br><span class="line">all = []</span><br><span class="line">print &quot;\n请以.结束每一行内容\n&quot;</span><br><span class="line"></span><br><span class="line">#循环</span><br><span class="line">while True:</span><br><span class="line">	entry = raw_input(&quot;输入每一行： &quot;)</span><br><span class="line">	if entry == &quot;.&quot;:</span><br><span class="line">		break</span><br><span class="line">	else:</span><br><span class="line">		all.append(entry)</span><br><span class="line"></span><br><span class="line">#把所有的内容写入到文件中</span><br><span class="line">fobj = open(fname,&#x27;w&#x27;)</span><br><span class="line">fobj.writelines([&quot;%s%s&quot; % (x,ls) for x in all])</span><br><span class="line">fobj.close()</span><br><span class="line">print &quot;完成！&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="wen-jian-du-qu-he-xian-shi"><a href="#文件读取和显示" class="headerlink" title="文件读取和显示"></a><strong>文件读取和显示</strong><a href="#wen-jian-du-qu-he-xian-shi" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#coding:utf-8</span><br><span class="line">#!/usr/bin/env python</span><br><span class="line">&#x27;readTextPyhton.py -- read and display text file&#x27;</span><br><span class="line"></span><br><span class="line">#输入文件名</span><br><span class="line">fname = raw_input(&#x27;Enter file name:&#x27;)</span><br><span class="line">print</span><br><span class="line"></span><br><span class="line">#尝试打开和显示文件</span><br><span class="line">try:</span><br><span class="line">	fobj = open(fname,&#x27;r&#x27;)</span><br><span class="line">except IOError,e:</span><br><span class="line">	print &quot;*** file open error:&quot;,e</span><br><span class="line">else:</span><br><span class="line">	#显示内容</span><br><span class="line">	for eachLine in fobj:</span><br><span class="line">		print eachLine,</span><br><span class="line">	fobj.close()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="10-han-shu"><a href="#10-函数" class="headerlink" title="10.函数"></a><strong>10.函数</strong><a href="#10-han-shu" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; def addMe2Me(x):</span><br><span class="line">...     return (x+x)</span><br><span class="line">... </span><br><span class="line">&gt;&gt;&gt; addMe2Me(2.5)</span><br><span class="line">5.0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="biao-zhun-lei-xing-nei-jian-han-shu"><a href="#标准类型内建函数" class="headerlink" title="标准类型内建函数"></a><strong>标准类型内建函数</strong><a href="#biao-zhun-lei-xing-nei-jian-han-shu" class="header-anchor">#</a></h3><p>**　　&lt;1&gt;type() &mdash;&mdash;&nbsp;<strong>返回对象的类型</strong><br>**</p>
+<p>**　　&lt;2&gt;cmp() &mdash;&mdash;&nbsp;<strong>比较两个对象，返回两个对象的ASCII码的差</strong><br>**</p>
+<p>**　　&lt;3&gt;str()、repr() &mdash;&mdash;&nbsp;<strong>以字符串的方式获取对象的内容，str()适合于输出，repr()适合于使用eval()重新得到该对象，此外``不推荐使用</strong><br>**</p>
+<p>**　　&lt;4&gt;type()、isinstance() &mdash;&mdash;&nbsp;<strong>确认一个对象的类型</strong><br>**</p>
+<h3 id="xu-lie-lei-xing-han-shu"><a href="#序列类型函数" class="headerlink" title="序列类型函数"></a><strong>序列类型函数</strong><a href="#xu-lie-lei-xing-han-shu" class="header-anchor">#</a></h3><p>**&nbsp;　&lt;1&gt;len() &mdash;&mdash;&nbsp;**返回字符串的字符数　</p>
+<p>**　 &lt;2&gt;max()和min() &mdash;&mdash;&nbsp;**返回字符串中最大或者最小的字符（按照ASCII码值排列）</p>
+<p>**　 &lt;3&gt;enumerate() &mdash;&mdash;&nbsp;**用于for循环</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; s = &#x27;ABCDEF&#x27;</span><br><span class="line">&gt;&gt;&gt; for i,t in enumerate(s):</span><br><span class="line">...     print i,t</span><br><span class="line">... </span><br><span class="line">0 A</span><br><span class="line">1 B</span><br><span class="line">2 C</span><br><span class="line">3 D</span><br><span class="line">4 E</span><br><span class="line">5 F</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>**&nbsp;　&lt;4&gt;zip() &mdash;&mdash;&nbsp;**返回一个列表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; s,t = &#x27;ABC&#x27;,&#x27;DEF&#x27;</span><br><span class="line">&gt;&gt;&gt; zip(s,t)</span><br><span class="line">[(&#x27;A&#x27;, &#x27;D&#x27;), (&#x27;B&#x27;, &#x27;E&#x27;), (&#x27;C&#x27;, &#x27;F&#x27;)]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="zi-fu-chuan-lei-xing-han-shu"><a href="#字符串类型函数" class="headerlink" title="字符串类型函数"></a><strong>字符串类型函数</strong><a href="#zi-fu-chuan-lei-xing-han-shu" class="header-anchor">#</a></h3><p>**　　&lt;1&gt;raw_input() &mdash;&mdash;**&nbsp;用于输入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; userinput = raw_input(&quot;Enter user name:&quot;)</span><br><span class="line">Enter user name:XiaoMing</span><br><span class="line">&gt;&gt;&gt; userinput</span><br><span class="line">&#x27;XiaoMing&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>&nbsp;　　&lt;2&gt;chr() &mdash;&mdash;</strong>&nbsp;输入是0-255的整数，输出的是一个对应的字符</p>
+<p>　　　　　<strong>unichr() &mdash;&mdash;</strong>&nbsp;输入是整数，返回的是一个对应的Unicode字符</p>
+<p>**　　　　&nbsp; ord() &mdash;&mdash;**&nbsp;输入是一个字符，返回是对应的ASCII码或者Unicode数值</p>
+<p>　　&nbsp;<strong>&lt;3&gt;其他</strong>&nbsp;&mdash;&mdash; 《Pyhton核心编程》P122</p>
+<h2 id="11-lei"><a href="#11-类" class="headerlink" title="11.类"></a><strong>11.类</strong><a href="#11-lei" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; class myClass(object):</span><br><span class="line">...     def _init_(self,nm=&#x27;123&#x27;):</span><br><span class="line">...             self.name = nm</span><br><span class="line">...             print &#x27;Constructor&#x27;</span><br><span class="line">...     def showname(self):</span><br><span class="line">...             print &#x27;My name is&#x27;,self.name</span><br><span class="line">... </span><br><span class="line">&gt;&gt;&gt; newClass = myClass()</span><br><span class="line">&gt;&gt;&gt; newClass._init_()</span><br><span class="line">Constructor</span><br><span class="line">&gt;&gt;&gt; newClass.showname()</span><br><span class="line">My name is 123</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="12-mo-kuai"><a href="#12-模块" class="headerlink" title="12.模块"></a><strong>12.模块</strong><a href="#12-mo-kuai" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import sys</span><br><span class="line">&gt;&gt;&gt; sys.stdout.write(&#x27;Hello Word!\n&#x27;)</span><br><span class="line">Hello Word!</span><br><span class="line">&gt;&gt;&gt; sys.platform</span><br><span class="line">&#x27;linux2&#x27;</span><br><span class="line">&gt;&gt;&gt; sys.version</span><br><span class="line">&#x27;2.7.6 (default, Jun 22 2015, 18:00:18) \n[GCC 4.8.2]&#x27;&amp;nbsp;</span><br></pre></td></tr></table></figure>
+
+<h2 id="13-ji-ben-gui-ze-he-te-shu-zi-fu"><a href="#13-基本规则和特殊字符" class="headerlink" title="13.基本规则和特殊字符"></a><strong>13.基本规则和特殊字符</strong><a href="#13-ji-ben-gui-ze-he-te-shu-zi-fu" class="header-anchor">#</a></h2><p>&lt;1&gt;# &mdash;&mdash; 注释</p>
+<p>&lt;2&gt;\n &mdash;&mdash; 行分隔符</p>
+<p>&lt;3&gt;\ &mdash;&mdash; <strong>继续上一行</strong></p>
+<p>&lt;4&gt;; &mdash;&mdash; 将两个语句连接到一行中</p>
+<p>&lt;5&gt;: &mdash;&mdash; 将代码块的头和体分开</p>
+<h2 id="14-python-dui-xiang"><a href="#14-Python对象" class="headerlink" title="14.Python对象"></a><strong>14.Python对象</strong><a href="#14-python-dui-xiang" class="header-anchor">#</a></h2><table>
+<thead>
+<tr>
+<th><strong>标准类型</strong></th>
+<th><strong>其他内建类型</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>数字&mdash;&mdash;Integer整型；Boolean布尔型；Long integer 长整型；Floating point number 浮点型；Complex number复数型</strong></td>
+<td><strong>类型&mdash;&mdash;type(1)&mdash;&mdash;&gt;&lt;type,’int’&gt; 得到特定对象的类型信息</strong></td>
+</tr>
+<tr>
+<td><strong>字符串&mdash;&mdash;String</strong></td>
+<td><strong>Null对象（None）&mdash;&mdash;不支持任何运算，也没有任何内建方法</strong></td>
+</tr>
+<tr>
+<td><strong>列表&mdash;&mdash;List []</strong></td>
+<td><strong>文件</strong></td>
+</tr>
+<tr>
+<td><strong>元组&mdash;&mdash;Tuple ()</strong></td>
+<td><strong>集合/固定集合</strong></td>
+</tr>
+<tr>
+<td><strong>字典&mdash;&mdash;Dictionary</strong></td>
+<td><strong>函数/方法</strong></td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td><strong>模块</strong></td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td><strong>类</strong></td>
+</tr>
+</tbody></table>
+<h3 id="lie-biao"><a href="#列表" class="headerlink" title="列表"></a><strong>列表</strong><a href="#lie-biao" class="header-anchor">#</a></h3><p><strong>1.创建列表类型数据并给其赋值</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; aList = [123,&#x27;abc&#x27;,4.56,[&#x27;inner&#x27;,&#x27;list&#x27;],7-9j]</span><br><span class="line">&gt;&gt;&gt; aList</span><br><span class="line">[123, &#x27;abc&#x27;, 4.56, [&#x27;inner&#x27;, &#x27;list&#x27;], (7-9j)]</span><br><span class="line">&gt;&gt;&gt; list(&#x27;ABC&#x27;)</span><br><span class="line">[&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>2.访问列表中的值</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; aList[0]</span><br><span class="line">123</span><br><span class="line">&gt;&gt;&gt; aList[1:4]</span><br><span class="line">[&#x27;abc&#x27;, 4.56, [&#x27;inner&#x27;, &#x27;list&#x27;]]</span><br><span class="line">&gt;&gt;&gt; aList[:3]</span><br><span class="line">[123, &#x27;abc&#x27;, 4.56]</span><br><span class="line">&gt;&gt;&gt; aList[3][1]</span><br><span class="line">&#x27;list&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>&nbsp;3.如何更新列表</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; aList[2]=&#x27;ABC&#x27;</span><br><span class="line">&gt;&gt;&gt; aList</span><br><span class="line">[123, &#x27;abc&#x27;, &#x27;ABC&#x27;, [&#x27;inner&#x27;, &#x27;list&#x27;], (7-9j)]</span><br><span class="line">&gt;&gt;&gt; aList.append(&quot;Hello Word&quot;)</span><br><span class="line">&gt;&gt;&gt; aList</span><br><span class="line">[123, &#x27;abc&#x27;, &#x27;ABC&#x27;, [&#x27;inner&#x27;, &#x27;list&#x27;], (7-9j), &#x27;Hello Word&#x27;]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>4.删除列表中的元素或者列表本身</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; del aList[1]</span><br><span class="line">&gt;&gt;&gt; aList</span><br><span class="line">[123, &#x27;ABC&#x27;, [&#x27;inner&#x27;, &#x27;list&#x27;], (7-9j), &#x27;Hello Word&#x27;]</span><br><span class="line">&gt;&gt;&gt; aList.remove(123)</span><br><span class="line">&gt;&gt;&gt; aList</span><br><span class="line">[&#x27;ABC&#x27;, [&#x27;inner&#x27;, &#x27;list&#x27;], (7-9j), &#x27;Hello Word&#x27;]&lt;br /&gt;&gt;&gt;&gt; del aList</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>5.标准类型操作符</strong></p>
+<p>列表比较操作的时候，是两个列表的元素分别比较，直到有一方的元素胜出</p>
+<p><strong>6.序列类型操作符</strong></p>
+<p>**　　&lt;1&gt;切片（[]和[:]）**</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; aList</span><br><span class="line">[123, &#x27;abc&#x27;, &#x27;ABC&#x27;, [&#x27;inner&#x27;, &#x27;list&#x27;], (7-9j), &#x27;Hello Word&#x27;]</span><br><span class="line">&gt;&gt;&gt; aList[-2:-1]</span><br><span class="line">[(7-9j)]</span><br><span class="line">&gt;&gt;&gt; aList[2:-1]</span><br><span class="line">[&#x27;ABC&#x27;, [&#x27;inner&#x27;, &#x27;list&#x27;], (7-9j)]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>　　<strong>&lt;2&gt;成员关系操作（in,not in）</strong></p>
+<p>　　　　输出的是True或者False</p>
+<p>**　　&lt;3&gt;连接操作符（+）**</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; aList=[1,2,3,4]</span><br><span class="line">&gt;&gt;&gt; bList=[&#x27;A&#x27;,&#x27;B&#x27;,&#x27;C&#x27;,&#x27;D&#x27;]</span><br><span class="line">&gt;&gt;&gt; cList = aList+bList</span><br><span class="line">&gt;&gt;&gt; cList</span><br><span class="line">[1, 2, 3, 4, &#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;, &#x27;D&#x27;]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>&nbsp;　　&lt;4&gt;重复操作符（*）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; aList * 2</span><br><span class="line">[1, 2, 3, 4, 1, 2, 3, 4]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>7.标准类型函数cmp()</strong></p>
+<p>　　比较的规则P140</p>
+<p><strong>8.序列类型函数</strong></p>
+<p>**　　&lt;1&gt;len()&mdash;&mdash;**对列表和元组返回的是列表或者元组的元素个数</p>
+<p>**&nbsp;　&nbsp; &lt;2&gt;max()和min()&mdash;&mdash;**比较大小</p>
+<p>**　　&lt;3&gt;sorted()和reversed()&mdash;&mdash;**　</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; bList</span><br><span class="line">[&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;, &#x27;D&#x27;]</span><br><span class="line">&gt;&gt;&gt; for t in reversed(bList):</span><br><span class="line">...     print t</span><br><span class="line">... </span><br><span class="line">D</span><br><span class="line">C</span><br><span class="line">B</span><br><span class="line">A</span><br><span class="line">&gt;&gt;&gt; bList=[&#x27;D&#x27;,&#x27;C&#x27;,&#x27;B&#x27;,&#x27;A&#x27;]</span><br><span class="line">&gt;&gt;&gt; sorted(bList)</span><br><span class="line">[&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;, &#x27;D&#x27;]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>&nbsp;　　&lt;4&gt;enumerate()和zip()&mdash;&mdash;</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;, &#x27;D&#x27;]</span><br><span class="line">&gt;&gt;&gt; for i,t in enumerate(bList):</span><br><span class="line">...     print i,t</span><br><span class="line">... </span><br><span class="line">0 A</span><br><span class="line">1 B</span><br><span class="line">2 C</span><br><span class="line">3 D</span><br><span class="line">&gt;&gt;&gt; aList</span><br><span class="line">[1, 2, 3, 4]</span><br><span class="line">&gt;&gt;&gt; bList</span><br><span class="line">[&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;, &#x27;D&#x27;]</span><br><span class="line">&gt;&gt;&gt; for i,j in zip(aList,bList):</span><br><span class="line">...     print (&#x27;%s %s&#x27; % (i,j)).title()</span><br><span class="line">... </span><br><span class="line">1 A</span><br><span class="line">2 B</span><br><span class="line">3 C</span><br><span class="line">4 D</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>&nbsp;　　&lt;5&gt;sum()</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; aList</span><br><span class="line">[1, 2, 3, 4]</span><br><span class="line">&gt;&gt;&gt; sum(aList)</span><br><span class="line">10</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>**&nbsp;　　&lt;6&gt;list()和tuple()&mdash;&mdash;**用于列表和元组之间的转换</p>
+<p><strong>9.列表类型的内建函数&mdash;&mdash;P142</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; dir(aList)</span><br><span class="line">[&#x27;__add__&#x27;, &#x27;__class__&#x27;, &#x27;__contains__&#x27;, &#x27;__delattr__&#x27;, &#x27;__delitem__&#x27;, &#x27;__delslice__&#x27;, &#x27;__doc__&#x27;, &#x27;__eq__&#x27;, &#x27;__format__&#x27;, &#x27;__ge__&#x27;, &#x27;__getattribute__&#x27;, &#x27;__getitem__&#x27;, &#x27;__getslice__&#x27;, &#x27;__gt__&#x27;, &#x27;__hash__&#x27;, &#x27;__iadd__&#x27;, &#x27;__imul__&#x27;, &#x27;__init__&#x27;, &#x27;__iter__&#x27;, &#x27;__le__&#x27;, &#x27;__len__&#x27;, &#x27;__lt__&#x27;, &#x27;__mul__&#x27;, &#x27;__ne__&#x27;, &#x27;__new__&#x27;, &#x27;__reduce__&#x27;, &#x27;__reduce_ex__&#x27;, &#x27;__repr__&#x27;, &#x27;__reversed__&#x27;, &#x27;__rmul__&#x27;, &#x27;__setattr__&#x27;, &#x27;__setitem__&#x27;, &#x27;__setslice__&#x27;, &#x27;__sizeof__&#x27;, &#x27;__str__&#x27;, &#x27;__subclasshook__&#x27;, &#x27;append&#x27;, &#x27;count&#x27;, &#x27;extend&#x27;, &#x27;index&#x27;, &#x27;insert&#x27;, &#x27;pop&#x27;, &#x27;remove&#x27;, &#x27;reverse&#x27;, &#x27;sort&#x27;]</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; aList</span><br><span class="line">[1, 2, 3, 4]</span><br><span class="line">&gt;&gt;&gt; aList.append(&#x27;A&#x27;)</span><br><span class="line">&gt;&gt;&gt; aList</span><br><span class="line">[1, 2, 3, 4, &#x27;A&#x27;]</span><br><span class="line">&gt;&gt;&gt; aList.count(&#x27;A&#x27;)</span><br><span class="line">1</span><br><span class="line">&gt;&gt;&gt; aList.insert(1,1.5)</span><br><span class="line">&gt;&gt;&gt; aList</span><br><span class="line">[1, 1.5, 2, 3, 4, &#x27;A&#x27;]</span><br><span class="line">&gt;&gt;&gt; &#x27;A&#x27; in aList</span><br><span class="line">True</span><br><span class="line">&gt;&gt;&gt; aList.index(1.5)</span><br><span class="line">1</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; aList.sort()</span><br><span class="line">&gt;&gt;&gt; aList</span><br><span class="line">[1, 1.5, 2, 3, 4, &#x27;A&#x27;]</span><br><span class="line">&gt;&gt;&gt; aList.reverse()　　#没有返回值的函数会直接改变对象的值</span><br><span class="line">&gt;&gt;&gt; aList</span><br><span class="line">[&#x27;A&#x27;, 4, 3, 2, 1.5, 1]</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; bList.extend(aList)</span><br><span class="line">&gt;&gt;&gt; bList</span><br><span class="line">[&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;, &#x27;D&#x27;, &#x27;A&#x27;, 4, 3, 2, 1.5, 1]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p><strong>10.append和extend</strong></p>
+<p><strong><img src="/images/517519-20161110163304264-1576701809.png" alt></strong></p>
+<p>&nbsp;</p>
+<h3 id="yuan-zu"><a href="#元组" class="headerlink" title="元组"></a>元组<a href="#yuan-zu" class="header-anchor">#</a></h3><p><strong>1.创建一个元组并给它赋值</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; aTuple = (123,&#x27;abc&#x27;,4.56,[&#x27;inner&#x27;,&#x27;tuple&#x27;],7-9j)</span><br><span class="line">&gt;&gt;&gt; aTuple</span><br><span class="line">(123, &#x27;abc&#x27;, 4.56, [&#x27;inner&#x27;, &#x27;tuple&#x27;], (7-9j))</span><br><span class="line">&gt;&gt;&gt; tuple(&#x27;ABC&#x27;)</span><br><span class="line">(&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>&nbsp;2.访问元组中的值</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; aTuple[0]</span><br><span class="line">123</span><br><span class="line">&gt;&gt;&gt; aTuple[1:4]</span><br><span class="line">(&#x27;abc&#x27;, 4.56, [&#x27;inner&#x27;, &#x27;tuple&#x27;])</span><br><span class="line">&gt;&gt;&gt; aTuple[:3]</span><br><span class="line">(123, &#x27;abc&#x27;, 4.56)</span><br><span class="line">&gt;&gt;&gt; aTuple[3][1]</span><br><span class="line">&#x27;tuple&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>&nbsp;3.更新元组</strong></p>
+<p>　　元组和字符串一样，是不可变类型，不能更新或者改变元组的元素</p>
+<p><strong>4.移除一个元组以及元组本身</strong></p>
+<p>　　删除一个单独的元组元素是不可能的，可以用del语句删除一个元组</p>
+<p><strong>5.元组操作符和内建函数</strong></p>
+<p>　　标准类型操作符、序列类型操作符和内建函数和列表的相似</p>
+<p><strong>6.元组的特殊特性</strong></p>
+<p>　　3个标准的<strong>不可变类型</strong>&mdash;&mdash;<strong>数字、字符串和元组字符串</strong></p>
+<p>**　　元组类型包含的可变对象是可以改变的，比如元组中包含一个列表**</p>
+<h3 id="ji-he"><a href="#集合" class="headerlink" title="集合"></a><strong>集合</strong><a href="#ji-he" class="header-anchor">#</a></h3><p>有两种不同的类型&mdash;&mdash;<strong>可变集合</strong>（set）和<strong>不可变集合</strong>（frozenset）</p>
+<p>&nbsp;</p>
+<p><strong>可变集合</strong>不是可哈希的，不能用作字典的键，也不能用做其他集合中的元素</p>
+<p><strong>不可变集合</strong>是有哈希值的，能被用做字典的键或者是作为集合中的一个成员</p>
+<p>&nbsp;</p>
+<p><strong>1.创建集合类型和给集合赋值</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; s = set(&#x27;cheeseshop&#x27;)</span><br><span class="line">&gt;&gt;&gt; s</span><br><span class="line">set([&#x27;c&#x27;, &#x27;e&#x27;, &#x27;h&#x27;, &#x27;o&#x27;, &#x27;p&#x27;, &#x27;s&#x27;])</span><br><span class="line">&gt;&gt;&gt; t = frozenset(&#x27;bookshop&#x27;)</span><br><span class="line">&gt;&gt;&gt; t</span><br><span class="line">frozenset([&#x27;b&#x27;, &#x27;h&#x27;, &#x27;k&#x27;, &#x27;o&#x27;, &#x27;p&#x27;, &#x27;s&#x27;])</span><br><span class="line">&gt;&gt;&gt; type(s)</span><br><span class="line">&lt;type &#x27;set&#x27;&gt;</span><br><span class="line">&gt;&gt;&gt; type(t)</span><br><span class="line">&lt;type &#x27;frozenset&#x27;&gt;</span><br><span class="line">&gt;&gt;&gt; len(s)</span><br><span class="line">6</span><br><span class="line">&gt;&gt;&gt; len(t)</span><br><span class="line">6</span><br><span class="line">&gt;&gt;&gt; s == t</span><br><span class="line">False</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>2.访问集合中的值</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; &#x27;k&#x27; in s</span><br><span class="line">False</span><br><span class="line">&gt;&gt;&gt; &#x27;k&#x27; in t</span><br><span class="line">True</span><br><span class="line">&gt;&gt;&gt; for i in s:</span><br><span class="line">...     print i</span><br><span class="line">... </span><br><span class="line">c</span><br><span class="line">e</span><br><span class="line">h</span><br><span class="line">o</span><br><span class="line">p</span><br><span class="line">s</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>3.更新集合</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; s.add(&#x27;z&#x27;)</span><br><span class="line">&gt;&gt;&gt; s</span><br><span class="line">set([&#x27;c&#x27;, &#x27;e&#x27;, &#x27;h&#x27;, &#x27;o&#x27;, &#x27;p&#x27;, &#x27;s&#x27;, &#x27;z&#x27;])</span><br><span class="line">&gt;&gt;&gt; s.update(&#x27;abc&#x27;)</span><br><span class="line">&gt;&gt;&gt; s</span><br><span class="line">set([&#x27;a&#x27;, &#x27;c&#x27;, &#x27;b&#x27;, &#x27;e&#x27;, &#x27;h&#x27;, &#x27;o&#x27;, &#x27;p&#x27;, &#x27;s&#x27;, &#x27;z&#x27;])</span><br><span class="line">&gt;&gt;&gt; s.remove(&#x27;z&#x27;)</span><br><span class="line">&gt;&gt;&gt; s</span><br><span class="line">set([&#x27;a&#x27;, &#x27;c&#x27;, &#x27;b&#x27;, &#x27;e&#x27;, &#x27;h&#x27;, &#x27;o&#x27;, &#x27;p&#x27;, &#x27;s&#x27;])</span><br><span class="line">&gt;&gt;&gt; s -= set(&#x27;abc&#x27;)</span><br><span class="line">&gt;&gt;&gt; s</span><br><span class="line">set([&#x27;e&#x27;, &#x27;h&#x27;, &#x27;o&#x27;, &#x27;p&#x27;, &#x27;s&#x27;])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;　　不可变集合不能修改</p>
+<p><strong>4.删除集合中的成员和集合</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; del t</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>5.集合类型操作符</strong></p>
+<p>　　&lt;1&gt;标准类型操作符</p>
+<p>　　　　<strong>1.成员关系</strong>(in,not in)</p>
+<p>　　　　<strong>2.集合等价/不等价</strong>(==,!=)</p>
+<p>　　　　<strong>3.子集/超集</strong>(&lt;,&lt;=,&gt;,&gt;=)</p>
+<p>　　&lt;2&gt;集合类型操作符</p>
+<p>　　　　<strong>1.联合(|)</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; s|t</span><br><span class="line">set([&#x27;b&#x27;, &#x27;e&#x27;, &#x27;h&#x27;, &#x27;k&#x27;, &#x27;o&#x27;, &#x27;p&#x27;, &#x27;s&#x27;])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>　　　**　2.交集(&amp;)**</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; s&amp;amp;t</span><br><span class="line">set([&#x27;h&#x27;, &#x27;s&#x27;, &#x27;o&#x27;, &#x27;p&#x27;])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>　　　　<strong>3.差补/相对补集(-)</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; s-t</span><br><span class="line">set([&#x27;e&#x27;])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>**　　　&nbsp; 4.对称差分(^)，即(XOR)异或，只能是属于集合s或者集合t的成员，不能同时属于两个集合**</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; s^t</span><br><span class="line">set([&#x27;b&#x27;, &#x27;e&#x27;, &#x27;k&#x27;])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>**　　　&nbsp; 5.混合集合类型操作**</p>
+<p>&nbsp;　　　　　　类型不相同的时候，产生的结果类型和<strong>左操作数的类型相同</strong></p>
+<p>　　&lt;3&gt;集合类型操作符(仅适用于可变集合)</p>
+<p>　　　　<strong>1.update()方法或者|=</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; s|=t</span><br><span class="line">&gt;&gt;&gt; s</span><br><span class="line">set([&#x27;b&#x27;, &#x27;e&#x27;, &#x27;h&#x27;, &#x27;k&#x27;, &#x27;o&#x27;, &#x27;p&#x27;, &#x27;s&#x27;])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>**　　&nbsp; 　2.intersection_update()方法或者&amp;=，保留两个集合重复的成员**</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; s</span><br><span class="line">set([&#x27;a&#x27;, &#x27;c&#x27;, &#x27;b&#x27;, &#x27;d&#x27;])</span><br><span class="line">&gt;&gt;&gt; t</span><br><span class="line">set([&#x27;e&#x27;, &#x27;d&#x27;, &#x27;f&#x27;])</span><br><span class="line">&gt;&gt;&gt; s&amp;amp;=t</span><br><span class="line">&gt;&gt;&gt; s</span><br><span class="line">set([&#x27;d&#x27;])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>&nbsp;　　　3.difference_update()方法或者-=</strong></p>
+<p>**　　　 4.symmetric_difference_update()方法或者^=，差分操作**</p>
+<p><strong>6.内建函数</strong></p>
+<p>　　&lt;1&gt;标准类型函数&mdash;&mdash;len()</p>
+<p>&nbsp;　&nbsp; &lt;2&gt;集合类型工厂函数&mdash;&mdash;set()和frozenset()</p>
+<p><strong>7.集合类型内建方法&mdash;&mdash;P184</strong></p>
+<h3 id="zi-dian"><a href="#字典" class="headerlink" title="字典"></a>字典<a href="#zi-dian" class="header-anchor">#</a></h3><p><strong>1.创建字典和给字典赋值</strong>，可以使用<strong>工厂方法dict()<strong>来创建字典，也可以使用</strong>fromkeys()<strong>来创建一个</strong>元素具有相同值</strong>的字典</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; dict = &#123;&#x27;name&#x27;:&#x27;XiaoMing&#x27;,&#x27;age&#x27;:20&#125;</span><br><span class="line">&gt;&gt;&gt; dict</span><br><span class="line">&#123;&#x27;age&#x27;: 20, &#x27;name&#x27;: &#x27;XiaoMing&#x27;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; dict2 = dict(([&#x27;x&#x27;,1],[&#x27;y&#x27;,2]))</span><br><span class="line">&gt;&gt;&gt; dict2</span><br><span class="line">&#123;&#x27;y&#x27;: 2, &#x27;x&#x27;: 1&#125;</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; dict2 = &#123;&#125;.fromkeys((&#x27;x&#x27;,&#x27;y&#x27;),1)</span><br><span class="line">&gt;&gt;&gt; dict2</span><br><span class="line">&#123;&#x27;y&#x27;: 1, &#x27;x&#x27;: 1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>&nbsp;2.访问字典中的值</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; dict = &#123;&#x27;name&#x27;:&#x27;XiaoMing&#x27;,&#x27;age&#x27;:20&#125;</span><br><span class="line">&gt;&gt;&gt; dict</span><br><span class="line">&#123;&#x27;age&#x27;: 20, &#x27;name&#x27;: &#x27;XiaoMing&#x27;&#125;</span><br><span class="line">&gt;&gt;&gt; for key in dict.keys():</span><br><span class="line">...     print &#x27;key=%s,value=%s&#x27; % (key,dict[key])</span><br><span class="line">... </span><br><span class="line">key=age,value=20</span><br><span class="line">key=name,value=XiaoMing</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; for key in dict:</span><br><span class="line">...     print &#x27;key=%s,value=%s&#x27; % (key,dict[key])</span><br><span class="line">... </span><br><span class="line">key=age,value=20</span><br><span class="line">key=name,value=XiaoMing</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; dict[&#x27;name&#x27;]</span><br><span class="line">&#x27;XiaoMing&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; &#x27;name&#x27; in dict</span><br><span class="line">True</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>&nbsp;3.更新字典</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; dict[&#x27;name&#x27;] = &#x27;123&#x27;</span><br><span class="line">&gt;&gt;&gt; dict[&#x27;name&#x27;]</span><br><span class="line">&#x27;123&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; del dict[&#x27;name&#x27;]</span><br><span class="line">&gt;&gt;&gt; dict</span><br><span class="line">&#123;&#x27;age&#x27;: 20&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; dict</span><br><span class="line">&#123;&#x27;age&#x27;: 20&#125;</span><br><span class="line">&gt;&gt;&gt; dict.pop(&#x27;age&#x27;)</span><br><span class="line">20</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>&nbsp;4.映射类型相关的函数</strong></p>
+<p>　　&lt;1&gt;dict()&mdash;&mdash;创建字典</p>
+<p>　　&lt;2&gt;len()&mdash;&mdash;返回键值对的数目</p>
+<p>　　&lt;3&gt;hash()&mdash;&mdash;可以判断某个对象是否可以做一个字典的值</p>
+<p><strong>5.映射类型内建方法</strong></p>
+<p>　　&lt;1&gt;keys()&mdash;&mdash;返回一个列表，包含字典中所有的键</p>
+<p>　　&lt;2&gt;values()&mdash;&mdash;返回一个列表，包含字典中所有的值</p>
+<p>　　&lt;3&gt;items()&mdash;&mdash;返回一个包含所有（键，值）元组的列表</p>
+<p>注意：返回的元素是没有顺序的，可以通过sorted()方法进行排序</p>
+<p>　　&lt;4&gt;update()&mdash;&mdash;将一个字典的内容添加到另外一个字典中</p>
+<p>　　&lt;5&gt;clear()&mdash;&mdash;删除字典中的所有条目</p>
+<p>　　&lt;6&gt;copy()&mdash;&mdash;返回一个字典的副本</p>
+<p>　　&lt;7&gt;get()&mdash;&mdash;根据键查询值，键不存在的话返回None</p>
+<p>　　&lt;8&gt;setdefault()&mdash;&mdash;检查字典中是否含有某个键，如果存在就返回这个值；不存在就赋值并返回这个值</p>
+<h2 id="15-cao-zuo-fu"><a href="#15-操作符" class="headerlink" title="15.操作符"></a><strong>15.操作符</strong><a href="#15-cao-zuo-fu" class="header-anchor">#</a></h2><h3 id="bi-jiao-lei-xing-cao-zuo-fu"><a href="#比较类型操作符" class="headerlink" title="比较类型操作符"></a><strong><strong>比较类型操作符</strong></strong><a href="#bi-jiao-lei-xing-cao-zuo-fu" class="header-anchor">#</a></h3><p>&lt;1&gt;对象值的比较 &lt; &gt; &lt;= &gt;= == !=<strong><br></strong></p>
+<p>&lt;2&gt;对象身份比较 is　　is not　　比较是否指向同一个对象 注意：Python中整型对象和字符串对象是不可变对象</p>
+<h3 id="ge-shi-hua-cao-zuo-fu"><a href="#格式化操作符（-）" class="headerlink" title="格式化操作符（%）"></a><strong>格式化操作符（%）</strong><a href="#ge-shi-hua-cao-zuo-fu" class="header-anchor">#</a></h3><p>字符串模板&mdash;&mdash;字符串Template对象</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; from string import Template</span><br><span class="line">&gt;&gt;&gt; s = Template(&quot;This is $&#123;name&#125; $&#123;num&#125;&quot;)</span><br><span class="line">&gt;&gt;&gt; print s.substitute(name=&quot;Python&quot;,num=3)</span><br><span class="line">This is Python 3</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="16-qi-ta"><a href="#16-其他" class="headerlink" title="16.其他"></a><strong>16.其他</strong><a href="#16-qi-ta" class="header-anchor">#</a></h2><h3 id="1-non-ascii-character-cuo-wu"><a href="#1-Non-ASCII-character错误" class="headerlink" title="1.Non-ASCII character错误"></a><strong>1.Non-ASCII character错误</strong><a href="#1-non-ascii-character-cuo-wu" class="header-anchor">#</a></h3><p><strong>源代码文件第一行添加</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#coding:utf-8</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-python-zhong-duan-zi-dong-bu-quan"><a href="#2-Python终端自动补全" class="headerlink" title="2.Python终端自动补全"></a>2.Python终端自动补全<a href="#2-python-zhong-duan-zi-dong-bu-quan" class="header-anchor">#</a></h3><p>在～目录下添加一个文件，名字为.pythonstartup.py</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/python</span><br><span class="line"># -*- coding: UTF-8 -*-</span><br><span class="line"></span><br><span class="line">import readline, rlcompleter;</span><br><span class="line">readline.parse_and_bind(&quot;tab: complete&quot;); # 启用Tab补全</span><br><span class="line"></span><br><span class="line">def igtk():</span><br><span class="line">   globals()[&#x27;gtk&#x27;] = __import__(&#x27;gtk&#x27;);</span><br><span class="line">   globals()[&#x27;thread&#x27;] = __import__(&#x27;thread&#x27;);</span><br><span class="line">   gtk.gdk.threads_init();</span><br><span class="line">   thread.start_new_thread(gtk.main, ());</span><br><span class="line">   pass;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;然后在.bashrc中添加</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export PYTHONSTARTUP=~/.pythonstartup.py</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-jie-xi-json"><a href="#3-解析json" class="headerlink" title="3.解析json"></a>3.解析json<a href="#3-jie-xi-json" class="header-anchor">#</a></h3><p>json.dumps : dict转成str，将字典转换为字符串</p>
+<p>json.loads：str转成dict，将字符串转换为字典</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qiqiyingse/article/details/70049591">json.dumps和 json.loads 区别，如此简单</a></p>
+<p>&nbsp;</p>
+
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95.html">Python学习笔记——基本语法</a>
+          </div>
+        </div>
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://tonglin0325.github.io/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95.html" data-id="cln8csfcv016kl00lhqd4blxs" class="article-share-link">
+        <i class="fa fa-share"></i> 分享
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/" rel="tag">Python</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/Presto%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Event%20Listener.html" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">Presto学习笔记——Event Listener</span>
+    </a>
+  </li>
+  
+  
+  <li role="presentation">
+    <a href="/ubuntu%E4%B8%8Bgedit%E5%92%8Cvim%E8%BE%93%E5%85%A5%E4%B8%AD%E6%96%87%E5%92%8C%E4%B8%AD%E6%96%87%E6%98%BE%E7%A4%BA.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <span class="article-nav-link-title">ubuntu下gedit和vim输入中文和中文显示</span>
+      <i class="fa fa-chevron-right pull-right"></i>
+    </a>
+  </li>
+  
+</ul>
+
+
+  
+</article>
+
+
+
+
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>tonglin0325</h4>
+  <div style="text-align:center;"><img src="/images/WechatIMG1.jpeg" width="150" height="150" style="vertical-align:middle;"/></div>
+</div>
+
+
+  
+
+
+  
+  <div class="sidebar-module">
+    <h4>标签</h4>
+    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/AWS/" rel="tag">AWS</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Airbnb/" rel="tag">Airbnb</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Android/" rel="tag">Android</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/CDH/" rel="tag">CDH</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Doris/" rel="tag">Doris</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ELK/" rel="tag">ELK</a><span class="sidebar-module-list-count">14</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Flink/" rel="tag">Flink</a><span class="sidebar-module-list-count">29</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Git/" rel="tag">Git</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Grafana/" rel="tag">Grafana</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HAProxy/" rel="tag">HAProxy</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HBase/" rel="tag">HBase</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hadoop/" rel="tag">Hadoop</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hive/" rel="tag">Hive</a><span class="sidebar-module-list-count">20</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hudi/" rel="tag">Hudi</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/InfluxDB/" rel="tag">InfluxDB</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JDBC/" rel="tag">JDBC</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JMeter/" rel="tag">JMeter</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Java/" rel="tag">Java</a><span class="sidebar-module-list-count">19</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JavaWeb/" rel="tag">JavaWeb</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/LaTex/" rel="tag">LaTex</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Linkedin/" rel="tag">Linkedin</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="sidebar-module-list-count">35</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ML/" rel="tag">ML</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ML-Infra/" rel="tag">ML Infra</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/MPP/" rel="tag">MPP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Maven/" rel="tag">Maven</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/MySQL/" rel="tag">MySQL</a><span class="sidebar-module-list-count">16</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Nexus/" rel="tag">Nexus</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/OpenTSDB/" rel="tag">OpenTSDB</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Paper/" rel="tag">Paper</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Play/" rel="tag">Play</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Prometheus/" rel="tag">Prometheus</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Python/" rel="tag">Python</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/React/" rel="tag">React</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/RocksDB/" rel="tag">RocksDB</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Scala/" rel="tag">Scala</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Solr/" rel="tag">Solr</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Spark/" rel="tag">Spark</a><span class="sidebar-module-list-count">25</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SpringMVC/" rel="tag">SpringMVC</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Thrift/" rel="tag">Thrift</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/YARN/" rel="tag">YARN</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/antlr/" rel="tag">antlr</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/arthas/" rel="tag">arthas</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/avro/" rel="tag">avro</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/cassandra/" rel="tag">cassandra</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/clickhouse/" rel="tag">clickhouse</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/confluent/" rel="tag">confluent</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/docker/" rel="tag">docker</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/filebeat/" rel="tag">filebeat</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/flume/" rel="tag">flume</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/golang/" rel="tag">golang</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/google/" rel="tag">google</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/gradle/" rel="tag">gradle</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hexo/" rel="tag">hexo</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/impala/" rel="tag">impala</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/jenkins/" rel="tag">jenkins</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/k8s/" rel="tag">k8s</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kafka/" rel="tag">kafka</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kerberos/" rel="tag">kerberos</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kudu/" rel="tag">kudu</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ldap/" rel="tag">ldap</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mac/" rel="tag">mac</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mongo/" rel="tag">mongo</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mybatis/" rel="tag">mybatis</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nginx/" rel="tag">nginx</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nlp/" rel="tag">nlp</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/open-falcon/" rel="tag">open-falcon</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/openwrt/" rel="tag">openwrt</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/parquet/" rel="tag">parquet</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/presto/" rel="tag">presto</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ranger/" rel="tag">ranger</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/scyllaDB/" rel="tag">scyllaDB</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/twitter/" rel="tag">twitter</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/zookeeper/" rel="tag">zookeeper</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%88%B7%E9%A2%98/" rel="tag">刷题</a><span class="sidebar-module-list-count">22</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%9B%BE%E5%AD%98%E5%82%A8%E5%8F%8A%E8%AE%A1%E7%AE%97/" rel="tag">图存储及计算</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F/" rel="tag">广告系统</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" rel="tag">开发工具</a><span class="sidebar-module-list-count">19</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="sidebar-module-list-count">25</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" rel="tag">系统设计</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="sidebar-module-list-count">5</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>标签云</h4>
+    <p class="tagcloud">
+      <a href="/tags/AWS/" style="font-size: 11.3px;">AWS</a> <a href="/tags/Airbnb/" style="font-size: 14.35px;">Airbnb</a> <a href="/tags/Android/" style="font-size: 11.74px;">Android</a> <a href="/tags/CDH/" style="font-size: 14.35px;">CDH</a> <a href="/tags/Doris/" style="font-size: 10px;">Doris</a> <a href="/tags/ELK/" style="font-size: 15.65px;">ELK</a> <a href="/tags/Flink/" style="font-size: 19.57px;">Flink</a> <a href="/tags/Git/" style="font-size: 10.43px;">Git</a> <a href="/tags/Grafana/" style="font-size: 10px;">Grafana</a> <a href="/tags/HAProxy/" style="font-size: 10.87px;">HAProxy</a> <a href="/tags/HBase/" style="font-size: 12.61px;">HBase</a> <a href="/tags/Hadoop/" style="font-size: 12.61px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 17.39px;">Hive</a> <a href="/tags/Hudi/" style="font-size: 11.3px;">Hudi</a> <a href="/tags/InfluxDB/" style="font-size: 10px;">InfluxDB</a> <a href="/tags/JDBC/" style="font-size: 13.48px;">JDBC</a> <a href="/tags/JMeter/" style="font-size: 10px;">JMeter</a> <a href="/tags/JVM/" style="font-size: 11.74px;">JVM</a> <a href="/tags/Java/" style="font-size: 16.96px;">Java</a> <a href="/tags/JavaWeb/" style="font-size: 11.3px;">JavaWeb</a> <a href="/tags/LaTex/" style="font-size: 10px;">LaTex</a> <a href="/tags/Linkedin/" style="font-size: 10px;">Linkedin</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/ML/" style="font-size: 18.7px;">ML</a> <a href="/tags/ML-Infra/" style="font-size: 11.3px;">ML Infra</a> <a href="/tags/MPP/" style="font-size: 10px;">MPP</a> <a href="/tags/Maven/" style="font-size: 10.43px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 16.09px;">MySQL</a> <a href="/tags/Nexus/" style="font-size: 11.74px;">Nexus</a> <a href="/tags/OpenTSDB/" style="font-size: 10.43px;">OpenTSDB</a> <a href="/tags/Paper/" style="font-size: 10px;">Paper</a> <a href="/tags/Play/" style="font-size: 10px;">Play</a> <a href="/tags/Prometheus/" style="font-size: 10.43px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 17.83px;">Python</a> <a href="/tags/React/" style="font-size: 10.43px;">React</a> <a href="/tags/Redis/" style="font-size: 10.87px;">Redis</a> <a href="/tags/RocksDB/" style="font-size: 10px;">RocksDB</a> <a href="/tags/Scala/" style="font-size: 13.91px;">Scala</a> <a href="/tags/Solr/" style="font-size: 10.87px;">Solr</a> <a href="/tags/Spark/" style="font-size: 19.13px;">Spark</a> <a href="/tags/SpringBoot/" style="font-size: 16.52px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 14.35px;">SpringMVC</a> <a href="/tags/Thrift/" style="font-size: 12.17px;">Thrift</a> <a href="/tags/YARN/" style="font-size: 11.74px;">YARN</a> <a href="/tags/antlr/" style="font-size: 10.43px;">antlr</a> <a href="/tags/arthas/" style="font-size: 10px;">arthas</a> <a href="/tags/avro/" style="font-size: 13.91px;">avro</a> <a href="/tags/cassandra/" style="font-size: 10px;">cassandra</a> <a href="/tags/clickhouse/" style="font-size: 10.43px;">clickhouse</a> <a href="/tags/confluent/" style="font-size: 10.43px;">confluent</a> <a href="/tags/docker/" style="font-size: 10.87px;">docker</a> <a href="/tags/filebeat/" style="font-size: 11.3px;">filebeat</a> <a href="/tags/flume/" style="font-size: 10.43px;">flume</a> <a href="/tags/golang/" style="font-size: 15.22px;">golang</a> <a href="/tags/google/" style="font-size: 13.04px;">google</a> <a href="/tags/gradle/" style="font-size: 10px;">gradle</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/impala/" style="font-size: 11.3px;">impala</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/k8s/" style="font-size: 14.35px;">k8s</a> <a href="/tags/kafka/" style="font-size: 14.78px;">kafka</a> <a href="/tags/kerberos/" style="font-size: 10px;">kerberos</a> <a href="/tags/kudu/" style="font-size: 10.43px;">kudu</a> <a href="/tags/ldap/" style="font-size: 10.43px;">ldap</a> <a href="/tags/mac/" style="font-size: 11.74px;">mac</a> <a href="/tags/mongo/" style="font-size: 11.74px;">mongo</a> <a href="/tags/mybatis/" style="font-size: 10.87px;">mybatis</a> <a href="/tags/nginx/" style="font-size: 12.17px;">nginx</a> <a href="/tags/nlp/" style="font-size: 10px;">nlp</a> <a href="/tags/open-falcon/" style="font-size: 10.87px;">open-falcon</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/parquet/" style="font-size: 10.87px;">parquet</a> <a href="/tags/presto/" style="font-size: 12.17px;">presto</a> <a href="/tags/ranger/" style="font-size: 10px;">ranger</a> <a href="/tags/scyllaDB/" style="font-size: 10.87px;">scyllaDB</a> <a href="/tags/twitter/" style="font-size: 10.43px;">twitter</a> <a href="/tags/zookeeper/" style="font-size: 14.78px;">zookeeper</a> <a href="/tags/%E5%88%B7%E9%A2%98/" style="font-size: 18.26px;">刷题</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 12.17px;">前端</a> <a href="/tags/%E5%9B%BE%E5%AD%98%E5%82%A8%E5%8F%8A%E8%AE%A1%E7%AE%97/" style="font-size: 10.43px;">图存储及计算</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.91px;">多线程</a> <a href="/tags/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F/" style="font-size: 13.04px;">广告系统</a> <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" style="font-size: 16.96px;">开发工具</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 16.52px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 13.48px;">杂谈</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 19.13px;">算法</a> <a href="/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" style="font-size: 10.43px;">系统设计</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 13.04px;">计算机网络</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 11.74px;">设计模式</a>
+    </p>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>文章归档</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/08/">八月 2024</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/05/">五月 2024</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2023/08/">八月 2023</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/07/">七月 2022</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/01/">一月 2022</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/12/">十二月 2021</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/11/">十一月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/09/">九月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">七月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/05/">五月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/03/">三月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/01/">一月 2021</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/12/">十二月 2020</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/11/">十一月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/10/">十月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/09/">九月 2020</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/08/">八月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/07/">七月 2020</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/06/">六月 2020</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/05/">五月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/04/">四月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/03/">三月 2020</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">二月 2020</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/01/">一月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">十月 2019</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/09/">九月 2019</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">八月 2019</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/07/">七月 2019</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/04/">四月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/03/">三月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/01/">一月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/12/">十二月 2018</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/11/">十一月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/09/">九月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/06/">六月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/05/">五月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/04/">四月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/02/">二月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/01/">一月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/11/">十一月 2017</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/09/">九月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/07/">七月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/06/">六月 2017</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/05/">五月 2017</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/04/">四月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/03/">三月 2017</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/01/">一月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/12/">十二月 2016</a><span class="sidebar-module-list-count">15</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/11/">十一月 2016</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">十月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">九月 2016</a><span class="sidebar-module-list-count">16</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/08/">八月 2016</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/07/">七月 2016</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">六月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">五月 2016</a><span class="sidebar-module-list-count">32</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/04/">四月 2016</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/03/">三月 2016</a><span class="sidebar-module-list-count">136</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/02/">二月 2016</a><span class="sidebar-module-list-count">22</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/09/">九月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/08/">八月 2015</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/07/">七月 2015</a><span class="sidebar-module-list-count">30</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/06/">六月 2015</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/04/">四月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2013/04/">四月 2013</a><span class="sidebar-module-list-count">2</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>最近文章</h4>
+    <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Istio%E5%92%8CKong.html">k8s学习笔记——Istio和Kong</a>
+        </li>
+      
+        <li>
+          <a href="/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ingress.html">k8s学习笔记——ingress</a>
+        </li>
+      
+        <li>
+          <a href="/Presto%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Go%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5Presto.html">Presto学习笔记——Go客户端连接Presto</a>
+        </li>
+      
+        <li>
+          <a href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94wire%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5.html">go学习笔记——wire依赖注入</a>
+        </li>
+      
+        <li>
+          <a href="/screen%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html">screen使用教程</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+
+        </div>
+    </div>
+  </div>
+  <footer class="blog-footer">
+  <div class="container">
+    <div id="footer-info" class="inner">
+      &copy; 2024 tonglin0325<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+  
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" integrity="sha384-8gBf6Y4YYq7Jx97PIqmTwLPin4hxIzQw5aDmUg/DDhul9fFpbbLcLh3nTIIDJKhx" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9HZSXL1LDJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9HZSXL1LDJ');
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+<script src="/js/jquery.qrcode.min.js"></script>
+
+
+
+<script src="/js/jquery-1.6.2.min.js"></script>
+
+
+</body>
+</html>

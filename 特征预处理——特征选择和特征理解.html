@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>特征预处理——特征选择和特征理解 | tonglin0325的个人主页</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1.数据可视化1.单变量可视化参考：从kaggle房价预测看探索性数据分析的一般规律 查看pandas某列的统计指标 12345678910111213# 描述性统计print(train_data[&amp;#x27;SalePrice&amp;#x27;].describe())count      1460.000000　　# 行数mean     180921.195890　　# 平均值std">
+<meta property="og:type" content="article">
+<meta property="og:title" content="特征预处理——特征选择和特征理解">
+<meta property="og:url" content="http://tonglin0325.github.io/%E7%89%B9%E5%BE%81%E9%A2%84%E5%A4%84%E7%90%86%E2%80%94%E2%80%94%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9%E5%92%8C%E7%89%B9%E5%BE%81%E7%90%86%E8%A7%A3.html">
+<meta property="og:site_name" content="tonglin0325的个人主页">
+<meta property="og:description" content="1.数据可视化1.单变量可视化参考：从kaggle房价预测看探索性数据分析的一般规律 查看pandas某列的统计指标 12345678910111213# 描述性统计print(train_data[&amp;#x27;SalePrice&amp;#x27;].describe())count      1460.000000　　# 行数mean     180921.195890　　# 平均值std">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20221031000109338-716973522.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20221105161824528-299028084.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20221105174603144-1138969034.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20221105174910520-1845302283.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20221105170324096-1282133364.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20221105172548726-795844603.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20221105142649082-335225594.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20221105140858677-777000938.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20221105212528305-360610715.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20221105212910194-1426743606.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20221105221203155-2143422491.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/5ybQKSP.png">
+<meta property="article:published_time" content="2016-12-22T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-09-28T14:18:42.063Z">
+<meta property="article:author" content="tonglin0325">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://tonglin0325.github.io/images/517519-20221031000109338-716973522.png">
+  
+    <link rel="alternate" href="/atom.xml" title="tonglin0325的个人主页" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="https://tonglin0325.github.io/images/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+
+  
+<link rel="stylesheet" href="/css/styles.css">
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-166238833-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5884015902351015"
+     crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-menu-navbar">
+      <ul class="nav navbar-nav">
+        
+          <li><a class=""
+                 href="/index.html">主页</a></li>
+        
+          <li><a class=""
+                 href="/archives/">所有文章</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="http://www.cnblogs.com/tonglin0325/">博客园</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="https://github.com/tonglin0325">Github</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="https://www.linkedin.com/in/tonglin0325/">LinkedIn</a></li>
+        
+        <li>
+          <span class="local-search local-search-google local-search-plugin" style="">
+  <input type="search" placeholder="站内搜索" id="local-search-input" class="local-search-input-cls" style="">
+  <div id="local-search-result" class="local-search-result-cls"></div>
+</span>
+
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    const div = document.getElementById('local-search-result');
+    const input = document.getElementById('local-search-input');
+
+    // 点击 input 显示 div
+    input.addEventListener('click', function() {
+        div.style.display = 'block';
+    });
+
+    // 点击 div 之外的地方隐藏 div
+    document.addEventListener('click', function(event) {
+        if (!div.contains(event.target) && event.target !== div && event.target !== input) {
+            div.style.display = 'none';
+        }
+    });
+});
+</script>
+        </li>
+      </ul>
+
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        
+          <li><a href="/atom.xml" title="RSS Feed"><i class="fa fa-rss"></i></a></li>
+        
+      </ul>
+      -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script>
+// 移动设备侦测
+var isMobile = {
+  Android: function () {
+    return navigator.userAgent.match(/Android/i);
+  },
+  BlackBerry: function () {
+    return navigator.userAgent.match(/BlackBerry/i);
+  },
+  iOS: function () {
+    return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+  },
+  Opera: function () {
+    return navigator.userAgent.match(/Opera Mini/i);
+  },
+  Windows: function () {
+    return navigator.userAgent.match(/IEMobile/i);
+  },
+  any: function () {
+    return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+  }
+};
+
+if ($('.local-search').resize() && !isMobile.any()) {
+	$.getScript('/js/search.js', function() {
+	  searchFunc("/search.json", 'local-search-input', 'local-search-result');
+	});
+}
+
+// document.addEventListener('DOMContentLoaded', (event) => {
+//
+//     const input = document.getElementById('.local-search-input');
+//     const div = document.getElementById('.local-search-result');
+//
+//     input.addEventListener('blur', function() {
+//         div.style.display = 'none';
+//     });
+// });
+</script>
+  <div class="container">
+    <div class="blog-header">
+  <h1 class="blog-title">tonglin0325的个人主页</h1>
+  
+</div>
+
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+          <article id="post-特征预处理——特征选择和特征理解" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 class="article-title" itemprop="name">
+      特征预处理——特征选择和特征理解
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/%E7%89%B9%E5%BE%81%E9%A2%84%E5%A4%84%E7%90%86%E2%80%94%E2%80%94%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9%E5%92%8C%E7%89%B9%E5%BE%81%E7%90%86%E8%A7%A3.html" class="article-date"><time datetime="2016-12-22T16:00:00.000Z" itemprop="datePublished">2016-12-23</time></a>
+</div>
+
+    <div class="article-author">tonglin0325</div>
+    
+
+  </div>
+
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- 目录 -->
+
+<div id="toc">
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-shu-ju-ke-shi-hua"><span class="toc-text">1.数据可视化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-dan-bian-liang-ke-shi-hua"><span class="toc-text">1.单变量可视化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-shuang-bian-liang-guan-xi-ke-shi-hua"><span class="toc-text">2.双变量关系可视化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-duo-bian-liang-guan-xi-ke-shi-hua"><span class="toc-text">3.多变量关系可视化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-bian-liang-de-fen-bu"><span class="toc-text">4.变量的分布</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-te-zheng-xuan-ze"><span class="toc-text">2.特征选择</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-yi-chang-zhi-chu-li"><span class="toc-text">1.异常值处理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-kong-zhi-chu-li"><span class="toc-text">1.空值处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-chi-qun-zhi-chu-li"><span class="toc-text">2.离群值处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-qu-diao-qu-zhi-bian-hua-xiao-de-te-zheng-nbsp-removing-features-with-low-variance"><span class="toc-text">3.去掉取值变化小的特征 Removing features with low variance</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-te-zheng-chu-li"><span class="toc-text">2.特征处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-xiang-guan-xing-fen-xi"><span class="toc-text">3.相关性分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-shi-yong-re-li-tu-cha-kan-duo-yuan-shu-ju-te-zheng-de-xiang-guan-xing"><span class="toc-text">1.使用热力图查看多元数据特征的相关性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-te-zheng-gong-xian-xing-wen-ti"><span class="toc-text">2.特征共线性问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-shi-yong-si-pi-er-man-deng-ji-cha-kan-duo-yuan-shu-ju-te-zheng-de-xiang-guan-xing"><span class="toc-text">3.使用斯皮尔曼等级查看多元数据特征的相关性</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-dan-bian-liang-te-zheng-xuan-ze-univariate-feature-selection"><span class="toc-text">3.单变量特征选择 Univariate feature selection</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-pearson-xiang-guan-xi-shu-pearson-correlation"><span class="toc-text">3.1 Pearson相关系数 Pearson Correlation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-hu-xin-xi-he-zui-da-xin-xi-xi-shu-mutual-information-and-maximal-information-coefficient-mic"><span class="toc-text">3.2 互信息和最大信息系数 Mutual information and maximal information coefficient (MIC)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-ju-chi-xiang-guan-xi-shu-distance-correlation"><span class="toc-text">3.3 距离相关系数 (Distance correlation)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-ji-yu-xue-xi-mo-xing-de-te-zheng-pai-xu-model-based-ranking"><span class="toc-text">2.4 基于学习模型的特征排序 (Model based ranking)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-xian-xing-mo-xing-he-zheng-ze-hua"><span class="toc-text">4.线性模型和正则化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-zheng-ze-hua-mo-xing"><span class="toc-text">4.1 正则化模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-l1-zheng-ze-hua-lasso"><span class="toc-text">4.2 L1正则化&#x2F;Lasso</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-l2-zheng-ze-hua-ridge-regression"><span class="toc-text">4.3 L2正则化&#x2F;Ridge regression</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-sui-ji-sen-lin"><span class="toc-text">5.随机森林</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-ping-jun-bu-chun-du-jian-shao-mean-decrease-impurity"><span class="toc-text">5.1 平均不纯度减少 mean decrease impurity</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-ping-jun-jing-que-lu-jian-shao-mean-decrease-accuracy"><span class="toc-text">5.2 平均精确率减少 Mean decrease accuracy</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-liang-chong-ding-ceng-te-zheng-xuan-ze-suan-fa"><span class="toc-text">6.两种顶层特征选择算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-wen-ding-xing-xuan-ze-stability-selection"><span class="toc-text">6.1 稳定性选择 Stability selection</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-di-gui-te-zheng-xiao-chu-recursive-feature-elimination-rfe"><span class="toc-text">6.2 递归特征消除 Recursive feature elimination (RFE)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-yi-ge-wan-zheng-de-li-zi"><span class="toc-text">7.一个完整的例子</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#zong-jie"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tips"><span class="toc-text">Tips</span></a></li></ol></li></ol>
+</div>
+
+        <h2 id="1-shu-ju-ke-shi-hua"><a href="#1-数据可视化" class="headerlink" title="1.数据可视化"></a>1.数据可视化<a href="#1-shu-ju-ke-shi-hua" class="header-anchor">#</a></h2><h3 id="1-dan-bian-liang-ke-shi-hua"><a href="#1-单变量可视化" class="headerlink" title="1.单变量可视化"></a>1.单变量可视化<a href="#1-dan-bian-liang-ke-shi-hua" class="header-anchor">#</a></h3><p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/69853423">从kaggle房价预测看探索性数据分析的一般规律</a></p>
+<p>查看pandas某列的统计指标</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 描述性统计</span><br><span class="line">print(train_data[&#x27;SalePrice&#x27;].describe())</span><br><span class="line"></span><br><span class="line">count      1460.000000　　# 行数</span><br><span class="line">mean     180921.195890　　# 平均值</span><br><span class="line">std       79442.502883　　# 标准差</span><br><span class="line">min       34900.000000　　# 最小值</span><br><span class="line">25%      129975.000000　　# 第1四分位数，即第25百分位数</span><br><span class="line">50%      163000.000000　　# 第2四分位数，即第50百分位数</span><br><span class="line">75%      214000.000000　　# 第3四分位数，即第75百分位数</span><br><span class="line">max      755000.000000　　# 最大值</span><br><span class="line">Name: SalePrice, dtype: float64</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>使用<strong>displot函数</strong>可以绘制<strong>直方图</strong>，bins越大，横坐标的精度越大</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">import pandas as pd</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">import seaborn as sns</span><br><span class="line"></span><br><span class="line">sns.displot(train_data[&#x27;SalePrice&#x27;], bins=100)</span><br><span class="line">plt.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可以看到数据呈现<strong>偏态分布</strong></p>
+<img src="/images/517519-20221031000109338-716973522.png" width="600" height="306" loading="lazy">
+
+<h3 id="2-shuang-bian-liang-guan-xi-ke-shi-hua"><a href="#2-双变量关系可视化" class="headerlink" title="2.双变量关系可视化"></a>2.双变量关系可视化<a href="#2-shuang-bian-liang-guan-xi-ke-shi-hua" class="header-anchor">#</a></h3><p>使用<strong>scatterplot函数</strong>绘制<strong>散点图</strong>，查看<strong>2个数值型（numerical）变量的关系</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">import seaborn as sns</span><br><span class="line"></span><br><span class="line"># 地上居住面积/房价散点图</span><br><span class="line">sns.scatterplot(y=train_data[&#x27;SalePrice&#x27;], x=train_data[&#x27;GrLivArea&#x27;])</span><br><span class="line">plt.show()</span><br><span class="line"># 或者</span><br><span class="line">data = pd.concat([train_data[&#x27;SalePrice&#x27;], train_data[&#x27;GrLivArea&#x27;]], axis=1) </span><br><span class="line">data.plot.scatter(x=&#x27;GrLivArea&#x27;, y=&#x27;SalePrice&#x27;, ylim=(0, 800000)) </span><br><span class="line">plt.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可以看出面积越大的房子，价格越高</p>
+<img src="/images/517519-20221105161824528-299028084.png" width="400" height="333" loading="lazy">
+
+<p>使用<strong>stripplot函数</strong>绘制<strong>散点图</strong>，适用于某一变量的取值是有限的情况，查看<strong>1个数值型变量和1个标称型（categorical）变量之间的关系</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">import seaborn as sns</span><br><span class="line"></span><br><span class="line"># 房屋质量等级/房价散点图</span><br><span class="line">sns.stripplot(x=train_data[&quot;OverallQual&quot;] , y=train_data[&quot;SalePrice&quot;])</span><br><span class="line">plt.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可以看出质量等级越高的房子，价格越高</p>
+<img src="/images/517519-20221105174603144-1138969034.png" width="400" height="335" loading="lazy">
+
+<p>此外，对于标称值，也可以<strong>boxplot函数</strong>来绘制<strong>箱型图</strong>进行分析</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import matplotlib.pyplot as plt </span><br><span class="line">import seaborn as sns</span><br><span class="line"></span><br><span class="line"># 房屋质量等级/房价箱型图</span><br><span class="line">sns.boxplot(x=train_data[&quot;OverallQual&quot;], y=train_data[&quot;SalePrice&quot;])</span><br><span class="line">plt.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<img src="/images/517519-20221105174910520-1845302283.png" width="400" height="335" loading="lazy">
+
+<h3 id="3-duo-bian-liang-guan-xi-ke-shi-hua"><a href="#3-多变量关系可视化" class="headerlink" title="3.多变量关系可视化"></a>3.多变量关系可视化<a href="#3-duo-bian-liang-guan-xi-ke-shi-hua" class="header-anchor">#</a></h3><p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_35757704/article/details/89885069">seaborn单变量/双变量/多变量绘图</a></p>
+<p>可以使用<strong>pairplot函数</strong>来绘制多变量的<strong>散点图</strong>，来查看pandas数据集中<strong>每对变量之间的关系</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">import seaborn as sns</span><br><span class="line"></span><br><span class="line">cols = [&#x27;SalePrice&#x27;, &#x27;OverallQual&#x27;, &#x27;GrLivArea&#x27;, &#x27;GarageCars&#x27;, &#x27;TotalBsmtSF&#x27;, &#x27;FullBath&#x27;, &#x27;YearBuilt&#x27;]</span><br><span class="line">sns.pairplot(train_data[cols], height=1.5)</span><br><span class="line">plt.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<img src="/images/517519-20221105170324096-1282133364.png" width="800" height="805" loading="lazy">
+
+<p>如果看一个应变量Y和多个自变量X之间的关系，可以指定Y轴的变量</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cols = [&#x27;SalePrice&#x27;, &#x27;OverallQual&#x27;, &#x27;GrLivArea&#x27;, &#x27;GarageCars&#x27;, &#x27;TotalBsmtSF&#x27;, &#x27;FullBath&#x27;, &#x27;YearBuilt&#x27;]</span><br><span class="line">sns.pairplot(train_data[cols], y_vars=&quot;SalePrice&quot;, height=1.5)</span><br><span class="line">plt.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<img src="/images/517519-20221105172548726-795844603.png" width="1000" height="174" loading="lazy">
+
+<h3 id="4-bian-liang-de-fen-bu"><a href="#4-变量的分布" class="headerlink" title="4.变量的分布"></a>4.变量的分布<a href="#4-bian-liang-de-fen-bu" class="header-anchor">#</a></h3><p>如果要添加<strong>正态分布</strong>曲线和原数据分布进行比较，可以使用<code>distplot</code>函数，该函数会给原数据添加拟合曲线</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">import pandas as pd</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">import seaborn as sns</span><br><span class="line">from scipy.stats import norm</span><br><span class="line"></span><br><span class="line"># 偏度和峰度</span><br><span class="line">print(&quot;Skewness: %f&quot; % train_data[&#x27;SalePrice&#x27;].skew())</span><br><span class="line">print(&quot;Kurtosis: %f&quot; % train_data[&#x27;SalePrice&#x27;].kurt())</span><br><span class="line"></span><br><span class="line"># 绘制数据分布曲线</span><br><span class="line">sns.distplot(train_data[&#x27;SalePrice&#x27;], fit=norm)</span><br><span class="line"># 绘制P-P曲线</span><br><span class="line">fig = plt.figure()</span><br><span class="line">stats.probplot(train_data[&#x27;SalePrice&#x27;], plot=plt)</span><br><span class="line">plt.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<img src="/images/517519-20221105142649082-335225594.png" width="800" height="335">
+
+<p>查看偏度和峰度</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Skewness: 1.882876</span><br><span class="line">Kurtosis: 6.536282</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>使用<strong>log函数</strong>对数据来取对数，从而进行数据归一化，参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/tonglin0325/p/6214808.html">特征预处理&mdash;&mdash;特征标准化</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">import pandas as pd</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">import seaborn as sns</span><br><span class="line">from scipy.stats import norm</span><br><span class="line"></span><br><span class="line"># 取log对数</span><br><span class="line">train_data[&#x27;SalePrice&#x27;] = np.log(train_data[&#x27;SalePrice&#x27;])</span><br><span class="line"></span><br><span class="line"># 偏度和峰度</span><br><span class="line">print(&quot;Skewness: %f&quot; % train_data[&#x27;SalePrice&#x27;].skew())</span><br><span class="line">print(&quot;Kurtosis: %f&quot; % train_data[&#x27;SalePrice&#x27;].kurt())</span><br><span class="line"></span><br><span class="line"># 绘制数据分布曲线</span><br><span class="line">sns.distplot(train_data[&#x27;SalePrice&#x27;], fit=norm)</span><br><span class="line"># 绘制P-P曲线</span><br><span class="line">fig = plt.figure()</span><br><span class="line">stats.probplot(train_data[&#x27;SalePrice&#x27;], plot=plt)</span><br><span class="line">plt.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<img src="/images/517519-20221105140858677-777000938.png" width="800" height="334">
+
+<p>使用log函数进行正则化后的分布曲线的偏度和峰度</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Skewness: 0.121335</span><br><span class="line">Kurtosis: 0.809532</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-te-zheng-xuan-ze"><a href="#2-特征选择" class="headerlink" title="2.特征选择"></a>2.特征选择<a href="#2-te-zheng-xuan-ze" class="header-anchor">#</a></h2><p>特征选择(排序)对于数据科学家、机器学习从业者来说非常重要。好的特征选择能够提升模型的性能，更能帮助我们理解数据的特点、底层结构，这对进一步改善模型、算法都有着重要作用。</p>
+<p>特征选择主要有两个功能：</p>
+<ol>
+<li>减少特征数量、降维，使模型泛化能力更强，减少过拟合</li>
+<li>增强对特征和特征值之间的理解</li>
+</ol>
+<h3 id="1-yi-chang-zhi-chu-li"><a href="#1-异常值处理" class="headerlink" title="1.异常值处理"></a>1.异常值处理<a href="#1-yi-chang-zhi-chu-li" class="header-anchor">#</a></h3><h4 id="1-kong-zhi-chu-li"><a href="#1-空值处理" class="headerlink" title="1.空值处理"></a>1.空值处理<a href="#1-kong-zhi-chu-li" class="header-anchor">#</a></h4><p>如果一个特征有大量的空值，就可以考虑剔除该特征，比如当空值的比例大于15%的时候。<a target="_blank" rel="noopener" href="https://www.cnblogs.com/tonglin0325/p/6298290.html"></a></p>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/tonglin0325/p/6298290.html">特征预处理&mdash;&mdash;异常值处理</a></p>
+<h4 id="2-chi-qun-zhi-chu-li"><a href="#2-离群值处理" class="headerlink" title="2.离群值处理"></a>2.离群值处理<a href="#2-chi-qun-zhi-chu-li" class="header-anchor">#</a></h4><span id="more"></span>
+<p>&nbsp;</p>
+<h4 id="3-qu-diao-qu-zhi-bian-hua-xiao-de-te-zheng-nbsp-removing-features-with-low-variance"><a href="#3-去掉取值变化小的特征-nbsp-Removing-features-with-low-variance" class="headerlink" title="3.去掉取值变化小的特征&nbsp;Removing features with low variance"></a>3.去掉取值变化小的特征&nbsp;Removing features with low variance<a href="#3-qu-diao-qu-zhi-bian-hua-xiao-de-te-zheng-nbsp-removing-features-with-low-variance" class="header-anchor">#</a></h4><p>这应该是最简单的特征选择方法了：假设某特征的特征值只有0和1，并且在所有输入样本中，95%的实例的该特征取值都是1，那就可以认为这个特征作用不大。如果100%都是1，那这个特征就没意义了。当特征值都是离散型变量的时候这种方法才能用，如果是连续型变量，就需要将连续变量离散化之后才能用，而且实际当中，一般不太会有95%以上都取某个值的特征存在，所以这种方法虽然简单但是不太好用。可以把它作为特征选择的预处理，先去掉那些取值变化小的特征，然后再从接下来提到的的特征选择方法中选择合适的进行进一步的特征选择。</p>
+<h3 id="2-te-zheng-chu-li"><a href="#2-特征处理" class="headerlink" title="2.特征处理"></a>2.特征处理<a href="#2-te-zheng-chu-li" class="header-anchor">#</a></h3><p>参考：</p>
+<h3 id="3-xiang-guan-xing-fen-xi"><a href="#3-相关性分析" class="headerlink" title="3.相关性分析"></a>3.相关性分析<a href="#3-xiang-guan-xing-fen-xi" class="header-anchor">#</a></h3><p>在对数据进行清理和特征提取之后，就可以对特征进行相关性分析</p>
+<h4 id="1-shi-yong-re-li-tu-cha-kan-duo-yuan-shu-ju-te-zheng-de-xiang-guan-xing"><a href="#1-使用热力图查看多元数据特征的相关性" class="headerlink" title="1.使用热力图查看多元数据特征的相关性"></a>1.使用热力图查看多元数据特征的相关性<a href="#1-shi-yong-re-li-tu-cha-kan-duo-yuan-shu-ju-te-zheng-de-xiang-guan-xing" class="header-anchor">#</a></h4><p>使用pandas的<strong>dataframe.corr</strong><code>**函数**来计算</code>dataframe``中的两个变量之间的<strong>相关性</strong>，取值范围为[-1,1]，取值接近**-1<strong>，表示</strong>负*<em><strong>相关</strong>，取值接近</em>*1<strong>，表示</strong>正相关**。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 所有变量的相关性矩阵</span><br><span class="line">corrmat = train_data.corr()</span><br><span class="line">print(corrmat)</span><br><span class="line"># 查看热力图</span><br><span class="line">f, ax = plt.subplots(figsize=(12, 9))</span><br><span class="line">sns.heatmap(corrmat, vmax=.8, square=True)</span><br><span class="line">plt.tight_layout()</span><br><span class="line">plt.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>图中<strong>浅色</strong>的表示<strong>正相关</strong>，<strong>深色</strong>的表示<strong>负相关</strong>，所以图中浅色块和深色块区域的变量就具有线性关系。</p>
+<img src="/images/517519-20221105212528305-360610715.png" width="600" height="478">
+
+<p>corr()默认使用的是<strong>皮尔逊Pearson相关系数</strong>，可以反映两个变量变化时是同向还是反向，如果同向变化就为正，反向变化就为负。由于它是标准化后的协方差，因此更重要的特性来了，它消除了两个变量变化幅度的影响，而只是单纯反应两个变量每单位变化时的相似程度，即</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">corrmat = data.corr(method=&#x27;pearson&#x27;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>相关系数分类：</strong>0.8-1.0 极强相关；0.6-0.8 强相关；0.4-0.6 中等程度相关；0.2-0.4 弱相关；0.0-0.2 极弱相关或无相关</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/nxf-rabbit75/p/11122415.html">3(1).特征选择—过滤法（特征相关性分析）</a></p>
+<p>查看和应变量<strong>相关性最高的10个自变量</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 所有变量的相关性矩阵</span><br><span class="line">corrmat = train_data.corr()</span><br><span class="line"></span><br><span class="line"># 与Y的相关性矩阵top10热图</span><br><span class="line">k = 10  # 热力图变量数目</span><br><span class="line">cols = corrmat.nlargest(k, &#x27;SalePrice&#x27;)[&#x27;SalePrice&#x27;].index</span><br><span class="line">cm = np.corrcoef(train_data[cols].values.T)</span><br><span class="line">sns.set(font_scale=1.25)</span><br><span class="line">hm = sns.heatmap(cm, cbar=True, annot=True, square=True, fmt=&#x27;.2f&#x27;, annot_kws=&#123;&#x27;size&#x27;: 10&#125;, yticklabels=cols.values, xticklabels=cols.values)</span><br><span class="line">plt.show()  # 显示图片</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<img src="/images/517519-20221105212910194-1426743606.png" width="500" height="498">
+
+<h4 id="2-te-zheng-gong-xian-xing-wen-ti"><a href="#2-特征共线性问题" class="headerlink" title="2.特征共线性问题"></a>2.特征共线性问题<a href="#2-te-zheng-gong-xian-xing-wen-ti" class="header-anchor">#</a></h4><p>在线性模型中，若自变量之间具有线性关系会对模型的性能产生影响，因为它们包含重复的信息，应当舍去。</p>
+<p>因为在热力图中浅色块和深色块区域的变量就具有线性关系，比如上图中的TotalBsmtSF（<code>地下室面积</code>）和1stFlrSF（<code>1楼面积</code>）,GarageCars（<code>车库的汽车容量</code>）和GarageArea（车库面积），以及GrLivArea（地上居住面积）和TotRmsAbvGrd（地上房间总数）等，只需要保留和SalePrice相关性高的变量即可。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/72722146">多重共线性问题，如何解决？</a> 和 <a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1840752">如何消除多重共线性</a></p>
+<p>&nbsp;</p>
+<h4 id="3-shi-yong-si-pi-er-man-deng-ji-cha-kan-duo-yuan-shu-ju-te-zheng-de-xiang-guan-xing"><a href="#3-使用斯皮尔曼等级查看多元数据特征的相关性" class="headerlink" title="3.使用斯皮尔曼等级查看多元数据特征的相关性"></a>3.使用斯皮尔曼等级查看多元数据特征的相关性<a href="#3-shi-yong-si-pi-er-man-deng-ji-cha-kan-duo-yuan-shu-ju-te-zheng-de-xiang-guan-xing" class="header-anchor">#</a></h4><p><strong>Pearson相关检验</strong>是针对<code>**正态分布**数据</code>而言的，其他的还有：<strong>Spearman相关检验</strong>和<strong>Kendall相关检验</strong>，这2种检验属于**<code>秩检验</code>**</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_54423921/article/details/126322760">多元数据的相关性检验&mdash;&mdash;基于R</a></p>
+<p>指定corr()函数使用<strong>斯皮尔曼spearman相关系数</strong>，一列是特征的名字，一列是spearman相关系数，排序后使用<strong>barplot函数</strong>显示<strong>条形图</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># spearman</span><br><span class="line">df = pd.DataFrame()</span><br><span class="line">features = train_data.columns.tolist()</span><br><span class="line">df[&#x27;feature&#x27;] = features</span><br><span class="line">df[&#x27;spearman&#x27;] = [train_data[f].corr(other=train_data[&#x27;SalePrice&#x27;], method=&#x27;spearman&#x27;) for f in features]</span><br><span class="line">df = df.sort_values(&#x27;spearman&#x27;)</span><br><span class="line">plt.figure(figsize=(8, 0.1*len(features)))</span><br><span class="line">plt.yticks(fontsize=5)</span><br><span class="line">sns.barplot(data=df, y=&#x27;feature&#x27;, x=&#x27;spearman&#x27;, orient=&#x27;h&#x27;)</span><br><span class="line">plt.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可以看出和SalePrice相关性最高的自变量和使用热力图分析出来的结果是一样的</p>
+<p>&nbsp;<img src="/images/517519-20221105221203155-2143422491.png" width="600" height="651" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>作者：<a target="_blank" rel="noopener" href="http://www.chaoslog.com/author/edwin-jarvis.html">Edwin Jarvis</a></p>
+<p>拿到数据集，一个特征选择方法，往往很难同时完成这两个目的。通常情况下，我们经常不管三七二十一，选择一种自己最熟悉或者最方便的特征选择方法（往往目的是降维，而忽略了对特征和数据理解的目的）。</p>
+<p>在许多机器学习相关的书里，很难找到关于特征选择的内容，因为特征选择要解决的问题往往被视为机器学习的一种副作用，一般不会单独拿出来讨论。</p>
+<p>本文将结合<a target="_blank" rel="noopener" href="http://scikit-learn.org/stable/modules/feature_selection.html#univariate-feature-selection">Scikit-learn提供的例子</a>介绍几种常用的特征选择方法，它们各自的优缺点和问题。</p>
+<h2 id="3-dan-bian-liang-te-zheng-xuan-ze-univariate-feature-selection"><a href="#3-单变量特征选择-Univariate-feature-selection" class="headerlink" title="3.单变量特征选择 Univariate feature selection"></a>3.单变量特征选择 Univariate feature selection<a href="#3-dan-bian-liang-te-zheng-xuan-ze-univariate-feature-selection" class="header-anchor">#</a></h2><p>单变量特征选择能够对每一个特征进行测试，衡量该特征和响应变量之间的关系，根据得分扔掉不好的特征。对于回归和分类问题可以采用卡方检验等方式对特征进行测试。</p>
+<p>这种方法比较简单，易于运行，易于理解，通常对于理解数据有较好的效果（但对特征优化、提高泛化能力来说不一定有效）；这种方法有许多改进的版本、变种。</p>
+<h3 id="3-1-pearson-xiang-guan-xi-shu-pearson-correlation"><a href="#3-1-Pearson相关系数-Pearson-Correlation" class="headerlink" title="3.1 Pearson相关系数 Pearson Correlation"></a>3.1 Pearson相关系数 Pearson Correlation<a href="#3-1-pearson-xiang-guan-xi-shu-pearson-correlation" class="header-anchor">#</a></h3><p>皮尔森相关系数是一种最简单的，能帮助理解特征和响应变量之间关系的方法，该方法衡量的是变量之间的线性相关性，结果的取值区间为[-1，1]，-1表示完全的负相关(这个变量下降，那个就会上升)，+1表示完全的正相关，0表示没有线性相关。</p>
+<p>Pearson Correlation速度快、易于计算，经常在拿到数据(经过清洗和特征提取之后的)之后第一时间就执行。Scipy的<a target="_blank" rel="noopener" href="http://docs.scipy.org/doc/scipy-0.14.0/reference/generated/scipy.stats.pearsonr.html">pearsonr</a>方法能够同时计算相关系数和p-value，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">from scipy.stats import pearsonr</span><br><span class="line">np.random.seed(0)</span><br><span class="line">size = 300</span><br><span class="line">x = np.random.normal(0, 1, size)</span><br><span class="line">print &quot;Lower noise&quot;, pearsonr(x, x + np.random.normal(0, 1, size))</span><br><span class="line">print &quot;Higher noise&quot;, pearsonr(x, x + np.random.normal(0, 10, size))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Lower noise (0.71824836862138386, 7.3240173129992273e-49)<br><br>Higher noise (0.057964292079338148, 0.31700993885324746)</p>
+<p>这个例子中，我们比较了变量在加入噪音之前和之后的差异。当噪音比较小的时候，相关性很强，p-value很低。</p>
+<p>Scikit-learn提供的<a target="_blank" rel="noopener" href="http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.f_regression.html">f_regrssion</a>方法能够批量计算特征的p-value，非常方便，参考sklearn的<a target="_blank" rel="noopener" href="http://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html">pipeline</a></p>
+<p>Pearson相关系数的一个明显缺陷是，作为特征排序机制，他只对线性关系敏感。如果关系是非线性的，即便两个变量具有一一对应的关系，Pearson相关性也可能会接近0。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x = np.random.uniform(-1, 1, 100000)</span><br><span class="line">print pearsonr(x, x**2)[0]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>-0.00230804707612</p>
+<p>更多类似的例子参考<a target="_blank" rel="noopener" href="http://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Correlation_examples2.svg/506px-Correlation_examples2.svg.png">sample plots</a>。另外，如果仅仅根据相关系数这个值来判断的话，有时候会具有很强的误导性，如<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Anscombe%27s_quartet">Anscombe&rsquo;s quartet</a>，最好把数据可视化出来，以免得出错误的结论。</p>
+<h3 id="3-2-hu-xin-xi-he-zui-da-xin-xi-xi-shu-mutual-information-and-maximal-information-coefficient-mic"><a href="#3-2-互信息和最大信息系数-Mutual-information-and-maximal-information-coefficient-MIC" class="headerlink" title="3.2 互信息和最大信息系数 Mutual information and maximal information coefficient (MIC)"></a>3.2 互信息和最大信息系数 Mutual information and maximal information coefficient (MIC)<a href="#3-2-hu-xin-xi-he-zui-da-xin-xi-xi-shu-mutual-information-and-maximal-information-coefficient-mic" class="header-anchor">#</a></h3><p>最大信息系数克服了这两个问题。它首先寻找一种最优的离散化方式，然后把互信息取值转换成一种度量方式，取值区间在[0，1]。<a target="_blank" rel="noopener" href="http://minepy.sourceforge.net/">minepy</a>提供了MIC功能。</p>
+<p>反过头来看y=x^2这个例子，MIC算出来的互信息值为1(最大的取值)。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">from minepy import MINE</span><br><span class="line">m = MINE()</span><br><span class="line">x = np.random.uniform(-1, 1, 10000)</span><br><span class="line">m.compute_score(x, x**2)</span><br><span class="line">print m.mic()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>1.0</p>
+<p>MIC的统计能力遭到了<a target="_blank" rel="noopener" href="http://statweb.stanford.edu/%7Etibs/reshef/comment.pdf">一些质疑</a>，当零假设不成立时，MIC的统计就会受到影响。在有的数据集上不存在这个问题，但有的数据集上就存在这个问题</p>
+<h3 id="3-3-ju-chi-xiang-guan-xi-shu-distance-correlation"><a href="#3-3-距离相关系数-Distance-correlation" class="headerlink" title="3.3 距离相关系数 (Distance correlation)"></a>3.3 距离相关系数 (Distance correlation)<a href="#3-3-ju-chi-xiang-guan-xi-shu-distance-correlation" class="header-anchor">#</a></h3><p>距离相关系数是为了克服Pearson相关系数的弱点而生的。在x和x^2这个例子中，即便Pearson相关系数是0，我们也不能断定这两个变量是独立的（有可能是非线性相关）；但如果距离相关系数是0，那么我们就可以说这两个变量是独立的。</p>
+<p>R的<a target="_blank" rel="noopener" href="http://cran.r-project.org/web/packages/energy/index.html">energy</a>包里提供了距离相关系数的实现，另外这是<a target="_blank" rel="noopener" href="https://gist.github.com/josef-pkt/2938402">Python gist</a>的实现。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#R-code</span><br><span class="line">&gt; x = runif (1000, -1, 1)</span><br><span class="line">&gt; dcor(x, x**2)</span><br><span class="line">[1] 0.4943864</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>尽管有MIC和距离相关系数在了，但当变量之间的关系接近线性相关的时候，Pearson相关系数仍然是不可替代的。第一、Pearson相关系数计算速度快，这在处理大规模数据的时候很重要。第二、Pearson相关系数的取值区间是[-1，1]，而MIC和距离相关系数都是[0，1]。这个特点使得Pearson相关系数能够表征更丰富的关系，符号表示关系的正负，绝对值能够表示强度。当然，Pearson相关性有效的前提是两个变量的变化关系是单调的</p>
+<h3 id="2-4-ji-yu-xue-xi-mo-xing-de-te-zheng-pai-xu-model-based-ranking"><a href="#2-4-基于学习模型的特征排序-Model-based-ranking" class="headerlink" title="2.4 基于学习模型的特征排序 (Model based ranking)"></a>2.4 基于学习模型的特征排序 (Model based ranking)<a href="#2-4-ji-yu-xue-xi-mo-xing-de-te-zheng-pai-xu-model-based-ranking" class="header-anchor">#</a></h3><p>这种方法的思路是直接使用你要用的机器学习算法，针对每个单独的特征和响应变量建立预测模型。其实Pearson相关系数等价于线性回归里的标准化回归系数。假如某个特征和响应变量之间的关系是非线性的，可以用基于树的方法（决策树、随机森林）、或者扩展的线性模型等。基于树的方法比较易于使用，因为他们对非线性关系的建模比较好，并且不需要太多的调试。但要注意过拟合问题，因此树的深度最好不要太大，再就是运用交叉验证。</p>
+<p>在<a target="_blank" rel="noopener" href="https://archive.ics.uci.edu/ml/datasets/Housing">波士顿房价数据集</a>上使用sklearn的<a target="_blank" rel="noopener" href="http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html">随机森林回归</a>给出一个单变量选择的例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.cross_validation import cross_val_score, ShuffleSplit</span><br><span class="line">from sklearn.datasets import load_boston</span><br><span class="line">from sklearn.ensemble import RandomForestRegressor</span><br><span class="line"></span><br><span class="line">#Load boston housing dataset as an example</span><br><span class="line">boston = load_boston()</span><br><span class="line">X = boston[&quot;data&quot;]</span><br><span class="line">Y = boston[&quot;target&quot;]</span><br><span class="line">names = boston[&quot;feature_names&quot;]</span><br><span class="line"></span><br><span class="line">rf = RandomForestRegressor(n_estimators=20, max_depth=4)</span><br><span class="line">scores = []</span><br><span class="line">for i in range(X.shape[1]):</span><br><span class="line">     score = cross_val_score(rf, X[:, i:i+1], Y, scoring=&quot;r2&quot;,</span><br><span class="line">                              cv=ShuffleSplit(len(X), 3, .3))</span><br><span class="line">     scores.append((round(np.mean(score), 3), names[i]))</span><br><span class="line">print sorted(scores, reverse=True)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>[(0.636, &lsquo;LSTAT&rsquo;), (0.59, &lsquo;RM&rsquo;), (0.472, &lsquo;NOX&rsquo;), (0.369, &lsquo;INDUS&rsquo;), (0.311, &lsquo;PTRATIO&rsquo;), (0.24, &lsquo;TAX&rsquo;), (0.24, &lsquo;CRIM&rsquo;), (0.185, &lsquo;RAD&rsquo;), (0.16, &lsquo;ZN&rsquo;), (0.087, &lsquo;B&rsquo;), (0.062, &lsquo;DIS&rsquo;), (0.036, &lsquo;CHAS&rsquo;), (0.027, &lsquo;AGE&rsquo;)]</p>
+<h2 id="4-xian-xing-mo-xing-he-zheng-ze-hua"><a href="#4-线性模型和正则化" class="headerlink" title="4.线性模型和正则化"></a>4.线性模型和正则化<a href="#4-xian-xing-mo-xing-he-zheng-ze-hua" class="header-anchor">#</a></h2><p>单变量特征选择方法独立的衡量每个特征与响应变量之间的关系，另一种主流的特征选择方法是基于机器学习模型的方法。有些机器学习方法本身就具有对特征进行打分的机制，或者很容易将其运用到特征选择任务中，例如回归模型，SVM，决策树，随机森林等等。说句题外话，这种方法好像在一些地方叫做wrapper类型，大概意思是说，特征排序模型和机器学习模型是耦盒在一起的，对应的非wrapper类型的特征选择方法叫做filter类型。</p>
+<p>下面将介绍如何用回归模型的系数来选择特征。越是重要的特征在模型中对应的系数就会越大，而跟输出变量越是无关的特征对应的系数就会越接近于0。在噪音不多的数据上，或者是数据量远远大于特征数的数据上，如果特征之间相对来说是比较独立的，那么即便是运用最简单的线性回归模型也一样能取得非常好的效果。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.linear_model import LinearRegression</span><br><span class="line">import numpy as np</span><br><span class="line"></span><br><span class="line">np.random.seed(0)</span><br><span class="line">size = 5000</span><br><span class="line"></span><br><span class="line">#A dataset with 3 features</span><br><span class="line">X = np.random.normal(0, 1, (size, 3))</span><br><span class="line">#Y = X0 + 2*X1 + noise</span><br><span class="line">Y = X[:,0] + 2*X[:,1] + np.random.normal(0, 2, size)</span><br><span class="line">lr = LinearRegression()</span><br><span class="line">lr.fit(X, Y)</span><br><span class="line"></span><br><span class="line">#A helper method for pretty-printing linear models</span><br><span class="line">def pretty_print_linear(coefs, names = None, sort = False):</span><br><span class="line">    if names == None:</span><br><span class="line">        names = [&quot;X%s&quot; % x for x in range(len(coefs))]</span><br><span class="line">    lst = zip(coefs, names)</span><br><span class="line">    if sort:</span><br><span class="line">        lst = sorted(lst,  key = lambda x:-np.abs(x[0]))</span><br><span class="line">    return &quot; + &quot;.join(&quot;%s * %s&quot; % (round(coef, 3), name)</span><br><span class="line">                                   for coef, name in lst)</span><br><span class="line"></span><br><span class="line">print &quot;Linear model:&quot;, pretty_print_linear(lr.coef_)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Linear model: 0.984 * X0 + 1.995 * X1 + -0.041 * X2</p>
+<p>在这个例子当中，尽管数据中存在一些噪音，但这种特征选择模型仍然能够很好的体现出数据的底层结构。当然这也是因为例子中的这个问题非常适合用线性模型来解：特征和响应变量之间全都是线性关系，并且特征之间均是独立的。</p>
+<p>在很多实际的数据当中，往往存在多个互相关联的特征，这时候模型就会变得不稳定，数据中细微的变化就可能导致模型的巨大变化（模型的变化本质上是系数，或者叫参数，可以理解成W），这会让模型的预测变得困难，这种现象也称为多重共线性。例如，假设我们有个数据集，它的真实模型应该是Y=X1+X2，当我们观察的时候，发现Y&rsquo;=X1+X2+e，e是噪音。如果X1和X2之间存在线性关系，例如X1约等于X2，这个时候由于噪音e的存在，我们学到的模型可能就不是Y=X1+X2了，有可能是Y=2X1，或者Y=-X1+3X2。</p>
+<p>下边这个例子当中，在同一个数据上加入了一些噪音，用随机森林算法进行特征选择。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.linear_model import LinearRegression</span><br><span class="line"></span><br><span class="line">size = 100</span><br><span class="line">np.random.seed(seed=5)</span><br><span class="line"></span><br><span class="line">X_seed = np.random.normal(0, 1, size)</span><br><span class="line">X1 = X_seed + np.random.normal(0, .1, size)</span><br><span class="line">X2 = X_seed + np.random.normal(0, .1, size)</span><br><span class="line">X3 = X_seed + np.random.normal(0, .1, size)</span><br><span class="line"></span><br><span class="line">Y = X1 + X2 + X3 + np.random.normal(0,1, size)</span><br><span class="line">X = np.array([X1, X2, X3]).T</span><br><span class="line"></span><br><span class="line">lr = LinearRegression()</span><br><span class="line">lr.fit(X,Y)</span><br><span class="line">print &quot;Linear model:&quot;, pretty_print_linear(lr.coef_)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Linear model: -1.291 * X0 + 1.591 * X1 + 2.747 * X2</p>
+<p>系数之和接近3，基本上和上上个例子的结果一致，应该说学到的模型对于预测来说还是不错的。但是，如果从系数的字面意思上去解释特征的重要性的话，X3对于输出变量来说具有很强的正面影响，而X1具有负面影响，而实际上所有特征与输出变量之间的影响是均等的。</p>
+<p>同样的方法和套路可以用到类似的线性模型上，比如逻辑回归。</p>
+<h3 id="4-1-zheng-ze-hua-mo-xing"><a href="#4-1-正则化模型" class="headerlink" title="4.1 正则化模型"></a>4.1 正则化模型<a href="#4-1-zheng-ze-hua-mo-xing" class="header-anchor">#</a></h3><p>正则化就是把额外的约束或者惩罚项加到已有模型（损失函数）上，以防止过拟合并提高泛化能力。损失函数由原来的E(X,Y)变为E(X,Y)+alpha||w||，w是模型系数组成的向量（有些地方也叫参数parameter，coefficients），||&middot;||一般是L1或者L2范数，alpha是一个可调的参数，控制着正则化的强度。当用在线性模型上时，L1正则化和L2正则化也称为Lasso和Ridge。</p>
+<h3 id="4-2-l1-zheng-ze-hua-lasso"><a href="#4-2-L1正则化-Lasso" class="headerlink" title="4.2 L1正则化/Lasso"></a>4.2 L1正则化/Lasso<a href="#4-2-l1-zheng-ze-hua-lasso" class="header-anchor">#</a></h3><p>L1正则化将系数w的l1范数作为惩罚项加到损失函数上，由于正则项非零，这就迫使那些弱的特征所对应的系数变成0。因此L1正则化往往会使学到的模型很稀疏（系数w经常为0），这个特性使得L1正则化成为一种很好的特征选择方法。</p>
+<p>Scikit-learn为线性回归提供了Lasso，为分类提供了L1逻辑回归。</p>
+<p>下面的例子在波士顿房价数据上运行了Lasso，其中参数alpha是通过grid search进行优化的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.linear_model import Lasso</span><br><span class="line">from sklearn.preprocessing import StandardScaler</span><br><span class="line">from sklearn.datasets import load_boston</span><br><span class="line"></span><br><span class="line">boston = load_boston()</span><br><span class="line">scaler = StandardScaler()</span><br><span class="line">X = scaler.fit_transform(boston[&quot;data&quot;])</span><br><span class="line">Y = boston[&quot;target&quot;]</span><br><span class="line">names = boston[&quot;feature_names&quot;]</span><br><span class="line"></span><br><span class="line">lasso = Lasso(alpha=.3)</span><br><span class="line">lasso.fit(X, Y)</span><br><span class="line"></span><br><span class="line">print &quot;Lasso model: &quot;, pretty_print_linear(lasso.coef_, names, sort = True)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Lasso model: -3.707 * LSTAT + 2.992 * RM + -1.757 * PTRATIO + -1.081 * DIS + -0.7 * NOX + 0.631 * B + 0.54 * CHAS + -0.236 * CRIM + 0.081 * ZN + -0.0 * INDUS + -0.0 * AGE + 0.0 * RAD + -0.0 * TAX</p>
+<p>可以看到，很多特征的系数都是0。如果继续增加alpha的值，得到的模型就会越来越稀疏，即越来越多的特征系数会变成0。</p>
+<p>然而，L1正则化像非正则化线性模型一样也是不稳定的，如果特征集合中具有相关联的特征，当数据发生细微变化时也有可能导致很大的模型差异</p>
+<h3 id="4-3-l2-zheng-ze-hua-ridge-regression"><a href="#4-3-L2正则化-Ridge-regression" class="headerlink" title="4.3 L2正则化/Ridge regression"></a>4.3 L2正则化/Ridge regression<a href="#4-3-l2-zheng-ze-hua-ridge-regression" class="header-anchor">#</a></h3><p>L2正则化将系数向量的L2范数添加到了损失函数中。由于L2惩罚项中系数是二次方的，这使得L2和L1有着诸多差异，最明显的一点就是，L2正则化会让系数的取值变得平均。对于关联特征，这意味着他们能够获得更相近的对应系数。还是以Y=X1+X2为例，假设X1和X2具有很强的关联，如果用L1正则化，不论学到的模型是Y=X1+X2还是Y=2X1，惩罚都是一样的，都是2alpha。但是对于L2来说，第一个模型的惩罚项是2alpha，但第二个模型的是4*alpha。可以看出，系数之和为常数时，各系数相等时惩罚是最小的，所以才有了L2会让各个系数趋于相同的特点。</p>
+<p>可以看出，L2正则化对于特征选择来说一种稳定的模型，不像L1正则化那样，系数会因为细微的数据变化而波动。所以L2正则化和L1正则化提供的价值是不同的，L2正则化对于特征理解来说更加有用：表示能力强的特征对应的系数是非零。</p>
+<p>回过头来看看3个互相关联的特征的例子，分别以10个不同的种子随机初始化运行10次，来观察L1和L2正则化的稳定性。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.linear_model import Ridge</span><br><span class="line">from sklearn.metrics import r2_score</span><br><span class="line">size = 100</span><br><span class="line"></span><br><span class="line">#We run the method 10 times with different random seeds</span><br><span class="line">for i in range(10):</span><br><span class="line">    print &quot;Random seed %s&quot; % i</span><br><span class="line">    np.random.seed(seed=i)</span><br><span class="line">    X_seed = np.random.normal(0, 1, size)</span><br><span class="line">    X1 = X_seed + np.random.normal(0, .1, size)</span><br><span class="line">    X2 = X_seed + np.random.normal(0, .1, size)</span><br><span class="line">    X3 = X_seed + np.random.normal(0, .1, size)</span><br><span class="line">    Y = X1 + X2 + X3 + np.random.normal(0, 1, size)</span><br><span class="line">    X = np.array([X1, X2, X3]).T</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    lr = LinearRegression()</span><br><span class="line">    lr.fit(X,Y)</span><br><span class="line">    print &quot;Linear model:&quot;, pretty_print_linear(lr.coef_)</span><br><span class="line"></span><br><span class="line">    ridge = Ridge(alpha=10)</span><br><span class="line">    ridge.fit(X,Y)</span><br><span class="line">    print &quot;Ridge model:&quot;, pretty_print_linear(ridge.coef_)</span><br><span class="line">    print</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Random seed 0 Linear model: 0.728 * X0 + 2.309 * X1 + -0.082 * X2 Ridge model: 0.938 * X0 + 1.059 * X1 + 0.877 * X2</p>
+<p>Random seed 1 Linear model: 1.152 * X0 + 2.366 * X1 + -0.599 * X2 Ridge model: 0.984 * X0 + 1.068 * X1 + 0.759 * X2</p>
+<p>Random seed 2 Linear model: 0.697 * X0 + 0.322 * X1 + 2.086 * X2 Ridge model: 0.972 * X0 + 0.943 * X1 + 1.085 * X2</p>
+<p>Random seed 3 Linear model: 0.287 * X0 + 1.254 * X1 + 1.491 * X2 Ridge model: 0.919 * X0 + 1.005 * X1 + 1.033 * X2</p>
+<p>Random seed 4 Linear model: 0.187 * X0 + 0.772 * X1 + 2.189 * X2 Ridge model: 0.964 * X0 + 0.982 * X1 + 1.098 * X2</p>
+<p>Random seed 5 Linear model: -1.291 * X0 + 1.591 * X1 + 2.747 * X2 Ridge model: 0.758 * X0 + 1.011 * X1 + 1.139 * X2</p>
+<p>Random seed 6 Linear model: 1.199 * X0 + -0.031 * X1 + 1.915 * X2 Ridge model: 1.016 * X0 + 0.89 * X1 + 1.091 * X2</p>
+<p>Random seed 7 Linear model: 1.474 * X0 + 1.762 * X1 + -0.151 * X2 Ridge model: 1.018 * X0 + 1.039 * X1 + 0.901 * X2</p>
+<p>Random seed 8 Linear model: 0.084 * X0 + 1.88 * X1 + 1.107 * X2 Ridge model: 0.907 * X0 + 1.071 * X1 + 1.008 * X2</p>
+<p>Random seed 9 Linear model: 0.714 * X0 + 0.776 * X1 + 1.364 * X2 Ridge model: 0.896 * X0 + 0.903 * X1 + 0.98 * X2</p>
+<p>可以看出，不同的数据上线性回归得到的模型（系数）相差甚远，但对于L2正则化模型来说，结果中的系数非常的稳定，差别较小，都比较接近于1，能够反映出数据的内在结构</p>
+<h2 id="5-sui-ji-sen-lin"><a href="#5-随机森林" class="headerlink" title="5.随机森林"></a>5.随机森林<a href="#5-sui-ji-sen-lin" class="header-anchor">#</a></h2><p>随机森林具有准确率高、鲁棒性好、易于使用等优点，这使得它成为了目前最流行的机器学习算法之一。随机森林提供了两种特征选择的方法：mean decrease impurity和mean decrease accuracy。</p>
+<h3 id="5-1-ping-jun-bu-chun-du-jian-shao-mean-decrease-impurity"><a href="#5-1-平均不纯度减少-mean-decrease-impurity" class="headerlink" title="5.1 平均不纯度减少 mean decrease impurity"></a>5.1 平均不纯度减少 mean decrease impurity<a href="#5-1-ping-jun-bu-chun-du-jian-shao-mean-decrease-impurity" class="header-anchor">#</a></h3><p>随机森林由多个决策树构成。决策树中的每一个节点都是关于某个特征的条件，为的是将数据集按照不同的响应变量一分为二。利用不纯度可以确定节点（最优条件），对于分类问题，通常采用<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Decision_tree_learning#Gini_impurity">基尼不纯度</a>或者<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Information_gain_in_decision_trees">信息增益</a>，对于回归问题，通常采用的是<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Variance">方差</a>或者最小二乘拟合。当训练决策树的时候，可以计算出每个特征减少了多少树的不纯度。对于一个决策树森林来说，可以算出每个特征平均减少了多少不纯度，并把它平均减少的不纯度作为特征选择的值。</p>
+<p>下边的例子是sklearn中基于随机森林的特征重要度度量方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.datasets import load_boston</span><br><span class="line">from sklearn.ensemble import RandomForestRegressor</span><br><span class="line">import numpy as np</span><br><span class="line">#Load boston housing dataset as an example</span><br><span class="line">boston = load_boston()</span><br><span class="line">X = boston[&quot;data&quot;]</span><br><span class="line">Y = boston[&quot;target&quot;]</span><br><span class="line">names = boston[&quot;feature_names&quot;]</span><br><span class="line">rf = RandomForestRegressor()</span><br><span class="line">rf.fit(X, Y)</span><br><span class="line">print &quot;Features sorted by their score:&quot;</span><br><span class="line">print sorted(zip(map(lambda x: round(x, 4), rf.feature_importances_), names), </span><br><span class="line">             reverse=True)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Features sorted by their score: [(0.5298, &lsquo;LSTAT&rsquo;), (0.4116, &lsquo;RM&rsquo;), (0.0252, &lsquo;DIS&rsquo;), (0.0172, &lsquo;CRIM&rsquo;), (0.0065, &lsquo;NOX&rsquo;), (0.0035, &lsquo;PTRATIO&rsquo;), (0.0021, &lsquo;TAX&rsquo;), (0.0017, &lsquo;AGE&rsquo;), (0.0012, &lsquo;B&rsquo;), (0.0008, &lsquo;INDUS&rsquo;), (0.0004, &lsquo;RAD&rsquo;), (0.0001, &lsquo;CHAS&rsquo;), (0.0, &lsquo;ZN&rsquo;)]</p>
+<p>这里特征得分实际上采用的是<a target="_blank" rel="noopener" href="http://www.stat.berkeley.edu/%7Ebreiman/RandomForests/cc_home.htm#giniimp">Gini Importance</a>。使用基于不纯度的方法的时候，要记住：1、这种方法存在<a target="_blank" rel="noopener" href="http://link.springer.com/article/10.1186%2F1471-2105-8-25">偏向</a>，对具有更多类别的变量会更有利；2、对于存在关联的多个特征，其中任意一个都可以作为指示器（优秀的特征），并且一旦某个特征被选择之后，其他特征的重要度就会急剧下降，因为不纯度已经被选中的那个特征降下来了，其他的特征就很难再降低那么多不纯度了，这样一来，只有先被选中的那个特征重要度很高，其他的关联特征重要度往往较低。在理解数据时，这就会造成误解，导致错误的认为先被选中的特征是很重要的，而其余的特征是不重要的，但实际上这些特征对响应变量的作用确实非常接近的（这跟Lasso是很像的）。</p>
+<p><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Random_subspace_method">特征随机选择</a>方法稍微缓解了这个问题，但总的来说并没有完全解决。下面的例子中，X0、X1、X2是三个互相关联的变量，在没有噪音的情况下，输出变量是三者之和。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">size = 10000</span><br><span class="line">np.random.seed(seed=10)</span><br><span class="line">X_seed = np.random.normal(0, 1, size)</span><br><span class="line">X0 = X_seed + np.random.normal(0, .1, size)</span><br><span class="line">X1 = X_seed + np.random.normal(0, .1, size)</span><br><span class="line">X2 = X_seed + np.random.normal(0, .1, size)</span><br><span class="line">X = np.array([X0, X1, X2]).T</span><br><span class="line">Y = X0 + X1 + X2</span><br><span class="line"></span><br><span class="line">rf = RandomForestRegressor(n_estimators=20, max_features=2)</span><br><span class="line">rf.fit(X, Y);</span><br><span class="line">print &quot;Scores for X0, X1, X2:&quot;, map(lambda x:round (x,3),</span><br><span class="line">                                    rf.feature_importances_)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Scores for X0, X1, X2: [0.278, 0.66, 0.062]</p>
+<p>当计算特征重要性时，可以看到X1的重要度比X2的重要度要高出10倍，但实际上他们真正的重要度是一样的。尽管数据量已经很大且没有噪音，且用了20棵树来做随机选择，但这个问题还是会存在。</p>
+<p>需要注意的一点是，关联特征的打分存在不稳定的现象，这不仅仅是随机森林特有的，大多数基于模型的特征选择方法都存在这个问题</p>
+<h3 id="5-2-ping-jun-jing-que-lu-jian-shao-mean-decrease-accuracy"><a href="#5-2-平均精确率减少-Mean-decrease-accuracy" class="headerlink" title="5.2 平均精确率减少 Mean decrease accuracy"></a>5.2 平均精确率减少 Mean decrease accuracy<a href="#5-2-ping-jun-jing-que-lu-jian-shao-mean-decrease-accuracy" class="header-anchor">#</a></h3><p>另一种常用的特征选择方法就是直接度量每个特征对模型精确率的影响。主要思路是打乱每个特征的特征值顺序，并且度量顺序变动对模型的精确率的影响。很明显，对于不重要的变量来说，打乱顺序对模型的精确率影响不会太大，但是对于重要的变量来说，打乱顺序就会降低模型的精确率。</p>
+<p>这个方法sklearn中没有直接提供，但是很容易实现，下面继续在波士顿房价数据集上进行实现。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.cross_validation import ShuffleSplit</span><br><span class="line">from sklearn.metrics import r2_score</span><br><span class="line">from collections import defaultdict</span><br><span class="line"></span><br><span class="line">X = boston[&quot;data&quot;]</span><br><span class="line">Y = boston[&quot;target&quot;]</span><br><span class="line"></span><br><span class="line">rf = RandomForestRegressor()</span><br><span class="line">scores = defaultdict(list)</span><br><span class="line"></span><br><span class="line">#crossvalidate the scores on a number of different random splits of the data</span><br><span class="line">for train_idx, test_idx in ShuffleSplit(len(X), 100, .3):</span><br><span class="line">    X_train, X_test = X[train_idx], X[test_idx]</span><br><span class="line">    Y_train, Y_test = Y[train_idx], Y[test_idx]</span><br><span class="line">    r = rf.fit(X_train, Y_train)</span><br><span class="line">    acc = r2_score(Y_test, rf.predict(X_test))</span><br><span class="line">    for i in range(X.shape[1]):</span><br><span class="line">        X_t = X_test.copy()</span><br><span class="line">        np.random.shuffle(X_t[:, i])</span><br><span class="line">        shuff_acc = r2_score(Y_test, rf.predict(X_t))</span><br><span class="line">        scores[names[i]].append((acc-shuff_acc)/acc)</span><br><span class="line">print &quot;Features sorted by their score:&quot;</span><br><span class="line">print sorted([(round(np.mean(score), 4), feat) for</span><br><span class="line">              feat, score in scores.items()], reverse=True)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Features sorted by their score: [(0.7276, &lsquo;LSTAT&rsquo;), (0.5675, &lsquo;RM&rsquo;), (0.0867, &lsquo;DIS&rsquo;), (0.0407, &lsquo;NOX&rsquo;), (0.0351, &lsquo;CRIM&rsquo;), (0.0233, &lsquo;PTRATIO&rsquo;), (0.0168, &lsquo;TAX&rsquo;), (0.0122, &lsquo;AGE&rsquo;), (0.005, &lsquo;B&rsquo;), (0.0048, &lsquo;INDUS&rsquo;), (0.0043, &lsquo;RAD&rsquo;), (0.0004, &lsquo;ZN&rsquo;), (0.0001, &lsquo;CHAS&rsquo;)]</p>
+<p>在这个例子当中，LSTAT和RM这两个特征对模型的性能有着很大的影响，打乱这两个特征的特征值使得模型的性能下降了73%和57%。注意，尽管这些我们是在所有特征上进行了训练得到了模型，然后才得到了每个特征的重要性测试，这并不意味着我们扔掉某个或者某些重要特征后模型的性能就一定会下降很多，因为即便某个特征删掉之后，其关联特征一样可以发挥作用，让模型性能基本上不变</p>
+<h2 id="6-liang-chong-ding-ceng-te-zheng-xuan-ze-suan-fa"><a href="#6-两种顶层特征选择算法" class="headerlink" title="6.两种顶层特征选择算法"></a>6.两种顶层特征选择算法<a href="#6-liang-chong-ding-ceng-te-zheng-xuan-ze-suan-fa" class="header-anchor">#</a></h2><p>之所以叫做顶层，是因为他们都是建立在基于模型的特征选择方法基础之上的，例如回归和SVM，在不同的子集上建立模型，然后汇总最终确定特征得分。</p>
+<h3 id="6-1-wen-ding-xing-xuan-ze-stability-selection"><a href="#6-1-稳定性选择-Stability-selection" class="headerlink" title="6.1 稳定性选择 Stability selection"></a>6.1 稳定性选择 Stability selection<a href="#6-1-wen-ding-xing-xuan-ze-stability-selection" class="header-anchor">#</a></h3><p>稳定性选择是一种基于二次抽样和选择算法相结合较新的方法，选择算法可以是回归、SVM或其他类似的方法。它的主要思想是在不同的数据子集和特征子集上运行特征选择算法，不断的重复，最终汇总特征选择结果，比如可以统计某个特征被认为是重要特征的频率（被选为重要特征的次数除以它所在的子集被测试的次数）。理想情况下，重要特征的得分会接近100%。稍微弱一点的特征得分会是非0的数，而最无用的特征得分将会接近于0。</p>
+<p>sklearn在<a target="_blank" rel="noopener" href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.RandomizedLasso.html">随机lasso</a>和<a target="_blank" rel="noopener" href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.RandomizedLogisticRegression.html">随机逻辑回归</a>中有对稳定性选择的实现。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.linear_model import RandomizedLasso</span><br><span class="line">from sklearn.datasets import load_boston</span><br><span class="line">boston = load_boston()</span><br><span class="line"></span><br><span class="line">#using the Boston housing data. </span><br><span class="line">#Data gets scaled automatically by sklearn&#x27;s implementation</span><br><span class="line">X = boston[&quot;data&quot;]</span><br><span class="line">Y = boston[&quot;target&quot;]</span><br><span class="line">names = boston[&quot;feature_names&quot;]</span><br><span class="line"></span><br><span class="line">rlasso = RandomizedLasso(alpha=0.025)</span><br><span class="line">rlasso.fit(X, Y)</span><br><span class="line"></span><br><span class="line">print &quot;Features sorted by their score:&quot;</span><br><span class="line">print sorted(zip(map(lambda x: round(x, 4), rlasso.scores_), </span><br><span class="line">                 names), reverse=True)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Features sorted by their score: [(1.0, &lsquo;RM&rsquo;), (1.0, &lsquo;PTRATIO&rsquo;), (1.0, &lsquo;LSTAT&rsquo;), (0.62, &lsquo;CHAS&rsquo;), (0.595, &lsquo;B&rsquo;), (0.39, &lsquo;TAX&rsquo;), (0.385, &lsquo;CRIM&rsquo;), (0.25, &lsquo;DIS&rsquo;), (0.22, &lsquo;NOX&rsquo;), (0.125, &lsquo;INDUS&rsquo;), (0.045, &lsquo;ZN&rsquo;), (0.02, &lsquo;RAD&rsquo;), (0.015, &lsquo;AGE&rsquo;)]</p>
+<p>在上边这个例子当中，最高的3个特征得分是1.0，这表示他们总会被选作有用的特征（当然，得分会收到正则化参数alpha的影响，但是sklearn的随机lasso能够自动选择最优的alpha）。接下来的几个特征得分就开始下降，但是下降的不是特别急剧，这跟纯lasso的方法和随机森林的结果不一样。能够看出稳定性选择对于克服过拟合和对数据理解来说都是有帮助的：总的来说，好的特征不会因为有相似的特征、关联特征而得分为0，这跟Lasso是不同的。对于特征选择任务，在许多数据集和环境下，稳定性选择往往是性能最好的方法之一</p>
+<h3 id="6-2-di-gui-te-zheng-xiao-chu-recursive-feature-elimination-rfe"><a href="#6-2-递归特征消除-Recursive-feature-elimination-RFE" class="headerlink" title="6.2 递归特征消除 Recursive feature elimination (RFE)"></a>6.2 递归特征消除 Recursive feature elimination (RFE)<a href="#6-2-di-gui-te-zheng-xiao-chu-recursive-feature-elimination-rfe" class="header-anchor">#</a></h3><p>递归特征消除的主要思想是反复的构建模型（如SVM或者回归模型）然后选出最好的（或者最差的）的特征（可以根据系数来选），把选出来的特征放到一遍，然后在剩余的特征上重复这个过程，直到所有特征都遍历了。这个过程中特征被消除的次序就是特征的排序。因此，这是一种寻找最优特征子集的贪心算法。</p>
+<p>RFE的稳定性很大程度上取决于在迭代的时候底层用哪种模型。例如，假如RFE采用的普通的回归，没有经过正则化的回归是不稳定的，那么RFE就是不稳定的；假如采用的是Ridge，而用Ridge正则化的回归是稳定的，那么RFE就是稳定的。</p>
+<p>Sklearn提供了<a target="_blank" rel="noopener" href="http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.RFE.html">RFE</a>包，可以用于特征消除，还提供了<a target="_blank" rel="noopener" href="http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.RFECV.html">RFECV</a>，可以通过交叉验证来对的特征进行排序。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.feature_selection import RFE</span><br><span class="line">from sklearn.linear_model import LinearRegression</span><br><span class="line"></span><br><span class="line">boston = load_boston()</span><br><span class="line">X = boston[&quot;data&quot;]</span><br><span class="line">Y = boston[&quot;target&quot;]</span><br><span class="line">names = boston[&quot;feature_names&quot;]</span><br><span class="line"></span><br><span class="line">#use linear regression as the model</span><br><span class="line">lr = LinearRegression()</span><br><span class="line">#rank all features, i.e continue the elimination until the last one</span><br><span class="line">rfe = RFE(lr, n_features_to_select=1)</span><br><span class="line">rfe.fit(X,Y)</span><br><span class="line"></span><br><span class="line">print &quot;Features sorted by their rank:&quot;</span><br><span class="line">print sorted(zip(map(lambda x: round(x, 4), rfe.ranking_), names))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Features sorted by their rank: [(1.0, &lsquo;NOX&rsquo;), (2.0, &lsquo;RM&rsquo;), (3.0, &lsquo;CHAS&rsquo;), (4.0, &lsquo;PTRATIO&rsquo;), (5.0, &lsquo;DIS&rsquo;), (6.0, &lsquo;LSTAT&rsquo;), (7.0, &lsquo;RAD&rsquo;), (8.0, &lsquo;CRIM&rsquo;), (9.0, &lsquo;INDUS&rsquo;), (10.0, &lsquo;ZN&rsquo;), (11.0, &lsquo;TAX&rsquo;), (12.0, &lsquo;B&rsquo;), (13.0, &lsquo;AGE&rsquo;)]</p>
+<h2 id="7-yi-ge-wan-zheng-de-li-zi"><a href="#7-一个完整的例子" class="headerlink" title="7.一个完整的例子"></a>7.一个完整的例子<a href="#7-yi-ge-wan-zheng-de-li-zi" class="header-anchor">#</a></h2><p>接下来将会在上述数据上运行所有的特征选择方法，并且将每种方法给出的得分进行归一化，让取值都落在0-1之间。对于RFE来说，由于它给出的是顺序而不是得分，我们将最好的5个的得分定为1，其他的特征的得分均匀的分布在0-1之间。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.datasets import load_boston</span><br><span class="line">from sklearn.linear_model import (LinearRegression, Ridge, </span><br><span class="line">                                  Lasso, RandomizedLasso)</span><br><span class="line">from sklearn.feature_selection import RFE, f_regression</span><br><span class="line">from sklearn.preprocessing import MinMaxScaler</span><br><span class="line">from sklearn.ensemble import RandomForestRegressor</span><br><span class="line">import numpy as np</span><br><span class="line">from minepy import MINE</span><br><span class="line"></span><br><span class="line">np.random.seed(0)</span><br><span class="line"></span><br><span class="line">size = 750</span><br><span class="line">X = np.random.uniform(0, 1, (size, 14))</span><br><span class="line"></span><br><span class="line">#&quot;Friedamn #1&amp;rdquo; regression problem</span><br><span class="line">Y = (10 * np.sin(np.pi*X[:,0]*X[:,1]) + 20*(X[:,2] - .5)**2 +</span><br><span class="line">     10*X[:,3] + 5*X[:,4] + np.random.normal(0,1))</span><br><span class="line">#Add 3 additional correlated variables (correlated with X1-X3)</span><br><span class="line">X[:,10:] = X[:,:4] + np.random.normal(0, .025, (size,4))</span><br><span class="line"></span><br><span class="line">names = [&quot;x%s&quot; % i for i in range(1,15)]</span><br><span class="line"></span><br><span class="line">ranks = &#123;&#125;</span><br><span class="line"></span><br><span class="line">def rank_to_dict(ranks, names, order=1):</span><br><span class="line">    minmax = MinMaxScaler()</span><br><span class="line">    ranks = minmax.fit_transform(order*np.array([ranks]).T).T[0]</span><br><span class="line">    ranks = map(lambda x: round(x, 2), ranks)</span><br><span class="line">    return dict(zip(names, ranks ))</span><br><span class="line"></span><br><span class="line">lr = LinearRegression(normalize=True)</span><br><span class="line">lr.fit(X, Y)</span><br><span class="line">ranks[&quot;Linear reg&quot;] = rank_to_dict(np.abs(lr.coef_), names)</span><br><span class="line"></span><br><span class="line">ridge = Ridge(alpha=7)</span><br><span class="line">ridge.fit(X, Y)</span><br><span class="line">ranks[&quot;Ridge&quot;] = rank_to_dict(np.abs(ridge.coef_), names)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">lasso = Lasso(alpha=.05)</span><br><span class="line">lasso.fit(X, Y)</span><br><span class="line">ranks[&quot;Lasso&quot;] = rank_to_dict(np.abs(lasso.coef_), names)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">rlasso = RandomizedLasso(alpha=0.04)</span><br><span class="line">rlasso.fit(X, Y)</span><br><span class="line">ranks[&quot;Stability&quot;] = rank_to_dict(np.abs(rlasso.scores_), names)</span><br><span class="line"></span><br><span class="line">#stop the search when 5 features are left (they will get equal scores)</span><br><span class="line">rfe = RFE(lr, n_features_to_select=5)</span><br><span class="line">rfe.fit(X,Y)</span><br><span class="line">ranks[&quot;RFE&quot;] = rank_to_dict(map(float, rfe.ranking_), names, order=-1)</span><br><span class="line"></span><br><span class="line">rf = RandomForestRegressor()</span><br><span class="line">rf.fit(X,Y)</span><br><span class="line">ranks[&quot;RF&quot;] = rank_to_dict(rf.feature_importances_, names)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">f, pval  = f_regression(X, Y, center=True)</span><br><span class="line">ranks[&quot;Corr.&quot;] = rank_to_dict(f, names)</span><br><span class="line"></span><br><span class="line">mine = MINE()</span><br><span class="line">mic_scores = []</span><br><span class="line">for i in range(X.shape[1]):</span><br><span class="line">    mine.compute_score(X[:,i], Y)</span><br><span class="line">    m = mine.mic()</span><br><span class="line">    mic_scores.append(m)</span><br><span class="line"></span><br><span class="line">ranks[&quot;MIC&quot;] = rank_to_dict(mic_scores, names)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">r = &#123;&#125;</span><br><span class="line">for name in names:</span><br><span class="line">    r[name] = round(np.mean([ranks[method][name] </span><br><span class="line">                             for method in ranks.keys()]), 2)</span><br><span class="line"></span><br><span class="line">methods = sorted(ranks.keys())</span><br><span class="line">ranks[&quot;Mean&quot;] = r</span><br><span class="line">methods.append(&quot;Mean&quot;)</span><br><span class="line"></span><br><span class="line">print &quot;\t%s&quot; % &quot;\t&quot;.join(methods)</span><br><span class="line">for name in names:</span><br><span class="line">    print &quot;%s\t%s&quot; % (name, &quot;\t&quot;.join(map(str, </span><br><span class="line">                         [ranks[method][name] for method in methods])))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><a href="/images/5ybQKSP.png"><img src="/images/5ybQKSP.png" alt style="border: 0px; vertical-align: middle; max-width: 100%; height: auto;"></a>从以上结果中可以找到一些有趣的发现：</p>
+<p>特征之间存在线性关联关系，每个特征都是独立评价的，因此X1,&hellip;X4的得分和X11,&hellip;X14的得分非常接近，而噪音特征X5,&hellip;,X10正如预期的那样和响应变量之间几乎没有关系。由于变量X3是二次的，因此X3和响应变量之间看不出有关系（除了MIC之外，其他方法都找不到关系）。这种方法能够衡量出特征和响应变量之间的线性关系，但若想选出优质特征来提升模型的泛化能力，这种方法就不是特别给力了，因为所有的优质特征都不可避免的会被挑出来两次。</p>
+<p>Lasso能够挑出一些优质特征，同时让其他特征的系数趋于0。当如需要减少特征数的时候它很有用，但是对于数据理解来说不是很好用。（例如在结果表中，X11,X12,X13的得分都是0，好像他们跟输出变量之间没有很强的联系，但实际上不是这样的）</p>
+<p>MIC对特征一视同仁，这一点上和关联系数有点像，另外，它能够找出X3和响应变量之间的非线性关系。</p>
+<p>随机森林基于不纯度的排序结果非常鲜明，在得分最高的几个特征之后的特征，得分急剧的下降。从表中可以看到，得分第三的特征比第一的小4倍。而其他的特征选择算法就没有下降的这么剧烈。</p>
+<p>Ridge将回归系数均匀的分摊到各个关联变量上，从表中可以看出，X11,&hellip;,X14和X1,&hellip;,X4的得分非常接近。</p>
+<p>稳定性选择常常是一种既能够有助于理解数据又能够挑出优质特征的这种选择，在结果表中就能很好的看出。像Lasso一样，它能找到那些性能比较好的特征（X1，X2，X4，X5），同时，与这些特征关联度很强的变量也得到了较高的得分</p>
+<h3 id="zong-jie"><a href="#总结" class="headerlink" title="总结"></a>总结<a href="#zong-jie" class="header-anchor">#</a></h3><ol>
+<li>对于理解数据、数据的结构、特点来说，单变量特征选择是个非常好的选择。尽管可以用它对特征进行排序来优化模型，但由于它不能发现冗余（例如假如一个特征子集，其中的特征之间具有很强的关联，那么从中选择最优的特征时就很难考虑到冗余的问题）。</li>
+<li>正则化的线性模型对于特征理解和特征选择来说是非常强大的工具。L1正则化能够生成稀疏的模型，对于选择特征子集来说非常有用；相比起L1正则化，L2正则化的表现更加稳定，由于有用的特征往往对应系数非零，因此L2正则化对于数据的理解来说很合适。由于响应变量和特征之间往往是非线性关系，可以采用basis expansion的方式将特征转换到一个更加合适的空间当中，在此基础上再考虑运用简单的线性模型。</li>
+<li>随机森林是一种非常流行的特征选择方法，它易于使用，一般不需要feature engineering、调参等繁琐的步骤，并且很多工具包都提供了平均不纯度下降方法。它的两个主要问题，1是重要的特征有可能得分很低（关联特征问题），2是这种方法对特征变量类别多的特征越有利（偏向问题）。尽管如此，这种方法仍然非常值得在你的应用中试一试。</li>
+<li>特征选择在很多机器学习和数据挖掘场景中都是非常有用的。在使用的时候要弄清楚自己的目标是什么，然后找到哪种方法适用于自己的任务。当选择最优特征以提升模型性能的时候，可以采用交叉验证的方法来验证某种方法是否比其他方法要好。当用特征选择的方法来理解数据的时候要留心，特征选择模型的稳定性非常重要，稳定性差的模型很容易就会导致错误的结论。对数据进行二次采样然后在子集上运行特征选择算法能够有所帮助，如果在各个子集上的结果是一致的，那就可以说在这个数据集上得出来的结论是可信的，可以用这种特征选择模型的结果来理解数据</li>
+</ol>
+<h3 id="tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips<a href="#tips" class="header-anchor">#</a></h3><p>什么是<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Chi-square_test">卡方检验</a>？用方差来衡量某个观测频率和理论频率之间差异性的方法</p>
+<p>什么是<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Pearson%27s_chi-squared_test">皮尔森卡方检验</a>？这是一种最常用的卡方检验方法，它有两个用途：1是计算某个变量对某种分布的拟合程度，2是根据两个观测变量的<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Contingency_table">Contingency table</a>来计算这两个变量是否是独立的。主要有三个步骤：第一步用方差和的方式来计算观测频率和理论频率之间卡方值；第二步算出卡方检验的自由度（行数-1乘以列数-1）；第三步比较卡方值和对应自由度的卡方分布，判断显著性。</p>
+<p>什么是<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/P-value">p-value</a>？简单地说，p-value就是为了验证假设和实际之间一致性的统计学意义的值，即假设检验。有些地方叫右尾概率，根据卡方值和自由度可以算出一个固定的p-value，</p>
+<p>什么是<a target="_blank" rel="noopener" href="http://www.answers.com/Q/What_is_a_response_variable">响应变量(response value)</a>？简单地说，模型的输入叫做explanatroy variables，模型的输出叫做response variables，其实就是要验证该特征对结果造成了什么样的影响</p>
+<p>什么是<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Statistical_power">统计能力(statistical power)</a>?</p>
+<p>什么是<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Metric_%28mathematics%29">度量(metric)</a>?</p>
+<p>什么是<a target="_blank" rel="noopener" href="http://zh.wikipedia.org/wiki/%E9%9B%B6%E5%81%87%E8%AE%BE">零假设(null hypothesis)</a>?在相关性检验中，一般会取&ldquo;两者之间无关联&rdquo;作为零假设，而在独立性检验中，一般会取&ldquo;两者之间是独立&rdquo;作为零假设。与零假设相对的是备择假设（对立假设），即希望证明是正确的另一种可能。</p>
+
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/%E7%89%B9%E5%BE%81%E9%A2%84%E5%A4%84%E7%90%86%E2%80%94%E2%80%94%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9%E5%92%8C%E7%89%B9%E5%BE%81%E7%90%86%E8%A7%A3.html">特征预处理——特征选择和特征理解</a>
+          </div>
+        </div>
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://tonglin0325.github.io/%E7%89%B9%E5%BE%81%E9%A2%84%E5%A4%84%E7%90%86%E2%80%94%E2%80%94%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9%E5%92%8C%E7%89%B9%E5%BE%81%E7%90%86%E8%A7%A3.html" data-id="cln8csfd2016zl00l3unu49g1" class="article-share-link">
+        <i class="fa fa-share"></i> 分享
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/" rel="tag">Python</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E9%A2%84%E6%B5%8B%E6%95%B0%E5%80%BC%E5%9E%8B%E6%95%B0%E6%8D%AE%EF%BC%9A%E5%9B%9E%E5%BD%92.html" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">机器学习——预测数值型数据：回归</span>
+    </a>
+  </li>
+  
+  
+  <li role="presentation">
+    <a href="/%E7%89%B9%E5%BE%81%E9%A2%84%E5%A4%84%E7%90%86%E2%80%94%E2%80%94%E7%89%B9%E5%BE%81%E7%BC%A9%E6%94%BE.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <span class="article-nav-link-title">特征预处理——特征缩放</span>
+      <i class="fa fa-chevron-right pull-right"></i>
+    </a>
+  </li>
+  
+</ul>
+
+
+  
+</article>
+
+
+
+
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>tonglin0325</h4>
+  <div style="text-align:center;"><img src="/images/WechatIMG1.jpeg" width="150" height="150" style="vertical-align:middle;"/></div>
+</div>
+
+
+  
+
+
+  
+  <div class="sidebar-module">
+    <h4>标签</h4>
+    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/AWS/" rel="tag">AWS</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Airbnb/" rel="tag">Airbnb</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Android/" rel="tag">Android</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/CDH/" rel="tag">CDH</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Doris/" rel="tag">Doris</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ELK/" rel="tag">ELK</a><span class="sidebar-module-list-count">14</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Flink/" rel="tag">Flink</a><span class="sidebar-module-list-count">29</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Git/" rel="tag">Git</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Grafana/" rel="tag">Grafana</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HAProxy/" rel="tag">HAProxy</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HBase/" rel="tag">HBase</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hadoop/" rel="tag">Hadoop</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hive/" rel="tag">Hive</a><span class="sidebar-module-list-count">20</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hudi/" rel="tag">Hudi</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/InfluxDB/" rel="tag">InfluxDB</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JDBC/" rel="tag">JDBC</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JMeter/" rel="tag">JMeter</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Java/" rel="tag">Java</a><span class="sidebar-module-list-count">19</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JavaWeb/" rel="tag">JavaWeb</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/LaTex/" rel="tag">LaTex</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Linkedin/" rel="tag">Linkedin</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="sidebar-module-list-count">35</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ML/" rel="tag">ML</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ML-Infra/" rel="tag">ML Infra</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/MPP/" rel="tag">MPP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Maven/" rel="tag">Maven</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/MySQL/" rel="tag">MySQL</a><span class="sidebar-module-list-count">16</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Nexus/" rel="tag">Nexus</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/OpenTSDB/" rel="tag">OpenTSDB</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Paper/" rel="tag">Paper</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Play/" rel="tag">Play</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Prometheus/" rel="tag">Prometheus</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Python/" rel="tag">Python</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/React/" rel="tag">React</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/RocksDB/" rel="tag">RocksDB</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Scala/" rel="tag">Scala</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Solr/" rel="tag">Solr</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Spark/" rel="tag">Spark</a><span class="sidebar-module-list-count">25</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SpringMVC/" rel="tag">SpringMVC</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Thrift/" rel="tag">Thrift</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/YARN/" rel="tag">YARN</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/antlr/" rel="tag">antlr</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/arthas/" rel="tag">arthas</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/avro/" rel="tag">avro</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/cassandra/" rel="tag">cassandra</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/clickhouse/" rel="tag">clickhouse</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/confluent/" rel="tag">confluent</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/docker/" rel="tag">docker</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/filebeat/" rel="tag">filebeat</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/flume/" rel="tag">flume</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/golang/" rel="tag">golang</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/google/" rel="tag">google</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/gradle/" rel="tag">gradle</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hexo/" rel="tag">hexo</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/impala/" rel="tag">impala</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/jenkins/" rel="tag">jenkins</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/k8s/" rel="tag">k8s</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kafka/" rel="tag">kafka</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kerberos/" rel="tag">kerberos</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kudu/" rel="tag">kudu</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ldap/" rel="tag">ldap</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mac/" rel="tag">mac</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mongo/" rel="tag">mongo</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mybatis/" rel="tag">mybatis</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nginx/" rel="tag">nginx</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nlp/" rel="tag">nlp</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/open-falcon/" rel="tag">open-falcon</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/openwrt/" rel="tag">openwrt</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/parquet/" rel="tag">parquet</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/presto/" rel="tag">presto</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ranger/" rel="tag">ranger</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/scyllaDB/" rel="tag">scyllaDB</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/twitter/" rel="tag">twitter</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/zookeeper/" rel="tag">zookeeper</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%88%B7%E9%A2%98/" rel="tag">刷题</a><span class="sidebar-module-list-count">22</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%9B%BE%E5%AD%98%E5%82%A8%E5%8F%8A%E8%AE%A1%E7%AE%97/" rel="tag">图存储及计算</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F/" rel="tag">广告系统</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" rel="tag">开发工具</a><span class="sidebar-module-list-count">19</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="sidebar-module-list-count">25</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" rel="tag">系统设计</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="sidebar-module-list-count">5</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>标签云</h4>
+    <p class="tagcloud">
+      <a href="/tags/AWS/" style="font-size: 11.3px;">AWS</a> <a href="/tags/Airbnb/" style="font-size: 14.35px;">Airbnb</a> <a href="/tags/Android/" style="font-size: 11.74px;">Android</a> <a href="/tags/CDH/" style="font-size: 14.35px;">CDH</a> <a href="/tags/Doris/" style="font-size: 10px;">Doris</a> <a href="/tags/ELK/" style="font-size: 15.65px;">ELK</a> <a href="/tags/Flink/" style="font-size: 19.57px;">Flink</a> <a href="/tags/Git/" style="font-size: 10.43px;">Git</a> <a href="/tags/Grafana/" style="font-size: 10px;">Grafana</a> <a href="/tags/HAProxy/" style="font-size: 10.87px;">HAProxy</a> <a href="/tags/HBase/" style="font-size: 12.61px;">HBase</a> <a href="/tags/Hadoop/" style="font-size: 12.61px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 17.39px;">Hive</a> <a href="/tags/Hudi/" style="font-size: 11.3px;">Hudi</a> <a href="/tags/InfluxDB/" style="font-size: 10px;">InfluxDB</a> <a href="/tags/JDBC/" style="font-size: 13.48px;">JDBC</a> <a href="/tags/JMeter/" style="font-size: 10px;">JMeter</a> <a href="/tags/JVM/" style="font-size: 11.74px;">JVM</a> <a href="/tags/Java/" style="font-size: 16.96px;">Java</a> <a href="/tags/JavaWeb/" style="font-size: 11.3px;">JavaWeb</a> <a href="/tags/LaTex/" style="font-size: 10px;">LaTex</a> <a href="/tags/Linkedin/" style="font-size: 10px;">Linkedin</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/ML/" style="font-size: 18.7px;">ML</a> <a href="/tags/ML-Infra/" style="font-size: 11.3px;">ML Infra</a> <a href="/tags/MPP/" style="font-size: 10px;">MPP</a> <a href="/tags/Maven/" style="font-size: 10.43px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 16.09px;">MySQL</a> <a href="/tags/Nexus/" style="font-size: 11.74px;">Nexus</a> <a href="/tags/OpenTSDB/" style="font-size: 10.43px;">OpenTSDB</a> <a href="/tags/Paper/" style="font-size: 10px;">Paper</a> <a href="/tags/Play/" style="font-size: 10px;">Play</a> <a href="/tags/Prometheus/" style="font-size: 10.43px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 17.83px;">Python</a> <a href="/tags/React/" style="font-size: 10.43px;">React</a> <a href="/tags/Redis/" style="font-size: 10.87px;">Redis</a> <a href="/tags/RocksDB/" style="font-size: 10px;">RocksDB</a> <a href="/tags/Scala/" style="font-size: 13.91px;">Scala</a> <a href="/tags/Solr/" style="font-size: 10.87px;">Solr</a> <a href="/tags/Spark/" style="font-size: 19.13px;">Spark</a> <a href="/tags/SpringBoot/" style="font-size: 16.52px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 14.35px;">SpringMVC</a> <a href="/tags/Thrift/" style="font-size: 12.17px;">Thrift</a> <a href="/tags/YARN/" style="font-size: 11.74px;">YARN</a> <a href="/tags/antlr/" style="font-size: 10.43px;">antlr</a> <a href="/tags/arthas/" style="font-size: 10px;">arthas</a> <a href="/tags/avro/" style="font-size: 13.91px;">avro</a> <a href="/tags/cassandra/" style="font-size: 10px;">cassandra</a> <a href="/tags/clickhouse/" style="font-size: 10.43px;">clickhouse</a> <a href="/tags/confluent/" style="font-size: 10.43px;">confluent</a> <a href="/tags/docker/" style="font-size: 10.87px;">docker</a> <a href="/tags/filebeat/" style="font-size: 11.3px;">filebeat</a> <a href="/tags/flume/" style="font-size: 10.43px;">flume</a> <a href="/tags/golang/" style="font-size: 15.22px;">golang</a> <a href="/tags/google/" style="font-size: 13.04px;">google</a> <a href="/tags/gradle/" style="font-size: 10px;">gradle</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/impala/" style="font-size: 11.3px;">impala</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/k8s/" style="font-size: 14.35px;">k8s</a> <a href="/tags/kafka/" style="font-size: 14.78px;">kafka</a> <a href="/tags/kerberos/" style="font-size: 10px;">kerberos</a> <a href="/tags/kudu/" style="font-size: 10.43px;">kudu</a> <a href="/tags/ldap/" style="font-size: 10.43px;">ldap</a> <a href="/tags/mac/" style="font-size: 11.74px;">mac</a> <a href="/tags/mongo/" style="font-size: 11.74px;">mongo</a> <a href="/tags/mybatis/" style="font-size: 10.87px;">mybatis</a> <a href="/tags/nginx/" style="font-size: 12.17px;">nginx</a> <a href="/tags/nlp/" style="font-size: 10px;">nlp</a> <a href="/tags/open-falcon/" style="font-size: 10.87px;">open-falcon</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/parquet/" style="font-size: 10.87px;">parquet</a> <a href="/tags/presto/" style="font-size: 12.17px;">presto</a> <a href="/tags/ranger/" style="font-size: 10px;">ranger</a> <a href="/tags/scyllaDB/" style="font-size: 10.87px;">scyllaDB</a> <a href="/tags/twitter/" style="font-size: 10.43px;">twitter</a> <a href="/tags/zookeeper/" style="font-size: 14.78px;">zookeeper</a> <a href="/tags/%E5%88%B7%E9%A2%98/" style="font-size: 18.26px;">刷题</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 12.17px;">前端</a> <a href="/tags/%E5%9B%BE%E5%AD%98%E5%82%A8%E5%8F%8A%E8%AE%A1%E7%AE%97/" style="font-size: 10.43px;">图存储及计算</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.91px;">多线程</a> <a href="/tags/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F/" style="font-size: 13.04px;">广告系统</a> <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" style="font-size: 16.96px;">开发工具</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 16.52px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 13.48px;">杂谈</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 19.13px;">算法</a> <a href="/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" style="font-size: 10.43px;">系统设计</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 13.04px;">计算机网络</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 11.74px;">设计模式</a>
+    </p>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>文章归档</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/08/">八月 2024</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/05/">五月 2024</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2023/08/">八月 2023</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/07/">七月 2022</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/01/">一月 2022</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/12/">十二月 2021</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/11/">十一月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/09/">九月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">七月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/05/">五月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/03/">三月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/01/">一月 2021</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/12/">十二月 2020</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/11/">十一月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/10/">十月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/09/">九月 2020</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/08/">八月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/07/">七月 2020</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/06/">六月 2020</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/05/">五月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/04/">四月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/03/">三月 2020</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">二月 2020</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/01/">一月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">十月 2019</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/09/">九月 2019</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">八月 2019</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/07/">七月 2019</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/04/">四月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/03/">三月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/01/">一月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/12/">十二月 2018</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/11/">十一月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/09/">九月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/06/">六月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/05/">五月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/04/">四月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/02/">二月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/01/">一月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/11/">十一月 2017</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/09/">九月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/07/">七月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/06/">六月 2017</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/05/">五月 2017</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/04/">四月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/03/">三月 2017</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/01/">一月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/12/">十二月 2016</a><span class="sidebar-module-list-count">15</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/11/">十一月 2016</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">十月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">九月 2016</a><span class="sidebar-module-list-count">16</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/08/">八月 2016</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/07/">七月 2016</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">六月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">五月 2016</a><span class="sidebar-module-list-count">32</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/04/">四月 2016</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/03/">三月 2016</a><span class="sidebar-module-list-count">136</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/02/">二月 2016</a><span class="sidebar-module-list-count">22</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/09/">九月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/08/">八月 2015</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/07/">七月 2015</a><span class="sidebar-module-list-count">30</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/06/">六月 2015</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/04/">四月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2013/04/">四月 2013</a><span class="sidebar-module-list-count">2</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>最近文章</h4>
+    <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Istio%E5%92%8CKong.html">k8s学习笔记——Istio和Kong</a>
+        </li>
+      
+        <li>
+          <a href="/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ingress.html">k8s学习笔记——ingress</a>
+        </li>
+      
+        <li>
+          <a href="/Presto%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Go%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5Presto.html">Presto学习笔记——Go客户端连接Presto</a>
+        </li>
+      
+        <li>
+          <a href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94wire%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5.html">go学习笔记——wire依赖注入</a>
+        </li>
+      
+        <li>
+          <a href="/screen%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html">screen使用教程</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+
+        </div>
+    </div>
+  </div>
+  <footer class="blog-footer">
+  <div class="container">
+    <div id="footer-info" class="inner">
+      &copy; 2024 tonglin0325<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+  
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" integrity="sha384-8gBf6Y4YYq7Jx97PIqmTwLPin4hxIzQw5aDmUg/DDhul9fFpbbLcLh3nTIIDJKhx" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9HZSXL1LDJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9HZSXL1LDJ');
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+<script src="/js/jquery.qrcode.min.js"></script>
+
+
+
+<script src="/js/jquery-1.6.2.min.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Linux学习笔记——Shell部分 | tonglin0325的个人主页</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1.shell命令shell是连接linux内核和linux命令的模块 　　命令名称　　&#x2F;bin&#x2F;sh　　&#x2F;bin&#x2F;csh　　&#x2F;bin&#x2F;ksh 　　chsh -s　　输入新的shell，即修改shell 可以使用env命令查看当前的环境变量，可以查看当前使用的是什么shell命令 12env | grep SHELLSHELL&#x3D;&#x2F;bin&#x2F;zsh  2.使用vi编辑器   键盘输入 功能    i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux学习笔记——Shell部分">
+<meta property="og:url" content="http://tonglin0325.github.io/Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Shell%E9%83%A8%E5%88%86.html">
+<meta property="og:site_name" content="tonglin0325的个人主页">
+<meta property="og:description" content="1.shell命令shell是连接linux内核和linux命令的模块 　　命令名称　　&#x2F;bin&#x2F;sh　　&#x2F;bin&#x2F;csh　　&#x2F;bin&#x2F;ksh 　　chsh -s　　输入新的shell，即修改shell 可以使用env命令查看当前的环境变量，可以查看当前使用的是什么shell命令 12env | grep SHELLSHELL&#x3D;&#x2F;bin&#x2F;zsh  2.使用vi编辑器   键盘输入 功能    i">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-12-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-09-28T14:18:41.982Z">
+<meta property="article:author" content="tonglin0325">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="tonglin0325的个人主页" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="https://tonglin0325.github.io/images/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+
+  
+<link rel="stylesheet" href="/css/styles.css">
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-166238833-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5884015902351015"
+     crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-menu-navbar">
+      <ul class="nav navbar-nav">
+        
+          <li><a class=""
+                 href="/index.html">主页</a></li>
+        
+          <li><a class=""
+                 href="/archives/">所有文章</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="http://www.cnblogs.com/tonglin0325/">博客园</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="https://github.com/tonglin0325">Github</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="https://www.linkedin.com/in/tonglin0325/">LinkedIn</a></li>
+        
+        <li>
+          <span class="local-search local-search-google local-search-plugin" style="">
+  <input type="search" placeholder="站内搜索" id="local-search-input" class="local-search-input-cls" style="">
+  <div id="local-search-result" class="local-search-result-cls"></div>
+</span>
+
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    const div = document.getElementById('local-search-result');
+    const input = document.getElementById('local-search-input');
+
+    // 点击 input 显示 div
+    input.addEventListener('click', function() {
+        div.style.display = 'block';
+    });
+
+    // 点击 div 之外的地方隐藏 div
+    document.addEventListener('click', function(event) {
+        if (!div.contains(event.target) && event.target !== div && event.target !== input) {
+            div.style.display = 'none';
+        }
+    });
+});
+</script>
+        </li>
+      </ul>
+
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        
+          <li><a href="/atom.xml" title="RSS Feed"><i class="fa fa-rss"></i></a></li>
+        
+      </ul>
+      -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script>
+// 移动设备侦测
+var isMobile = {
+  Android: function () {
+    return navigator.userAgent.match(/Android/i);
+  },
+  BlackBerry: function () {
+    return navigator.userAgent.match(/BlackBerry/i);
+  },
+  iOS: function () {
+    return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+  },
+  Opera: function () {
+    return navigator.userAgent.match(/Opera Mini/i);
+  },
+  Windows: function () {
+    return navigator.userAgent.match(/IEMobile/i);
+  },
+  any: function () {
+    return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+  }
+};
+
+if ($('.local-search').resize() && !isMobile.any()) {
+	$.getScript('/js/search.js', function() {
+	  searchFunc("/search.json", 'local-search-input', 'local-search-result');
+	});
+}
+
+// document.addEventListener('DOMContentLoaded', (event) => {
+//
+//     const input = document.getElementById('.local-search-input');
+//     const div = document.getElementById('.local-search-result');
+//
+//     input.addEventListener('blur', function() {
+//         div.style.display = 'none';
+//     });
+// });
+</script>
+  <div class="container">
+    <div class="blog-header">
+  <h1 class="blog-title">tonglin0325的个人主页</h1>
+  
+</div>
+
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+          <article id="post-Linux学习笔记——Shell部分" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 class="article-title" itemprop="name">
+      Linux学习笔记——Shell部分
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Shell%E9%83%A8%E5%88%86.html" class="article-date"><time datetime="2016-12-28T16:00:00.000Z" itemprop="datePublished">2016-12-29</time></a>
+</div>
+
+    <div class="article-author">tonglin0325</div>
+    
+
+  </div>
+
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- 目录 -->
+
+<div id="toc">
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-shell-ming-ling"><span class="toc-text">1.shell命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-shi-yong-vi-bian-ji-qi"><span class="toc-text">2.使用vi编辑器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-guan-dao-ming-ling-pipe"><span class="toc-text">3.管道命令：pipe |</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-xuan-qu-ming-ling-cut-he-grep"><span class="toc-text">4.选取命令：cut和grep</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-pai-xu-ming-ling-sort-wc-he-uniq"><span class="toc-text">5.排序命令：sort、wc和uniq</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-shuang-xiang-chong-dao-xiang-tee"><span class="toc-text">6.双向重导向：tee</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-zi-fu-zhuan-huan-ming-ling-tr-col-join-paste-expand"><span class="toc-text">7.字符转换命令：tr、col、join、paste、expand</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-chai-fen-ming-ling-split"><span class="toc-text">8.拆分命令：split</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-can-shu-dai-huan-xargs"><span class="toc-text">9.参数代换：xargs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-jian-hao-de-yong-tu"><span class="toc-text">10.减号（-）的用途</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-tong-pei-fu-yu-te-shu-fu-hao"><span class="toc-text">11.通配符与特殊符号</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-ji-chu-zheng-ze-biao-da-shi"><span class="toc-text">12.基础正则表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-ge-shi-hua-xian-shi-printf"><span class="toc-text">13.格式化显示：printf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#14-bian-liang"><span class="toc-text">14.变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#15-ru-he-pan-duan-yi-ge-bian-liang-wei-kong"><span class="toc-text">15.如何判断一个变量为空</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#16-bian-liang-de-you-xiao-fan-wei"><span class="toc-text">16.变量的有效范围</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#17-bian-liang-jian-pan-du-qu-shu-zu-yu-shen-ming-read-array-declare"><span class="toc-text">17.变量键盘读取、数组与申明：read、array、declare</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#18-shell-zhong-de-bi-ru-he"><span class="toc-text">18. shell中的$，比如$@和$#</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#19-shell-zhong-de-dev-null-dai-biao-kong-she-bei-wen-jian"><span class="toc-text">19. shell中的&#x2F;dev&#x2F;null，代表空设备文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#20-huo-de-wen-ben-zhong-de-zui-duan-xing-he-zui-chang-xing"><span class="toc-text">20. 获得文本中的最短行和最长行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#21-shift-ming-ling"><span class="toc-text">21.Shift命令</span></a></li></ol>
+</div>
+
+        <h2 id="1-shell-ming-ling"><a href="#1-shell命令" class="headerlink" title="1.shell命令"></a>1.shell命令<a href="#1-shell-ming-ling" class="header-anchor">#</a></h2><p>shell是连接linux内核和linux命令的模块</p>
+<p>　　命令名称　　/bin/sh　　/bin/csh　　/bin/ksh</p>
+<p>　　chsh -s　　输入新的shell，即修改shell</p>
+<p>可以使用env命令查看当前的环境变量，可以查看当前使用的是什么shell命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">env | grep SHELL</span><br><span class="line">SHELL=/bin/zsh</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-shi-yong-vi-bian-ji-qi"><a href="#2-使用vi编辑器" class="headerlink" title="2.使用vi编辑器"></a><strong>2.使用vi编辑器</strong><a href="#2-shi-yong-vi-bian-ji-qi" class="header-anchor">#</a></h2><table>
+<thead>
+<tr>
+<th>键盘输入</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>i</td>
+<td>进入插入模式</td>
+</tr>
+<tr>
+<td>esc</td>
+<td>进入命令模式</td>
+</tr>
+<tr>
+<td>w</td>
+<td>将目前文件内容加以保存</td>
+</tr>
+<tr>
+<td>q</td>
+<td>退出，如果文件有修改会出现错误信息</td>
+</tr>
+<tr>
+<td>q!</td>
+<td>强制离开vi，并且不保存文件</td>
+</tr>
+<tr>
+<td>wq</td>
+<td>将修改过的内容保存，并离开vi</td>
+</tr>
+<tr>
+<td>set nu</td>
+<td>给文件中每一行添加行号</td>
+</tr>
+<tr>
+<td>set nonu</td>
+<td>取消行号</td>
+</tr>
+<tr>
+<td>输入数字</td>
+<td>直接输入数字再按esc，可将光标移至该行行首</td>
+</tr>
+<tr>
+<td>/字符串</td>
+<td>从头查找特定字符串</td>
+</tr>
+<tr>
+<td>?字符串</td>
+<td>从尾查找特定字符串<br><br></td>
+</tr>
+</tbody></table>
+<h2 id="3-guan-dao-ming-ling-pipe"><a href="#3-管道命令：pipe" class="headerlink" title="3.管道命令：pipe |"></a><strong>3.管道命令：pipe |</strong><a href="#3-guan-dao-ming-ling-pipe" class="header-anchor">#</a></h2><p>1.把一个命令的输出作为另一个命令的输入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ls -al /etc | less</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="4-xuan-qu-ming-ling-cut-he-grep"><a href="#4-选取命令：cut和grep" class="headerlink" title="4.选取命令：cut和grep"></a><strong>4.选取命令：cut和grep</strong><a href="#4-xuan-qu-ming-ling-cut-he-grep" class="header-anchor">#</a></h2><p><strong>cut命令</strong>可以将一段消息的某段切出来。</p>
+<p>-d接分隔符，-f是取出第几段的意思，-c是以字符串为单位取出固定的字符串范围</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ls -F | grep &#x27;/&#x27; -v | cut -d&#x27;.&#x27; -f 1　　#在取出不是文件夹的文件后，通过分隔符&amp;lsquo;.&amp;rsquo;来分割，取出不包括文件后缀的文件名</span><br><span class="line">ls -F | grep &#x27;/&#x27; -v | cut -c 1-　　#取出第一个字符（包括第一个）之后范围的字符，也可以指定范围1-5</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>　　</p>
+<p><strong>grep命令</strong>分析一行消息，如果其中有所需要的信息，就将该行取出。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ls -F | grep &#x27;/&#x27;　　#取出文件夹的名字</span><br><span class="line">ls -F | grep &#x27;/&#x27; -v　　#反向，取出不是文件夹的文件</span><br><span class="line">ls -l | grep ^d    #只显示文件夹</span><br><span class="line">ls -l | grep ^-    #只显示文件</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>　　</p>
+<p><strong>fgrep命令</strong>用于匹配文件内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">fgrep &#x27;test&#x27; ./xxx.py</span><br><span class="line">is_contain=`fgrep &#x27;test&#x27; ./xxx.py`</span><br><span class="line">if [ ! $is_contain ]; then</span><br><span class="line">    echo &quot;IS NULL&quot;</span><br><span class="line">else</span><br><span class="line">    echo &quot;NOT NULL&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>　　</p>
+<h2 id="5-pai-xu-ming-ling-sort-wc-he-uniq"><a href="#5-排序命令：sort、wc和uniq" class="headerlink" title="5.排序命令：sort、wc和uniq"></a><strong>5.排序命令：sort、wc和uniq</strong><a href="#5-pai-xu-ming-ling-sort-wc-he-uniq" class="header-anchor">#</a></h2><p>（a.txt保存的是ls -al的输出）</p>
+<span id="more"></span>
+<p>&nbsp;使用<strong>sort命令</strong>进行排序</p>
+<p>-f：表示忽略大小写</p>
+<p>-b：忽略最前面的空格</p>
+<p>-M：表示以月份的名字来排序，JAN、DEC等</p>
+<p>-n：使用&ldquo;纯数字&rdquo;进行排序，10在9之后，而不会在1之后（默认是以文字类型来排序）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat 下载/a.txt | sort -t&#x27; &#x27; -k 6 -n</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>-r：表示反向排序</p>
+<p>-u：表示uniq，相同的数据中，仅出现一行表示，（如果用第k栏来排序，第k栏相同的只出现一个）</p>
+<p>-t：是分隔符，-k：是按某个字段来进行排序</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat 下载/a.txt | sort -t&#x27; &#x27; -k 6    #-t表示分割，-k表示用第k栏来排序</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p>&nbsp;使用<strong>uniq命令</strong>来将重读的数据仅显示一次</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat 下载/a.txt | cut -d&#x27; &#x27; -f 1,2 | sort -t&#x27; &#x27; -k 2 -n | uniq　　#取出权限和文件数，然后按文件数排序，再去重</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p>&nbsp;使用<strong>wc命令</strong>来统计文件的字数、行数、字符数</p>
+<p>-l：仅显示多少行，-w：仅显示多少字（英文单词），-m：多少字符</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat 下载/a.txt | wc　　#分别显示&amp;ldquo;行数、字数、字符数&amp;rdquo;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;去掉第一行的&ldquo;总用量&rdquo;，再统计行数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">common@common-Aspire-4750:~$ cat 下载/a.txt | grep -v &#x27;总用量&#x27; | wc -l</span><br><span class="line">81</span><br><span class="line">common@common-Aspire-4750:~$ cat 下载/a.txt | wc -l</span><br><span class="line">82</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<h2 id="6-shuang-xiang-chong-dao-xiang-tee"><a href="#6-双向重导向：tee" class="headerlink" title="6.双向重导向：tee"></a><strong>6.双向重导向：tee</strong><a href="#6-shuang-xiang-chong-dao-xiang-tee" class="header-anchor">#</a></h2><p>　　同时将数据流分送到文件和屏幕</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat 下载/a.txt | sort | tee 下载/a.txt　　#把txt的内容排序后，双向重导向，不能使用&gt;来把一个文件的内容修改后，再重导向回本身，该操作会清空这个文件</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<h2 id="7-zi-fu-zhuan-huan-ming-ling-tr-col-join-paste-expand"><a href="#7-字符转换命令：tr、col、join、paste、expand" class="headerlink" title="7.字符转换命令：tr、col、join、paste、expand"></a><strong>7.字符转换命令：tr、col、join、paste、expand</strong><a href="#7-zi-fu-zhuan-huan-ming-ling-tr-col-join-paste-expand" class="header-anchor">#</a></h2><p><strong>tr</strong>可以用来删除一段消息中的文字，或者是进行文字消息的替换</p>
+<p>-d：删除一段消息中的文字，-s：替换重复的字符</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat a.txt | sed &#x27;s/[ ][ ]*/ /g&#x27;    #先把文件中连续的空格变成一个空格，方便使用字段来进行切分或者排序</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat a.txt | awk &#x27;&#123;$1=$1;print&#125;&#x27;　　#去掉连续空格的其他方法</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat a.txt | tr -s &#x27; &#x27;　　　　　　　　#去掉连续空格的其他方法</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat 下载/a.txt | tr &#x27;[a-z]&#x27; &#x27;[A-Z]&#x27;    #把输出的所有小写字母替换成大写字母</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat 下载/a.txt | tr -d &#x27; &#x27;    #删除所有的空格</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p><strong>col</strong>可以用来将【tab】按键替换成为空格键，在cat -A中，【tab】会以^I来表示，【换行符】会以^M</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat regTrees.py | col -x | cat -A    #将tab键转换成对等的空格键</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p><strong>join</strong>可以用来处理两个文件之间的数据</p>
+<p>-t：join默认以空格符号分割数据，并且比较&ldquo;第一个字段&rdquo;的数据，如果两个文件相同，则将两个数据联成一行，且第一个字段放在第一个。</p>
+<p>-i：忽略大小写的差异</p>
+<p>-1：表示第一个文件要用哪个字段来分析</p>
+<p>-2：表示第二个文件要用哪个字段来分析</p>
+<p>比如第一个文件a.txt是</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1 2 3</span><br><span class="line">4 5 6</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>第二个文件b.txt是&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1 4 5</span><br><span class="line">4 7 8</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">common@common-Aspire-4750:~/下载$ join -t &#x27; &#x27; -1 1 a.txt -2 1 b.txt</span><br><span class="line">1 2 3 4 5</span><br><span class="line">4 5 6 7 8</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p><strong>paste</strong>直接将两行贴在一起，且中间以[tab]键隔开</p>
+<p>-d：后面可以接分隔符，默认以[tab]来分割</p>
+<p>-：如果file部分写成-，表示来自标准输入的数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">common@common-Aspire-4750:~/下载$ paste a.txt b.txt</span><br><span class="line">1 2 3	1 4 5</span><br><span class="line">4 5 6	4 7 8</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">common@common-Aspire-4750:~/下载$ cat a.txt | paste a.txt b.txt - | head -n 3    #把要显示的文件和后面的输出贴在一起，且只取出前三行</span><br><span class="line">1 2 3&amp;nbsp;&amp;nbsp; &amp;nbsp;1 4 5&amp;nbsp;&amp;nbsp; &amp;nbsp;1 2 3&lt;br /&gt;4 5 6&amp;nbsp;&amp;nbsp; &amp;nbsp;4 7 8&amp;nbsp;&amp;nbsp; &amp;nbsp;4 5 6</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p><strong>expand</strong>将【tab】按键转换成空格键</p>
+<p>-t：后面可以接数字，一般一个tab键可以用8个空格键来替换</p>
+<p><strong>unexpand</strong>将空格键转换成【tab】</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">expand -1 treeExplore.py    #-t表示一个[tab]按键表示多少个字符</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<h2 id="8-chai-fen-ming-ling-split"><a href="#8-拆分命令：split" class="headerlink" title="8.拆分命令：split"></a><strong>8.拆分命令：split</strong><a href="#8-chai-fen-ming-ling-split" class="header-anchor">#</a></h2><p><strong>split命令</strong>可以用来拆分文件</p>
+<p>-b：后接要拆分的文件大小，可加单位，例如b,k,m等</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">split -b 1k a_copy.txt a_split    #拆分之后在前缀后面加上aa、ab、ac</span><br><span class="line">cat a_split* &gt;&gt; a_back.txt    #把拆分后的文件合并</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>-l：按行数进行拆分</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ls -al | split -l 10 - lsxiazai    #输出的信息，每10行记录成一个文件，必须要&amp;ldquo;-&amp;rdquo;符号</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>　　</p>
+<h2 id="9-can-shu-dai-huan-xargs"><a href="#9-参数代换：xargs" class="headerlink" title="9.参数代换：xargs"></a><strong>9.参数代换：xargs</strong><a href="#9-can-shu-dai-huan-xargs" class="header-anchor">#</a></h2><p><strong><strong>xargs命令</strong></strong>可以读入stdin的数据，并且以空格符或换行符作为标示，将stdin的数据分隔成为参数，作为某个命令的参数</p>
+<p>-0：如果输入的stdin含有特殊字符，例如`，\，空格键等字符，这个-0可以还原成一般字符。这个参数可以用于特殊状态</p>
+<p>-e：这时EOF的意思。后面可以接一个字符串，当xargs分析到这个字符串的时候，就会停止继续工作</p>
+<p>-p：在执行每个命令的参数的时候，都会询问用户是否执行，输入y或者n</p>
+<p>-n：后面接次数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">common@common-Aspire-4750:~$ cut -d&#x27;:&#x27; -f 1 &lt; /etc/passwd | xargs</span><br><span class="line">root daemon bin sys ... common</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cut -d&#x27;:&#x27; -f 1 &lt; /etc/passwd | xargs finger    #将输入的参数作为finger命令的输出，finger命令用于查找并显示用户信息</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cut -d&#x27;:&#x27; -f 1 &lt; /etc/passwd | xargs -p -n 5 finger    #每次仅查看5个账号，且询问用户</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cut -d&#x27;:&#x27; -f 1 &lt; /etc/passwd | xargs -p -e&#x27;games&#x27; finger    #当参数遇到games的时候，就包括后面的舍弃掉</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<h2 id="10-jian-hao-de-yong-tu"><a href="#10-减号（-）的用途" class="headerlink" title="10.减号（-）的用途"></a><strong><strong><strong>10.减号（-）的用途</strong></strong></strong><a href="#10-jian-hao-de-yong-tu" class="header-anchor">#</a></h2><p>当用到一个命令的stdout作为这次的stdin的时候，stdin和stdout可以利用&ldquo;-&rdquo;来替代</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar -cvf - /home | tar -xvf -    #后面的-取用前一个命令的stdout</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<h2 id="11-tong-pei-fu-yu-te-shu-fu-hao"><a href="#11-通配符与特殊符号" class="headerlink" title="11.通配符与特殊符号"></a><strong>11.通配符与特殊符号</strong><a href="#11-tong-pei-fu-yu-te-shu-fu-hao" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">*    #代表多个字母或者数字</span><br><span class="line">？    #代表一个字母或者数字</span><br><span class="line">#    #注释</span><br><span class="line">\    #转义符号</span><br><span class="line">|    #分隔两个管道命令</span><br><span class="line">;    #连续命令的分隔</span><br><span class="line">~    #用户的home目录</span><br><span class="line">$    #将命令变成后台工作</span><br><span class="line">!    #逻辑&amp;ldquo;非&amp;rdquo;</span><br><span class="line">/    #路径分隔符号</span><br><span class="line">&gt;、&gt;&gt;    #输出导向</span><br><span class="line">&amp;lsquo;    #单引号，不具有变量置换的功能</span><br><span class="line">&amp;ldquo;    #具有变量置换的功能</span><br><span class="line">&amp;rsquo; &amp;lsquo;    #两个&amp;lsquo;中间为可以先执行的命令</span><br><span class="line">()    #中间为子shell的起始与结束</span><br><span class="line">[]    #中间为字符的组合</span><br><span class="line">&#123;&#125;    #中间为命令区块的组合</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ctrl+C    #终止当前面命令</span><br><span class="line">ctrl+D    #输入结束（EOF），例如邮件结束的时候</span><br><span class="line">ctrl+M    #就是Enter键</span><br><span class="line">ctrl+S    #暂停屏幕的输出</span><br><span class="line">ctrl+Q    #恢复屏幕的输出</span><br><span class="line">ctrl+U    #在提示符下，删除整行命令</span><br><span class="line">ctrl+Z    #&amp;rdquo;暂停&amp;ldquo;当前的命令</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<h2 id="12-ji-chu-zheng-ze-biao-da-shi"><a href="#12-基础正则表达式" class="headerlink" title="12.基础正则表达式"></a><strong>12.基础正则表达式</strong><a href="#12-ji-chu-zheng-ze-biao-da-shi" class="header-anchor">#</a></h2><p><strong>grep命令</strong></p>
+<p><strong>-a：</strong>在二进制文件中，以文本文件的方式搜索数据</p>
+<p><strong>-c：</strong>计算找到&rdquo;搜索字符串&ldquo;的次数</p>
+<p><strong>-i：</strong>忽略大小写</p>
+<p><strong>-n：</strong>输出行号</p>
+<p><strong>-v：</strong>反向选择</p>
+<p>搜索特定字符和利用[]来搜索集合字符</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">grep -n &#x27;the&#x27; regular-express.txt    #搜索特定字符串，输出行号</span><br><span class="line">grep -n -i &#x27;the&#x27; regular-express.txt    #忽略大小写</span><br><span class="line">grep -n &#x27;t[ae]st&#x27; regular-express.txt    #利用[]来搜索集合字符</span><br><span class="line">grep -n &#x27;[^g]oo&#x27; regular-express.txt    #使用反向选择^来选择不是goo的oo单词</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;行首字符^与行尾字符$</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">grep -n &#x27;^[A-Z]&#x27; regular-express.txt    #行首字符^，选择行首是[A-Z]的行</span><br><span class="line">grep -n &#x27;\.$&#x27; regular-express.txt    #行尾字符$，选择行尾是.的行</span><br><span class="line">grep -n &#x27;^[^a-zA-Z]&#x27; regular-express.txt    #选取行首不是英文字符的行</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grep -n &#x27;\.$&#x27; a.txt    #把以.结尾的行输出，注意window的换行是^M$，Linux的换行是$</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;任意一个字符（.）与重复字符（*）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">grep -n &#x27;g..d&#x27; regular-express.txt    #找到有g??d字符的行</span><br><span class="line">grep -n &#x27;o*&#x27; regular-express.txt    #拥有空字符或者一个o以上的字符的行</span><br><span class="line">grep -n &#x27;oo*&#x27; regular-express.txt    #拥有一个o的字符的行</span><br><span class="line">grep -n &#x27;ooo*&#x27; regular-express.txt    #拥有两个o的字符的行</span><br><span class="line">grep -n &#x27;[0-9][0-9]*&#x27; regular-express.txt    #找到有任意数字的行</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;限定连续重复字符范围{}，使用的时候需要使用转义字符{}</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">grep -n &#x27;o\&#123;2\&#125;&#x27; regular-express.txt    #找到两个o的字符串的行</span><br><span class="line">grep -n &#x27;go\&#123;2,5\&#125;g&#x27; regular-express.txt    #找到g后面接2~5个o，然后再接一个g的字符串的行</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<h2 id="13-ge-shi-hua-xian-shi-printf"><a href="#13-格式化显示：printf" class="headerlink" title="13.格式化显示：printf"></a><strong>13.格式化显示：printf</strong><a href="#13-ge-shi-hua-xian-shi-printf" class="header-anchor">#</a></h2><p><strong>\n　　输出新的一行</strong></p>
+<p><strong>\t　　水平的tab按键</strong></p>
+<p><strong><strong>\v　　垂直的tab按键</strong></strong></p>
+<p><strong><strong>\xNN　　NN为两位数的数字，可以转换数字为字符</strong></strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">printf &#x27;%s\t %s\t %s\t \n&#x27; `cat a.txt`    #``中的命令先执行，然后按格式输出，用tab分割</span><br><span class="line">printf &#x27;\x45\n&#x27;    #输出E</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<h2 id="14-bian-liang"><a href="#14-变量" class="headerlink" title="14.变量"></a><strong><strong>14.变量</strong></strong><a href="#14-bian-liang" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">echo $HOME    #输出环境变量</span><br><span class="line">common@common-Aspire-4750:~$ myname=123    #定义变量并输出</span><br><span class="line">common@common-Aspire-4750:~$ echo $myname </span><br><span class="line">123</span><br><span class="line"></span><br><span class="line">unset myname    #取消变量</span><br><span class="line"></span><br><span class="line">name=my\ name    #空格等特殊字符用\或者&amp;ldquo; &amp;rdquo;    </span><br><span class="line">name=&quot;my name&quot;</span><br><span class="line"></span><br><span class="line">common@common-Aspire-4750:~$ echo $name </span><br><span class="line">my name</span><br><span class="line">common@common-Aspire-4750:~$ name=$name\ 123    #累加变量</span><br><span class="line">common@common-Aspire-4750:~$ echo $name </span><br><span class="line">my name 123</span><br><span class="line"></span><br><span class="line">common@common-Aspire-4750:~$ name=my\ name    #通过export让子程序可以使用父程序的变量</span><br><span class="line">common@common-Aspire-4750:~$ echo $name</span><br><span class="line">my name</span><br><span class="line">common@common-Aspire-4750:~$ bash</span><br><span class="line">common@common-Aspire-4750:~$ echo $name</span><br><span class="line"></span><br><span class="line">common@common-Aspire-4750:~$ exit</span><br><span class="line">exit</span><br><span class="line">common@common-Aspire-4750:~$ export name</span><br><span class="line">common@common-Aspire-4750:~$ bash</span><br><span class="line">common@common-Aspire-4750:~$ echo $name</span><br><span class="line">my name&amp;nbsp;</span><br></pre></td></tr></table></figure>
+
+<p>参考</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://www.huweihuang.com/linux-notes/shell/shell-var.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<h2 id="15-ru-he-pan-duan-yi-ge-bian-liang-wei-kong"><a href="#15-如何判断一个变量为空" class="headerlink" title="15.如何判断一个变量为空"></a>15.如何判断一个变量为空<a href="#15-ru-he-pan-duan-yi-ge-bian-liang-wei-kong" class="header-anchor">#</a></h2><p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/varyall/article/details/79140753">在shell中如何判断一个变量是否为空</a></p>
+<p>&nbsp;</p>
+<h2 id="16-bian-liang-de-you-xiao-fan-wei"><a href="#16-变量的有效范围" class="headerlink" title="16.变量的有效范围"></a><strong>16.变量的有效范围</strong><a href="#16-bian-liang-de-you-xiao-fan-wei" class="header-anchor">#</a></h2><p>变量能否被引用是与<strong>export</strong>有关的，被export后的变量，可以称之为&ldquo;环境变量&rdquo;，环境变量可以被子程序所引用，但是其他的自定义变量就不会存在于子程序中。</p>
+<p>在scripts2.sh会去引用scripts1.sh中的变量，那么scripts1.sh就应该设置export</p>
+<p>&nbsp;</p>
+<h2 id="17-bian-liang-jian-pan-du-qu-shu-zu-yu-shen-ming-read-array-declare"><a href="#17-变量键盘读取、数组与申明：read、array、declare" class="headerlink" title="17.变量键盘读取、数组与申明：read、array、declare"></a><strong>17.变量键盘读取、数组与申明：read、array、declare</strong><a href="#17-bian-liang-jian-pan-du-qu-shu-zu-yu-shen-ming-read-array-declare" class="header-anchor">#</a></h2><p><strong>1、read</strong>，用来读取来自键盘输入的变量</p>
+<p>-p：后面可以接提示符</p>
+<p>-t：后面可以接等待的秒数，不会一直等待用户</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">common@common-Aspire-4750:~$ read -p &quot;请输入name:&quot; -t 30 name    #提示符和等待</span><br><span class="line">请输入name:my name</span><br><span class="line">common@common-Aspire-4750:~$ echo $name</span><br><span class="line">my name</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p><strong>2、declare和typeset</strong>，用来申明变量的属性</p>
+<p>-a：申明数组（array）</p>
+<p>-i：申明整数数字（integer）</p>
+<p>-x：和export一样，申明环境变量</p>
+<p>-r：将一个变量申明为只读，不可更改内容，也不能unset</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">common@common-Aspire-4750:~$ sum=100+300</span><br><span class="line">common@common-Aspire-4750:~$ echo $sum</span><br><span class="line">100+300</span><br><span class="line">common@common-Aspire-4750:~$ declare -i sum=100+300    #申明为整数才能求和</span><br><span class="line">common@common-Aspire-4750:~$ echo $sum</span><br><span class="line">400</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p><strong>3.数组属性array</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">common@common-Aspire-4750:~$ name[1]=123</span><br><span class="line">common@common-Aspire-4750:~$ name[2]=456</span><br><span class="line">common@common-Aspire-4750:~$ name[3]=789</span><br><span class="line">common@common-Aspire-4750:~$ echo $&#123;name[1]&#125;　　#使用$()来读取</span><br><span class="line">123</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<h2 id="18-shell-zhong-de-bi-ru-he"><a href="#18-shell中的-，比如-和" class="headerlink" title="18. shell中的$，比如$@和$#"></a><strong>18. shell中的$，比如</strong>$@和$#<a href="#18-shell-zhong-de-bi-ru-he" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$0 Shell本身的文件名</span><br><span class="line">$1～$n 添加到Shell的各参数值。$1是第1参数、$2是第2参数&amp;hellip;</span><br><span class="line">$$ Shell本身的PID（ProcessID）</span><br><span class="line">$! Shell最后运行的后台Process的PID</span><br><span class="line">$? 最后运行的命令的结束代码（返回值）</span><br><span class="line">$- 使用Set命令设定的Flag一览</span><br><span class="line">$* 所有参数列表。如&quot;$*&quot;用「&quot;」括起来的情况、以&quot;$1 $2 &amp;hellip; $n&quot;的形式输出所有数</span><br><span class="line">$@ 所有参数列表。如&quot;$@&quot;用「&quot;」括起来的情况、以&quot;$1&quot; &quot;$2&quot; &amp;hellip; &quot;$n&quot; 的形式输出所有参数</span><br><span class="line">$# 添加到Shell的参数个数</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>$# 参数的数量</p>
+<p>$@ 参数的内容</p>
+<p>比如test.sh</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line"></span><br><span class="line">echo &quot;number:$#&quot;</span><br><span class="line">echo &quot;argume:$@&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>运行 ./test a b，输出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">number:2</span><br><span class="line">argume:a b</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>　　</p>
+<h2 id="19-shell-zhong-de-dev-null-dai-biao-kong-she-bei-wen-jian"><a href="#19-shell中的-dev-null，代表空设备文件" class="headerlink" title="19. shell中的/dev/null，代表空设备文件"></a><strong>19. shell中的/dev/null，代表空设备文件</strong><a href="#19-shell-zhong-de-dev-null-dai-biao-kong-she-bei-wen-jian" class="header-anchor">#</a></h2><p><strong>参考：</strong><a target="_blank" rel="noopener" href="https://blog.csdn.net/ithomer/article/details/9288353">Linux Shell 1&gt;/dev/null 2&gt;&amp;1 含义</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt; &amp;nbsp;：代表重定向到哪里，例如：echo &quot;123&quot; &gt; /home/123.txt</span><br><span class="line">1 &amp;nbsp;：表示stdout标准输出，系统默认值是1，所以&quot;&gt;/dev/null&quot;等同于&quot;1&gt;/dev/null&quot;</span><br><span class="line">2 &amp;nbsp;：表示stderr标准错误</span><br><span class="line">&amp;amp; &amp;nbsp;：表示等同于的意思，2&gt;&amp;amp;1，表示2的输出重定向等同于1</span><br><span class="line"></span><br><span class="line">1 &gt; /dev/null 2&gt;&amp;amp;1&amp;nbsp;语句含义：</span><br><span class="line">1 &gt; /dev/null ： 首先表示标准输出重定向到空设备文件，也就是不输出任何信息到终端，说白了就是不显示任何信息。</span><br><span class="line">2&gt;&amp;amp;1 ：接着，标准错误输出重定向（等同于）标准输出，因为之前标准输出已经重定向到了空设备文件，所以标准错误输出也重定向到空设备文件</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<h2 id="20-huo-de-wen-ben-zhong-de-zui-duan-xing-he-zui-chang-xing"><a href="#20-获得文本中的最短行和最长行" class="headerlink" title="20. 获得文本中的最短行和最长行"></a>20. 获得文本中的最短行和最长行<a href="#20-huo-de-wen-ben-zhong-de-zui-duan-xing-he-zui-chang-xing" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">最短行：awk &#x27;(NR==1||length(min)&gt;length())&#123;min=$0&#125;END&#123;print min&#125;&#x27; data.txt</span><br><span class="line">最长行：awk &#x27;&#123;if (length(max)&lt;length()) max=$0&#125;END&#123;print max&#125;&#x27; data.txt</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>　　</p>
+<h2 id="21-shift-ming-ling"><a href="#21-Shift命令" class="headerlink" title="21.Shift命令"></a>21.Shift命令<a href="#21-shift-ming-ling" class="header-anchor">#</a></h2><p>Shift命令运行一次，将会销毁一个输入参数，后面的参数前移，比如下面脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line">while [ $# != 0 ]</span><br><span class="line">    do</span><br><span class="line">    echo &quot;prama is $1,prama size is $#&quot;</span><br><span class="line">    shift</span><br><span class="line">done</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>输入参数是 a b c，运行一次shift，参数 a b c将会减少一个</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">./shift_test.sh a b c</span><br><span class="line">prama is a,prama size is 3</span><br><span class="line">prama is b,prama size is 2</span><br><span class="line">prama is c,prama size is 1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>　　</p>
+<p>&nbsp;</p>
+
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Shell%E9%83%A8%E5%88%86.html">Linux学习笔记——Shell部分</a>
+          </div>
+        </div>
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://tonglin0325.github.io/Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Shell%E9%83%A8%E5%88%86.html" data-id="cln8csf5d00d6l00lhn7s9vae" class="article-share-link">
+        <i class="fa fa-share"></i> 分享
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/Ubuntu16.04%E5%AE%89%E8%A3%85Ranger2.1.0.html" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">Ubuntu16.04安装Ranger2.1.0</span>
+    </a>
+  </li>
+  
+  
+  <li role="presentation">
+    <a href="/Hive%E4%BB%BB%E5%8A%A1%E5%A6%82%E4%BD%95%E8%AE%A1%E7%AE%97%E7%94%9F%E6%88%90%E7%9A%84map%E5%92%8Creduce%E4%BB%BB%E5%8A%A1.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <span class="article-nav-link-title">Hive任务如何计算生成的map和reduce任务</span>
+      <i class="fa fa-chevron-right pull-right"></i>
+    </a>
+  </li>
+  
+</ul>
+
+
+  
+</article>
+
+
+
+
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>tonglin0325</h4>
+  <div style="text-align:center;"><img src="/images/WechatIMG1.jpeg" width="150" height="150" style="vertical-align:middle;"/></div>
+</div>
+
+
+  
+
+
+  
+  <div class="sidebar-module">
+    <h4>标签</h4>
+    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/AWS/" rel="tag">AWS</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Airbnb/" rel="tag">Airbnb</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Android/" rel="tag">Android</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/CDH/" rel="tag">CDH</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Doris/" rel="tag">Doris</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ELK/" rel="tag">ELK</a><span class="sidebar-module-list-count">14</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Flink/" rel="tag">Flink</a><span class="sidebar-module-list-count">29</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Git/" rel="tag">Git</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Grafana/" rel="tag">Grafana</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HAProxy/" rel="tag">HAProxy</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HBase/" rel="tag">HBase</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hadoop/" rel="tag">Hadoop</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hive/" rel="tag">Hive</a><span class="sidebar-module-list-count">20</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hudi/" rel="tag">Hudi</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/InfluxDB/" rel="tag">InfluxDB</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JDBC/" rel="tag">JDBC</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JMeter/" rel="tag">JMeter</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Java/" rel="tag">Java</a><span class="sidebar-module-list-count">19</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JavaWeb/" rel="tag">JavaWeb</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/LaTex/" rel="tag">LaTex</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Linkedin/" rel="tag">Linkedin</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="sidebar-module-list-count">35</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ML/" rel="tag">ML</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ML-Infra/" rel="tag">ML Infra</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/MPP/" rel="tag">MPP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Maven/" rel="tag">Maven</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/MySQL/" rel="tag">MySQL</a><span class="sidebar-module-list-count">16</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Nexus/" rel="tag">Nexus</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/OpenTSDB/" rel="tag">OpenTSDB</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Paper/" rel="tag">Paper</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Play/" rel="tag">Play</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Prometheus/" rel="tag">Prometheus</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Python/" rel="tag">Python</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/React/" rel="tag">React</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/RocksDB/" rel="tag">RocksDB</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Scala/" rel="tag">Scala</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Solr/" rel="tag">Solr</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Spark/" rel="tag">Spark</a><span class="sidebar-module-list-count">25</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SpringMVC/" rel="tag">SpringMVC</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Thrift/" rel="tag">Thrift</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/YARN/" rel="tag">YARN</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/antlr/" rel="tag">antlr</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/arthas/" rel="tag">arthas</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/avro/" rel="tag">avro</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/cassandra/" rel="tag">cassandra</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/clickhouse/" rel="tag">clickhouse</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/confluent/" rel="tag">confluent</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/docker/" rel="tag">docker</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/filebeat/" rel="tag">filebeat</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/flume/" rel="tag">flume</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/golang/" rel="tag">golang</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/google/" rel="tag">google</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/gradle/" rel="tag">gradle</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hexo/" rel="tag">hexo</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/impala/" rel="tag">impala</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/jenkins/" rel="tag">jenkins</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/k8s/" rel="tag">k8s</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kafka/" rel="tag">kafka</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kerberos/" rel="tag">kerberos</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kudu/" rel="tag">kudu</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ldap/" rel="tag">ldap</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mac/" rel="tag">mac</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mongo/" rel="tag">mongo</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mybatis/" rel="tag">mybatis</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nginx/" rel="tag">nginx</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nlp/" rel="tag">nlp</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/open-falcon/" rel="tag">open-falcon</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/openwrt/" rel="tag">openwrt</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/parquet/" rel="tag">parquet</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/presto/" rel="tag">presto</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ranger/" rel="tag">ranger</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/scyllaDB/" rel="tag">scyllaDB</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/twitter/" rel="tag">twitter</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/zookeeper/" rel="tag">zookeeper</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%88%B7%E9%A2%98/" rel="tag">刷题</a><span class="sidebar-module-list-count">22</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%9B%BE%E5%AD%98%E5%82%A8%E5%8F%8A%E8%AE%A1%E7%AE%97/" rel="tag">图存储及计算</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F/" rel="tag">广告系统</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" rel="tag">开发工具</a><span class="sidebar-module-list-count">19</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="sidebar-module-list-count">25</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" rel="tag">系统设计</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="sidebar-module-list-count">5</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>标签云</h4>
+    <p class="tagcloud">
+      <a href="/tags/AWS/" style="font-size: 11.3px;">AWS</a> <a href="/tags/Airbnb/" style="font-size: 14.35px;">Airbnb</a> <a href="/tags/Android/" style="font-size: 11.74px;">Android</a> <a href="/tags/CDH/" style="font-size: 14.35px;">CDH</a> <a href="/tags/Doris/" style="font-size: 10px;">Doris</a> <a href="/tags/ELK/" style="font-size: 15.65px;">ELK</a> <a href="/tags/Flink/" style="font-size: 19.57px;">Flink</a> <a href="/tags/Git/" style="font-size: 10.43px;">Git</a> <a href="/tags/Grafana/" style="font-size: 10px;">Grafana</a> <a href="/tags/HAProxy/" style="font-size: 10.87px;">HAProxy</a> <a href="/tags/HBase/" style="font-size: 12.61px;">HBase</a> <a href="/tags/Hadoop/" style="font-size: 12.61px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 17.39px;">Hive</a> <a href="/tags/Hudi/" style="font-size: 11.3px;">Hudi</a> <a href="/tags/InfluxDB/" style="font-size: 10px;">InfluxDB</a> <a href="/tags/JDBC/" style="font-size: 13.48px;">JDBC</a> <a href="/tags/JMeter/" style="font-size: 10px;">JMeter</a> <a href="/tags/JVM/" style="font-size: 11.74px;">JVM</a> <a href="/tags/Java/" style="font-size: 16.96px;">Java</a> <a href="/tags/JavaWeb/" style="font-size: 11.3px;">JavaWeb</a> <a href="/tags/LaTex/" style="font-size: 10px;">LaTex</a> <a href="/tags/Linkedin/" style="font-size: 10px;">Linkedin</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/ML/" style="font-size: 18.7px;">ML</a> <a href="/tags/ML-Infra/" style="font-size: 11.3px;">ML Infra</a> <a href="/tags/MPP/" style="font-size: 10px;">MPP</a> <a href="/tags/Maven/" style="font-size: 10.43px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 16.09px;">MySQL</a> <a href="/tags/Nexus/" style="font-size: 11.74px;">Nexus</a> <a href="/tags/OpenTSDB/" style="font-size: 10.43px;">OpenTSDB</a> <a href="/tags/Paper/" style="font-size: 10px;">Paper</a> <a href="/tags/Play/" style="font-size: 10px;">Play</a> <a href="/tags/Prometheus/" style="font-size: 10.43px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 17.83px;">Python</a> <a href="/tags/React/" style="font-size: 10.43px;">React</a> <a href="/tags/Redis/" style="font-size: 10.87px;">Redis</a> <a href="/tags/RocksDB/" style="font-size: 10px;">RocksDB</a> <a href="/tags/Scala/" style="font-size: 13.91px;">Scala</a> <a href="/tags/Solr/" style="font-size: 10.87px;">Solr</a> <a href="/tags/Spark/" style="font-size: 19.13px;">Spark</a> <a href="/tags/SpringBoot/" style="font-size: 16.52px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 14.35px;">SpringMVC</a> <a href="/tags/Thrift/" style="font-size: 12.17px;">Thrift</a> <a href="/tags/YARN/" style="font-size: 11.74px;">YARN</a> <a href="/tags/antlr/" style="font-size: 10.43px;">antlr</a> <a href="/tags/arthas/" style="font-size: 10px;">arthas</a> <a href="/tags/avro/" style="font-size: 13.91px;">avro</a> <a href="/tags/cassandra/" style="font-size: 10px;">cassandra</a> <a href="/tags/clickhouse/" style="font-size: 10.43px;">clickhouse</a> <a href="/tags/confluent/" style="font-size: 10.43px;">confluent</a> <a href="/tags/docker/" style="font-size: 10.87px;">docker</a> <a href="/tags/filebeat/" style="font-size: 11.3px;">filebeat</a> <a href="/tags/flume/" style="font-size: 10.43px;">flume</a> <a href="/tags/golang/" style="font-size: 15.22px;">golang</a> <a href="/tags/google/" style="font-size: 13.04px;">google</a> <a href="/tags/gradle/" style="font-size: 10px;">gradle</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/impala/" style="font-size: 11.3px;">impala</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/k8s/" style="font-size: 14.35px;">k8s</a> <a href="/tags/kafka/" style="font-size: 14.78px;">kafka</a> <a href="/tags/kerberos/" style="font-size: 10px;">kerberos</a> <a href="/tags/kudu/" style="font-size: 10.43px;">kudu</a> <a href="/tags/ldap/" style="font-size: 10.43px;">ldap</a> <a href="/tags/mac/" style="font-size: 11.74px;">mac</a> <a href="/tags/mongo/" style="font-size: 11.74px;">mongo</a> <a href="/tags/mybatis/" style="font-size: 10.87px;">mybatis</a> <a href="/tags/nginx/" style="font-size: 12.17px;">nginx</a> <a href="/tags/nlp/" style="font-size: 10px;">nlp</a> <a href="/tags/open-falcon/" style="font-size: 10.87px;">open-falcon</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/parquet/" style="font-size: 10.87px;">parquet</a> <a href="/tags/presto/" style="font-size: 12.17px;">presto</a> <a href="/tags/ranger/" style="font-size: 10px;">ranger</a> <a href="/tags/scyllaDB/" style="font-size: 10.87px;">scyllaDB</a> <a href="/tags/twitter/" style="font-size: 10.43px;">twitter</a> <a href="/tags/zookeeper/" style="font-size: 14.78px;">zookeeper</a> <a href="/tags/%E5%88%B7%E9%A2%98/" style="font-size: 18.26px;">刷题</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 12.17px;">前端</a> <a href="/tags/%E5%9B%BE%E5%AD%98%E5%82%A8%E5%8F%8A%E8%AE%A1%E7%AE%97/" style="font-size: 10.43px;">图存储及计算</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.91px;">多线程</a> <a href="/tags/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F/" style="font-size: 13.04px;">广告系统</a> <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" style="font-size: 16.96px;">开发工具</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 16.52px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 13.48px;">杂谈</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 19.13px;">算法</a> <a href="/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" style="font-size: 10.43px;">系统设计</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 13.04px;">计算机网络</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 11.74px;">设计模式</a>
+    </p>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>文章归档</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/08/">八月 2024</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/05/">五月 2024</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2023/08/">八月 2023</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/07/">七月 2022</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/01/">一月 2022</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/12/">十二月 2021</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/11/">十一月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/09/">九月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">七月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/05/">五月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/03/">三月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/01/">一月 2021</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/12/">十二月 2020</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/11/">十一月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/10/">十月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/09/">九月 2020</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/08/">八月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/07/">七月 2020</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/06/">六月 2020</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/05/">五月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/04/">四月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/03/">三月 2020</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">二月 2020</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/01/">一月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">十月 2019</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/09/">九月 2019</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">八月 2019</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/07/">七月 2019</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/04/">四月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/03/">三月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/01/">一月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/12/">十二月 2018</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/11/">十一月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/09/">九月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/06/">六月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/05/">五月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/04/">四月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/02/">二月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/01/">一月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/11/">十一月 2017</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/09/">九月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/07/">七月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/06/">六月 2017</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/05/">五月 2017</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/04/">四月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/03/">三月 2017</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/01/">一月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/12/">十二月 2016</a><span class="sidebar-module-list-count">15</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/11/">十一月 2016</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">十月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">九月 2016</a><span class="sidebar-module-list-count">16</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/08/">八月 2016</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/07/">七月 2016</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">六月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">五月 2016</a><span class="sidebar-module-list-count">32</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/04/">四月 2016</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/03/">三月 2016</a><span class="sidebar-module-list-count">136</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/02/">二月 2016</a><span class="sidebar-module-list-count">22</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/09/">九月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/08/">八月 2015</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/07/">七月 2015</a><span class="sidebar-module-list-count">30</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/06/">六月 2015</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/04/">四月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2013/04/">四月 2013</a><span class="sidebar-module-list-count">2</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>最近文章</h4>
+    <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Istio%E5%92%8CKong.html">k8s学习笔记——Istio和Kong</a>
+        </li>
+      
+        <li>
+          <a href="/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ingress.html">k8s学习笔记——ingress</a>
+        </li>
+      
+        <li>
+          <a href="/Presto%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Go%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5Presto.html">Presto学习笔记——Go客户端连接Presto</a>
+        </li>
+      
+        <li>
+          <a href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94wire%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5.html">go学习笔记——wire依赖注入</a>
+        </li>
+      
+        <li>
+          <a href="/screen%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html">screen使用教程</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+
+        </div>
+    </div>
+  </div>
+  <footer class="blog-footer">
+  <div class="container">
+    <div id="footer-info" class="inner">
+      &copy; 2024 tonglin0325<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+  
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" integrity="sha384-8gBf6Y4YYq7Jx97PIqmTwLPin4hxIzQw5aDmUg/DDhul9fFpbbLcLh3nTIIDJKhx" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9HZSXL1LDJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9HZSXL1LDJ');
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+<script src="/js/jquery.qrcode.min.js"></script>
+
+
+
+<script src="/js/jquery-1.6.2.min.js"></script>
+
+
+</body>
+</html>

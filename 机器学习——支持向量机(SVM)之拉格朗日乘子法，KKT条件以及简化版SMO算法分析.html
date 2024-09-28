@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>机器学习——支持向量机(SVM)之拉格朗日乘子法，KKT条件以及简化版SMO算法分析 | tonglin0325的个人主页</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="SVM有很多实现，现在只关注其中最流行的一种实现，即序列最小优化（Sequential Minimal Optimization，SMO）算法，然后介绍如何使用一种核函数（kernel）的方式将SVM扩展到更多的数据集上。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习——支持向量机(SVM)之拉格朗日乘子法，KKT条件以及简化版SMO算法分析">
+<meta property="og:url" content="http://tonglin0325.github.io/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA(SVM)%E4%B9%8B%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E4%B9%98%E5%AD%90%E6%B3%95%EF%BC%8CKKT%E6%9D%A1%E4%BB%B6%E4%BB%A5%E5%8F%8A%E7%AE%80%E5%8C%96%E7%89%88SMO%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90.html">
+<meta property="og:site_name" content="tonglin0325的个人主页">
+<meta property="og:description" content="SVM有很多实现，现在只关注其中最流行的一种实现，即序列最小优化（Sequential Minimal Optimization，SMO）算法，然后介绍如何使用一种核函数（kernel）的方式将SVM扩展到更多的数据集上。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161119205818060-72763193.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161119210352779-372502914.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161119212810873-1095052075.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161119212215998-1385030410.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161121154505018-995625440.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161121154710346-1816491730.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161119210929357-604622496.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120153201951-1025233280.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120153921513-1576248773.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120154524779-2087020272.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120153921513-1576248773.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120154811545-811234539.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120160323029-749909102.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120160530873-1090029417.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120160658310-1157447378.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120160753701-1935394994.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120160938498-586563504.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120160530873-1090029417.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120205243842-1733982077.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120205243842-1733982077.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120205619482-1487489645.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120205844029-1149195359.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120210557232-191696071.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120205243842-1733982077.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120211011576-1631829227.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120211050935-1029180450.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120205243842-1733982077.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120205619482-1487489645.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120212116888-516015937.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120212520467-1303579209.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120212719935-139427790.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120212719935-139427790.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120213037013-417143938.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120205619482-1487489645.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120214500357-822366773.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120214558404-1224820432.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120214935513-2016752650.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120215020592-1596341636.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120223250826-648340093.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120214935513-2016752650.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120225534435-468977411.jpg">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120223250826-648340093.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120223749310-539711456.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120214935513-2016752650.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120224928060-1442965907.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120224928060-1442965907.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120210557232-191696071.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120230110310-1484857061.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120220720248-1305229386.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120223749310-539711456.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161121094925565-1122116578.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161121103214612-1720539992.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161121095905393-884156279.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161121100012940-2140803854.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120205243842-1733982077.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120211011576-1631829227.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120211050935-1029180450.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161121105148971-1001425650.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161121141245081-1548633830.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161121141806925-417367662.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161121141920284-1677401358.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161121142201018-1649113246.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161121142602800-728735603.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161121142825175-188007659.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161121143630175-576926988.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161121143330128-767842863.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161121143351440-1539851469.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161121143330128-767842863.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161121143351440-1539851469.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161121105148971-1001425650.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120211011576-1631829227.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120211050935-1029180450.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120160938498-586563504.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120160530873-1090029417.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161121145658268-1680724641.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161121152720487-1409045968.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161121152757628-307838811.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161121151222159-783829004.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161121151424471-1545026850.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161121213035581-417058637.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161121153502159-1503735332.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161121172429362-1609252710.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161121220759471-388980748.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161121213432253-1826291133.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161121221108159-2120964952.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123203049315-515256614.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161121221108159-2120964952.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120160530873-1090029417.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123203510378-42258974.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123205516300-676129216.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123205658237-582783719.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123205745878-203257725.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123203049315-515256614.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123210017737-2125389590.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161121222624534-239668829.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123210017737-2125389590.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123210223550-906147236.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123210223550-906147236.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123210223550-906147236.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123210223550-906147236.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123211258893-246859444.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123211307643-553413937.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123210017737-2125389590.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123213443550-1815768005.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123213807925-678109614.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123211258893-246859444.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123211307643-553413937.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123211258893-246859444.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123211307643-553413937.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123213443550-1815768005.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123210223550-906147236.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123211258893-246859444.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123211307643-553413937.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161125112838096-1953986228.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123211307643-553413937.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123215800393-116823641.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123215833815-949974384.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123211258893-246859444.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123211307643-553413937.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161125112838096-1953986228.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123211307643-553413937.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123215951362-973799435.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161125142513284-319227777.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123211307643-553413937.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161125142648440-1467544045.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123211307643-553413937.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161125142648440-1467544045.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123211307643-553413937.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161125142648440-1467544045.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123211307643-553413937.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161125145157753-1791760819.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123203049315-515256614.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123210017737-2125389590.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161125150609878-5966626.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123210017737-2125389590.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123213443550-1815768005.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161125145909487-1372911272.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123211258893-246859444.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123211307643-553413937.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161125150609878-5966626.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161125150609878-5966626.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123230013362-1224223527.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123230038550-433546900.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123230107300-1640299292.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161123230132456-270446226.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120143914795-1219132426.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161120143937498-2075072408.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161125231452971-806347382.png">
+<meta property="article:published_time" content="2016-11-17T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-09-28T14:18:43.164Z">
+<meta property="article:author" content="tonglin0325">
+<meta property="article:tag" content="ML">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://tonglin0325.github.io/images/517519-20161119205818060-72763193.png">
+  
+    <link rel="alternate" href="/atom.xml" title="tonglin0325的个人主页" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="https://tonglin0325.github.io/images/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+
+  
+<link rel="stylesheet" href="/css/styles.css">
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-166238833-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5884015902351015"
+     crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-menu-navbar">
+      <ul class="nav navbar-nav">
+        
+          <li><a class=""
+                 href="/index.html">主页</a></li>
+        
+          <li><a class=""
+                 href="/archives/">所有文章</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="http://www.cnblogs.com/tonglin0325/">博客园</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="https://github.com/tonglin0325">Github</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="https://www.linkedin.com/in/tonglin0325/">LinkedIn</a></li>
+        
+        <li>
+          <span class="local-search local-search-google local-search-plugin" style="">
+  <input type="search" placeholder="站内搜索" id="local-search-input" class="local-search-input-cls" style="">
+  <div id="local-search-result" class="local-search-result-cls"></div>
+</span>
+
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    const div = document.getElementById('local-search-result');
+    const input = document.getElementById('local-search-input');
+
+    // 点击 input 显示 div
+    input.addEventListener('click', function() {
+        div.style.display = 'block';
+    });
+
+    // 点击 div 之外的地方隐藏 div
+    document.addEventListener('click', function(event) {
+        if (!div.contains(event.target) && event.target !== div && event.target !== input) {
+            div.style.display = 'none';
+        }
+    });
+});
+</script>
+        </li>
+      </ul>
+
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        
+          <li><a href="/atom.xml" title="RSS Feed"><i class="fa fa-rss"></i></a></li>
+        
+      </ul>
+      -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script>
+// 移动设备侦测
+var isMobile = {
+  Android: function () {
+    return navigator.userAgent.match(/Android/i);
+  },
+  BlackBerry: function () {
+    return navigator.userAgent.match(/BlackBerry/i);
+  },
+  iOS: function () {
+    return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+  },
+  Opera: function () {
+    return navigator.userAgent.match(/Opera Mini/i);
+  },
+  Windows: function () {
+    return navigator.userAgent.match(/IEMobile/i);
+  },
+  any: function () {
+    return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+  }
+};
+
+if ($('.local-search').resize() && !isMobile.any()) {
+	$.getScript('/js/search.js', function() {
+	  searchFunc("/search.json", 'local-search-input', 'local-search-result');
+	});
+}
+
+// document.addEventListener('DOMContentLoaded', (event) => {
+//
+//     const input = document.getElementById('.local-search-input');
+//     const div = document.getElementById('.local-search-result');
+//
+//     input.addEventListener('blur', function() {
+//         div.style.display = 'none';
+//     });
+// });
+</script>
+  <div class="container">
+    <div class="blog-header">
+  <h1 class="blog-title">tonglin0325的个人主页</h1>
+  
+</div>
+
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+          <article id="post-机器学习——支持向量机(SVM)之拉格朗日乘子法，KKT条件以及简化版SMO算法分析" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 class="article-title" itemprop="name">
+      机器学习——支持向量机(SVM)之拉格朗日乘子法，KKT条件以及简化版SMO算法分析
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA(SVM)%E4%B9%8B%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E4%B9%98%E5%AD%90%E6%B3%95%EF%BC%8CKKT%E6%9D%A1%E4%BB%B6%E4%BB%A5%E5%8F%8A%E7%AE%80%E5%8C%96%E7%89%88SMO%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90.html" class="article-date"><time datetime="2016-11-17T16:00:00.000Z" itemprop="datePublished">2016-11-18</time></a>
+</div>
+
+    <div class="article-author">tonglin0325</div>
+    
+
+  </div>
+
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- 目录 -->
+
+<div id="toc">
+  
+</div>
+
+        <p><strong>SVM</strong>有很多实现，现在只关注其中最流行的一种实现，即<strong>序列最小优化（Sequential Minimal Optimization，SMO）算法</strong>，然后介绍如何使用一种<strong>核函数（kernel）</strong>的方式将SVM扩展到更多的数据集上。</p>
+<span id="more"></span>
+<p>&nbsp;</p>
+<p><strong>1.基于最大间隔分隔数据</strong></p>
+<p>几个概念：</p>
+<p><strong>1.线性可分（linearly separable）</strong>：对于图6-1中的圆形点和方形点，如果很容易就可以在图中画出一条直线将两组数据点分开，就称这组数据为<strong>线性可分</strong>数据</p>
+<p><strong>2.分隔超平面（separating hyperplane）</strong>：将数据集分隔开来的直线称为<strong>分隔超平面</strong></p>
+<p>3.如果数据集是1024维的，那么就需要一个1023维的超平面来对数据进行分隔</p>
+<p><strong>4.间隔（margin）</strong>：数据点到分隔面的距离称为间隔</p>
+<p><strong>5.支持向量（support vector）</strong>:离分隔超平面最近的那些点</p>
+<p>&nbsp;</p>
+<p>支持向量机的<strong>优点</strong>：泛化错误率低，计算开销不大，结果易解释</p>
+<p>支持向量机的<strong>缺点</strong>：对<strong>参数调节</strong>和<strong>核函数</strong>的选择敏感，原始分类器不加修改仅适用于处理二类问题</p>
+<p><strong>适用数据类型</strong>：数值型和标称型数据**<br>**</p>
+<p><img src="/images/517519-20161119205818060-72763193.png" alt><img src="/images/517519-20161119210352779-372502914.png" alt></p>
+<p>&nbsp;</p>
+<p><strong>2.寻找最大间隔</strong></p>
+<p>如何求解数据集的<strong>最佳分隔直线</strong>？</p>
+<p><strong>分隔超平面</strong>的形式可以写成&nbsp;&nbsp;<img src="/images/517519-20161119212810873-1095052075.gif" alt></p>
+<p>其中 w = (w1,w2,w3…wd)为<strong>法向量</strong>，决定了超平面的方向，其中d等于数据的维度，</p>
+<p>这很好理解，假设二维的(x1,x2)点可以被 ax+b=0 分隔，这里面直线 ax+b=0 是一维的，但是这里面a和x都是二维的</p>
+<p>b为<strong>位移项</strong>，决定了超平面与原点之间的距离</p>
+<p>对于图6-3中A点到分隔直线的<strong>距离</strong>为&nbsp; <img src="/images/517519-20161119212215998-1385030410.gif" alt></p>
+<p><img src="/images/517519-20161121154505018-995625440.gif" alt>表示向量的模，<img src="/images/517519-20161121154710346-1816491730.gif" alt>，w与w共轭的内积再开方</p>
+<img src="/images/517519-20161119210929357-604622496.png" alt>
+
+<p>假设超平面（w,b）能将训练样本正确分类，即对于 <img src="/images/517519-20161120153201951-1025233280.gif" alt>,</p>
+<p>有&nbsp; <img src="/images/517519-20161120153921513-1576248773.gif" alt></p>
+<p>则两个异类<strong>支持向量</strong>到<strong>超平面</strong>的<strong>距离之和</strong>为 <img src="/images/517519-20161120154524779-2087020272.gif" alt></p>
+<p>欲找到<strong>具有&ldquo;最大间隔（maximum margin）&rdquo;的划分超平面</strong>，也就是要找到能<strong>满足 <strong><img src="/images/517519-20161120153921513-1576248773.gif" alt></strong> 中约束的参数w和b，使得<img src="/images/517519-20161120154811545-811234539.gif" alt>最大</strong>，即</p>
+<p>&nbsp; 　　<img src="/images/517519-20161120160323029-749909102.gif" alt>&nbsp; ，</p>
+<p><strong>其中约束条件为</strong>　s.t.&nbsp; <img src="/images/517519-20161120160530873-1090029417.gif" alt> ，其实这个约束条件就是把两个不等式合并成了一个</p>
+<p>显然，为了<strong>最大化间隔</strong>，仅需<strong>最大化</strong> <img src="/images/517519-20161120160658310-1157447378.gif" alt>，这等价于<strong>最小化 <img src="/images/517519-20161120160753701-1935394994.gif" alt></strong> ，于是上式可重写为</p>
+<p>　　<img src="/images/517519-20161120160938498-586563504.gif" alt>，</p>
+<p><strong>其中约束条件为</strong>　s.t.&nbsp; <img src="/images/517519-20161120160530873-1090029417.gif" alt></p>
+<p>这就是<strong>支持向量机（Support Vector Machine，简称SVM）的基本型</strong></p>
+<p>&nbsp;</p>
+<p>对于这类<strong>带有不等式约束的最优化问题</strong>，可以使用<strong>拉格朗日乘子法（Lagrange Multiplier）</strong>对其进行求解。</p>
+<p>首先先了解一下<strong>最优化问题</strong>的分类，最优化问题可以分为一下三类：</p>
+<p><strong>&lt;1&gt;无约束的优化问题</strong>，可以写成：</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="/images/517519-20161120205243842-1733982077.gif" alt></p>
+<p>对于第&lt;1&gt;类的优化问题，常常使用的方法就是<strong>Fermat定理</strong>，即使用<strong>求取f(x)的导数</strong>，然后令其为零，可以求得候选最优值，再在这些候选值中验证；如果是凸函数，可以保证是最优解。</p>
+<p><strong>&lt;2&gt;有等式约束的优化问题</strong>，可以写成：</p>
+<p>　　<img src="/images/517519-20161120205243842-1733982077.gif" alt></p>
+<p>　　约束条件&nbsp; <img src="/images/517519-20161120205619482-1487489645.gif" alt></p>
+<p>对于第&lt;2&gt;类的优化问题，常常使用的方法就是<strong>拉格朗日乘子法（Lagrange Multiplier)</strong> ，即把<strong>等式约束</strong> <img src="/images/517519-20161120205844029-1149195359.gif" alt> 用一个系数与<strong>目标函数f(x)<strong>写为一个式子，称为</strong>拉格朗日函数</strong>，而系数称为<strong>拉格朗日乘子</strong>。<strong>拉格朗日函数</strong>的形式如下，u即<strong>拉格朗日乘子</strong>：</p>
+<p>　　<img src="/images/517519-20161120210557232-191696071.gif" alt></p>
+<p><strong>通过拉格朗日函数对各个变量求导</strong>，令其为零，可以求得候选值集合，然后验证求得最优值。</p>
+<p><strong>&lt;3&gt;有不等式约束的优化问题</strong>，可以写成：</p>
+<p>　　<img src="/images/517519-20161120205243842-1733982077.gif" alt></p>
+<p>　　约束条件&nbsp;&nbsp;<img src="/images/517519-20161120211011576-1631829227.gif" alt></p>
+<p>　　　　　　　　　<img src="/images/517519-20161120211050935-1029180450.gif" alt></p>
+<p>对于第&lt;3&gt;类的优化问题，常常使用的方法就是<strong>KKT条件</strong>。同样地，我们把所有的<strong>等式、不等式约束</strong>与<strong>f(x)<strong>写为一个式子，也叫</strong>拉格朗日函数</strong>，系数也称<strong>拉格朗日乘子</strong>，通过一些条件，可以求出最优值的必要条件，这个条件称为<strong>KKT条件</strong>。</p>
+<p>&nbsp;</p>
+<p><strong>拉格朗日乘子法（Lagrange Multiplier）：</strong></p>
+<p>&nbsp;拉格朗日乘子法可以应用于<strong>有等式约束的优化问题</strong>和<strong>有不等式约束的优化问题</strong>，</p>
+<p>对于<strong>有等式约束的优化问题</strong>， <img src="/images/517519-20161120205243842-1733982077.gif" alt>，约束条件&nbsp; <img src="/images/517519-20161120205619482-1487489645.gif" alt> ，其中 f(x) 被称为<strong>目标函数</strong></p>
+<p>&lt;1&gt;当<strong>没有约束条件</strong>的时候，我们通过<strong>求导</strong>的方法，来寻找最优点</p>
+<p>设 <img src="/images/517519-20161120212116888-516015937.gif" alt> 是这个最优点，即此时有</p>
+<p>　　<img src="/images/517519-20161120212520467-1303579209.gif" alt>&nbsp;</p>
+<p>此外，如果 f(x) 是一个实值函数，<img src="/images/517519-20161120212719935-139427790.gif" alt> 是一个n维向量的话，那么 f(x) 对向量 <img src="/images/517519-20161120212719935-139427790.gif" alt> 的导数被定义为</p>
+<p>　　<img src="/images/517519-20161120213037013-417143938.gif" alt></p>
+<p>&nbsp;</p>
+<p>&lt;2&gt;当<strong>有一个等式约束条件</strong> <img src="/images/517519-20161120205619482-1487489645.gif" alt> 的时候，举例设</p>
+<p>　　<img src="/images/517519-20161120214500357-822366773.gif" alt></p>
+<p>　　<img src="/images/517519-20161120214558404-1224820432.gif" alt></p>
+<p>从几何的角度看，可以看成是在一个曲面 <img src="/images/517519-20161120214935513-2016752650.gif" alt> 上寻找函数 <img src="/images/517519-20161120215020592-1596341636.gif" alt> 的最小值</p>
+<p>设目标函数&nbsp; <img src="/images/517519-20161120223250826-648340093.gif" alt>，当 z 取不同的值的时候，相当于可以投影在曲面 <img src="/images/517519-20161120214935513-2016752650.gif" alt>上，即形成<strong>等高线</strong>，如下图</p>
+<img src="/images/517519-20161120225534435-468977411.jpg" alt>
+
+<p>当 <img src="/images/517519-20161120223250826-648340093.gif" alt> 取d1或者d2的时候，形成了<strong>虚线的等高线</strong>，此时我们<strong>要求的是最小的z</strong></p>
+<p>现在我们约束 <img src="/images/517519-20161120223749310-539711456.gif" alt> 的时候，在曲面 <img src="/images/517519-20161120214935513-2016752650.gif" alt>上形成一条曲线，即图中<strong>红色的曲线</strong></p>
+<p>假设形成的<strong>红色曲线</strong>与<strong>等高线相交</strong>，<strong>交点就是同时满足等式约束条件和目标函数的可行域的值</strong>，但肯定不是最优值，因为相交意味着肯定还存在其它的等高线在该条等高线的内部或者外部，使得新的等高线与目标函数的交点的值更大或者更小。</p>
+<p>只有到<strong>等高线与目标函数的曲线相切</strong>的时候，<strong>可能取得最优值</strong>，如上图中的情况，即<strong>等高线和目标函数的曲线在该点的法向量必须有相同方向</strong>，所以最优值必须满足：f(x)的梯度 = <img src="/images/517519-20161120224928060-1442965907.gif" alt> * h(x)的梯度， <img src="/images/517519-20161120224928060-1442965907.gif" alt> 是常数，表示左右两边同向。这个等式就是<strong>拉格朗日函数</strong> <img src="/images/517519-20161120210557232-191696071.gif" alt> <strong>对参数x求导</strong>后，<strong>令其等于0</strong>的结果，即<img src="/images/517519-20161120230110310-1484857061.gif" alt>，最后求得<strong>最优解</strong>是 <img src="/images/517519-20161120220720248-1305229386.gif" alt> 。</p>
+<p>&nbsp;</p>
+<p>以上的约束条件只是 <img src="/images/517519-20161120223749310-539711456.gif" alt>，这时约束条件是<strong>一个等式</strong>。</p>
+<p>&lt;3&gt;那么当<strong>约束条件是多个等式</strong>的时候，<strong>拉格朗日函数</strong>应该改写成</p>
+<p><img src="/images/517519-20161121094925565-1122116578.gif" alt> ，<img src="/images/517519-20161121103214612-1720539992.gif" alt>是需要求其最小值的<strong>目标函数</strong>，<img src="/images/517519-20161121095905393-884156279.gif" alt>是<strong>拉格朗日乘子</strong>，<img src="/images/517519-20161121100012940-2140803854.gif" alt>是<strong>约束条件</strong></p>
+<p>&nbsp;</p>
+<p>&lt;4&gt;如果<strong>约束条件是等式和不等式，且有多个</strong>的时候，就需要若干个**KKT<strong>(Karush-Kuhn-Tucker)**条件</strong>，即对于</p>
+<p>　　<img src="/images/517519-20161120205243842-1733982077.gif" alt></p>
+<p>　　约束条件&nbsp;&nbsp;<img src="/images/517519-20161120211011576-1631829227.gif" alt></p>
+<p>　　　　　　　　　<img src="/images/517519-20161120211050935-1029180450.gif" alt></p>
+<p>想取得<strong>最优解</strong>，要满足以下条件（<strong>KKT条件</strong>）：</p>
+<p>　　1. L(x, a, b)对x求导为零；</p>
+<p>　　2. h(x) =0;</p>
+<p>　　3. a*g(x) = 0;</p>
+<p>&nbsp;</p>
+<p>一步步来说明，此时我们要求f(x)的最小值，可以构建<strong>拉格朗日函数</strong></p>
+<p>**　　<img src="/images/517519-20161121105148971-1001425650.gif" alt>**</p>
+<p>为什么这么构建呢？因为当 g(x)&lt;=0，h(x)=0，a&gt;=0 的时候，（<strong>注意此处的h(x)=0是KKT条件的第2个</strong>）</p>
+<p><strong>a*g(x)&lt;=0**，所以 <img src="/images/517519-20161121141245081-1548633830.gif" alt> 在</strong>取得最大值<strong>的时候，即a*g(x)=0的时候，</strong>就等于f(x)<strong>，（</strong>注意此处的a*g(x)=0是KKT条件的第3个**）</p>
+<p>所以需要求解的<strong>目标函数的最小值</strong>写成表达式是</p>
+<p>　　<img src="/images/517519-20161121141806925-417367662.gif" alt></p>
+<p>上式的<strong>对偶表达式</strong>是</p>
+<p>　　<img src="/images/517519-20161121141920284-1677401358.gif" alt></p>
+<p>由于我们要求的最优化是满足<strong>强对偶</strong>的，即<strong>对偶式子的最优值等于原式子的最优解</strong></p>
+<p>设当 <img src="/images/517519-20161121142201018-1649113246.gif" alt> 的时候有最优解，此时</p>
+<p>　　<img src="/images/517519-20161121142602800-728735603.gif" alt></p>
+<p>　　　　　<img src="/images/517519-20161121142825175-188007659.gif" alt></p>
+<p>　　　　　<img src="/images/517519-20161121143630175-576926988.gif" alt></p>
+<p>即函数 <img src="/images/517519-20161121143330128-767842863.gif" alt> 在 <img src="/images/517519-20161121143351440-1539851469.gif" alt> 处取得最小值</p>
+<p>用<strong>fermat定理</strong>，对于函数 <img src="/images/517519-20161121143330128-767842863.gif" alt> <strong>求取导数</strong>后令其等于0后的<img src="/images/517519-20161121143351440-1539851469.gif" alt>结果，（<strong>注意此处的导数=0是KKT条件的第1个</strong>）</p>
+<p>即f(x)的梯度 + a<em>g(x)的梯度 + b</em>h(x)的梯度 = 0</p>
+<p>&nbsp;</p>
+<p>所以对于<strong>多个不等式和等式混合的约束条件</strong>的时候，<strong>拉格朗日函数</strong>可以写成</p>
+<p>**　　<img src="/images/517519-20161121105148971-1001425650.gif" alt>**</p>
+<p>　　约束条件&nbsp;&nbsp;<img src="/images/517519-20161120211011576-1631829227.gif" alt></p>
+<p>　　　　　　　　　<img src="/images/517519-20161120211050935-1029180450.gif" alt></p>
+<p><strong>从而上面提到的支持向量机（Support Vector Machine，简称SVM）的基本型</strong></p>
+<p>**　　<img src="/images/517519-20161120160938498-586563504.gif" alt>，其中约束条件为**　s.t.&nbsp; <img src="/images/517519-20161120160530873-1090029417.gif" alt></p>
+<p>就可以重新写成</p>
+<p>　　<img src="/images/517519-20161121145658268-1680724641.gif" alt></p>
+<p>其中 <img src="/images/517519-20161121152720487-1409045968.gif" alt>，<img src="/images/517519-20161121152757628-307838811.gif" alt></p>
+<p>接下来由<strong>第1个****KKT条件（导数等于0）</strong>，令 <img src="/images/517519-20161121151222159-783829004.gif" alt> 对 <img src="/images/517519-20161121151424471-1545026850.gif" alt> 和 b 的<strong>偏导等于0</strong>，可得</p>
+<p>　　<img src="/images/517519-20161121213035581-417058637.gif" alt></p>
+<p>把上面两个等式带入 <img src="/images/517519-20161121153502159-1503735332.gif" alt> 中，得</p>
+<p>　　&nbsp;<img src="/images/517519-20161121172429362-1609252710.gif" alt> 的对偶表达式等于</p>
+<p>　　<img src="/images/517519-20161121220759471-388980748.gif" alt></p>
+<p>　　<img src="/images/517519-20161121213432253-1826291133.gif" alt></p>
+<p>约束条件 <img src="/images/517519-20161121221108159-2120964952.gif" alt></p>
+<p>在最后推出的公式中，<strong>y表示的是标签向量</strong>，<strong>u表示的是拉格朗日乘子</strong>，<strong>x表示的是待分类的点的坐标</strong>，也是一个向量</p>
+<p>现在<strong>约束条件变成了等式</strong>，所以<strong>我们的任务变成了</strong></p>
+<p>　　<img src="/images/517519-20161123203049315-515256614.gif" alt></p>
+<p>约束条件 <img src="/images/517519-20161121221108159-2120964952.gif" alt></p>
+<p>&nbsp;</p>
+<p>以上的推导有一个<strong>假设条件</strong>，就是数据是<strong>线性可分</strong>的，而实际上，大多数情况是<strong>线性不可分</strong>的，对于这种情况：</p>
+<p>我们把约束条件从 <img src="/images/517519-20161120160530873-1090029417.gif" alt> 改成 <img src="/images/517519-20161123203510378-42258974.gif" alt>，允许出现例外</p>
+<p>所以<strong>支持向量机（Support Vector Machine，简称SVM）的基本型</strong>就需要改写成，加上了<strong>松弛变量</strong>（这里面有泛函的数学原理，参考《神经网络与机器学习 第3版》）</p>
+<p>　　<img src="/images/517519-20161123205516300-676129216.gif" alt>，其中约束条件为 <img src="/images/517519-20161123205658237-582783719.gif" alt></p>
+<p>通过和上面一样的对 w,b和<img src="/images/517519-20161123205745878-203257725.gif" alt>求偏导的过程，进行简化之后，也是得到</p>
+<p>　　<img src="/images/517519-20161123203049315-515256614.gif" alt></p>
+<p>但是<strong>约束条件</strong>变成了 <img src="/images/517519-20161123210017737-2125389590.gif" alt></p>
+<p>&nbsp;</p>
+<p>现在可以应用上面的<strong>等式约束条件</strong>的方法，求出 u 后，在求出w与b即可得到模型</p>
+<p>　　<img src="/images/517519-20161121222624534-239668829.gif" alt>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>2.SMO高效优化算法</strong></p>
+<p>接下来分析<strong>SMO算法</strong>，因为有<strong>约束条件</strong> <img src="/images/517519-20161123210017737-2125389590.gif" alt>，所以<strong>一次不能只更新一个 <img src="/images/517519-20161123210223550-906147236.gif" alt width="15" height="12"><strong>，因为如果一次只更新一个 <img src="/images/517519-20161123210223550-906147236.gif" alt width="15" height="12"> 的话，那么累加之后的结果就不能等于0，这就</strong>不满足约束条件</strong>了，所以SMO算法采取的是<strong>挑选一对 <img src="/images/517519-20161123210223550-906147236.gif" alt width="15" height="12"> 进行更新</strong>，这样就能满足约束条件。</p>
+<p>举例，当更新** <img src="/images/517519-20161123210223550-906147236.gif" alt width="15" height="12">** 的时候，一次同时更新 <img src="/images/517519-20161123211258893-246859444.gif" alt> 和 <img src="/images/517519-20161123211307643-553413937.gif" alt>，根据约束条件 <img src="/images/517519-20161123210017737-2125389590.gif" alt>，</p>
+<p>那么 <img src="/images/517519-20161123213443550-1815768005.gif" alt>，即1和2相加，等于3到m相加的负数。</p>
+<img src="/images/517519-20161123213807925-678109614.png" alt>
+
+<p>图来自网上</p>
+<p><strong>当y1和y2异号的时候，即y1=1,y2=-1或者y1=-1,y2=1的时候</strong>，我们先固定一个 <img src="/images/517519-20161123211258893-246859444.gif" alt> 的值，然后求 <img src="/images/517519-20161123211307643-553413937.gif" alt> 的范围</p>
+<p><strong>&lt;1&gt;设y1=1,y2=-1</strong></p>
+<p>则如上图所示，横坐标轴是 <img src="/images/517519-20161123211258893-246859444.gif" alt> ，纵坐标轴是 <img src="/images/517519-20161123211307643-553413937.gif" alt>，因为 <img src="/images/517519-20161123213443550-1815768005.gif" alt>，且&nbsp;<strong><img src="/images/517519-20161123210223550-906147236.gif" alt width="15" height="12"></strong> 是大于等于0的，</p>
+<p>所以当 <img src="/images/517519-20161123211258893-246859444.gif" alt> 和 <img src="/images/517519-20161123211307643-553413937.gif" alt> 有可能满足<strong>红线</strong>的情况，即y1=1,y2=-1时，<img src="/images/517519-20161125112838096-1953986228.gif" alt>，那么 <img src="/images/517519-20161123211307643-553413937.gif" alt> 的范围是 <img src="/images/517519-20161123215800393-116823641.gif" alt>，即 <img src="/images/517519-20161123215833815-949974384.gif" alt></p>
+<p>所以当 <img src="/images/517519-20161123211258893-246859444.gif" alt> 和 <img src="/images/517519-20161123211307643-553413937.gif" alt> 也有可能满足<strong>蓝线</strong>的情况，即y1=1,y2=-1时，<img src="/images/517519-20161125112838096-1953986228.gif" alt>，那么 <img src="/images/517519-20161123211307643-553413937.gif" alt> 的范围是 <img src="/images/517519-20161123215951362-973799435.gif" alt>，即&nbsp;<img src="/images/517519-20161125142513284-319227777.gif" alt></p>
+<p>由于<strong>不知道是红线还是蓝线</strong>，所以 <img src="/images/517519-20161123211307643-553413937.gif" alt> <strong>的取值范围为：<br></strong></p>
+<p>　　<img src="/images/517519-20161125142648440-1467544045.gif" alt></p>
+<p>&nbsp;<strong>&lt;2&gt;设y1=-1,y2=1</strong></p>
+<p>同样可能通过画图来说明，计算出来的 <img src="/images/517519-20161123211307643-553413937.gif" alt> <strong>的取值范围仍然是：</strong></p>
+<p>**　　<img src="/images/517519-20161125142648440-1467544045.gif" alt>**</p>
+<p>综上所述，<strong>当y1和y2异号的时候，<img src="/images/517519-20161123211307643-553413937.gif" alt> <strong>的取值范围为</strong>：</strong></p>
+<p>　　<strong><img src="/images/517519-20161125142648440-1467544045.gif" alt></strong></p>
+<p>&nbsp;</p>
+<p><strong>同理，当y1和y2同号的时候，<img src="/images/517519-20161123211307643-553413937.gif" alt> <strong>的取值范围</strong>为：</strong></p>
+<p>　　<img src="/images/517519-20161125145157753-1791760819.gif" alt></p>
+<p>&nbsp;</p>
+<p>以上内容的参考文献：</p>
+<p><a target="_blank" rel="noopener" href="http://blog.csdn.net/vivihe0/article/details/7037945">支持向量机入门系列-2：等式约束极小的最优性条件 </a></p>
+<p><a target="_blank" rel="noopener" href="http://blog.csdn.net/xianlingmao/article/details/7919597">深入理解拉格朗日乘子法（Lagrange Multiplier) 和KKT条件 </a></p>
+<p>《机器学习》&mdash;&mdash;周志华</p>
+<p>《神经网络与机器学习（第3版）》</p>
+<p>《机器学习实战》</p>
+<p>&nbsp;</p>
+<p>以下内容参考的网址：</p>
+<p><a target="_blank" rel="noopener" href="http://www.tuicool.com/articles/RRZvYb">支持向量机（SVM），SMO算法原理及源代码剖析 </a></p>
+<p>《机器学习实战》</p>
+<p>&nbsp;</p>
+<p>我们需要<strong>求解的问题</strong>是</p>
+<img src="/images/517519-20161123203049315-515256614.gif" alt>
+
+<p><strong>约束条件为&nbsp;</strong> <img src="/images/517519-20161123210017737-2125389590.gif" alt></p>
+<p>现在把求最大值转换成求最小值，其实是一样的，现在问题变成了</p>
+<img src="/images/517519-20161125150609878-5966626.gif" alt>
+
+<p><strong>约束条件为&nbsp;</strong> <img src="/images/517519-20161123210017737-2125389590.gif" alt></p>
+<p>&nbsp;</p>
+<p>因为 <img src="/images/517519-20161123213443550-1815768005.gif" alt></p>
+<p>所以 <img src="/images/517519-20161125145909487-1372911272.gif" alt></p>
+<p>接下来将 <img src="/images/517519-20161123211258893-246859444.gif" alt> 和 <img src="/images/517519-20161123211307643-553413937.gif" alt> 代入 <img src="/images/517519-20161125150609878-5966626.gif" alt></p>
+<p>得 <img src="/images/517519-20161125150609878-5966626.gif" alt></p>
+<p>&nbsp;</p>
+<p><strong>以下推导内容是CSDN上一篇博文的内容，直接贴图片，符号表示有些许区别</strong></p>
+<p><strong><img src="/images/517519-20161123230013362-1224223527.png" alt></strong></p>
+<img src="/images/517519-20161123230038550-433546900.png" alt>
+
+<img src="/images/517519-20161123230107300-1640299292.png" alt>
+
+<img src="/images/517519-20161123230132456-270446226.png" alt>
+
+<p>&nbsp;</p>
+<p>对<strong>最小化的目标函数</strong>和<strong>约束条件</strong>进行优化，以下是Python代码对应的<strong>伪代码流程</strong></p>
+<p>&nbsp;<img src="/images/517519-20161120143914795-1219132426.png" alt></p>
+<p>&nbsp;<img src="/images/517519-20161120143937498-2075072408.png" alt></p>
+<p>&nbsp;</p>
+<p><strong>源代码及代码注释：</strong></p>
+<p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line">from numpy import *</span><br><span class="line">from time import sleep</span><br><span class="line">import time</span><br><span class="line"></span><br><span class="line">def loadDataSet(fileName):	#逐行解析，得到每行的类标签和整个数据矩阵</span><br><span class="line">    dataMat = []; labelMat = []</span><br><span class="line">    fr = open(fileName)</span><br><span class="line">    for line in fr.readlines():</span><br><span class="line">        lineArr = line.strip().split(&#x27;\t&#x27;)</span><br><span class="line">        dataMat.append([float(lineArr[0]), float(lineArr[1])])</span><br><span class="line">        labelMat.append(float(lineArr[2]))</span><br><span class="line">    return dataMat,labelMat</span><br><span class="line"></span><br><span class="line">#辅助函数，用于在某一区间范围内随机选择一个整数</span><br><span class="line">#i是第一个alpha的下标，m是所有alpha的数目，只要函数值不等于输入值i，函数就会进行随机选择</span><br><span class="line">def selectJrand(i,m):	</span><br><span class="line">    j=i 		#we want to select any J not equal to i</span><br><span class="line">    while (j==i):</span><br><span class="line">        j = int(random.uniform(0,m))</span><br><span class="line">    return j</span><br><span class="line"></span><br><span class="line">def clipAlpha(aj,H,L):	#辅助函数，数值太大或者太小时对其进行调整</span><br><span class="line">    if aj &gt; H: </span><br><span class="line">        aj = H</span><br><span class="line">    if L &gt; aj:</span><br><span class="line">        aj = L</span><br><span class="line">    return aj</span><br><span class="line"></span><br><span class="line">#Platt SMO算法中的外循环确定要优化的最佳aplha集合，而简化版却会跳过这一部分</span><br><span class="line">#首先在数据集上遍历每一个alpha，然后在剩下的alpha集合中随机选择另一个alpha，构建alpha对</span><br><span class="line">#简化版SMO算法，数据集，类别标签，常数C，容错率，取消前最大的循环次数</span><br><span class="line">def smoSimple(dataMatIn, classLabels, C, toler, maxIter):	</span><br><span class="line">    dataMatrix = mat(dataMatIn); labelMat = mat(classLabels).transpose()	#把列表dataMatIn和classLabels转换成矩阵dataMatrix和labelMat</span><br><span class="line">    b = 0; m,n = shape(dataMatrix)	#初始的b=0,m=100,n=2</span><br><span class="line">    alphas = mat(zeros((m,1)))		#生成一个100&amp;times;1的零矩阵</span><br><span class="line">    iter = 0</span><br><span class="line">    while (iter &lt; maxIter):	#在iter小于maxIter的时候循环</span><br><span class="line">        alphaPairsChanged = 0	#用于记录alpha是否已经进行优化</span><br><span class="line">        for i in range(m):	#循环所有数据集，总共有100个</span><br><span class="line">            fXi = float(multiply(alphas,labelMat).T*(dataMatrix*dataMatrix[i,:].T)) + b	#fXi是预测的类别，i是alpha的下标，把第i个x代入公式计算</span><br><span class="line">            Ei = fXi - float(labelMat[i])						#Ei是第i数据向量的计算误差</span><br><span class="line">            #判断每一个alpha是否被优化过，如果误差很大，就对该alpha值进行优化，toler是容错率</span><br><span class="line">            if ((labelMat[i]*Ei &lt; -toler) and (alphas[i] &lt; C)) or ((labelMat[i]*Ei &gt; toler) and (alphas[i] &gt; 0)):	</span><br><span class="line">                j = selectJrand(i,m)								#随机选择另外一个数据向量j</span><br><span class="line">                print &quot;随机选择的j下标是&quot;,j</span><br><span class="line">                fXj = float(multiply(alphas,labelMat).T*(dataMatrix*dataMatrix[j,:].T)) + b	#同时优化这两个向量，如果都不能被优化，退出内循环</span><br><span class="line">                Ej = fXj - float(labelMat[j])							#Ej是第j数据向量的计算误差</span><br><span class="line">                alphaIold = alphas[i].copy();alphaJold = alphas[j].copy();</span><br><span class="line">                #保证alpha在0与C之间</span><br><span class="line">                if (labelMat[i] != labelMat[j]):		#当y1和y2异号，计算alpha的取值范围 	</span><br><span class="line">                    L = max(0, alphas[j] - alphas[i])</span><br><span class="line">                    H = min(C, C + alphas[j] - alphas[i])</span><br><span class="line">                else:						#当y1和y2同号，计算alpha的取值范围</span><br><span class="line">                    L = max(0, alphas[j] + alphas[i] - C)</span><br><span class="line">                    H = min(C, alphas[j] + alphas[i])</span><br><span class="line">                #如果L和H相等，就不做任何改变，本次循环结束直接运行下一次for循环</span><br><span class="line">                if L==H: print &quot;L==H&quot;; continue			</span><br><span class="line">                #eta是alpha[j]的最优修改量，eta=K11+K22-2*K12,也是f(x)的二阶导数，K表示内积</span><br><span class="line">                eta = 2.0 * dataMatrix[i,:]*dataMatrix[j,:].T - dataMatrix[i,:]*dataMatrix[i,:].T - dataMatrix[j,:]*dataMatrix[j,:].T</span><br><span class="line">                #如果二阶导数-eta &lt;= 0，说明一阶导数没有最小值，就不做任何改变，本次循环结束直接运行下一次for循环</span><br><span class="line">                if eta &gt;= 0: print &quot;eta&gt;=0&quot;; continue</span><br><span class="line">                alphas[j] -= labelMat[j]*(Ei - Ej)/eta		#利用公式更新alpha[j]，alpha2new=alpha2-yj(Ei-Ej)/eta</span><br><span class="line">                alphas[j] = clipAlpha(alphas[j],H,L)		#再判断一次alpha[j]的范围</span><br><span class="line">                #如果alphas[j]没有调整，就忽略下面语句，本次循环结束直接运行下一次for循环</span><br><span class="line">                if (abs(alphas[j] - alphaJold) &lt; 0.00001): print &quot;j改变的不够&quot;; continue</span><br><span class="line">                alphas[i] += labelMat[j]*labelMat[i]*(alphaJold - alphas[j])	#调整alphas[i]，修改量与j相同，但是方向相反</span><br><span class="line">                #已经计算出了alpha，接下来根据模型的公式计算b</span><br><span class="line">                b1 = b - Ei- labelMat[i]*(alphas[i]-alphaIold)*dataMatrix[i,:]*dataMatrix[i,:].T - labelMat[j]*(alphas[j]-alphaJold)*dataMatrix[i,:]*dataMatrix[j,:].T</span><br><span class="line">                b2 = b - Ej- labelMat[i]*(alphas[i]-alphaIold)*dataMatrix[i,:]*dataMatrix[j,:].T - labelMat[j]*(alphas[j]-alphaJold)*dataMatrix[j,:]*dataMatrix[j,:].T</span><br><span class="line">                #根据公式确定偏移量b，理论上可选取任意支持向量来求解，但是现实任务中通常使用所有支持向量求解的平均值，这样更加鲁棒</span><br><span class="line">                if (0 &lt; alphas[i]) and (C &gt; alphas[i]): b = b1</span><br><span class="line">                elif (0 &lt; alphas[j]) and (C &gt; alphas[j]): b = b2</span><br><span class="line">                else: b = (b1 + b2)/2.0</span><br><span class="line">                alphaPairsChanged += 1</span><br><span class="line">                print &quot;总共100次迭代的次数: %d 当前i的下标:%d, 成对改变的alpha的数量 %d&quot; % (iter,i,alphaPairsChanged)</span><br><span class="line">                #print &quot;输出现在的alphas&quot;,alphas.T</span><br><span class="line">                </span><br><span class="line">	#只有满足alphaPairsChanged为0的条件，即100个alpha的误差都在范围之内，才能进入下一个递归，不然只能在100个alpha再次循环优化</span><br><span class="line">        if (alphaPairsChanged == 0): iter += 1</span><br><span class="line">        else: iter = 0</span><br><span class="line">        print &quot;iteration number: %d&quot; % iter</span><br><span class="line">        plotBestFit(alphas,dataArr,labelArr,b)</span><br><span class="line">    return b,alphas</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">def calcWs(alphas,dataArr,classLabels):</span><br><span class="line">    X = mat(dataArr); labelMat = mat(classLabels).transpose()</span><br><span class="line">    m,n = shape(X)</span><br><span class="line">    w = zeros((n,1))</span><br><span class="line">    for i in range(m):</span><br><span class="line">        w += multiply(alphas[i]*labelMat[i],X[i,:].T)</span><br><span class="line">    return w</span><br><span class="line"></span><br><span class="line">def plotBestFit(alphas,dataArr,labelArr,b):	#画出数据集和超平面</span><br><span class="line">    import matplotlib.pyplot as plt</span><br><span class="line">    dataMat,labelMat=loadDataSet(&#x27;testSet.txt&#x27;)	#数据矩阵和标签向量</span><br><span class="line">    dataArr = array(dataMat)			#转换成数组</span><br><span class="line">    n = shape(dataArr)[0] </span><br><span class="line">    xcord1 = []; ycord1 = []			#声明两个不同颜色的点的坐标</span><br><span class="line">    xcord2 = []; ycord2 = []</span><br><span class="line">    for i in range(n):</span><br><span class="line">        if int(labelMat[i])== 1:</span><br><span class="line">            xcord1.append(dataArr[i,0]); ycord1.append(dataArr[i,1])</span><br><span class="line">        else:</span><br><span class="line">            xcord2.append(dataArr[i,0]); ycord2.append(dataArr[i,1])</span><br><span class="line">    fig = plt.figure()</span><br><span class="line">    ax = fig.add_subplot(111)</span><br><span class="line">    ax.scatter(xcord1, ycord1, s=30, c=&#x27;red&#x27;)</span><br><span class="line">    ax.scatter(xcord2, ycord2, s=30, c=&#x27;green&#x27;, marker=&#x27;s&#x27;)</span><br><span class="line">    x = arange(2.0, 6.0, 0.1)</span><br><span class="line">    ws = calcWs(alphas,dataArr,labelArr)</span><br><span class="line">    #最佳拟合曲线，因为0是两个分类（0和1）的分界处（Sigmoid函数）</span><br><span class="line">    #图中y表示x2,x表示x1</span><br><span class="line">    y = [(i*ws[0]+array(b)[0])/-ws[1] for i in x]</span><br><span class="line">    ax.plot(x, y)</span><br><span class="line">    plt.xlabel(&#x27;X1&#x27;); plt.ylabel(&#x27;X2&#x27;);</span><br><span class="line">    plt.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">    dataArr,labelArr = loadDataSet(&#x27;testSet.txt&#x27;)</span><br><span class="line">    b,alphas = smoSimple(dataArr,labelArr,0.6,0.001,40)</span><br><span class="line">    plotBestFit(alphas,dataArr,labelArr,b)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p><strong>用超平面对数据集进行划分</strong></p>
+<img src="/images/517519-20161125231452971-806347382.png" alt>
+
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA(SVM)%E4%B9%8B%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E4%B9%98%E5%AD%90%E6%B3%95%EF%BC%8CKKT%E6%9D%A1%E4%BB%B6%E4%BB%A5%E5%8F%8A%E7%AE%80%E5%8C%96%E7%89%88SMO%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90.html">机器学习——支持向量机(SVM)之拉格朗日乘子法，KKT条件以及简化版SMO算法分析</a>
+          </div>
+        </div>
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://tonglin0325.github.io/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA(SVM)%E4%B9%8B%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E4%B9%98%E5%AD%90%E6%B3%95%EF%BC%8CKKT%E6%9D%A1%E4%BB%B6%E4%BB%A5%E5%8F%8A%E7%AE%80%E5%8C%96%E7%89%88SMO%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90.html" data-id="cln8csfcy016sl00l8yipbtkg" class="article-share-link">
+        <i class="fa fa-share"></i> 分享
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ML/" rel="tag">ML</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%94%E5%B9%BF%E5%91%8A%E5%BD%92%E5%9B%A0.html" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">广告系统——广告归因</span>
+    </a>
+  </li>
+  
+  
+  <li role="presentation">
+    <a href="/Mongo%E8%8A%82%E7%82%B9%E7%B1%BB%E5%9E%8B.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <span class="article-nav-link-title">Mongo节点类型</span>
+      <i class="fa fa-chevron-right pull-right"></i>
+    </a>
+  </li>
+  
+</ul>
+
+
+  
+</article>
+
+
+
+
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>tonglin0325</h4>
+  <div style="text-align:center;"><img src="/images/WechatIMG1.jpeg" width="150" height="150" style="vertical-align:middle;"/></div>
+</div>
+
+
+  
+
+
+  
+  <div class="sidebar-module">
+    <h4>标签</h4>
+    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/AWS/" rel="tag">AWS</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Airbnb/" rel="tag">Airbnb</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Android/" rel="tag">Android</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/CDH/" rel="tag">CDH</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Doris/" rel="tag">Doris</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ELK/" rel="tag">ELK</a><span class="sidebar-module-list-count">14</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Flink/" rel="tag">Flink</a><span class="sidebar-module-list-count">29</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Git/" rel="tag">Git</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Grafana/" rel="tag">Grafana</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HAProxy/" rel="tag">HAProxy</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HBase/" rel="tag">HBase</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hadoop/" rel="tag">Hadoop</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hive/" rel="tag">Hive</a><span class="sidebar-module-list-count">20</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hudi/" rel="tag">Hudi</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/InfluxDB/" rel="tag">InfluxDB</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JDBC/" rel="tag">JDBC</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JMeter/" rel="tag">JMeter</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Java/" rel="tag">Java</a><span class="sidebar-module-list-count">19</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JavaWeb/" rel="tag">JavaWeb</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/LaTex/" rel="tag">LaTex</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Linkedin/" rel="tag">Linkedin</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="sidebar-module-list-count">35</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ML/" rel="tag">ML</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ML-Infra/" rel="tag">ML Infra</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/MPP/" rel="tag">MPP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Maven/" rel="tag">Maven</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/MySQL/" rel="tag">MySQL</a><span class="sidebar-module-list-count">16</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Nexus/" rel="tag">Nexus</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/OpenTSDB/" rel="tag">OpenTSDB</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Paper/" rel="tag">Paper</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Play/" rel="tag">Play</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Prometheus/" rel="tag">Prometheus</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Python/" rel="tag">Python</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/React/" rel="tag">React</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/RocksDB/" rel="tag">RocksDB</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Scala/" rel="tag">Scala</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Solr/" rel="tag">Solr</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Spark/" rel="tag">Spark</a><span class="sidebar-module-list-count">25</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SpringMVC/" rel="tag">SpringMVC</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Thrift/" rel="tag">Thrift</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/YARN/" rel="tag">YARN</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/antlr/" rel="tag">antlr</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/arthas/" rel="tag">arthas</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/avro/" rel="tag">avro</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/cassandra/" rel="tag">cassandra</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/clickhouse/" rel="tag">clickhouse</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/confluent/" rel="tag">confluent</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/docker/" rel="tag">docker</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/filebeat/" rel="tag">filebeat</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/flume/" rel="tag">flume</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/golang/" rel="tag">golang</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/google/" rel="tag">google</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/gradle/" rel="tag">gradle</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hexo/" rel="tag">hexo</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/impala/" rel="tag">impala</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/jenkins/" rel="tag">jenkins</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/k8s/" rel="tag">k8s</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kafka/" rel="tag">kafka</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kerberos/" rel="tag">kerberos</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kudu/" rel="tag">kudu</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ldap/" rel="tag">ldap</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mac/" rel="tag">mac</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mongo/" rel="tag">mongo</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mybatis/" rel="tag">mybatis</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nginx/" rel="tag">nginx</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nlp/" rel="tag">nlp</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/open-falcon/" rel="tag">open-falcon</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/openwrt/" rel="tag">openwrt</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/parquet/" rel="tag">parquet</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/presto/" rel="tag">presto</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ranger/" rel="tag">ranger</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/scyllaDB/" rel="tag">scyllaDB</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/twitter/" rel="tag">twitter</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/zookeeper/" rel="tag">zookeeper</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%88%B7%E9%A2%98/" rel="tag">刷题</a><span class="sidebar-module-list-count">22</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%9B%BE%E5%AD%98%E5%82%A8%E5%8F%8A%E8%AE%A1%E7%AE%97/" rel="tag">图存储及计算</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F/" rel="tag">广告系统</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" rel="tag">开发工具</a><span class="sidebar-module-list-count">19</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="sidebar-module-list-count">25</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" rel="tag">系统设计</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="sidebar-module-list-count">5</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>标签云</h4>
+    <p class="tagcloud">
+      <a href="/tags/AWS/" style="font-size: 11.3px;">AWS</a> <a href="/tags/Airbnb/" style="font-size: 14.35px;">Airbnb</a> <a href="/tags/Android/" style="font-size: 11.74px;">Android</a> <a href="/tags/CDH/" style="font-size: 14.35px;">CDH</a> <a href="/tags/Doris/" style="font-size: 10px;">Doris</a> <a href="/tags/ELK/" style="font-size: 15.65px;">ELK</a> <a href="/tags/Flink/" style="font-size: 19.57px;">Flink</a> <a href="/tags/Git/" style="font-size: 10.43px;">Git</a> <a href="/tags/Grafana/" style="font-size: 10px;">Grafana</a> <a href="/tags/HAProxy/" style="font-size: 10.87px;">HAProxy</a> <a href="/tags/HBase/" style="font-size: 12.61px;">HBase</a> <a href="/tags/Hadoop/" style="font-size: 12.61px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 17.39px;">Hive</a> <a href="/tags/Hudi/" style="font-size: 11.3px;">Hudi</a> <a href="/tags/InfluxDB/" style="font-size: 10px;">InfluxDB</a> <a href="/tags/JDBC/" style="font-size: 13.48px;">JDBC</a> <a href="/tags/JMeter/" style="font-size: 10px;">JMeter</a> <a href="/tags/JVM/" style="font-size: 11.74px;">JVM</a> <a href="/tags/Java/" style="font-size: 16.96px;">Java</a> <a href="/tags/JavaWeb/" style="font-size: 11.3px;">JavaWeb</a> <a href="/tags/LaTex/" style="font-size: 10px;">LaTex</a> <a href="/tags/Linkedin/" style="font-size: 10px;">Linkedin</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/ML/" style="font-size: 18.7px;">ML</a> <a href="/tags/ML-Infra/" style="font-size: 11.3px;">ML Infra</a> <a href="/tags/MPP/" style="font-size: 10px;">MPP</a> <a href="/tags/Maven/" style="font-size: 10.43px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 16.09px;">MySQL</a> <a href="/tags/Nexus/" style="font-size: 11.74px;">Nexus</a> <a href="/tags/OpenTSDB/" style="font-size: 10.43px;">OpenTSDB</a> <a href="/tags/Paper/" style="font-size: 10px;">Paper</a> <a href="/tags/Play/" style="font-size: 10px;">Play</a> <a href="/tags/Prometheus/" style="font-size: 10.43px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 17.83px;">Python</a> <a href="/tags/React/" style="font-size: 10.43px;">React</a> <a href="/tags/Redis/" style="font-size: 10.87px;">Redis</a> <a href="/tags/RocksDB/" style="font-size: 10px;">RocksDB</a> <a href="/tags/Scala/" style="font-size: 13.91px;">Scala</a> <a href="/tags/Solr/" style="font-size: 10.87px;">Solr</a> <a href="/tags/Spark/" style="font-size: 19.13px;">Spark</a> <a href="/tags/SpringBoot/" style="font-size: 16.52px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 14.35px;">SpringMVC</a> <a href="/tags/Thrift/" style="font-size: 12.17px;">Thrift</a> <a href="/tags/YARN/" style="font-size: 11.74px;">YARN</a> <a href="/tags/antlr/" style="font-size: 10.43px;">antlr</a> <a href="/tags/arthas/" style="font-size: 10px;">arthas</a> <a href="/tags/avro/" style="font-size: 13.91px;">avro</a> <a href="/tags/cassandra/" style="font-size: 10px;">cassandra</a> <a href="/tags/clickhouse/" style="font-size: 10.43px;">clickhouse</a> <a href="/tags/confluent/" style="font-size: 10.43px;">confluent</a> <a href="/tags/docker/" style="font-size: 10.87px;">docker</a> <a href="/tags/filebeat/" style="font-size: 11.3px;">filebeat</a> <a href="/tags/flume/" style="font-size: 10.43px;">flume</a> <a href="/tags/golang/" style="font-size: 15.22px;">golang</a> <a href="/tags/google/" style="font-size: 13.04px;">google</a> <a href="/tags/gradle/" style="font-size: 10px;">gradle</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/impala/" style="font-size: 11.3px;">impala</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/k8s/" style="font-size: 14.35px;">k8s</a> <a href="/tags/kafka/" style="font-size: 14.78px;">kafka</a> <a href="/tags/kerberos/" style="font-size: 10px;">kerberos</a> <a href="/tags/kudu/" style="font-size: 10.43px;">kudu</a> <a href="/tags/ldap/" style="font-size: 10.43px;">ldap</a> <a href="/tags/mac/" style="font-size: 11.74px;">mac</a> <a href="/tags/mongo/" style="font-size: 11.74px;">mongo</a> <a href="/tags/mybatis/" style="font-size: 10.87px;">mybatis</a> <a href="/tags/nginx/" style="font-size: 12.17px;">nginx</a> <a href="/tags/nlp/" style="font-size: 10px;">nlp</a> <a href="/tags/open-falcon/" style="font-size: 10.87px;">open-falcon</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/parquet/" style="font-size: 10.87px;">parquet</a> <a href="/tags/presto/" style="font-size: 12.17px;">presto</a> <a href="/tags/ranger/" style="font-size: 10px;">ranger</a> <a href="/tags/scyllaDB/" style="font-size: 10.87px;">scyllaDB</a> <a href="/tags/twitter/" style="font-size: 10.43px;">twitter</a> <a href="/tags/zookeeper/" style="font-size: 14.78px;">zookeeper</a> <a href="/tags/%E5%88%B7%E9%A2%98/" style="font-size: 18.26px;">刷题</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 12.17px;">前端</a> <a href="/tags/%E5%9B%BE%E5%AD%98%E5%82%A8%E5%8F%8A%E8%AE%A1%E7%AE%97/" style="font-size: 10.43px;">图存储及计算</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.91px;">多线程</a> <a href="/tags/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F/" style="font-size: 13.04px;">广告系统</a> <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" style="font-size: 16.96px;">开发工具</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 16.52px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 13.48px;">杂谈</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 19.13px;">算法</a> <a href="/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" style="font-size: 10.43px;">系统设计</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 13.04px;">计算机网络</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 11.74px;">设计模式</a>
+    </p>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>文章归档</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/08/">八月 2024</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/05/">五月 2024</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2023/08/">八月 2023</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/07/">七月 2022</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/01/">一月 2022</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/12/">十二月 2021</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/11/">十一月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/09/">九月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">七月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/05/">五月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/03/">三月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/01/">一月 2021</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/12/">十二月 2020</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/11/">十一月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/10/">十月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/09/">九月 2020</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/08/">八月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/07/">七月 2020</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/06/">六月 2020</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/05/">五月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/04/">四月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/03/">三月 2020</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">二月 2020</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/01/">一月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">十月 2019</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/09/">九月 2019</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">八月 2019</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/07/">七月 2019</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/04/">四月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/03/">三月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/01/">一月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/12/">十二月 2018</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/11/">十一月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/09/">九月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/06/">六月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/05/">五月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/04/">四月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/02/">二月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/01/">一月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/11/">十一月 2017</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/09/">九月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/07/">七月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/06/">六月 2017</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/05/">五月 2017</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/04/">四月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/03/">三月 2017</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/01/">一月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/12/">十二月 2016</a><span class="sidebar-module-list-count">15</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/11/">十一月 2016</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">十月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">九月 2016</a><span class="sidebar-module-list-count">16</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/08/">八月 2016</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/07/">七月 2016</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">六月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">五月 2016</a><span class="sidebar-module-list-count">32</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/04/">四月 2016</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/03/">三月 2016</a><span class="sidebar-module-list-count">136</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/02/">二月 2016</a><span class="sidebar-module-list-count">22</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/09/">九月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/08/">八月 2015</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/07/">七月 2015</a><span class="sidebar-module-list-count">30</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/06/">六月 2015</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/04/">四月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2013/04/">四月 2013</a><span class="sidebar-module-list-count">2</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>最近文章</h4>
+    <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Istio%E5%92%8CKong.html">k8s学习笔记——Istio和Kong</a>
+        </li>
+      
+        <li>
+          <a href="/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ingress.html">k8s学习笔记——ingress</a>
+        </li>
+      
+        <li>
+          <a href="/Presto%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Go%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5Presto.html">Presto学习笔记——Go客户端连接Presto</a>
+        </li>
+      
+        <li>
+          <a href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94wire%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5.html">go学习笔记——wire依赖注入</a>
+        </li>
+      
+        <li>
+          <a href="/screen%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html">screen使用教程</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+
+        </div>
+    </div>
+  </div>
+  <footer class="blog-footer">
+  <div class="container">
+    <div id="footer-info" class="inner">
+      &copy; 2024 tonglin0325<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+  
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" integrity="sha384-8gBf6Y4YYq7Jx97PIqmTwLPin4hxIzQw5aDmUg/DDhul9fFpbbLcLh3nTIIDJKhx" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9HZSXL1LDJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9HZSXL1LDJ');
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+<script src="/js/jquery.qrcode.min.js"></script>
+
+
+
+<script src="/js/jquery-1.6.2.min.js"></script>
+
+
+</body>
+</html>

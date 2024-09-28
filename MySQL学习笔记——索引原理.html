@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>MySQL学习笔记——索引原理 | tonglin0325的个人主页</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1.索引（index）可以通过在数据库中创建index来加速对表的查询，index可以避免对表的一个全面扫描。对于主键和唯一键，会自动在上面创建索引。  通过使用快速路径访问方法快速定位数据，减少了磁盘的I&#x2F;O 与表独立存放，但不能独立存在，必须属于某个表 由数据库自动维护，表被删除时，该表上的索引自动被删除  索引的原理：当以某个字段建立一个索引的时候，数据库就会生成一个索引页，索引页不单单保存">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL学习笔记——索引原理">
+<meta property="og:url" content="http://tonglin0325.github.io/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%B4%A2%E5%BC%95%E5%8E%9F%E7%90%86.html">
+<meta property="og:site_name" content="tonglin0325的个人主页">
+<meta property="og:description" content="1.索引（index）可以通过在数据库中创建index来加速对表的查询，index可以避免对表的一个全面扫描。对于主键和唯一键，会自动在上面创建索引。  通过使用快速路径访问方法快速定位数据，减少了磁盘的I&#x2F;O 与表独立存放，但不能独立存在，必须属于某个表 由数据库自动维护，表被删除时，该表上的索引自动被删除  索引的原理：当以某个字段建立一个索引的时候，数据库就会生成一个索引页，索引页不单单保存">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20210305161510802-1307185327.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20210305170205431-382287210.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20210305171650963-1233649960.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20210305161643348-1540822036.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20210305172046498-1870850348.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20210305171008200-1301899267.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20210305110438653-757965480.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20210305111449826-752557055.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240908161227896-1616905804.gif">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240908154502496-946717089.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/ecbbd201e0d8f1ccc91cb46362c4b72fa1bbe6c2">
+<meta property="og:image" content="http://tonglin0325.github.io/images/87be5eefdb8fa8b05d4e77a49222798c08e66318">
+<meta property="og:image" content="http://tonglin0325.github.io/images/ecbbd201e0d8f1ccc91cb46362c4b72fa1bbe6c2">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240908155510005-301249702.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20210308155731828-860798107.png">
+<meta property="article:published_time" content="2015-06-18T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-09-28T14:18:46.065Z">
+<meta property="article:author" content="tonglin0325">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://tonglin0325.github.io/images/517519-20210305161510802-1307185327.png">
+  
+    <link rel="alternate" href="/atom.xml" title="tonglin0325的个人主页" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="https://tonglin0325.github.io/images/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+
+  
+<link rel="stylesheet" href="/css/styles.css">
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-166238833-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5884015902351015"
+     crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-menu-navbar">
+      <ul class="nav navbar-nav">
+        
+          <li><a class=""
+                 href="/index.html">主页</a></li>
+        
+          <li><a class=""
+                 href="/archives/">所有文章</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="http://www.cnblogs.com/tonglin0325/">博客园</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="https://github.com/tonglin0325">Github</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="https://www.linkedin.com/in/tonglin0325/">LinkedIn</a></li>
+        
+        <li>
+          <span class="local-search local-search-google local-search-plugin" style="">
+  <input type="search" placeholder="站内搜索" id="local-search-input" class="local-search-input-cls" style="">
+  <div id="local-search-result" class="local-search-result-cls"></div>
+</span>
+
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    const div = document.getElementById('local-search-result');
+    const input = document.getElementById('local-search-input');
+
+    // 点击 input 显示 div
+    input.addEventListener('click', function() {
+        div.style.display = 'block';
+    });
+
+    // 点击 div 之外的地方隐藏 div
+    document.addEventListener('click', function(event) {
+        if (!div.contains(event.target) && event.target !== div && event.target !== input) {
+            div.style.display = 'none';
+        }
+    });
+});
+</script>
+        </li>
+      </ul>
+
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        
+          <li><a href="/atom.xml" title="RSS Feed"><i class="fa fa-rss"></i></a></li>
+        
+      </ul>
+      -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script>
+// 移动设备侦测
+var isMobile = {
+  Android: function () {
+    return navigator.userAgent.match(/Android/i);
+  },
+  BlackBerry: function () {
+    return navigator.userAgent.match(/BlackBerry/i);
+  },
+  iOS: function () {
+    return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+  },
+  Opera: function () {
+    return navigator.userAgent.match(/Opera Mini/i);
+  },
+  Windows: function () {
+    return navigator.userAgent.match(/IEMobile/i);
+  },
+  any: function () {
+    return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+  }
+};
+
+if ($('.local-search').resize() && !isMobile.any()) {
+	$.getScript('/js/search.js', function() {
+	  searchFunc("/search.json", 'local-search-input', 'local-search-result');
+	});
+}
+
+// document.addEventListener('DOMContentLoaded', (event) => {
+//
+//     const input = document.getElementById('.local-search-input');
+//     const div = document.getElementById('.local-search-result');
+//
+//     input.addEventListener('blur', function() {
+//         div.style.display = 'none';
+//     });
+// });
+</script>
+  <div class="container">
+    <div class="blog-header">
+  <h1 class="blog-title">tonglin0325的个人主页</h1>
+  
+</div>
+
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+          <article id="post-MySQL学习笔记——索引原理" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 class="article-title" itemprop="name">
+      MySQL学习笔记——索引原理
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%B4%A2%E5%BC%95%E5%8E%9F%E7%90%86.html" class="article-date"><time datetime="2015-06-18T16:00:00.000Z" itemprop="datePublished">2015-06-19</time></a>
+</div>
+
+    <div class="article-author">tonglin0325</div>
+    
+
+  </div>
+
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- 目录 -->
+
+<div id="toc">
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-suo-yin-index"><span class="toc-text">1.索引（index）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-chang-jian-suo-yin-de-chong-lei"><span class="toc-text">2.常见索引的种类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-zhu-jian-suo-yin"><span class="toc-text">1、主键索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-wei-yi-suo-yin"><span class="toc-text">2、唯一索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-pu-tong-suo-yin"><span class="toc-text">3、普通索引</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-dan-lie-suo-yin-column-indexes"><span class="toc-text">1.单列索引（Column Indexes）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-zu-he-suo-yin-lian-he-suo-yin"><span class="toc-text">2.组合索引（联合索引）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-qian-zhui-suo-yin"><span class="toc-text">4、前缀索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-quan-wen-suo-yin"><span class="toc-text">5、全文索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-kong-jian-suo-yin-nbsp-spatial-zhi-cun-zai-yu-myisam-cun-chu-yin-qing"><span class="toc-text">6、空间索引 SPATIAL（只存在于MyISAM存储引擎）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-bu-tong-cun-chu-yin-qing-de-suo-yin-lei-xing"><span class="toc-text">3.不同存储引擎的索引类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-innodb"><span class="toc-text">1.InnoDB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-myisam"><span class="toc-text">2.MyISAM</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-innodb-cun-chu-yin-qing-shi-yong-de-shi-b-shu"><span class="toc-text">4.Innodb存储引擎使用的是B+树</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-b-shu"><span class="toc-text">1.B树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-b-shu"><span class="toc-text">2.B+树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-b-tree-dui-bi-btree-de-you-dian"><span class="toc-text">3.B+Tree对比BTree的优点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-ci-pan-du-xie-dai-jie-geng-di"><span class="toc-text">1、磁盘读写代价更低</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-cha-xun-su-du-geng-wen-ding"><span class="toc-text">2、查询速度更稳定</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-gua-he-fan-wei-cha-xun"><span class="toc-text">3、适合范围查询</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-ju-cu-suo-yin-he-fei-ju-cu-suo-yin"><span class="toc-text">5.聚簇索引和非聚簇索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-ju-cu-suo-yin-he-fei-ju-cu-suo-yin"><span class="toc-text">5.聚簇索引和非聚簇索引</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-ju-cu-suo-yin"><span class="toc-text">1.聚簇索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-fei-ju-cu-suo-yin"><span class="toc-text">2.非聚簇索引</span></a></li></ol></li></ol>
+</div>
+
+        <h2 id="1-suo-yin-index"><a href="#1-索引（index）" class="headerlink" title="1.索引（index）"></a><strong>1.索引（index）</strong><a href="#1-suo-yin-index" class="header-anchor">#</a></h2><p>可以通过在数据库中创建index来加速对表的查询，index可以避免对表的一个全面扫描。对于<strong>主键和唯一键</strong>，会自动在上面创建索引。</p>
+<ul>
+<li>通过使用快速路径访问方法快速定位数据，减少了磁盘的I/O</li>
+<li>与表独立存放，但不能独立存在，必须属于某个表</li>
+<li>由数据库自动维护，表被删除时，该表上的索引自动被删除</li>
+</ul>
+<p>索引的原理：当以某个字段建立一个索引的时候，数据库就会生成一个索引页，索引页不单单保存索引的数据，还保存了索引在数据库的具体的物理地址。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 手动创建索引</span><br><span class="line">CREATE INDEX index_tb_dept_name</span><br><span class="line">ON tb_dept(NAME);</span><br><span class="line"></span><br><span class="line"># 使用索引，在where之后加上索引，提高查询效率</span><br><span class="line">SELECT * FROM tb_dept WHERE NAME=&#x27;Tom&#x27;</span><br><span class="line"></span><br><span class="line"># 重建索引</span><br><span class="line">drop index index_name;</span><br><span class="line">create index index_name on table(column);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>注意：如果表的列很少，不适合建立索引。当执行过很多次的insert、delete、update后，会出现索引碎片。影响查询速度，我们应该对索引进行重组。</p>
+<p>**索引列最好设置为 <code>NOT NULL</code>**，这通常可以提升查询效率和简化索引操作。</p>
+<p><strong>索引失效</strong>的场景：</p>
+<ul>
+<li>当我们使用左或者左右模糊匹配的时候，也就是 <code>like %xx</code> 或者 <code>like %xx%</code>这两种方式都会造成索引失效；</li>
+<li>当我们在查询条件中对索引列做了计算、函数、类型转换操作，这些情况下都会造成索引失效；</li>
+<li>联合索引要能正确使用需要遵循最左匹配原则，也就是按照最左优先的方式进行索引的匹配，否则就会导致索引失效。</li>
+<li>在 WHERE 子句中，如果在 OR 前的条件列是索引列，而在 OR 后的条件列不是索引列，那么索引会失效。</li>
+</ul>
+<p>参考：<a target="_blank" rel="noopener" href="https://xiaolincoding.com/mysql/index/index_interview.html#%E6%9C%89%E4%BB%80%E4%B9%88%E4%BC%98%E5%8C%96%E7%B4%A2%E5%BC%95%E7%9A%84%E6%96%B9%E6%B3%95">https://xiaolincoding.com/mysql/index/index_interview.html#有什么优化索引的方法？</a></p>
+<p><a target="_blank" rel="noopener" href="https://xiaolincoding.com/mysql/index/index_lose.html#%E7%B4%A2%E5%BC%95%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84%E9%95%BF%E4%BB%80%E4%B9%88%E6%A0%B7">https://xiaolincoding.com/mysql/index/index_lose.html#索引失效有哪些？</a></p>
+<h2 id="2-chang-jian-suo-yin-de-chong-lei"><a href="#2-常见索引的种类" class="headerlink" title="2.常见索引的种类"></a><strong>2.常见索引的种类</strong><a href="#2-chang-jian-suo-yin-de-chong-lei" class="header-anchor">#</a></h2><p>主键索引 PRIMARY、唯一索引 UNIQUE、普通索引 INDEX（多字段为组合索引）、全文索引 FULLTEXT、空间索引<span id="more"></span><br>&nbsp;SPATIAL</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/tongdanping/article/details/79878302">深入理解MySQL索引原理和实现&mdash;&mdash;为什么索引可以加速查询？</a></p>
+<h3 id="1-zhu-jian-suo-yin"><a href="#1、主键索引" class="headerlink" title="1、主键索引"></a><strong>1、主键索引</strong><a href="#1-zhu-jian-suo-yin" class="header-anchor">#</a></h3><p>即主索引，根据主键pk_clolum（length）建立索引，不允许重复，不允许空值；</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE &#x27;table_name&#x27; ADD PRIMARY KEY pk_index(&#x27;col&#x27;)；</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>比如user的id上的主键索引，以PRIMARY命名</p>
+<img src="/images/517519-20210305161510802-1307185327.png" alt>
+
+<p>主键也可以是复合主键，即有多个字段，比如</p>
+<img src="/images/517519-20210305170205431-382287210.png" alt>
+
+<p>主键索引最好是自增的，如果使用的是非自增主键，可能导致页分裂。参考：<a target="_blank" rel="noopener" href="https://xiaolincoding.com/mysql/index/index_interview.html">https://xiaolincoding.com/mysql/index/index_interview.html</a></p>
+<h3 id="2-wei-yi-suo-yin"><a href="#2、唯一索引" class="headerlink" title="2、唯一索引"></a><strong>2、唯一索引</strong><a href="#2-wei-yi-suo-yin" class="header-anchor">#</a></h3><p>用来建立索引的列的值必须是唯一的，<strong>允许多个重复的空值</strong>，因为根据 SQL 标准，<code>NULL</code> 值之间被认为是不相等的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE `table_name` ADD UNIQUE index_name(`col`);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>比如urn和modified_date字段需要唯一，命名为uix_表名_字段1_字段2</p>
+<img src="/images/517519-20210305171650963-1233649960.png" alt>
+
+<h3 id="3-pu-tong-suo-yin"><a href="#3、普通索引" class="headerlink" title="3、普通索引"></a><strong>3、普通索引</strong><a href="#3-pu-tong-suo-yin" class="header-anchor">#</a></h3><p>用表中的普通列构建的索引，没有任何限制</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE `table_name` ADD INDEX index_name(`col`);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="1-dan-lie-suo-yin-column-indexes"><a href="#1-单列索引（Column-Indexes）" class="headerlink" title="1.单列索引（Column Indexes）"></a><strong>1.单列索引（Column Indexes）</strong><a href="#1-dan-lie-suo-yin-column-indexes" class="header-anchor">#</a></h4><p>最常见的索引类型涉及单列，它将该列值的副本存储在数据结构中，允许快速查找具有相应列值的行。B-tree数据结构允许索引快速找到一个特定的值、一组值或一个值范围，对应于WHERE子句中的=、&gt;、&le;、BETWEEN、IN等操作符。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/column-indexes.html">https://dev.mysql.com/doc/refman/5.7/en/column-indexes.html</a></p>
+<p>比如user表的username上加普通索引，命名为idx_表名_字段名</p>
+<img src="/images/517519-20210305161643348-1540822036.png" alt>
+
+<h4 id="2-zu-he-suo-yin-lian-he-suo-yin"><a href="#2-组合索引（联合索引）" class="headerlink" title="2.组合索引（联合索引）"></a><strong>2.组合索引（联合索引）</strong><a href="#2-zu-he-suo-yin-lian-he-suo-yin" class="header-anchor">#</a></h4><p>MySQL可以创建复合索引(即在多个列上创建索引)。一个索引最多可以由16列组成。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE test (</span><br><span class="line">    id         INT NOT NULL,</span><br><span class="line">    last_name  CHAR(30) NOT NULL,</span><br><span class="line">    first_name CHAR(30) NOT NULL,</span><br><span class="line">    PRIMARY KEY (id),</span><br><span class="line">    INDEX name (last_name,first_name)</span><br><span class="line">);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>参考：<a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/multiple-column-indexes.html">https://dev.mysql.com/doc/refman/5.7/en/multiple-column-indexes.html</a></p>
+<p>如果表已经存在，可以使用以下SQL来添加联合索引，在构建联合索引时，组合的多个列中允许<strong>有空值（<code>NULL</code>）</strong>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE `table_name` ADD INDEX index_name(`col1`,`col2`,`col3`);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>组合索引需要注意字段的顺序，遵循<strong>最左匹配原则</strong>，参考：<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000015416513">Mysql联合索引最左匹配原则</a></p>
+<img src="/images/517519-20210305172046498-1870850348.png" alt>
+
+<h3 id="4-qian-zhui-suo-yin"><a href="#4、前缀索引" class="headerlink" title="4、前缀索引"></a><strong>4、前缀索引</strong><a href="#4-qian-zhui-suo-yin" class="header-anchor">#</a></h3><p>MySQL的前缀索引（Prefix Index）是一种对部分列数据进行索引的方式，通常用于字符串类型的列（如 <code>VARCHAR</code>、<code>TEXT</code>、<code>BLOB</code>），而不是对整个列值创建索引。前缀索引可以在提高查询性能的同时，减少索引的大小，尤其在索引非常长的字符串列时，效果显著。</p>
+<p>前缀索引的作用：对于较长的字符串列，建立索引时会占用大量的存储空间，前缀索引通过只对字符串的前一部分建立索引来减少存储开销。虽然前缀索引并不适用于所有查询场景，但对于某些情况下，可以有效地平衡空间和查询性能。</p>
+<p>假设有一个 <code>users</code> 表，其中有一个名为 <code>email</code> 的列，通常来说 <code>email</code> 字段可能会很长，如果你想只对前 10 个字符建立索引</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CREATE INDEX idx_email_prefix ON users (email(10));</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>前缀索引的优点：</p>
+<ul>
+<li><strong>节省存储空间</strong>：相比对整个列创建索引，前缀索引可以显著减少索引的存储空间，特别是在字符串较长时效果更明显。</li>
+<li><strong>提高查询性能</strong>：对于某些查询，前缀索引可以帮助加速查询，因为索引数据量减少了。</li>
+</ul>
+<p>前缀索引的缺点：</p>
+<ul>
+<li><strong>选择性较差</strong>：前缀索引的选择性（区分不同记录的能力）通常不如完整索引。当多个记录的前缀相同时，查询可能无法充分利用索引。</li>
+<li><strong>不能用于某些查询</strong>：前缀索引不能用于 ORDER BY 或 GROUP BY 中涉及的列，也不能用于基于列的全值比较。</li>
+</ul>
+<p>前缀索引的适用场景：前缀索引适合用于字符串较长且分布比较分散的列，例如：</p>
+<ul>
+<li><strong>Email 地址</strong>：通常前几个字符就能有效区分不同的邮箱地址。</li>
+<li><strong>URL</strong>：长 URL 的前缀部分往往能很好地区分不同的记录。</li>
+<li><strong>某些大文本字段</strong>：如文章标题、内容的摘要等。</li>
+</ul>
+<h3 id="5-quan-wen-suo-yin"><a href="#5、全文索引" class="headerlink" title="5、全文索引"></a><strong>5、全文索引</strong><a href="#5-quan-wen-suo-yin" class="header-anchor">#</a></h3><p>用大文本对象的列构建的索引</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE &#x27;table_name&#x27; ADD FULLTEXT INDEX ft_index(&#x27;col&#x27;)；</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>比如，命名为fti_表名_all</p>
+<img src="/images/517519-20210305171008200-1301899267.png" alt>
+
+<h3 id="6-kong-jian-suo-yin-nbsp-spatial-zhi-cun-zai-yu-myisam-cun-chu-yin-qing"><a href="#6、空间索引-nbsp-SPATIAL（只存在于MyISAM存储引擎）" class="headerlink" title="6、空间索引&nbsp;SPATIAL（只存在于MyISAM存储引擎）"></a><strong>6、空间索引&nbsp;SPATIAL（只存在于MyISAM存储引擎）</strong><a href="#6-kong-jian-suo-yin-nbsp-spatial-zhi-cun-zai-yu-myisam-cun-chu-yin-qing" class="header-anchor">#</a></h3><p>空间索引是对空间数据类型的字段建立的索引，MYSQL中的空间数据类型有4种，分别是GEOMETRY、POINT、LINESTRING、POLYGON。</p>
+<p>MYSQL使用SPATIAL关键字进行扩展，使得能够用于创建正规索引类型的语法创建空间索引。</p>
+<p>创建空间索引的列，必须将其声明为NOT NULL，空间索引只能在存储引擎为MyISAM的表中创建。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/guo_qiangqiang/article/details/88794971">详细介绍mysql索引类型：FULLTEXT、NORMAL、SPATIAL、UNIQUE</a></p>
+<h2 id="3-bu-tong-cun-chu-yin-qing-de-suo-yin-lei-xing"><a href="#3-不同存储引擎的索引类型" class="headerlink" title="3.不同存储引擎的索引类型"></a><strong>3.不同存储引擎的索引类型</strong><a href="#3-bu-tong-cun-chu-yin-qing-de-suo-yin-lei-xing" class="header-anchor">#</a></h2><p>MySQL支持诸多存储引擎，而各种存储引擎对索引的支持也各不相同，因此MySQL数据库支持多种索引类型，如BTree索引（实际上是B+Tree索引），哈希索引，全文索引等等。参考：<a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/create-index.html">https://dev.mysql.com/doc/refman/5.7/en/create-index.html</a></p>
+<img src="/images/517519-20210305110438653-757965480.png" alt>
+
+<p>索引记录存储在b树或r树数据结构的叶页中。索引页的默认大小是16KB。页面大小由MySQL实例初始化时的innodb_page_size设置决定。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/innodb-physical-structure.html">https://dev.mysql.com/doc/refman/5.7/en/innodb-physical-structure.html</a></p>
+<h3 id="1-innodb"><a href="#1-InnoDB" class="headerlink" title="1.InnoDB"></a>1.InnoDB<a href="#1-innodb" class="header-anchor">#</a></h3><p>InnoDB索引都是b-tree数据结构。实际上InnoDB也可以额外开启hash index，hash索引的创建由InnoDB存储引擎引擎自动优化创建。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/doctor_who2004/article/details/77414742">mysql InnoDB引擎支持hash索引吗</a></p>
+<p><strong><img src="/images/517519-20210305111449826-752557055.png" width="900" height="551"></strong></p>
+<p>参考：**<a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/innodb-introduction.html">https://dev.mysql.com/doc/refman/5.7/en/innodb-introduction.html</a>**</p>
+<h3 id="2-myisam"><a href="#2-MyISAM" class="headerlink" title="2.MyISAM"></a>2.MyISAM<a href="#2-myisam" class="header-anchor">#</a></h3><p>MyISAM的空间索引使用r-tree，这是一种专门用于索引多维数据的数据结构。</p>
+<h2 id="4-innodb-cun-chu-yin-qing-shi-yong-de-shi-b-shu"><a href="#4-Innodb存储引擎使用的是B-树" class="headerlink" title="4.Innodb存储引擎使用的是B+树"></a>4.Innodb存储引擎使用的是B+树<a href="#4-innodb-cun-chu-yin-qing-shi-yong-de-shi-b-shu" class="header-anchor">#</a></h2><p><a target="_blank" rel="noopener" href="https://database.51cto.com/art/201909/603430.htm">为什么MySQL索引要用B+树，而不是B树？</a></p>
+<h3 id="1-b-shu"><a href="#1-B树" class="headerlink" title="1.B树"></a>1.B树<a href="#1-b-shu" class="header-anchor">#</a></h3><p>BTree是平衡搜索多叉树，一棵 <img src="/images/517519-20240908161227896-1616905804.gif" title="m">m阶（M阶表示这个树的每一个节点最多可以拥有的子节点个数）的 B树的特性：</p>
+<ul>
+<li>每个节点最多有 m 个子节点</li>
+<li>每一个非叶子节点（除根节点）最少有 [m/2] 个子节点</li>
+<li>如果根节点不是叶子节点，那么它至少有两个子节点</li>
+<li>有 k 个子节点的非叶子节点拥有 k-1 个键，且升序排列，满足 k[i] &lt; k[i+1]</li>
+<li>所有的叶子节点都在同一层</li>
+</ul>
+<img src="/images/517519-20240908154502496-946717089.png" width="500" height="139" loading="lazy">
+
+<p>在BTree的结构下，就可以使用二分查找的查找方式，查找复杂度为h*log(n)，一般来说树的高度是很小的，一般为3左右，因此BTree是一个非常高效的查找结构。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://oi-wiki.org/ds/b-tree/">https://oi-wiki.org/ds/b-tree/</a></p>
+<h3 id="2-b-shu"><a href="#2-B-树" class="headerlink" title="2.B+树"></a>2.B+树<a href="#2-b-shu" class="header-anchor">#</a></h3><p>B+Tree是BTree的一个变种，在B+树中的节点通常被表示为一组有序的元素和子指针。</p>
+<ul>
+<li>B+树是一棵<strong>m阶树</strong>，即每个节点最多有 <code>m</code> 个子节点，最少有 <code>&amp;lceil;m/2&amp;rceil;</code> 个子节点。</li>
+<li>每个非叶子节点至多有 <code>m-1</code> 个键值（也称为分支或索引），用于引导查找过程。</li>
+<li>所有的数据都存储在叶子节点</li>
+<li>根节点可以有少于 <code>&amp;lceil;m/2&amp;rceil;</code> 的子节点（允许少于最小数量的子节点）。</li>
+</ul>
+<p> m &minus; 1 <img src="/images/ecbbd201e0d8f1ccc91cb46362c4b72fa1bbe6c2" alt="{\displaystyle m-1}" class="mwe-math-fallback-image-inline mw-invert skin-invert" style="vertical-align: -0.505ex; width: 6.043ex; height: 2.343ex;"> 个元素，对于任意的结点有最多 m 个子指针 &lfloor; m / 2 &rfloor; <img src="/images/87be5eefdb8fa8b05d4e77a49222798c08e66318" alt="{\displaystyle \lfloor m/2\rfloor }" class="mwe-math-fallback-image-inline mw-invert skin-invert" style="vertical-align: -0.838ex; width: 6.43ex; height: 2.843ex;"> 个元素最多  m &minus; 1 <img src="/images/ecbbd201e0d8f1ccc91cb46362c4b72fa1bbe6c2" alt="{\displaystyle m-1}" class="mwe-math-fallback-image-inline mw-invert skin-invert" style="vertical-align: -0.505ex; width: 6.043ex; height: 2.343ex;"> 个元素，对于任意的结点有最多 m 个子指针</p>
+<img src="/images/517519-20240908155510005-301249702.png" width="500" height="230" loading="lazy">
+
+<p>参考：<a target="_blank" rel="noopener" href="https://oi-wiki.org/ds/bplus-tree/">https://oi-wiki.org/ds/bplus-tree/</a></p>
+<h3 id="3-b-tree-dui-bi-btree-de-you-dian"><a href="#3-B-Tree对比BTree的优点" class="headerlink" title="3.B+Tree对比BTree的优点"></a><strong>3.B+Tree对比BTree的优点</strong><a href="#3-b-tree-dui-bi-btree-de-you-dian" class="header-anchor">#</a></h3><h4 id="1-ci-pan-du-xie-dai-jie-geng-di"><a href="#1、磁盘读写代价更低" class="headerlink" title="1、磁盘读写代价更低"></a>1、磁盘读写代价更低<a href="#1-ci-pan-du-xie-dai-jie-geng-di" class="header-anchor">#</a></h4><p>一般来说B+Tree比BTree更适合实现外存的索引结构，因为存储引擎的设计专家巧妙的利用了外存（磁盘）的存储结构，即磁盘的最小存储单位是扇区（sector），而操作系统的块（block）通常是整数倍的sector，操作系统以页（page）为单位管理内存，一页（page）通常默认为4K，数据库的页通常设置为操作系统页的整数倍，因此索引结构的节点被设计为一个页的大小，然后利用外存的&ldquo;预读取&rdquo;原则，每次读取的时候，把整个节点的数据读取到内存中，然后在内存中查找，已知内存的读取速度是外存读取I/O速度的几百倍，那么提升查找速度的关键就在于尽可能少的磁盘I/O，由于 B+ 树的 <strong>非叶子节点</strong> 不存储实际数据，能够容纳更多的索引键和指针，从而使每个节点的存储效率更高。也就是说，B+ 树的非叶子节点可以容纳更多的子节点，<strong>B+树的 扇出系数 更大</strong>，导致树的层级深度更低，那么树的高度越小，需要I/O的次数越少，因此一般来说B+Tree比BTree更快。</p>
+<h4 id="2-cha-xun-su-du-geng-wen-ding"><a href="#2、查询速度更稳定" class="headerlink" title="2、查询速度更稳定"></a>2、查询速度更稳定<a href="#2-cha-xun-su-du-geng-wen-ding" class="header-anchor">#</a></h4><p>由于 <strong>B+Tree 非叶子节点不存储数据</strong>（data），因此所有的数据都要查询至叶子节点，而叶子节点的高度都是相同的，因此所有数据的查询速度都是一样的。而B树查询时候的波动就会比较大，因为数据可能在非叶子节点，也可能在叶子节点。</p>
+<h4 id="3-gua-he-fan-wei-cha-xun"><a href="#3、适合范围查询" class="headerlink" title="3、适合范围查询"></a>3、适合范围查询<a href="#3-gua-he-fan-wei-cha-xun" class="header-anchor">#</a></h4><p>B+Tree <strong>叶子节点采用的是双链表连接</strong>，适合 MySQL 中常见的基于范围的顺序查找，而 B 树无法做到这一点。</p>
+<h2 id="5-ju-cu-suo-yin-he-fei-ju-cu-suo-yin"><a href="#5-聚簇索引和非聚簇索引" class="headerlink" title="5.聚簇索引和非聚簇索引"></a><strong>5.聚簇索引</strong>和<strong>非聚簇索引</strong><a href="#5-ju-cu-suo-yin-he-fei-ju-cu-suo-yin" class="header-anchor">#</a></h2><p>MySQL中最常见的两种存储引擎分别是MyISAM和InnoDB，<strong>MyISAM</strong>采用非聚簇索引，而<strong>InnoDB</strong>主键索引是聚簇索引，而二级索引是非聚簇索引。</p>
+<p>如下图，Primary key是主键索引，Secondary key是二级索引</p>
+<p>InnoDB 存储引擎：B+ 树索引的叶子节点保存数据本身；</p>
+<p>MyISAM 存储引擎：B+ 树索引的叶子节点保存数据的物理地址；</p>
+<img src="/images/517519-20210308155731828-860798107.png" width="500" height="429">
+
+<h2 id="5-ju-cu-suo-yin-he-fei-ju-cu-suo-yin"><a href="#5-聚簇索引和非聚簇索引-1" class="headerlink" title="5.聚簇索引和非聚簇索引"></a><strong>5.聚簇索引</strong>和<strong>非聚簇索引</strong><a href="#5-ju-cu-suo-yin-he-fei-ju-cu-suo-yin" class="header-anchor">#</a></h2><h3 id="1-ju-cu-suo-yin"><a href="#1-聚簇索引" class="headerlink" title="1.聚簇索引"></a>1.聚簇索引<a href="#1-ju-cu-suo-yin" class="header-anchor">#</a></h3><p>每个InnoDB表都有一个特殊的索引，称为**聚簇索引(clustered index)**，用于存储行数据。 聚簇索引的 B+ 树的叶子节点存储了整行数据。聚簇索引的顺序就是数据的物理存储顺序。</p>
+<ul>
+<li>当你在表上定义一个<strong>主键</strong>时，InnoDB使用它作为聚簇索引。应该为每个表定义一个主键。如果没有逻辑唯一且非空的列或一组列可以使用主键，则添加一个自动递增列。自动递增的列值是唯一的，在插入新行时自动添加。</li>
+<li>如果你没有为表定义一个主键，InnoDB会使用<strong>第一个唯一的索引</strong>作为聚簇索引，所有的键列都定义为not NULL。</li>
+<li>如果一张表没有主键或合适的唯一索引，InnoDB会在一个包含行ID值的合成列上生成一个名为GEN_CLUST_INDEX的<strong>隐藏聚簇索引</strong>。这些行是根据InnoDB分配的行ID来排序的。row ID是一个6字节的字段，随着新行插入单调递增。因此，按行ID排序的行在物理上是按插入顺序排列的。</li>
+</ul>
+<p>参考：<a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/innodb-index-types.html">https://dev.mysql.com/doc/refman/5.7/en/innodb-index-types.html</a></p>
+<h3 id="2-fei-ju-cu-suo-yin"><a href="#2-非聚簇索引" class="headerlink" title="2.非聚簇索引"></a>2.非聚簇索引<a href="#2-fei-ju-cu-suo-yin" class="header-anchor">#</a></h3><p>InnoDB 的<strong>二级索引</strong>是<strong>非聚簇索引</strong>，也是基于 B+ 树的，但是其叶子节点存储的并不是完整的行数据，而是<strong>主键值和索引列的值</strong>。通过二级索引查找到主键值后，InnoDB 会使用主键查找来获取完整的行数据（这就是所谓的”<strong>回表</strong>“操作）。索引顺序与数据物理排列顺序无关。</p>
+<p><strong>回表</strong> 是指 MySQL 在使用非聚簇索引（也称为辅助索引或二级索引）查询时，无法通过索引本身获取所需的全部数据，必须回到主表（聚簇索引）中获取完整的行数据的过程。</p>
+<p>回表通常会在以下情况下发生：</p>
+<ul>
+<li><strong>使用非聚簇索引</strong>：查询条件使用了非聚簇索引，且查询需要的列不完全包含在索引中。</li>
+<li><strong>查询所需数据不在索引中</strong>：查询需要的数据列没有在索引中全部覆盖。</li>
+</ul>
+<p>具体参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/tongdanping/article/details/79878302">深入理解MySQL索引原理和实现&mdash;&mdash;为什么索引可以加速查询？</a></p>
+<p>什么时候不需要回表：</p>
+<ul>
+<li>在查询执行时，MySQL 可以<strong>完全从索引中获取所有需要的数据</strong>，而不需要回表（即访问实际的表数据）。这叫做<strong>覆盖索引（Covering Index）</strong>，覆盖索引就是<strong>包含了查询所需的所有列</strong>的索引。</li>
+</ul>
+<p>如果使用了覆盖索引，在explain的时候Extra的值为Using index</p>
+
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%B4%A2%E5%BC%95%E5%8E%9F%E7%90%86.html">MySQL学习笔记——索引原理</a>
+          </div>
+        </div>
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://tonglin0325.github.io/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%B4%A2%E5%BC%95%E5%8E%9F%E7%90%86.html" data-id="cln8csfcu016gl00l4pfp8jhq" class="article-share-link">
+        <i class="fa fa-share"></i> 分享
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94SQLite.html" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">Android学习笔记——SQLite</span>
+    </a>
+  </li>
+  
+  
+  <li role="presentation">
+    <a href="/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E5%BB%BA%E6%A8%A1%E7%9A%84%E4%B8%80%E4%BA%9B%E7%90%86%E8%AE%BA.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <span class="article-nav-link-title">数据仓库建模的一些理论</span>
+      <i class="fa fa-chevron-right pull-right"></i>
+    </a>
+  </li>
+  
+</ul>
+
+
+  
+</article>
+
+
+
+
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>tonglin0325</h4>
+  <div style="text-align:center;"><img src="/images/WechatIMG1.jpeg" width="150" height="150" style="vertical-align:middle;"/></div>
+</div>
+
+
+  
+
+
+  
+  <div class="sidebar-module">
+    <h4>标签</h4>
+    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/AWS/" rel="tag">AWS</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Airbnb/" rel="tag">Airbnb</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Android/" rel="tag">Android</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/CDH/" rel="tag">CDH</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Doris/" rel="tag">Doris</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ELK/" rel="tag">ELK</a><span class="sidebar-module-list-count">14</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Flink/" rel="tag">Flink</a><span class="sidebar-module-list-count">29</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Git/" rel="tag">Git</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Grafana/" rel="tag">Grafana</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HAProxy/" rel="tag">HAProxy</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HBase/" rel="tag">HBase</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hadoop/" rel="tag">Hadoop</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hive/" rel="tag">Hive</a><span class="sidebar-module-list-count">20</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hudi/" rel="tag">Hudi</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/InfluxDB/" rel="tag">InfluxDB</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JDBC/" rel="tag">JDBC</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JMeter/" rel="tag">JMeter</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Java/" rel="tag">Java</a><span class="sidebar-module-list-count">19</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JavaWeb/" rel="tag">JavaWeb</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/LaTex/" rel="tag">LaTex</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Linkedin/" rel="tag">Linkedin</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="sidebar-module-list-count">35</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ML/" rel="tag">ML</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ML-Infra/" rel="tag">ML Infra</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/MPP/" rel="tag">MPP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Maven/" rel="tag">Maven</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/MySQL/" rel="tag">MySQL</a><span class="sidebar-module-list-count">16</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Nexus/" rel="tag">Nexus</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/OpenTSDB/" rel="tag">OpenTSDB</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Paper/" rel="tag">Paper</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Play/" rel="tag">Play</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Prometheus/" rel="tag">Prometheus</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Python/" rel="tag">Python</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/React/" rel="tag">React</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/RocksDB/" rel="tag">RocksDB</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Scala/" rel="tag">Scala</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Solr/" rel="tag">Solr</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Spark/" rel="tag">Spark</a><span class="sidebar-module-list-count">25</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SpringMVC/" rel="tag">SpringMVC</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Thrift/" rel="tag">Thrift</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/YARN/" rel="tag">YARN</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/antlr/" rel="tag">antlr</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/arthas/" rel="tag">arthas</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/avro/" rel="tag">avro</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/cassandra/" rel="tag">cassandra</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/clickhouse/" rel="tag">clickhouse</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/confluent/" rel="tag">confluent</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/docker/" rel="tag">docker</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/filebeat/" rel="tag">filebeat</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/flume/" rel="tag">flume</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/golang/" rel="tag">golang</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/google/" rel="tag">google</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/gradle/" rel="tag">gradle</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hexo/" rel="tag">hexo</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/impala/" rel="tag">impala</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/jenkins/" rel="tag">jenkins</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/k8s/" rel="tag">k8s</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kafka/" rel="tag">kafka</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kerberos/" rel="tag">kerberos</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kudu/" rel="tag">kudu</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ldap/" rel="tag">ldap</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mac/" rel="tag">mac</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mongo/" rel="tag">mongo</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mybatis/" rel="tag">mybatis</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nginx/" rel="tag">nginx</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nlp/" rel="tag">nlp</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/open-falcon/" rel="tag">open-falcon</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/openwrt/" rel="tag">openwrt</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/parquet/" rel="tag">parquet</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/presto/" rel="tag">presto</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ranger/" rel="tag">ranger</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/scyllaDB/" rel="tag">scyllaDB</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/twitter/" rel="tag">twitter</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/zookeeper/" rel="tag">zookeeper</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%88%B7%E9%A2%98/" rel="tag">刷题</a><span class="sidebar-module-list-count">22</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%9B%BE%E5%AD%98%E5%82%A8%E5%8F%8A%E8%AE%A1%E7%AE%97/" rel="tag">图存储及计算</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F/" rel="tag">广告系统</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" rel="tag">开发工具</a><span class="sidebar-module-list-count">19</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="sidebar-module-list-count">25</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" rel="tag">系统设计</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="sidebar-module-list-count">5</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>标签云</h4>
+    <p class="tagcloud">
+      <a href="/tags/AWS/" style="font-size: 11.3px;">AWS</a> <a href="/tags/Airbnb/" style="font-size: 14.35px;">Airbnb</a> <a href="/tags/Android/" style="font-size: 11.74px;">Android</a> <a href="/tags/CDH/" style="font-size: 14.35px;">CDH</a> <a href="/tags/Doris/" style="font-size: 10px;">Doris</a> <a href="/tags/ELK/" style="font-size: 15.65px;">ELK</a> <a href="/tags/Flink/" style="font-size: 19.57px;">Flink</a> <a href="/tags/Git/" style="font-size: 10.43px;">Git</a> <a href="/tags/Grafana/" style="font-size: 10px;">Grafana</a> <a href="/tags/HAProxy/" style="font-size: 10.87px;">HAProxy</a> <a href="/tags/HBase/" style="font-size: 12.61px;">HBase</a> <a href="/tags/Hadoop/" style="font-size: 12.61px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 17.39px;">Hive</a> <a href="/tags/Hudi/" style="font-size: 11.3px;">Hudi</a> <a href="/tags/InfluxDB/" style="font-size: 10px;">InfluxDB</a> <a href="/tags/JDBC/" style="font-size: 13.48px;">JDBC</a> <a href="/tags/JMeter/" style="font-size: 10px;">JMeter</a> <a href="/tags/JVM/" style="font-size: 11.74px;">JVM</a> <a href="/tags/Java/" style="font-size: 16.96px;">Java</a> <a href="/tags/JavaWeb/" style="font-size: 11.3px;">JavaWeb</a> <a href="/tags/LaTex/" style="font-size: 10px;">LaTex</a> <a href="/tags/Linkedin/" style="font-size: 10px;">Linkedin</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/ML/" style="font-size: 18.7px;">ML</a> <a href="/tags/ML-Infra/" style="font-size: 11.3px;">ML Infra</a> <a href="/tags/MPP/" style="font-size: 10px;">MPP</a> <a href="/tags/Maven/" style="font-size: 10.43px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 16.09px;">MySQL</a> <a href="/tags/Nexus/" style="font-size: 11.74px;">Nexus</a> <a href="/tags/OpenTSDB/" style="font-size: 10.43px;">OpenTSDB</a> <a href="/tags/Paper/" style="font-size: 10px;">Paper</a> <a href="/tags/Play/" style="font-size: 10px;">Play</a> <a href="/tags/Prometheus/" style="font-size: 10.43px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 17.83px;">Python</a> <a href="/tags/React/" style="font-size: 10.43px;">React</a> <a href="/tags/Redis/" style="font-size: 10.87px;">Redis</a> <a href="/tags/RocksDB/" style="font-size: 10px;">RocksDB</a> <a href="/tags/Scala/" style="font-size: 13.91px;">Scala</a> <a href="/tags/Solr/" style="font-size: 10.87px;">Solr</a> <a href="/tags/Spark/" style="font-size: 19.13px;">Spark</a> <a href="/tags/SpringBoot/" style="font-size: 16.52px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 14.35px;">SpringMVC</a> <a href="/tags/Thrift/" style="font-size: 12.17px;">Thrift</a> <a href="/tags/YARN/" style="font-size: 11.74px;">YARN</a> <a href="/tags/antlr/" style="font-size: 10.43px;">antlr</a> <a href="/tags/arthas/" style="font-size: 10px;">arthas</a> <a href="/tags/avro/" style="font-size: 13.91px;">avro</a> <a href="/tags/cassandra/" style="font-size: 10px;">cassandra</a> <a href="/tags/clickhouse/" style="font-size: 10.43px;">clickhouse</a> <a href="/tags/confluent/" style="font-size: 10.43px;">confluent</a> <a href="/tags/docker/" style="font-size: 10.87px;">docker</a> <a href="/tags/filebeat/" style="font-size: 11.3px;">filebeat</a> <a href="/tags/flume/" style="font-size: 10.43px;">flume</a> <a href="/tags/golang/" style="font-size: 15.22px;">golang</a> <a href="/tags/google/" style="font-size: 13.04px;">google</a> <a href="/tags/gradle/" style="font-size: 10px;">gradle</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/impala/" style="font-size: 11.3px;">impala</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/k8s/" style="font-size: 14.35px;">k8s</a> <a href="/tags/kafka/" style="font-size: 14.78px;">kafka</a> <a href="/tags/kerberos/" style="font-size: 10px;">kerberos</a> <a href="/tags/kudu/" style="font-size: 10.43px;">kudu</a> <a href="/tags/ldap/" style="font-size: 10.43px;">ldap</a> <a href="/tags/mac/" style="font-size: 11.74px;">mac</a> <a href="/tags/mongo/" style="font-size: 11.74px;">mongo</a> <a href="/tags/mybatis/" style="font-size: 10.87px;">mybatis</a> <a href="/tags/nginx/" style="font-size: 12.17px;">nginx</a> <a href="/tags/nlp/" style="font-size: 10px;">nlp</a> <a href="/tags/open-falcon/" style="font-size: 10.87px;">open-falcon</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/parquet/" style="font-size: 10.87px;">parquet</a> <a href="/tags/presto/" style="font-size: 12.17px;">presto</a> <a href="/tags/ranger/" style="font-size: 10px;">ranger</a> <a href="/tags/scyllaDB/" style="font-size: 10.87px;">scyllaDB</a> <a href="/tags/twitter/" style="font-size: 10.43px;">twitter</a> <a href="/tags/zookeeper/" style="font-size: 14.78px;">zookeeper</a> <a href="/tags/%E5%88%B7%E9%A2%98/" style="font-size: 18.26px;">刷题</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 12.17px;">前端</a> <a href="/tags/%E5%9B%BE%E5%AD%98%E5%82%A8%E5%8F%8A%E8%AE%A1%E7%AE%97/" style="font-size: 10.43px;">图存储及计算</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.91px;">多线程</a> <a href="/tags/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F/" style="font-size: 13.04px;">广告系统</a> <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" style="font-size: 16.96px;">开发工具</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 16.52px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 13.48px;">杂谈</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 19.13px;">算法</a> <a href="/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" style="font-size: 10.43px;">系统设计</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 13.04px;">计算机网络</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 11.74px;">设计模式</a>
+    </p>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>文章归档</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/08/">八月 2024</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/05/">五月 2024</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2023/08/">八月 2023</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/07/">七月 2022</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/01/">一月 2022</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/12/">十二月 2021</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/11/">十一月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/09/">九月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">七月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/05/">五月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/03/">三月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/01/">一月 2021</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/12/">十二月 2020</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/11/">十一月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/10/">十月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/09/">九月 2020</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/08/">八月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/07/">七月 2020</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/06/">六月 2020</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/05/">五月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/04/">四月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/03/">三月 2020</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">二月 2020</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/01/">一月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">十月 2019</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/09/">九月 2019</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">八月 2019</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/07/">七月 2019</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/04/">四月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/03/">三月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/01/">一月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/12/">十二月 2018</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/11/">十一月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/09/">九月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/06/">六月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/05/">五月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/04/">四月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/02/">二月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/01/">一月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/11/">十一月 2017</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/09/">九月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/07/">七月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/06/">六月 2017</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/05/">五月 2017</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/04/">四月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/03/">三月 2017</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/01/">一月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/12/">十二月 2016</a><span class="sidebar-module-list-count">15</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/11/">十一月 2016</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">十月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">九月 2016</a><span class="sidebar-module-list-count">16</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/08/">八月 2016</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/07/">七月 2016</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">六月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">五月 2016</a><span class="sidebar-module-list-count">32</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/04/">四月 2016</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/03/">三月 2016</a><span class="sidebar-module-list-count">136</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/02/">二月 2016</a><span class="sidebar-module-list-count">22</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/09/">九月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/08/">八月 2015</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/07/">七月 2015</a><span class="sidebar-module-list-count">30</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/06/">六月 2015</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/04/">四月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2013/04/">四月 2013</a><span class="sidebar-module-list-count">2</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>最近文章</h4>
+    <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Istio%E5%92%8CKong.html">k8s学习笔记——Istio和Kong</a>
+        </li>
+      
+        <li>
+          <a href="/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ingress.html">k8s学习笔记——ingress</a>
+        </li>
+      
+        <li>
+          <a href="/Presto%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Go%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5Presto.html">Presto学习笔记——Go客户端连接Presto</a>
+        </li>
+      
+        <li>
+          <a href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94wire%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5.html">go学习笔记——wire依赖注入</a>
+        </li>
+      
+        <li>
+          <a href="/screen%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html">screen使用教程</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+
+        </div>
+    </div>
+  </div>
+  <footer class="blog-footer">
+  <div class="container">
+    <div id="footer-info" class="inner">
+      &copy; 2024 tonglin0325<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+  
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" integrity="sha384-8gBf6Y4YYq7Jx97PIqmTwLPin4hxIzQw5aDmUg/DDhul9fFpbbLcLh3nTIIDJKhx" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9HZSXL1LDJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9HZSXL1LDJ');
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+<script src="/js/jquery.qrcode.min.js"></script>
+
+
+
+<script src="/js/jquery-1.6.2.min.js"></script>
+
+
+</body>
+</html>

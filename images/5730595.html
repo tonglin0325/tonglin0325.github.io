@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never" />
+    <meta name="description" content="抓包应该是每个技术人员掌握的基础知识，无论是技术支持运维人员或者是研发，多少都会遇到要抓包的情况，用过的抓包工具有fiddle、wireshark，作为一个不是经常要抓包的人员，学会用Wireshark就够了，毕竟它是功能最全面使用者最多的抓包工具。Wireshark（前称Ethereal）是一个网" />
+    <meta property="og:description" content="抓包应该是每个技术人员掌握的基础知识，无论是技术支持运维人员或者是研发，多少都会遇到要抓包的情况，用过的抓包工具有fiddle、wireshark，作为一个不是经常要抓包的人员，学会用Wireshark就够了，毕竟它是功能最全面使用者最多的抓包工具。Wireshark（前称Ethereal）是一个网" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>网络抓包wireshark - 时间朋友 - 博客园</title>
+        <link rel="canonical" href="https://www.cnblogs.com/doit8791/p/5730595.html" />
+    <link id="favicon" rel="shortcut icon" href="//assets.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=g-c5Yfdgh3oAoyQibjhmJ6ylVcBcMRHNIG6JkF70hpY" />
+    
+
+    <link id="MainCss" rel="stylesheet" href="/skins/anothereon001/bundle-anothereon001.min.css?v=1yg9KIl2uqPgFl1nHJo7XpSmdsw2-TBVdqxb4st_cPo" />
+        <link id="highlighter-theme-cnblogs" type="text/css" rel="stylesheet" href="/css/hljs/cnblogs.css?v=5J1NDtbnnIr2Rc2SdhEMlMxD4l9Eydj88B31E7_NhS4" />
+    
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/anothereon001/bundle-anothereon001-mobile.min.css?v=zeoHwsnp6gL8E642hMrvo-deqjMGJl97V9l8CMTm-sk" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/doit8791/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/doit8791/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/doit8791/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 110759;
+        var currentBlogApp = 'doit8791';
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'AnotherEon001';
+        var visitorUserId = '';
+        var hasCustomScript = false;
+        window.cb_enable_mathjax = false;
+        window.mathEngine = 0;
+        window.codeHighlightEngine = 1;
+        window.enableCodeLineNumber = false;
+        window.codeHighlightTheme = 'cnblogs';
+        window.darkModeCodeHighlightTheme = 'vs2015';
+        window.isDarkCodeHighlightTheme = false;
+        window.isDarkModeCodeHighlightThemeDark = true;
+        window.isDisableCodeHighlighter = false;
+        window.enableCodeThemeTypeFollowSystem = false;
+        window.enableMacStyleCodeBlock = false;
+    </script>
+        <script>
+            window.currentPostId = 5730595;
+            window.currentPostDateAdded = '2016-08-02 20:21';
+        </script>
+    <script src="https://assets.cnblogs.com/scripts/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn-www.cnblogs.com/js/blog-common.min.js?v=SjA_uVSjQyVDqTNOKZ-Ahs83UnwgjHa7qUqpG8mAF-4"></script>
+    
+</head>
+<body class="skin-anothereon001 has-navbar has-bannerbar">
+    <a name="top"></a>
+        <a href="https://www.cnblogs.com/cmt/p/17995766" onclick="countCreativeClicks('C0-阿里云-年度大降价')" target="_blank" rel="nofollow">
+            <div class="bannerbar forpc" style="background-size: contain;background-image: url(https://img2024.cnblogs.com/blog/35695/202403/35695-20240305193907590-1586537847.jpg);">
+                <img src="https://img2024.cnblogs.com/blog/35695/202402/35695-20240229193418159-1353765233.jpg" style="" onload="countCreativeImpressions('C0-阿里云-年度大降价')" />
+                
+                
+                <span id="c0_impression" style="display:none"></span>
+            </div>
+        </a>
+        <div id="bannerbar" class="bannerbar-mobile bannerbar-text-mobile formobile">
+                <a href="https://www.cnblogs.com/cmt/p/17995766" onclick="countCreativeClicks('M2-阿里云-年度大降价')" rel="nofollow">
+                    <img src="https://img2024.cnblogs.com/blog/35695/202402/35695-20240229194148864-904414861.jpg" alt="" onload="countCreativeImpressionsOnMobile('M2-阿里云-年度大降价')" />
+                    <span id="m2_impression" style="display:none"></span>
+                </a>
+        </div>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding">
+                    <a href="https://www.cnblogs.com/" title="开发者的网上家园" role="banner">
+                        <img src="//assets.cnblogs.com/logo.svg" alt="博客园Logo" />
+                    </a>
+                </li>
+                <li><a href="https://cnblogs.vip/">会员</a></li>
+                <li><a href="https://www.cnblogs.com/cmt/p/17974346">周边</a></li>
+                <li>
+                    <a href="https://news.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-news')">新闻</a>
+                </li>
+                <li>
+                    <a href="https://q.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-q')">博问</a>
+                </li>
+                <li>
+                    <a href="https://ai.hanghang.com/page/4649915" target="_blank">AI培训</a>
+                </li>
+                <li><a href="https://market.cnblogs.com" target="_blank">云市场</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search dropdown" action="https://zzk.cnblogs.com/s" method="get" role="search">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="search" tabindex="3" autocomplete="off" />
+                        <button id="zzk_search_button" onclick="window.navbarSearchManager.triggerActiveOption()">
+                            <img id="search_icon" class="focus-hidden" src="//assets.cnblogs.com/icons/search.svg" alt="搜索" />
+                            <img class="hidden focus-visible" src="//assets.cnblogs.com/icons/enter.svg" alt="搜索" />
+                        </button>
+                        <ul id="navbar_search_options" class="dropdown-menu quick-search-menu">
+                            <li tabindex="0" class="active" onclick="zzkSearch(event, document.getElementById('zzk_search_input').value)">
+                                <div class="keyword-wrapper">
+                                    <img src="//assets.cnblogs.com/icons/search.svg" alt="搜索" />
+                                    <div class="keyword"></div>
+                                </div>
+                                <span class="search-area">所有博客</span>
+                            </li>
+                                    <li tabindex="1" onclick="zzkBlogSearch(event, 'doit8791', document.getElementById('zzk_search_input').value)">
+                                        <div class="keyword-wrapper">
+                                            <img src="//assets.cnblogs.com/icons/search.svg" alt="搜索" />
+                                            <div class="keyword"></div>
+                                        </div>
+                                        <span class="search-area">当前博客</span>
+                                    </li>
+                        </ul>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="//assets.cnblogs.com/icons/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="//assets.cnblogs.com/icons/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="//assets.cnblogs.com/icons/message.svg" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <a id="navbar_lite_mode_indicator" data-current-page="blog" style="display: none" href="javascript:void(0)" alt="简洁模式" title="简洁模式启用，您在访问他人博客时会使用简洁款皮肤展示">
+                        <img class="navbar-icon" src="//assets.cnblogs.com/icons/lite-mode-on.svg" alt="简洁模式" />
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="//assets.cnblogs.com/icons/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+
+    <div id="wrapper">
+    <div id="header">
+        
+<div id="top">
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/doit8791">时间的朋友</a>
+</h1>
+<div id="subtitle"></div>
+</div>
+<div id="sub"><div id="blog_stats_place_holder"><script>loadBlogStats();</script></div></div>
+
+
+
+
+    </div>
+    <div id="main_container">
+        <div id="main_content">
+            <div id="content">
+                <div id="post_detail">
+    <div class="post">
+        <h2>
+            
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/doit8791/p/5730595.html">
+    <span role="heading" aria-level="2">网络抓包wireshark</span>
+    
+
+</a>
+
+        </h2>
+        <div class="postbody">
+            <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<h1 id="tank_h1"><div><span style="font-size: 15px; font-weight: normal; line-height: 22px">抓包应该是每个技术人员掌握的基础知识，无论是技术支持运维人员或者是研发，多少都会遇到要抓包的情况，用过的抓包工具有fiddle、wireshark，作为一个不是经常要抓包的人员，学会用</span><span style="font-size: 15px; font-weight: normal; line-height: 22px">Wireshark就够了，毕竟它是功能最全面使用者最多的抓包工具。</span></div><div><span data-wiz-span="data-wiz-span" style="font-size: 11pt; font-weight: normal">Wireshark（前称Ethereal）是一个网络封包分析软件。网络封包分析软件的功能是撷取网络封包，并尽可能显示出最为详细的网络封包资料。Wireshark使用WinPCAP作为接口，直接与网卡进行数据报文交换。</span></div><div><span data-wiz-span="data-wiz-span" style="font-size: 11pt; font-weight: normal">网络封包分析软件的功能可想像成 "电工技师使用电表来量测电流、电压、电阻" 的工作 - 只是将场景移植到网络上，并将电线替换成网络线。在过去，网络封包分析软件是非常昂贵的，或是专门属于营利用的软件。Ethereal的出现改变了这一切。在GNUGPL通用许可证的保障范围底下，使用者可以以免费的代价取得软件与其源代码，并拥有针对其源代码修改及客制化的权利。Ethereal是目前全世界最广泛的网络封包分析软件之一。</span></div></h1><p><span data-wiz-span="data-wiz-span" style="font-size: 11pt">wireshark的官方下载网站： </span><a href="http://www.wireshark.org/" rel="noopener"><span data-wiz-span="data-wiz-span" style="font-size: 11pt">http://www.wireshark.org/</span></a></p><p><span data-wiz-span="data-wiz-span" style="font-size: 11pt">wireshark是非常流行的网络封包分析软件，功能十分强大。可以截取各种网络封包，显示网络封包的详细信息。</span></p><p><span data-wiz-span="data-wiz-span" style="font-size: 11pt">wireshark是开源软件，可以放心使用。 可以运行在Windows和Mac OS上。</span></p><p><span data-wiz-span="data-wiz-span" style="font-size: 11pt"><br></span></p><h1 id="tank_h1">Wireshark不能做的 <a name="cannotdo" rel="noopener"></a></h1><p>为了安全考虑，wireshark只能查看封包，而不能修改封包的内容，或者发送封包。</p><p><br></p><h1 id="tank_h1">Wireshark VS Fiddler<a name="wiresharkfiddler" rel="noopener"></a></h1><p>Fiddler是在windows上运行的程序，专门用来捕获HTTP，HTTPS的。</p><p>wireshark能获取HTTP，也能获取HTTPS，但是不能解密HTTPS，所以wireshark看不懂HTTPS中的内容</p><p><br></p><h1 id="tank_h1">同类的其他工具<a name="othertool" rel="noopener"></a></h1><p>微软的network monitor</p><p>sniffer&nbsp;</p><p>&nbsp;</p><h1 id="tank_h1">什么人会用到wireshark<a name="who" rel="noopener"></a></h1><p>1. 网络管理员会使用wireshark来检查网络问题</p><p>2. 软件测试工程师使用wireshark抓包，来分析自己测试的软件</p><p>3. 从事socket编程的工程师会用wireshark来调试</p><p>4. 听说，华为，中兴的大部分工程师都会用到wireshark。</p><p>&nbsp;</p><p><span style="color: rgba(255, 0, 0, 1)">总之跟网络相关的东西，都可能会用到wireshark.</span></p><div id="tank_hidden">&nbsp;</div><h1 id="tank_h1">wireshark 开始抓包<a name="start" rel="noopener"></a></h1><p>开始界面</p><p><img alt="" src="https://images2015.cnblogs.com/blog/150046/201608/150046-20160802202001059-707610366.png"></p><p>wireshark是捕获机器上的某一块网卡的网络包，当你的机器上有多块网卡的时候，你需要选择一个网卡。</p><p>点击Caputre-&gt;Interfaces.. 出现下面对话框，选择正确的网卡。然后点击"Start"按钮, 开始抓包</p><p><img alt="" src="https://images2015.cnblogs.com/blog/150046/201608/150046-20160802202001903-227653544.png"></p><p>&nbsp;</p><h1 id="tank_h1">Wireshark 窗口介绍<a name="mainui" rel="noopener"></a></h1><p><img alt="" src="https://images2015.cnblogs.com/blog/150046/201608/150046-20160802202003372-291503522.png"></p><p>&nbsp;</p><p>WireShark 主要分为这几个界面</p><p>1. Display Filter(显示过滤器)，&nbsp; 用于过滤</p><p>2. Packet List Pane(封包列表)， 显示捕获到的封包， 有源地址和目标地址，端口号。 颜色不同，代表</p><p>3. Packet Details Pane(封包详细信息), 显示封包中的字段</p><p>4. Dissector Pane(16进制数据)</p><p>5. Miscellanous(地址栏，杂项)</p><p>&nbsp;</p><h1 id="tank_h1">Wireshark 显示过滤<a name="filter" rel="noopener"></a></h1><p><img alt="" src="https://images2015.cnblogs.com/blog/150046/201608/150046-20160802202004372-179986181.png"></p><p>使用过滤是非常重要的， 初学者使用wireshark时，将会得到大量的冗余信息，在几千甚至几万条记录中，以至于很难找到自己需要的部分。搞得晕头转向。</p><p>过滤器会帮助我们在大量的数据中迅速找到我们需要的信息。</p><p>过滤器有两种，</p><p>一种是显示过滤器，就是主界面上那个，用来在捕获的记录中找到所需要的记录</p><p>一种是捕获过滤器，用来过滤捕获的封包，以免捕获太多的记录。 在Capture -&gt; Capture Filters 中设置</p><p>&nbsp;</p><h1 id="tank_h1">保存过滤<a name="savefilter" rel="noopener"></a></h1><p>在Filter栏上，填好Filter的表达式后，点击Save按钮， 取个名字。比如"Filter 102",</p><p><img alt="" src="https://images2015.cnblogs.com/blog/150046/201608/150046-20160802202004840-367195657.png"></p><p>Filter栏上就多了个"Filter 102" 的按钮。</p><p><img alt="" src="https://images2015.cnblogs.com/blog/150046/201608/150046-20160802202005497-535988035.png"> </p><h1 id="tank_h1">过滤表达式的规则<a name="filterRegular" rel="noopener"></a></h1><p>表达式规则</p><p>&nbsp;1. 协议过滤</p><p>比如TCP，只显示TCP协议。</p><p>2. IP 过滤</p><p>比如 ip.src ==192.168.1.102 显示源地址为192.168.1.102， </p><p>ip.dst==192.168.1.102, 目标地址为192.168.1.102</p><p>3. 端口过滤</p><p>tcp.port ==80,&nbsp; 端口为80的</p><p>tcp.srcport == 80,&nbsp; 只显示TCP协议的愿端口为80的。</p><p>4. Http模式过滤</p><p>http.request.method=="GET",&nbsp;&nbsp; 只显示HTTP GET方法的。</p><p>5. 逻辑运算符为 AND/ OR</p><p>常用的过滤表达式</p><table align="left" style="border-width: 0; border-color: rgba(251, 3, 8, 1); width: 631px; height: 190px; background-color: rgba(212, 246, 236, 1)" border="0"><tbody><tr><td>过滤表达式</td><td>用途</td></tr><tr><td>http</td><td>只查看HTTP协议的记录</td></tr><tr><td>ip.src ==192.168.1.102 or ip.dst==192.168.1.102</td><td>&nbsp;源地址或者目标地址是192.168.1.102</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><h1 id="tank_h1">封包列表(Packet List Pane) <a name="PacketList" rel="noopener"></a></h1><p>封包列表的面板中显示，编号，时间戳，源地址，目标地址，协议，长度，以及封包信息。 你可以看到不同的协议用了不同的颜色显示。</p><p>你也可以修改这些显示颜色的规则，&nbsp; View -&gt;Coloring Rules.</p><p><img alt="" src="https://images2015.cnblogs.com/blog/150046/201608/150046-20160802202006247-1266474477.png"></p><p>&nbsp;</p><h1 id="tank_h1">封包详细信息 (Packet Details Pane)<a name="packetDetails" rel="noopener"></a></h1><p>这个面板是我们最重要的，用来查看协议中的每一个字段。</p><p>各行信息分别为</p><p>Frame:&nbsp;&nbsp; <span style="font-size: 12px"><span style="color: rgba(255, 0, 0, 1)">物理层的数据帧概况</span></span></p><p>Ethernet II: <span style="color: rgba(255, 0, 0, 1)"><span style="font-size: 12px">数据链路层以太网帧头部信息</span></span></p><p>Internet Protocol Version 4: <span style="font-size: 12px"><span style="color: rgba(255, 0, 0, 1)">互联网层IP包头部信息</span></span><br></p><p>Transmission Control Protocol:&nbsp; <span style="font-size: 12px"><span style="color: rgba(255, 0, 0, 1)">传输层T的数据段头部信息，此处是TCP</span></span><br></p><p>Hypertext Transfer Protocol:&nbsp; <span style="color: rgba(255, 0, 0, 1); font-size: 12px">应用层的信息，此处是HTTP协议</span><br></p><p>&nbsp;</p><h1 id="tank_h1">wireshark与对应的OSI七层模型<a name="osi" rel="noopener"></a></h1><p><img alt="" src="https://images2015.cnblogs.com/blog/150046/201608/150046-20160802202006918-885956603.png"></p><h1 id="tank_h1">TCP包的具体内容<a name="tcpdetails" rel="noopener"></a></h1><p>&nbsp;从下图可以看到wireshark捕获到的TCP包中的每个字段。</p><p>&nbsp;</p><p><img alt="" src="https://images2015.cnblogs.com/blog/150046/201608/150046-20160802202008372-1811385287.png"></p><p>&nbsp;</p><h1 id="tank_h1">实例分析TCP三次握手过程<a name="threehand" rel="noopener"></a></h1><p>看到这， 基本上对wireshak有了初步了解， 现在我们看一个TCP三次握手的实例</p><p>&nbsp;</p><p>&nbsp;三次握手过程为</p><p><img alt="" src="https://images2015.cnblogs.com/blog/150046/201608/150046-20160802202009309-1996784026.png"></p><p>&nbsp;</p><p>这图我都看过很多遍了， 这次我们用wireshark实际分析下三次握手的过程。</p><p>打开wireshark, 打开浏览器输入 <a rel="noopener">http://www.cnblogs.com/tankxiao</a></p><p>在wireshark中输入http过滤， 然后选中GET /tankxiao HTTP/1.1的那条记录，右键然后点击"Follow TCP Stream", </p><p>这样做的目的是为了得到与浏览器打开网站相关的数据包，将得到如下图</p><p><img alt="" src="https://images2015.cnblogs.com/blog/150046/201608/150046-20160802202009981-1942606838.png"></p><p>图中可以看到wireshark截获到了三次握手的三个数据包。第四个包才是HTTP的， 这说明HTTP的确是使用TCP建立连接的。 </p><p>&nbsp;</p><p>第一次握手数据包</p><p>客户端发送一个TCP，标志位为SYN，序列号为0， 代表客户端请求建立连接。 如下图</p><p><img alt="" src="https://images2015.cnblogs.com/blog/150046/201608/150046-20160802202010575-1736889917.png"></p><p>第二次握手的数据包</p><p>服务器发回确认包, 标志位为 SYN,ACK. 将确认序号(Acknowledgement Number)设置为客户的I S N加1以.即0+1=1, 如下图</p><p><img alt="" src="https://images2015.cnblogs.com/blog/150046/201608/150046-20160802202011231-471497268.png"></p><p>第三次握手的数据包</p><p>客户端再次发送确认包(ACK) SYN标志位为0,ACK标志位为1.并且把服务器发来ACK的序号字段+1,放在确定字段中发送给对方.并且在数据段放写ISN的+1, 如下图:</p><p><img alt="" src="https://images2015.cnblogs.com/blog/150046/201608/150046-20160802202011997-1580125577.png"></p><p>&nbsp;就这样通过了TCP三次握手，建立了连接</p><p><a href="http://www.cnblogs.com/TankXiao/archive/2012/10/10/2711777.html" rel="noopener">http://www.cnblogs.com/TankXiao/archive/2012/10/10/2711777.html</a></p><p></p><div style="font-family: Tahoma; font-size: 18px"><span style="color: rgba(174, 0, 174, 1); font-size: 22px">1.设置过滤条件</span></div><div style="font-family: Tahoma; font-size: 18px"><span style="color: rgba(243, 152, 0, 1)">【1】http and ip.addr ==&nbsp;192.168.1.106&nbsp;and tcp.port ==&nbsp;8080</span></div><div style="font-family: Tahoma; font-size: 18px"><span style="color: rgba(38, 38, 38, 1)">【a】http：指定网络协议</span></div><div style="font-family: Tahoma; font-size: 18px"><span style="color: rgba(38, 38, 38, 1)">【b】</span>ip.addr ==&nbsp;<span style="color: rgba(89, 159, 254, 1)">192.168.1.106：</span><span style="color: rgba(38, 38, 38, 1)">指定服务器ip地址，请根据实际情况替换。</span></div><div style="font-family: Tahoma; font-size: 18px"><span style="color: rgba(38, 38, 38, 1)">【c】</span>tcp.port ==<span style="color: rgba(89, 159, 254, 1)">&nbsp;8080，</span><span style="color: rgba(38, 38, 38, 1)">指定端口号，请根据实际情况替换。</span></div><div style="text-align: center; font-family: Tahoma; font-size: 18px"><img alt="" src="https://images2015.cnblogs.com/blog/150046/201608/150046-20160802202012825-2059605184.png"><br></div><div style="text-align: center; font-family: Tahoma; font-size: 18px">图1 过滤条件</div><div style="font-family: Tahoma; font-size: 18px"><span style="color: rgba(243, 152, 0, 1)">【2】点击apply</span></div><div style="font-family: Tahoma; font-size: 18px">&nbsp; &nbsp; 点击apply之后可过滤得到两个数据包，分别是HTTP请求和HTTP响应。</div><div style="text-align: center; font-family: Tahoma; font-size: 18px"><img alt="" src="https://images2015.cnblogs.com/blog/150046/201608/150046-20160802202013622-1348028147.png"><br></div><div style="text-align: center; font-family: Tahoma; font-size: 18px">图2 HTTP请求和响应</div><div style="text-align: center; font-family: Tahoma; font-size: 18px"><br></div><div style="font-family: Tahoma; font-size: 18px"><span style="color: rgba(174, 0, 174, 1); font-size: 22px">2.查看TCP数据流——Follow TCP Stream</span></div><div style="font-family: Tahoma; font-size: 18px"><span style="color: rgba(243, 152, 0, 1)">【1】在任意数据包上右击，选择Follow TCP Stream</span></div><div style="font-family: Tahoma; font-size: 18px">&nbsp; &nbsp; 该步骤可以过滤出和该HTTP数据包有关的TCP数据包，包括TCP 3次握手，TCP分片和组装等。</div><div style="text-align: center; font-family: Tahoma; font-size: 18px"><img alt="" src="https://images2015.cnblogs.com/blog/150046/201608/150046-20160802202014543-782143775.png"><br></div><div style="text-align: center; font-family: Tahoma; font-size: 18px">图3 选择Follow TCP Stream</div><div style="font-family: Tahoma; font-size: 18px"><span style="color: rgba(243, 152, 0, 1)">【2】最终得到HTTP请求和响应</span></div><div style="font-family: Tahoma; font-size: 18px">【a】红色背景字体为HTTP请求，蓝色背景字体为HTTP响应</div><div style="font-family: Tahoma; font-size: 18px">【b】从User-Agent中可以看出，360浏览器兼容模式使用了IE8内核（该台计算机操作系统为XP，IE浏览器版本为8），这说明360浏览器使用了系统中的IE核。</div><div style="text-align: center; font-family: Tahoma; font-size: 18px"><img alt="" src="https://images2015.cnblogs.com/blog/150046/201608/150046-20160802202015247-1279945941.png"><br></div><div style="text-align: center; font-family: Tahoma; font-size: 18px"><img style="margin-top: 8px; max-width: 800px" alt="" src=""></div><div style="text-align: center; font-family: Tahoma; font-size: 18px">图4 HTTP请求和响应具体内容</div><p></p><p></p><div><p style="padding: 0; margin: 0; clear: both; height: auto; overflow: hidden; color: rgba(80, 80, 80, 1); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; line-height: 28px; background-color: rgba(255, 255, 255, 1)"><strong style="font-size: 10.5pt; padding: 0; margin: 0">网络中明码传输的危险性</strong><br></p><p style="padding: 0; margin: 0; clear: both; height: auto; overflow: hidden; color: rgba(80, 80, 80, 1); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; line-height: 28px; background-color: rgba(255, 255, 255, 1)">&nbsp;&nbsp;&nbsp;&nbsp;通过明码传输的protocol和工具相当多，典型的就是telnet,ftp,http。我们拿telnet做这次实验。假设我以telnet方式登录到我的linux服务器，然后通过wireshark抓包，以抓取账号和密码信息。<br style="padding: 0; margin: 0"></p><p style="padding: 0; margin: 0; clear: both; height: auto; overflow: hidden; color: rgba(80, 80, 80, 1); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; line-height: 28px; background-color: rgba(255, 255, 255, 1)">1、首先启动wireshark，并处于Capture状态。然后通过telnet远程登录我们的linux服务器。<br style="padding: 0; margin: 0"></p><p style="padding: 0; margin: 0; clear: both; height: auto; overflow: hidden; color: rgba(80, 80, 80, 1); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; line-height: 28px; background-color: rgba(255, 255, 255, 1)"><a href="http://s3.51cto.com/wyfs02/M02/46/13/wKiom1PtxDOQimlAAACdwiZqfeE162.jpg" target="_blank" style="padding: 0; margin: 0; color: rgba(80, 80, 80, 1); text-decoration: none" rel="noopener"><img width="650" title="1.png" alt="wKiom1PtxDOQimlAAACdwiZqfeE162.jpg" src="https://images2015.cnblogs.com/blog/150046/201608/150046-20160802202015887-326862603.jpg" style="padding: 0; margin: 0; vertical-align: top; border-width: 3px; border-style: none; float: none"></a></p><p style="padding: 0; margin: 0; clear: both; height: auto; overflow: hidden; color: rgba(80, 80, 80, 1); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; line-height: 28px; background-color: rgba(255, 255, 255, 1)">进入登录界面后，输入账号和密码登入系统。</p><p style="padding: 0; margin: 0; clear: both; height: auto; overflow: hidden; color: rgba(80, 80, 80, 1); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; line-height: 28px; background-color: rgba(255, 255, 255, 1)"><a href="http://s3.51cto.com/wyfs02/M01/46/15/wKioL1PtxUvT0yksAACzkwdoI_Y013.jpg" target="_blank" style="padding: 0; margin: 0; color: rgba(80, 80, 80, 1); text-decoration: none" rel="noopener"><img width="650" title="2.png" alt="wKioL1PtxUvT0yksAACzkwdoI_Y013.jpg" src="https://images2015.cnblogs.com/blog/150046/201608/150046-20160802202016590-290108096.jpg" style="padding: 0; margin: 0; vertical-align: top; border-width: 3px; border-style: none; float: none"></a></p><p style="padding: 0; margin: 0; clear: both; height: auto; overflow: hidden; color: rgba(80, 80, 80, 1); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; line-height: 28px; background-color: rgba(255, 255, 255, 1)">2、接下来停止wireshark的截取封包的操作，执行快捷方式的"Stop"即可。<br style="padding: 0; margin: 0"></p><p style="padding: 0; margin: 0; clear: both; height: auto; overflow: hidden; color: rgba(80, 80, 80, 1); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; line-height: 28px; background-color: rgba(255, 255, 255, 1)">&nbsp;&nbsp;&nbsp;&nbsp;不过，捕获的信息非常多，这个时候可以利用Display Filter功能，过滤显示的内容，如下图所示，点击Expression,然后选择过滤表达式。这里，我们选择TELNET即可。<br style="padding: 0; margin: 0"></p><p style="padding: 0; margin: 0; clear: both; height: auto; overflow: hidden; color: rgba(80, 80, 80, 1); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; line-height: 28px; background-color: rgba(255, 255, 255, 1)"><a href="http://s3.51cto.com/wyfs02/M02/46/14/wKiom1PtxVXjVpp9AAU8cd7PEgE073.jpg" target="_blank" style="padding: 0; margin: 0; color: rgba(80, 80, 80, 1); text-decoration: none" rel="noopener"><img width="650" title="1.png" alt="wKiom1PtxVXjVpp9AAU8cd7PEgE073.jpg" src="https://images2015.cnblogs.com/blog/150046/201608/150046-20160802202018090-2094601524.jpg" style="padding: 0; margin: 0; vertical-align: top; border-width: 3px; border-style: none"></a></p><p style="padding: 0; margin: 0; clear: both; height: auto; overflow: hidden; color: rgba(80, 80, 80, 1); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; line-height: 28px; background-color: rgba(255, 255, 255, 1)">表达式确定之后，选择"Apply",就可以过滤出只包含TELNET的封包</p><p style="padding: 0; margin: 0; clear: both; height: auto; overflow: hidden; color: rgba(80, 80, 80, 1); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; line-height: 28px; background-color: rgba(255, 255, 255, 1)"><a href="http://s3.51cto.com/wyfs02/M02/46/16/wKioL1Ptx42CAgvXAAYLelyRK58954.jpg" target="_blank" style="padding: 0; margin: 0; color: rgba(80, 80, 80, 1); text-decoration: none" rel="noopener"><img width="650" title="1.png" alt="wKioL1Ptx42CAgvXAAYLelyRK58954.jpg" src="https://images2015.cnblogs.com/blog/150046/201608/150046-20160802202020106-1808415128.jpg" style="padding: 0; margin: 0; vertical-align: top; border-width: 3px; border-style: none"></a>来，我们查看一下整个telnet会话的所有记录， wireshark可以记录会话记录（就像我们聊QQ时，"QQ聊天记录"一样），任意找到一个telnet封包，右键找到"Follow TCP Stream"，wireshark就会返回整个会话记录。</p><p style="padding: 0; margin: 0; clear: both; height: auto; overflow: hidden; color: rgba(80, 80, 80, 1); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; line-height: 28px; background-color: rgba(255, 255, 255, 1)"><a href="http://s3.51cto.com/wyfs02/M02/46/17/wKioL1PtyevSaTfJAASR__mwGZk771.jpg" target="_blank" style="padding: 0; margin: 0; color: rgba(80, 80, 80, 1); text-decoration: none" rel="noopener"><img width="650" title="1.png" alt="wKioL1PtyevSaTfJAASR__mwGZk771.jpg" src="https://images2015.cnblogs.com/blog/150046/201608/150046-20160802202022153-3188226.jpg" style="padding: 0; margin: 0; vertical-align: top; border-width: 3px; border-style: none"></a></p><p style="padding: 0; margin: 0; clear: both; height: auto; overflow: hidden; color: rgba(80, 80, 80, 1); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; line-height: 28px; background-color: rgba(255, 255, 255, 1)">OK， 我们看到以下这些数据信息，<span style="padding: 0; margin: 0; color: rgba(255, 0, 0, 1)">红色的部分是我们发送出去的DATA，蓝色的部分是我们接收到的DATA。&nbsp;<a href="http://img.baidu.com/hi/jx2/j_0061.gif" target="_blank" style="padding: 0; margin: 0; color: rgba(80, 80, 80, 1); text-decoration: none" rel="noopener"><img alt="j_0061.gif" src="https://images2015.cnblogs.com/blog/150046/201608/150046-20160802202022934-1132784557.gif" style="padding: 0; margin: 0; vertical-align: top; border-width: 3px; border-style: none"></a>， 告诉我， 你看到了什么</span><br style="padding: 0; margin: 0"></p><p style="padding: 0; margin: 0; clear: both; height: auto; overflow: hidden; color: rgba(80, 80, 80, 1); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; line-height: 28px; background-color: rgba(255, 255, 255, 1)"><a href="http://s3.51cto.com/wyfs02/M02/46/16/wKiom1PtyVriu__WAAINWJKx1S0346.jpg" target="_blank" style="padding: 0; margin: 0; color: rgba(80, 80, 80, 1); text-decoration: none" rel="noopener"><img title="1.png" alt="wKiom1PtyVriu__WAAINWJKx1S0346.jpg" src="https://images2015.cnblogs.com/blog/150046/201608/150046-20160802202023653-467070702.jpg" style="padding: 0; margin: 0; vertical-align: top; border-width: 3px; border-style: none"></a></p><p style="padding: 0; margin: 0; clear: both; height: auto; overflow: hidden; color: rgba(80, 80, 80, 1); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; line-height: 28px; background-color: rgba(255, 255, 255, 1)">为了更准确的看清楚，我们再次仅筛选出我们发送出去的DATA。或者仅接收到的DATA。</p><p style="padding: 0; margin: 0; clear: both; height: auto; overflow: hidden; color: rgba(80, 80, 80, 1); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; line-height: 28px; background-color: rgba(255, 255, 255, 1)"><a href="http://s3.51cto.com/wyfs02/M02/46/18/wKioL1PtzA7D1_ewAAIm3rxMBZk668.jpg" target="_blank" style="padding: 0; margin: 0; color: rgba(80, 80, 80, 1); text-decoration: none" rel="noopener"><img title="1.png" alt="wKioL1PtzA7D1_ewAAIm3rxMBZk668.jpg" src="https://images2015.cnblogs.com/blog/150046/201608/150046-20160802202024872-89218706.jpg" style="padding: 0; margin: 0; vertical-align: top; border-width: 3px; border-style: none"></a></p><p style="padding: 0; margin: 0; clear: both; height: auto; overflow: hidden; color: rgba(80, 80, 80, 1); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; line-height: 28px; background-color: rgba(255, 255, 255, 1)">从这里，我们可以确切的抓到账号和密码信息。login:wireshark &nbsp;Password:123456，除了这些，我们还可以更进一步知道别人在看什么网站，或是私人文件，隐私将毫无保障。<br style="padding: 0; margin: 0"></p><p style="padding: 0; margin: 0; clear: both; height: auto; overflow: hidden; color: rgba(80, 80, 80, 1); font-family: 宋体, &quot;Arial Narrow&quot;, arial, serif; line-height: 28px; background-color: rgba(255, 255, 255, 1)">注：为了避免这些情况，防止有心人监测到重要信息，可以使用SSH,SSL,TSL,HTTPS等加密协议对重要数据进行加密，然后再到网络上传输，如果被人截取下来，看到的内容也是被加密的。</p><div style="color: rgba(128, 128, 128, 1)"><small>&nbsp;&lt;<a href="http://skypegnu1.blog.51cto.com/8991766/1540728/" rel="noopener">http://skypegnu1.blog.51cto.com/8991766/1540728/</a><small>&gt;</small></small></div><div style="color: rgba(128, 128, 128, 1)"><font size="1"><span style="line-height: 14px"><span data-wiz-span="data-wiz-span" style="font-size: 11pt"><b>常用到的过滤器规则：</b></span></span></font></div><small><small><span style="margin: 0; padding: 0"><span data-wiz-span="data-wiz-span" style="font-size: 11pt">捕捉过滤器（CaptureFilters）：</span></span><span data-wiz-span="data-wiz-span" style="font-size: 11pt">用于决定将什么样的信息记录在捕捉结果中。需要在开始捕捉前设置。</span><br style="margin: 0; padding: 0"><span style="margin: 0; padding: 0"><span data-wiz-span="data-wiz-span" style="font-size: 11pt">显示过滤器（DisplayFilters）：</span></span><span data-wiz-span="data-wiz-span" style="font-size: 11pt">在捕捉结果中进行详细查找。他们可以在得到捕捉结果后随意修改。&nbsp;</span></small></small></div><div><small><small><br></small></small></div><div><b>捕捉过滤器</b></div><div>&nbsp;</div><div>Protocol（协议）:</div><div>可能的值: ether, fddi, ip, arp, rarp, decnet, lat, sca, moprc, mopdl, tcp and udp.</div><div>如果没有特别指明是什么协议，则默认使用所有支持的协议。</div><div>&nbsp;</div><div>Direction（方向）:</div><div>可能的值: src, dst, src and dst, src or dst</div><div>如果没有特别指明来源或目的地，则默认使用 “src or dst” 作为关键字。</div><div> 例如，”host 10.2.2.2″与”src or dst host 10.2.2.2″是一样的。</div><div>&nbsp;</div><div>Host(s):</div><div>可能的值： net, port, host, portrange.</div><div>如果没有指定此值，则默认使用”host”关键字。</div><div> 例如，”src 10.1.1.1″与”src host 10.1.1.1″相同。</div><div>&nbsp;</div><div>Logical Operations（逻辑运算）:</div><div>可能的值：not, and, or.</div><div>否(“not”)具有最高的优先级。或(“or”)和与(“and”)具有相同的优先级，运算时从左至右进行。</div><div> 例如，</div><div>“not tcp port 3128 and tcp port 23″与”(not tcp port 3128) and tcp port 23″相同。</div><div>“not tcp port 3128 and tcp port 23″与”not (tcp port 3128 and tcp port 23)”不同。</div><div>&nbsp;</div><div> 例子：</div><div>tcp dst port 3128&nbsp; //捕捉目的TCP端口为3128的封包。</div><div>ip src host 10.1.1.1&nbsp; //捕捉来源IP地址为10.1.1.1的封包。</div><div>host 10.1.2.3&nbsp; //捕捉目的或来源IP地址为10.1.2.3的封包。</div><div>ether host e0-05-c5-44-b1-3c //捕捉目的或来源MAC地址为e0-05-c5-44-b1-3c的封包。如果你想抓本机与所有外网通讯的数据包时，可以将这里的mac地址换成路由的mac地址即可。</div><div>src portrange 2000-2500&nbsp; //捕捉来源为UDP或TCP，并且端口号在2000至2500范围内的封包。</div><div>not imcp&nbsp; //显示除了icmp以外的所有封包。（icmp通常被ping工具使用）</div><div>src host 10.7.2.12 and not dst net 10.200.0.0/16 //显示来源IP地址为10.7.2.12，但目的地不是10.200.0.0/16的封包。</div><div>(src host 10.4.1.12 or src net 10.6.0.0/16) and tcp dst portrange 200-10000 and dst net 10.0.0.0/8&nbsp; //捕捉来源IP为10.4.1.12或者来源网络为10.6.0.0/16，目的地TCP端口号在200至10000之间，并且目的位于网络 10.0.0.0/8内的所有封包。</div><div>src net 192.168.0.0/24 </div><div>src net 192.168.0.0 mask 255.255.255.0&nbsp; //捕捉源地址为192.168.0.0网络内的所有封包。</div><div>&nbsp;</div><div>&nbsp;</div><div><b>显示过滤器</b></div><div>例子：</div><div>snmp || dns || icmp //显示SNMP或DNS或ICMP封包。 </div><div>ip.addr == 10.1.1.1&nbsp; //显示来源或目的IP地址为10.1.1.1的封包。</div><div>ip.src != 10.1.2.3 or ip.dst != 10.4.5.6&nbsp; //显示来源不为10.1.2.3或者目的不为10.4.5.6的封包。</div><div> 换句话说，显示的封包将会为：</div><div> 来源IP：除了10.1.2.3以外任意；目的IP：任意</div><div> 以及</div><div> 来源IP：任意；目的IP：除了10.4.5.6以外任意</div><div>ip.src != 10.1.2.3 and ip.dst != 10.4.5.6&nbsp; //显示来源不为10.1.2.3并且目的IP不为10.4.5.6的封包。</div><div> 换句话说，显示的封包将会为：</div><div> 来源IP：除了10.1.2.3以外任意；同时须满足，目的IP：除了10.4.5.6以外任意</div><div>tcp.port == 25&nbsp; //显示来源或目的TCP端口号为25的封包。 </div><div>tcp.dstport == 25&nbsp; //显示目的TCP端口号为25的封包。 </div><div>tcp.flags&nbsp; //显示包含TCP标志的封包。 </div><div>tcp.flags.syn == 0×02&nbsp; //显示包含TCP SYN标志的封包。 </div><div>如果过滤器的语法是正确的，表达式的背景呈绿色。如果呈红色，说明表达式有误。</div><p></p><br><br><div><a title="来自为知笔记(Wiz)" href="http://www.wiz.cn/i/d0bf0767" rel="noopener">来自为知笔记(Wiz)</a></div><br><br>
+</div>
+<div class="clear"></div>
+<div id="blog_post_info_block" role="contentinfo">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+        </div>
+        <p class="postfoot">
+            posted on 
+<span id="post-date" data-last-update-days="2782.726767562096" data-date-created="BlogServer.Application.Dto.BlogPost.BlogPostDto" data-date-updated="2016-08-02 20:21">2016-08-02 20:21</span>&nbsp;
+<a href="https://www.cnblogs.com/doit8791">时间朋友</a>&nbsp;
+阅读(<span id="post_view_count">131976</span>)&nbsp;
+评论(<span id="post_comment_count">6</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=5730595" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(5730595);return false;">收藏</a>&nbsp;
+<a href="javascript:void(0)" onclick="reportManager.report({ currentUserId: '', targetType: 'blogPost', targetId: '5730595', targetLink: 'http://www.cnblogs.com/doit8791/p/5730595.html', title: '网络抓包wireshark' })">举报</a>
+
+        </p>
+    </div>
+</div>
+
+<script>
+    var cb_entryId = 5730595, cb_entryCreatedDate = '2016-08-02 20:21', cb_postType = 1, cb_postTitle = '网络抓包wireshark';
+    var allowComments = true, cb_blogId = 110759, cb_blogApp = 'doit8791', cb_blogUserGuid = '5632c5fe-c59d-df11-ba8f-001cf0cd104b';
+    mermaidRender.render()
+    markdown_highlight()
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");    
+</script>
+<a id="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav">
+            <a class="comment-nav-left forpc" href="https://cnblogs.vip/" target="_blank">会员力量，点亮园子希望</a>
+        <div class="comment-nav-right">
+            <span id="span_refresh_tips"></span><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a>
+        </div>
+    </div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+        <div id="cnblogs_ch"></div>
+    <div id="opt_under_post"></div>
+        <div id="cnblogs_c1" class="under-post-card">
+            <a href="https://click.aliyun.com/m/1000390858/" rel="nofollow" target="_blank" onclick="countCreativeClicks('C1-阿里云-年度大降价')">
+                <img src="https://img2024.cnblogs.com/blog/35695/202402/35695-20240229194456450-851239093.jpg" onload="countCreativeImpressions('C1-阿里云-年度大降价')" alt="" />
+                <span id="c1_impression" style="display:none"></span>
+            </a>
+        </div>
+    <div id="under_post_card1"></div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+        var commentManager = new blogCommentManager();
+        commentManager.renderComments(0);
+        fixPostBody();
+        window.footnoteTipManager.generateFootnoteTips();
+
+            window.tocManager.displayDisableTocTips = false;
+            window.tocManager.generateToc();
+            
+                setTimeout(function() { countViews(cb_blogId, cb_entryId); }, 50);
+            
+            deliverT2();
+            deliverC1C2();
+            loadNewsAndKb();
+            
+                LoadPostCategoriesTags(cb_blogId, cb_entryId);
+            
+            LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+            GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+            loadOptUnderPost();
+            GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+                </script>
+</div>
+
+
+
+            </div>
+        </div>
+        <div id="leftmenu">
+            
+<h3>导航</h3>
+<ul>
+    <li>
+        
+
+    </li>
+    <li>
+        
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/doit8791/">
+首页</a>
+
+    </li>
+    <li>
+        
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+
+    </li>
+    <li>
+        
+
+    </li>
+    <li>
+        
+
+        
+
+    </li>
+    <li>
+        
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+
+    </li>
+</ul>
+
+
+            <div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>
+            
+<div id="sidebar_c3"></div>
+            <div id="blog-sidecolumn"></div>
+            <script>loadBlogSideColumn();</script>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="footer">
+        <p id="footer">
+	Powered by: 
+	<br />
+	
+	<a href="https://www.cnblogs.com/" id="footer_site_link">博客园</a>
+	<br />
+	Copyright &copy; 2024 时间朋友
+<br /><span id="poweredby">Powered by .NET 8.0 on Kubernetes</span>
+
+</p>
+
+
+    </div>
+</div>
+
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8C838EyK0EpKpQQcC9VwxBmXAfGFRSfvX14FGJYKLlLZc4D21kg-XC01qvkuQ-qLc4nnGvteP_0CF9MavwUDgP8JYThV7xazZ9J5_8-7Tu7FBJ8XYBiQfzdryKYed2NHlokoFae6YnbjovPSSojyA4c" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M95P3TTWJZ"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-M95P3TTWJZ');
+</script>
+<script defer src="https://hm.baidu.com/hm.js?866c9be12d4a814454792b1fd0fed295"></script>
+</body>
+</html>

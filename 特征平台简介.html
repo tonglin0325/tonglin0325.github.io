@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>特征平台简介 | tonglin0325的个人主页</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="特征平台（feature store）的定义：一个用于机器学习的数据管理层，允许共享和发现特征并创建更有效的机器学习管道。 1.特征平台业界实现1.uber其最早由uber于2017年提出，uber的feature store名为Michaelangelo，参考：Meet Michelangelo: Uber&amp;rsquo;s Machine Learning Platform   Michaela">
+<meta property="og:type" content="article">
+<meta property="og:title" content="特征平台简介">
+<meta property="og:url" content="http://tonglin0325.github.io/%E7%89%B9%E5%BE%81%E5%B9%B3%E5%8F%B0%E7%AE%80%E4%BB%8B.html">
+<meta property="og:site_name" content="tonglin0325的个人主页">
+<meta property="og:description" content="特征平台（feature store）的定义：一个用于机器学习的数据管理层，允许共享和发现特征并创建更有效的机器学习管道。 1.特征平台业界实现1.uber其最早由uber于2017年提出，uber的feature store名为Michaelangelo，参考：Meet Michelangelo: Uber&amp;rsquo;s Machine Learning Platform   Michaela">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230921205657081-1677260283.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230921210709760-217846670.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20231020105617049-807537534.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230921220658735-1302956805.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230921220821306-21172452.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20231025172509647-1243117856.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20231025172544423-1398210801.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20231025160859685-1913876165.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20231025164817092-1179721913.png">
+<meta property="article:published_time" content="2016-05-26T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-09-28T14:18:43.448Z">
+<meta property="article:author" content="tonglin0325">
+<meta property="article:tag" content="ML Infra">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://tonglin0325.github.io/images/517519-20230921205657081-1677260283.png">
+  
+    <link rel="alternate" href="/atom.xml" title="tonglin0325的个人主页" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="https://tonglin0325.github.io/images/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+
+  
+<link rel="stylesheet" href="/css/styles.css">
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-166238833-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5884015902351015"
+     crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-menu-navbar">
+      <ul class="nav navbar-nav">
+        
+          <li><a class=""
+                 href="/index.html">主页</a></li>
+        
+          <li><a class=""
+                 href="/archives/">所有文章</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="http://www.cnblogs.com/tonglin0325/">博客园</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="https://github.com/tonglin0325">Github</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="https://www.linkedin.com/in/tonglin0325/">LinkedIn</a></li>
+        
+        <li>
+          <span class="local-search local-search-google local-search-plugin" style="">
+  <input type="search" placeholder="站内搜索" id="local-search-input" class="local-search-input-cls" style="">
+  <div id="local-search-result" class="local-search-result-cls"></div>
+</span>
+
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    const div = document.getElementById('local-search-result');
+    const input = document.getElementById('local-search-input');
+
+    // 点击 input 显示 div
+    input.addEventListener('click', function() {
+        div.style.display = 'block';
+    });
+
+    // 点击 div 之外的地方隐藏 div
+    document.addEventListener('click', function(event) {
+        if (!div.contains(event.target) && event.target !== div && event.target !== input) {
+            div.style.display = 'none';
+        }
+    });
+});
+</script>
+        </li>
+      </ul>
+
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        
+          <li><a href="/atom.xml" title="RSS Feed"><i class="fa fa-rss"></i></a></li>
+        
+      </ul>
+      -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script>
+// 移动设备侦测
+var isMobile = {
+  Android: function () {
+    return navigator.userAgent.match(/Android/i);
+  },
+  BlackBerry: function () {
+    return navigator.userAgent.match(/BlackBerry/i);
+  },
+  iOS: function () {
+    return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+  },
+  Opera: function () {
+    return navigator.userAgent.match(/Opera Mini/i);
+  },
+  Windows: function () {
+    return navigator.userAgent.match(/IEMobile/i);
+  },
+  any: function () {
+    return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+  }
+};
+
+if ($('.local-search').resize() && !isMobile.any()) {
+	$.getScript('/js/search.js', function() {
+	  searchFunc("/search.json", 'local-search-input', 'local-search-result');
+	});
+}
+
+// document.addEventListener('DOMContentLoaded', (event) => {
+//
+//     const input = document.getElementById('.local-search-input');
+//     const div = document.getElementById('.local-search-result');
+//
+//     input.addEventListener('blur', function() {
+//         div.style.display = 'none';
+//     });
+// });
+</script>
+  <div class="container">
+    <div class="blog-header">
+  <h1 class="blog-title">tonglin0325的个人主页</h1>
+  
+</div>
+
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+          <article id="post-特征平台简介" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 class="article-title" itemprop="name">
+      特征平台简介
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/%E7%89%B9%E5%BE%81%E5%B9%B3%E5%8F%B0%E7%AE%80%E4%BB%8B.html" class="article-date"><time datetime="2016-05-26T16:00:00.000Z" itemprop="datePublished">2016-05-27</time></a>
+</div>
+
+    <div class="article-author">tonglin0325</div>
+    
+
+  </div>
+
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- 目录 -->
+
+<div id="toc">
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-te-zheng-ping-tai-ye-jie-shi-xian"><span class="toc-text">1.特征平台业界实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-uber"><span class="toc-text">1.uber</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-mei-tuan"><span class="toc-text">2.美团</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-zi-jie-tiao-dong"><span class="toc-text">3.字节跳动</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-te-zheng-pin-jie-wen-ti"><span class="toc-text">2.特征拼接问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-chi-xian-pin-jie-chi-xian-te-zheng"><span class="toc-text">1.离线拼接（离线特征）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-shi-shi-pin-jie-chi-xian-te-zheng-shi-shi-te-zheng"><span class="toc-text">2.实时拼接（离线特征+实时特征）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-shi-yong-zhi-chi-partial-update-de-cun-chu"><span class="toc-text">3.使用支持partial update的存储</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-te-zheng-de-sheng-cheng-fang-shi"><span class="toc-text">3.特征的生成方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-embedding-te-zheng"><span class="toc-text">4.Embedding特征</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-zheng-pai-he-dao-pai"><span class="toc-text">5.正排和倒排</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-te-zheng-chuan-yue-wen-ti"><span class="toc-text">6.特征穿越问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-shi-me-shi-te-zheng-chuan-yue"><span class="toc-text">1.什么是特征穿越</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-point-in-time-correct-join"><span class="toc-text">2.point-in-time correct join</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-chi-zai-xian-yi-zhi-xing-wen-ti"><span class="toc-text">7.离在线一致性问题</span></a></li></ol>
+</div>
+
+        <p>特征平台（feature store）的定义：一个用于机器学习的数据管理层，允许共享和发现特征并创建更有效的机器学习管道。</p>
+<h2 id="1-te-zheng-ping-tai-ye-jie-shi-xian"><a href="#1-特征平台业界实现" class="headerlink" title="1.特征平台业界实现"></a>1.特征平台业界实现<a href="#1-te-zheng-ping-tai-ye-jie-shi-xian" class="header-anchor">#</a></h2><h3 id="1-uber"><a href="#1-uber" class="headerlink" title="1.uber"></a>1.uber<a href="#1-uber" class="header-anchor">#</a></h3><p>其最早由uber于2017年提出，uber的feature store名为Michaelangelo，参考：<a target="_blank" rel="noopener" href="https://www.uber.com/blog/michelangelo-machine-learning-platform/">Meet Michelangelo: Uber&rsquo;s Machine Learning Platform</a></p>
+<img src="/images/517519-20230921205657081-1677260283.png" width="800" height="381" loading="lazy">
+
+<p>Michaelangelo主要提供以下6种特性，如下图所示：</p>
+<ol>
+<li>Manage data</li>
+<li>Train models</li>
+<li>Evaluate models</li>
+<li>Deploy models</li>
+<li>Make predictions</li>
+<li>Monitor predictions</li>
+</ol>
+<img src="/images/517519-20230921210709760-217846670.png" width="800" height="448" loading="lazy">
+
+<h3 id="2-mei-tuan"><a href="#2-美团" class="headerlink" title="2.美团"></a>2.美团<a href="#2-mei-tuan" class="header-anchor">#</a></h3><p>特征平台所能解决的一些问题：</p>
+<ul>
+<li><strong>特征迭代成本高</strong>：框架缺乏配置化管理，新特征上线需要同时改动离线侧和在线侧代码，迭代周期较长。</li>
+<li><strong>特征复用困难</strong>：外卖不同业务线间存在相似场景，使特征的复用成为可能，但框架缺乏对复用能力的很好支撑，导致资源浪费、特征价值无法充分发挥。</li>
+<li><strong>平台化能力缺失</strong>：框架提供了特征读写的底层开发能力，但缺乏对特征迭代完整周期的平台化追踪和管理能力。</li>
+</ul>
+<p>参考：<a target="_blank" rel="noopener" href="https://tech.meituan.com/2021/03/04/featureplatform-in-mtwaimai.html">美团外卖特征平台的建设与实践</a></p>
+<p>其他美团的文章：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/gafduk7jhD9QnB1Lmmb1qw">美团配送实时特征平台建设实践</a></p>
+<h3 id="3-zi-jie-tiao-dong"><a href="#3-字节跳动" class="headerlink" title="3.字节跳动"></a>3.字节跳动<a href="#3-zi-jie-tiao-dong" class="header-anchor">#</a></h3><p>特征存储所解决的一些问题：</p>
+<ol>
+<li><p>存储原始特征：由于在线特征抽取在特征调研上的低效率，我们期望能够存储原始特征；</p>
+</li>
+<li><p>离线调研能力：在原始特征的基础上，可以进行离线调研，从而提升特征调研效率；</p>
+</li>
+<li><p>支持特征回填：支持特征回填，在调研完成后，可以将历史数据全部刷上调研好的特征；</p>
+</li>
+<li><p>降低存储成本：充分利用数据分布的特殊性，降低存储成本，腾出资源来存储原始特征；</p>
+</li>
+<li><p>降低训练成本：训练时只读需要的特征，而非全量特征，降低训练成本；</p>
+</li>
+<li><p>提升训练速度：训练时尽量降低数据的拷贝和序列化反序列化开销。</p>
+</li>
+</ol>
+<p>参考：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7109391565855916045">字节跳动基于 Iceberg 的海量特征存储实践</a></p>
+<h2 id="2-te-zheng-pin-jie-wen-ti"><a href="#2-特征拼接问题" class="headerlink" title="2.特征拼接问题"></a>2.特征拼接问题<a href="#2-te-zheng-pin-jie-wen-ti" class="header-anchor">#</a></h2><h3 id="1-chi-xian-pin-jie-chi-xian-te-zheng"><a href="#1-离线拼接（离线特征）" class="headerlink" title="1.离线拼接（离线特征）"></a>1.离线拼接（离线特征）<a href="#1-chi-xian-pin-jie-chi-xian-te-zheng" class="header-anchor">#</a></h3><p>以天级的batch任务来实现特征和曝光/点击的join，比如</p>
+<span id="more"></span>
+<p>&nbsp;</p>
+<p>曝光流，假设用户A在10点1分30秒，用户B在10点2分30秒刷到了文章1和文章2</p>
+<table>
+<thead>
+<tr>
+<th>用户id</th>
+<th>文章id</th>
+<th>时间戳</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A</td>
+<td>1</td>
+<td>2022-01-01 10:01:30</td>
+</tr>
+<tr>
+<td>A</td>
+<td>2</td>
+<td>2022-01-01 10:01:30</td>
+</tr>
+<tr>
+<td>B</td>
+<td>1</td>
+<td>2022-01-01 10:02:30</td>
+</tr>
+<tr>
+<td>B</td>
+<td>2</td>
+<td>2022-01-01 10:02:00</td>
+</tr>
+</tbody></table>
+<p>&nbsp;</p>
+<p>点击流，假设用户A在10点2分的时候点击了文章1，用户B在10点3分的时候点击了文章2</p>
+<table>
+<thead>
+<tr>
+<th>用户id</th>
+<th>文章id</th>
+<th>时间戳</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A</td>
+<td>1</td>
+<td>2022-01-01 10:02:00</td>
+</tr>
+<tr>
+<td>B</td>
+<td>2</td>
+<td>2022-01-01 10:03:00</td>
+</tr>
+</tbody></table>
+<p>&nbsp;</p>
+<p>join曝光流和点击流，得到可用于计算CTR的曝光点击表</p>
+<table>
+<thead>
+<tr>
+<th>用户id</th>
+<th>文章id</th>
+<th>曝光时间戳</th>
+<th>点击时间戳</th>
+<th>label（0没点击/1点击）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A</td>
+<td>1</td>
+<td>2022-01-01 10:01:30</td>
+<td>2022-01-01 10:02:00</td>
+<td>1</td>
+</tr>
+<tr>
+<td>A</td>
+<td>2</td>
+<td>2022-01-01 10:01:30</td>
+<td>&nbsp;</td>
+<td>0</td>
+</tr>
+<tr>
+<td>B</td>
+<td>1</td>
+<td>2022-01-01 10:02:30</td>
+<td>&nbsp;</td>
+<td>0</td>
+</tr>
+<tr>
+<td>B</td>
+<td>2</td>
+<td>2022-01-01 10:02:30</td>
+<td>2022-01-01 10:03:00</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p>&nbsp;</p>
+<p>用户离线特征表，包含2个特征：年龄和性别</p>
+<p>&nbsp;<br>|用户id|用户年龄|用户性别<br>|A|30|男<br>|B|20|女</p>
+<p>文章离线特征表，包含2个特征：标签和来源</p>
+<p>&nbsp;<br>|文章id|文章标签|文章来源<br>|1|体育|NBA<br>|2|政治|BBC</p>
+<p>拼接特征得到训练样本</p>
+<table>
+<thead>
+<tr>
+<th>用户id</th>
+<th>用户年龄</th>
+<th>用户性别</th>
+<th>文章id</th>
+<th>文章标签</th>
+<th>文章来源</th>
+<th>曝光时间戳</th>
+<th>点击时间戳</th>
+<th>label（0没点击/1点击）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A</td>
+<td>30</td>
+<td>男</td>
+<td>1</td>
+<td>体育</td>
+<td>NBA</td>
+<td>2022-01-01 10:01:30</td>
+<td>2022-01-01 10:02:00</td>
+<td>1</td>
+</tr>
+<tr>
+<td>A</td>
+<td>30</td>
+<td>男</td>
+<td>2</td>
+<td>政治</td>
+<td>BBC</td>
+<td>2022-01-01 10:01:30</td>
+<td>&nbsp;</td>
+<td>0</td>
+</tr>
+<tr>
+<td>B</td>
+<td>20</td>
+<td>女</td>
+<td>1</td>
+<td>体育</td>
+<td>NBA</td>
+<td>2022-01-01 10:02:30</td>
+<td>&nbsp;</td>
+<td>0</td>
+</tr>
+<tr>
+<td>B</td>
+<td>20</td>
+<td>女</td>
+<td>2</td>
+<td>政治</td>
+<td>BBC</td>
+<td>2022-01-01 10:02:30</td>
+<td>2022-01-01 10:03:00</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p>这时候就获得了一张可以用于训练的训练集，但是该方案的问题也很明显，训练的周期是天级别的，无法支持在线学习（即实时特征），join的计算量大</p>
+<h3 id="2-shi-shi-pin-jie-chi-xian-te-zheng-shi-shi-te-zheng"><a href="#2-实时拼接（离线特征-实时特征）" class="headerlink" title="2.实时拼接（离线特征+实时特征）"></a>2.实时拼接（离线特征+实时特征）<a href="#2-shi-shi-pin-jie-chi-xian-te-zheng-shi-shi-te-zheng" class="header-anchor">#</a></h3><p>如果想添加一些实时特征的话，比如</p>
+<p>&nbsp;</p>
+<p>用户实时特征流，包含1个特征：用户最近10分钟看的文章的数量</p>
+<p>&nbsp;<br>|用户id|用户最近10分钟看的文章的数量|时间戳<br>|A|10|2022-01-01 10:00:00<br>|B|20|2022-01-01 10:00:00</p>
+<p>&nbsp;</p>
+<p>文章实时特征流，包含1个特征：最近10分钟文章的点赞数量</p>
+<p>&nbsp;<br>|文章id|最近10分钟文章的点赞数量|时间戳<br>|1|100|2022-01-01 10:00:00<br>|2|200|2022-01-01 10:00:00</p>
+<p>&nbsp;</p>
+<p>可以使用flink进行双流join，在窗口10分钟内，把点击流，曝光流，实时用户特征流，实时文章特征流进行join，得到</p>
+<table>
+<thead>
+<tr>
+<th>特征时间戳</th>
+<th>用户id</th>
+<th>用户最近10分钟看的文章的数量</th>
+<th>文章id</th>
+<th>最近10分钟文章的点赞数量</th>
+<th>曝光时间戳</th>
+<th>点击时间戳</th>
+<th>label（0没点击/1点击）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2022-01-01 10:00:00</td>
+<td>A</td>
+<td>10</td>
+<td>1</td>
+<td>100</td>
+<td>2022-01-01 10:01:30</td>
+<td>2022-01-01 10:02:00</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2022-01-01 10:00:00</td>
+<td>A</td>
+<td>10</td>
+<td>2</td>
+<td>200</td>
+<td>2022-01-01 10:01:30</td>
+<td>&nbsp;</td>
+<td>0</td>
+</tr>
+<tr>
+<td>2022-01-01 10:00:00</td>
+<td>B</td>
+<td>20</td>
+<td>1</td>
+<td>100</td>
+<td>2022-01-01 10:02:30</td>
+<td>&nbsp;</td>
+<td>0</td>
+</tr>
+<tr>
+<td>2022-01-01 10:00:00</td>
+<td>B</td>
+<td>20</td>
+<td>2</td>
+<td>200</td>
+<td>2022-01-01 10:02:30</td>
+<td>2022-01-01 10:03:00</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p>注意这里使用的实时特征的窗口是离曝光时间戳最近的特征时间戳，否则会产生特征穿越问题</p>
+<p>然后使用flink的lookup table join（<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1697903">详解flink中Look up维表的使用</a>）补齐离线特征（会消耗比较大的KV缓存资源），或者在实时用户流和实时文章流中join上离线特征（会消耗比较大的kafka资源），得到训练样本</p>
+<p>&nbsp;</p>
+<table>
+<thead>
+<tr>
+<th>特征时间戳</th>
+<th>用户id</th>
+<th>用户最近10分钟看的文章的数量</th>
+<th>用户年龄</th>
+<th>用户性别</th>
+<th>文章id</th>
+<th>最近10分钟文章的点赞数量</th>
+<th>文章标签</th>
+<th>文章来源</th>
+<th>曝光时间戳</th>
+<th>点击时间戳</th>
+<th>label（0没点击/1点击）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2022-01-01 10:00:00</td>
+<td>A</td>
+<td>10</td>
+<td>30</td>
+<td>男</td>
+<td>1</td>
+<td>100</td>
+<td>体育</td>
+<td>NBA</td>
+<td>2022-01-01 10:01:30</td>
+<td>2022-01-01 10:02:00</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2022-01-01 10:00:00</td>
+<td>A</td>
+<td>10</td>
+<td>30</td>
+<td>男</td>
+<td>2</td>
+<td>200</td>
+<td>政治</td>
+<td>BBC</td>
+<td>2022-01-01 10:01:30</td>
+<td>&nbsp;</td>
+<td>0</td>
+</tr>
+<tr>
+<td>2022-01-01 10:00:00</td>
+<td>B</td>
+<td>20</td>
+<td>20</td>
+<td>女</td>
+<td>1</td>
+<td>100</td>
+<td>体育</td>
+<td>NBA</td>
+<td>2022-01-01 10:02:30</td>
+<td>&nbsp;</td>
+<td>0</td>
+</tr>
+<tr>
+<td>2022-01-01 10:00:00</td>
+<td>B</td>
+<td>20</td>
+<td>20</td>
+<td>女</td>
+<td>2</td>
+<td>200</td>
+<td>政治</td>
+<td>BBC</td>
+<td>2022-01-01 10:02:30</td>
+<td>2022-01-01 10:03:00</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<h3 id="3-shi-yong-zhi-chi-partial-update-de-cun-chu"><a href="#3-使用支持partial-update的存储" class="headerlink" title="3.使用支持partial update的存储"></a>3.使用支持partial update的存储<a href="#3-shi-yong-zhi-chi-partial-update-de-cun-chu" class="header-anchor">#</a></h3><p>比如HBase和Hudi，把两表Join过程转化为两表写入数据库的过程</p>
+<p>美团最终的流式样本生成方案如下图：</p>
+<ol>
+<li>特征快照中只包含流式、即时特征</li>
+<li>特征快照写入Kafka</li>
+<li>曝光/点击流以Insert形式写入HBase</li>
+<li>特征快照在Kafka中延迟N分钟后，以Update形式写入HBase，并在写入过程中，二次访问Feature Store完成批式特征补录</li>
+<li>从HBase中抽取样本供在线/离线训练使用</li>
+</ol>
+<img src="/images/517519-20231020105617049-807537534.png" width="800" height="357" loading="lazy">
+
+<p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/546493272">模型样本构建方案演进之路</a> 和 <a target="_blank" rel="noopener" href="https://tech.meituan.com/2022/07/06/largescaledeeplearningmodel-engineeringpractice-in-mtwaimaiad.html">外卖广告大规模深度学习模型工程实践 | 美团外卖广告工程实践专题连载</a></p>
+<h2 id="3-te-zheng-de-sheng-cheng-fang-shi"><a href="#3-特征的生成方式" class="headerlink" title="3.特征的生成方式"></a>3.特征的生成方式<a href="#3-te-zheng-de-sheng-cheng-fang-shi" class="header-anchor">#</a></h2><p>1.特征回填（Backfilling Data）</p>
+<p>2.特征快照（Snapshot）</p>
+<p>3.特征请求快照（Request Snapshot）</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/402812843">AI算法模型中的特征穿越问题：原理篇</a></p>
+<h2 id="4-embedding-te-zheng"><a href="#4-Embedding特征" class="headerlink" title="4.Embedding特征"></a>4.Embedding特征<a href="#4-embedding-te-zheng" class="header-anchor">#</a></h2><p>特征数据除了可以分成离线特征和实时特征之外，还可以按特征的稀疏程度进行分类，比如文本类，用户标签之类的特征就属于稀疏特征（Sparse Feature），而各种隐因子模型产出的特征，就属于稠密特征（Dense Feature），即Embedding特征。</p>
+<p>对于稠密特征向量，例如各种隐因子向量，Embedding 向量，可以考虑文件存储，采用内存映射的方式，会更加高效地读取和使用。</p>
+<h2 id="5-zheng-pai-he-dao-pai"><a href="#5-正排和倒排" class="headerlink" title="5.正排和倒排"></a>5.正排和倒排<a href="#5-zheng-pai-he-dao-pai" class="header-anchor">#</a></h2><p>正排特征就使用的是用户ID或者文章ID来作为查询的主键，正排用于将用户特征+文章特征+曝光点击数据，拼凑成训练样本用于离线模型训练；同时在推荐系统或者广告系统中也会用于模型的online serving或者过滤（比如说基于规则、黑白名单、广告主预算 pacing 过滤等）。由于查询层需要支持按一些特定的字段进行筛选过滤，所以在选择反序列化方案的时候，就需要考虑性能问题，参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/539966796">推荐系统倒排索引</a> 和 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/110112102">广告召回系统的演进</a></p>
+<p>倒排特征则是使用特征作为查询的主键，比如用户的标签，倒排用于召回候选集的时候，比如已知用户的个人标签，要用个人标签召回新闻，那么就需要提前准备好标签对应的新闻文章的倒排索引，最后再通过itemId去正排里拉取详情。</p>
+<p>这两种形态的特征数据，需要用不同的数据库存储。正排特征如果是用于离线模型训练，一般是存在Hive或者Hudi表中；正排特征如果是用于模型的online serving或者filter的话，则需要用列式数据库存储，比如HBase 和 Cassandra；倒排索引需要用 KV 数据库存储比如 Redis 或 Memcached。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://time.geekbang.org/column/article/6803">30 | 推荐系统服务化、存储选型及API设计</a> 和 <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/ed14ad295619">推荐系统从0到1</a></p>
+<h2 id="6-te-zheng-chuan-yue-wen-ti"><a href="#6-特征穿越问题" class="headerlink" title="6.特征穿越问题"></a>6.特征穿越问题<a href="#6-te-zheng-chuan-yue-wen-ti" class="header-anchor">#</a></h2><h3 id="1-shi-me-shi-te-zheng-chuan-yue"><a href="#1-什么是特征穿越" class="headerlink" title="1.什么是特征穿越"></a><strong>1.什么是特征穿越</strong><a href="#1-shi-me-shi-te-zheng-chuan-yue" class="header-anchor">#</a></h3><p><strong>特征穿越</strong>指的是特征的时间戳和label的时间戳不匹配，特征穿越一般发生在<strong>实时特征</strong>上面</p>
+<p>错误的join</p>
+<img src="/images/517519-20230921220658735-1302956805.png" width="500" height="353" loading="lazy">
+
+<p>正确的join</p>
+<img src="/images/517519-20230921220821306-21172452.png" width="500" height="352" loading="lazy">
+
+<p>为了让大家能够理解什么叫<strong>特征穿越</strong>，上图给出了一个简单例子，来展现这个问题。</p>
+<p><strong>图左上表</strong>是用户的一个行为特征，表达了在不同时间节点，对于一个给定 ID 的用户，在最近两分钟内的点击数。这个点击数可能帮助我们推理用户是否会点击某个广告。为了用这些特征去做训练，通常需要将特征拼接到用户带有 Label 的一些数据集上。</p>
+<p><strong>图左下表</strong>展现的是一个用户实际有没有点击广告的一些正样本和负样本的数据集，标注了在不同的时间点，用户所产生的正样本或负样本。为了将这两个数据集中的特征拼接起来，形成训练用的数据集，通常需要根据用户 ID 作为 key 进行特征拼接。如果只是简单地进行 Table Join，不考虑时间戳，就可能产生特征穿越问题。&nbsp;例如在 6:03 分时，用户最近 2 分钟点击数应该是 10，但拼接得到的特征值可能是来自 7:00 分时的 6。这种特征穿越会带来实际推理效果的下降。参考：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/43Gh-rl7oiCKEmePhNuHHA">流批一体的实时特征工程平台建设实践</a></p>
+<h3 id="2-point-in-time-correct-join"><a href="#2-point-in-time-correct-join" class="headerlink" title="2.point-in-time correct join"></a><strong>2.point-in-time correct join</strong><a href="#2-point-in-time-correct-join" class="header-anchor">#</a></h3><p>SQL的思路就是先将曝光点击表和特征表进行inner join，曝光点击表的时间戳取曝光时间戳event_timestamp，特征表的时间戳为feature_timestamp</p>
+<p>曝光点击表</p>
+<p>&nbsp;<br>|用户id|文章id|曝光时间戳（event_timestamp）|点击时间戳|label（0没点击/1点击）<br>|A|1|2022-01-01 10:01:30|2022-01-01 10:02:00|1<br>|A|2|2022-01-01 10:01:30|&nbsp;|0<br>|B|1|2022-01-01 10:02:30|&nbsp;|0<br>|B|2|2022-01-01 10:02:30|2022-01-01 10:03:00|1</p>
+<img src="/images/517519-20231025172509647-1243117856.png" width="800" height="108" loading="lazy">
+
+<p>特征表</p>
+<p>&nbsp;<br>|特征时间戳（每10分钟一个窗口、feature_timestamp）|用户id|用户最近10分钟看的文章的数量|文章id|最近10分钟文章的点赞数量<br>|2022-01-01 09:40:00|B|5|1|5<br>|2022-01-01 09:50:00|A|20|1|10<br>|2022-01-01 09:50:00|B|10|2|50<br>|2022-01-01 10:00:00|A|10|1|100<br>|2022-01-01 10:00:00|A|10|2|200<br>|2022-01-01 10:00:00|B|20|1|100<br>|2022-01-01 10:00:00|B|20|2|200</p>
+<img src="/images/517519-20231025172544423-1398210801.png" width="800" height="145" loading="lazy">
+
+<p>使用用户id和文章id进行inner join，得到如下表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">CREATE VIEW feature_data AS</span><br><span class="line">    select feature_timestamp,</span><br><span class="line">           t1.user_id,</span><br><span class="line">           view_num_10_mins,</span><br><span class="line">           t1.doc_id,</span><br><span class="line">           doc_like_num_10_mins,</span><br><span class="line">           event_timestamp,</span><br><span class="line">           click_timestamp,</span><br><span class="line">           label</span><br><span class="line">    from (select * from click_view) t1</span><br><span class="line">             inner join</span><br><span class="line">             (select * from feature_table) t2</span><br><span class="line">             on t1.user_id = t2.user_id and t1.doc_id = t2.doc_id</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可以看到由于特征有多个版本（例子里面有3个版本），所以join出来的结果会比较多，但是我们需要取得离event_timestamp最近的特征（红色标记），所以需要进行DeDuplicate操作</p>
+<p>&nbsp;<br>|特征时间戳（每10分钟一个窗口、feature_timestamp）|用户id|用户最近10分钟看的文章的数量|文章id|最近10分钟文章的点赞数量|曝光时间戳（event_timestamp）|点击时间戳|label（0没点击/1点击）<br>|2022-01-01 09:40:00|B|5|1|5|2022-01-01 10:02:30|&nbsp;|0<br>|2022-01-01 09:50:00|A|20|1|10|2022-01-01 10:01:30|2022-01-01 10:02:00|1<br>|2022-01-01 09:50:00|B|10|2|50|2022-01-01 10:02:30|2022-01-01 10:03:00|1<br>|2022-01-01 10:00:00|A|10|1|100|2022-01-01 10:01:30|2022-01-01 10:02:00|1<br>|2022-01-01 10:00:00|A|10|2|200|2022-01-01 10:01:30|&nbsp;|0<br>|2022-01-01 10:00:00|B|20|1|100|2022-01-01 10:02:30|&nbsp;|0<br>|2022-01-01 10:00:00|B|20|2|200|2022-01-01 10:02:30|2022-01-01 10:03:00|1</p>
+<img src="/images/517519-20231025160859685-1913876165.png" alt loading="lazy">
+
+<p>DeDuplicate操作</p>
+<p>将event_timestamp，user_id和doc_id进行group by，找到最大的feature_timestamp时候的user_id和doc_id，</p>
+<p>然后inner join上feature_data表，找到离event_timestamp最近的feature_timestamp的特征，从而实现point-in-time correct join</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">select</span><br><span class="line">       t1.feature_timestamp,</span><br><span class="line">       t1.user_id,</span><br><span class="line">       view_num_10_mins,</span><br><span class="line">       t1.doc_id,</span><br><span class="line">       doc_like_num_10_mins,</span><br><span class="line">       event_timestamp,</span><br><span class="line">       click_timestamp,</span><br><span class="line">       label</span><br><span class="line">from (select * from feature_data) t1</span><br><span class="line">        inner join</span><br><span class="line">        (select max(feature_timestamp) as feature_timestamp,user_id,doc_id from feature_data group by event_timestamp, user_id, doc_id) t2</span><br><span class="line">        on t1.feature_timestamp = t2.feature_timestamp and t1.user_id = t2.user_id and t1.doc_id = t2.doc_id</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<img src="/images/517519-20231025164817092-1179721913.png" alt loading="lazy">
+
+<p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/480122449">Point-in-Time Correct Join：Feast Spark版实现</a> 和 <a target="_blank" rel="noopener" href="https://aws.amazon.com/cn/blogs/china/feast-on-aws-solutions/">Feast on AWS 解决方案</a></p>
+<h2 id="7-chi-zai-xian-yi-zhi-xing-wen-ti"><a href="#7-离在线一致性问题" class="headerlink" title="7.离在线一致性问题"></a>7.离在线一致性问题<a href="#7-chi-zai-xian-yi-zhi-xing-wen-ti" class="header-anchor">#</a></h2><p>参考：<a target="_blank" rel="noopener" href="https://qiankunli.github.io/2022/06/27/feature_platform.html">特征平台</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.infoq.cn/article/km8utqyaatc4uedgzpyr">推荐系统中模型训练及使用流程的标准化</a></p>
+
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/%E7%89%B9%E5%BE%81%E5%B9%B3%E5%8F%B0%E7%AE%80%E4%BB%8B.html">特征平台简介</a>
+          </div>
+        </div>
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://tonglin0325.github.io/%E7%89%B9%E5%BE%81%E5%B9%B3%E5%8F%B0%E7%AE%80%E4%BB%8B.html" data-id="cln8csfas00xpl00l5twk4jtf" class="article-share-link">
+        <i class="fa fa-share"></i> 分享
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ML-Infra/" rel="tag">ML Infra</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/kafka-ui%E9%83%A8%E7%BD%B2.html" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">kafka-ui部署</span>
+    </a>
+  </li>
+  
+  
+  <li role="presentation">
+    <a href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94casbin%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <span class="article-nav-link-title">go学习笔记——casbin权限管理</span>
+      <i class="fa fa-chevron-right pull-right"></i>
+    </a>
+  </li>
+  
+</ul>
+
+
+  
+</article>
+
+
+
+
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>tonglin0325</h4>
+  <div style="text-align:center;"><img src="/images/WechatIMG1.jpeg" width="150" height="150" style="vertical-align:middle;"/></div>
+</div>
+
+
+  
+
+
+  
+  <div class="sidebar-module">
+    <h4>标签</h4>
+    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/AWS/" rel="tag">AWS</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Airbnb/" rel="tag">Airbnb</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Android/" rel="tag">Android</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/CDH/" rel="tag">CDH</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Doris/" rel="tag">Doris</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ELK/" rel="tag">ELK</a><span class="sidebar-module-list-count">14</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Flink/" rel="tag">Flink</a><span class="sidebar-module-list-count">29</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Git/" rel="tag">Git</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Grafana/" rel="tag">Grafana</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HAProxy/" rel="tag">HAProxy</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HBase/" rel="tag">HBase</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hadoop/" rel="tag">Hadoop</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hive/" rel="tag">Hive</a><span class="sidebar-module-list-count">20</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hudi/" rel="tag">Hudi</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/InfluxDB/" rel="tag">InfluxDB</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JDBC/" rel="tag">JDBC</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JMeter/" rel="tag">JMeter</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Java/" rel="tag">Java</a><span class="sidebar-module-list-count">19</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JavaWeb/" rel="tag">JavaWeb</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/LaTex/" rel="tag">LaTex</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Linkedin/" rel="tag">Linkedin</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="sidebar-module-list-count">35</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ML/" rel="tag">ML</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ML-Infra/" rel="tag">ML Infra</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/MPP/" rel="tag">MPP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Maven/" rel="tag">Maven</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/MySQL/" rel="tag">MySQL</a><span class="sidebar-module-list-count">16</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Nexus/" rel="tag">Nexus</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/OpenTSDB/" rel="tag">OpenTSDB</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Paper/" rel="tag">Paper</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Play/" rel="tag">Play</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Prometheus/" rel="tag">Prometheus</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Python/" rel="tag">Python</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/React/" rel="tag">React</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/RocksDB/" rel="tag">RocksDB</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Scala/" rel="tag">Scala</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Solr/" rel="tag">Solr</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Spark/" rel="tag">Spark</a><span class="sidebar-module-list-count">25</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SpringMVC/" rel="tag">SpringMVC</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Thrift/" rel="tag">Thrift</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/YARN/" rel="tag">YARN</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/antlr/" rel="tag">antlr</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/arthas/" rel="tag">arthas</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/avro/" rel="tag">avro</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/cassandra/" rel="tag">cassandra</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/clickhouse/" rel="tag">clickhouse</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/confluent/" rel="tag">confluent</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/docker/" rel="tag">docker</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/filebeat/" rel="tag">filebeat</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/flume/" rel="tag">flume</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/golang/" rel="tag">golang</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/google/" rel="tag">google</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/gradle/" rel="tag">gradle</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hexo/" rel="tag">hexo</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/impala/" rel="tag">impala</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/jenkins/" rel="tag">jenkins</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/k8s/" rel="tag">k8s</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kafka/" rel="tag">kafka</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kerberos/" rel="tag">kerberos</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kudu/" rel="tag">kudu</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ldap/" rel="tag">ldap</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mac/" rel="tag">mac</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mongo/" rel="tag">mongo</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mybatis/" rel="tag">mybatis</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nginx/" rel="tag">nginx</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nlp/" rel="tag">nlp</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/open-falcon/" rel="tag">open-falcon</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/openwrt/" rel="tag">openwrt</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/parquet/" rel="tag">parquet</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/presto/" rel="tag">presto</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ranger/" rel="tag">ranger</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/scyllaDB/" rel="tag">scyllaDB</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/twitter/" rel="tag">twitter</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/zookeeper/" rel="tag">zookeeper</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%88%B7%E9%A2%98/" rel="tag">刷题</a><span class="sidebar-module-list-count">22</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%9B%BE%E5%AD%98%E5%82%A8%E5%8F%8A%E8%AE%A1%E7%AE%97/" rel="tag">图存储及计算</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F/" rel="tag">广告系统</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" rel="tag">开发工具</a><span class="sidebar-module-list-count">19</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="sidebar-module-list-count">25</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" rel="tag">系统设计</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="sidebar-module-list-count">5</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>标签云</h4>
+    <p class="tagcloud">
+      <a href="/tags/AWS/" style="font-size: 11.3px;">AWS</a> <a href="/tags/Airbnb/" style="font-size: 14.35px;">Airbnb</a> <a href="/tags/Android/" style="font-size: 11.74px;">Android</a> <a href="/tags/CDH/" style="font-size: 14.35px;">CDH</a> <a href="/tags/Doris/" style="font-size: 10px;">Doris</a> <a href="/tags/ELK/" style="font-size: 15.65px;">ELK</a> <a href="/tags/Flink/" style="font-size: 19.57px;">Flink</a> <a href="/tags/Git/" style="font-size: 10.43px;">Git</a> <a href="/tags/Grafana/" style="font-size: 10px;">Grafana</a> <a href="/tags/HAProxy/" style="font-size: 10.87px;">HAProxy</a> <a href="/tags/HBase/" style="font-size: 12.61px;">HBase</a> <a href="/tags/Hadoop/" style="font-size: 12.61px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 17.39px;">Hive</a> <a href="/tags/Hudi/" style="font-size: 11.3px;">Hudi</a> <a href="/tags/InfluxDB/" style="font-size: 10px;">InfluxDB</a> <a href="/tags/JDBC/" style="font-size: 13.48px;">JDBC</a> <a href="/tags/JMeter/" style="font-size: 10px;">JMeter</a> <a href="/tags/JVM/" style="font-size: 11.74px;">JVM</a> <a href="/tags/Java/" style="font-size: 16.96px;">Java</a> <a href="/tags/JavaWeb/" style="font-size: 11.3px;">JavaWeb</a> <a href="/tags/LaTex/" style="font-size: 10px;">LaTex</a> <a href="/tags/Linkedin/" style="font-size: 10px;">Linkedin</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/ML/" style="font-size: 18.7px;">ML</a> <a href="/tags/ML-Infra/" style="font-size: 11.3px;">ML Infra</a> <a href="/tags/MPP/" style="font-size: 10px;">MPP</a> <a href="/tags/Maven/" style="font-size: 10.43px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 16.09px;">MySQL</a> <a href="/tags/Nexus/" style="font-size: 11.74px;">Nexus</a> <a href="/tags/OpenTSDB/" style="font-size: 10.43px;">OpenTSDB</a> <a href="/tags/Paper/" style="font-size: 10px;">Paper</a> <a href="/tags/Play/" style="font-size: 10px;">Play</a> <a href="/tags/Prometheus/" style="font-size: 10.43px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 17.83px;">Python</a> <a href="/tags/React/" style="font-size: 10.43px;">React</a> <a href="/tags/Redis/" style="font-size: 10.87px;">Redis</a> <a href="/tags/RocksDB/" style="font-size: 10px;">RocksDB</a> <a href="/tags/Scala/" style="font-size: 13.91px;">Scala</a> <a href="/tags/Solr/" style="font-size: 10.87px;">Solr</a> <a href="/tags/Spark/" style="font-size: 19.13px;">Spark</a> <a href="/tags/SpringBoot/" style="font-size: 16.52px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 14.35px;">SpringMVC</a> <a href="/tags/Thrift/" style="font-size: 12.17px;">Thrift</a> <a href="/tags/YARN/" style="font-size: 11.74px;">YARN</a> <a href="/tags/antlr/" style="font-size: 10.43px;">antlr</a> <a href="/tags/arthas/" style="font-size: 10px;">arthas</a> <a href="/tags/avro/" style="font-size: 13.91px;">avro</a> <a href="/tags/cassandra/" style="font-size: 10px;">cassandra</a> <a href="/tags/clickhouse/" style="font-size: 10.43px;">clickhouse</a> <a href="/tags/confluent/" style="font-size: 10.43px;">confluent</a> <a href="/tags/docker/" style="font-size: 10.87px;">docker</a> <a href="/tags/filebeat/" style="font-size: 11.3px;">filebeat</a> <a href="/tags/flume/" style="font-size: 10.43px;">flume</a> <a href="/tags/golang/" style="font-size: 15.22px;">golang</a> <a href="/tags/google/" style="font-size: 13.04px;">google</a> <a href="/tags/gradle/" style="font-size: 10px;">gradle</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/impala/" style="font-size: 11.3px;">impala</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/k8s/" style="font-size: 14.35px;">k8s</a> <a href="/tags/kafka/" style="font-size: 14.78px;">kafka</a> <a href="/tags/kerberos/" style="font-size: 10px;">kerberos</a> <a href="/tags/kudu/" style="font-size: 10.43px;">kudu</a> <a href="/tags/ldap/" style="font-size: 10.43px;">ldap</a> <a href="/tags/mac/" style="font-size: 11.74px;">mac</a> <a href="/tags/mongo/" style="font-size: 11.74px;">mongo</a> <a href="/tags/mybatis/" style="font-size: 10.87px;">mybatis</a> <a href="/tags/nginx/" style="font-size: 12.17px;">nginx</a> <a href="/tags/nlp/" style="font-size: 10px;">nlp</a> <a href="/tags/open-falcon/" style="font-size: 10.87px;">open-falcon</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/parquet/" style="font-size: 10.87px;">parquet</a> <a href="/tags/presto/" style="font-size: 12.17px;">presto</a> <a href="/tags/ranger/" style="font-size: 10px;">ranger</a> <a href="/tags/scyllaDB/" style="font-size: 10.87px;">scyllaDB</a> <a href="/tags/twitter/" style="font-size: 10.43px;">twitter</a> <a href="/tags/zookeeper/" style="font-size: 14.78px;">zookeeper</a> <a href="/tags/%E5%88%B7%E9%A2%98/" style="font-size: 18.26px;">刷题</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 12.17px;">前端</a> <a href="/tags/%E5%9B%BE%E5%AD%98%E5%82%A8%E5%8F%8A%E8%AE%A1%E7%AE%97/" style="font-size: 10.43px;">图存储及计算</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.91px;">多线程</a> <a href="/tags/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F/" style="font-size: 13.04px;">广告系统</a> <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" style="font-size: 16.96px;">开发工具</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 16.52px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 13.48px;">杂谈</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 19.13px;">算法</a> <a href="/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" style="font-size: 10.43px;">系统设计</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 13.04px;">计算机网络</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 11.74px;">设计模式</a>
+    </p>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>文章归档</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/08/">八月 2024</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/05/">五月 2024</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2023/08/">八月 2023</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/07/">七月 2022</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/01/">一月 2022</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/12/">十二月 2021</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/11/">十一月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/09/">九月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">七月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/05/">五月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/03/">三月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/01/">一月 2021</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/12/">十二月 2020</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/11/">十一月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/10/">十月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/09/">九月 2020</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/08/">八月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/07/">七月 2020</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/06/">六月 2020</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/05/">五月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/04/">四月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/03/">三月 2020</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">二月 2020</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/01/">一月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">十月 2019</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/09/">九月 2019</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">八月 2019</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/07/">七月 2019</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/04/">四月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/03/">三月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/01/">一月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/12/">十二月 2018</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/11/">十一月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/09/">九月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/06/">六月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/05/">五月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/04/">四月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/02/">二月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/01/">一月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/11/">十一月 2017</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/09/">九月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/07/">七月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/06/">六月 2017</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/05/">五月 2017</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/04/">四月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/03/">三月 2017</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/01/">一月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/12/">十二月 2016</a><span class="sidebar-module-list-count">15</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/11/">十一月 2016</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">十月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">九月 2016</a><span class="sidebar-module-list-count">16</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/08/">八月 2016</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/07/">七月 2016</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">六月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">五月 2016</a><span class="sidebar-module-list-count">32</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/04/">四月 2016</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/03/">三月 2016</a><span class="sidebar-module-list-count">136</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/02/">二月 2016</a><span class="sidebar-module-list-count">22</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/09/">九月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/08/">八月 2015</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/07/">七月 2015</a><span class="sidebar-module-list-count">30</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/06/">六月 2015</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/04/">四月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2013/04/">四月 2013</a><span class="sidebar-module-list-count">2</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>最近文章</h4>
+    <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Istio%E5%92%8CKong.html">k8s学习笔记——Istio和Kong</a>
+        </li>
+      
+        <li>
+          <a href="/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ingress.html">k8s学习笔记——ingress</a>
+        </li>
+      
+        <li>
+          <a href="/Presto%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Go%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5Presto.html">Presto学习笔记——Go客户端连接Presto</a>
+        </li>
+      
+        <li>
+          <a href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94wire%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5.html">go学习笔记——wire依赖注入</a>
+        </li>
+      
+        <li>
+          <a href="/screen%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html">screen使用教程</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+
+        </div>
+    </div>
+  </div>
+  <footer class="blog-footer">
+  <div class="container">
+    <div id="footer-info" class="inner">
+      &copy; 2024 tonglin0325<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+  
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" integrity="sha384-8gBf6Y4YYq7Jx97PIqmTwLPin4hxIzQw5aDmUg/DDhul9fFpbbLcLh3nTIIDJKhx" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9HZSXL1LDJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9HZSXL1LDJ');
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+<script src="/js/jquery.qrcode.min.js"></script>
+
+
+
+<script src="/js/jquery-1.6.2.min.js"></script>
+
+
+</body>
+</html>

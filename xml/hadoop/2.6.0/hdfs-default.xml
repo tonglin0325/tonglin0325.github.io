@@ -1,0 +1,2574 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+
+<!-- Do not modify this file directly.  Instead, copy entries that you -->
+<!-- wish to modify from this file into hdfs-site.xml and change them -->
+<!-- there.  If hdfs-site.xml does not already exist, create it.      -->
+
+<configuration>
+
+<property>
+  <name>hadoop.hdfs.configuration.version</name>
+  <value>1</value>
+  <description>version of this configuration file</description>
+</property>
+
+<property>
+  <name>dfs.namenode.logging.level</name>
+  <value>info</value>
+  <description>
+    The logging level for dfs namenode. Other values are "dir" (trace
+    namespace mutations), "block" (trace block under/over replications
+    and block creations/deletions), or "all".
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.rpc-address</name>
+  <value></value>
+  <description>
+    RPC address that handles all clients requests. In the case of HA/Federation where multiple namenodes exist,
+    the name service id is added to the name e.g. dfs.namenode.rpc-address.ns1
+    dfs.namenode.rpc-address.EXAMPLENAMESERVICE
+    The value of this property will take the form of nn-host1:rpc-port.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.rpc-bind-host</name>
+  <value></value>
+  <description>
+    The actual address the RPC server will bind to. If this optional address is
+    set, it overrides only the hostname portion of dfs.namenode.rpc-address.
+    It can also be specified per name node or name service for HA/Federation.
+    This is useful for making the name node listen on all interfaces by
+    setting it to 0.0.0.0.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.servicerpc-address</name>
+  <value></value>
+  <description>
+    RPC address for HDFS Services communication. BackupNode, Datanodes and all other services should be
+    connecting to this address if it is configured. In the case of HA/Federation where multiple namenodes exist,
+    the name service id is added to the name e.g. dfs.namenode.servicerpc-address.ns1
+    dfs.namenode.rpc-address.EXAMPLENAMESERVICE
+    The value of this property will take the form of nn-host1:rpc-port.
+    If the value of this property is unset the value of dfs.namenode.rpc-address will be used as the default.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.servicerpc-bind-host</name>
+  <value></value>
+  <description>
+    The actual address the service RPC server will bind to. If this optional address is
+    set, it overrides only the hostname portion of dfs.namenode.servicerpc-address.
+    It can also be specified per name node or name service for HA/Federation.
+    This is useful for making the name node listen on all interfaces by
+    setting it to 0.0.0.0.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.secondary.http-address</name>
+  <value>0.0.0.0:50090</value>
+  <description>
+    The secondary namenode http server address and port.
+  </description>
+  <cn_description>secondary namenode的HTTP服务器地址和端口</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.namenode.secondary.https-address</name>
+  <value>0.0.0.0:50091</value>
+  <description>
+    The secondary namenode HTTPS server address and port.
+  </description>
+</property>
+
+<property>
+  <name>dfs.datanode.address</name>
+  <value>0.0.0.0:50010</value>
+  <description>
+    The datanode server address and port for data transfer.
+  </description>
+  <cn_description>DN服务地址和端口，用于数据传输</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.datanode.http.address</name>
+  <value>0.0.0.0:50075</value>
+  <description>
+    The datanode http server address and port.
+  </description>
+  <cn_description>DN的HTTP服务地址和端口</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.datanode.ipc.address</name>
+  <value>0.0.0.0:50020</value>
+  <description>
+    The datanode ipc server address and port.
+  </description>
+  <cn_description>数据节点的RPC服务器地址和端口设置</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.datanode.handler.count</name>
+  <value>10</value>
+  <description>The number of server threads for the datanode.</description>
+  <cn_description>datanode的服务器线程数</cn_description>
+  <cdh_val></cdh_val>
+  <label>该属性默认值为 10，是 DataNode 的处理线程数，如果 HDFS 客户端程序读写请求比较多，可以调高到 15~20，设置的值越大，内存消耗越多，不要调整的过高，一般业务中， 5~10 即可</label>
+</property>
+
+<property>
+  <name>dfs.namenode.http-address</name>
+  <value>0.0.0.0:50070</value>
+  <description>
+    The address and the base port where the dfs namenode web ui will listen on.
+  </description>
+  <cn_description>namenode的HTTP服务器地址和端口</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.namenode.http-bind-host</name>
+  <value></value>
+  <description>
+    The actual adress the HTTP server will bind to. If this optional address
+    is set, it overrides only the hostname portion of dfs.namenode.http-address.
+    It can also be specified per name node or name service for HA/Federation.
+    This is useful for making the name node HTTP server listen on all
+    interfaces by setting it to 0.0.0.0.
+  </description>
+</property>
+
+<property>
+  <name>dfs.https.enable</name>
+  <value>false</value>
+  <description>
+    Deprecated. Use "dfs.http.policy" instead.
+  </description>
+</property>
+
+<property>
+  <name>dfs.http.policy</name>
+  <value>HTTP_ONLY</value>
+  <description>Decide if HTTPS(SSL) is supported on HDFS
+    This configures the HTTP endpoint for HDFS daemons:
+      The following values are supported:
+      - HTTP_ONLY : Service is provided only on http
+      - HTTPS_ONLY : Service is provided only on https
+      - HTTP_AND_HTTPS : Service is provided both on http and https
+  </description>
+</property>
+
+<property>
+  <name>dfs.client.https.need-auth</name>
+  <value>false</value>
+  <description>Whether SSL client certificate authentication is required
+  </description>
+</property>
+
+<property>
+  <name>dfs.client.cached.conn.retry</name>
+  <value>3</value>
+  <description>The number of times the HDFS client will pull a socket from the
+   cache.  Once this number is exceeded, the client will try to create a new
+   socket.
+  </description>
+</property>
+
+
+<property>
+  <name>dfs.https.server.keystore.resource</name>
+  <value>ssl-server.xml</value>
+  <description>Resource file from which ssl server keystore
+  information will be extracted
+  </description>
+</property>
+
+<property>
+  <name>dfs.client.https.keystore.resource</name>
+  <value>ssl-client.xml</value>
+  <description>Resource file from which ssl client keystore
+  information will be extracted
+  </description>
+</property>
+
+<property>
+  <name>dfs.datanode.https.address</name>
+  <value>0.0.0.0:50475</value>
+  <description>The datanode secure http server address and port.</description>
+  <cn_description>datanode的HTTP服务器地址和端口</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.namenode.https-address</name>
+  <value>0.0.0.0:50470</value>
+  <description>The namenode secure http server address and port.</description>
+</property>
+
+<property>
+  <name>dfs.namenode.https-bind-host</name>
+  <value></value>
+  <description>
+    The actual adress the HTTPS server will bind to. If this optional address
+    is set, it overrides only the hostname portion of dfs.namenode.https-address.
+    It can also be specified per name node or name service for HA/Federation.
+    This is useful for making the name node HTTPS server listen on all
+    interfaces by setting it to 0.0.0.0.
+  </description>
+</property>
+
+ <property>
+  <name>dfs.datanode.dns.interface</name>
+  <value>default</value>
+  <description>The name of the Network Interface from which a data node should
+  report its IP address.
+  </description>
+ </property>
+
+<property>
+  <name>dfs.datanode.dns.nameserver</name>
+  <value>default</value>
+  <description>The host name or IP address of the name server (DNS)
+  which a DataNode should use to determine the host name used by the
+  NameNode for communication and display purposes.
+  </description>
+ </property>
+
+ <property>
+  <name>dfs.namenode.backup.address</name>
+  <value>0.0.0.0:50100</value>
+  <description>
+    The backup node server address and port.
+    If the port is 0 then the server will start on a free port.
+  </description>
+</property>
+
+ <property>
+  <name>dfs.namenode.backup.http-address</name>
+  <value>0.0.0.0:50105</value>
+  <description>
+    The backup node http server address and port.
+    If the port is 0 then the server will start on a free port.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.replication.considerLoad</name>
+  <value>true</value>
+  <description>Decide if chooseTarget considers the target's load or not
+  </description>
+</property>
+<property>
+  <name>dfs.default.chunk.view.size</name>
+  <value>32768</value>
+  <description>The number of bytes to view for a file on the browser.
+  </description>
+</property>
+
+<property>
+  <name>dfs.datanode.du.reserved</name>
+  <value>0</value>
+  <description>Reserved space in bytes per volume. Always leave this much space free for non dfs use.
+  </description>
+  <cn_description>备用存储空间。默认情况下，datanode将尝试使用他们存储目录下所有可用的空间。如果想保留一些空间给非HDFS使用，可以使用该属性。</cn_description>
+  <cdh_val></cdh_val>
+  <label>建议设置留下一些空间，比如10T的HDD可以考虑留下50G</label>
+</property>
+
+<property>
+  <name>dfs.namenode.name.dir</name>
+  <value>file://${hadoop.tmp.dir}/dfs/name</value>
+  <description>Determines where on the local filesystem the DFS name node
+      should store the name table(fsimage).  If this is a comma-delimited list
+      of directories then the name table is replicated in all of the
+      directories, for redundancy. </description>
+  <cn_description>存储namenode永久元数据的目录的列表。在列表中的每一个目录下存储着元数据的副本</cn_description>
+  <cdh_val></cdh_val>
+  <label>建议和dfs.datanode.data.dir配置在不同的卷上，以免受到datanode的影响</label>
+</property>
+
+<property>
+  <name>dfs.namenode.name.dir.restore</name>
+  <value>false</value>
+  <description>Set to true to enable NameNode to attempt recovering a
+      previously failed dfs.namenode.name.dir. When enabled, a recovery of any
+      failed directory is attempted during checkpoint.</description>
+</property>
+
+<property>
+  <name>dfs.namenode.fs-limits.max-component-length</name>
+  <value>255</value>
+  <description>Defines the maximum number of bytes in UTF-8 encoding in each
+      component of a path.  A value of 0 will disable the check.</description>
+</property>
+
+<property>
+  <name>dfs.namenode.fs-limits.max-directory-items</name>
+  <value>1048576</value>
+  <description>Defines the maximum number of items that a directory may
+      contain.  A value of 0 will disable the check.</description>
+  <cn_description>hdfs每个目录最多包含的文件数</cn_description>
+  <cdh_val></cdh_val>
+  <label>也可以加一倍，改成2097152</label>
+</property>
+
+<property>
+  <name>dfs.namenode.fs-limits.min-block-size</name>
+  <value>1048576</value>
+  <description>Minimum block size in bytes, enforced by the Namenode at create
+      time. This prevents the accidental creation of files with tiny block
+      sizes (and thus many blocks), which can degrade
+      performance.</description>
+</property>
+
+<property>
+    <name>dfs.namenode.fs-limits.max-blocks-per-file</name>
+    <value>1048576</value>
+    <description>Maximum number of blocks per file, enforced by the Namenode on
+        write. This prevents the creation of extremely large files which can
+        degrade performance.</description>
+</property>
+
+<property>
+  <name>dfs.namenode.edits.dir</name>
+  <value>${dfs.namenode.name.dir}</value>
+  <description>Determines where on the local filesystem the DFS name node
+      should store the transaction (edits) file. If this is a comma-delimited list
+      of directories then the transaction file is replicated in all of the
+      directories, for redundancy. Default value is same as dfs.namenode.name.dir
+  </description>
+  <cn_description>用于存储namenode编译的本地文件系统目录。如果未设置，编辑将存储在namenode数据目录中。
+    如果存储journalnode且此namenode不是高可用，会自动生成此配置的值作为基于Quorum的存储URI。</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.namenode.shared.edits.dir</name>
+  <value></value>
+  <description>A directory on shared storage between the multiple namenodes
+  in an HA cluster. This directory will be written by the active and read
+  by the standby in order to keep the namespaces synchronized. This directory
+  does not need to be listed in dfs.namenode.edits.dir above. It should be
+  left empty in a non-HA cluster.
+  </description>
+  <cn_description>用于存储namenode编辑的共享存储设备上的目录，例如基于Quorum的存储URI或NAS上的NFS装载的本地目录。
+  如果存储JournalNode且此namenode高度可用，会自动生成此配置的值作为Quorum Journal URI</cn_description>
+  <cdh_val></cdh_val>
+  <label>在多个NN中共享存储目录，用于存放edits文件。这个目录，由active写，由standby读，以保持命名空间数据一致。
+    此目录不需要是dfs.namenode.edits.dir中列出的。在非HA集群中，它不会使用。建议使用qj方式</label>
+</property>
+
+<property>
+  <name>dfs.namenode.edits.journal-plugin.qjournal</name>
+  <value>org.apache.hadoop.hdfs.qjournal.client.QuorumJournalManager</value>
+</property>
+
+<property>
+  <name>dfs.permissions.enabled</name>
+  <value>true</value>
+  <description>
+    If "true", enable permission checking in HDFS.
+    If "false", permission checking is turned off,
+    but all other behavior is unchanged.
+    Switching from one parameter value to the other does not change the mode,
+    owner or group of files or directories.
+  </description>
+  <cn_description>是否在HDFS中开启权限检查</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.permissions.superusergroup</name>
+  <value>supergroup</value>
+  <description>The name of the group of super-users.</description>
+  <cn_description>超级用户组。仅能设置一个。</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+<!--
+<property>
+   <name>dfs.cluster.administrators</name>
+   <value>ACL for the admins</value>
+   <description>This configuration is used to control who can access the
+                default servlets in the namenode, etc.
+   </description>
+</property>
+-->
+
+<property>
+  <name>dfs.namenode.acls.enabled</name>
+  <value>false</value>
+  <description>
+    Set to true to enable support for HDFS ACLs (Access Control Lists).  By
+    default, ACLs are disabled.  When ACLs are disabled, the NameNode rejects
+    all RPCs related to setting or getting ACLs.
+  </description>
+  <cn_description>HDFS ACLs开关</cn_description>
+  <cdh_val></cdh_val>
+  <label>建议开启，https://docs.cloudera.com/documentation/enterprise/latest/topics/cdh_sg_hdfs_ext_acls.html</label>
+</property>
+
+<property>
+  <name>dfs.namenode.lazypersist.file.scrub.interval.sec</name>
+  <value>300</value>
+  <description>
+    The NameNode periodically scans the namespace for LazyPersist files with
+    missing blocks and unlinks them from the namespace. This configuration key
+    controls the interval between successive scans. Set it to a negative value
+    to disable this behavior.
+  </description>
+</property>
+<property>
+  <name>dfs.block.access.token.enable</name>
+  <value>false</value>
+  <description>
+    If "true", access tokens are used as capabilities for accessing datanodes.
+    If "false", no access tokens are checked on accessing datanodes.
+  </description>
+  <cn_description>访问DN时是否验证访问令牌</cn_description>
+  <cdh_val></cdh_val>
+  <label>默认为false</label>
+</property>
+
+<property>
+  <name>dfs.block.access.key.update.interval</name>
+  <value>600</value>
+  <description>
+    Interval in minutes at which namenode updates its access keys.
+  </description>
+</property>
+
+<property>
+  <name>dfs.block.access.token.lifetime</name>
+  <value>600</value>
+  <description>The lifetime of access tokens in minutes.</description>
+</property>
+
+<property>
+  <name>dfs.datanode.data.dir</name>
+  <value>file://${hadoop.tmp.dir}/dfs/data</value>
+  <description>Determines where on the local filesystem an DFS data node
+  should store its blocks.  If this is a comma-delimited
+  list of directories, then data will be stored in all named
+  directories, typically on different devices.
+  Directories that do not exist are ignored.
+  </description>
+  <cn_description>datanode存储HDFS块数据的本地文件系统中目录的逗号分隔列表</cn_description>
+  <cdh_val></cdh_val>
+  <label>建议和dfs.namenode.name.dir配置在不同的卷上，以免datanode数据读取和写入影响namenode</label>
+</property>
+
+<property>
+  <name>dfs.datanode.data.dir.perm</name>
+  <value>700</value>
+  <description>Permissions for the directories on on the local filesystem where
+  the DFS data node store its blocks. The permissions can either be octal or
+  symbolic.</description>
+  <cn_description>本地数据目录权限设定。8进制或者符号方式都可以。</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.replication</name>
+  <value>3</value>
+  <description>Default block replication.
+  The actual number of replications can be specified when the file is created.
+  The default is used if replication is not specified in create time.
+  </description>
+  <cn_description>数据块副本数</cn_description>
+  <cdh_val></cdh_val>
+  <label>此值可以在创建文件是设定，客户端可以只有设定，也可以在命令行修改。不同文件可以有不同的副本数。默认值用于未指定时。</label>
+</property>
+
+<property>
+  <name>dfs.replication.max</name>
+  <value>512</value>
+  <description>Maximal block replication.
+  </description>
+  <cn_description>最大块副本数</cn_description>
+  <cdh_val></cdh_val>
+  <label>不要大于节点总数</label>
+</property>
+
+<property>
+  <name>dfs.namenode.replication.min</name>
+  <value>1</value>
+  <description>Minimal block replication.
+  </description>
+  <cn_description>写操作成功所需要的最小副本数</cn_description>
+  <cdh_val>1</cdh_val>
+  <label>建议保持1</label>
+</property>
+
+<property>
+  <name>dfs.blocksize</name>
+  <value>134217728</value>
+  <description>
+      The default block size for new files, in bytes.
+      You can use the following suffix (case insensitive):
+      k(kilo), m(mega), g(giga), t(tera), p(peta), e(exa) to specify the size (such as 128k, 512m, 1g, etc.),
+      Or provide complete size in bytes (such as 134217728 for 128 MB).
+  </description>
+  <cn_description>HDFS块大小</cn_description>
+  <cdh_val>268435456</cdh_val>
+  <label>
+    默认的HDFS块大小是128MB，一般设置成256MB来让map操作更多的数据
+    cdh也建议在hive中使用parquet table的时候，将其设置为256MB，参考：https://docs.cloudera.com/documentation/enterprise/6/6.2/topics/cdh_ig_parquet.html
+  </label>
+</property>
+
+<property>
+  <name>dfs.client.block.write.retries</name>
+  <value>3</value>
+  <description>The number of retries for writing blocks to the data nodes,
+  before we signal failure to the application.
+  </description>
+  <cn_description>客户端写数据到DN时，最大重试次数。超过重试次数就会报出错误。</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.client.block.write.replace-datanode-on-failure.enable</name>
+  <value>true</value>
+  <description>
+    If there is a datanode/network failure in the write pipeline,
+    DFSClient will try to remove the failed datanode from the pipeline
+    and then continue writing with the remaining datanodes. As a result,
+    the number of datanodes in the pipeline is decreased.  The feature is
+    to add new datanodes to the pipeline.
+
+    This is a site-wide property to enable/disable the feature.
+
+    When the cluster size is extremely small, e.g. 3 nodes or less, cluster
+    administrators may want to set the policy to NEVER in the default
+    configuration file or disable this feature.  Otherwise, users may
+    experience an unusually high rate of pipeline failures since it is
+    impossible to find new datanodes for replacement.
+
+    See also dfs.client.block.write.replace-datanode-on-failure.policy
+  </description>
+  <cn_description>在进行pipeline写数据（上传数据的方式）时，如果DN或者磁盘故障，客户端将尝试移除失败的DN，然后写到剩下的磁盘。一个结果是，pipeline中的DN减少了。
+    这个特性是添加新的DN到pipeline。这是一个站点范围的选项。当集群规模非常小时，例如3个或者更小，集群管理者可能想要禁止掉此特性。</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.client.block.write.replace-datanode-on-failure.policy</name>
+  <value>DEFAULT</value>
+  <description>
+    This property is used only if the value of
+    dfs.client.block.write.replace-datanode-on-failure.enable is true.
+
+    ALWAYS: always add a new datanode when an existing datanode is removed.
+
+    NEVER: never add a new datanode.
+
+    DEFAULT:
+      Let r be the replication number.
+      Let n be the number of existing datanodes.
+      Add a new datanode only if r is greater than or equal to 3 and either
+      (1) floor(r/2) is greater than or equal to n; or
+      (2) r is greater than n and the block is hflushed/appended.
+  </description>
+</property>
+
+<property>
+  <name>dfs.client.block.write.replace-datanode-on-failure.best-effort</name>
+  <value>false</value>
+  <description>
+    This property is used only if the value of
+    dfs.client.block.write.replace-datanode-on-failure.enable is true.
+
+    Best effort means that the client will try to replace a failed datanode
+    in write pipeline (provided that the policy is satisfied), however, it
+    continues the write operation in case that the datanode replacement also
+    fails.
+
+    Suppose the datanode replacement fails.
+    false: An exception should be thrown so that the write will fail.
+    true : The write should be resumed with the remaining datandoes.
+
+    Note that setting this property to true allows writing to a pipeline
+    with a smaller number of datanodes.  As a result, it increases the
+    probability of data loss.
+  </description>
+</property>
+
+<property>
+  <name>dfs.blockreport.intervalMsec</name>
+  <value>21600000</value>
+  <description>Determines block reporting interval in milliseconds.</description>
+  <cn_description>Datanode会定期将当前该结点上所有的BLOCK信息报告给Namenode，参数dfs.blockreport.intervalMsec就是控制这个报告间隔的参数。</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.blockreport.initialDelay</name>
+  <value>0</value>
+  <description>Delay for first block report in seconds.</description>
+  <cn_description>datanode启动后第一次报告自己的block信息的时间是在(0,dfs.blockreport.initialDelay)之间的一个随机数 initTime，
+    然后从initTime（不同datanode上的这个随即肯定是不一样的）开始每隔dfs.blockreport.intervalMsec ，该datanode会向namenode报告自己的所有block的信息。
+    如果没有initTime，多有datanode都从启动的那一刻开始发，这样会造成大量数据发往nn，造成堵塞 。是以用此参数来控制 。</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+    <name>dfs.blockreport.split.threshold</name>
+    <value>1000000</value>
+    <description>If the number of blocks on the DataNode is below this
+    threshold then it will send block reports for all Storage Directories
+    in a single message.
+
+    If the number of blocks exceeds this threshold then the DataNode will
+    send block reports for each Storage Directory in separate messages.
+
+    Set to zero to always split.
+    </description>
+</property>
+
+<property>
+  <name>dfs.datanode.directoryscan.interval</name>
+  <value>21600</value>
+  <description>Interval in seconds for Datanode to scan data directories and
+  reconcile the difference between blocks in memory and on the disk.
+  </description>
+</property>
+
+<property>
+  <name>dfs.datanode.directoryscan.threads</name>
+  <value>1</value>
+  <description>How many threads should the threadpool used to compile reports
+  for volumes in parallel have.
+  </description>
+</property>
+
+<property>
+  <name>dfs.heartbeat.interval</name>
+  <value>3</value>
+  <description>Determines datanode heartbeat interval in seconds.</description>
+  <cn_description>DN的心跳间隔，秒</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.namenode.handler.count</name>
+  <value>10</value>
+  <description>The number of server threads for the namenode.</description>
+  <cn_description>namenode的服务器线程数量</cn_description>
+  <cdh_val></cdh_val>
+  <label>
+    侦听来自客户端的请求的NamenodeRPC服务器线程的数量。根据机器的可用内存可以调整为 50~100。
+    有时候DFSClient 操作hdfs总报连接超时的time out错，不一定都是因为网络原因造成，还有一种比较大的可能性是由于namenode的dfs.namenode.handler.count配置参数太低，默认为10。对hdfs和nameno的的rpc调用线程太少导致rpc call出现超时造成，这是一点小经验。
+  </label>
+</property>
+
+<property>
+  <name>dfs.namenode.safemode.threshold-pct</name>
+  <value>0.999f</value>
+  <description>
+    Specifies the percentage of blocks that should satisfy
+    the minimal replication requirement defined by dfs.namenode.replication.min.
+    Values less than or equal to 0 mean not to wait for any particular
+    percentage of blocks before exiting safemode.
+    Values greater than 1 will make safe mode permanent.
+  </description>
+  <cn_description>namenode退出安全模式之前系统中满足dfs.namenode.replication.min定义的最小副本数级别的块的百分比。
+  将其设置成0或者更少将强制namenode不以安全模式启动；将这个值设置成大于1，意味着namenode节点永远不会退出安全模式</cn_description>
+  <cdh_val>0.999f</cdh_val>
+  <label>可以保持0.999f或者设置为0.99f</label>
+</property>
+
+<property>
+  <name>dfs.namenode.safemode.min.datanodes</name>
+  <value>0</value>
+  <description>
+    Specifies the number of datanodes that must be considered alive
+    before the name node exits safemode.
+    Values less than or equal to 0 mean not to take the number of live
+    datanodes into account when deciding whether to remain in safe mode
+    during startup.
+    Values greater than the number of datanodes in the cluster
+    will make safe mode permanent.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.safemode.extension</name>
+  <value>30000</value>
+  <description>
+    Determines extension of safe mode in milliseconds
+    after the threshold level is reached.
+  </description>
+  <cn_description>满足最小副本条件dfs.namenode.safemode.threshold-pct后安全模式的持续时间，单位为毫秒。</cn_description>
+  <cdh_val></cdh_val>
+  <label>10个节点的小型集群，此属性可以设置为0</label>
+</property>
+
+<property>
+  <name>dfs.namenode.resource.check.interval</name>
+  <value>5000</value>
+  <description>
+    The interval in milliseconds at which the NameNode resource checker runs.
+    The checker calculates the number of the NameNode storage volumes whose
+    available spaces are more than dfs.namenode.resource.du.reserved, and
+    enters safemode if the number becomes lower than the minimum value
+    specified by dfs.namenode.resource.checked.volumes.minimum.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.resource.du.reserved</name>
+  <value>104857600</value>
+  <description>
+    The amount of space to reserve/require for a NameNode storage directory
+    in bytes. The default is 100MB.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.resource.checked.volumes</name>
+  <value></value>
+  <description>
+    A list of local directories for the NameNode resource checker to check in
+    addition to the local edits directories.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.resource.checked.volumes.minimum</name>
+  <value>1</value>
+  <description>
+    The minimum number of redundant NameNode storage volumes required.
+  </description>
+</property>
+
+<property>
+  <name>dfs.datanode.balance.bandwidthPerSec</name>
+  <value>1048576</value>
+  <description>
+        Specifies the maximum amount of bandwidth that each datanode
+        can utilize for the balancing purpose in term of
+        the number of bytes per second.
+  </description>
+  <cn_description>hdfs datanode之间副本balance时候的带宽，默认为1M(1048576)</cn_description>
+  <cdh_val></cdh_val>
+  <label>可以改成20M(20971520)，30M(31457280)甚至100M(10485760)，视交换机性能而定</label>
+</property>
+
+<property>
+  <name>dfs.datanode.balance.max.concurrent.moves</name>
+  <value>24</value>
+  <description>
+        Limits the maximum number of concurrent block moves that a Datanode is allowed for balancing the cluster.
+  </description>
+  <cn_description>
+    均衡器参数：如果datanode有12块盘，建议可以设置成24或者36来加速
+    https://docs.cloudera.com/HDPDocuments/HDP2/HDP-2.6.0/bk_hdfs-administration/content/configuring_balancer.html
+  </cn_description>
+  <cdh_val>cdh默认5</cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.balancer.max-size-to-move</name>
+  <value></value>
+  <description>
+        Maximum amount of data to move per node in each iteration of the balancer.
+  </description>
+  <cn_description>
+        每次balance进行迭代的过程最大移动数据量，默认10737418240(10GB)
+  </cn_description>
+  <cdh_val>cdh默认10G</cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.balancer.dispatcherThreads</name>
+  <value></value>
+  <description>
+        Thread pool size for dispatching block moves.
+  </description>
+  <cn_description>
+        Balancer会在移动Block之前，每次迭代会查询出一个Block列表，分发给Mover线程使用。
+        说明 dispatcherThreads是这个分发线程的个数，默认为200。
+  </cn_description>
+  <cdh_val>cdh默认200</cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.balancer.moverThreads</name>
+  <value>4096</value>
+  <description>
+        Thread pool size for executing block moves.
+  </description>
+  <cn_description>
+        用于执行block移动的线程池大小，默认1000，可以调整成4096
+  </cn_description>
+  <cdh_val>cdh1000</cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.hosts</name>
+  <value></value>
+  <description>Names a file that contains a list of hosts that are
+  permitted to connect to the namenode. The full pathname of the file
+  must be specified.  If the value is empty, all hosts are
+  permitted.</description>
+  <cn_description>dfs.hosts所对应的文件中列出了所有可以连接到namenode的datanode，如果为空则所有的都可以连入。</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.hosts.exclude</name>
+  <value></value>
+  <description>Names a file that contains a list of hosts that are
+  not permitted to connect to the namenode.  The full pathname of the
+  file must be specified.  If the value is empty, no hosts are
+  excluded.</description>
+  <cn_description>dfs.hosts.exclude所对应的文件中列出了禁止连接namenode的datanode节点。如果一个节点在这两个文件中都存在，则不允许连入。</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.namenode.max.objects</name>
+  <value>0</value>
+  <description>The maximum number of files, directories and blocks
+  dfs supports. A value of zero indicates no limit to the number
+  of objects that dfs supports.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.datanode.registration.ip-hostname-check</name>
+  <value>true</value>
+  <description>
+    If true (the default), then the namenode requires that a connecting
+    datanode's address must be resolved to a hostname.  If necessary, a reverse
+    DNS lookup is performed.  All attempts to register a datanode from an
+    unresolvable address are rejected.
+
+    It is recommended that this setting be left on to prevent accidental
+    registration of datanodes listed by hostname in the excludes file during a
+    DNS outage.  Only set this to false in environments where there is no
+    infrastructure to support reverse DNS lookup.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.decommission.interval</name>
+  <value>30</value>
+  <description>Namenode periodicity in seconds to check if decommission is
+  complete.</description>
+  <cn_description>FSNamesystem的DecommissionManager.Monitor线程检查处于DECOMMISSION_INPROGRESS状态数据节点的周期，在所有区块副本达到期望值时更新为DECOMMISSIONED状态</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.namenode.decommission.nodes.per.interval</name>
+  <value>5</value>
+  <description>The number of nodes namenode checks if decommission is complete
+  in each dfs.namenode.decommission.interval.</description>
+  <cn_description>FSNamesystem的DecommissionManager.Monitor线程一个周期内检查DataNode的个数</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.namenode.replication.interval</name>
+  <value>3</value>
+  <description>The periodicity in seconds with which the namenode computes
+  repliaction work for datanodes. </description>
+  <cn_description>NN周期性计算DN的副本情况的频率，秒</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.namenode.accesstime.precision</name>
+  <value>3600000</value>
+  <description>The access time for HDFS file is precise upto this value.
+               The default value is 1 hour. Setting a value of 0 disables
+               access times for HDFS.
+  </description>
+  <cn_description>HDFS文件的访问时间精确到此值，默认是1小时。0表示禁用访问时间。</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.datanode.plugins</name>
+  <value></value>
+  <description>Comma-separated list of datanode plug-ins to be activated.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.plugins</name>
+  <value></value>
+  <description>Comma-separated list of namenode plug-ins to be activated.
+  </description>
+</property>
+
+<property>
+  <name>dfs.stream-buffer-size</name>
+  <value>4096</value>
+  <description>The size of buffer to stream files.
+  The size of this buffer should probably be a multiple of hardware
+  page size (4096 on Intel x86), and it determines how much data is
+  buffered during read and write operations.</description>
+  <cn_description>文件流缓存大小</cn_description>
+  <cdh_val></cdh_val>
+  <label>需要是硬件page大小的整数倍。在读写操作时，数据缓存大小。注意和core-default.xml中指定文件类型的缓存是不同的，这个是dfs共用的</label>
+</property>
+
+<property>
+  <name>dfs.bytes-per-checksum</name>
+  <value>512</value>
+  <description>The number of bytes per checksum.  Must not be larger than
+  dfs.stream-buffer-size</description>
+  <cn_description>每次计算校验和的字节数</cn_description>
+  <cdh_val></cdh_val>
+  <label>一定不能大于dfs.stream-buffer-size</label>
+</property>
+
+<property>
+  <name>dfs.client-write-packet-size</name>
+  <value>65536</value>
+  <description>Packet size for clients to write</description>
+  <cn_description>客户端写数据时的包的大小</cn_description>
+  <cdh_val></cdh_val>
+  <label>包是块中的更小单位数据集合</label>
+</property>
+
+<property>
+  <name>dfs.client.write.exclude.nodes.cache.expiry.interval.millis</name>
+  <value>600000</value>
+  <description>The maximum period to keep a DN in the excluded nodes list
+  at a client. After this period, in milliseconds, the previously excluded node(s) will
+  be removed automatically from the cache and will be considered good for block allocations
+  again. Useful to lower or raise in situations where you keep a file open for very long
+  periods (such as a Write-Ahead-Log (WAL) file) to make the writer tolerant to cluster maintenance
+  restarts. Defaults to 10 minutes.</description>
+</property>
+
+<property>
+  <name>dfs.namenode.checkpoint.dir</name>
+  <value>file://${hadoop.tmp.dir}/dfs/namesecondary</value>
+  <description>Determines where on the local filesystem the DFS secondary
+      name node should store the temporary images to merge.
+      If this is a comma-delimited list of directories then the image is
+      replicated in all of the directories for redundancy.
+  </description>
+  <cn_description>DFS secondary name node存放临时镜像的目录。如果这是一个逗号分隔的目录列表，则在所有目录中复制该images以进行冗余。</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.namenode.checkpoint.edits.dir</name>
+  <value>${dfs.namenode.checkpoint.dir}</value>
+  <description>Determines where on the local filesystem the DFS secondary
+      name node should store the temporary edits to merge.
+      If this is a comma-delimited list of directoires then teh edits is
+      replicated in all of the directoires for redundancy.
+      Default value is same as dfs.namenode.checkpoint.dir
+  </description>
+  <cn_description>DFS secondary name node存放临时edits的目录。如果这是一个逗号分隔的目录列表，则在所有目录中复制该edits以进行冗余。</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.namenode.checkpoint.period</name>
+  <value>3600</value>
+  <description>The number of seconds between two periodic checkpoints.
+  </description>
+  <cn_description>两次checkpoint的时间间隔阈值，由属性dfs.namenode.checkpoint.period控制，默认是3600s</cn_description>
+  <cdh_val></cdh_val>
+  <label>
+    为了避免edit log文件过大，以及缩短namenode启动时恢复元数据的时间，需要定期将edit log文件合并到fsimage文件中，该合并过程叫做checkpoint
+    参考：jianshu.com/p/75b37c14fb92
+    Checkpoint的触发条件之一：http://bigdatadecode.club/NameNode%E5%85%83%E6%95%B0%E6%8D%AE%E5%8F%8Acheckpoint%E5%88%86%E6%9E%90.html
+  </label>
+</property>
+
+<property>
+  <name>dfs.namenode.checkpoint.txns</name>
+  <value>1000000</value>
+  <description>The Secondary NameNode or CheckpointNode will create a checkpoint
+  of the namespace every 'dfs.namenode.checkpoint.txns' transactions, regardless
+  of whether 'dfs.namenode.checkpoint.period' has expired.
+  </description>
+  <cn_description>新生成的edit log中积累的事务数量达到了阈值，由属性dfs.namenode.checkpoint.txns控制，默认100w</cn_description>
+  <cdh_val></cdh_val>
+  <label>Checkpoint的触发条件之二：http://bigdatadecode.club/NameNode%E5%85%83%E6%95%B0%E6%8D%AE%E5%8F%8Acheckpoint%E5%88%86%E6%9E%90.html</label>
+</property>
+
+<property>
+  <name>dfs.namenode.checkpoint.check.period</name>
+  <value>60</value>
+  <description>The SecondaryNameNode and CheckpointNode will poll the NameNode
+  every 'dfs.namenode.checkpoint.check.period' seconds to query the number
+  of uncheckpointed transactions.
+  </description>
+  <cn_description>查询未检查的检查点事务的执行时间间隔，单位为秒。</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.namenode.checkpoint.max-retries</name>
+  <value>3</value>
+  <description>The SecondaryNameNode retries failed checkpointing. If the
+  failure occurs while loading fsimage or replaying edits, the number of
+  retries is limited by this variable.
+  </description>
+  <cn_description>当加载fsimage或重演edits失败时，重试的次数。</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.namenode.num.checkpoints.retained</name>
+  <value>2</value>
+  <description>The number of image checkpoint files that will be retained by
+  the NameNode and Secondary NameNode in their storage directories. All edit
+  logs necessary to recover an up-to-date namespace from the oldest retained
+  checkpoint will also be retained.
+  </description>
+  <cn_description>在namenode和seccondary namenode中保留image检查点（fsimage_*）的数量。</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.namenode.num.extra.edits.retained</name>
+  <value>1000000</value>
+  <description>The number of extra transactions which should be retained
+  beyond what is minimally necessary for a NN restart. This can be useful for
+  audit purposes or for an HA setup where a remote Standby Node may have
+  been offline for some time and need to have a longer backlog of retained
+  edits in order to start again.
+  Typically each edit is on the order of a few hundred bytes, so the default
+  of 1 million edits should be on the order of hundreds of MBs or low GBs.
+
+  NOTE: Fewer extra edits may be retained than value specified for this setting
+  if doing so would mean that more segments would be retained than the number
+  configured by dfs.namenode.max.extra.edits.segments.retained.
+  </description>
+  <cn_description>namenode的需要保留的额外的事务</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.namenode.max.extra.edits.segments.retained</name>
+  <value>10000</value>
+  <description>The maximum number of extra edit log segments which should be retained
+  beyond what is minimally necessary for a NN restart. When used in conjunction with
+  dfs.namenode.num.extra.edits.retained, this configuration property serves to cap
+  the number of extra edits files to a reasonable value.
+  </description>
+  <cn_description>额外的edit日志段的最大数量</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.namenode.delegation.key.update-interval</name>
+  <value>86400000</value>
+  <description>The update interval for master key for delegation tokens
+       in the namenode in milliseconds.
+  </description>
+  <cn_description>namenode中更新委托令牌主密钥的时间间隔，单位为毫秒</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.namenode.delegation.token.max-lifetime</name>
+  <value>604800000</value>
+  <description>The maximum lifetime in milliseconds for which a delegation
+      token is valid.
+  </description>
+  <cn_description>namenode中更新主代理令牌的时间间隔，单位为毫秒</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.namenode.delegation.token.renew-interval</name>
+  <value>86400000</value>
+  <description>The renewal interval for delegation token in milliseconds.
+  </description>
+  <cn_description>授权令牌的更新间隔以毫秒为单位</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.datanode.failed.volumes.tolerated</name>
+  <value>0</value>
+  <description>The number of volumes that are allowed to
+  fail before a datanode stops offering service. By default
+  any volume failure will cause a datanode to shutdown.
+  </description>
+  <cn_description>在datanode停止提供服务前允许失败的卷的数据量</cn_description>
+  <cdh_val></cdh_val>
+  <label>默认是0，建议改成2，因为hdfs为3备份，如果大于2有可能会丢失数据</label>
+</property>
+
+<property>
+  <name>dfs.image.compress</name>
+  <value>false</value>
+  <description>Should the dfs image be compressed?
+  </description>
+  <cn_description>dfs image是否应该补被压缩</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+
+</property>
+
+<property>
+  <name>dfs.image.compression.codec</name>
+  <value>
+    org.apache.hadoop.io.compress.GzipCodec,
+    org.apache.hadoop.io.compress.DefaultCodec,
+    com.hadoop.compression.lzo.LzoCodec,
+    org.apache.hadoop.io.compress.SnappyCodec
+  </value>
+  <description>A list of the compression codec classes that can be used for compression/decompression.
+  </description>
+  <cn_description>
+    参考：Enable GZipCodec as the default compression codec
+    https://docs.cloudera.com/cdp-private-cloud-base/7.1.6/scaling-namespaces/topics/hdfs-enablegzipcodec-as-the-default-compression-codec.html
+  </cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.image.compression.codec</name>
+  <value>org.apache.hadoop.io.compress.DefaultCodec</value>
+  <description>If the dfs image is compressed, how should they be compressed?
+               This has to be a codec defined in io.compression.codecs.
+  </description>
+  <cn_description>如果DFS images被压缩，它们应该如何压缩。必须是 io.compression.codecs属性中定义的编解码器</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.image.transfer.timeout</name>
+  <value>60000</value>
+  <description>
+        Socket timeout for image transfer in milliseconds. This timeout and the related
+        dfs.image.transfer.bandwidthPerSec parameter should be configured such
+        that normal image transfer can complete successfully.
+        This timeout prevents client hangs when the sender fails during
+        image transfer. This is socket timeout during image tranfer.
+  </description>
+  <cn_description>image传输超时时间，单位为毫秒</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.image.transfer.bandwidthPerSec</name>
+  <value>0</value>
+  <description>
+        Maximum bandwidth used for image transfer in bytes per second.
+        This can help keep normal namenode operations responsive during
+        checkpointing. The maximum bandwidth and timeout in
+        dfs.image.transfer.timeout should be set such that normal image
+        transfers can complete successfully.
+        A default value of 0 indicates that throttling is disabled.
+  </description>
+</property>
+
+<property>
+  <name>dfs.image.transfer.chunksize</name>
+  <value>65536</value>
+  <description>
+        Chunksize in bytes to upload the checkpoint.
+        Chunked streaming is used to avoid internal buffering of contents
+        of image file of huge size.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.support.allow.format</name>
+  <value>true</value>
+  <description>Does HDFS namenode allow itself to be formatted?
+               You may consider setting this to false for any production
+               cluster, to avoid any possibility of formatting a running DFS.
+  </description>
+</property>
+
+<property>
+  <name>dfs.datanode.max.transfer.threads</name>
+  <value>4096</value>
+  <description>
+        Specifies the maximum number of threads to use for transferring data
+        in and out of the DN.
+  </description>
+  <cn_description>用于指定datanode之间传输block数据的最大线程数</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.datanode.readahead.bytes</name>
+  <value>4193404</value>
+  <description>
+        While reading block files, if the Hadoop native libraries are available,
+        the datanode can use the posix_fadvise system call to explicitly
+        page data into the operating system buffer cache ahead of the current
+        reader's position. This can improve performance especially when
+        disks are highly contended.
+
+        This configuration specifies the number of bytes ahead of the current
+        read position which the datanode will attempt to read ahead. This
+        feature may be disabled by configuring this property to 0.
+
+        If the native libraries are not available, this configuration has no
+        effect.
+  </description>
+</property>
+
+<property>
+  <name>dfs.datanode.drop.cache.behind.reads</name>
+  <value>false</value>
+  <description>
+        In some workloads, the data read from HDFS is known to be significantly
+        large enough that it is unlikely to be useful to cache it in the
+        operating system buffer cache. In this case, the DataNode may be
+        configured to automatically purge all data from the buffer cache
+        after it is delivered to the client. This behavior is automatically
+        disabled for workloads which read only short sections of a block
+        (e.g HBase random-IO workloads).
+
+        This may improve performance for some workloads by freeing buffer
+        cache spage usage for more cacheable data.
+
+        If the Hadoop native libraries are not available, this configuration
+        has no effect.
+  </description>
+</property>
+
+<property>
+  <name>dfs.datanode.drop.cache.behind.writes</name>
+  <value>false</value>
+  <description>
+        In some workloads, the data written to HDFS is known to be significantly
+        large enough that it is unlikely to be useful to cache it in the
+        operating system buffer cache. In this case, the DataNode may be
+        configured to automatically purge all data from the buffer cache
+        after it is written to disk.
+
+        This may improve performance for some workloads by freeing buffer
+        cache spage usage for more cacheable data.
+
+        If the Hadoop native libraries are not available, this configuration
+        has no effect.
+  </description>
+</property>
+
+<property>
+  <name>dfs.datanode.sync.behind.writes</name>
+  <value>false</value>
+  <description>
+        If this configuration is enabled, the datanode will instruct the
+        operating system to enqueue all written data to the disk immediately
+        after it is written. This differs from the usual OS policy which
+        may wait for up to 30 seconds before triggering writeback.
+
+        This may improve performance for some workloads by smoothing the
+        IO profile for data written to disk.
+
+        If the Hadoop native libraries are not available, this configuration
+        has no effect.
+  </description>
+  <cn_description>设置为true，在数据写入完成之后，datanode会要求操作系统将数据直接同步到磁盘</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.client.failover.max.attempts</name>
+  <value>15</value>
+  <description>
+    Expert only. The number of client failover attempts that should be
+    made before the failover is considered failed.
+  </description>
+</property>
+
+<property>
+  <name>dfs.client.failover.sleep.base.millis</name>
+  <value>500</value>
+  <description>
+    Expert only. The time to wait, in milliseconds, between failover
+    attempts increases exponentially as a function of the number of
+    attempts made so far, with a random factor of +/- 50%. This option
+    specifies the base value used in the failover calculation. The
+    first failover will retry immediately. The 2nd failover attempt
+    will delay at least dfs.client.failover.sleep.base.millis
+    milliseconds. And so on.
+  </description>
+</property>
+
+<property>
+  <name>dfs.client.failover.sleep.max.millis</name>
+  <value>15000</value>
+  <description>
+    Expert only. The time to wait, in milliseconds, between failover
+    attempts increases exponentially as a function of the number of
+    attempts made so far, with a random factor of +/- 50%. This option
+    specifies the maximum value to wait between failovers.
+    Specifically, the time between two failover attempts will not
+    exceed +/- 50% of dfs.client.failover.sleep.max.millis
+    milliseconds.
+  </description>
+</property>
+
+<property>
+  <name>dfs.client.failover.connection.retries</name>
+  <value>0</value>
+  <description>
+    Expert only. Indicates the number of retries a failover IPC client
+    will make to establish a server connection.
+  </description>
+</property>
+
+<property>
+  <name>dfs.client.failover.connection.retries.on.timeouts</name>
+  <value>0</value>
+  <description>
+    Expert only. The number of retry attempts a failover IPC client
+    will make on socket timeout when establishing a server connection.
+  </description>
+</property>
+
+<property>
+  <name>dfs.client.datanode-restart.timeout</name>
+  <value>30</value>
+  <description>
+    Expert only. The time to wait, in seconds, from reception of an
+    datanode shutdown notification for quick restart, until declaring
+    the datanode dead and invoking the normal recovery mechanisms.
+    The notification is sent by a datanode when it is being shutdown
+    using the shutdownDatanode admin command with the upgrade option.
+  </description>
+</property>
+
+<property>
+  <name>dfs.nameservices</name>
+  <value></value>
+  <description>
+    Comma-separated list of nameservices.
+  </description>
+</property>
+
+<property>
+  <name>dfs.nameservice.id</name>
+  <value></value>
+  <description>
+    The ID of this nameservice. If the nameservice ID is not
+    configured or more than one nameservice is configured for
+    dfs.nameservices it is determined automatically by
+    matching the local node's address with the configured address.
+  </description>
+</property>
+
+<property>
+  <name>dfs.internal.nameservices</name>
+  <value></value>
+  <description>
+    Comma-separated list of nameservices that belong to this cluster.
+    Datanode will report to all the nameservices in this list. By default
+    this is set to the value of dfs.nameservices.
+  </description>
+</property>
+
+<property>
+  <name>dfs.ha.namenodes.EXAMPLENAMESERVICE</name>
+  <value></value>
+  <description>
+    The prefix for a given nameservice, contains a comma-separated
+    list of namenodes for a given nameservice (eg EXAMPLENAMESERVICE).
+  </description>
+  <cn_description>包含一个NN列表。EXAMPLENAMESERVICE是指具体的nameservice名称，通常就是dfs.nameservices中配置的。值是预备配置的NN的ID。</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.ha.namenode.id</name>
+  <value></value>
+  <description>
+    The ID of this namenode. If the namenode ID is not configured it
+    is determined automatically by matching the local node's address
+    with the configured address.
+  </description>
+</property>
+
+<property>
+  <name>dfs.ha.log-roll.period</name>
+  <value>120</value>
+  <description>
+    How often, in seconds, the StandbyNode should ask the active to
+    roll edit logs. Since the StandbyNode only reads from finalized
+    log segments, the StandbyNode will only be as up-to-date as how
+    often the logs are rolled. Note that failover triggers a log roll
+    so the StandbyNode will be up to date before it becomes active.
+  </description>
+</property>
+
+<property>
+  <name>dfs.ha.tail-edits.period</name>
+  <value>60</value>
+  <description>
+    How often, in seconds, the StandbyNode should check for new
+    finalized log segments in the shared edits log.
+  </description>
+  <cn_description>standby namenode每隔一段时间去检查Journal node上新的Edits log文件。</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.ha.automatic-failover.enabled</name>
+  <value>false</value>
+  <description>
+    Whether automatic failover is enabled. See the HDFS High
+    Availability documentation for details on automatic HA
+    configuration.
+  </description>
+  <cn_description>是否开启自动故障转移。</cn_description>
+  <cdh_val></cdh_val>
+  <label>建议开启</label>
+</property>
+
+<property>
+  <name>dfs.support.append</name>
+  <value>true</value>
+  <description>
+    Does HDFS allow appends to files?
+  </description>
+</property>
+
+<property>
+  <name>dfs.client.use.datanode.hostname</name>
+  <value>false</value>
+  <description>Whether clients should use datanode hostnames when
+    connecting to datanodes.
+  </description>
+</property>
+
+<property>
+  <name>dfs.datanode.use.datanode.hostname</name>
+  <value>false</value>
+  <description>Whether datanodes should use datanode hostnames when
+    connecting to other datanodes for data transfer.
+  </description>
+</property>
+
+<property>
+  <name>dfs.client.local.interfaces</name>
+  <value></value>
+  <description>A comma separated list of network interface names to use
+    for data transfer between the client and datanodes. When creating
+    a connection to read from or write to a datanode, the client
+    chooses one of the specified interfaces at random and binds its
+    socket to the IP of that interface. Individual names may be
+    specified as either an interface name (eg "eth0"), a subinterface
+    name (eg "eth0:0"), or an IP address (which may be specified using
+    CIDR notation to match a range of IPs).
+  </description>
+</property>
+
+<property>
+  <name>dfs.datanode.shared.file.descriptor.paths</name>
+  <value>/dev/shm,/tmp</value>
+  <description>
+    A comma-separated list of paths to use when creating file descriptors that
+    will be shared between the DataNode and the DFSClient.  Typically we use
+    /dev/shm, so that the file descriptors will not be written to disk.
+    Systems that don't have /dev/shm will fall back to /tmp by default.
+  </description>
+</property>
+
+<property>
+  <name>dfs.short.circuit.shared.memory.watcher.interrupt.check.ms</name>
+  <value>60000</value>
+  <description>
+    The length of time in milliseconds that the short-circuit shared memory
+    watcher will go between checking for java interruptions sent from other
+    threads.  This is provided mainly for unit tests.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.kerberos.internal.spnego.principal</name>
+  <value>${dfs.web.authentication.kerberos.principal}</value>
+</property>
+
+<property>
+  <name>dfs.secondary.namenode.kerberos.internal.spnego.principal</name>
+  <value>${dfs.web.authentication.kerberos.principal}</value>
+</property>
+
+<property>
+  <name>dfs.namenode.avoid.read.stale.datanode</name>
+  <value>false</value>
+  <description>
+    Indicate whether or not to avoid reading from &quot;stale&quot; datanodes whose
+    heartbeat messages have not been received by the namenode
+    for more than a specified time interval. Stale datanodes will be
+    moved to the end of the node list returned for reading. See
+    dfs.namenode.avoid.write.stale.datanode for a similar setting for writes.
+  </description>
+  <cn_description>避免读取失效datanode</cn_description>
+  <cdh_val></cdh_val>
+  <label>决定是否避开从脏DN上读数据。脏DN指在一个指定的时间间隔内没有收到心跳信息。脏DN将被移到可以读取节点列表的尾端。尝试开启</label>
+</property>
+
+<property>
+  <name>dfs.namenode.avoid.write.stale.datanode</name>
+  <value>false</value>
+  <description>
+    Indicate whether or not to avoid writing to &quot;stale&quot; datanodes whose
+    heartbeat messages have not been received by the namenode
+    for more than a specified time interval. Writes will avoid using
+    stale datanodes unless more than a configured ratio
+    (dfs.namenode.write.stale.datanode.ratio) of datanodes are marked as
+    stale. See dfs.namenode.avoid.read.stale.datanode for a similar setting
+    for reads.
+  </description>
+  <cn_description>避免写入失效datanode</cn_description>
+  <cdh_val></cdh_val>
+  <label>决定是否避开在脏DN上写数据。写操作将会避开脏DN，除非超过一个配置的比率。尝试开启</label>
+</property>
+
+<property>
+  <name>dfs.namenode.stale.datanode.interval</name>
+  <value>30000</value>
+  <description>
+    Default time interval for marking a datanode as "stale", i.e., if
+    the namenode has not received heartbeat msg from a datanode for
+    more than this time interval, the datanode will be marked and treated
+    as "stale" by default. The stale interval cannot be too small since
+    otherwise this may cause too frequent change of stale states.
+    We thus set a minimum stale interval value (the default value is 3 times
+    of heartbeat interval) and guarantee that the stale interval cannot be less
+    than the minimum value. A stale data node is avoided during lease/block
+    recovery. It can be conditionally avoided for reads (see
+    dfs.namenode.avoid.read.stale.datanode) and for writes (see
+    dfs.namenode.avoid.write.stale.datanode).
+  </description>
+  <cn_description>超过30s未收到heartbeat的datanode，namenode会将之判为最低优先级的读写</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.namenode.write.stale.datanode.ratio</name>
+  <value>0.5f</value>
+  <description>
+    When the ratio of number stale datanodes to total datanodes marked
+    is greater than this ratio, stop avoiding writing to stale nodes so
+    as to prevent causing hotspots.
+  </description>
+  <cn_description>当失效datanode数占被标记datanode总数的比率大于此比率时，允许写入失效节点，以防造成热点</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.namenode.invalidate.work.pct.per.iteration</name>
+  <value>0.32f</value>
+  <description>
+    *Note*: Advanced property. Change with caution.
+    This determines the percentage amount of block
+    invalidations (deletes) to do over a single DN heartbeat
+    deletion command. The final deletion count is determined by applying this
+    percentage to the number of live nodes in the system.
+    The resultant number is the number of blocks from the deletion list
+    chosen for proper invalidation over a single heartbeat of a single DN.
+    Value should be a positive, non-zero percentage in float notation (X.Yf),
+    with 1.0f meaning 100%.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.replication.work.multiplier.per.iteration</name>
+  <value>2</value>
+  <description>
+    *Note*: Advanced property. Change with caution.
+    This determines the total amount of block transfers to begin in
+    parallel at a DN, for replication, when such a command list is being
+    sent over a DN heartbeat by the NN. The actual number is obtained by
+    multiplying this multiplier with the total number of live nodes in the
+    cluster. The result number is the number of blocks to begin transfers
+    immediately for, per DN heartbeat. This number can be any positive,
+    non-zero integer.
+  </description>
+</property>
+
+<property>
+  <name>nfs.server.port</name>
+  <value>2049</value>
+  <description>
+      Specify the port number used by Hadoop NFS.
+  </description>
+</property>
+
+<property>
+  <name>nfs.mountd.port</name>
+  <value>4242</value>
+  <description>
+      Specify the port number used by Hadoop mount daemon.
+  </description>
+</property>
+
+<property>
+  <name>nfs.dump.dir</name>
+  <value>/tmp/.hdfs-nfs</value>
+  <description>
+    This directory is used to temporarily save out-of-order writes before
+    writing to HDFS. For each file, the out-of-order writes are dumped after
+    they are accumulated to exceed certain threshold (e.g., 1MB) in memory.
+    One needs to make sure the directory has enough space.
+  </description>
+</property>
+
+<property>
+  <name>nfs.rtmax</name>
+  <value>1048576</value>
+  <description>This is the maximum size in bytes of a READ request
+    supported by the NFS gateway. If you change this, make sure you
+    also update the nfs mount's rsize(add rsize= # of bytes to the
+    mount directive).
+  </description>
+</property>
+
+<property>
+  <name>nfs.wtmax</name>
+  <value>1048576</value>
+  <description>This is the maximum size in bytes of a WRITE request
+    supported by the NFS gateway. If you change this, make sure you
+    also update the nfs mount's wsize(add wsize= # of bytes to the
+    mount directive).
+  </description>
+</property>
+
+<property>
+  <name>nfs.keytab.file</name>
+  <value></value>
+  <description>
+    *Note*: Advanced property. Change with caution.
+    This is the path to the keytab file for the hdfs-nfs gateway.
+    This is required when the cluster is kerberized.
+  </description>
+</property>
+
+<property>
+  <name>nfs.kerberos.principal</name>
+  <value></value>
+  <description>
+    *Note*: Advanced property. Change with caution.
+    This is the name of the kerberos principal. This is required when
+    the cluster is kerberized.It must be of this format:
+    nfs-gateway-user/nfs-gateway-host@kerberos-realm
+  </description>
+</property>
+
+<property>
+  <name>nfs.allow.insecure.ports</name>
+  <value>true</value>
+  <description>
+    When set to false, client connections originating from unprivileged ports
+    (those above 1023) will be rejected. This is to ensure that clients
+    connecting to this NFS Gateway must have had root privilege on the machine
+    where they're connecting from.
+  </description>
+</property>
+
+<property>
+  <name>dfs.webhdfs.enabled</name>
+  <value>true</value>
+  <description>
+    Enable WebHDFS (REST API) in Namenodes and Datanodes.
+  </description>
+  <cn_description>在NN和DN上开启WebHDFS (REST API)功能</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>hadoop.fuse.connection.timeout</name>
+  <value>300</value>
+  <description>
+    The minimum number of seconds that we'll cache libhdfs connection objects
+    in fuse_dfs. Lower values will result in lower memory consumption; higher
+    values may speed up access by avoiding the overhead of creating new
+    connection objects.
+  </description>
+</property>
+
+<property>
+  <name>hadoop.fuse.timer.period</name>
+  <value>5</value>
+  <description>
+    The number of seconds between cache expiry checks in fuse_dfs. Lower values
+    will result in fuse_dfs noticing changes to Kerberos ticket caches more
+    quickly.
+  </description>
+</property>
+
+<property>
+  <name>dfs.metrics.percentiles.intervals</name>
+  <value></value>
+  <description>
+    Comma-delimited set of integers denoting the desired rollover intervals
+    (in seconds) for percentile latency metrics on the Namenode and Datanode.
+    By default, percentile latency metrics are disabled.
+  </description>
+  <cn_description>内存写入和磁盘之间的50/75/90/95/99百分位延迟持续了几毫秒。
+    百分比度量默认情况下是关闭的，通过观察没有间隔。
+    间隔由dfs.metrics.percentiles.intervals指定。</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.encrypt.data.transfer</name>
+  <value>false</value>
+  <description>
+    Whether or not actual block data that is read/written from/to HDFS should
+    be encrypted on the wire. This only needs to be set on the NN and DNs,
+    clients will deduce this automatically. It is possible to override this setting
+    per connection by specifying custom logic via dfs.trustedchannel.resolver.class.
+  </description>
+</property>
+
+<property>
+  <name>dfs.encrypt.data.transfer.algorithm</name>
+  <value></value>
+  <description>
+    This value may be set to either "3des" or "rc4". If nothing is set, then
+    the configured JCE default on the system is used (usually 3DES.) It is
+    widely believed that 3DES is more cryptographically secure, but RC4 is
+    substantially faster.
+
+    Note that if AES is supported by both the client and server then this
+    encryption algorithm will only be used to initially transfer keys for AES.
+    (See dfs.encrypt.data.transfer.cipher.suites.)
+  </description>
+</property>
+
+<property>
+  <name>dfs.encrypt.data.transfer.cipher.suites</name>
+  <value></value>
+  <description>
+    This value may be either undefined or AES/CTR/NoPadding.  If defined, then
+    dfs.encrypt.data.transfer uses the specified cipher suite for data
+    encryption.  If not defined, then only the algorithm specified in
+    dfs.encrypt.data.transfer.algorithm is used.  By default, the property is
+    not defined.
+  </description>
+</property>
+
+<property>
+  <name>dfs.encrypt.data.transfer.cipher.key.bitlength</name>
+  <value>128</value>
+  <description>
+    The key bitlength negotiated by dfsclient and datanode for encryption.
+    This value may be set to either 128, 192 or 256.
+  </description>
+</property>
+
+<property>
+  <name>dfs.trustedchannel.resolver.class</name>
+  <value></value>
+  <description>
+      TrustedChannelResolver is used to determine whether a channel
+      is trusted for plain data transfer. The TrustedChannelResolver is
+      invoked on both client and server side. If the resolver indicates
+      that the channel is trusted, then the data transfer will not be
+      encrypted even if dfs.encrypt.data.transfer is set to true. The
+      default implementation returns false indicating that the channel
+      is not trusted.
+  </description>
+</property>
+
+<property>
+  <name>dfs.data.transfer.protection</name>
+  <value></value>
+  <description>
+    A comma-separated list of SASL protection values used for secured
+    connections to the DataNode when reading or writing block data.  Possible
+    values are authentication, integrity and privacy.  authentication means
+    authentication only and no integrity or privacy; integrity implies
+    authentication and integrity are enabled; and privacy implies all of
+    authentication, integrity and privacy are enabled.  If
+    dfs.encrypt.data.transfer is set to true, then it supersedes the setting for
+    dfs.data.transfer.protection and enforces that all connections must use a
+    specialized encrypted SASL handshake.  This property is ignored for
+    connections to a DataNode listening on a privileged port.  In this case, it
+    is assumed that the use of a privileged port establishes sufficient trust.
+  </description>
+</property>
+
+<property>
+  <name>dfs.data.transfer.saslproperties.resolver.class</name>
+  <value></value>
+  <description>
+    SaslPropertiesResolver used to resolve the QOP used for a connection to the
+    DataNode when reading or writing block data. If not specified, the value of
+    hadoop.security.saslproperties.resolver.class is used as the default value.
+  </description>
+</property>
+
+<property>
+  <name>dfs.datanode.hdfs-blocks-metadata.enabled</name>
+  <value>false</value>
+  <description>
+    Boolean which enables backend datanode-side support for the experimental DistributedFileSystem#getFileVBlockStorageLocations API.
+  </description>
+  <cn_description>布尔值，设定后台DN端是否支持DistributedFileSystem#getFileVBlockStorageLocations API。</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.client.file-block-storage-locations.num-threads</name>
+  <value>10</value>
+  <description>
+    Number of threads used for making parallel RPCs in DistributedFileSystem#getFileBlockStorageLocations().
+  </description>
+</property>
+
+<property>
+  <name>dfs.client.file-block-storage-locations.timeout.millis</name>
+  <value>1000</value>
+  <description>
+    Timeout (in milliseconds) for the parallel RPCs made in DistributedFileSystem#getFileBlockStorageLocations().
+  </description>
+</property>
+
+<property>
+  <name>dfs.journalnode.edits.dir</name>
+  <value>/path/to/journal/node/local/data</value>
+  <description>
+    The path where the JournalNode daemon will store its local state.
+  </description>
+  <cn_description>JournalNode在本地磁盘存放数据的位置</cn_description>
+  <cdh_val></cdh_val>
+  <label>建议同样和datanode选用不用的卷，可以和namenode的卷放在一起</label>
+</property>
+
+<property>
+  <name>dfs.journalnode.rpc-address</name>
+  <value>0.0.0.0:8485</value>
+  <description>
+    The JournalNode RPC server address and port.
+  </description>
+  <cn_description>JournalNode RPC服务地址和端口</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.journalnode.http-address</name>
+  <value>0.0.0.0:8480</value>
+  <description>
+    The address and port the JournalNode HTTP server listens on.
+    If the port is 0 then the server will start on a free port.
+  </description>
+  <cn_description>JournalNode的HTTP地址和端口</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.journalnode.https-address</name>
+  <value>0.0.0.0:8481</value>
+  <description>
+    The address and port the JournalNode HTTPS server listens on.
+    If the port is 0 then the server will start on a free port.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.audit.loggers</name>
+  <value>default</value>
+  <description>
+    List of classes implementing audit loggers that will receive audit events.
+    These should be implementations of org.apache.hadoop.hdfs.server.namenode.AuditLogger.
+    The special value "default" can be used to reference the default audit
+    logger, which uses the configured log system. Installing custom audit loggers
+    may affect the performance and stability of the NameNode. Refer to the custom
+    logger's documentation for more details.
+  </description>
+</property>
+
+<property>
+  <name>dfs.datanode.fsdataset.volume.choosing.policy</name>
+  <value>org.apache.hadoop.hdfs.server.datanode.fsdataset.RoundRobinVolumeChoosingPolicy</value>
+  <description></description>
+  <cn_description>目录列表中选择卷的策略的类名。默认为org.apache.hadoop.hdfs.server.datanode.fsdataset.RoundRobinVolumeChoosingPolicy。
+    1.RoundRobinVolumeChoosingPolicy 策略先轮询的方式拿到下一个 volume ，如果这个 volume 的可用空间比需要存放的副本大小要大，则直接返回这个 volume 用于存放数据；
+    如果当前 volume 的可用空间不足以存放副本，则以轮询的方式选择下一个 volume，直到找到可用的 volume，如果遍历完所有的 volumes 还是没有找到可以存放下副本的 volume，则抛出 DiskOutOfSpaceException 异常。
+    2.AvailableSpaceVolumeChoosingPolicy 策略优先将数据写入具有最大可用空间的磁盘（通过百分比计算的）。
+  </cn_description>
+  <cdh_val></cdh_val>
+  <label>可以考虑修改成org.apache.hadoop.hdfs.server.datanode.fsdataset.AvailableSpaceVolumeChoosingPolicy</label>
+
+</property>
+
+<property>
+  <name>dfs.datanode.available-space-volume-choosing-policy.balanced-space-threshold</name>
+  <value>10737418240</value> <!-- 10 GB -->
+  <description>
+    Only used when the dfs.datanode.fsdataset.volume.choosing.policy is set to
+    org.apache.hadoop.hdfs.server.datanode.fsdataset.AvailableSpaceVolumeChoosingPolicy.
+    This setting controls how much DN volumes are allowed to differ in terms of
+    bytes of free disk space before they are considered imbalanced. If the free
+    space of all the volumes are within this range of each other, the volumes
+    will be considered balanced and block assignments will be done on a pure
+    round robin basis.
+  </description>
+  <cn_description>当dfs.datanode.fsdataset.volume.choosing.policy属性设置为org.apache.hadoop.hdfs.server.datanode.fsdataset.AvailableSpaceVolumeChoosingPolicy时使用。
+    该属性控制datanode卷在被认为不平衡之前允许在空闲磁盘空间上有多少不同字节。
+    如果所有卷的自由空间都在这一范围内，则卷将被认为是平衡的，并且块分配将在纯循环的基础上完成。</cn_description>
+  <cdh_val></cdh_val>
+  <label>一般使用默认值</label>
+</property>
+
+<property>
+  <name>dfs.datanode.available-space-volume-choosing-policy.balanced-space-preference-fraction</name>
+  <value>0.75f</value>
+  <description>
+    Only used when the dfs.datanode.fsdataset.volume.choosing.policy is set to
+    org.apache.hadoop.hdfs.server.datanode.fsdataset.AvailableSpaceVolumeChoosingPolicy.
+    This setting controls what percentage of new block allocations will be sent
+    to volumes with more available disk space than others. This setting should
+    be in the range 0.0 - 1.0, though in practice 0.5 - 1.0, since there should
+    be no reason to prefer that volumes with less available disk space receive
+    more block allocations.
+  </description>
+  <cn_description>当dfs.datanode.fsdataset.volume.choosing.policy属性设置为org.apache.hadoop.hdfs.server.datanode.fsdataset.AvailableSpaceVolumeChoosingPolicy时使用。
+    此属性控制新的块分配百分比将被发送给具有比其他磁盘更可用的磁盘空间的卷。
+    这个设置应该在0.0到1.0的范围内。</cn_description>
+  <cdh_val></cdh_val>
+  <label>一般使用默认值</label>
+</property>
+
+<property>
+  <name>dfs.namenode.edits.noeditlogchannelflush</name>
+  <value>false</value>
+  <description>
+    Specifies whether to flush edit log file channel. When set, expensive
+    FileChannel#force calls are skipped and synchronous disk writes are
+    enabled instead by opening the edit log file with RandomAccessFile("rws")
+    flags. This can significantly improve the performance of edit log writes
+    on the Windows platform.
+    Note that the behavior of the "rws" flags is platform and hardware specific
+    and might not provide the same level of guarantees as FileChannel#force.
+    For example, the write will skip the disk-cache on SAS and SCSI devices
+    while it might not on SATA devices. This is an expert level setting,
+    change with caution.
+  </description>
+</property>
+
+<property>
+  <name>dfs.client.cache.drop.behind.writes</name>
+  <value></value>
+  <description>
+    Just like dfs.datanode.drop.cache.behind.writes, this setting causes the
+    page cache to be dropped behind HDFS writes, potentially freeing up more
+    memory for other uses.  Unlike dfs.datanode.drop.cache.behind.writes, this
+    is a client-side setting rather than a setting for the entire datanode.
+    If present, this setting will override the DataNode default.
+
+    If the native libraries are not available to the DataNode, this
+    configuration has no effect.
+  </description>
+</property>
+
+<property>
+  <name>dfs.client.cache.drop.behind.reads</name>
+  <value></value>
+  <description>
+    Just like dfs.datanode.drop.cache.behind.reads, this setting causes the
+    page cache to be dropped behind HDFS reads, potentially freeing up more
+    memory for other uses.  Unlike dfs.datanode.drop.cache.behind.reads, this
+    is a client-side setting rather than a setting for the entire datanode.  If
+    present, this setting will override the DataNode default.
+
+    If the native libraries are not available to the DataNode, this
+    configuration has no effect.
+  </description>
+</property>
+
+<property>
+  <name>dfs.client.cache.readahead</name>
+  <value></value>
+  <description>
+    When using remote reads, this setting causes the datanode to
+    read ahead in the block file using posix_fadvise, potentially decreasing
+    I/O wait times.  Unlike dfs.datanode.readahead.bytes, this is a client-side
+    setting rather than a setting for the entire datanode.  If present, this
+    setting will override the DataNode default.
+
+    When using local reads, this setting determines how much readahead we do in
+    BlockReaderLocal.
+
+    If the native libraries are not available to the DataNode, this
+    configuration has no effect.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.enable.retrycache</name>
+  <value>true</value>
+  <description>
+    This enables the retry cache on the namenode. Namenode tracks for
+    non-idempotent requests the corresponding response. If a client retries the
+    request, the response from the retry cache is sent. Such operations
+    are tagged with annotation @AtMostOnce in namenode protocols. It is
+    recommended that this flag be set to true. Setting it to false, will result
+    in clients getting failure responses to retried request. This flag must
+    be enabled in HA setup for transparent fail-overs.
+
+    The entries in the cache have expiration time configurable
+    using dfs.namenode.retrycache.expirytime.millis.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.retrycache.expirytime.millis</name>
+  <value>600000</value>
+  <description>
+    The time for which retry cache entries are retained.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.retrycache.heap.percent</name>
+  <value>0.03f</value>
+  <description>
+    This parameter configures the heap size allocated for retry cache
+    (excluding the response cached). This corresponds to approximately
+    4096 entries for every 64MB of namenode process java heap size.
+    Assuming retry cache entry expiration time (configured using
+    dfs.namenode.retrycache.expirytime.millis) of 10 minutes, this
+    enables retry cache to support 7 operations per second sustained
+    for 10 minutes. As the heap size is increased, the operation rate
+    linearly increases.
+  </description>
+</property>
+
+<property>
+  <name>dfs.client.mmap.enabled</name>
+  <value>true</value>
+  <description>
+    If this is set to false, the client won't attempt to perform memory-mapped reads.
+  </description>
+</property>
+
+<property>
+  <name>dfs.client.mmap.cache.size</name>
+  <value>256</value>
+  <description>
+    When zero-copy reads are used, the DFSClient keeps a cache of recently used
+    memory mapped regions.  This parameter controls the maximum number of
+    entries that we will keep in that cache.
+
+    The larger this number is, the more file descriptors we will potentially
+    use for memory-mapped files.  mmaped files also use virtual address space.
+    You may need to increase your ulimit virtual address space limits before
+    increasing the client mmap cache size.
+
+    Note that you can still do zero-copy reads when this size is set to 0.
+  </description>
+</property>
+
+<property>
+  <name>dfs.client.mmap.cache.timeout.ms</name>
+  <value>3600000</value>
+  <description>
+    The minimum length of time that we will keep an mmap entry in the cache
+    between uses.  If an entry is in the cache longer than this, and nobody
+    uses it, it will be removed by a background thread.
+  </description>
+</property>
+
+<property>
+  <name>dfs.client.mmap.retry.timeout.ms</name>
+  <value>300000</value>
+  <description>
+    The minimum amount of time that we will wait before retrying a failed mmap
+    operation.
+  </description>
+</property>
+
+<property>
+  <name>dfs.client.short.circuit.replica.stale.threshold.ms</name>
+  <value>1800000</value>
+  <description>
+    The maximum amount of time that we will consider a short-circuit replica to
+    be valid, if there is no communication from the DataNode.  After this time
+    has elapsed, we will re-fetch the short-circuit replica even if it is in
+    the cache.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.path.based.cache.block.map.allocation.percent</name>
+  <value>0.25</value>
+  <description>
+    The percentage of the Java heap which we will allocate to the cached blocks
+    map.  The cached blocks map is a hash map which uses chained hashing.
+    Smaller maps may be accessed more slowly if the number of cached blocks is
+    large; larger maps will consume more memory.
+  </description>
+</property>
+
+<property>
+  <name>dfs.datanode.max.locked.memory</name>
+  <value>0</value>
+  <description>
+    The amount of memory in bytes to use for caching of block replicas in
+    memory on the datanode. The datanode's maximum locked memory soft ulimit
+    (RLIMIT_MEMLOCK) must be set to at least this value, else the datanode
+    will abort on startup.
+
+    By default, this parameter is set to 0, which disables in-memory caching.
+
+    If the native libraries are not available to the DataNode, this
+    configuration has no effect.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.list.cache.directives.num.responses</name>
+  <value>100</value>
+  <description>
+    This value controls the number of cache directives that the NameNode will
+    send over the wire in response to a listDirectives RPC.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.list.cache.pools.num.responses</name>
+  <value>100</value>
+  <description>
+    This value controls the number of cache pools that the NameNode will
+    send over the wire in response to a listPools RPC.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.path.based.cache.refresh.interval.ms</name>
+  <value>30000</value>
+  <description>
+    The amount of milliseconds between subsequent path cache rescans.  Path
+    cache rescans are when we calculate which blocks should be cached, and on
+    what datanodes.
+
+    By default, this parameter is set to 30 seconds.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.path.based.cache.retry.interval.ms</name>
+  <value>30000</value>
+  <description>
+    When the NameNode needs to uncache something that is cached, or cache
+    something that is not cached, it must direct the DataNodes to do so by
+    sending a DNA_CACHE or DNA_UNCACHE command in response to a DataNode
+    heartbeat.  This parameter controls how frequently the NameNode will
+    resend these commands.
+  </description>
+</property>
+
+<property>
+  <name>dfs.datanode.fsdatasetcache.max.threads.per.volume</name>
+  <value>4</value>
+  <description>
+    The maximum number of threads per volume to use for caching new data
+    on the datanode. These threads consume both I/O and CPU. This can affect
+    normal datanode operations.
+  </description>
+</property>
+
+<property>
+  <name>dfs.cachereport.intervalMsec</name>
+  <value>10000</value>
+  <description>
+    Determines cache reporting interval in milliseconds.  After this amount of
+    time, the DataNode sends a full report of its cache state to the NameNode.
+    The NameNode uses the cache report to update its map of cached blocks to
+    DataNode locations.
+
+    This configuration has no effect if in-memory caching has been disabled by
+    setting dfs.datanode.max.locked.memory to 0 (which is the default).
+
+    If the native libraries are not available to the DataNode, this
+    configuration has no effect.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.edit.log.autoroll.multiplier.threshold</name>
+  <value>2.0</value>
+  <description>
+    Determines when an active namenode will roll its own edit log.
+    The actual threshold (in number of edits) is determined by multiplying
+    this value by dfs.namenode.checkpoint.txns.
+
+    This prevents extremely large edit files from accumulating on the active
+    namenode, which can cause timeouts during namenode startup and pose an
+    administrative hassle. This behavior is intended as a failsafe for when
+    the standby or secondary namenode fail to roll the edit log by the normal
+    checkpoint threshold.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.edit.log.autoroll.check.interval.ms</name>
+  <value>300000</value>
+  <description>
+    How often an active namenode will check if it needs to roll its edit log,
+    in milliseconds.
+  </description>
+</property>
+
+<property>
+  <name>dfs.webhdfs.user.provider.user.pattern</name>
+  <value>^[A-Za-z_][A-Za-z0-9._-]*[$]?$</value>
+  <description>
+    Valid pattern for user and group names for webhdfs, it must be a valid java regex.
+  </description>
+</property>
+
+<property>
+  <name>dfs.client.context</name>
+  <value>default</value>
+  <description>
+    The name of the DFSClient context that we should use.  Clients that share
+    a context share a socket cache and short-circuit cache, among other things.
+    You should only change this if you don't want to share with another set of
+    threads.
+  </description>
+</property>
+
+<property>
+  <name>dfs.client.read.shortcircuit</name>
+  <value>false</value>
+  <description>
+    This configuration parameter turns on short-circuit local reads.
+  </description>
+  <cn_description>hdfs client短路读开关</cn_description>
+  <cdh_val></cdh_val>
+  <label>可以参考https://www.zybuluo.com/jewes/note/37713</label>
+</property>
+
+<property>
+  <name>dfs.domain.socket.path</name>
+  <value></value>
+  <description>
+    Optional.  This is a path to a UNIX domain socket that will be used for
+    communication between the DataNode and local HDFS clients.
+    If the string "_PORT" is present in this path, it will be replaced by the
+    TCP port of the DataNode.
+  </description>
+  <cn_description>datanode本地文件系统到UNIX域套接字的路径，用于datanode和本地HDFS客户端之间的通信。</cn_description>
+  <cdh_val>/var/run/hdfs-sockets/dn</cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.client.read.shortcircuit.skip.checksum</name>
+  <value>false</value>
+  <description>
+    If this configuration parameter is set,
+    short-circuit local reads will skip checksums.
+    This is normally not recommended,
+    but it may be useful for special setups.
+    You might consider using this
+    if you are doing your own checksumming outside of HDFS.
+  </description>
+</property>
+
+<property>
+  <name>dfs.client.read.shortcircuit.streams.cache.size</name>
+  <value>256</value>
+  <description>
+    The DFSClient maintains a cache of recently opened file descriptors.
+    This parameter controls the size of that cache.
+    Setting this higher will use more file descriptors,
+    but potentially provide better performance on workloads
+    involving lots of seeks.
+  </description>
+</property>
+
+<property>
+  <name>dfs.client.read.shortcircuit.streams.cache.expiry.ms</name>
+  <value>300000</value>
+  <description>
+    This controls the minimum amount of time
+    file descriptors need to sit in the client cache context
+    before they can be closed for being inactive for too long.
+  </description>
+</property>
+
+<property>
+  <name>dfs.datanode.shared.file.descriptor.paths</name>
+  <value>/dev/shm,/tmp</value>
+  <description>
+    Comma separated paths to the directory on which
+    shared memory segments are created.
+    The client and the DataNode exchange information via
+    this shared memory segment.
+    It tries paths in order until creation of shared memory segment succeeds.
+  </description>
+</property>
+
+<property>
+  <name>dfs.client.use.legacy.blockreader.local</name>
+  <value>false</value>
+  <description>
+    Legacy short-circuit reader implementation based on HDFS-2246 is used
+    if this configuration parameter is true.
+    This is for the platforms other than Linux
+    where the new implementation based on HDFS-347 is not available.
+  </description>
+</property>
+
+<property>
+  <name>dfs.block.local-path-access.user</name>
+  <value></value>
+  <description>
+    Comma separated list of the users allowd to open block files
+    on legacy short-circuit local read.
+  </description>
+  <cn_description>用户可进行快速阅读。快读阅读可让客户利用相关数据直接从HDFS中读取HDFS块。如果为空，则默认为datanode过程用户。</cn_description>
+  <cdh_val></cdh_val>
+  <label></label>
+</property>
+
+<property>
+  <name>dfs.client.domain.socket.data.traffic</name>
+  <value>false</value>
+  <description>
+    This control whether we will try to pass normal data traffic
+    over UNIX domain socket rather than over TCP socket
+    on node-local data transfer.
+    This is currently experimental and turned off by default.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.reject-unresolved-dn-topology-mapping</name>
+  <value>false</value>
+  <description>
+    If the value is set to true, then namenode will reject datanode
+    registration if the topology mapping for a datanode is not resolved and
+    NULL is returned (script defined by net.topology.script.file.name fails
+    to execute). Otherwise, datanode will be registered and the default rack
+    will be assigned as the topology path. Topology paths are important for
+    data resiliency, since they define fault domains. Thus it may be unwanted
+    behavior to allow datanode registration with the default rack if the
+    resolving topology failed.
+  </description>
+</property>
+
+<property>
+  <name>dfs.client.slow.io.warning.threshold.ms</name>
+  <value>30000</value>
+  <description>The threshold in milliseconds at which we will log a slow
+    io warning in a dfsclient. By default, this parameter is set to 30000
+    milliseconds (30 seconds).
+  </description>
+</property>
+
+<property>
+  <name>dfs.datanode.slow.io.warning.threshold.ms</name>
+  <value>300</value>
+  <description>The threshold in milliseconds at which we will log a slow
+    io warning in a datanode. By default, this parameter is set to 300
+    milliseconds.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.xattrs.enabled</name>
+  <value>true</value>
+  <description>
+    Whether support for extended attributes is enabled on the NameNode.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.fs-limits.max-xattrs-per-inode</name>
+  <value>32</value>
+  <description>
+    Maximum number of extended attributes per inode.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.fs-limits.max-xattr-size</name>
+  <value>16384</value>
+  <description>
+    The maximum combined size of the name and value of an extended attribute in bytes.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.startup.delay.block.deletion.sec</name>
+  <value>0</value>
+  <description>The delay in seconds at which we will pause the blocks deletion
+    after Namenode startup. By default it's disabled.
+    In the case a directory has large number of directories and files are
+    deleted, suggested delay is one hour to give the administrator enough time
+    to notice large number of pending deletion blocks and take corrective
+    action.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.list.encryption.zones.num.responses</name>
+  <value>100</value>
+  <description>When listing encryption zones, the maximum number of zones
+    that will be returned in a batch. Fetching the list incrementally in
+    batches improves namenode performance.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.inotify.max.events.per.rpc</name>
+  <value>1000</value>
+  <description>Maximum number of events that will be sent to an inotify client
+    in a single RPC response. The default value attempts to amortize away
+    the overhead for this RPC while avoiding huge memory requirements for the
+    client and NameNode (1000 events should consume no more than 1 MB.)
+  </description>
+</property>
+
+<property>
+  <name>dfs.user.home.dir.prefix</name>
+  <value>/user</value>
+  <description>The directory to prepend to user name to get the user's
+    home direcotry.
+  </description>
+</property>
+
+<property>
+  <name>dfs.datanode.cache.revocation.timeout.ms</name>
+  <value>900000</value>
+  <description>When the DFSClient reads from a block file which the DataNode is
+    caching, the DFSClient can skip verifying checksums.  The DataNode will
+    keep the block file in cache until the client is done.  If the client takes
+    an unusually long time, though, the DataNode may need to evict the block
+    file from the cache anyway.  This value controls how long the DataNode will
+    wait for the client to release a replica that it is reading without
+    checksums.
+  </description>
+</property>
+
+<property>
+  <name>dfs.datanode.cache.revocation.polling.ms</name>
+  <value>500</value>
+  <description>How often the DataNode should poll to see if the clients have
+    stopped using a replica that the DataNode wants to uncache.
+  </description>
+</property>
+
+<property>
+  <name>dfs.datanode.block.id.layout.upgrade.threads</name>
+  <value>12</value>
+  <description>The number of threads to use when creating hard links from
+    current to previous blocks during upgrade of a DataNode to block ID-based
+    block layout (see HDFS-6482 for details on the layout).</description>
+</property>
+
+<property>
+  <name>dfs.encryption.key.provider.uri</name>
+  <description>
+    The KeyProvider to use when interacting with encryption keys used
+    when reading and writing to an encryption zone.
+  </description>
+</property>
+
+<property>
+  <name>dfs.storage.policy.enabled</name>
+  <value>true</value>
+  <description>
+    Allow users to change the storage policy on files and directories.
+  </description>
+</property>
+
+<property>
+  <name>dfs.namenode.legacy-oiv-image.dir</name>
+  <value></value>
+  <description>Determines where to save the namespace in the old fsimage format
+    during checkpointing by standby NameNode or SecondaryNameNode. Users can
+    dump the contents of the old format fsimage by oiv_legacy command. If
+    the value is not specified, old format fsimage will not be saved in
+    checkpoint.
+  </description>
+</property>
+
+</configuration>

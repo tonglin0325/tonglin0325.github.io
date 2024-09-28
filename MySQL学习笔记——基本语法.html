@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>MySQL学习笔记——基本语法 | tonglin0325的个人主页</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="SQL&amp;mdash;&amp;mdash;结构化查询语言（Structured Query Language） 1. 字符集和大小写SQL语言不区分大小写，建议关键字用大写，但是字符串常量区分大小写 字符集 123456789character_set_client：服务器将系统变量character_set_client作为客户端发送语句时使用的字符集。character_set_connection：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL学习笔记——基本语法">
+<meta property="og:url" content="http://tonglin0325.github.io/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95.html">
+<meta property="og:site_name" content="tonglin0325的个人主页">
+<meta property="og:description" content="SQL&amp;mdash;&amp;mdash;结构化查询语言（Structured Query Language） 1. 字符集和大小写SQL语言不区分大小写，建议关键字用大写，但是字符串常量区分大小写 字符集 123456789character_set_client：服务器将系统变量character_set_client作为客户端发送语句时使用的字符集。character_set_connection：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20160321095115995-1235227035.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20160321095133261-1419919399.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230302160723730-125737714.png">
+<meta property="article:published_time" content="2015-07-13T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-09-28T14:18:45.997Z">
+<meta property="article:author" content="tonglin0325">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://tonglin0325.github.io/images/517519-20160321095115995-1235227035.png">
+  
+    <link rel="alternate" href="/atom.xml" title="tonglin0325的个人主页" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="https://tonglin0325.github.io/images/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+
+  
+<link rel="stylesheet" href="/css/styles.css">
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-166238833-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5884015902351015"
+     crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-menu-navbar">
+      <ul class="nav navbar-nav">
+        
+          <li><a class=""
+                 href="/index.html">主页</a></li>
+        
+          <li><a class=""
+                 href="/archives/">所有文章</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="http://www.cnblogs.com/tonglin0325/">博客园</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="https://github.com/tonglin0325">Github</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="https://www.linkedin.com/in/tonglin0325/">LinkedIn</a></li>
+        
+        <li>
+          <span class="local-search local-search-google local-search-plugin" style="">
+  <input type="search" placeholder="站内搜索" id="local-search-input" class="local-search-input-cls" style="">
+  <div id="local-search-result" class="local-search-result-cls"></div>
+</span>
+
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    const div = document.getElementById('local-search-result');
+    const input = document.getElementById('local-search-input');
+
+    // 点击 input 显示 div
+    input.addEventListener('click', function() {
+        div.style.display = 'block';
+    });
+
+    // 点击 div 之外的地方隐藏 div
+    document.addEventListener('click', function(event) {
+        if (!div.contains(event.target) && event.target !== div && event.target !== input) {
+            div.style.display = 'none';
+        }
+    });
+});
+</script>
+        </li>
+      </ul>
+
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        
+          <li><a href="/atom.xml" title="RSS Feed"><i class="fa fa-rss"></i></a></li>
+        
+      </ul>
+      -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script>
+// 移动设备侦测
+var isMobile = {
+  Android: function () {
+    return navigator.userAgent.match(/Android/i);
+  },
+  BlackBerry: function () {
+    return navigator.userAgent.match(/BlackBerry/i);
+  },
+  iOS: function () {
+    return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+  },
+  Opera: function () {
+    return navigator.userAgent.match(/Opera Mini/i);
+  },
+  Windows: function () {
+    return navigator.userAgent.match(/IEMobile/i);
+  },
+  any: function () {
+    return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+  }
+};
+
+if ($('.local-search').resize() && !isMobile.any()) {
+	$.getScript('/js/search.js', function() {
+	  searchFunc("/search.json", 'local-search-input', 'local-search-result');
+	});
+}
+
+// document.addEventListener('DOMContentLoaded', (event) => {
+//
+//     const input = document.getElementById('.local-search-input');
+//     const div = document.getElementById('.local-search-result');
+//
+//     input.addEventListener('blur', function() {
+//         div.style.display = 'none';
+//     });
+// });
+</script>
+  <div class="container">
+    <div class="blog-header">
+  <h1 class="blog-title">tonglin0325的个人主页</h1>
+  
+</div>
+
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+          <article id="post-MySQL学习笔记——基本语法" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 class="article-title" itemprop="name">
+      MySQL学习笔记——基本语法
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95.html" class="article-date"><time datetime="2015-07-13T16:00:00.000Z" itemprop="datePublished">2015-07-14</time></a>
+</div>
+
+    <div class="article-author">tonglin0325</div>
+    
+
+  </div>
+
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- 目录 -->
+
+<div id="toc">
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-zi-fu-ji-he-da-xiao-xie"><span class="toc-text">1. 字符集和大小写
+</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-database"><span class="toc-text">2. Database</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-lie-chu-mysql-fu-wu-qi-zhu-ji-shang-de-shu-ju-ku"><span class="toc-text">1.列出MySQL服务器主机上的数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-yong-gei-ding-de-ming-zi-chuang-jian-yi-ge-shu-ju-ku"><span class="toc-text">2. 用给定的名字创建一个数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-nbsp-shan-chu-shu-ju-ku-zhong-de-suo-you-biao-he-shu-ju"><span class="toc-text">3. 删除数据库中的所有表和数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-nbsp-zhi-ding-shu-ju-ku"><span class="toc-text">4. 指定数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-nbsp-shu-ju-ku-dui-xiang-de-ming-ming-gui-ze"><span class="toc-text">5. 数据库对象的命名规则</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-table"><span class="toc-text">3. Table</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-nbsp-jian-biao-yu-ju"><span class="toc-text">1. 建表语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-nbsp-mysql-zhi-chi-de-lie-lei-xing"><span class="toc-text">2. MySQL支持的列类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-nbsp-xian-shi-dang-qian-shu-ju-ku-zhong-yi-you-de-shu-ju-biao-de-xin-xi"><span class="toc-text">3. 显示当前数据库中已有的数据表的信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-nbsp-cha-kan-shu-ju-biao-zhong-ge-lie-de-xin-xi"><span class="toc-text">4. 查看数据表中各列的信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-nbsp-yong-alter-table-yu-ju-xiu-gai-biao-de-jie-gou"><span class="toc-text">5. 用ALTER TABLE语句修改表的结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-nbsp-shan-chu-biao"><span class="toc-text">6. 删除表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-bu-cun-zai-cha-ru-cun-zai-shi-geng-xin"><span class="toc-text">7. 不存在插入，存在时更新</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-shi-tu"><span class="toc-text">4. 视图</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-chuang-jian-shi-tu"><span class="toc-text">1.创建视图</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-qi-ta"><span class="toc-text">5. 其他</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-nbsp-sql-zhu-shi"><span class="toc-text">1. SQL注释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-cha-kan-mysql-ban-ben"><span class="toc-text">2.查看MySQL版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-cha-kan-dang-qian-lian-jie-mysql-de-ke-hu-duan-shu-liang"><span class="toc-text">3.查看当前连接MySQL的客户端数量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-nbsp-xiu-gai-mysql-de-mi-ma"><span class="toc-text">4. 修改MySQL的密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-nbsp-mysql-zen-me-qu-xiao-cuo-wu-de-ming-ling"><span class="toc-text">5. MySQL怎么取消错误的命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-qing-kong-biao-bing-jiang-zi-zeng-id-gui-1"><span class="toc-text">6. 清空表并将自增id归1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-shi-yong-timestamp-bing-zai-xiu-gai-de-shi-hou-zi-dong-geng-xin"><span class="toc-text">7. 使用timestamp，并在修改的时候自动更新</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-mysql-shu-ju-dao-chu-shi-yong-guan-dao-ming-ling"><span class="toc-text">8. MySQL数据导出，使用管道命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-mysql-dao-ru-da-liang-ce-shi-shu-ju"><span class="toc-text">9.MySQL导入大量测试数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-mysql-cha-kan-biao-shu-ju-he-suo-yin-suo-zhan-de-cun-chu-da-xiao"><span class="toc-text">10.MySQL查看表数据和索引所占的存储大小</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-shi-yong-explain-cha-kan-sql-de-zhi-xing-ji-hua"><span class="toc-text">11.使用explain查看SQL的执行计划</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-count-xing-neng-pai-xu"><span class="toc-text">12.count性能排序</span></a></li></ol></li></ol>
+</div>
+
+        <p>SQL&mdash;&mdash;结构化查询语言（Structured Query Language）</p>
+<h2 id="1-zi-fu-ji-he-da-xiao-xie"><a href="#1-字符集和大小写" class="headerlink" title="1. 字符集和大小写"></a><strong>1. 字符集和<strong>大小写</strong><br></strong><a href="#1-zi-fu-ji-he-da-xiao-xie" class="header-anchor">#</a></h2><p><strong>SQL语言不区分大小写，建议关键字用大写，但是字符串常量区分大小写</strong></p>
+<p><strong>字符集</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">character_set_client：服务器将系统变量character_set_client作为客户端发送语句时使用的字符集。</span><br><span class="line">character_set_connection：用于没有字符集介绍器指定的字面量和用于数字到字符串转换的字符集。</span><br><span class="line">character_set_database：默认数据库使用的字符集。每当默认数据库更改时，服务器都会设置此变量。</span><br><span class="line">character_set_filesystem：文件系统字符集。</span><br><span class="line">character_set_results：用于向客户端返回查询结果的字符集。这包括结果数据(如列值)、结果元数据(如列名)和错误消息。</span><br><span class="line">character_set_server：服务器的默认字符集。如果你设置了这个变量，你还应该设置collation_server来指定字符集的排序规则。</span><br><span class="line">character_set_system：服务器用于存储标识符的字符集。</span><br><span class="line">character_sets_dir：安装字符集的目录。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>MySQL5.7的默认字符集character和排序字符集collation</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &#x27;%character%&#x27;;</span><br><span class="line">+--------------------------+--------------------------------------------------------------+</span><br><span class="line">| Variable_name            | Value                                                        |</span><br><span class="line">+--------------------------+--------------------------------------------------------------+</span><br><span class="line">| character_set_client     | latin1                                                       |</span><br><span class="line">| character_set_connection | latin1                                                       |</span><br><span class="line">| character_set_database   | latin1                                                       |</span><br><span class="line">| character_set_filesystem | binary                                                       |</span><br><span class="line">| character_set_results    | latin1                                                       |</span><br><span class="line">| character_set_server     | latin1                                                       |</span><br><span class="line">| character_set_system     | utf8                                                         |</span><br><span class="line">| character_sets_dir       | /opt/rh/rh-mysql57/root/usr/share/rh-mysql57-mysql/charsets/ |</span><br><span class="line">+--------------------------+--------------------------------------------------------------+</span><br><span class="line">8 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; show variables like &#x27;%collation%&#x27;;</span><br><span class="line">+----------------------+-------------------+</span><br><span class="line">| Variable_name        | Value             |</span><br><span class="line">+----------------------+-------------------+</span><br><span class="line">| collation_connection | latin1_swedish_ci |</span><br><span class="line">| collation_database   | latin1_swedish_ci |</span><br><span class="line">| collation_server     | latin1_swedish_ci |</span><br><span class="line">+----------------------+-------------------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>MySQL8.0的默认字符集</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &#x27;%character%&#x27;;</span><br><span class="line">+--------------------------+--------------------------------+</span><br><span class="line">| Variable_name            | Value                          |</span><br><span class="line">+--------------------------+--------------------------------+</span><br><span class="line">| character_set_client     | latin1                         |</span><br><span class="line">| character_set_connection | latin1                         |</span><br><span class="line">| character_set_database   | utf8mb4                        |</span><br><span class="line">| character_set_filesystem | binary                         |</span><br><span class="line">| character_set_results    | latin1                         |</span><br><span class="line">| character_set_server     | utf8mb4                        |</span><br><span class="line">| character_set_system     | utf8mb3                        |</span><br><span class="line">| character_sets_dir       | /usr/share/mysql-8.0/charsets/ |</span><br><span class="line">+--------------------------+--------------------------------+</span><br><span class="line">8 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; show variables like &#x27;%collation%&#x27;;</span><br><span class="line">+-------------------------------+--------------------+</span><br><span class="line">| Variable_name                 | Value              |</span><br><span class="line">+-------------------------------+--------------------+</span><br><span class="line">| collation_connection          | latin1_swedish_ci  |</span><br><span class="line">| collation_database            | utf8mb4_0900_ai_ci |</span><br><span class="line">| collation_server              | utf8mb4_0900_ai_ci |</span><br><span class="line">| default_collation_for_utf8mb4 | utf8mb4_0900_ai_ci |</span><br><span class="line">+-------------------------------+--------------------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>查看mysql table字段的字符集</p>
+<p>MySQL5.7</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table user</span><br><span class="line">(</span><br><span class="line">    id bigint unsigned auto_increment comment &#x27;主键&#x27; primary key,</span><br><span class="line">    username varchar(128) not null comment &#x27;用户名&#x27;,</span><br><span class="line">    email varchar(128) not null comment &#x27;邮箱&#x27;</span><br><span class="line">)</span><br><span class="line">comment &#x27;用户表&#x27; charset=utf8mb4;</span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT COLUMN_NAME, CHARACTER_SET_NAME, COLLATION_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = &#x27;default&#x27; and TABLE_NAME = &#x27;user&#x27;;</span><br><span class="line">+-------------+--------------------+--------------------+</span><br><span class="line">| COLUMN_NAME | CHARACTER_SET_NAME | COLLATION_NAME     |</span><br><span class="line">+-------------+--------------------+--------------------+</span><br><span class="line">| id          | NULL               | NULL               |</span><br><span class="line">| username    | utf8mb4            | utf8mb4_general_ci |</span><br><span class="line">| email       | utf8mb4            | utf8mb4_general_ci |</span><br><span class="line">+-------------+--------------------+--------------------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mysql &gt; CREATE TABLE IF NOT EXISTS `t_user` (`username` varchar(64) NOT NULL,`password` varchar(11) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8;</span><br><span class="line"></span><br><span class="line">mysql &gt; SELECT COLUMN_NAME, CHARACTER_SET_NAME, COLLATION_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = &#x27;default&#x27; and TABLE_NAME = &#x27;t_user&#x27;;</span><br><span class="line">+-------------+--------------------+-----------------+</span><br><span class="line">| COLUMN_NAME | CHARACTER_SET_NAME | COLLATION_NAME  |</span><br><span class="line">+-------------+--------------------+-----------------+</span><br><span class="line">| username    | utf8               | utf8_general_ci |</span><br><span class="line">| password    | utf8               | utf8_general_ci |</span><br><span class="line">+-------------+--------------------+-----------------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>MySQL8.0</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; CREATE TABLE IF NOT EXISTS `t_user123` (`username` varchar(64) NOT NULL,`password` varchar(11) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8;</span><br><span class="line">Query OK, 0 rows affected, 1 warning (0.02 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT COLUMN_NAME, CHARACTER_SET_NAME, COLLATION_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = &#x27;test&#x27; and TABLE_NAME = &#x27;t_user123&#x27;;</span><br><span class="line">+-------------+--------------------+-----------------+</span><br><span class="line">| COLUMN_NAME | CHARACTER_SET_NAME | COLLATION_NAME  |</span><br><span class="line">+-------------+--------------------+-----------------+</span><br><span class="line">| password    | utf8mb3            | utf8_general_ci |</span><br><span class="line">| username    | utf8mb3            | utf8_general_ci |</span><br><span class="line">+-------------+--------------------+-----------------+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>utf8</strong>（别名utf8mb3）utf8 是 MySQL 早期版本使用的字符集，它实际上是 UTF-8 的一种实现，只支持最多 3 字节来存储一个字符。utf8 是 utf8mb3 的别名。从 MySQL 8.0.28 版本开始，utf8 已经被明确标识为 utf8mb3，但在此之前，它们是同义的。utf8适用于大多数情况，但不能用于需要存储 4 字节 UTF-8 字符的场景（如表情符号）。</p>
+<p><strong>utf8mb4</strong> 是 MySQL 完整实现的 UTF-8 字符集，支持最多 4 字节来存储一个字符。支持所有 Unicode 字符，包括所有表情符号和扩展字符。</p>
+<p><strong>utf8mb4_general_ci</strong> 的 ci 表示 <strong>case-insensitive</strong>，即<strong>不区分大小写</strong>。</p>
+<p><strong>utf8mb4_bin</strong> 的 bin 表示 <strong>binary</strong>，这种排序规则是<strong>区分大小写</strong>的。</p>
+<p>将字段类型修改成可区别大小写</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE your_table_name (column_name VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在创建表的时候指定可区别大小写</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE user (</span><br><span class="line">    id BIGINT UNSIGNED AUTO_INCREMENT COMMENT &#x27;主键&#x27; PRIMARY KEY,</span><br><span class="line">    username VARCHAR(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT &#x27;用户名&#x27;,</span><br><span class="line">    email VARCHAR(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT &#x27;邮箱&#x27;</span><br><span class="line">) </span><br><span class="line">COMMENT &#x27;用户表&#x27; CHARSET=utf8mb4;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果想区分case insensitive的字段，也可以使用binary函数将其转换成大小写敏感的，如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select * from user where binary username = &#x27;mlinnockax&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-database"><a href="#2-Database" class="headerlink" title="2. Database"></a><strong>2. Database</strong><a href="#2-database" class="header-anchor">#</a></h2><h3 id="1-lie-chu-mysql-fu-wu-qi-zhu-ji-shang-de-shu-ju-ku"><a href="#1-列出MySQL服务器主机上的数据库" class="headerlink" title="1.列出MySQL服务器主机上的数据库"></a>1.列出MySQL服务器主机上的数据库<a href="#1-lie-chu-mysql-fu-wu-qi-zhu-ji-shang-de-shu-ju-ku" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SHOW DATABASES[LIKE wild];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-yong-gei-ding-de-ming-zi-chuang-jian-yi-ge-shu-ju-ku"><a href="#2-用给定的名字创建一个数据库" class="headerlink" title="2. 用给定的名字创建一个数据库"></a>2. 用给定的名字创建一个数据库<a href="#2-yong-gei-ding-de-ming-zi-chuang-jian-yi-ge-shu-ju-ku" class="header-anchor">#</a></h3><p>语法：CREATE DATABASE[IF NO EXISTS]<span id="more"></span><br>&nbsp;数据库名字　　创建之后要刷新才能在列表中看见新建立的数据库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">create database spring_user default character set utf8 collate utf8_general_ci;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-nbsp-shan-chu-shu-ju-ku-zhong-de-suo-you-biao-he-shu-ju"><a href="#3-nbsp-删除数据库中的所有表和数据" class="headerlink" title="3.&nbsp;删除数据库中的所有表和数据"></a>3.&nbsp;删除数据库中的所有表和数据<a href="#3-nbsp-shan-chu-shu-ju-ku-zhong-de-suo-you-biao-he-shu-ju" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DROP DATABASE[IF NO EXISTS] 数据库名字</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-nbsp-zhi-ding-shu-ju-ku"><a href="#4-nbsp-指定数据库" class="headerlink" title="4.&nbsp;指定数据库"></a>4.&nbsp;指定数据库<a href="#4-nbsp-zhi-ding-shu-ju-ku" class="header-anchor">#</a></h3><p>把指定数据库作为默认（当前）<strong>数据库使用</strong>，用于后续语句</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">USE 数据库名字 </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-nbsp-shu-ju-ku-dui-xiang-de-ming-ming-gui-ze"><a href="#5-nbsp-数据库对象的命名规则" class="headerlink" title="5.&nbsp;数据库对象的命名规则"></a>5.&nbsp;数据库对象的命名规则<a href="#5-nbsp-shu-ju-ku-dui-xiang-de-ming-ming-gui-ze" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1.必须以字母开头</span><br><span class="line">2.可包括数字和三个特殊字符（# _ $）　</span><br><span class="line">3.不要使用MySQL的保留字</span><br><span class="line">4.同一个schema下的对象不能同名</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-table"><a href="#3-Table" class="headerlink" title="3. Table"></a>3. Table<a href="#3-table" class="header-anchor">#</a></h2><h3 id="1-nbsp-jian-biao-yu-ju"><a href="#1-nbsp-建表语句" class="headerlink" title="1.&nbsp;建表语句"></a>1.&nbsp;建表语句<a href="#1-nbsp-jian-biao-yu-ju" class="header-anchor">#</a></h3><p>CREATE TABLE [schema] 表的名字 (column datatype[DEFAULT expr],…) ENGINE = 存储机制</p>
+<p>数据表的每行称为一条记录(record)，每一列称为一个字段(field)，主键列：唯一能够识别每条记录的列&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE IF NOT EXISTS `t_user` (`username` varchar(64) NOT NULL,`password` varchar(11) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE 表的名字（</span><br><span class="line">　　　　　　　　列名 列类型，</span><br><span class="line">　　　　　　　　列名 列类型</span><br><span class="line">　　　　）；</span><br><span class="line"></span><br><span class="line">CREATE TABLE tb_dept( #创建一个部门表叫做tb_dept</span><br><span class="line">　id INT PRIMARY KEY AUTO INCREMENT, #部门编号id,整型，primary key 主键</span><br><span class="line">　NAME VARCHAR(18), #部门名称 name,字符，最多只能储存18个字符</span><br><span class="line">　description VARCHAR(100) #描述description,字符，最多只能存储100个字符</span><br><span class="line">);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-nbsp-mysql-zhi-chi-de-lie-lei-xing"><a href="#2-nbsp-MySQL支持的列类型" class="headerlink" title="2.&nbsp;MySQL支持的列类型"></a>2.&nbsp;MySQL支持的列类型<a href="#2-nbsp-mysql-zhi-chi-de-lie-lei-xing" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">i&gt;数值类型</span><br><span class="line">ii&gt;日期/时间类型</span><br><span class="line">iii&gt;字符串（字符）类型　</span><br><span class="line">整数：int或者integer</span><br><span class="line">浮点：double</span><br><span class="line">字符：char、varchar、blob、text</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<img src="/images/517519-20160321095115995-1235227035.png" alt>
+
+<img src="/images/517519-20160321095133261-1419919399.png" alt>
+
+<h3 id="3-nbsp-xian-shi-dang-qian-shu-ju-ku-zhong-yi-you-de-shu-ju-biao-de-xin-xi"><a href="#3-nbsp-显示当前数据库中已有的数据表的信息" class="headerlink" title="3.&nbsp;显示当前数据库中已有的数据表的信息"></a>3.&nbsp;显示当前数据库中已有的数据表的信息<a href="#3-nbsp-xian-shi-dang-qian-shu-ju-ku-zhong-yi-you-de-shu-ju-biao-de-xin-xi" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SHOW TABLES [FROM 数据库名字][LIKE wild]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-nbsp-cha-kan-shu-ju-biao-zhong-ge-lie-de-xin-xi"><a href="#4-nbsp-查看数据表中各列的信息" class="headerlink" title="4.&nbsp;查看数据表中各列的信息"></a>4.&nbsp;查看数据表中各列的信息<a href="#4-nbsp-cha-kan-shu-ju-biao-zhong-ge-lie-de-xin-xi" class="header-anchor">#</a></h3><p>description或者DESC 表名[列名]</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; desc t_user;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-nbsp-yong-alter-table-yu-ju-xiu-gai-biao-de-jie-gou"><a href="#5-nbsp-用ALTER-TABLE语句修改表的结构" class="headerlink" title="5.&nbsp;用ALTER TABLE语句修改表的结构"></a>5.&nbsp;用ALTER TABLE语句修改表的结构<a href="#5-nbsp-yong-alter-table-yu-ju-xiu-gai-biao-de-jie-gou" class="header-anchor">#</a></h3><p>修改列类型　　ALTER TABLE 表名 MODIFY 列名 列类型　　注意：不是任何情况都可以修改，例如名字是char不能改成int</p>
+<p>增加列　　ALTER TABLE 表名 ADD 列名 列类型　　　　注意：使用ADD子句增加字段，新的字段只能被加到整个表的最后</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE employees ADD gender CHAR(1);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>删除列　　ALTER TABLE 表名 DROP 列名 列类型</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE employees DROP gender CHAR(1);　　#mysql特有</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE employees DROP COLUMN gender CHAR(1);　#oracle</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>列改名　　ALTER TABLE 表名 CHANGE 旧列名 新列名 列类型</p>
+<p>更改表名　　ALTER TABLE 表名 RENAME 新表名</p>
+<p>RENAME TABLE 表名 TO 新表名</p>
+<h3 id="6-nbsp-shan-chu-biao"><a href="#6-nbsp-删除表" class="headerlink" title="6.&nbsp;删除表"></a>6.&nbsp;删除表<a href="#6-nbsp-shan-chu-biao" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DROP TABLE 表的名字</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="7-bu-cun-zai-cha-ru-cun-zai-shi-geng-xin"><a href="#7-不存在插入，存在时更新" class="headerlink" title="7. 不存在插入，存在时更新"></a>7. 不存在插入，存在时更新<a href="#7-bu-cun-zai-cha-ru-cun-zai-shi-geng-xin" class="header-anchor">#</a></h3><p>可以使用replace into语法或者on duplicate key update语法来实现</p>
+<p>replace into语法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">replace into xx_table (f1, f2, f3) values(v1, v2, v3),(v4, v5, v6);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>on duplicate key update语法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">insert into xx_table (id, f1, f2) values(1, &#x27;test&#x27;, 123) on duplicate key update f1 = &#x27;test1&#x27;, f2 = 456;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>区别：当主键或者唯一索引不重复的时候，两者都是直接insert；当主键或者唯一索引重复的时候，replace into会先删除数据再insert，on duplicate key update是执行update语句</p>
+<h2 id="4-shi-tu"><a href="#4-视图" class="headerlink" title="4. 视图"></a>4. 视图<a href="#4-shi-tu" class="header-anchor">#</a></h2><h3 id="1-chuang-jian-shi-tu"><a href="#1-创建视图" class="headerlink" title="1.创建视图"></a>1.创建视图<a href="#1-chuang-jian-shi-tu" class="header-anchor">#</a></h3><p>视图的好处：可以限制对数据的访问、可以是复杂的查询变得简单、提供了数据的独立性、提供了对相同数据的不同显式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 创建视图</span><br><span class="line">CREATE VIEW emo_v_10 AS</span><br><span class="line">SELECT NAME AS &#x27;名字&#x27;,sex &#x27;性别&#x27;,age &#x27;年龄&#x27;</span><br><span class="line">FROM tb_emp</span><br><span class="line">WHERE dept_id=2;</span><br><span class="line"></span><br><span class="line"># 使用视图</span><br><span class="line">SELECT * FROM emo_v_10</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-qi-ta"><a href="#5-其他" class="headerlink" title="5. 其他"></a>5. 其他<a href="#5-qi-ta" class="header-anchor">#</a></h2><h3 id="1-nbsp-sql-zhu-shi"><a href="#1-nbsp-SQL注释" class="headerlink" title="1.&nbsp;SQL注释"></a>1.&nbsp;SQL注释<a href="#1-nbsp-sql-zhu-shi" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/**/多行注释</span><br><span class="line">--单行注释</span><br><span class="line">MySQL注释：#</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-cha-kan-mysql-ban-ben"><a href="#2-查看MySQL版本" class="headerlink" title="2.查看MySQL版本"></a>2.查看MySQL版本<a href="#2-cha-kan-mysql-ban-ben" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select version();</span><br><span class="line">+-----------+</span><br><span class="line">| version() |</span><br><span class="line">+-----------+</span><br><span class="line">| 8.0.29    |</span><br><span class="line">+-----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-cha-kan-dang-qian-lian-jie-mysql-de-ke-hu-duan-shu-liang"><a href="#3-查看当前连接MySQL的客户端数量" class="headerlink" title="3.查看当前连接MySQL的客户端数量"></a>3.查看当前连接MySQL的客户端数量<a href="#3-cha-kan-dang-qian-lian-jie-mysql-de-ke-hu-duan-shu-liang" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show processlist;</span><br><span class="line">+----+-----------------+------------------+------+---------+--------+------------------------+------------------+</span><br><span class="line">| Id | User            | Host             | db   | Command | Time   | State                  | Info             |</span><br><span class="line">+----+-----------------+------------------+------+---------+--------+------------------------+------------------+</span><br><span class="line">|  5 | event_scheduler | localhost        | NULL | Daemon  | 292527 | Waiting on empty queue | NULL             |</span><br><span class="line">| 22 | root            | localhost        | NULL | Query   |      0 | init                   | show processlist |</span><br><span class="line">| 23 | root            | 172.17.0.1:60036 | test | Sleep   |     14 |                        | NULL             |</span><br><span class="line">+----+-----------------+------------------+------+---------+--------+------------------------+------------------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Command中的Daemon表示这是一个守护进程，Sleep表示当前连接处于空闲状态，Query表示当前连接正在执行一个查询</p>
+<p>连接默认的最大空闲时间由 <code>wait_timeout </code>参数控制，默认为8小时（28800秒）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &#x27;wait_timeout&#x27;;</span><br><span class="line">+---------------+-------+</span><br><span class="line">| Variable_name | Value |</span><br><span class="line">+---------------+-------+</span><br><span class="line">| wait_timeout  | 28800 |</span><br><span class="line">+---------------+-------+</span><br><span class="line">1 row in set (0.01 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可以使用kill命令手动杀死这个连接</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; kill connection +23;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>一个连接被服务端主动断开的时候，客户端下次连接的时候会先抛出下面的错误，然后再次尝试连接</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ERROR 2013 (HY000): Lost connection to MySQL server during query</span><br><span class="line">No connection. Trying to reconnect...</span><br><span class="line">Connection id:    23</span><br><span class="line">Current database: test</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>MySQL的最大连接数量由 <code>max_connections</code> 参数控制</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &#x27;max_connections&#x27;;</span><br><span class="line">+-----------------+-------+</span><br><span class="line">| Variable_name   | Value |</span><br><span class="line">+-----------------+-------+</span><br><span class="line">| max_connections | 151   |</span><br><span class="line">+-----------------+-------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-nbsp-xiu-gai-mysql-de-mi-ma"><a href="#4-nbsp-修改MySQL的密码" class="headerlink" title="4.&nbsp;修改MySQL的密码"></a>4.&nbsp;修改MySQL的密码<a href="#4-nbsp-xiu-gai-mysql-de-mi-ma" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SET PASSWORD FOR &#x27;root&#x27;@&#x27;localhost&#x27; = PASSWORD(&#x27;newpass&#x27;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-nbsp-mysql-zen-me-qu-xiao-cuo-wu-de-ming-ling"><a href="#5-nbsp-MySQL怎么取消错误的命令" class="headerlink" title="5.&nbsp;MySQL怎么取消错误的命令"></a>5.&nbsp;MySQL怎么取消错误的命令<a href="#5-nbsp-mysql-zen-me-qu-xiao-cuo-wu-de-ming-ling" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.没办法的办法，ctrl+c，完全退出</span><br><span class="line">2.可以输入\c 废弃本次语句，若输入后没效果是因为未保持当前输入语句完整匹配</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="6-qing-kong-biao-bing-jiang-zi-zeng-id-gui-1"><a href="#6-清空表并将自增id归1" class="headerlink" title="6. 清空表并将自增id归1"></a>6. 清空表并将自增id归1<a href="#6-qing-kong-biao-bing-jiang-zi-zeng-id-gui-1" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">TRUNCATE TABLE baike_pages;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="7-shi-yong-timestamp-bing-zai-xiu-gai-de-shi-hou-zi-dong-geng-xin"><a href="#7-使用timestamp，并在修改的时候自动更新" class="headerlink" title="7. 使用timestamp，并在修改的时候自动更新"></a>7. 使用timestamp，并在修改的时候自动更新<a href="#7-shi-yong-timestamp-bing-zai-xiu-gai-de-shi-hou-zi-dong-geng-xin" class="header-anchor">#</a></h3><p><strong>将默认值设置为CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP，并为NOT NULL</strong></p>
+<h3 id="8-mysql-shu-ju-dao-chu-shi-yong-guan-dao-ming-ling"><a href="#8-MySQL数据导出，使用管道命令" class="headerlink" title="8. MySQL数据导出，使用管道命令"></a>8. <strong>MySQL数据导出</strong>，使用管道命令<a href="#8-mysql-shu-ju-dao-chu-shi-yong-guan-dao-ming-ling" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -pXXXX -e&quot;select * from music.tencent_music&quot; &gt; /home/mi/下载/dump</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>也可以使用mysqldump</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysqldump -hlocalhost -uroot -p xxx_table &gt; ./xxx_table_2020-04-20.bak</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="9-mysql-dao-ru-da-liang-ce-shi-shu-ju"><a href="#9-MySQL导入大量测试数据" class="headerlink" title="9.MySQL导入大量测试数据"></a>9.MySQL导入大量测试数据<a href="#9-mysql-dao-ru-da-liang-ce-shi-shu-ju" class="header-anchor">#</a></h3><p>生成测试数据可以使用如下网站：<a target="_blank" rel="noopener" href="https://mockaroo.com/">https://mockaroo.com/</a>，生成后保存成csv文件</p>
+<p>然后使用MySQL的load命令将数据导入到MySQL表中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; LOAD DATA INFILE &#x27;/var/opt/rh/rh-mysql57/lib/mysql-files/MOCK_DATA.csv&#x27;</span><br><span class="line">    -&gt; INTO TABLE `default`.user</span><br><span class="line">    -&gt; FIELDS TERMINATED BY &#x27;,&#x27;</span><br><span class="line">    -&gt; ENCLOSED BY &#x27;&quot;&#x27;</span><br><span class="line">    -&gt; LINES TERMINATED BY &#x27;\n&#x27;</span><br><span class="line">    -&gt; IGNORE 1 LINES;</span><br><span class="line">Query OK, 1000 rows affected (0.01 sec)</span><br><span class="line">Records: 1000  Deleted: 0  Skipped: 0  Warnings: 0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果遇到 ERROR 1290 (HY000): The MySQL server is running with the –secure-file-priv option so it cannot execute this statement 的报错，可以使用如下命令查看允许导入数据的目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW VARIABLES LIKE &quot;secure_file_priv&quot;;</span><br><span class="line">+------------------+-----------------------------------------+</span><br><span class="line">| Variable_name    | Value                                   |</span><br><span class="line">+------------------+-----------------------------------------+</span><br><span class="line">| secure_file_priv | /var/opt/rh/rh-mysql57/lib/mysql-files/ |</span><br><span class="line">+------------------+-----------------------------------------+</span><br><span class="line">1 row in set (0.01 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="10-mysql-cha-kan-biao-shu-ju-he-suo-yin-suo-zhan-de-cun-chu-da-xiao"><a href="#10-MySQL查看表数据和索引所占的存储大小" class="headerlink" title="10.MySQL查看表数据和索引所占的存储大小"></a>10.MySQL查看表数据和索引所占的存储大小<a href="#10-mysql-cha-kan-biao-shu-ju-he-suo-yin-suo-zhan-de-cun-chu-da-xiao" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">select concat(round(sum(data_length/1024/1024),2),&#x27;MB&#x27;) as data_length_MB,</span><br><span class="line">    concat(round(sum(index_length/1024/1024),2),&#x27;MB&#x27;) as index_length_MB</span><br><span class="line">    from information_schema.tables where</span><br><span class="line">    table_schema=&#x27;xx_db&#x27;</span><br><span class="line">    and table_name = &#x27;xx_table&#x27;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>结果</p>
+<img src="/images/517519-20230302160723730-125737714.png" alt loading="lazy">
+
+<h3 id="11-shi-yong-explain-cha-kan-sql-de-zhi-xing-ji-hua"><a href="#11-使用explain查看SQL的执行计划" class="headerlink" title="11.使用explain查看SQL的执行计划"></a>11.使用explain查看SQL的执行计划<a href="#11-shi-yong-explain-cha-kan-sql-de-zhi-xing-ji-hua" class="header-anchor">#</a></h3><p>查看查询SQL的执行计划，其中username字段添加了索引</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">explain select * from user where username = &#x27;test&#x27;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果数据量很少的话，其执行计划如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; explain select * from user where username = &#x27;test&#x27;;</span><br><span class="line">+----+-------------+-------+------------+------+---------------------+------+---------+------+------+----------+-------------+</span><br><span class="line">| id | select_type | table | partitions | type | possible_keys       | key  | key_len | ref  | rows | filtered | Extra       |</span><br><span class="line">+----+-------------+-------+------------+------+---------------------+------+---------+------+------+----------+-------------+</span><br><span class="line">|  1 | SIMPLE      | user  | NULL       | ALL  | user_username_index | NULL | NULL    | NULL |   18 |    88.89 | Using where |</span><br><span class="line">+----+-------------+-------+------------+------+---------------------+------+---------+------+------+----------+-------------+</span><br><span class="line">1 row in set, 1 warning (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>添加了1000条随机数据后，其执行计划如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; explain select * from user where username = &#x27;test&#x27;;</span><br><span class="line">+----+-------------+-------+------------+------+---------------------+---------------------+---------+-------+------+----------+-------+</span><br><span class="line">| id | select_type | table | partitions | type | possible_keys       | key                 | key_len | ref   | rows | filtered | Extra |</span><br><span class="line">+----+-------------+-------+------------+------+---------------------+---------------------+---------+-------+------+----------+-------+</span><br><span class="line">|  1 | SIMPLE      | user  | NULL       | ref  | user_username_index | user_username_index | 514     | const |   16 |   100.00 | NULL  |</span><br><span class="line">+----+-------------+-------+------------+------+---------------------+---------------------+---------+-------+------+----------+-------+</span><br><span class="line">1 row in set, 1 warning (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>explain输出信息的含义，参考：<a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/explain-output.html">https://dev.mysql.com/doc/refman/5.7/en/explain-output.html</a></p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td><code>id</code> 字段是查询中每个 <code>SELECT</code> 语句的标识符。在一个查询中，每个 <code>SELECT</code> 语句会有一个唯一的 <code>id</code>。</td>
+</tr>
+<tr>
+<td>select_type</td>
+<td><code>select_type</code> 字段显示 <code>SELECT</code> 语句的类型。- <code>SIMPLE</code>：简单查询，不包含子查询或联合查询。- <code>PRIMARY</code>：最外层的 <code>SELECT</code> 查询。- <code>UNION</code>：联合查询中的第二个或后续 <code>SELECT</code>。- <code>DEPENDENT UNION</code>：依赖于外部查询的 <code>UNION</code>。- <code>UNION RESULT</code>：<code>UNION</code> 的结果。- <code>SUBQUERY</code>：子查询。- <code>DEPENDENT SUBQUERY</code>：依赖于外部查询的子查询。- <code>DERIVED</code>：派生表（子查询中使用的临时表）。</td>
+</tr>
+<tr>
+<td>table</td>
+<td><code>table</code> 字段表示正在访问的表的名称或派生表的别名。</td>
+</tr>
+<tr>
+<td>partitions</td>
+<td><code>partitions</code> 字段显示查询匹配的分区信息。如果表是分区表，该字段显示哪些分区被扫描。</td>
+</tr>
+<tr>
+<td>type</td>
+<td><code>type</code> 字段表示 MySQL 选择的查询类型或访问类型，指示表的访问方式。常见值（按效率排序）：- <code>system</code>：表只有一行（等于 <code>const</code> 表）。- <code>const</code>：表最多只有一个匹配行（常量索引）。- <code>eq_ref</code>：对于每个来自前一个表的行组合，最多有一个匹配行。- <code>ref</code>：对于每个来自前一个表的行组合，有可能有多个匹配行。- <code>fulltext</code>：使用全文索引。- <code>ref_or_null</code>：与 <code>ref</code> 类似，但会查找带有 <code>NULL</code> 的行。- <code>index_merge</code>：使用索引合并优化方法。- <code>unique_subquery</code>：用于优化在 <code>IN</code> 子查询中使用的唯一索引。- <code>index_subquery</code>：用于优化 <code>IN</code> 子查询，而不使用唯一索引。- <code>range</code>：仅检索给定范围的行，使用一个索引来选择行。常见于 ‘&lt;’, ‘&lt;=’, ‘&gt;’, ‘&gt;=’, ‘between’ 等操作符已经like ‘xx’或者like ‘xx%’的模式匹配查询。- <code>index</code>：全表扫描，但是扫描的只是索引，比如覆盖索引或order by排序查询。- <code>ALL</code>：全表扫描。</td>
+</tr>
+<tr>
+<td>possible_keys</td>
+<td><code>possible_keys</code> 字段显示 MySQL 考虑在查询中使用的索引。显示优化器在查询分析阶段的可能索引。可以帮助判断是否存在未被使用的索引。</td>
+</tr>
+<tr>
+<td>key</td>
+<td><code>key</code> 字段表示 MySQL 实际使用的索引名称。显示查询优化器选择的实际索引。若为空，表示未使用索引。</td>
+</tr>
+<tr>
+<td>key_len</td>
+<td><code>key_len</code> 字段表示 MySQL 使用的索引的字节长度。指示优化器在查询过程中使用的索引部分的长度（单位为字节）。有助于理解索引的使用范围。</td>
+</tr>
+<tr>
+<td>ref</td>
+<td><code>ref</code> 字段显示使用的列或常量，来与索引列进行比较。指示查询中与索引列进行比较的列或常量。显示的是匹配条件，如 <code>const</code>，表示索引列与常量比较。</td>
+</tr>
+<tr>
+<td>rows</td>
+<td><code>rows</code> 字段是 MySQL 估计的要读取和检查的行数。提供有关查询性能的估计值，显示需要访问的行数来执行查询。</td>
+</tr>
+<tr>
+<td>filters</td>
+<td><code>filtered 字段显示查询条件过滤掉的行的百分比。</code>较高的过滤率（接近 100%）表示大多数行都匹配了 WHERE 条件，低过滤率可能表明查询性能不佳。</td>
+</tr>
+<tr>
+<td>Extra</td>
+<td><code>Extra</code> 字段提供了查询执行过程中的其他详细信息。常见值：- <code>Using index</code>：查询中使用了覆盖索引（只从索引树中读取数据）。- <code>Using where</code>：查询过程中使用了 WHERE 子句来过滤行。- <code>Using temporary</code>：MySQL 需要使用临时表来存储结果。- <code>Using filesort</code>：MySQL 需要额外的排序操作，而不是从索引中读取数据。</td>
+</tr>
+</tbody></table>
+<p>可以对比一下下面2个SQL中where和having的效率</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; explain select username, count(1) as cnt from `default`.user group by username having cnt &gt; 1;</span><br><span class="line">+----+-------------+-------+------------+-------+---------------------+---------------------+---------+------+------+----------+-------------+</span><br><span class="line">| id | select_type | table | partitions | type  | possible_keys       | key                 | key_len | ref  | rows | filtered | Extra       |</span><br><span class="line">+----+-------------+-------+------------+-------+---------------------+---------------------+---------+------+------+----------+-------------+</span><br><span class="line">|  1 | SIMPLE      | user  | NULL       | index | user_username_index | user_username_index | 514     | NULL | 1018 |   100.00 | Using index |</span><br><span class="line">+----+-------------+-------+------------+-------+---------------------+---------------------+---------+------+------+----------+-------------+</span><br><span class="line">1 row in set, 1 warning (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; explain select * from (select username, count(1) as cnt from `default`.user group by username) t1 where t1.cnt &gt; 1;</span><br><span class="line">+----+-------------+------------+------------+-------+---------------------+---------------------+---------+------+------+----------+-------------+</span><br><span class="line">| id | select_type | table      | partitions | type  | possible_keys       | key                 | key_len | ref  | rows | filtered | Extra       |</span><br><span class="line">+----+-------------+------------+------------+-------+---------------------+---------------------+---------+------+------+----------+-------------+</span><br><span class="line">|  1 | PRIMARY     | &lt;derived2&gt; | NULL       | ALL   | NULL                | NULL                | NULL    | NULL | 1018 |    33.33 | Using where |</span><br><span class="line">|  2 | DERIVED     | user       | NULL       | index | user_username_index | user_username_index | 514     | NULL | 1018 |   100.00 | Using index |</span><br><span class="line">+----+-------------+------------+------------+-------+---------------------+---------------------+---------+------+------+----------+-------------+</span><br><span class="line">2 rows in set, 1 warning (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可以对比一下下面2个SQL中给username字段建立索引和email字段没有索引的效率</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; explain select username as cnt from `default`.user where username = &#x27;test&#x27;;</span><br><span class="line">+----+-------------+-------+------------+------+---------------------+---------------------+---------+-------+------+----------+-------------+</span><br><span class="line">| id | select_type | table | partitions | type | possible_keys       | key                 | key_len | ref   | rows | filtered | Extra       |</span><br><span class="line">+----+-------------+-------+------------+------+---------------------+---------------------+---------+-------+------+----------+-------------+</span><br><span class="line">|  1 | SIMPLE      | user  | NULL       | ref  | user_username_index | user_username_index | 514     | const |   16 |   100.00 | Using index |</span><br><span class="line">+----+-------------+-------+------------+------+---------------------+---------------------+---------+-------+------+----------+-------------+</span><br><span class="line">1 row in set, 1 warning (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; explain select email as cnt from `default`.user where email = &#x27;test@test&#x27;;</span><br><span class="line">+----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------------+</span><br><span class="line">| id | select_type | table | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra       |</span><br><span class="line">+----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------------+</span><br><span class="line">|  1 | SIMPLE      | user  | NULL       | ALL  | NULL          | NULL | NULL    | NULL | 1018 |    10.00 | Using where |</span><br><span class="line">+----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------------+</span><br><span class="line">1 row in set, 1 warning (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; explain select email as cnt from `default`.user where username = &#x27;test&#x27; and email = &#x27;test@test&#x27;;</span><br><span class="line">+----+-------------+-------+------------+------+---------------------+---------------------+---------+-------+------+----------+-------------+</span><br><span class="line">| id | select_type | table | partitions | type | possible_keys       | key                 | key_len | ref   | rows | filtered | Extra       |</span><br><span class="line">+----+-------------+-------+------------+------+---------------------+---------------------+---------+-------+------+----------+-------------+</span><br><span class="line">|  1 | SIMPLE      | user  | NULL       | ref  | user_username_index | user_username_index | 514     | const |   16 |    10.00 | Using where |</span><br><span class="line">+----+-------------+-------+------------+------+---------------------+---------------------+---------+-------+------+----------+-------------+</span><br><span class="line">1 row in set, 1 warning (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="12-count-xing-neng-pai-xu"><a href="#12-count性能排序" class="headerlink" title="12.count性能排序"></a>12.count性能排序<a href="#12-count-xing-neng-pai-xu" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">COUNT(*) &amp;asymp; COUNT(1) &gt; COUNT(主键字段) &gt; COUNT(非主键字段)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>参考：<a target="_blank" rel="noopener" href="https://xiaolincoding.com/mysql/index/count.html">https://xiaolincoding.com/mysql/index/count.html</a></p>
+
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95.html">MySQL学习笔记——基本语法</a>
+          </div>
+        </div>
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://tonglin0325.github.io/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95.html" data-id="cln8csf5k00e3l00lhs0890bz" class="article-share-link">
+        <i class="fa fa-share"></i> 分享
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/%E4%BD%BF%E7%94%A8confluent%20schema%20registry%E5%B0%86protobuf%20schema%E8%BD%AC%E6%8D%A2%E6%88%90avro%20schema.html" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">使用confluent schema registry将protobuf schema转换成avro schema</span>
+    </a>
+  </li>
+  
+  
+  <li role="presentation">
+    <a href="/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%BA%A6%E6%9D%9F.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <span class="article-nav-link-title">MySQL学习笔记——约束</span>
+      <i class="fa fa-chevron-right pull-right"></i>
+    </a>
+  </li>
+  
+</ul>
+
+
+  
+</article>
+
+
+
+
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>tonglin0325</h4>
+  <div style="text-align:center;"><img src="/images/WechatIMG1.jpeg" width="150" height="150" style="vertical-align:middle;"/></div>
+</div>
+
+
+  
+
+
+  
+  <div class="sidebar-module">
+    <h4>标签</h4>
+    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/AWS/" rel="tag">AWS</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Airbnb/" rel="tag">Airbnb</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Android/" rel="tag">Android</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/CDH/" rel="tag">CDH</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Doris/" rel="tag">Doris</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ELK/" rel="tag">ELK</a><span class="sidebar-module-list-count">14</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Flink/" rel="tag">Flink</a><span class="sidebar-module-list-count">29</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Git/" rel="tag">Git</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Grafana/" rel="tag">Grafana</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HAProxy/" rel="tag">HAProxy</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HBase/" rel="tag">HBase</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hadoop/" rel="tag">Hadoop</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hive/" rel="tag">Hive</a><span class="sidebar-module-list-count">20</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hudi/" rel="tag">Hudi</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/InfluxDB/" rel="tag">InfluxDB</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JDBC/" rel="tag">JDBC</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JMeter/" rel="tag">JMeter</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Java/" rel="tag">Java</a><span class="sidebar-module-list-count">19</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JavaWeb/" rel="tag">JavaWeb</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/LaTex/" rel="tag">LaTex</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Linkedin/" rel="tag">Linkedin</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="sidebar-module-list-count">35</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ML/" rel="tag">ML</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ML-Infra/" rel="tag">ML Infra</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/MPP/" rel="tag">MPP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Maven/" rel="tag">Maven</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/MySQL/" rel="tag">MySQL</a><span class="sidebar-module-list-count">16</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Nexus/" rel="tag">Nexus</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/OpenTSDB/" rel="tag">OpenTSDB</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Paper/" rel="tag">Paper</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Play/" rel="tag">Play</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Prometheus/" rel="tag">Prometheus</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Python/" rel="tag">Python</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/React/" rel="tag">React</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/RocksDB/" rel="tag">RocksDB</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Scala/" rel="tag">Scala</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Solr/" rel="tag">Solr</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Spark/" rel="tag">Spark</a><span class="sidebar-module-list-count">25</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SpringMVC/" rel="tag">SpringMVC</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Thrift/" rel="tag">Thrift</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/YARN/" rel="tag">YARN</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/antlr/" rel="tag">antlr</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/arthas/" rel="tag">arthas</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/avro/" rel="tag">avro</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/cassandra/" rel="tag">cassandra</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/clickhouse/" rel="tag">clickhouse</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/confluent/" rel="tag">confluent</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/docker/" rel="tag">docker</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/filebeat/" rel="tag">filebeat</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/flume/" rel="tag">flume</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/golang/" rel="tag">golang</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/google/" rel="tag">google</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/gradle/" rel="tag">gradle</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hexo/" rel="tag">hexo</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/impala/" rel="tag">impala</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/jenkins/" rel="tag">jenkins</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/k8s/" rel="tag">k8s</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kafka/" rel="tag">kafka</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kerberos/" rel="tag">kerberos</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kudu/" rel="tag">kudu</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ldap/" rel="tag">ldap</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mac/" rel="tag">mac</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mongo/" rel="tag">mongo</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mybatis/" rel="tag">mybatis</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nginx/" rel="tag">nginx</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nlp/" rel="tag">nlp</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/open-falcon/" rel="tag">open-falcon</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/openwrt/" rel="tag">openwrt</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/parquet/" rel="tag">parquet</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/presto/" rel="tag">presto</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ranger/" rel="tag">ranger</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/scyllaDB/" rel="tag">scyllaDB</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/twitter/" rel="tag">twitter</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/zookeeper/" rel="tag">zookeeper</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%88%B7%E9%A2%98/" rel="tag">刷题</a><span class="sidebar-module-list-count">22</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%9B%BE%E5%AD%98%E5%82%A8%E5%8F%8A%E8%AE%A1%E7%AE%97/" rel="tag">图存储及计算</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F/" rel="tag">广告系统</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" rel="tag">开发工具</a><span class="sidebar-module-list-count">19</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="sidebar-module-list-count">25</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" rel="tag">系统设计</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="sidebar-module-list-count">5</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>标签云</h4>
+    <p class="tagcloud">
+      <a href="/tags/AWS/" style="font-size: 11.3px;">AWS</a> <a href="/tags/Airbnb/" style="font-size: 14.35px;">Airbnb</a> <a href="/tags/Android/" style="font-size: 11.74px;">Android</a> <a href="/tags/CDH/" style="font-size: 14.35px;">CDH</a> <a href="/tags/Doris/" style="font-size: 10px;">Doris</a> <a href="/tags/ELK/" style="font-size: 15.65px;">ELK</a> <a href="/tags/Flink/" style="font-size: 19.57px;">Flink</a> <a href="/tags/Git/" style="font-size: 10.43px;">Git</a> <a href="/tags/Grafana/" style="font-size: 10px;">Grafana</a> <a href="/tags/HAProxy/" style="font-size: 10.87px;">HAProxy</a> <a href="/tags/HBase/" style="font-size: 12.61px;">HBase</a> <a href="/tags/Hadoop/" style="font-size: 12.61px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 17.39px;">Hive</a> <a href="/tags/Hudi/" style="font-size: 11.3px;">Hudi</a> <a href="/tags/InfluxDB/" style="font-size: 10px;">InfluxDB</a> <a href="/tags/JDBC/" style="font-size: 13.48px;">JDBC</a> <a href="/tags/JMeter/" style="font-size: 10px;">JMeter</a> <a href="/tags/JVM/" style="font-size: 11.74px;">JVM</a> <a href="/tags/Java/" style="font-size: 16.96px;">Java</a> <a href="/tags/JavaWeb/" style="font-size: 11.3px;">JavaWeb</a> <a href="/tags/LaTex/" style="font-size: 10px;">LaTex</a> <a href="/tags/Linkedin/" style="font-size: 10px;">Linkedin</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/ML/" style="font-size: 18.7px;">ML</a> <a href="/tags/ML-Infra/" style="font-size: 11.3px;">ML Infra</a> <a href="/tags/MPP/" style="font-size: 10px;">MPP</a> <a href="/tags/Maven/" style="font-size: 10.43px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 16.09px;">MySQL</a> <a href="/tags/Nexus/" style="font-size: 11.74px;">Nexus</a> <a href="/tags/OpenTSDB/" style="font-size: 10.43px;">OpenTSDB</a> <a href="/tags/Paper/" style="font-size: 10px;">Paper</a> <a href="/tags/Play/" style="font-size: 10px;">Play</a> <a href="/tags/Prometheus/" style="font-size: 10.43px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 17.83px;">Python</a> <a href="/tags/React/" style="font-size: 10.43px;">React</a> <a href="/tags/Redis/" style="font-size: 10.87px;">Redis</a> <a href="/tags/RocksDB/" style="font-size: 10px;">RocksDB</a> <a href="/tags/Scala/" style="font-size: 13.91px;">Scala</a> <a href="/tags/Solr/" style="font-size: 10.87px;">Solr</a> <a href="/tags/Spark/" style="font-size: 19.13px;">Spark</a> <a href="/tags/SpringBoot/" style="font-size: 16.52px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 14.35px;">SpringMVC</a> <a href="/tags/Thrift/" style="font-size: 12.17px;">Thrift</a> <a href="/tags/YARN/" style="font-size: 11.74px;">YARN</a> <a href="/tags/antlr/" style="font-size: 10.43px;">antlr</a> <a href="/tags/arthas/" style="font-size: 10px;">arthas</a> <a href="/tags/avro/" style="font-size: 13.91px;">avro</a> <a href="/tags/cassandra/" style="font-size: 10px;">cassandra</a> <a href="/tags/clickhouse/" style="font-size: 10.43px;">clickhouse</a> <a href="/tags/confluent/" style="font-size: 10.43px;">confluent</a> <a href="/tags/docker/" style="font-size: 10.87px;">docker</a> <a href="/tags/filebeat/" style="font-size: 11.3px;">filebeat</a> <a href="/tags/flume/" style="font-size: 10.43px;">flume</a> <a href="/tags/golang/" style="font-size: 15.22px;">golang</a> <a href="/tags/google/" style="font-size: 13.04px;">google</a> <a href="/tags/gradle/" style="font-size: 10px;">gradle</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/impala/" style="font-size: 11.3px;">impala</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/k8s/" style="font-size: 14.35px;">k8s</a> <a href="/tags/kafka/" style="font-size: 14.78px;">kafka</a> <a href="/tags/kerberos/" style="font-size: 10px;">kerberos</a> <a href="/tags/kudu/" style="font-size: 10.43px;">kudu</a> <a href="/tags/ldap/" style="font-size: 10.43px;">ldap</a> <a href="/tags/mac/" style="font-size: 11.74px;">mac</a> <a href="/tags/mongo/" style="font-size: 11.74px;">mongo</a> <a href="/tags/mybatis/" style="font-size: 10.87px;">mybatis</a> <a href="/tags/nginx/" style="font-size: 12.17px;">nginx</a> <a href="/tags/nlp/" style="font-size: 10px;">nlp</a> <a href="/tags/open-falcon/" style="font-size: 10.87px;">open-falcon</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/parquet/" style="font-size: 10.87px;">parquet</a> <a href="/tags/presto/" style="font-size: 12.17px;">presto</a> <a href="/tags/ranger/" style="font-size: 10px;">ranger</a> <a href="/tags/scyllaDB/" style="font-size: 10.87px;">scyllaDB</a> <a href="/tags/twitter/" style="font-size: 10.43px;">twitter</a> <a href="/tags/zookeeper/" style="font-size: 14.78px;">zookeeper</a> <a href="/tags/%E5%88%B7%E9%A2%98/" style="font-size: 18.26px;">刷题</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 12.17px;">前端</a> <a href="/tags/%E5%9B%BE%E5%AD%98%E5%82%A8%E5%8F%8A%E8%AE%A1%E7%AE%97/" style="font-size: 10.43px;">图存储及计算</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.91px;">多线程</a> <a href="/tags/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F/" style="font-size: 13.04px;">广告系统</a> <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" style="font-size: 16.96px;">开发工具</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 16.52px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 13.48px;">杂谈</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 19.13px;">算法</a> <a href="/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" style="font-size: 10.43px;">系统设计</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 13.04px;">计算机网络</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 11.74px;">设计模式</a>
+    </p>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>文章归档</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/08/">八月 2024</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/05/">五月 2024</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2023/08/">八月 2023</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/07/">七月 2022</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/01/">一月 2022</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/12/">十二月 2021</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/11/">十一月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/09/">九月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">七月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/05/">五月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/03/">三月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/01/">一月 2021</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/12/">十二月 2020</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/11/">十一月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/10/">十月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/09/">九月 2020</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/08/">八月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/07/">七月 2020</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/06/">六月 2020</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/05/">五月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/04/">四月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/03/">三月 2020</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">二月 2020</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/01/">一月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">十月 2019</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/09/">九月 2019</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">八月 2019</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/07/">七月 2019</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/04/">四月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/03/">三月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/01/">一月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/12/">十二月 2018</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/11/">十一月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/09/">九月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/06/">六月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/05/">五月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/04/">四月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/02/">二月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/01/">一月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/11/">十一月 2017</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/09/">九月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/07/">七月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/06/">六月 2017</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/05/">五月 2017</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/04/">四月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/03/">三月 2017</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/01/">一月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/12/">十二月 2016</a><span class="sidebar-module-list-count">15</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/11/">十一月 2016</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">十月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">九月 2016</a><span class="sidebar-module-list-count">16</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/08/">八月 2016</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/07/">七月 2016</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">六月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">五月 2016</a><span class="sidebar-module-list-count">32</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/04/">四月 2016</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/03/">三月 2016</a><span class="sidebar-module-list-count">136</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/02/">二月 2016</a><span class="sidebar-module-list-count">22</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/09/">九月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/08/">八月 2015</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/07/">七月 2015</a><span class="sidebar-module-list-count">30</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/06/">六月 2015</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/04/">四月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2013/04/">四月 2013</a><span class="sidebar-module-list-count">2</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>最近文章</h4>
+    <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Istio%E5%92%8CKong.html">k8s学习笔记——Istio和Kong</a>
+        </li>
+      
+        <li>
+          <a href="/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ingress.html">k8s学习笔记——ingress</a>
+        </li>
+      
+        <li>
+          <a href="/Presto%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Go%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5Presto.html">Presto学习笔记——Go客户端连接Presto</a>
+        </li>
+      
+        <li>
+          <a href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94wire%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5.html">go学习笔记——wire依赖注入</a>
+        </li>
+      
+        <li>
+          <a href="/screen%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html">screen使用教程</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+
+        </div>
+    </div>
+  </div>
+  <footer class="blog-footer">
+  <div class="container">
+    <div id="footer-info" class="inner">
+      &copy; 2024 tonglin0325<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+  
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" integrity="sha384-8gBf6Y4YYq7Jx97PIqmTwLPin4hxIzQw5aDmUg/DDhul9fFpbbLcLh3nTIIDJKhx" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9HZSXL1LDJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9HZSXL1LDJ');
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+<script src="/js/jquery.qrcode.min.js"></script>
+
+
+
+<script src="/js/jquery-1.6.2.min.js"></script>
+
+
+</body>
+</html>

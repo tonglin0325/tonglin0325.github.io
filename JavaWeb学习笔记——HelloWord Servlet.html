@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>JavaWeb学习笔记——HelloWord Servlet | tonglin0325的个人主页</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1.实现servlet打印日志开发一个动态web资源，即开发一个Java程序向浏览器输出数据，需要完成以下2个步骤： 1.编写一个Java类，实现Servlet接口开发一个动态web资源必须实现javax.servlet.Servlet接口，Servlet接口定义了Servlet引擎与Servlet程序之间通信的协议约定 以下是MyServlet.java文件中的代码（写的这个类的名字叫做MySe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaWeb学习笔记——HelloWord Servlet">
+<meta property="og:url" content="http://tonglin0325.github.io/JavaWeb%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94HelloWord%20Servlet.html">
+<meta property="og:site_name" content="tonglin0325的个人主页">
+<meta property="og:description" content="1.实现servlet打印日志开发一个动态web资源，即开发一个Java程序向浏览器输出数据，需要完成以下2个步骤： 1.编写一个Java类，实现Servlet接口开发一个动态web资源必须实现javax.servlet.Servlet接口，Servlet接口定义了Servlet引擎与Servlet程序之间通信的协议约定 以下是MyServlet.java文件中的代码（写的这个类的名字叫做MySe">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2015-06-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-09-28T14:18:46.037Z">
+<meta property="article:author" content="tonglin0325">
+<meta property="article:tag" content="JavaWeb">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="tonglin0325的个人主页" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="https://tonglin0325.github.io/images/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+
+  
+<link rel="stylesheet" href="/css/styles.css">
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-166238833-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5884015902351015"
+     crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-menu-navbar">
+      <ul class="nav navbar-nav">
+        
+          <li><a class=""
+                 href="/index.html">主页</a></li>
+        
+          <li><a class=""
+                 href="/archives/">所有文章</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="http://www.cnblogs.com/tonglin0325/">博客园</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="https://github.com/tonglin0325">Github</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="https://www.linkedin.com/in/tonglin0325/">LinkedIn</a></li>
+        
+        <li>
+          <span class="local-search local-search-google local-search-plugin" style="">
+  <input type="search" placeholder="站内搜索" id="local-search-input" class="local-search-input-cls" style="">
+  <div id="local-search-result" class="local-search-result-cls"></div>
+</span>
+
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    const div = document.getElementById('local-search-result');
+    const input = document.getElementById('local-search-input');
+
+    // 点击 input 显示 div
+    input.addEventListener('click', function() {
+        div.style.display = 'block';
+    });
+
+    // 点击 div 之外的地方隐藏 div
+    document.addEventListener('click', function(event) {
+        if (!div.contains(event.target) && event.target !== div && event.target !== input) {
+            div.style.display = 'none';
+        }
+    });
+});
+</script>
+        </li>
+      </ul>
+
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        
+          <li><a href="/atom.xml" title="RSS Feed"><i class="fa fa-rss"></i></a></li>
+        
+      </ul>
+      -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script>
+// 移动设备侦测
+var isMobile = {
+  Android: function () {
+    return navigator.userAgent.match(/Android/i);
+  },
+  BlackBerry: function () {
+    return navigator.userAgent.match(/BlackBerry/i);
+  },
+  iOS: function () {
+    return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+  },
+  Opera: function () {
+    return navigator.userAgent.match(/Opera Mini/i);
+  },
+  Windows: function () {
+    return navigator.userAgent.match(/IEMobile/i);
+  },
+  any: function () {
+    return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+  }
+};
+
+if ($('.local-search').resize() && !isMobile.any()) {
+	$.getScript('/js/search.js', function() {
+	  searchFunc("/search.json", 'local-search-input', 'local-search-result');
+	});
+}
+
+// document.addEventListener('DOMContentLoaded', (event) => {
+//
+//     const input = document.getElementById('.local-search-input');
+//     const div = document.getElementById('.local-search-result');
+//
+//     input.addEventListener('blur', function() {
+//         div.style.display = 'none';
+//     });
+// });
+</script>
+  <div class="container">
+    <div class="blog-header">
+  <h1 class="blog-title">tonglin0325的个人主页</h1>
+  
+</div>
+
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+          <article id="post-JavaWeb学习笔记——HelloWord Servlet" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 class="article-title" itemprop="name">
+      JavaWeb学习笔记——HelloWord Servlet
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/JavaWeb%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94HelloWord%20Servlet.html" class="article-date"><time datetime="2015-06-28T16:00:00.000Z" itemprop="datePublished">2015-06-29</time></a>
+</div>
+
+    <div class="article-author">tonglin0325</div>
+    
+
+  </div>
+
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- 目录 -->
+
+<div id="toc">
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-shi-xian-servlet-da-yin-ri-zhi"><span class="toc-text">1.实现servlet打印日志</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-bian-xie-yi-ge-java-lei-shi-xian-servlet-jie-kou"><span class="toc-text">1.编写一个Java类，实现Servlet接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-ba-kai-fa-hao-de-java-lei-bu-shu-dao-web-fu-wu-qi-zhong"><span class="toc-text">2.把开发好的Java类部署到web服务器中</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-shi-xian-servlet-da-yin-helloworld"><span class="toc-text">2.实现servlet打印HelloWorld</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-shi-xian-servlet-da-yin-dang-qian-shi-jian"><span class="toc-text">3.实现servlet打印当前时间</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-bian-xie-yi-ge-java-lei-shi-xian-servlet-jie-kou"><span class="toc-text">1.编写一个Java类，实现Servlet接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-ba-kai-fa-hao-de-java-lei-bu-shu-dao-web-fu-wu-qi-zhong"><span class="toc-text">2.把开发好的Java类部署到web服务器中</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-shi-xian-servlet-da-yin-header"><span class="toc-text">3.实现servlet打印header</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#qing-qiu-tou-xin-xi-lie-biao-out-print-quot-lt-table-border-1-gt-quot-out-print-quot-ming-zi-zhi-fan-hui-tou-xiao-xi-ming-zi-ji-he-fan-hui-de-shi-yi-ge-mei-ju-enumeration-enums-request-getheadernames-bian-li-huo-qu-suo-you-tou-xin-xi-ming-he-zhi-while-enums-hasmoreelements-huo-qu-mei-yi-ge-tou-xiao-xi-de-ming-zi-string-headname-string-enums-nextelement-out-println-out-println-headname-getheader-java-lang-string-name-returns-the-value-of-the-specified-request-header-as-a-string-fan-hui-zhe-ge-ming-zi-de-tou-xin-xi-de-zhi-out-println-request-getheaders-headname-out-println-out-println-out-println-quot-lt-hr-gt-quot-ce-shi-httpservletrequest-de-fang-fa-out-println-quot-method-quot-request-getmethod-quot-lt-br-gt-quot-out-println-quot-request-uri-quot-request-getrequesturi-quot-lt-br-gt-quot-out-println-quot-protocol-quot-request-getprotocol-quot-lt-br-gt-quot-out-println-quot-pathinfo-quot-request-getpathinfo-quot-lt-br-gt-quot-out-println-quot-remote-address-quot-request-getremoteaddr-quot-lt-br-gt-quot-out-println-quot-contextpath-quot-request-getcontextpath-quot-lt-br-gt-quot-out-println-quot-getscheme-quot-request-getscheme-quot-lt-br-gt-quot-out-println-quot-getservername-quot-request-getservername-quot-lt-br-gt-quot-out-println-quot-getserverport-quot-request-getserverport-quot-lt-br-gt-quot-out-println-quot-getrequesturi-quot-request-getrequesturi-quot-lt-br-gt-quot-string-path-request-getcontextpath-qing-qiu-quan-lu-jing-string-basepath-request-getscheme-quot-quot-request-getservername-quot-quot-request-getserverport-request-getrequesturi-out-println-quot-path-quot-path-quot-lt-br-gt-quot-out-println-quot-basepath-quot-basepath-quot-lt-br-gt-quot-out-print-this-getclass-out-println-quot-using-the-get-method-quot-out-print-quot-lt-center-gt-quot-out-println-quot-lt-body-gt-quot-out-println-quot-lt-html-gt-quot-out-flush-out-close-125-the-dopost-method-of-the-servlet-lt-br-gt-this-method-is-called-when-a-form-has-its-tag-value-method-equals-to-post-param-request-the-request-send-by-the-client-to-the-server-param-response-the-response-send-by-the-server-to-the-client-throws-servletexception-if-an-error-occurred-throws-ioexception-if-an-error-occurred-public-void-dopost-httpservletrequest-request-httpservletresponse-response-throws-servletexception-ioexception-123-diao-yong-doget-fang-fa-this-doget-request-response-125-initialization-of-the-servlet-lt-br-gt-throws-servletexception-if-an-error-occurs-public-void-init-throws-servletexception-123-put-your-code-here-125-ran-hou-bu-shu-bing-qi-dong-tomcat-fu-wu-qi-zai-liu-lan-qi-zhong-shu-ru-http-127-0-0-1-8080-testhttp-servlet-testhttpservlet-4-shi-yong-servlet-shi-xian-jian-dan-de-login-ben-gong-cheng-de-gong-neng-shi-shi-xian-javaweb-de-servlet-shen-fen-yan-zheng-nbsp-yi-xia-shi-login-html-wen-jian-zhong-de-dai-ma-1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071-lt-doctype-html-gt-lt-html-gt-lt-head-gt-lt-title-gt-login-html-lt-title-gt-lt-meta-name-quot-keywords-quot-content-quot-keyword1-keyword2-keyword3-quot-gt-lt-meta-name-quot-description-quot-content-quot-this-is-my-page-quot-gt-lt-meta-name-quot-content-type-quot-content-quot-text-html-charset-gbk-quot-gt-lt-lt-link-rel-quot-stylesheet-quot-type-quot-text-css-quot-href-quot-styles-css-quot-gt-gt-lt-script-type-quot-text-javascript-quot-gt-function-check-123-huo-qu-kong-jian-nei-rong-var-loginname-document-getelementbyid-quot-loginname-quot-value-if-loginname-quot-quot-123-alert-quot-yong-hu-ming-bu-neng-wei-kong-quot-document-getelementbyid-quot-loginname-quot-focus-huo-qu-jiao-dian-return-false-125-var-password-document-getelementbyid-quot-password-quot-value-if-password-quot-quot-123-alert-quot-mi-ma-bu-neng-wei-kong-quot-document-getelementbyid-quot-password-quot-focus-return-false-125-yan-zheng-cheng-gong-document-loginform-submit-125-lt-script-gt-lt-head-gt-lt-body-gt-lt-center-gt-lt-h2-gt-deng-lu-ye-mian-lt-h2-gt-lt-br-gt-lt-html-shu-ju-you-liang-chong-chuan-shu-fang-shi-1-get-cong-di-zhi-lan-chuan-di-2-form-biao-dan-chuan-shu-form-dai-biao-biao-dan-action-shu-xing-dai-biao-ti-jiao-de-url-action-quot-login-do-quot-na-me-zai-web-xml-li-mian-ding-yi-lt-servlet-mapping-gt-de-lt-url-pattern-gt-de-shi-hou-ye-shi-login-do-method-shu-xing-dai-biao-ti-jiao-biao-dan-de-fang-shi-http-li-mian-chong-dian-shi-get-he-post-mo-ren-get-fang-shi-ti-jiao-name-shu-xing-gei-biao-dan-qi-ming-zi-id-shu-xing-dai-biao-wei-yi-biao-shi-gai-biao-dan-de-ming-zi-zhu-yao-shi-javascript-jiao-ben-shi-yong-gt-lt-form-action-quot-login-do-quot-method-quot-get-quot-name-quot-loginform-quot-id-quot-loginform-quot-gt-lt-table-gt-lt-tr-gt-lt-td-gt-deng-lu-ming-lt-td-gt-lt-td-gt-lt-input-type-quot-text-quot-name-quot-loginname-quot-id-quot-loginname-quot-gt-lt-td-gt-lt-tr-gt-lt-tr-gt-lt-td-gt-mi-ma-lt-td-gt-lt-td-gt-lt-input-type-quot-password-quot-name-quot-password-quot-id-quot-password-quot-gt-lt-td-gt-lt-tr-gt-lt-table-gt-lt-table-gt-lt-tr-gt-lt-td-gt-lt-input-type-quot-button-quot-value-quot-ti-jiao-quot-onclick-quot-check-quot-gt-lt-td-gt-amp-amp-nbsp-amp-amp-nbsp-lt-td-gt-lt-input-type-quot-reset-quot-value-quot-chong-zhi-quot-gt-lt-td-gt-lt-tr-gt-lt-table-gt-lt-form-gt-lt-center-gt-lt-body-gt-lt-html-gt-nbsp-yi-xia-dai-ma-shi-loginservlet-java-zhong-de-dai-ma-123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118package-org-common-servlet-import-java-io-ioexception-import-java-io-printwriter-import-java-util-enumeration-import-java-util-properties-import-javax-servlet-servletexception-import-javax-servlet-http-httpservlet-import-javax-servlet-http-httpservletrequest-import-javax-servlet-http-httpservletresponse-public-class-loginservlet-extends-httpservlet-123-constructor-of-the-object-public-loginservlet-123-super-125-destruction-of-the-servlet-lt-br-gt-public-void-destroy-123-super-destroy-just-puts-quot-destroy-quot-string-in-log-put-your-code-here-125-the-doget-method-of-the-servlet-lt-br-gt-this-method-is-called-when-a-form-has-its-tag-value-method-equals-to-get-param-request-the-request-send-by-the-client-to-the-server-param-response-the-response-send-by-the-server-to-the-client-throws-servletexception-if-an-error-occurred-throws-ioexception-if-an-error-occurred-public-void-doget-httpservletrequest-request-httpservletresponse-response-throws-servletexception-ioexception-123-system-out-println-quot-zhi-xing-doget-fang-fa-quot-1-jie-shou-qian-tai-chuan-di-guo-lai-de-can-shu-enumeration-enums-request-getparameternames-while-enums-hasmoreelements-123-system-out-println-enums-nextelement-125-zhuan-huan-bian-ma-de-di-2-chong-fang-shi-pei-he-dopost-fang-fa-shi-yong-request-setcharacterencoding-quot-gbk-quot-ti-jiao-de-name-ke-yi-zai-hou-tai-shi-yong-request-getparameter-quot-loginname-quot-huo-qu-zhi-string-loginname-request-getparameter-quot-loginname-quot-system-out-println-quot-zhuan-huan-qian-loginname-quot-loginname-string-password-request-getparameter-quot-password-quot-ba-loginname-zhe-ge-zi-fu-chuan-zhuan-cheng-gbk-qian-ti-ni-yao-que-ding-bian-ma-loginname-new-string-loginname-getbytes-quot-iso-8859-1-quot-quot-gbk-quot-system-out-println-quot-zhuan-huan-hou-loginname-quot-loginname-string-password-request-getparameter-quot-password-quot-properties-wen-jian-shi-java-de-mo-ren-pei-zhi-wen-jian-yi-key-value-de-xing-shi-cun-chu-shu-ju-zeng-jia-liao-yi-ge-user-properties-wen-jian-cun-chu-yong-hu-ming-mi-ma-properties-pro-new-properties-load-fang-fa-cong-shu-ru-liu-zhong-du-qu-shu-xing-lie-biao-jian-he-yuan-su-dui-pro-load-this-getclass-getresourceasstream-quot-user-properties-quot-system-out-print-pro-response-setcontenttype-quot-text-html-charset-gbk-quot-printwriter-out-response-getwriter-out-println-quot-lt-doctype-html-public-quot-w3c-dtd-html-4-01-transitional-en-quot-gt-quot-out-println-quot-lt-html-gt-quot-out-println-quot-lt-head-gt-lt-title-gt-a-servlet-lt-title-gt-lt-head-gt-quot-out-println-quot-lt-body-gt-quot-out-print-quot-loginname-quot-loginname-out-print-quot-password-quot-password-if-loginname-equals-pro-getproperty-quot-loginname-quot-amp-amp-amp-amp-password-equals-pro-getproperty-quot-password-quot-123-out-println-quot-huan-ying-quot-pro-getproperty-quot-username-quot-quot-deng-lu-quot-125-else-123-out-println-quot-yong-hu-ming-mi-ma-cuo-wu-quot-125-out-println-quot-lt-body-gt-quot-out-println-quot-lt-html-gt-quot-out-flush-out-close-125-the-dopost-method-of-the-servlet-lt-br-gt-this-method-is-called-when-a-form-has-its-tag-value-method-equals-to-post-param-request-the-request-send-by-the-client-to-the-server-param-response-the-response-send-by-the-server-to-the-client-throws-servletexception-if-an-error-occurred-throws-ioexception-if-an-error-occurred-public-void-dopost-httpservletrequest-request-httpservletresponse-response-throws-servletexception-ioexception-123-this-doget-request-response-125-initialization-of-the-servlet-lt-br-gt-throws-servletexception-if-an-error-occurs-public-void-init-throws-servletexception-123-put-your-code-here-125-125-nbsp-doget-fang-fa-bu-an-quan-suo-yi-jin-liang-shi-yong-dopost-fang-fa"><span class="toc-text">请求头信息列表 “);#    out.print(&quot; &lt;table border&#x3D;1&gt; &quot;);
+    out.print(&quot; |名字|值
+
+ “);
+        &#x2F;&#x2F;返回头消息名字集合，返回的是一个枚举
+        Enumeration enums &#x3D; request.getHeaderNames();
+        &#x2F;&#x2F;遍历获取所有头信息名和值
+        while(enums.hasMoreElements()){
+            &#x2F;&#x2F;获取每一个头消息的名字
+            String headName &#x3D; (String)enums.nextElement();
+            out.println(“  “);
+            out.println(“ | “ + headName + “  “);
+            &#x2F;&#x2F;getHeader(java.lang.String name)
+            &#x2F;&#x2F;Returns the value of the specified request header as a String.
+            &#x2F;&#x2F;返回这个名字的头信息的值
+            out.println(“ | “ + request.getHeaders(headName) + “  “);
+            out.println(“  “);
+        }
+        out.println(“  “);
+    out.println(&quot; &lt;hr&gt; &quot;);
+    &#x2F;&#x2F;测试HttpServletRequest的方法
+    out.println(&quot;Method： &quot; + request.getMethod() + &quot;&lt;br&gt;&quot;);
+    out.println(&quot;Request URI： &quot; + request.getRequestURI() + &quot;&lt;br&gt;&quot;);
+    out.println(&quot;Protocol： &quot; + request.getProtocol() + &quot;&lt;br&gt;&quot;);
+    out.println(&quot;PathInfo： &quot; + request.getPathInfo() + &quot;&lt;br&gt;&quot;);
+    out.println(&quot;Remote Address： &quot; + request.getRemoteAddr() + &quot;&lt;br&gt;&quot;);
+    out.println(&quot;ContextPath： &quot; + request.getContextPath() + &quot;&lt;br&gt;&quot;);
+    out.println(&quot;getScheme： &quot; + request.getScheme() + &quot;&lt;br&gt;&quot;);
+    out.println(&quot;getServerName： &quot; + request.getServerName() + &quot;&lt;br&gt;&quot;);
+    out.println(&quot;getServerPort： &quot; + request.getServerPort() + &quot;&lt;br&gt;&quot;);
+    out.println(&quot;getRequestURI： &quot; + request.getRequestURI() + &quot;&lt;br&gt;&quot;);
+    String path &#x3D; request.getContextPath();
+    &#x2F;&#x2F;请求全路径
+    String basePath
+        &#x3D; request.getScheme() + &quot;:&#x2F;&#x2F;&quot; + request.getServerName() + &quot;:&quot;
+        + request.getServerPort() + request.getRequestURI();
+    out.println(&quot; path: &quot; + path + &quot;&lt;br&gt;&quot;);
+    out.println(&quot; basePath: &quot; + basePath + &quot;&lt;br&gt;&quot;);
+    
+    &#x2F;&#x2F;out.print(this.getClass());
+    &#x2F;&#x2F;out.println(&quot;, using the GET method&quot;);
+    
+    out.print(&quot;&lt;&#x2F;center&gt;&quot;);
+    out.println(&quot;  &lt;&#x2F;BODY&gt;&quot;);
+    out.println(&quot;&lt;&#x2F;HTML&gt;&quot;);
+    out.flush();
+    out.close();
+}
+
+&#x2F;**
+ * The doPost method of the servlet. &lt;br&gt;
+ *
+ * This method is called when a form has its tag value method equals to post.
+ * 
+ * @param request the request send by the client to the server
+ * @param response the response send by the server to the client
+ * @throws ServletException if an error occurred
+ * @throws IOException if an error occurred
+ *&#x2F;
+public void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    
+    &#x2F;&#x2F;调用doGet方法
+    this.doGet(request, response);
+}
+
+&#x2F;**
+ * Initialization of the servlet. &lt;br&gt;
+ *
+ * @throws ServletException if an error occurs
+ *&#x2F;
+public void init() throws ServletException {
+    &#x2F;&#x2F; Put your code here
+}
+
+}
+然后部署并启动Tomcat服务器，在浏览器中输入
+http:&#x2F;&#x2F;127.0.0.1:8080&#x2F;testhttp&#x2F;servlet&#x2F;TestHttpServlet
+
+
+4.使用servlet实现简单的login
+
+本工程的功能是实现Javaweb的servlet身份验证
+ 
+一下是login.html文件中的代码
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;login.html&lt;&#x2F;title&gt;
+    
+    &lt;meta name&#x3D;&quot;keywords&quot; content&#x3D;&quot;keyword1,keyword2,keyword3&quot;&gt;
+    &lt;meta name&#x3D;&quot;description&quot; content&#x3D;&quot;this is my page&quot;&gt;
+    &lt;meta name&#x3D;&quot;content-type&quot; content&#x3D;&quot;text&#x2F;html; charset&#x3D;GBK&quot;&gt;
+    
+    &lt;!--&lt;link rel&#x3D;&quot;stylesheet&quot; type&#x3D;&quot;text&#x2F;css&quot; href&#x3D;&quot;.&#x2F;styles.css&quot;&gt;--&gt;
+
+    &lt;script type&#x3D;&quot;text&#x2F;javascript&quot;&gt;
+        function check(){
+            &#x2F;&#x2F;获取控件内容
+            var loginname &#x3D; document.getElementById(&quot;loginname&quot;).value;
+            if(loginname &#x3D;&#x3D; &quot;&quot;){
+                alert(&quot;用户名不能为空&quot;);
+                document.getElementById(&quot;loginname&quot;).focus();&#x2F;&#x2F;获取焦点
+                return false;
+            }
+            
+            var password &#x3D; document.getElementById(&quot;password&quot;).value;
+            if(password &#x3D;&#x3D; &quot;&quot;){
+                alert(&quot;密码不能为空&quot;);
+                document.getElementById(&quot;password&quot;).focus();
+                return false;
+            }  
+            
+            &#x2F;&#x2F;验证成功
+            document.loginform.submit();
+        }
+    &lt;&#x2F;script&gt;
+
+  &lt;&#x2F;head&gt;
+  
+  &lt;body&gt;
+    &lt;center&gt;
+        &lt;h2&gt;登陆页面&lt;&#x2F;h2&gt;
+        &lt;br&gt;
+        &lt;!-- html数据由两种传输方式 1.get 从地址栏传递 2.form表单传输 
+            form代表表单
+                --action属性代表提交的url
+                    action&#x3D;&quot;login.do&quot;,那么在web.xml里面定义&lt;servlet-mapping&gt;的&lt;url-pattern&gt;
+                    的时候也是login.do
+                --method属性代表提交表单的方式，http里面重点是get和post，默认get方式提交
+                --name属性给表单其名字
+                --id属性代表唯一标示该表单的名字，主要是javascript脚本使用
+        --&gt;
+        &lt;form action&#x3D;&quot;login.do&quot; method&#x3D;&quot;get&quot; name&#x3D;&quot;loginform&quot; id&#x3D;&quot;loginform&quot;&gt;
+            &lt;table&gt;
+                &lt;tr&gt;
+                    &lt;td&gt;登录名：&lt;&#x2F;td&gt;
+                    &lt;td&gt;&lt;input type&#x3D;&quot;text&quot; name&#x3D;&quot;loginname&quot; id&#x3D;&quot;loginname&quot;&#x2F;&gt;&lt;&#x2F;td&gt;
+                &lt;&#x2F;tr&gt;
+                &lt;tr&gt;
+                    &lt;td&gt;密码：&lt;&#x2F;td&gt;
+                    &lt;td&gt;&lt;input type&#x3D;&quot;password&quot; name&#x3D;&quot;password&quot; id&#x3D;&quot;password&quot;&#x2F;&gt;&lt;&#x2F;td&gt;
+                &lt;&#x2F;tr&gt;
+            &lt;&#x2F;table&gt;
+            &lt;table&gt;
+                &lt;tr&gt;
+                    &lt;td&gt;&lt;input type&#x3D;&quot;button&quot; value&#x3D;&quot;提交&quot; onclick&#x3D;&quot;check();&quot;&gt;&lt;&#x2F;td&gt;
+                    &amp;nbsp;&amp;nbsp;
+                    &lt;td&gt;&lt;input type&#x3D;&quot;reset&quot; value&#x3D;&quot;重置&quot;&gt;&lt;&#x2F;td&gt;
+                &lt;&#x2F;tr&gt;
+            &lt;&#x2F;table&gt;
+        &lt;&#x2F;form&gt;
+        
+    &lt;&#x2F;center&gt;
+  &lt;&#x2F;body&gt;
+&lt;&#x2F;html&gt;
+
+
+ 
+以下代码是LoginServlet.java中的代码
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+package org.common.servlet;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Enumeration;
+import java.util.Properties;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class LoginServlet extends HttpServlet {
+
+    &#x2F;**
+     * Constructor of the object.
+     *&#x2F;
+    public LoginServlet() {
+        super();
+    }
+
+    &#x2F;**
+     * Destruction of the servlet. &lt;br&gt;
+     *&#x2F;
+    public void destroy() {
+        super.destroy(); &#x2F;&#x2F; Just puts &quot;destroy&quot; string in log
+        &#x2F;&#x2F; Put your code here
+    }
+
+    &#x2F;**
+     * The doGet method of the servlet. &lt;br&gt;
+     *
+     * This method is called when a form has its tag value method equals to get.
+     * 
+     * @param request the request send by the client to the server
+     * @param response the response send by the server to the client
+     * @throws ServletException if an error occurred
+     * @throws IOException if an error occurred
+     *&#x2F;
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        System.out.println(&quot;执行 doGet 方法...&quot;);
+&#x2F;&#x2F;        &#x2F;&#x2F;1.接收前台传递过来的参数
+&#x2F;&#x2F;        Enumeration enums &#x3D; request.getParameterNames();
+&#x2F;&#x2F;        while(enums.hasMoreElements()){
+&#x2F;&#x2F;            System.out.println(enums.nextElement());
+&#x2F;&#x2F;            
+&#x2F;&#x2F;        }
+        
+        &#x2F;&#x2F;转换编码的第2种方式，配合doPost()方法使用
+        request.setCharacterEncoding(&quot;GBK&quot;);
+        
+        &#x2F;&#x2F;提交的name可以在后台使用request.getParameter(&quot;loginname&quot;)获取值
+        String loginname &#x3D; request.getParameter(&quot;loginname&quot;);
+        System.out.println(&quot;转换前loginname:&quot; + loginname);
+        &#x2F;&#x2F;String password &#x3D; request.getParameter(&quot;password&quot;);
+        
+        &#x2F;&#x2F;把loginname这个字符串转成GBK，前提你要确定编码
+        loginname &#x3D; new String(loginname.getBytes(&quot;iso-8859-1&quot;),&quot;GBK&quot;);
+        System.out.println(&quot;转换后loginname:&quot; + loginname);
+        String password &#x3D; request.getParameter(&quot;password&quot;);
+        
+        &#x2F;&#x2F;properties文件是java的默认配置文件，以key-value的形式存储数据
+        &#x2F;&#x2F;增加了一个user.properties文件存储用户名密码
+        Properties pro &#x3D; new Properties();
+        &#x2F;&#x2F;load方法从输入流中读取属性列表（键和元素对）
+        pro.load(this.getClass().getResourceAsStream(&quot;&#x2F;user.properties&quot;));
+        &#x2F;&#x2F;System.out.print(pro);
+        
+        response.setContentType(&quot;text&#x2F;html;charset&#x3D;GBK&quot;);
+        PrintWriter out &#x3D; response.getWriter();
+        out.println(&quot;&lt;!DOCTYPE HTML PUBLIC \&quot;-&#x2F;&#x2F;W3C&#x2F;&#x2F;DTD HTML 4.01 Transitional&#x2F;&#x2F;EN\&quot;&gt;&quot;);
+        out.println(&quot;&lt;HTML&gt;&quot;);
+        out.println(&quot;  &lt;HEAD&gt;&lt;TITLE&gt;A Servlet&lt;&#x2F;TITLE&gt;&lt;&#x2F;HEAD&gt;&quot;);
+        out.println(&quot;  &lt;BODY&gt;&quot;);
+        
+        &#x2F;&#x2F;out.print(&quot; loginname: &quot; + loginname);
+        &#x2F;&#x2F;out.print(&quot; password: &quot; + password);
+        if(loginname.equals(pro.getProperty(&quot;loginname&quot;)) 
+                &amp;&amp; password.equals(pro.getProperty(&quot;password&quot;))){
+            out.println(&quot; 欢迎[&quot;+pro.getProperty(&quot;username&quot;)+&quot;]登陆&quot;);
+        }else{
+            out.println(&quot;用户名密码错误&quot;);
+        }
+        
+        out.println(&quot;  &lt;&#x2F;BODY&gt;&quot;);
+        out.println(&quot;&lt;&#x2F;HTML&gt;&quot;);
+        out.flush();
+        out.close();
+    }
+
+    &#x2F;**
+     * The doPost method of the servlet. &lt;br&gt;
+     *
+     * This method is called when a form has its tag value method equals to post.
+     * 
+     * @param request the request send by the client to the server
+     * @param response the response send by the server to the client
+     * @throws ServletException if an error occurred
+     * @throws IOException if an error occurred
+     *&#x2F;
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        this.doGet(request, response);
+    }
+
+    &#x2F;**
+     * Initialization of the servlet. &lt;br&gt;
+     *
+     * @throws ServletException if an error occurs
+     *&#x2F;
+    public void init() throws ServletException {
+        &#x2F;&#x2F; Put your code here
+    }
+
+}
+
+
+ 
+doGet()方法不安全，所以尽量使用doPost()方法
+#</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#qing-qiu-tou-xin-xi-lie-biao-out-print-quot-lt-table-border-1-gt-quot-out-print-quot-ming-zi-zhi-fan-hui-tou-xiao-xi-ming-zi-ji-he-fan-hui-de-shi-yi-ge-mei-ju-enumeration-enums-request-getheadernames-bian-li-huo-qu-suo-you-tou-xin-xi-ming-he-zhi-while-enums-hasmoreelements-huo-qu-mei-yi-ge-tou-xiao-xi-de-ming-zi-string-headname-string-enums-nextelement-out-println-out-println-headname-getheader-java-lang-string-name-returns-the-value-of-the-specified-request-header-as-a-string-fan-hui-zhe-ge-ming-zi-de-tou-xin-xi-de-zhi-out-println-request-getheaders-headname-out-println-out-println-out-println-quot-lt-hr-gt-quot-ce-shi-httpservletrequest-de-fang-fa-out-println-quot-method-quot-request-getmethod-quot-lt-br-gt-quot-out-println-quot-request-uri-quot-request-getrequesturi-quot-lt-br-gt-quot-out-println-quot-protocol-quot-request-getprotocol-quot-lt-br-gt-quot-out-println-quot-pathinfo-quot-request-getpathinfo-quot-lt-br-gt-quot-out-println-quot-remote-address-quot-request-getremoteaddr-quot-lt-br-gt-quot-out-println-quot-contextpath-quot-request-getcontextpath-quot-lt-br-gt-quot-out-println-quot-getscheme-quot-request-getscheme-quot-lt-br-gt-quot-out-println-quot-getservername-quot-request-getservername-quot-lt-br-gt-quot-out-println-quot-getserverport-quot-request-getserverport-quot-lt-br-gt-quot-out-println-quot-getrequesturi-quot-request-getrequesturi-quot-lt-br-gt-quot-string-path-request-getcontextpath-qing-qiu-quan-lu-jing-string-basepath-request-getscheme-quot-quot-request-getservername-quot-quot-request-getserverport-request-getrequesturi-out-println-quot-path-quot-path-quot-lt-br-gt-quot-out-println-quot-basepath-quot-basepath-quot-lt-br-gt-quot-out-print-this-getclass-out-println-quot-using-the-get-method-quot-out-print-quot-lt-center-gt-quot-out-println-quot-lt-body-gt-quot-out-println-quot-lt-html-gt-quot-out-flush-out-close-125-the-dopost-method-of-the-servlet-lt-br-gt-this-method-is-called-when-a-form-has-its-tag-value-method-equals-to-post-param-request-the-request-send-by-the-client-to-the-server-param-response-the-response-send-by-the-server-to-the-client-throws-servletexception-if-an-error-occurred-throws-ioexception-if-an-error-occurred-public-void-dopost-httpservletrequest-request-httpservletresponse-response-throws-servletexception-ioexception-123-diao-yong-doget-fang-fa-this-doget-request-response-125-initialization-of-the-servlet-lt-br-gt-throws-servletexception-if-an-error-occurs-public-void-init-throws-servletexception-123-put-your-code-here-125-ran-hou-bu-shu-bing-qi-dong-tomcat-fu-wu-qi-zai-liu-lan-qi-zhong-shu-ru-http-127-0-0-1-8080-testhttp-servlet-testhttpservlet-4-shi-yong-servlet-shi-xian-jian-dan-de-login-ben-gong-cheng-de-gong-neng-shi-shi-xian-javaweb-de-servlet-shen-fen-yan-zheng-nbsp-yi-xia-shi-login-html-wen-jian-zhong-de-dai-ma-1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071-lt-doctype-html-gt-lt-html-gt-lt-head-gt-lt-title-gt-login-html-lt-title-gt-lt-meta-name-quot-keywords-quot-content-quot-keyword1-keyword2-keyword3-quot-gt-lt-meta-name-quot-description-quot-content-quot-this-is-my-page-quot-gt-lt-meta-name-quot-content-type-quot-content-quot-text-html-charset-gbk-quot-gt-lt-lt-link-rel-quot-stylesheet-quot-type-quot-text-css-quot-href-quot-styles-css-quot-gt-gt-lt-script-type-quot-text-javascript-quot-gt-function-check-123-huo-qu-kong-jian-nei-rong-var-loginname-document-getelementbyid-quot-loginname-quot-value-if-loginname-quot-quot-123-alert-quot-yong-hu-ming-bu-neng-wei-kong-quot-document-getelementbyid-quot-loginname-quot-focus-huo-qu-jiao-dian-return-false-125-var-password-document-getelementbyid-quot-password-quot-value-if-password-quot-quot-123-alert-quot-mi-ma-bu-neng-wei-kong-quot-document-getelementbyid-quot-password-quot-focus-return-false-125-yan-zheng-cheng-gong-document-loginform-submit-125-lt-script-gt-lt-head-gt-lt-body-gt-lt-center-gt-lt-h2-gt-deng-lu-ye-mian-lt-h2-gt-lt-br-gt-lt-html-shu-ju-you-liang-chong-chuan-shu-fang-shi-1-get-cong-di-zhi-lan-chuan-di-2-form-biao-dan-chuan-shu-form-dai-biao-biao-dan-action-shu-xing-dai-biao-ti-jiao-de-url-action-quot-login-do-quot-na-me-zai-web-xml-li-mian-ding-yi-lt-servlet-mapping-gt-de-lt-url-pattern-gt-de-shi-hou-ye-shi-login-do-method-shu-xing-dai-biao-ti-jiao-biao-dan-de-fang-shi-http-li-mian-chong-dian-shi-get-he-post-mo-ren-get-fang-shi-ti-jiao-name-shu-xing-gei-biao-dan-qi-ming-zi-id-shu-xing-dai-biao-wei-yi-biao-shi-gai-biao-dan-de-ming-zi-zhu-yao-shi-javascript-jiao-ben-shi-yong-gt-lt-form-action-quot-login-do-quot-method-quot-get-quot-name-quot-loginform-quot-id-quot-loginform-quot-gt-lt-table-gt-lt-tr-gt-lt-td-gt-deng-lu-ming-lt-td-gt-lt-td-gt-lt-input-type-quot-text-quot-name-quot-loginname-quot-id-quot-loginname-quot-gt-lt-td-gt-lt-tr-gt-lt-tr-gt-lt-td-gt-mi-ma-lt-td-gt-lt-td-gt-lt-input-type-quot-password-quot-name-quot-password-quot-id-quot-password-quot-gt-lt-td-gt-lt-tr-gt-lt-table-gt-lt-table-gt-lt-tr-gt-lt-td-gt-lt-input-type-quot-button-quot-value-quot-ti-jiao-quot-onclick-quot-check-quot-gt-lt-td-gt-amp-amp-nbsp-amp-amp-nbsp-lt-td-gt-lt-input-type-quot-reset-quot-value-quot-chong-zhi-quot-gt-lt-td-gt-lt-tr-gt-lt-table-gt-lt-form-gt-lt-center-gt-lt-body-gt-lt-html-gt-nbsp-yi-xia-dai-ma-shi-loginservlet-java-zhong-de-dai-ma-123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118package-org-common-servlet-import-java-io-ioexception-import-java-io-printwriter-import-java-util-enumeration-import-java-util-properties-import-javax-servlet-servletexception-import-javax-servlet-http-httpservlet-import-javax-servlet-http-httpservletrequest-import-javax-servlet-http-httpservletresponse-public-class-loginservlet-extends-httpservlet-123-constructor-of-the-object-public-loginservlet-123-super-125-destruction-of-the-servlet-lt-br-gt-public-void-destroy-123-super-destroy-just-puts-quot-destroy-quot-string-in-log-put-your-code-here-125-the-doget-method-of-the-servlet-lt-br-gt-this-method-is-called-when-a-form-has-its-tag-value-method-equals-to-get-param-request-the-request-send-by-the-client-to-the-server-param-response-the-response-send-by-the-server-to-the-client-throws-servletexception-if-an-error-occurred-throws-ioexception-if-an-error-occurred-public-void-doget-httpservletrequest-request-httpservletresponse-response-throws-servletexception-ioexception-123-system-out-println-quot-zhi-xing-doget-fang-fa-quot-1-jie-shou-qian-tai-chuan-di-guo-lai-de-can-shu-enumeration-enums-request-getparameternames-while-enums-hasmoreelements-123-system-out-println-enums-nextelement-125-zhuan-huan-bian-ma-de-di-2-chong-fang-shi-pei-he-dopost-fang-fa-shi-yong-request-setcharacterencoding-quot-gbk-quot-ti-jiao-de-name-ke-yi-zai-hou-tai-shi-yong-request-getparameter-quot-loginname-quot-huo-qu-zhi-string-loginname-request-getparameter-quot-loginname-quot-system-out-println-quot-zhuan-huan-qian-loginname-quot-loginname-string-password-request-getparameter-quot-password-quot-ba-loginname-zhe-ge-zi-fu-chuan-zhuan-cheng-gbk-qian-ti-ni-yao-que-ding-bian-ma-loginname-new-string-loginname-getbytes-quot-iso-8859-1-quot-quot-gbk-quot-system-out-println-quot-zhuan-huan-hou-loginname-quot-loginname-string-password-request-getparameter-quot-password-quot-properties-wen-jian-shi-java-de-mo-ren-pei-zhi-wen-jian-yi-key-value-de-xing-shi-cun-chu-shu-ju-zeng-jia-liao-yi-ge-user-properties-wen-jian-cun-chu-yong-hu-ming-mi-ma-properties-pro-new-properties-load-fang-fa-cong-shu-ru-liu-zhong-du-qu-shu-xing-lie-biao-jian-he-yuan-su-dui-pro-load-this-getclass-getresourceasstream-quot-user-properties-quot-system-out-print-pro-response-setcontenttype-quot-text-html-charset-gbk-quot-printwriter-out-response-getwriter-out-println-quot-lt-doctype-html-public-quot-w3c-dtd-html-4-01-transitional-en-quot-gt-quot-out-println-quot-lt-html-gt-quot-out-println-quot-lt-head-gt-lt-title-gt-a-servlet-lt-title-gt-lt-head-gt-quot-out-println-quot-lt-body-gt-quot-out-print-quot-loginname-quot-loginname-out-print-quot-password-quot-password-if-loginname-equals-pro-getproperty-quot-loginname-quot-amp-amp-amp-amp-password-equals-pro-getproperty-quot-password-quot-123-out-println-quot-huan-ying-quot-pro-getproperty-quot-username-quot-quot-deng-lu-quot-125-else-123-out-println-quot-yong-hu-ming-mi-ma-cuo-wu-quot-125-out-println-quot-lt-body-gt-quot-out-println-quot-lt-html-gt-quot-out-flush-out-close-125-the-dopost-method-of-the-servlet-lt-br-gt-this-method-is-called-when-a-form-has-its-tag-value-method-equals-to-post-param-request-the-request-send-by-the-client-to-the-server-param-response-the-response-send-by-the-server-to-the-client-throws-servletexception-if-an-error-occurred-throws-ioexception-if-an-error-occurred-public-void-dopost-httpservletrequest-request-httpservletresponse-response-throws-servletexception-ioexception-123-this-doget-request-response-125-initialization-of-the-servlet-lt-br-gt-throws-servletexception-if-an-error-occurs-public-void-init-throws-servletexception-123-put-your-code-here-125-125-nbsp-doget-fang-fa-bu-an-quan-suo-yi-jin-liang-shi-yong-dopost-fang-fa"><span class="toc-text"> “);</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-shi-yong-servlet-shi-xian-jian-dan-de-login-ben-gong-cheng-de-gong-neng-shi-shi-xian-javaweb-de-servlet-shen-fen-yan-zheng-nbsp-yi-xia-shi-login-html-wen-jian-zhong-de-dai-ma-1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071-lt-doctype-html-gt-lt-html-gt-lt-head-gt-lt-title-gt-login-html-lt-title-gt-lt-meta-name-quot-keywords-quot-content-quot-keyword1-keyword2-keyword3-quot-gt-lt-meta-name-quot-description-quot-content-quot-this-is-my-page-quot-gt-lt-meta-name-quot-content-type-quot-content-quot-text-html-charset-gbk-quot-gt-lt-lt-link-rel-quot-stylesheet-quot-type-quot-text-css-quot-href-quot-styles-css-quot-gt-gt-lt-script-type-quot-text-javascript-quot-gt-function-check-123-huo-qu-kong-jian-nei-rong-var-loginname-document-getelementbyid-quot-loginname-quot-value-if-loginname-quot-quot-123-alert-quot-yong-hu-ming-bu-neng-wei-kong-quot-document-getelementbyid-quot-loginname-quot-focus-huo-qu-jiao-dian-return-false-125-var-password-document-getelementbyid-quot-password-quot-value-if-password-quot-quot-123-alert-quot-mi-ma-bu-neng-wei-kong-quot-document-getelementbyid-quot-password-quot-focus-return-false-125-yan-zheng-cheng-gong-document-loginform-submit-125-lt-script-gt-lt-head-gt-lt-body-gt-lt-center-gt-lt-h2-gt-deng-lu-ye-mian-lt-h2-gt-lt-br-gt-lt-html-shu-ju-you-liang-chong-chuan-shu-fang-shi-1-get-cong-di-zhi-lan-chuan-di-2-form-biao-dan-chuan-shu-form-dai-biao-biao-dan-action-shu-xing-dai-biao-ti-jiao-de-url-action-quot-login-do-quot-na-me-zai-web-xml-li-mian-ding-yi-lt-servlet-mapping-gt-de-lt-url-pattern-gt-de-shi-hou-ye-shi-login-do-method-shu-xing-dai-biao-ti-jiao-biao-dan-de-fang-shi-http-li-mian-chong-dian-shi-get-he-post-mo-ren-get-fang-shi-ti-jiao-name-shu-xing-gei-biao-dan-qi-ming-zi-id-shu-xing-dai-biao-wei-yi-biao-shi-gai-biao-dan-de-ming-zi-zhu-yao-shi-javascript-jiao-ben-shi-yong-gt-lt-form-action-quot-login-do-quot-method-quot-get-quot-name-quot-loginform-quot-id-quot-loginform-quot-gt-lt-table-gt-lt-tr-gt-lt-td-gt-deng-lu-ming-lt-td-gt-lt-td-gt-lt-input-type-quot-text-quot-name-quot-loginname-quot-id-quot-loginname-quot-gt-lt-td-gt-lt-tr-gt-lt-tr-gt-lt-td-gt-mi-ma-lt-td-gt-lt-td-gt-lt-input-type-quot-password-quot-name-quot-password-quot-id-quot-password-quot-gt-lt-td-gt-lt-tr-gt-lt-table-gt-lt-table-gt-lt-tr-gt-lt-td-gt-lt-input-type-quot-button-quot-value-quot-ti-jiao-quot-onclick-quot-check-quot-gt-lt-td-gt-amp-amp-nbsp-amp-amp-nbsp-lt-td-gt-lt-input-type-quot-reset-quot-value-quot-chong-zhi-quot-gt-lt-td-gt-lt-tr-gt-lt-table-gt-lt-form-gt-lt-center-gt-lt-body-gt-lt-html-gt-nbsp-yi-xia-dai-ma-shi-loginservlet-java-zhong-de-dai-ma-123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118package-org-common-servlet-import-java-io-ioexception-import-java-io-printwriter-import-java-util-enumeration-import-java-util-properties-import-javax-servlet-servletexception-import-javax-servlet-http-httpservlet-import-javax-servlet-http-httpservletrequest-import-javax-servlet-http-httpservletresponse-public-class-loginservlet-extends-httpservlet-123-constructor-of-the-object-public-loginservlet-123-super-125-destruction-of-the-servlet-lt-br-gt-public-void-destroy-123-super-destroy-just-puts-quot-destroy-quot-string-in-log-put-your-code-here-125-the-doget-method-of-the-servlet-lt-br-gt-this-method-is-called-when-a-form-has-its-tag-value-method-equals-to-get-param-request-the-request-send-by-the-client-to-the-server-param-response-the-response-send-by-the-server-to-the-client-throws-servletexception-if-an-error-occurred-throws-ioexception-if-an-error-occurred-public-void-doget-httpservletrequest-request-httpservletresponse-response-throws-servletexception-ioexception-123-system-out-println-quot-zhi-xing-doget-fang-fa-quot-1-jie-shou-qian-tai-chuan-di-guo-lai-de-can-shu-enumeration-enums-request-getparameternames-while-enums-hasmoreelements-123-system-out-println-enums-nextelement-125-zhuan-huan-bian-ma-de-di-2-chong-fang-shi-pei-he-dopost-fang-fa-shi-yong-request-setcharacterencoding-quot-gbk-quot-ti-jiao-de-name-ke-yi-zai-hou-tai-shi-yong-request-getparameter-quot-loginname-quot-huo-qu-zhi-string-loginname-request-getparameter-quot-loginname-quot-system-out-println-quot-zhuan-huan-qian-loginname-quot-loginname-string-password-request-getparameter-quot-password-quot-ba-loginname-zhe-ge-zi-fu-chuan-zhuan-cheng-gbk-qian-ti-ni-yao-que-ding-bian-ma-loginname-new-string-loginname-getbytes-quot-iso-8859-1-quot-quot-gbk-quot-system-out-println-quot-zhuan-huan-hou-loginname-quot-loginname-string-password-request-getparameter-quot-password-quot-properties-wen-jian-shi-java-de-mo-ren-pei-zhi-wen-jian-yi-key-value-de-xing-shi-cun-chu-shu-ju-zeng-jia-liao-yi-ge-user-properties-wen-jian-cun-chu-yong-hu-ming-mi-ma-properties-pro-new-properties-load-fang-fa-cong-shu-ru-liu-zhong-du-qu-shu-xing-lie-biao-jian-he-yuan-su-dui-pro-load-this-getclass-getresourceasstream-quot-user-properties-quot-system-out-print-pro-response-setcontenttype-quot-text-html-charset-gbk-quot-printwriter-out-response-getwriter-out-println-quot-lt-doctype-html-public-quot-w3c-dtd-html-4-01-transitional-en-quot-gt-quot-out-println-quot-lt-html-gt-quot-out-println-quot-lt-head-gt-lt-title-gt-a-servlet-lt-title-gt-lt-head-gt-quot-out-println-quot-lt-body-gt-quot-out-print-quot-loginname-quot-loginname-out-print-quot-password-quot-password-if-loginname-equals-pro-getproperty-quot-loginname-quot-amp-amp-amp-amp-password-equals-pro-getproperty-quot-password-quot-123-out-println-quot-huan-ying-quot-pro-getproperty-quot-username-quot-quot-deng-lu-quot-125-else-123-out-println-quot-yong-hu-ming-mi-ma-cuo-wu-quot-125-out-println-quot-lt-body-gt-quot-out-println-quot-lt-html-gt-quot-out-flush-out-close-125-the-dopost-method-of-the-servlet-lt-br-gt-this-method-is-called-when-a-form-has-its-tag-value-method-equals-to-post-param-request-the-request-send-by-the-client-to-the-server-param-response-the-response-send-by-the-server-to-the-client-throws-servletexception-if-an-error-occurred-throws-ioexception-if-an-error-occurred-public-void-dopost-httpservletrequest-request-httpservletresponse-response-throws-servletexception-ioexception-123-this-doget-request-response-125-initialization-of-the-servlet-lt-br-gt-throws-servletexception-if-an-error-occurs-public-void-init-throws-servletexception-123-put-your-code-here-125-125-nbsp-doget-fang-fa-bu-an-quan-suo-yi-jin-liang-shi-yong-dopost-fang-fa"><span class="toc-text">4.使用servlet实现简单的login
+
+本工程的功能是实现Javaweb的servlet身份验证
+ 
+一下是login.html文件中的代码
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;login.html&lt;&#x2F;title&gt;
+    
+    &lt;meta name&#x3D;&quot;keywords&quot; content&#x3D;&quot;keyword1,keyword2,keyword3&quot;&gt;
+    &lt;meta name&#x3D;&quot;description&quot; content&#x3D;&quot;this is my page&quot;&gt;
+    &lt;meta name&#x3D;&quot;content-type&quot; content&#x3D;&quot;text&#x2F;html; charset&#x3D;GBK&quot;&gt;
+    
+    &lt;!--&lt;link rel&#x3D;&quot;stylesheet&quot; type&#x3D;&quot;text&#x2F;css&quot; href&#x3D;&quot;.&#x2F;styles.css&quot;&gt;--&gt;
+
+    &lt;script type&#x3D;&quot;text&#x2F;javascript&quot;&gt;
+        function check(){
+            &#x2F;&#x2F;获取控件内容
+            var loginname &#x3D; document.getElementById(&quot;loginname&quot;).value;
+            if(loginname &#x3D;&#x3D; &quot;&quot;){
+                alert(&quot;用户名不能为空&quot;);
+                document.getElementById(&quot;loginname&quot;).focus();&#x2F;&#x2F;获取焦点
+                return false;
+            }
+            
+            var password &#x3D; document.getElementById(&quot;password&quot;).value;
+            if(password &#x3D;&#x3D; &quot;&quot;){
+                alert(&quot;密码不能为空&quot;);
+                document.getElementById(&quot;password&quot;).focus();
+                return false;
+            }  
+            
+            &#x2F;&#x2F;验证成功
+            document.loginform.submit();
+        }
+    &lt;&#x2F;script&gt;
+
+  &lt;&#x2F;head&gt;
+  
+  &lt;body&gt;
+    &lt;center&gt;
+        &lt;h2&gt;登陆页面&lt;&#x2F;h2&gt;
+        &lt;br&gt;
+        &lt;!-- html数据由两种传输方式 1.get 从地址栏传递 2.form表单传输 
+            form代表表单
+                --action属性代表提交的url
+                    action&#x3D;&quot;login.do&quot;,那么在web.xml里面定义&lt;servlet-mapping&gt;的&lt;url-pattern&gt;
+                    的时候也是login.do
+                --method属性代表提交表单的方式，http里面重点是get和post，默认get方式提交
+                --name属性给表单其名字
+                --id属性代表唯一标示该表单的名字，主要是javascript脚本使用
+        --&gt;
+        &lt;form action&#x3D;&quot;login.do&quot; method&#x3D;&quot;get&quot; name&#x3D;&quot;loginform&quot; id&#x3D;&quot;loginform&quot;&gt;
+            &lt;table&gt;
+                &lt;tr&gt;
+                    &lt;td&gt;登录名：&lt;&#x2F;td&gt;
+                    &lt;td&gt;&lt;input type&#x3D;&quot;text&quot; name&#x3D;&quot;loginname&quot; id&#x3D;&quot;loginname&quot;&#x2F;&gt;&lt;&#x2F;td&gt;
+                &lt;&#x2F;tr&gt;
+                &lt;tr&gt;
+                    &lt;td&gt;密码：&lt;&#x2F;td&gt;
+                    &lt;td&gt;&lt;input type&#x3D;&quot;password&quot; name&#x3D;&quot;password&quot; id&#x3D;&quot;password&quot;&#x2F;&gt;&lt;&#x2F;td&gt;
+                &lt;&#x2F;tr&gt;
+            &lt;&#x2F;table&gt;
+            &lt;table&gt;
+                &lt;tr&gt;
+                    &lt;td&gt;&lt;input type&#x3D;&quot;button&quot; value&#x3D;&quot;提交&quot; onclick&#x3D;&quot;check();&quot;&gt;&lt;&#x2F;td&gt;
+                    &amp;nbsp;&amp;nbsp;
+                    &lt;td&gt;&lt;input type&#x3D;&quot;reset&quot; value&#x3D;&quot;重置&quot;&gt;&lt;&#x2F;td&gt;
+                &lt;&#x2F;tr&gt;
+            &lt;&#x2F;table&gt;
+        &lt;&#x2F;form&gt;
+        
+    &lt;&#x2F;center&gt;
+  &lt;&#x2F;body&gt;
+&lt;&#x2F;html&gt;
+
+
+ 
+以下代码是LoginServlet.java中的代码
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+package org.common.servlet;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Enumeration;
+import java.util.Properties;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class LoginServlet extends HttpServlet {
+
+    &#x2F;**
+     * Constructor of the object.
+     *&#x2F;
+    public LoginServlet() {
+        super();
+    }
+
+    &#x2F;**
+     * Destruction of the servlet. &lt;br&gt;
+     *&#x2F;
+    public void destroy() {
+        super.destroy(); &#x2F;&#x2F; Just puts &quot;destroy&quot; string in log
+        &#x2F;&#x2F; Put your code here
+    }
+
+    &#x2F;**
+     * The doGet method of the servlet. &lt;br&gt;
+     *
+     * This method is called when a form has its tag value method equals to get.
+     * 
+     * @param request the request send by the client to the server
+     * @param response the response send by the server to the client
+     * @throws ServletException if an error occurred
+     * @throws IOException if an error occurred
+     *&#x2F;
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        System.out.println(&quot;执行 doGet 方法...&quot;);
+&#x2F;&#x2F;        &#x2F;&#x2F;1.接收前台传递过来的参数
+&#x2F;&#x2F;        Enumeration enums &#x3D; request.getParameterNames();
+&#x2F;&#x2F;        while(enums.hasMoreElements()){
+&#x2F;&#x2F;            System.out.println(enums.nextElement());
+&#x2F;&#x2F;            
+&#x2F;&#x2F;        }
+        
+        &#x2F;&#x2F;转换编码的第2种方式，配合doPost()方法使用
+        request.setCharacterEncoding(&quot;GBK&quot;);
+        
+        &#x2F;&#x2F;提交的name可以在后台使用request.getParameter(&quot;loginname&quot;)获取值
+        String loginname &#x3D; request.getParameter(&quot;loginname&quot;);
+        System.out.println(&quot;转换前loginname:&quot; + loginname);
+        &#x2F;&#x2F;String password &#x3D; request.getParameter(&quot;password&quot;);
+        
+        &#x2F;&#x2F;把loginname这个字符串转成GBK，前提你要确定编码
+        loginname &#x3D; new String(loginname.getBytes(&quot;iso-8859-1&quot;),&quot;GBK&quot;);
+        System.out.println(&quot;转换后loginname:&quot; + loginname);
+        String password &#x3D; request.getParameter(&quot;password&quot;);
+        
+        &#x2F;&#x2F;properties文件是java的默认配置文件，以key-value的形式存储数据
+        &#x2F;&#x2F;增加了一个user.properties文件存储用户名密码
+        Properties pro &#x3D; new Properties();
+        &#x2F;&#x2F;load方法从输入流中读取属性列表（键和元素对）
+        pro.load(this.getClass().getResourceAsStream(&quot;&#x2F;user.properties&quot;));
+        &#x2F;&#x2F;System.out.print(pro);
+        
+        response.setContentType(&quot;text&#x2F;html;charset&#x3D;GBK&quot;);
+        PrintWriter out &#x3D; response.getWriter();
+        out.println(&quot;&lt;!DOCTYPE HTML PUBLIC \&quot;-&#x2F;&#x2F;W3C&#x2F;&#x2F;DTD HTML 4.01 Transitional&#x2F;&#x2F;EN\&quot;&gt;&quot;);
+        out.println(&quot;&lt;HTML&gt;&quot;);
+        out.println(&quot;  &lt;HEAD&gt;&lt;TITLE&gt;A Servlet&lt;&#x2F;TITLE&gt;&lt;&#x2F;HEAD&gt;&quot;);
+        out.println(&quot;  &lt;BODY&gt;&quot;);
+        
+        &#x2F;&#x2F;out.print(&quot; loginname: &quot; + loginname);
+        &#x2F;&#x2F;out.print(&quot; password: &quot; + password);
+        if(loginname.equals(pro.getProperty(&quot;loginname&quot;)) 
+                &amp;&amp; password.equals(pro.getProperty(&quot;password&quot;))){
+            out.println(&quot; 欢迎[&quot;+pro.getProperty(&quot;username&quot;)+&quot;]登陆&quot;);
+        }else{
+            out.println(&quot;用户名密码错误&quot;);
+        }
+        
+        out.println(&quot;  &lt;&#x2F;BODY&gt;&quot;);
+        out.println(&quot;&lt;&#x2F;HTML&gt;&quot;);
+        out.flush();
+        out.close();
+    }
+
+    &#x2F;**
+     * The doPost method of the servlet. &lt;br&gt;
+     *
+     * This method is called when a form has its tag value method equals to post.
+     * 
+     * @param request the request send by the client to the server
+     * @param response the response send by the server to the client
+     * @throws ServletException if an error occurred
+     * @throws IOException if an error occurred
+     *&#x2F;
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        this.doGet(request, response);
+    }
+
+    &#x2F;**
+     * Initialization of the servlet. &lt;br&gt;
+     *
+     * @throws ServletException if an error occurs
+     *&#x2F;
+    public void init() throws ServletException {
+        &#x2F;&#x2F; Put your code here
+    }
+
+}
+
+
+ 
+doGet()方法不安全，所以尽量使用doPost()方法
+</span></a></li></ol>
+</div>
+
+        <h2 id="1-shi-xian-servlet-da-yin-ri-zhi"><a href="#1-实现servlet打印日志" class="headerlink" title="1.实现servlet打印日志"></a>1.实现servlet打印日志<a href="#1-shi-xian-servlet-da-yin-ri-zhi" class="header-anchor">#</a></h2><p>开发一个动态web资源，即开发一个Java程序向浏览器输出数据，需要完成以下2个步骤：</p>
+<h3 id="1-bian-xie-yi-ge-java-lei-shi-xian-servlet-jie-kou"><a href="#1-编写一个Java类，实现Servlet接口" class="headerlink" title="1.编写一个Java类，实现Servlet接口"></a>1.编写一个Java类，实现Servlet接口<a href="#1-bian-xie-yi-ge-java-lei-shi-xian-servlet-jie-kou" class="header-anchor">#</a></h3><p>开发一个动态web资源必须实现javax.servlet.Servlet接口，Servlet接口定义了Servlet引擎与Servlet程序之间通信的协议约定</p>
+<p>以下是MyServlet.java文件中的代码（写的这个类的名字叫做MyServlet）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">package org.MyServlet.MyServlet;</span><br><span class="line"></span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">import javax.servlet.Servlet;</span><br><span class="line">import javax.servlet.ServletConfig;</span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.ServletRequest;</span><br><span class="line">import javax.servlet.ServletResponse;</span><br><span class="line"></span><br><span class="line">//开发一个动态web资源必须实现javax.servlet.Servlet接口</span><br><span class="line">//Servlet接口定义了Servlet引擎与Servlet程序之间通信的协议约定</span><br><span class="line"></span><br><span class="line">//Q:MyServlet完成了一个动态网页程序，或者说是一个功能，如何让客户端能否准确得找到我们得这个Servlet服务</span><br><span class="line">//A:服务器需要预先为我们预留出扩展接口，我们只需要按照一定的规则去提供相应的扩展功能</span><br><span class="line"></span><br><span class="line">//Q:如何和服务器进行通讯</span><br><span class="line">//A:web.xml就是服务器提供给我们的完成功能的地方</span><br><span class="line">public class MyServlet implements Servlet&#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void destroy() &#123;</span><br><span class="line">        // TODO Auto-generated method stub</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public ServletConfig getServletConfig() &#123;</span><br><span class="line">        // TODO Auto-generated method stub</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String getServletInfo() &#123;</span><br><span class="line">        // TODO Auto-generated method stub</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void init(ServletConfig arg0) throws ServletException &#123;</span><br><span class="line">        // TODO Auto-generated method stub</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //所有客户端请求会自动调用Service方法进行处理</span><br><span class="line">    //ServletRequest    是一个对象，封装所有HTTP请求信息</span><br><span class="line">    //ServletResponse    是一个对象，封装所有HTTP响应信息</span><br><span class="line">    //这两个对象是Tomcat服务器给我们的</span><br><span class="line">    @Override</span><br><span class="line">    public void service(ServletRequest arg0, ServletResponse arg1)</span><br><span class="line">            throws ServletException, IOException &#123;</span><br><span class="line">        // TODO Auto-generated method stub</span><br><span class="line">        </span><br><span class="line">        System.out.println(&quot;执行 MyServlet 的 service() 方法。。。。。&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>关于其中的Service方法的一些Tip：　　</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//所有客户端请求会自动调用Service方法进行处理</span><br><span class="line">//ServletRequest 是一个对象，封装所有HTTP请求信息</span><br><span class="line">//ServletResponse 是一个对象，封装所有HTTP响应信息</span><br><span class="line">//这两个对象是Tomcat服务器给我们的</span><br><span class="line"></span><br><span class="line">此外，如果是只实现service方法，则称为适配器模式</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>以下是web.xml文件中的代码：</p>
+<?xml version="1.0" encoding="UTF-8"?><p><br><web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemalocation="http://java.sun.com/xml/ns/javaee 
+http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0"><br>  <display-name>MyServlet</display-name><br>  <welcome-file-list><br>    <welcome-file>index.html</welcome-file><br>    <welcome-file>index.htm</welcome-file><br>    <welcome-file>index.jsp</welcome-file><br>    <welcome-file>default.html</welcome-file><br>    <welcome-file>default.htm</welcome-file><br>    <welcome-file>default.jsp</welcome-file><br>  </welcome-file-list><br>  <br>  //定义一个Servlet服务<br>  //Servlet服务的名字叫做aaa<br>  <servlet><br>      <servlet-name>aaa</servlet-name><br>      <servlet-class>org.MyServlet.MyServlet.MyServlet</servlet-class><br>  </servlet><br>  <br>  //定义一个Servlet服务的映射关系<br>  //Servlet服务的名字叫做aaa<br>  //请求的路径是/myServlet.do<br>  <br>  //1.服务器启动模式加载webapps下面所有的应用，加载web应用的时候会读取每个应用的web。xml文件<br>  //2.客户单发送请求<a target="_blank" rel="noopener" href="http://127.0.0.1:8080/MyServlet/myServlet.do">http://127.0.0.1:8080/MyServlet/myServlet.do</a><br>  //3.请求就找到<a href="http://127.0.0.1:8080，找到MyServlet(Context)">http://127.0.0.1:8080，找到MyServlet(Context)</a><br>  //去mapping里面查找/myServlet.do,如果找到，定位到<servlet-name>aaa</servlet-name><br>  //4.去Servlet的定义里面查找Servlet-name是aaa的Servlet服务<br>  //然后定位到org.MyServlet.MyServlet.MyServlet,执行该class的service方法<br>  <servlet-mapping><br>      <servlet-name>aaa</servlet-name><br>      <url-pattern>/myServlet.do</url-pattern><br>  </servlet-mapping><br></web-app></p>
+<p>然后在浏览器中输入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1:8080/MyServlet/myServlet.do</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>便可以在Tomcat中看到</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">执行 MyServlet 的 service() 方法。。。。。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-ba-kai-fa-hao-de-java-lei-bu-shu-dao-web-fu-wu-qi-zhong"><a href="#2-把开发好的Java类部署到web服务器中" class="headerlink" title="2.把开发好的Java类部署到web服务器中"></a>2.把开发好的Java类部署到web服务器中<a href="#2-ba-kai-fa-hao-de-java-lei-bu-shu-dao-web-fu-wu-qi-zhong" class="header-anchor">#</a></h3><span id="more"></span>
+<p>&nbsp;</p>
+<h2 id="2-shi-xian-servlet-da-yin-helloworld"><a href="#2-实现servlet打印HelloWorld" class="headerlink" title="2.实现servlet打印HelloWorld"></a>2.实现servlet打印HelloWorld<a href="#2-shi-xian-servlet-da-yin-helloworld" class="header-anchor">#</a></h2><p>该工程的功能是在页面上输出一段话</p>
+<p>首先在src里面新建一个class,在interface里面添加javax.servlet.Servlet</p>
+<p>以下是HelloServlet.java中的代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">package org.common.Servlet;</span><br><span class="line"></span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.PrintWriter;</span><br><span class="line"></span><br><span class="line">import javax.servlet.Servlet;</span><br><span class="line">import javax.servlet.ServletConfig;</span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.ServletRequest;</span><br><span class="line">import javax.servlet.ServletResponse;</span><br><span class="line"></span><br><span class="line">public class HelloServlet implements Servlet &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void destroy() &#123;</span><br><span class="line">        // TODO Auto-generated method stub</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public ServletConfig getServletConfig() &#123;</span><br><span class="line">        // TODO Auto-generated method stub</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String getServletInfo() &#123;</span><br><span class="line">        // TODO Auto-generated method stub</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void init(ServletConfig arg0) throws ServletException &#123;</span><br><span class="line">        // TODO Auto-generated method stub</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //开发完成之后要告诉服务器我的存在，就要在web。xml里面继续写代码</span><br><span class="line">    @Override</span><br><span class="line">    public void service(ServletRequest arg0, ServletResponse arg1)</span><br><span class="line">            throws ServletException, IOException &#123;</span><br><span class="line">        // TODO Auto-generated method stub</span><br><span class="line">        //获取一个输出流，就可以对页面写出内容</span><br><span class="line">        PrintWriter pw = arg1.getWriter();</span><br><span class="line">        pw.println(&quot;终于成功了！&quot;);</span><br><span class="line">        pw.close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以下是web.xml文件中的代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;web-app xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns=&quot;http://java.sun.com/xml/ns/javaee&quot; xsi:schemaLocation=&quot;http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd&quot; id=&quot;WebApp_ID&quot; version=&quot;3.0&quot;&gt;</span><br><span class="line">  &lt;display-name&gt;HelloApp&lt;/display-name&gt;</span><br><span class="line">  &lt;welcome-file-list&gt;</span><br><span class="line">    &lt;welcome-file&gt;index.html&lt;/welcome-file&gt;</span><br><span class="line">    &lt;welcome-file&gt;index.htm&lt;/welcome-file&gt;</span><br><span class="line">    &lt;welcome-file&gt;index.jsp&lt;/welcome-file&gt;</span><br><span class="line">    &lt;welcome-file&gt;default.html&lt;/welcome-file&gt;</span><br><span class="line">    &lt;welcome-file&gt;default.htm&lt;/welcome-file&gt;</span><br><span class="line">    &lt;welcome-file&gt;default.jsp&lt;/welcome-file&gt;</span><br><span class="line">  &lt;/welcome-file-list&gt;</span><br><span class="line">  </span><br><span class="line">  &lt;!-- 定义Servlet服务 --&gt;</span><br><span class="line">  &lt;servlet&gt;</span><br><span class="line">      &lt;servlet-name&gt;hello&lt;/servlet-name&gt;    &lt;!--随便取--&gt;    </span><br><span class="line">      &lt;servlet-class&gt;org.common.Servlet.HelloServlet&lt;/servlet-class&gt;    &lt;!--取包名。类名--&gt;</span><br><span class="line">  &lt;/servlet&gt;</span><br><span class="line">  </span><br><span class="line">  &lt;!-- 定义映射关系 --&gt;</span><br><span class="line">  &lt;servlet-mapping&gt;</span><br><span class="line">      &lt;!-- 注意：mapping里面的servlet-name在Servlet的定义里面一定要有匹配的，否则启动报错 --&gt;</span><br><span class="line">      &lt;servlet-name&gt;hello&lt;/servlet-name&gt;</span><br><span class="line">      &lt;url-pattern&gt;/hello&lt;/url-pattern&gt;</span><br><span class="line">  &lt;/servlet-mapping&gt;</span><br><span class="line">&lt;/web-app&gt;&amp;nbsp;</span><br></pre></td></tr></table></figure>
+
+<p>访问的网址是</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1:8080/Helloapp/hello</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>其中Helloapp是Tomcat里面的文件夹的名字，hello是url-pattern里面写的名字</p>
+<p>&nbsp;</p>
+<h2 id="3-shi-xian-servlet-da-yin-dang-qian-shi-jian"><a href="#3-实现servlet打印当前时间" class="headerlink" title="3.实现servlet打印当前时间"></a>3.实现servlet打印当前时间<a href="#3-shi-xian-servlet-da-yin-dang-qian-shi-jian" class="header-anchor">#</a></h2><p>该工程的功能是实现在页面中显示当前的时间</p>
+<h3 id="1-bian-xie-yi-ge-java-lei-shi-xian-servlet-jie-kou"><a href="#1-编写一个Java类，实现Servlet接口-1" class="headerlink" title="1.编写一个Java类，实现Servlet接口"></a>1.编写一个Java类，实现Servlet接口<a href="#1-bian-xie-yi-ge-java-lei-shi-xian-servlet-jie-kou" class="header-anchor">#</a></h3><p>以下的代码是HelloServlet.java中的代码</p>
+<p>package helloapp2;</p>
+<p>import java.io.IOException;<br>import java.io.PrintWriter;<br>import java.util.Date;</p>
+<p>import javax.servlet.GenericServlet;<br>import javax.servlet.ServletException;<br>import javax.servlet.ServletRequest;<br>import javax.servlet.ServletResponse;</p>
+<p>public class HelloServlet extends GenericServlet {</p>
+<pre><code>@Override&lt;br /&gt;    public void service(ServletRequest arg0, ServletResponse arg1)&lt;br /&gt;            throws ServletException, IOException &#123;&lt;br /&gt;        // TODO Auto-generated method stub
+
+    PrintWriter pw = arg1.getWriter();&lt;br /&gt;        pw.println(&quot;Hello&quot;);&lt;br /&gt;        pw.println(new Date().toLocaleString());&lt;br /&gt;        pw.close();&lt;br /&gt;    &#125;
+</code></pre>
+<p>}</p>
+<p>以下的代码是web.xml中的代码</p>
+<?xml version="1.0" encoding="UTF-8"?><p><br><web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemalocation="http://java.sun.com/xml/ns/javaee 
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5"><br>  <display-name>helloapp2</display-name><br>  <welcome-file-list><br>    <welcome-file>index.html</welcome-file><br>    <welcome-file>index.htm</welcome-file><br>    <welcome-file>index.jsp</welcome-file><br>    <welcome-file>default.html</welcome-file><br>    <welcome-file>default.htm</welcome-file><br>    <welcome-file>default.jsp</welcome-file><br>  </welcome-file-list><br>  <br>      <servlet><br>          <servlet-name>Hello</servlet-name><br>          <servlet-class>helloapp2.HelloServlet</servlet-class><br>      </servlet><br>      <br>      <servlet-mapping><br>          <servlet-name>Hello</servlet-name><br>          <url-pattern>/Hello</url-pattern><br>      </servlet-mapping><br></web-app></p>
+<h3 id="2-ba-kai-fa-hao-de-java-lei-bu-shu-dao-web-fu-wu-qi-zhong"><a href="#2-把开发好的Java类部署到web服务器中-1" class="headerlink" title="2.把开发好的Java类部署到web服务器中"></a>2.把开发好的Java类部署到web服务器中<a href="#2-ba-kai-fa-hao-de-java-lei-bu-shu-dao-web-fu-wu-qi-zhong" class="header-anchor">#</a></h3><p>使用myeclipse自动部署的方法(使用myeclipse 2015自动部署有问题，待解决)(换成2014的便可以自动部署)：</p>
+<p>　　1.Window-&gt;preferences-&gt;Myeclipse-&gt;Servers-&gt;Runtime Ecvironment-&gt;add-&gt;Tomcat 6.0，要选中添加local的那个选项</p>
+<p>　　2.在manage deployment的module里面选择要部署的工程</p>
+<p>　　3.重新安装Tomcat出现的问题解决，但是还是要手动部署</p>
+<p>&nbsp;</p>
+<p>自动部署设置，参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/ywl925/p/3815173.html">Eclipse中的Web项目自动部署到Tomcat</a></p>
+<p>自动部署后要把网页的文件放在根目录下</p>
+<p>&nbsp;</p>
+<p>该工程的名称是testhttp，功能是在页面中表格打印浏览过程中的相关头信息。</p>
+<p>&nbsp;　　新建一个工程，然后在这个工程里面新建一个servlet，这样便可以省去编写web.xml的过程</p>
+<p>&nbsp;</p>
+<h2 id="3-shi-xian-servlet-da-yin-header"><a href="#3-实现servlet打印header" class="headerlink" title="3.实现servlet打印header"></a>3.实现servlet打印header<a href="#3-shi-xian-servlet-da-yin-header" class="header-anchor">#</a></h2><p>以下是TestHttpServlet.java中的代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br></pre></td><td class="code"><pre><span class="line">package org.common.servlet;</span><br><span class="line"></span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.PrintWriter;</span><br><span class="line">import java.util.Enumeration;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line"></span><br><span class="line">public class TestHttpServlet extends HttpServlet &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Constructor of the object.</span><br><span class="line">     */</span><br><span class="line">    public TestHttpServlet() &#123;</span><br><span class="line">        super();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Destruction of the servlet. &lt;br&gt;</span><br><span class="line">     */</span><br><span class="line">    public void destroy() &#123;</span><br><span class="line">        super.destroy(); // Just puts &quot;destroy&quot; string in log</span><br><span class="line">        // Put your code here</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * The doGet method of the servlet. &lt;br&gt;</span><br><span class="line">     *</span><br><span class="line">     * This method is called when a form has its tag value method equals to get.</span><br><span class="line">     * </span><br><span class="line">     * @param request the request send by the client to the server</span><br><span class="line">     * @param response the response send by the server to the client</span><br><span class="line">     * @throws ServletException if an error occurred</span><br><span class="line">     * @throws IOException if an error occurred</span><br><span class="line">     */</span><br><span class="line">    </span><br><span class="line">    //Servlet接口的参数service(ServletRequest arg0, ServletResponse arg1)</span><br><span class="line">    </span><br><span class="line">    //HttpServletRequest封装了所有的请求信息，其实就是Tomcat将请求信息按照JAVA EE的Servlet的规范</span><br><span class="line">    //封装好给我们</span><br><span class="line">    </span><br><span class="line">    public void doGet(HttpServletRequest request, HttpServletResponse response)</span><br><span class="line">            throws ServletException, IOException &#123;</span><br><span class="line">        </span><br><span class="line">        //设置返回类型</span><br><span class="line">        //response.setContentType(&quot;text/html;charset=GBK&quot;);</span><br><span class="line">        response.setContentType(&quot;text/html&quot;);</span><br><span class="line">        response.setCharacterEncoding(&quot;GBK&quot;);</span><br><span class="line">        </span><br><span class="line">        //获取输出流</span><br><span class="line">        PrintWriter out = response.getWriter();</span><br><span class="line">        out.println(&quot;&lt;!DOCTYPE HTML PUBLIC \&quot;-//W3C//DTD HTML 4.01 Transitional//EN\&quot;&gt;&quot;);</span><br><span class="line">        out.println(&quot;&lt;HTML&gt;&quot;);</span><br><span class="line">        out.println(&quot;  &lt;HEAD&gt;&lt;TITLE&gt;testhttp Servlet&lt;/TITLE&gt;&lt;/HEAD&gt;&quot;);</span><br><span class="line">        out.println(&quot;  &lt;BODY&gt;&quot;);</span><br><span class="line">        </span><br><span class="line">        out.print(&quot;&lt;center&gt;&quot;);</span><br><span class="line">        out.print(&quot; &lt;h2&gt;请求头信息列表&lt;h2&gt; &quot;);</span><br><span class="line">        </span><br><span class="line">        out.print(&quot; &lt;table border=1&gt; &quot;);</span><br><span class="line">        out.print(&quot; |名字|值</span><br><span class="line"> &quot;);</span><br><span class="line">        //返回头消息名字集合，返回的是一个枚举</span><br><span class="line">        Enumeration enums = request.getHeaderNames();</span><br><span class="line">        //遍历获取所有头信息名和值</span><br><span class="line">        while(enums.hasMoreElements())&#123;</span><br><span class="line">            //获取每一个头消息的名字</span><br><span class="line">            String headName = (String)enums.nextElement();</span><br><span class="line">            out.println(&quot; &lt;tr&gt; &quot;);</span><br><span class="line">            out.println(&quot; | &quot; + headName + &quot;  &quot;);</span><br><span class="line">            //getHeader(java.lang.String name) </span><br><span class="line">            //Returns the value of the specified request header as a String.</span><br><span class="line">            //返回这个名字的头信息的值</span><br><span class="line">            out.println(&quot; | &quot; + request.getHeaders(headName) + &quot;  &quot;);</span><br><span class="line">            out.println(&quot; &lt;/tr&gt; &quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        out.println(&quot; &lt;/table&gt; &quot;);</span><br><span class="line">        </span><br><span class="line">        out.println(&quot; &lt;hr&gt; &quot;);</span><br><span class="line">        //测试HttpServletRequest的方法</span><br><span class="line">        out.println(&quot;Method： &quot; + request.getMethod() + &quot;&lt;br&gt;&quot;);</span><br><span class="line">        out.println(&quot;Request URI： &quot; + request.getRequestURI() + &quot;&lt;br&gt;&quot;);</span><br><span class="line">        out.println(&quot;Protocol： &quot; + request.getProtocol() + &quot;&lt;br&gt;&quot;);</span><br><span class="line">        out.println(&quot;PathInfo： &quot; + request.getPathInfo() + &quot;&lt;br&gt;&quot;);</span><br><span class="line">        out.println(&quot;Remote Address： &quot; + request.getRemoteAddr() + &quot;&lt;br&gt;&quot;);</span><br><span class="line">        out.println(&quot;ContextPath： &quot; + request.getContextPath() + &quot;&lt;br&gt;&quot;);</span><br><span class="line">        out.println(&quot;getScheme： &quot; + request.getScheme() + &quot;&lt;br&gt;&quot;);</span><br><span class="line">        out.println(&quot;getServerName： &quot; + request.getServerName() + &quot;&lt;br&gt;&quot;);</span><br><span class="line">        out.println(&quot;getServerPort： &quot; + request.getServerPort() + &quot;&lt;br&gt;&quot;);</span><br><span class="line">        out.println(&quot;getRequestURI： &quot; + request.getRequestURI() + &quot;&lt;br&gt;&quot;);</span><br><span class="line">        String path = request.getContextPath();</span><br><span class="line">        //请求全路径</span><br><span class="line">        String basePath</span><br><span class="line">            = request.getScheme() + &quot;://&quot; + request.getServerName() + &quot;:&quot;</span><br><span class="line">            + request.getServerPort() + request.getRequestURI();</span><br><span class="line">        out.println(&quot; path: &quot; + path + &quot;&lt;br&gt;&quot;);</span><br><span class="line">        out.println(&quot; basePath: &quot; + basePath + &quot;&lt;br&gt;&quot;);</span><br><span class="line">        </span><br><span class="line">        //out.print(this.getClass());</span><br><span class="line">        //out.println(&quot;, using the GET method&quot;);</span><br><span class="line">        </span><br><span class="line">        out.print(&quot;&lt;/center&gt;&quot;);</span><br><span class="line">        out.println(&quot;  &lt;/BODY&gt;&quot;);</span><br><span class="line">        out.println(&quot;&lt;/HTML&gt;&quot;);</span><br><span class="line">        out.flush();</span><br><span class="line">        out.close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * The doPost method of the servlet. &lt;br&gt;</span><br><span class="line">     *</span><br><span class="line">     * This method is called when a form has its tag value method equals to post.</span><br><span class="line">     * </span><br><span class="line">     * @param request the request send by the client to the server</span><br><span class="line">     * @param response the response send by the server to the client</span><br><span class="line">     * @throws ServletException if an error occurred</span><br><span class="line">     * @throws IOException if an error occurred</span><br><span class="line">     */</span><br><span class="line">    public void doPost(HttpServletRequest request, HttpServletResponse response)</span><br><span class="line">            throws ServletException, IOException &#123;</span><br><span class="line">        </span><br><span class="line">        //调用doGet方法</span><br><span class="line">        this.doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Initialization of the servlet. &lt;br&gt;</span><br><span class="line">     *</span><br><span class="line">     * @throws ServletException if an error occurs</span><br><span class="line">     */</span><br><span class="line">    public void init() throws ServletException &#123;</span><br><span class="line">        // Put your code here</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="qing-qiu-tou-xin-xi-lie-biao-out-print-quot-lt-table-border-1-gt-quot-out-print-quot-ming-zi-zhi-fan-hui-tou-xiao-xi-ming-zi-ji-he-fan-hui-de-shi-yi-ge-mei-ju-enumeration-enums-request-getheadernames-bian-li-huo-qu-suo-you-tou-xin-xi-ming-he-zhi-while-enums-hasmoreelements-huo-qu-mei-yi-ge-tou-xiao-xi-de-ming-zi-string-headname-string-enums-nextelement-out-println-out-println-headname-getheader-java-lang-string-name-returns-the-value-of-the-specified-request-header-as-a-string-fan-hui-zhe-ge-ming-zi-de-tou-xin-xi-de-zhi-out-println-request-getheaders-headname-out-println-out-println-out-println-quot-lt-hr-gt-quot-ce-shi-httpservletrequest-de-fang-fa-out-println-quot-method-quot-request-getmethod-quot-lt-br-gt-quot-out-println-quot-request-uri-quot-request-getrequesturi-quot-lt-br-gt-quot-out-println-quot-protocol-quot-request-getprotocol-quot-lt-br-gt-quot-out-println-quot-pathinfo-quot-request-getpathinfo-quot-lt-br-gt-quot-out-println-quot-remote-address-quot-request-getremoteaddr-quot-lt-br-gt-quot-out-println-quot-contextpath-quot-request-getcontextpath-quot-lt-br-gt-quot-out-println-quot-getscheme-quot-request-getscheme-quot-lt-br-gt-quot-out-println-quot-getservername-quot-request-getservername-quot-lt-br-gt-quot-out-println-quot-getserverport-quot-request-getserverport-quot-lt-br-gt-quot-out-println-quot-getrequesturi-quot-request-getrequesturi-quot-lt-br-gt-quot-string-path-request-getcontextpath-qing-qiu-quan-lu-jing-string-basepath-request-getscheme-quot-quot-request-getservername-quot-quot-request-getserverport-request-getrequesturi-out-println-quot-path-quot-path-quot-lt-br-gt-quot-out-println-quot-basepath-quot-basepath-quot-lt-br-gt-quot-out-print-this-getclass-out-println-quot-using-the-get-method-quot-out-print-quot-lt-center-gt-quot-out-println-quot-lt-body-gt-quot-out-println-quot-lt-html-gt-quot-out-flush-out-close-125-the-dopost-method-of-the-servlet-lt-br-gt-this-method-is-called-when-a-form-has-its-tag-value-method-equals-to-post-param-request-the-request-send-by-the-client-to-the-server-param-response-the-response-send-by-the-server-to-the-client-throws-servletexception-if-an-error-occurred-throws-ioexception-if-an-error-occurred-public-void-dopost-httpservletrequest-request-httpservletresponse-response-throws-servletexception-ioexception-123-diao-yong-doget-fang-fa-this-doget-request-response-125-initialization-of-the-servlet-lt-br-gt-throws-servletexception-if-an-error-occurs-public-void-init-throws-servletexception-123-put-your-code-here-125-ran-hou-bu-shu-bing-qi-dong-tomcat-fu-wu-qi-zai-liu-lan-qi-zhong-shu-ru-http-127-0-0-1-8080-testhttp-servlet-testhttpservlet-4-shi-yong-servlet-shi-xian-jian-dan-de-login-ben-gong-cheng-de-gong-neng-shi-shi-xian-javaweb-de-servlet-shen-fen-yan-zheng-nbsp-yi-xia-shi-login-html-wen-jian-zhong-de-dai-ma-1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071-lt-doctype-html-gt-lt-html-gt-lt-head-gt-lt-title-gt-login-html-lt-title-gt-lt-meta-name-quot-keywords-quot-content-quot-keyword1-keyword2-keyword3-quot-gt-lt-meta-name-quot-description-quot-content-quot-this-is-my-page-quot-gt-lt-meta-name-quot-content-type-quot-content-quot-text-html-charset-gbk-quot-gt-lt-lt-link-rel-quot-stylesheet-quot-type-quot-text-css-quot-href-quot-styles-css-quot-gt-gt-lt-script-type-quot-text-javascript-quot-gt-function-check-123-huo-qu-kong-jian-nei-rong-var-loginname-document-getelementbyid-quot-loginname-quot-value-if-loginname-quot-quot-123-alert-quot-yong-hu-ming-bu-neng-wei-kong-quot-document-getelementbyid-quot-loginname-quot-focus-huo-qu-jiao-dian-return-false-125-var-password-document-getelementbyid-quot-password-quot-value-if-password-quot-quot-123-alert-quot-mi-ma-bu-neng-wei-kong-quot-document-getelementbyid-quot-password-quot-focus-return-false-125-yan-zheng-cheng-gong-document-loginform-submit-125-lt-script-gt-lt-head-gt-lt-body-gt-lt-center-gt-lt-h2-gt-deng-lu-ye-mian-lt-h2-gt-lt-br-gt-lt-html-shu-ju-you-liang-chong-chuan-shu-fang-shi-1-get-cong-di-zhi-lan-chuan-di-2-form-biao-dan-chuan-shu-form-dai-biao-biao-dan-action-shu-xing-dai-biao-ti-jiao-de-url-action-quot-login-do-quot-na-me-zai-web-xml-li-mian-ding-yi-lt-servlet-mapping-gt-de-lt-url-pattern-gt-de-shi-hou-ye-shi-login-do-method-shu-xing-dai-biao-ti-jiao-biao-dan-de-fang-shi-http-li-mian-chong-dian-shi-get-he-post-mo-ren-get-fang-shi-ti-jiao-name-shu-xing-gei-biao-dan-qi-ming-zi-id-shu-xing-dai-biao-wei-yi-biao-shi-gai-biao-dan-de-ming-zi-zhu-yao-shi-javascript-jiao-ben-shi-yong-gt-lt-form-action-quot-login-do-quot-method-quot-get-quot-name-quot-loginform-quot-id-quot-loginform-quot-gt-lt-table-gt-lt-tr-gt-lt-td-gt-deng-lu-ming-lt-td-gt-lt-td-gt-lt-input-type-quot-text-quot-name-quot-loginname-quot-id-quot-loginname-quot-gt-lt-td-gt-lt-tr-gt-lt-tr-gt-lt-td-gt-mi-ma-lt-td-gt-lt-td-gt-lt-input-type-quot-password-quot-name-quot-password-quot-id-quot-password-quot-gt-lt-td-gt-lt-tr-gt-lt-table-gt-lt-table-gt-lt-tr-gt-lt-td-gt-lt-input-type-quot-button-quot-value-quot-ti-jiao-quot-onclick-quot-check-quot-gt-lt-td-gt-amp-amp-nbsp-amp-amp-nbsp-lt-td-gt-lt-input-type-quot-reset-quot-value-quot-chong-zhi-quot-gt-lt-td-gt-lt-tr-gt-lt-table-gt-lt-form-gt-lt-center-gt-lt-body-gt-lt-html-gt-nbsp-yi-xia-dai-ma-shi-loginservlet-java-zhong-de-dai-ma-123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118package-org-common-servlet-import-java-io-ioexception-import-java-io-printwriter-import-java-util-enumeration-import-java-util-properties-import-javax-servlet-servletexception-import-javax-servlet-http-httpservlet-import-javax-servlet-http-httpservletrequest-import-javax-servlet-http-httpservletresponse-public-class-loginservlet-extends-httpservlet-123-constructor-of-the-object-public-loginservlet-123-super-125-destruction-of-the-servlet-lt-br-gt-public-void-destroy-123-super-destroy-just-puts-quot-destroy-quot-string-in-log-put-your-code-here-125-the-doget-method-of-the-servlet-lt-br-gt-this-method-is-called-when-a-form-has-its-tag-value-method-equals-to-get-param-request-the-request-send-by-the-client-to-the-server-param-response-the-response-send-by-the-server-to-the-client-throws-servletexception-if-an-error-occurred-throws-ioexception-if-an-error-occurred-public-void-doget-httpservletrequest-request-httpservletresponse-response-throws-servletexception-ioexception-123-system-out-println-quot-zhi-xing-doget-fang-fa-quot-1-jie-shou-qian-tai-chuan-di-guo-lai-de-can-shu-enumeration-enums-request-getparameternames-while-enums-hasmoreelements-123-system-out-println-enums-nextelement-125-zhuan-huan-bian-ma-de-di-2-chong-fang-shi-pei-he-dopost-fang-fa-shi-yong-request-setcharacterencoding-quot-gbk-quot-ti-jiao-de-name-ke-yi-zai-hou-tai-shi-yong-request-getparameter-quot-loginname-quot-huo-qu-zhi-string-loginname-request-getparameter-quot-loginname-quot-system-out-println-quot-zhuan-huan-qian-loginname-quot-loginname-string-password-request-getparameter-quot-password-quot-ba-loginname-zhe-ge-zi-fu-chuan-zhuan-cheng-gbk-qian-ti-ni-yao-que-ding-bian-ma-loginname-new-string-loginname-getbytes-quot-iso-8859-1-quot-quot-gbk-quot-system-out-println-quot-zhuan-huan-hou-loginname-quot-loginname-string-password-request-getparameter-quot-password-quot-properties-wen-jian-shi-java-de-mo-ren-pei-zhi-wen-jian-yi-key-value-de-xing-shi-cun-chu-shu-ju-zeng-jia-liao-yi-ge-user-properties-wen-jian-cun-chu-yong-hu-ming-mi-ma-properties-pro-new-properties-load-fang-fa-cong-shu-ru-liu-zhong-du-qu-shu-xing-lie-biao-jian-he-yuan-su-dui-pro-load-this-getclass-getresourceasstream-quot-user-properties-quot-system-out-print-pro-response-setcontenttype-quot-text-html-charset-gbk-quot-printwriter-out-response-getwriter-out-println-quot-lt-doctype-html-public-quot-w3c-dtd-html-4-01-transitional-en-quot-gt-quot-out-println-quot-lt-html-gt-quot-out-println-quot-lt-head-gt-lt-title-gt-a-servlet-lt-title-gt-lt-head-gt-quot-out-println-quot-lt-body-gt-quot-out-print-quot-loginname-quot-loginname-out-print-quot-password-quot-password-if-loginname-equals-pro-getproperty-quot-loginname-quot-amp-amp-amp-amp-password-equals-pro-getproperty-quot-password-quot-123-out-println-quot-huan-ying-quot-pro-getproperty-quot-username-quot-quot-deng-lu-quot-125-else-123-out-println-quot-yong-hu-ming-mi-ma-cuo-wu-quot-125-out-println-quot-lt-body-gt-quot-out-println-quot-lt-html-gt-quot-out-flush-out-close-125-the-dopost-method-of-the-servlet-lt-br-gt-this-method-is-called-when-a-form-has-its-tag-value-method-equals-to-post-param-request-the-request-send-by-the-client-to-the-server-param-response-the-response-send-by-the-server-to-the-client-throws-servletexception-if-an-error-occurred-throws-ioexception-if-an-error-occurred-public-void-dopost-httpservletrequest-request-httpservletresponse-response-throws-servletexception-ioexception-123-this-doget-request-response-125-initialization-of-the-servlet-lt-br-gt-throws-servletexception-if-an-error-occurs-public-void-init-throws-servletexception-123-put-your-code-here-125-125-nbsp-doget-fang-fa-bu-an-quan-suo-yi-jin-liang-shi-yong-dopost-fang-fa"><a href="#请求头信息列表-“" class="headerlink" title="请求头信息列表 “);"></a>请求头信息列表<h2 id> “);<a href="#" class="header-anchor">#</a></h2><pre><code>    out.print(&quot; &lt;table border=1&gt; &quot;);
+    out.print(&quot; |名字|值
+</code></pre>
+<p> “);<br>        //返回头消息名字集合，返回的是一个枚举<br>        Enumeration enums = request.getHeaderNames();<br>        //遍历获取所有头信息名和值<br>        while(enums.hasMoreElements()){<br>            //获取每一个头消息的名字<br>            String headName = (String)enums.nextElement();<br>            out.println(“ <tr> “);<br>            out.println(“ | “ + headName + “  “);<br>            //getHeader(java.lang.String name)<br>            //Returns the value of the specified request header as a String.<br>            //返回这个名字的头信息的值<br>            out.println(“ | “ + request.getHeaders(headName) + “  “);<br>            out.println(“ </tr> “);<br>        }<br>        out.println(“  “);</p>
+<pre><code>    out.println(&quot; &lt;hr&gt; &quot;);
+    //测试HttpServletRequest的方法
+    out.println(&quot;Method： &quot; + request.getMethod() + &quot;&lt;br&gt;&quot;);
+    out.println(&quot;Request URI： &quot; + request.getRequestURI() + &quot;&lt;br&gt;&quot;);
+    out.println(&quot;Protocol： &quot; + request.getProtocol() + &quot;&lt;br&gt;&quot;);
+    out.println(&quot;PathInfo： &quot; + request.getPathInfo() + &quot;&lt;br&gt;&quot;);
+    out.println(&quot;Remote Address： &quot; + request.getRemoteAddr() + &quot;&lt;br&gt;&quot;);
+    out.println(&quot;ContextPath： &quot; + request.getContextPath() + &quot;&lt;br&gt;&quot;);
+    out.println(&quot;getScheme： &quot; + request.getScheme() + &quot;&lt;br&gt;&quot;);
+    out.println(&quot;getServerName： &quot; + request.getServerName() + &quot;&lt;br&gt;&quot;);
+    out.println(&quot;getServerPort： &quot; + request.getServerPort() + &quot;&lt;br&gt;&quot;);
+    out.println(&quot;getRequestURI： &quot; + request.getRequestURI() + &quot;&lt;br&gt;&quot;);
+    String path = request.getContextPath();
+    //请求全路径
+    String basePath
+        = request.getScheme() + &quot;://&quot; + request.getServerName() + &quot;:&quot;
+        + request.getServerPort() + request.getRequestURI();
+    out.println(&quot; path: &quot; + path + &quot;&lt;br&gt;&quot;);
+    out.println(&quot; basePath: &quot; + basePath + &quot;&lt;br&gt;&quot;);
+    
+    //out.print(this.getClass());
+    //out.println(&quot;, using the GET method&quot;);
+    
+    out.print(&quot;&lt;/center&gt;&quot;);
+    out.println(&quot;  &lt;/BODY&gt;&quot;);
+    out.println(&quot;&lt;/HTML&gt;&quot;);
+    out.flush();
+    out.close();
+&#125;
+
+/**
+ * The doPost method of the servlet. &lt;br&gt;
+ *
+ * This method is called when a form has its tag value method equals to post.
+ * 
+ * @param request the request send by the client to the server
+ * @param response the response send by the server to the client
+ * @throws ServletException if an error occurred
+ * @throws IOException if an error occurred
+ */
+public void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException &#123;
+    
+    //调用doGet方法
+    this.doGet(request, response);
+&#125;
+
+/**
+ * Initialization of the servlet. &lt;br&gt;
+ *
+ * @throws ServletException if an error occurs
+ */
+public void init() throws ServletException &#123;
+    // Put your code here
+&#125;
+</code></pre>
+<p>}</p>
+<p>然后部署并启动Tomcat服务器，在浏览器中输入</p>
+<pre class="brush:bash;gutter:true;"><code>http://127.0.0.1:8080/testhttp/servlet/TestHttpServlet
+</code></pre>
+
+<h2 id="4-shi-yong-servlet-shi-xian-jian-dan-de-login-ben-gong-cheng-de-gong-neng-shi-shi-xian-javaweb-de-servlet-shen-fen-yan-zheng-nbsp-yi-xia-shi-login-html-wen-jian-zhong-de-dai-ma-1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071-lt-doctype-html-gt-lt-html-gt-lt-head-gt-lt-title-gt-login-html-lt-title-gt-lt-meta-name-quot-keywords-quot-content-quot-keyword1-keyword2-keyword3-quot-gt-lt-meta-name-quot-description-quot-content-quot-this-is-my-page-quot-gt-lt-meta-name-quot-content-type-quot-content-quot-text-html-charset-gbk-quot-gt-lt-lt-link-rel-quot-stylesheet-quot-type-quot-text-css-quot-href-quot-styles-css-quot-gt-gt-lt-script-type-quot-text-javascript-quot-gt-function-check-123-huo-qu-kong-jian-nei-rong-var-loginname-document-getelementbyid-quot-loginname-quot-value-if-loginname-quot-quot-123-alert-quot-yong-hu-ming-bu-neng-wei-kong-quot-document-getelementbyid-quot-loginname-quot-focus-huo-qu-jiao-dian-return-false-125-var-password-document-getelementbyid-quot-password-quot-value-if-password-quot-quot-123-alert-quot-mi-ma-bu-neng-wei-kong-quot-document-getelementbyid-quot-password-quot-focus-return-false-125-yan-zheng-cheng-gong-document-loginform-submit-125-lt-script-gt-lt-head-gt-lt-body-gt-lt-center-gt-lt-h2-gt-deng-lu-ye-mian-lt-h2-gt-lt-br-gt-lt-html-shu-ju-you-liang-chong-chuan-shu-fang-shi-1-get-cong-di-zhi-lan-chuan-di-2-form-biao-dan-chuan-shu-form-dai-biao-biao-dan-action-shu-xing-dai-biao-ti-jiao-de-url-action-quot-login-do-quot-na-me-zai-web-xml-li-mian-ding-yi-lt-servlet-mapping-gt-de-lt-url-pattern-gt-de-shi-hou-ye-shi-login-do-method-shu-xing-dai-biao-ti-jiao-biao-dan-de-fang-shi-http-li-mian-chong-dian-shi-get-he-post-mo-ren-get-fang-shi-ti-jiao-name-shu-xing-gei-biao-dan-qi-ming-zi-id-shu-xing-dai-biao-wei-yi-biao-shi-gai-biao-dan-de-ming-zi-zhu-yao-shi-javascript-jiao-ben-shi-yong-gt-lt-form-action-quot-login-do-quot-method-quot-get-quot-name-quot-loginform-quot-id-quot-loginform-quot-gt-lt-table-gt-lt-tr-gt-lt-td-gt-deng-lu-ming-lt-td-gt-lt-td-gt-lt-input-type-quot-text-quot-name-quot-loginname-quot-id-quot-loginname-quot-gt-lt-td-gt-lt-tr-gt-lt-tr-gt-lt-td-gt-mi-ma-lt-td-gt-lt-td-gt-lt-input-type-quot-password-quot-name-quot-password-quot-id-quot-password-quot-gt-lt-td-gt-lt-tr-gt-lt-table-gt-lt-table-gt-lt-tr-gt-lt-td-gt-lt-input-type-quot-button-quot-value-quot-ti-jiao-quot-onclick-quot-check-quot-gt-lt-td-gt-amp-amp-nbsp-amp-amp-nbsp-lt-td-gt-lt-input-type-quot-reset-quot-value-quot-chong-zhi-quot-gt-lt-td-gt-lt-tr-gt-lt-table-gt-lt-form-gt-lt-center-gt-lt-body-gt-lt-html-gt-nbsp-yi-xia-dai-ma-shi-loginservlet-java-zhong-de-dai-ma-123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118package-org-common-servlet-import-java-io-ioexception-import-java-io-printwriter-import-java-util-enumeration-import-java-util-properties-import-javax-servlet-servletexception-import-javax-servlet-http-httpservlet-import-javax-servlet-http-httpservletrequest-import-javax-servlet-http-httpservletresponse-public-class-loginservlet-extends-httpservlet-123-constructor-of-the-object-public-loginservlet-123-super-125-destruction-of-the-servlet-lt-br-gt-public-void-destroy-123-super-destroy-just-puts-quot-destroy-quot-string-in-log-put-your-code-here-125-the-doget-method-of-the-servlet-lt-br-gt-this-method-is-called-when-a-form-has-its-tag-value-method-equals-to-get-param-request-the-request-send-by-the-client-to-the-server-param-response-the-response-send-by-the-server-to-the-client-throws-servletexception-if-an-error-occurred-throws-ioexception-if-an-error-occurred-public-void-doget-httpservletrequest-request-httpservletresponse-response-throws-servletexception-ioexception-123-system-out-println-quot-zhi-xing-doget-fang-fa-quot-1-jie-shou-qian-tai-chuan-di-guo-lai-de-can-shu-enumeration-enums-request-getparameternames-while-enums-hasmoreelements-123-system-out-println-enums-nextelement-125-zhuan-huan-bian-ma-de-di-2-chong-fang-shi-pei-he-dopost-fang-fa-shi-yong-request-setcharacterencoding-quot-gbk-quot-ti-jiao-de-name-ke-yi-zai-hou-tai-shi-yong-request-getparameter-quot-loginname-quot-huo-qu-zhi-string-loginname-request-getparameter-quot-loginname-quot-system-out-println-quot-zhuan-huan-qian-loginname-quot-loginname-string-password-request-getparameter-quot-password-quot-ba-loginname-zhe-ge-zi-fu-chuan-zhuan-cheng-gbk-qian-ti-ni-yao-que-ding-bian-ma-loginname-new-string-loginname-getbytes-quot-iso-8859-1-quot-quot-gbk-quot-system-out-println-quot-zhuan-huan-hou-loginname-quot-loginname-string-password-request-getparameter-quot-password-quot-properties-wen-jian-shi-java-de-mo-ren-pei-zhi-wen-jian-yi-key-value-de-xing-shi-cun-chu-shu-ju-zeng-jia-liao-yi-ge-user-properties-wen-jian-cun-chu-yong-hu-ming-mi-ma-properties-pro-new-properties-load-fang-fa-cong-shu-ru-liu-zhong-du-qu-shu-xing-lie-biao-jian-he-yuan-su-dui-pro-load-this-getclass-getresourceasstream-quot-user-properties-quot-system-out-print-pro-response-setcontenttype-quot-text-html-charset-gbk-quot-printwriter-out-response-getwriter-out-println-quot-lt-doctype-html-public-quot-w3c-dtd-html-4-01-transitional-en-quot-gt-quot-out-println-quot-lt-html-gt-quot-out-println-quot-lt-head-gt-lt-title-gt-a-servlet-lt-title-gt-lt-head-gt-quot-out-println-quot-lt-body-gt-quot-out-print-quot-loginname-quot-loginname-out-print-quot-password-quot-password-if-loginname-equals-pro-getproperty-quot-loginname-quot-amp-amp-amp-amp-password-equals-pro-getproperty-quot-password-quot-123-out-println-quot-huan-ying-quot-pro-getproperty-quot-username-quot-quot-deng-lu-quot-125-else-123-out-println-quot-yong-hu-ming-mi-ma-cuo-wu-quot-125-out-println-quot-lt-body-gt-quot-out-println-quot-lt-html-gt-quot-out-flush-out-close-125-the-dopost-method-of-the-servlet-lt-br-gt-this-method-is-called-when-a-form-has-its-tag-value-method-equals-to-post-param-request-the-request-send-by-the-client-to-the-server-param-response-the-response-send-by-the-server-to-the-client-throws-servletexception-if-an-error-occurred-throws-ioexception-if-an-error-occurred-public-void-dopost-httpservletrequest-request-httpservletresponse-response-throws-servletexception-ioexception-123-this-doget-request-response-125-initialization-of-the-servlet-lt-br-gt-throws-servletexception-if-an-error-occurs-public-void-init-throws-servletexception-123-put-your-code-here-125-125-nbsp-doget-fang-fa-bu-an-quan-suo-yi-jin-liang-shi-yong-dopost-fang-fa">4.使用servlet实现简单的login
+
+<p>本工程的功能是实现Javaweb的servlet身份验证</p>
+<p>&nbsp;</p>
+<p>一下是login.html文件中的代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">    &lt;title&gt;login.html&lt;/title&gt;</span><br><span class="line">    </span><br><span class="line">    &lt;meta name=&quot;keywords&quot; content=&quot;keyword1,keyword2,keyword3&quot;&gt;</span><br><span class="line">    &lt;meta name=&quot;description&quot; content=&quot;this is my page&quot;&gt;</span><br><span class="line">    &lt;meta name=&quot;content-type&quot; content=&quot;text/html; charset=GBK&quot;&gt;</span><br><span class="line">    </span><br><span class="line">    &lt;!--&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;./styles.css&quot;&gt;--&gt;</span><br><span class="line"></span><br><span class="line">    &lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">        function check()&#123;</span><br><span class="line">            //获取控件内容</span><br><span class="line">            var loginname = document.getElementById(&quot;loginname&quot;).value;</span><br><span class="line">            if(loginname == &quot;&quot;)&#123;</span><br><span class="line">                alert(&quot;用户名不能为空&quot;);</span><br><span class="line">                document.getElementById(&quot;loginname&quot;).focus();//获取焦点</span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            var password = document.getElementById(&quot;password&quot;).value;</span><br><span class="line">            if(password == &quot;&quot;)&#123;</span><br><span class="line">                alert(&quot;密码不能为空&quot;);</span><br><span class="line">                document.getElementById(&quot;password&quot;).focus();</span><br><span class="line">                return false;</span><br><span class="line">            &#125;  </span><br><span class="line">            </span><br><span class="line">            //验证成功</span><br><span class="line">            document.loginform.submit();</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line"></span><br><span class="line">  &lt;/head&gt;</span><br><span class="line">  </span><br><span class="line">  &lt;body&gt;</span><br><span class="line">    &lt;center&gt;</span><br><span class="line">        &lt;h2&gt;登陆页面&lt;/h2&gt;</span><br><span class="line">        &lt;br&gt;</span><br><span class="line">        &lt;!-- html数据由两种传输方式 1.get 从地址栏传递 2.form表单传输 </span><br><span class="line">            form代表表单</span><br><span class="line">                --action属性代表提交的url</span><br><span class="line">                    action=&quot;login.do&quot;,那么在web.xml里面定义&lt;servlet-mapping&gt;的&lt;url-pattern&gt;</span><br><span class="line">                    的时候也是login.do</span><br><span class="line">                --method属性代表提交表单的方式，http里面重点是get和post，默认get方式提交</span><br><span class="line">                --name属性给表单其名字</span><br><span class="line">                --id属性代表唯一标示该表单的名字，主要是javascript脚本使用</span><br><span class="line">        --&gt;</span><br><span class="line">        &lt;form action=&quot;login.do&quot; method=&quot;get&quot; name=&quot;loginform&quot; id=&quot;loginform&quot;&gt;</span><br><span class="line">            &lt;table&gt;</span><br><span class="line">                &lt;tr&gt;</span><br><span class="line">                    &lt;td&gt;登录名：&lt;/td&gt;</span><br><span class="line">                    &lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;loginname&quot; id=&quot;loginname&quot;/&gt;&lt;/td&gt;</span><br><span class="line">                &lt;/tr&gt;</span><br><span class="line">                &lt;tr&gt;</span><br><span class="line">                    &lt;td&gt;密码：&lt;/td&gt;</span><br><span class="line">                    &lt;td&gt;&lt;input type=&quot;password&quot; name=&quot;password&quot; id=&quot;password&quot;/&gt;&lt;/td&gt;</span><br><span class="line">                &lt;/tr&gt;</span><br><span class="line">            &lt;/table&gt;</span><br><span class="line">            &lt;table&gt;</span><br><span class="line">                &lt;tr&gt;</span><br><span class="line">                    &lt;td&gt;&lt;input type=&quot;button&quot; value=&quot;提交&quot; onclick=&quot;check();&quot;&gt;&lt;/td&gt;</span><br><span class="line">                    &amp;amp;nbsp;&amp;amp;nbsp;</span><br><span class="line">                    &lt;td&gt;&lt;input type=&quot;reset&quot; value=&quot;重置&quot;&gt;&lt;/td&gt;</span><br><span class="line">                &lt;/tr&gt;</span><br><span class="line">            &lt;/table&gt;</span><br><span class="line">        &lt;/form&gt;</span><br><span class="line">        </span><br><span class="line">    &lt;/center&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p>以下代码是LoginServlet.java中的代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line">package org.common.servlet;</span><br><span class="line"></span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.PrintWriter;</span><br><span class="line">import java.util.Enumeration;</span><br><span class="line">import java.util.Properties;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line"></span><br><span class="line">public class LoginServlet extends HttpServlet &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Constructor of the object.</span><br><span class="line">     */</span><br><span class="line">    public LoginServlet() &#123;</span><br><span class="line">        super();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Destruction of the servlet. &lt;br&gt;</span><br><span class="line">     */</span><br><span class="line">    public void destroy() &#123;</span><br><span class="line">        super.destroy(); // Just puts &quot;destroy&quot; string in log</span><br><span class="line">        // Put your code here</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * The doGet method of the servlet. &lt;br&gt;</span><br><span class="line">     *</span><br><span class="line">     * This method is called when a form has its tag value method equals to get.</span><br><span class="line">     * </span><br><span class="line">     * @param request the request send by the client to the server</span><br><span class="line">     * @param response the response send by the server to the client</span><br><span class="line">     * @throws ServletException if an error occurred</span><br><span class="line">     * @throws IOException if an error occurred</span><br><span class="line">     */</span><br><span class="line">    public void doGet(HttpServletRequest request, HttpServletResponse response)</span><br><span class="line">            throws ServletException, IOException &#123;</span><br><span class="line">        </span><br><span class="line">        System.out.println(&quot;执行 doGet 方法...&quot;);</span><br><span class="line">//        //1.接收前台传递过来的参数</span><br><span class="line">//        Enumeration enums = request.getParameterNames();</span><br><span class="line">//        while(enums.hasMoreElements())&#123;</span><br><span class="line">//            System.out.println(enums.nextElement());</span><br><span class="line">//            </span><br><span class="line">//        &#125;</span><br><span class="line">        </span><br><span class="line">        //转换编码的第2种方式，配合doPost()方法使用</span><br><span class="line">        request.setCharacterEncoding(&quot;GBK&quot;);</span><br><span class="line">        </span><br><span class="line">        //提交的name可以在后台使用request.getParameter(&quot;loginname&quot;)获取值</span><br><span class="line">        String loginname = request.getParameter(&quot;loginname&quot;);</span><br><span class="line">        System.out.println(&quot;转换前loginname:&quot; + loginname);</span><br><span class="line">        //String password = request.getParameter(&quot;password&quot;);</span><br><span class="line">        </span><br><span class="line">        //把loginname这个字符串转成GBK，前提你要确定编码</span><br><span class="line">        loginname = new String(loginname.getBytes(&quot;iso-8859-1&quot;),&quot;GBK&quot;);</span><br><span class="line">        System.out.println(&quot;转换后loginname:&quot; + loginname);</span><br><span class="line">        String password = request.getParameter(&quot;password&quot;);</span><br><span class="line">        </span><br><span class="line">        //properties文件是java的默认配置文件，以key-value的形式存储数据</span><br><span class="line">        //增加了一个user.properties文件存储用户名密码</span><br><span class="line">        Properties pro = new Properties();</span><br><span class="line">        //load方法从输入流中读取属性列表（键和元素对）</span><br><span class="line">        pro.load(this.getClass().getResourceAsStream(&quot;/user.properties&quot;));</span><br><span class="line">        //System.out.print(pro);</span><br><span class="line">        </span><br><span class="line">        response.setContentType(&quot;text/html;charset=GBK&quot;);</span><br><span class="line">        PrintWriter out = response.getWriter();</span><br><span class="line">        out.println(&quot;&lt;!DOCTYPE HTML PUBLIC \&quot;-//W3C//DTD HTML 4.01 Transitional//EN\&quot;&gt;&quot;);</span><br><span class="line">        out.println(&quot;&lt;HTML&gt;&quot;);</span><br><span class="line">        out.println(&quot;  &lt;HEAD&gt;&lt;TITLE&gt;A Servlet&lt;/TITLE&gt;&lt;/HEAD&gt;&quot;);</span><br><span class="line">        out.println(&quot;  &lt;BODY&gt;&quot;);</span><br><span class="line">        </span><br><span class="line">        //out.print(&quot; loginname: &quot; + loginname);</span><br><span class="line">        //out.print(&quot; password: &quot; + password);</span><br><span class="line">        if(loginname.equals(pro.getProperty(&quot;loginname&quot;)) </span><br><span class="line">                &amp;amp;&amp;amp; password.equals(pro.getProperty(&quot;password&quot;)))&#123;</span><br><span class="line">            out.println(&quot; 欢迎[&quot;+pro.getProperty(&quot;username&quot;)+&quot;]登陆&quot;);</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            out.println(&quot;用户名密码错误&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        out.println(&quot;  &lt;/BODY&gt;&quot;);</span><br><span class="line">        out.println(&quot;&lt;/HTML&gt;&quot;);</span><br><span class="line">        out.flush();</span><br><span class="line">        out.close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * The doPost method of the servlet. &lt;br&gt;</span><br><span class="line">     *</span><br><span class="line">     * This method is called when a form has its tag value method equals to post.</span><br><span class="line">     * </span><br><span class="line">     * @param request the request send by the client to the server</span><br><span class="line">     * @param response the response send by the server to the client</span><br><span class="line">     * @throws ServletException if an error occurred</span><br><span class="line">     * @throws IOException if an error occurred</span><br><span class="line">     */</span><br><span class="line">    public void doPost(HttpServletRequest request, HttpServletResponse response)</span><br><span class="line">            throws ServletException, IOException &#123;</span><br><span class="line"></span><br><span class="line">        this.doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Initialization of the servlet. &lt;br&gt;</span><br><span class="line">     *</span><br><span class="line">     * @throws ServletException if an error occurs</span><br><span class="line">     */</span><br><span class="line">    public void init() throws ServletException &#123;</span><br><span class="line">        // Put your code here</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p>doGet()方法不安全，所以尽量使用doPost()方法</p>
+<a href="#4-shi-yong-servlet-shi-xian-jian-dan-de-login-ben-gong-cheng-de-gong-neng-shi-shi-xian-javaweb-de-servlet-shen-fen-yan-zheng-nbsp-yi-xia-shi-login-html-wen-jian-zhong-de-dai-ma-1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071-lt-doctype-html-gt-lt-html-gt-lt-head-gt-lt-title-gt-login-html-lt-title-gt-lt-meta-name-quot-keywords-quot-content-quot-keyword1-keyword2-keyword3-quot-gt-lt-meta-name-quot-description-quot-content-quot-this-is-my-page-quot-gt-lt-meta-name-quot-content-type-quot-content-quot-text-html-charset-gbk-quot-gt-lt-lt-link-rel-quot-stylesheet-quot-type-quot-text-css-quot-href-quot-styles-css-quot-gt-gt-lt-script-type-quot-text-javascript-quot-gt-function-check-123-huo-qu-kong-jian-nei-rong-var-loginname-document-getelementbyid-quot-loginname-quot-value-if-loginname-quot-quot-123-alert-quot-yong-hu-ming-bu-neng-wei-kong-quot-document-getelementbyid-quot-loginname-quot-focus-huo-qu-jiao-dian-return-false-125-var-password-document-getelementbyid-quot-password-quot-value-if-password-quot-quot-123-alert-quot-mi-ma-bu-neng-wei-kong-quot-document-getelementbyid-quot-password-quot-focus-return-false-125-yan-zheng-cheng-gong-document-loginform-submit-125-lt-script-gt-lt-head-gt-lt-body-gt-lt-center-gt-lt-h2-gt-deng-lu-ye-mian-lt-h2-gt-lt-br-gt-lt-html-shu-ju-you-liang-chong-chuan-shu-fang-shi-1-get-cong-di-zhi-lan-chuan-di-2-form-biao-dan-chuan-shu-form-dai-biao-biao-dan-action-shu-xing-dai-biao-ti-jiao-de-url-action-quot-login-do-quot-na-me-zai-web-xml-li-mian-ding-yi-lt-servlet-mapping-gt-de-lt-url-pattern-gt-de-shi-hou-ye-shi-login-do-method-shu-xing-dai-biao-ti-jiao-biao-dan-de-fang-shi-http-li-mian-chong-dian-shi-get-he-post-mo-ren-get-fang-shi-ti-jiao-name-shu-xing-gei-biao-dan-qi-ming-zi-id-shu-xing-dai-biao-wei-yi-biao-shi-gai-biao-dan-de-ming-zi-zhu-yao-shi-javascript-jiao-ben-shi-yong-gt-lt-form-action-quot-login-do-quot-method-quot-get-quot-name-quot-loginform-quot-id-quot-loginform-quot-gt-lt-table-gt-lt-tr-gt-lt-td-gt-deng-lu-ming-lt-td-gt-lt-td-gt-lt-input-type-quot-text-quot-name-quot-loginname-quot-id-quot-loginname-quot-gt-lt-td-gt-lt-tr-gt-lt-tr-gt-lt-td-gt-mi-ma-lt-td-gt-lt-td-gt-lt-input-type-quot-password-quot-name-quot-password-quot-id-quot-password-quot-gt-lt-td-gt-lt-tr-gt-lt-table-gt-lt-table-gt-lt-tr-gt-lt-td-gt-lt-input-type-quot-button-quot-value-quot-ti-jiao-quot-onclick-quot-check-quot-gt-lt-td-gt-amp-amp-nbsp-amp-amp-nbsp-lt-td-gt-lt-input-type-quot-reset-quot-value-quot-chong-zhi-quot-gt-lt-td-gt-lt-tr-gt-lt-table-gt-lt-form-gt-lt-center-gt-lt-body-gt-lt-html-gt-nbsp-yi-xia-dai-ma-shi-loginservlet-java-zhong-de-dai-ma-123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118package-org-common-servlet-import-java-io-ioexception-import-java-io-printwriter-import-java-util-enumeration-import-java-util-properties-import-javax-servlet-servletexception-import-javax-servlet-http-httpservlet-import-javax-servlet-http-httpservletrequest-import-javax-servlet-http-httpservletresponse-public-class-loginservlet-extends-httpservlet-123-constructor-of-the-object-public-loginservlet-123-super-125-destruction-of-the-servlet-lt-br-gt-public-void-destroy-123-super-destroy-just-puts-quot-destroy-quot-string-in-log-put-your-code-here-125-the-doget-method-of-the-servlet-lt-br-gt-this-method-is-called-when-a-form-has-its-tag-value-method-equals-to-get-param-request-the-request-send-by-the-client-to-the-server-param-response-the-response-send-by-the-server-to-the-client-throws-servletexception-if-an-error-occurred-throws-ioexception-if-an-error-occurred-public-void-doget-httpservletrequest-request-httpservletresponse-response-throws-servletexception-ioexception-123-system-out-println-quot-zhi-xing-doget-fang-fa-quot-1-jie-shou-qian-tai-chuan-di-guo-lai-de-can-shu-enumeration-enums-request-getparameternames-while-enums-hasmoreelements-123-system-out-println-enums-nextelement-125-zhuan-huan-bian-ma-de-di-2-chong-fang-shi-pei-he-dopost-fang-fa-shi-yong-request-setcharacterencoding-quot-gbk-quot-ti-jiao-de-name-ke-yi-zai-hou-tai-shi-yong-request-getparameter-quot-loginname-quot-huo-qu-zhi-string-loginname-request-getparameter-quot-loginname-quot-system-out-println-quot-zhuan-huan-qian-loginname-quot-loginname-string-password-request-getparameter-quot-password-quot-ba-loginname-zhe-ge-zi-fu-chuan-zhuan-cheng-gbk-qian-ti-ni-yao-que-ding-bian-ma-loginname-new-string-loginname-getbytes-quot-iso-8859-1-quot-quot-gbk-quot-system-out-println-quot-zhuan-huan-hou-loginname-quot-loginname-string-password-request-getparameter-quot-password-quot-properties-wen-jian-shi-java-de-mo-ren-pei-zhi-wen-jian-yi-key-value-de-xing-shi-cun-chu-shu-ju-zeng-jia-liao-yi-ge-user-properties-wen-jian-cun-chu-yong-hu-ming-mi-ma-properties-pro-new-properties-load-fang-fa-cong-shu-ru-liu-zhong-du-qu-shu-xing-lie-biao-jian-he-yuan-su-dui-pro-load-this-getclass-getresourceasstream-quot-user-properties-quot-system-out-print-pro-response-setcontenttype-quot-text-html-charset-gbk-quot-printwriter-out-response-getwriter-out-println-quot-lt-doctype-html-public-quot-w3c-dtd-html-4-01-transitional-en-quot-gt-quot-out-println-quot-lt-html-gt-quot-out-println-quot-lt-head-gt-lt-title-gt-a-servlet-lt-title-gt-lt-head-gt-quot-out-println-quot-lt-body-gt-quot-out-print-quot-loginname-quot-loginname-out-print-quot-password-quot-password-if-loginname-equals-pro-getproperty-quot-loginname-quot-amp-amp-amp-amp-password-equals-pro-getproperty-quot-password-quot-123-out-println-quot-huan-ying-quot-pro-getproperty-quot-username-quot-quot-deng-lu-quot-125-else-123-out-println-quot-yong-hu-ming-mi-ma-cuo-wu-quot-125-out-println-quot-lt-body-gt-quot-out-println-quot-lt-html-gt-quot-out-flush-out-close-125-the-dopost-method-of-the-servlet-lt-br-gt-this-method-is-called-when-a-form-has-its-tag-value-method-equals-to-post-param-request-the-request-send-by-the-client-to-the-server-param-response-the-response-send-by-the-server-to-the-client-throws-servletexception-if-an-error-occurred-throws-ioexception-if-an-error-occurred-public-void-dopost-httpservletrequest-request-httpservletresponse-response-throws-servletexception-ioexception-123-this-doget-request-response-125-initialization-of-the-servlet-lt-br-gt-throws-servletexception-if-an-error-occurs-public-void-init-throws-servletexception-123-put-your-code-here-125-125-nbsp-doget-fang-fa-bu-an-quan-suo-yi-jin-liang-shi-yong-dopost-fang-fa" class="header-anchor">#</a></h2><a href="#qing-qiu-tou-xin-xi-lie-biao-out-print-quot-lt-table-border-1-gt-quot-out-print-quot-ming-zi-zhi-fan-hui-tou-xiao-xi-ming-zi-ji-he-fan-hui-de-shi-yi-ge-mei-ju-enumeration-enums-request-getheadernames-bian-li-huo-qu-suo-you-tou-xin-xi-ming-he-zhi-while-enums-hasmoreelements-huo-qu-mei-yi-ge-tou-xiao-xi-de-ming-zi-string-headname-string-enums-nextelement-out-println-out-println-headname-getheader-java-lang-string-name-returns-the-value-of-the-specified-request-header-as-a-string-fan-hui-zhe-ge-ming-zi-de-tou-xin-xi-de-zhi-out-println-request-getheaders-headname-out-println-out-println-out-println-quot-lt-hr-gt-quot-ce-shi-httpservletrequest-de-fang-fa-out-println-quot-method-quot-request-getmethod-quot-lt-br-gt-quot-out-println-quot-request-uri-quot-request-getrequesturi-quot-lt-br-gt-quot-out-println-quot-protocol-quot-request-getprotocol-quot-lt-br-gt-quot-out-println-quot-pathinfo-quot-request-getpathinfo-quot-lt-br-gt-quot-out-println-quot-remote-address-quot-request-getremoteaddr-quot-lt-br-gt-quot-out-println-quot-contextpath-quot-request-getcontextpath-quot-lt-br-gt-quot-out-println-quot-getscheme-quot-request-getscheme-quot-lt-br-gt-quot-out-println-quot-getservername-quot-request-getservername-quot-lt-br-gt-quot-out-println-quot-getserverport-quot-request-getserverport-quot-lt-br-gt-quot-out-println-quot-getrequesturi-quot-request-getrequesturi-quot-lt-br-gt-quot-string-path-request-getcontextpath-qing-qiu-quan-lu-jing-string-basepath-request-getscheme-quot-quot-request-getservername-quot-quot-request-getserverport-request-getrequesturi-out-println-quot-path-quot-path-quot-lt-br-gt-quot-out-println-quot-basepath-quot-basepath-quot-lt-br-gt-quot-out-print-this-getclass-out-println-quot-using-the-get-method-quot-out-print-quot-lt-center-gt-quot-out-println-quot-lt-body-gt-quot-out-println-quot-lt-html-gt-quot-out-flush-out-close-125-the-dopost-method-of-the-servlet-lt-br-gt-this-method-is-called-when-a-form-has-its-tag-value-method-equals-to-post-param-request-the-request-send-by-the-client-to-the-server-param-response-the-response-send-by-the-server-to-the-client-throws-servletexception-if-an-error-occurred-throws-ioexception-if-an-error-occurred-public-void-dopost-httpservletrequest-request-httpservletresponse-response-throws-servletexception-ioexception-123-diao-yong-doget-fang-fa-this-doget-request-response-125-initialization-of-the-servlet-lt-br-gt-throws-servletexception-if-an-error-occurs-public-void-init-throws-servletexception-123-put-your-code-here-125-ran-hou-bu-shu-bing-qi-dong-tomcat-fu-wu-qi-zai-liu-lan-qi-zhong-shu-ru-http-127-0-0-1-8080-testhttp-servlet-testhttpservlet-4-shi-yong-servlet-shi-xian-jian-dan-de-login-ben-gong-cheng-de-gong-neng-shi-shi-xian-javaweb-de-servlet-shen-fen-yan-zheng-nbsp-yi-xia-shi-login-html-wen-jian-zhong-de-dai-ma-1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071-lt-doctype-html-gt-lt-html-gt-lt-head-gt-lt-title-gt-login-html-lt-title-gt-lt-meta-name-quot-keywords-quot-content-quot-keyword1-keyword2-keyword3-quot-gt-lt-meta-name-quot-description-quot-content-quot-this-is-my-page-quot-gt-lt-meta-name-quot-content-type-quot-content-quot-text-html-charset-gbk-quot-gt-lt-lt-link-rel-quot-stylesheet-quot-type-quot-text-css-quot-href-quot-styles-css-quot-gt-gt-lt-script-type-quot-text-javascript-quot-gt-function-check-123-huo-qu-kong-jian-nei-rong-var-loginname-document-getelementbyid-quot-loginname-quot-value-if-loginname-quot-quot-123-alert-quot-yong-hu-ming-bu-neng-wei-kong-quot-document-getelementbyid-quot-loginname-quot-focus-huo-qu-jiao-dian-return-false-125-var-password-document-getelementbyid-quot-password-quot-value-if-password-quot-quot-123-alert-quot-mi-ma-bu-neng-wei-kong-quot-document-getelementbyid-quot-password-quot-focus-return-false-125-yan-zheng-cheng-gong-document-loginform-submit-125-lt-script-gt-lt-head-gt-lt-body-gt-lt-center-gt-lt-h2-gt-deng-lu-ye-mian-lt-h2-gt-lt-br-gt-lt-html-shu-ju-you-liang-chong-chuan-shu-fang-shi-1-get-cong-di-zhi-lan-chuan-di-2-form-biao-dan-chuan-shu-form-dai-biao-biao-dan-action-shu-xing-dai-biao-ti-jiao-de-url-action-quot-login-do-quot-na-me-zai-web-xml-li-mian-ding-yi-lt-servlet-mapping-gt-de-lt-url-pattern-gt-de-shi-hou-ye-shi-login-do-method-shu-xing-dai-biao-ti-jiao-biao-dan-de-fang-shi-http-li-mian-chong-dian-shi-get-he-post-mo-ren-get-fang-shi-ti-jiao-name-shu-xing-gei-biao-dan-qi-ming-zi-id-shu-xing-dai-biao-wei-yi-biao-shi-gai-biao-dan-de-ming-zi-zhu-yao-shi-javascript-jiao-ben-shi-yong-gt-lt-form-action-quot-login-do-quot-method-quot-get-quot-name-quot-loginform-quot-id-quot-loginform-quot-gt-lt-table-gt-lt-tr-gt-lt-td-gt-deng-lu-ming-lt-td-gt-lt-td-gt-lt-input-type-quot-text-quot-name-quot-loginname-quot-id-quot-loginname-quot-gt-lt-td-gt-lt-tr-gt-lt-tr-gt-lt-td-gt-mi-ma-lt-td-gt-lt-td-gt-lt-input-type-quot-password-quot-name-quot-password-quot-id-quot-password-quot-gt-lt-td-gt-lt-tr-gt-lt-table-gt-lt-table-gt-lt-tr-gt-lt-td-gt-lt-input-type-quot-button-quot-value-quot-ti-jiao-quot-onclick-quot-check-quot-gt-lt-td-gt-amp-amp-nbsp-amp-amp-nbsp-lt-td-gt-lt-input-type-quot-reset-quot-value-quot-chong-zhi-quot-gt-lt-td-gt-lt-tr-gt-lt-table-gt-lt-form-gt-lt-center-gt-lt-body-gt-lt-html-gt-nbsp-yi-xia-dai-ma-shi-loginservlet-java-zhong-de-dai-ma-123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118package-org-common-servlet-import-java-io-ioexception-import-java-io-printwriter-import-java-util-enumeration-import-java-util-properties-import-javax-servlet-servletexception-import-javax-servlet-http-httpservlet-import-javax-servlet-http-httpservletrequest-import-javax-servlet-http-httpservletresponse-public-class-loginservlet-extends-httpservlet-123-constructor-of-the-object-public-loginservlet-123-super-125-destruction-of-the-servlet-lt-br-gt-public-void-destroy-123-super-destroy-just-puts-quot-destroy-quot-string-in-log-put-your-code-here-125-the-doget-method-of-the-servlet-lt-br-gt-this-method-is-called-when-a-form-has-its-tag-value-method-equals-to-get-param-request-the-request-send-by-the-client-to-the-server-param-response-the-response-send-by-the-server-to-the-client-throws-servletexception-if-an-error-occurred-throws-ioexception-if-an-error-occurred-public-void-doget-httpservletrequest-request-httpservletresponse-response-throws-servletexception-ioexception-123-system-out-println-quot-zhi-xing-doget-fang-fa-quot-1-jie-shou-qian-tai-chuan-di-guo-lai-de-can-shu-enumeration-enums-request-getparameternames-while-enums-hasmoreelements-123-system-out-println-enums-nextelement-125-zhuan-huan-bian-ma-de-di-2-chong-fang-shi-pei-he-dopost-fang-fa-shi-yong-request-setcharacterencoding-quot-gbk-quot-ti-jiao-de-name-ke-yi-zai-hou-tai-shi-yong-request-getparameter-quot-loginname-quot-huo-qu-zhi-string-loginname-request-getparameter-quot-loginname-quot-system-out-println-quot-zhuan-huan-qian-loginname-quot-loginname-string-password-request-getparameter-quot-password-quot-ba-loginname-zhe-ge-zi-fu-chuan-zhuan-cheng-gbk-qian-ti-ni-yao-que-ding-bian-ma-loginname-new-string-loginname-getbytes-quot-iso-8859-1-quot-quot-gbk-quot-system-out-println-quot-zhuan-huan-hou-loginname-quot-loginname-string-password-request-getparameter-quot-password-quot-properties-wen-jian-shi-java-de-mo-ren-pei-zhi-wen-jian-yi-key-value-de-xing-shi-cun-chu-shu-ju-zeng-jia-liao-yi-ge-user-properties-wen-jian-cun-chu-yong-hu-ming-mi-ma-properties-pro-new-properties-load-fang-fa-cong-shu-ru-liu-zhong-du-qu-shu-xing-lie-biao-jian-he-yuan-su-dui-pro-load-this-getclass-getresourceasstream-quot-user-properties-quot-system-out-print-pro-response-setcontenttype-quot-text-html-charset-gbk-quot-printwriter-out-response-getwriter-out-println-quot-lt-doctype-html-public-quot-w3c-dtd-html-4-01-transitional-en-quot-gt-quot-out-println-quot-lt-html-gt-quot-out-println-quot-lt-head-gt-lt-title-gt-a-servlet-lt-title-gt-lt-head-gt-quot-out-println-quot-lt-body-gt-quot-out-print-quot-loginname-quot-loginname-out-print-quot-password-quot-password-if-loginname-equals-pro-getproperty-quot-loginname-quot-amp-amp-amp-amp-password-equals-pro-getproperty-quot-password-quot-123-out-println-quot-huan-ying-quot-pro-getproperty-quot-username-quot-quot-deng-lu-quot-125-else-123-out-println-quot-yong-hu-ming-mi-ma-cuo-wu-quot-125-out-println-quot-lt-body-gt-quot-out-println-quot-lt-html-gt-quot-out-flush-out-close-125-the-dopost-method-of-the-servlet-lt-br-gt-this-method-is-called-when-a-form-has-its-tag-value-method-equals-to-post-param-request-the-request-send-by-the-client-to-the-server-param-response-the-response-send-by-the-server-to-the-client-throws-servletexception-if-an-error-occurred-throws-ioexception-if-an-error-occurred-public-void-dopost-httpservletrequest-request-httpservletresponse-response-throws-servletexception-ioexception-123-this-doget-request-response-125-initialization-of-the-servlet-lt-br-gt-throws-servletexception-if-an-error-occurs-public-void-init-throws-servletexception-123-put-your-code-here-125-125-nbsp-doget-fang-fa-bu-an-quan-suo-yi-jin-liang-shi-yong-dopost-fang-fa" class="header-anchor">#</a></h2>
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/JavaWeb%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94HelloWord%20Servlet.html">JavaWeb学习笔记——HelloWord Servlet</a>
+          </div>
+        </div>
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://tonglin0325.github.io/JavaWeb%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94HelloWord%20Servlet.html" data-id="cltipwstz0000pn0laum6eyq0" class="article-share-link">
+        <i class="fa fa-share"></i> 分享
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaWeb/" rel="tag">JavaWeb</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/%E4%BB%A3%E7%90%86%E5%89%8D%E7%AB%AF%E8%AF%B7%E6%B1%82%E5%88%B0%E6%9C%AC%E5%9C%B0%E6%9C%8D%E5%8A%A1.html" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">代理前端请求到本地服务</span>
+    </a>
+  </li>
+  
+  
+  <li role="presentation">
+    <a href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94go-redis.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <span class="article-nav-link-title">go学习笔记——go-redis</span>
+      <i class="fa fa-chevron-right pull-right"></i>
+    </a>
+  </li>
+  
+</ul>
+
+
+  
+</article>
+
+
+
+
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>tonglin0325</h4>
+  <div style="text-align:center;"><img src="/images/WechatIMG1.jpeg" width="150" height="150" style="vertical-align:middle;"/></div>
+</div>
+
+
+  
+
+
+  
+  <div class="sidebar-module">
+    <h4>标签</h4>
+    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/AWS/" rel="tag">AWS</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Airbnb/" rel="tag">Airbnb</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Android/" rel="tag">Android</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/CDH/" rel="tag">CDH</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Doris/" rel="tag">Doris</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ELK/" rel="tag">ELK</a><span class="sidebar-module-list-count">14</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Flink/" rel="tag">Flink</a><span class="sidebar-module-list-count">29</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Git/" rel="tag">Git</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Grafana/" rel="tag">Grafana</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HAProxy/" rel="tag">HAProxy</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HBase/" rel="tag">HBase</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hadoop/" rel="tag">Hadoop</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hive/" rel="tag">Hive</a><span class="sidebar-module-list-count">20</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hudi/" rel="tag">Hudi</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/InfluxDB/" rel="tag">InfluxDB</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JDBC/" rel="tag">JDBC</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JMeter/" rel="tag">JMeter</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Java/" rel="tag">Java</a><span class="sidebar-module-list-count">19</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JavaWeb/" rel="tag">JavaWeb</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/LaTex/" rel="tag">LaTex</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Linkedin/" rel="tag">Linkedin</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="sidebar-module-list-count">35</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ML/" rel="tag">ML</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ML-Infra/" rel="tag">ML Infra</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/MPP/" rel="tag">MPP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Maven/" rel="tag">Maven</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/MySQL/" rel="tag">MySQL</a><span class="sidebar-module-list-count">16</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Nexus/" rel="tag">Nexus</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/OpenTSDB/" rel="tag">OpenTSDB</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Paper/" rel="tag">Paper</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Play/" rel="tag">Play</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Prometheus/" rel="tag">Prometheus</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Python/" rel="tag">Python</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/React/" rel="tag">React</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/RocksDB/" rel="tag">RocksDB</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Scala/" rel="tag">Scala</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Solr/" rel="tag">Solr</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Spark/" rel="tag">Spark</a><span class="sidebar-module-list-count">25</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SpringMVC/" rel="tag">SpringMVC</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Thrift/" rel="tag">Thrift</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/YARN/" rel="tag">YARN</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/antlr/" rel="tag">antlr</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/arthas/" rel="tag">arthas</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/avro/" rel="tag">avro</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/cassandra/" rel="tag">cassandra</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/clickhouse/" rel="tag">clickhouse</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/confluent/" rel="tag">confluent</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/docker/" rel="tag">docker</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/filebeat/" rel="tag">filebeat</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/flume/" rel="tag">flume</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/golang/" rel="tag">golang</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/google/" rel="tag">google</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/gradle/" rel="tag">gradle</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hexo/" rel="tag">hexo</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/impala/" rel="tag">impala</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/jenkins/" rel="tag">jenkins</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/k8s/" rel="tag">k8s</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kafka/" rel="tag">kafka</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kerberos/" rel="tag">kerberos</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kudu/" rel="tag">kudu</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ldap/" rel="tag">ldap</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mac/" rel="tag">mac</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mongo/" rel="tag">mongo</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mybatis/" rel="tag">mybatis</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nginx/" rel="tag">nginx</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nlp/" rel="tag">nlp</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/open-falcon/" rel="tag">open-falcon</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/openwrt/" rel="tag">openwrt</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/parquet/" rel="tag">parquet</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/presto/" rel="tag">presto</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ranger/" rel="tag">ranger</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/scyllaDB/" rel="tag">scyllaDB</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/twitter/" rel="tag">twitter</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/zookeeper/" rel="tag">zookeeper</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%88%B7%E9%A2%98/" rel="tag">刷题</a><span class="sidebar-module-list-count">22</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%9B%BE%E5%AD%98%E5%82%A8%E5%8F%8A%E8%AE%A1%E7%AE%97/" rel="tag">图存储及计算</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F/" rel="tag">广告系统</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" rel="tag">开发工具</a><span class="sidebar-module-list-count">19</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="sidebar-module-list-count">25</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" rel="tag">系统设计</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="sidebar-module-list-count">5</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>标签云</h4>
+    <p class="tagcloud">
+      <a href="/tags/AWS/" style="font-size: 11.3px;">AWS</a> <a href="/tags/Airbnb/" style="font-size: 14.35px;">Airbnb</a> <a href="/tags/Android/" style="font-size: 11.74px;">Android</a> <a href="/tags/CDH/" style="font-size: 14.35px;">CDH</a> <a href="/tags/Doris/" style="font-size: 10px;">Doris</a> <a href="/tags/ELK/" style="font-size: 15.65px;">ELK</a> <a href="/tags/Flink/" style="font-size: 19.57px;">Flink</a> <a href="/tags/Git/" style="font-size: 10.43px;">Git</a> <a href="/tags/Grafana/" style="font-size: 10px;">Grafana</a> <a href="/tags/HAProxy/" style="font-size: 10.87px;">HAProxy</a> <a href="/tags/HBase/" style="font-size: 12.61px;">HBase</a> <a href="/tags/Hadoop/" style="font-size: 12.61px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 17.39px;">Hive</a> <a href="/tags/Hudi/" style="font-size: 11.3px;">Hudi</a> <a href="/tags/InfluxDB/" style="font-size: 10px;">InfluxDB</a> <a href="/tags/JDBC/" style="font-size: 13.48px;">JDBC</a> <a href="/tags/JMeter/" style="font-size: 10px;">JMeter</a> <a href="/tags/JVM/" style="font-size: 11.74px;">JVM</a> <a href="/tags/Java/" style="font-size: 16.96px;">Java</a> <a href="/tags/JavaWeb/" style="font-size: 11.3px;">JavaWeb</a> <a href="/tags/LaTex/" style="font-size: 10px;">LaTex</a> <a href="/tags/Linkedin/" style="font-size: 10px;">Linkedin</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/ML/" style="font-size: 18.7px;">ML</a> <a href="/tags/ML-Infra/" style="font-size: 11.3px;">ML Infra</a> <a href="/tags/MPP/" style="font-size: 10px;">MPP</a> <a href="/tags/Maven/" style="font-size: 10.43px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 16.09px;">MySQL</a> <a href="/tags/Nexus/" style="font-size: 11.74px;">Nexus</a> <a href="/tags/OpenTSDB/" style="font-size: 10.43px;">OpenTSDB</a> <a href="/tags/Paper/" style="font-size: 10px;">Paper</a> <a href="/tags/Play/" style="font-size: 10px;">Play</a> <a href="/tags/Prometheus/" style="font-size: 10.43px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 17.83px;">Python</a> <a href="/tags/React/" style="font-size: 10.43px;">React</a> <a href="/tags/Redis/" style="font-size: 10.87px;">Redis</a> <a href="/tags/RocksDB/" style="font-size: 10px;">RocksDB</a> <a href="/tags/Scala/" style="font-size: 13.91px;">Scala</a> <a href="/tags/Solr/" style="font-size: 10.87px;">Solr</a> <a href="/tags/Spark/" style="font-size: 19.13px;">Spark</a> <a href="/tags/SpringBoot/" style="font-size: 16.52px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 14.35px;">SpringMVC</a> <a href="/tags/Thrift/" style="font-size: 12.17px;">Thrift</a> <a href="/tags/YARN/" style="font-size: 11.74px;">YARN</a> <a href="/tags/antlr/" style="font-size: 10.43px;">antlr</a> <a href="/tags/arthas/" style="font-size: 10px;">arthas</a> <a href="/tags/avro/" style="font-size: 13.91px;">avro</a> <a href="/tags/cassandra/" style="font-size: 10px;">cassandra</a> <a href="/tags/clickhouse/" style="font-size: 10.43px;">clickhouse</a> <a href="/tags/confluent/" style="font-size: 10.43px;">confluent</a> <a href="/tags/docker/" style="font-size: 10.87px;">docker</a> <a href="/tags/filebeat/" style="font-size: 11.3px;">filebeat</a> <a href="/tags/flume/" style="font-size: 10.43px;">flume</a> <a href="/tags/golang/" style="font-size: 15.22px;">golang</a> <a href="/tags/google/" style="font-size: 13.04px;">google</a> <a href="/tags/gradle/" style="font-size: 10px;">gradle</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/impala/" style="font-size: 11.3px;">impala</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/k8s/" style="font-size: 14.35px;">k8s</a> <a href="/tags/kafka/" style="font-size: 14.78px;">kafka</a> <a href="/tags/kerberos/" style="font-size: 10px;">kerberos</a> <a href="/tags/kudu/" style="font-size: 10.43px;">kudu</a> <a href="/tags/ldap/" style="font-size: 10.43px;">ldap</a> <a href="/tags/mac/" style="font-size: 11.74px;">mac</a> <a href="/tags/mongo/" style="font-size: 11.74px;">mongo</a> <a href="/tags/mybatis/" style="font-size: 10.87px;">mybatis</a> <a href="/tags/nginx/" style="font-size: 12.17px;">nginx</a> <a href="/tags/nlp/" style="font-size: 10px;">nlp</a> <a href="/tags/open-falcon/" style="font-size: 10.87px;">open-falcon</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/parquet/" style="font-size: 10.87px;">parquet</a> <a href="/tags/presto/" style="font-size: 12.17px;">presto</a> <a href="/tags/ranger/" style="font-size: 10px;">ranger</a> <a href="/tags/scyllaDB/" style="font-size: 10.87px;">scyllaDB</a> <a href="/tags/twitter/" style="font-size: 10.43px;">twitter</a> <a href="/tags/zookeeper/" style="font-size: 14.78px;">zookeeper</a> <a href="/tags/%E5%88%B7%E9%A2%98/" style="font-size: 18.26px;">刷题</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 12.17px;">前端</a> <a href="/tags/%E5%9B%BE%E5%AD%98%E5%82%A8%E5%8F%8A%E8%AE%A1%E7%AE%97/" style="font-size: 10.43px;">图存储及计算</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.91px;">多线程</a> <a href="/tags/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F/" style="font-size: 13.04px;">广告系统</a> <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" style="font-size: 16.96px;">开发工具</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 16.52px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 13.48px;">杂谈</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 19.13px;">算法</a> <a href="/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" style="font-size: 10.43px;">系统设计</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 13.04px;">计算机网络</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 11.74px;">设计模式</a>
+    </p>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>文章归档</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/08/">八月 2024</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/05/">五月 2024</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2023/08/">八月 2023</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/07/">七月 2022</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/01/">一月 2022</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/12/">十二月 2021</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/11/">十一月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/09/">九月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">七月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/05/">五月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/03/">三月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/01/">一月 2021</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/12/">十二月 2020</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/11/">十一月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/10/">十月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/09/">九月 2020</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/08/">八月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/07/">七月 2020</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/06/">六月 2020</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/05/">五月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/04/">四月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/03/">三月 2020</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">二月 2020</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/01/">一月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">十月 2019</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/09/">九月 2019</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">八月 2019</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/07/">七月 2019</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/04/">四月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/03/">三月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/01/">一月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/12/">十二月 2018</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/11/">十一月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/09/">九月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/06/">六月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/05/">五月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/04/">四月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/02/">二月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/01/">一月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/11/">十一月 2017</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/09/">九月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/07/">七月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/06/">六月 2017</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/05/">五月 2017</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/04/">四月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/03/">三月 2017</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/01/">一月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/12/">十二月 2016</a><span class="sidebar-module-list-count">15</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/11/">十一月 2016</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">十月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">九月 2016</a><span class="sidebar-module-list-count">16</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/08/">八月 2016</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/07/">七月 2016</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">六月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">五月 2016</a><span class="sidebar-module-list-count">32</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/04/">四月 2016</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/03/">三月 2016</a><span class="sidebar-module-list-count">136</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/02/">二月 2016</a><span class="sidebar-module-list-count">22</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/09/">九月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/08/">八月 2015</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/07/">七月 2015</a><span class="sidebar-module-list-count">30</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/06/">六月 2015</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/04/">四月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2013/04/">四月 2013</a><span class="sidebar-module-list-count">2</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>最近文章</h4>
+    <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Istio%E5%92%8CKong.html">k8s学习笔记——Istio和Kong</a>
+        </li>
+      
+        <li>
+          <a href="/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ingress.html">k8s学习笔记——ingress</a>
+        </li>
+      
+        <li>
+          <a href="/Presto%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Go%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5Presto.html">Presto学习笔记——Go客户端连接Presto</a>
+        </li>
+      
+        <li>
+          <a href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94wire%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5.html">go学习笔记——wire依赖注入</a>
+        </li>
+      
+        <li>
+          <a href="/screen%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html">screen使用教程</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+
+        </div>
+    </div>
+  </div>
+  <footer class="blog-footer">
+  <div class="container">
+    <div id="footer-info" class="inner">
+      &copy; 2024 tonglin0325<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+  
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" integrity="sha384-8gBf6Y4YYq7Jx97PIqmTwLPin4hxIzQw5aDmUg/DDhul9fFpbbLcLh3nTIIDJKhx" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9HZSXL1LDJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9HZSXL1LDJ');
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+<script src="/js/jquery.qrcode.min.js"></script>
+
+
+
+<script src="/js/jquery-1.6.2.min.js"></script>
+
+
+</body>
+</html>

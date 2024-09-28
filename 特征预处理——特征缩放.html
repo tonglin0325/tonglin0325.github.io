@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>特征预处理——特征缩放 | tonglin0325的个人主页</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="特征缩放****（Feature Scaling）是一种将数据的不同变量或特征的方位进行标准化的方法。 在某些比较和评价的指标处理中经常会用到，去除数据的单位限制，将其转化为无量纲（数量级）的纯数值，便于不同单位或量级的指标能够进行比较和加权。 特征缩放的好处：参考：标准化的好处及常见处理方法  提升模型的收敛速度  2.提升模型的精度 3.深度学习中数据归一化可以防止模型梯度爆炸。 需要特征缩放">
+<meta property="og:type" content="article">
+<meta property="og:title" content="特征预处理——特征缩放">
+<meta property="og:url" content="http://tonglin0325.github.io/%E7%89%B9%E5%BE%81%E9%A2%84%E5%A4%84%E7%90%86%E2%80%94%E2%80%94%E7%89%B9%E5%BE%81%E7%BC%A9%E6%94%BE.html">
+<meta property="og:site_name" content="tonglin0325的个人主页">
+<meta property="og:description" content="特征缩放****（Feature Scaling）是一种将数据的不同变量或特征的方位进行标准化的方法。 在某些比较和评价的指标处理中经常会用到，去除数据的单位限制，将其转化为无量纲（数量级）的纯数值，便于不同单位或量级的指标能够进行比较和加权。 特征缩放的好处：参考：标准化的好处及常见处理方法  提升模型的收敛速度  2.提升模型的精度 3.深度学习中数据归一化可以防止模型梯度爆炸。 需要特征缩放">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20221028221843157-1074129357.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20221112205223034-1498039690.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20221112205329933-1901282466.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20221112205223034-1498039690.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20221112205412817-489439559.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20221028222140329-1037263907.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20221110003259894-1848731269.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20221110003843781-1680125069.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20221112212822868-1449265647.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20221107225530763-1624210928.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20221112213053746-2135268993.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20221112205223034-1498039690.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20221112205753436-677132225.png">
+<meta property="article:published_time" content="2016-12-22T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-09-28T14:18:43.074Z">
+<meta property="article:author" content="tonglin0325">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://tonglin0325.github.io/images/517519-20221028221843157-1074129357.png">
+  
+    <link rel="alternate" href="/atom.xml" title="tonglin0325的个人主页" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="https://tonglin0325.github.io/images/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+
+  
+<link rel="stylesheet" href="/css/styles.css">
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-166238833-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5884015902351015"
+     crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-menu-navbar">
+      <ul class="nav navbar-nav">
+        
+          <li><a class=""
+                 href="/index.html">主页</a></li>
+        
+          <li><a class=""
+                 href="/archives/">所有文章</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="http://www.cnblogs.com/tonglin0325/">博客园</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="https://github.com/tonglin0325">Github</a></li>
+        
+          <li><a class=""
+                 target="_blank" rel="noopener" href="https://www.linkedin.com/in/tonglin0325/">LinkedIn</a></li>
+        
+        <li>
+          <span class="local-search local-search-google local-search-plugin" style="">
+  <input type="search" placeholder="站内搜索" id="local-search-input" class="local-search-input-cls" style="">
+  <div id="local-search-result" class="local-search-result-cls"></div>
+</span>
+
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    const div = document.getElementById('local-search-result');
+    const input = document.getElementById('local-search-input');
+
+    // 点击 input 显示 div
+    input.addEventListener('click', function() {
+        div.style.display = 'block';
+    });
+
+    // 点击 div 之外的地方隐藏 div
+    document.addEventListener('click', function(event) {
+        if (!div.contains(event.target) && event.target !== div && event.target !== input) {
+            div.style.display = 'none';
+        }
+    });
+});
+</script>
+        </li>
+      </ul>
+
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        
+          <li><a href="/atom.xml" title="RSS Feed"><i class="fa fa-rss"></i></a></li>
+        
+      </ul>
+      -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script>
+// 移动设备侦测
+var isMobile = {
+  Android: function () {
+    return navigator.userAgent.match(/Android/i);
+  },
+  BlackBerry: function () {
+    return navigator.userAgent.match(/BlackBerry/i);
+  },
+  iOS: function () {
+    return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+  },
+  Opera: function () {
+    return navigator.userAgent.match(/Opera Mini/i);
+  },
+  Windows: function () {
+    return navigator.userAgent.match(/IEMobile/i);
+  },
+  any: function () {
+    return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+  }
+};
+
+if ($('.local-search').resize() && !isMobile.any()) {
+	$.getScript('/js/search.js', function() {
+	  searchFunc("/search.json", 'local-search-input', 'local-search-result');
+	});
+}
+
+// document.addEventListener('DOMContentLoaded', (event) => {
+//
+//     const input = document.getElementById('.local-search-input');
+//     const div = document.getElementById('.local-search-result');
+//
+//     input.addEventListener('blur', function() {
+//         div.style.display = 'none';
+//     });
+// });
+</script>
+  <div class="container">
+    <div class="blog-header">
+  <h1 class="blog-title">tonglin0325的个人主页</h1>
+  
+</div>
+
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+          <article id="post-特征预处理——特征缩放" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 class="article-title" itemprop="name">
+      特征预处理——特征缩放
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/%E7%89%B9%E5%BE%81%E9%A2%84%E5%A4%84%E7%90%86%E2%80%94%E2%80%94%E7%89%B9%E5%BE%81%E7%BC%A9%E6%94%BE.html" class="article-date"><time datetime="2016-12-22T16:00:00.000Z" itemprop="datePublished">2016-12-23</time></a>
+</div>
+
+    <div class="article-author">tonglin0325</div>
+    
+
+  </div>
+
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- 目录 -->
+
+<div id="toc">
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#te-zheng-suo-fang-de-hao-chu"><span class="toc-text">特征缩放的好处：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#xu-yao-te-zheng-suo-fang-de-mo-xing"><span class="toc-text">需要特征缩放的模型：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#te-zheng-suo-fang-de-fang-fa"><span class="toc-text">特征缩放的方法：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-gui-yi-hua-scaler"><span class="toc-text">1.归一化（scaler）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-min-max-gui-yi-hua"><span class="toc-text">1.min-max归一化
+</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-maxabs-gui-yi-hua"><span class="toc-text">2.MaxAbs归一化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-biao-zhun-hua-standardization"><span class="toc-text">2.标准化（standardization）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-z-score-biao-zhun-hua"><span class="toc-text">1.z-score标准化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-robustscaler"><span class="toc-text">2.RobustScaler</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-mi-bian-huan-power-transform"><span class="toc-text">3.幂变换（Power Transform）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-yeo-johnson-biao-zhun-hua"><span class="toc-text">1.Yeo-Johnson标准化：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-box-cox-biao-zhun-hua"><span class="toc-text">2.box-cox标准化：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">#</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-log-dui-shu-han-shu-bian-huan"><span class="toc-text">3.log对数函数变换</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-fen-wei-shu-zhuan-hua-quantile-transform"><span class="toc-text">4.分位数转化（Quantile Transform）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-zheng-ze-hua-normalization"><span class="toc-text">5.正则化（normalization）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-normalizer"><span class="toc-text">1.normalizer</span></a></li></ol></li></ol></li></ol>
+</div>
+
+        <p><strong>特征缩放****（Feature Scaling）</strong>是一种将数据的不同变量或特征的方位进行标准化的方法。</p>
+<p>在某些比较和评价的指标处理中经常会用到，去除数据的单位限制，将其转化为无量纲（数量级）的纯数值，便于不同单位或量级的指标能够进行比较和加权。</p>
+<h2 id="te-zheng-suo-fang-de-hao-chu"><a href="#特征缩放的好处：" class="headerlink" title="特征缩放的好处："></a>特征缩放的好处：<a href="#te-zheng-suo-fang-de-hao-chu" class="header-anchor">#</a></h2><p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/88348005">标准化的好处及常见处理方法</a></p>
+<ol>
+<li>提升模型的收敛速度</li>
+</ol>
+<p>2.提升模型的精度</p>
+<p>3.深度学习中数据归一化可以防止模型梯度爆炸。</p>
+<h2 id="xu-yao-te-zheng-suo-fang-de-mo-xing"><a href="#需要特征缩放的模型：" class="headerlink" title="需要特征缩放的模型："></a>需要特征缩放的模型：<a href="#xu-yao-te-zheng-suo-fang-de-mo-xing" class="header-anchor">#</a></h2><p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43469047/article/details/116605053">哪些机器学习模型需要归一化</a></p>
+<p>概率模型（树形模型）不需要归一化，因为它们不关心变量的值，而是关心变量的分布和变量之间的条件概率，如决策树、RF（随机森林）、朴素贝叶斯、XGBoost、lightGBM、GBDT</p>
+<p>而像Adaboost、SVM（支持向量机）、LR（线性回归、逻辑回归）、KNN、KMeans、神经网络（DNN、CNN和RNN）、LSTM之类的最优化问题就需要归一化</p>
+<h2 id="te-zheng-suo-fang-de-fang-fa"><a href="#特征缩放的方法：" class="headerlink" title="特征缩放的方法："></a>特征缩放的方法：<a href="#te-zheng-suo-fang-de-fang-fa" class="header-anchor">#</a></h2><p>常用的特征缩放的方法有归一化、标准化、正态化等。参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/nxf-rabbit75/p/11141944.html">2(1).数据预处理方法</a></p>
+<p>选择建议：</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/20467170">标准化和归一化什么区别？</a> 和 <a target="_blank" rel="noopener" href="https://xie.infoq.cn/article/1a72c74d073a807c4a738284f">机器学习 | 数据缩放与转换方法（1）</a></p>
+<p>1.特征是正态分布的，使用<strong>z-score标准化</strong></p>
+<p>2.特征不是正态分布的，可以尝试使用<strong>正态化</strong>（<strong>幂变换</strong>）</p>
+<p>3.特征是正态分布的，如果<strong>有离群值</strong>，可以使用RobustScaler；没有离群值且是稀疏数据，可以使用归一化（如果数据标准差很小，min-max归一化会比z-score标准化好）</p>
+<p>4.先划分训练集和测试集，然后再<strong>使用相同的标准化公式</strong>对训练集和测试集进行特征缩放</p>
+<p>参考：<a target="_blank" rel="noopener" href="http://webdataanalysis.net/data-analysis-method/data-normalization/">数据的标准化</a> 和 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/liuxiangyan/p/14284417.html">数据预处理（一）：标准化，中心化，正态化</a></p>
+<h3 id="1-gui-yi-hua-scaler"><a href="#1-归一化（scaler）" class="headerlink" title="1.归一化（scaler）"></a>1.归一化（s<code>caler</code>）<a href="#1-gui-yi-hua-scaler" class="header-anchor">#</a></h3><h4 id="1-min-max-gui-yi-hua"><a href="#1-min-max归一化" class="headerlink" title="1.min-max归一化"></a>1.min-max归一化<br><a href="#1-min-max-gui-yi-hua" class="header-anchor">#</a></h4><p>也叫离差标准化，是对原始数据的<strong>线性变换</strong>，将数据统一映射到**[0,1]区间**上，转换函数如下：</p>
+<img src="/images/517519-20221028221843157-1074129357.png" width="150" height="44" loading="lazy">
+
+<p>其中max为样本数据的最大值，min为样本数据的最小值。这种方法有一个缺陷就是当有新数据加入时，可能导致max和min的变化，需要重新定义。</p>
+<p><strong>min-max归一化的特点：</strong></p>
+<ul>
+<li>缩放到0和1之间</li>
+<li>目的是使各个特征维度对目标函数的影响权重是一致的</li>
+<li><strong>不改变其数据分布</strong>的一种线性特征变换</li>
+</ul>
+<p><strong>min-max归一化的适用场景：</strong></p>
+<ul>
+<li>如果对输出结果范围有要求，用归一化</li>
+<li>如果数据较为稳定，不存在极端的最大最小值，用归一化</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.preprocessing import MinMaxScaler</span><br><span class="line"></span><br><span class="line">transfer = MinMaxScaler(feature_range=[0, 1])  # 范围可改变，若不写，默认为0-1</span><br><span class="line">data_minmax = transfer.fit_transform(train_data[[&quot;SalePrice&quot;]])</span><br><span class="line">print(data_minmax)</span><br><span class="line"></span><br><span class="line">[[0.24107763]</span><br><span class="line"> [0.20358284]</span><br><span class="line"> [0.26190807]</span><br><span class="line"> ...</span><br><span class="line"> [0.321622  ]</span><br><span class="line"> [0.14890293]</span><br><span class="line"> [0.15636717]]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>图片转自：<a target="_blank" rel="noopener" href="https://www.zhihu.com/people/sun_shuai">https://www.zhihu.com/people/sun_shuai</a>_</p>
+<p><img src="/images/517519-20221112205223034-1498039690.png" width="300" height="217" loading="lazy"><img src="/images/517519-20221112205329933-1901282466.png" width="300" height="219" loading="lazy"></p>
+<h4 id="2-maxabs-gui-yi-hua"><a href="#2-MaxAbs归一化" class="headerlink" title="2.MaxAbs归一化"></a>2.MaxAbs归一化<a href="#2-maxabs-gui-yi-hua" class="header-anchor">#</a></h4><p>最大值绝对值标准化(MaxAbs)即根据最大值的绝对值进行标准化，假设原转换的数据为x，新数据为x’，那么x’=x/|max|，其中max为x所在列的最大值</p>
+<p><strong>MaxAbs归一化的特点：</strong></p>
+<ul>
+<li>MaxAbs方法跟Max-Min用法类似，也是将数据落入一定区间，但该方法的数据区间为[-1,1]</li>
+<li><strong>不改变其数据分布</strong>的一种<strong>线性特征变换</strong></li>
+</ul>
+<p><strong>MaxAbs归一化的适用场景：</strong></p>
+<ul>
+<li>MaxAbs也具有不破坏原有数据分布结构的特点，因此也可以用于稀疏数据、稀疏的CSR或CSC矩阵。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.preprocessing import MaxAbsScaler</span><br><span class="line"></span><br><span class="line">transfer = MaxAbsScaler() </span><br><span class="line">data_minmax = transfer.fit_transform(train_data[[&quot;SalePrice&quot;]])</span><br><span class="line">print(data_minmax)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>图片转自：<a target="_blank" rel="noopener" href="https://www.zhihu.com/people/sun_shuai">https://www.zhihu.com/people/sun_shuai</a>_</p>
+<p><img src="/images/517519-20221112205223034-1498039690.png" width="300" height="217"><img src="/images/517519-20221112205412817-489439559.png" width="300" height="221" loading="lazy"></p>
+<h3 id="2-biao-zhun-hua-standardization"><a href="#2-标准化（standardization）" class="headerlink" title="2.标准化（standardization）"></a><strong>2.<strong>标准化（s<strong>tandardization</strong>）</strong></strong><a href="#2-biao-zhun-hua-standardization" class="header-anchor">#</a></h3><h4 id="1-z-score-biao-zhun-hua"><a href="#1-z-score标准化" class="headerlink" title="1.z-score标准化"></a><strong>1.<strong><strong><strong>z-score</strong></strong>标准化</strong></strong><a href="#1-z-score-biao-zhun-hua" class="header-anchor">#</a></h4><p>也叫<strong>标准差标准化</strong>，经过处理的数据符合<strong>均值为0，标准差为1</strong>，其转化函数为：</p>
+<img src="/images/517519-20221028222140329-1037263907.png" width="120" height="50">
+
+<p>其中&mu;为所有样本数据的均值，&sigma;为所有样本数据的标准差。</p>
+<p><strong>z-score标准化的特点：</strong></p>
+<ul>
+<li><strong>假设数据是正态分布</strong></li>
+<li>将数值范围缩放到0附近，数据变成<strong>均值为0，标准差为1</strong>的正态分布</li>
+<li><strong>不改变原始数据的分布</strong></li>
+</ul>
+<p><strong><strong><strong>z-score标准化</strong>的适用场景：</strong></strong></p>
+<ul>
+<li>这种标准化方法适合大多数类型的数据，也是很多工具的默认标准化方法。如果对数据无从下手可以直接使用标准化；</li>
+<li>如果数据存在异常值和较多噪音，用标准化，可以间接通过中心化避免异常值和极端值的影响</li>
+<li>需要使用距离来度量相似性的时候：比如k近邻、kmeans聚类、感知机和SVM，或者使用PCA降维的时候，标准化表现更好</li>
+<li>Z-Score方法是一种中心化方法，会改变稀疏数据的结构，不适合用于对稀疏数据做处理。（稀疏数据是指绝大部分的数据都是0，仅有少部分数据为1）。在很多时候，数据集会存在稀疏性特征，表现为<strong>标准差小</strong>。并有很多元素的值为0.最常见的稀疏数据集是用来做协同过滤的数据集，绝大部分的数据都是0，仅有少部分数据为1。<strong>对稀疏数据做标准化，不能采用中心化的方式</strong>，否则会破坏稀疏数据的结构。参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_60200880/article/details/127214706">Python数据标准化</a></li>
+</ul>
+<p>可以使用sklearn的StandardScaler函数对特征进行z-score标准化，注意fit_transform函数的输入需要时2D array</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.preprocessing import StandardScaler</span><br><span class="line"></span><br><span class="line"># z-score标准化</span><br><span class="line">transfer = StandardScaler()</span><br><span class="line">data_standard=transfer.fit_transform(train_data[[&quot;SalePrice&quot;]])</span><br><span class="line">print(data_standard)</span><br><span class="line"></span><br><span class="line">[[ 0.34727322]</span><br><span class="line"> [ 0.00728832]</span><br><span class="line"> [ 0.53615372]</span><br><span class="line"> ...</span><br><span class="line"> [ 1.07761115]</span><br><span class="line"> [-0.48852299]</span><br><span class="line"> [-0.42084081]]</span><br><span class="line"></span><br><span class="line"># 描述性统计</span><br><span class="line">print(pd.DataFrame(data_standard).describe())</span><br><span class="line"></span><br><span class="line">count  1.460000e+03</span><br><span class="line">mean   1.362685e-16</span><br><span class="line">std    1.000343e+00</span><br><span class="line">min   -1.838704e+00</span><br><span class="line">25%   -6.415162e-01</span><br><span class="line">50%   -2.256643e-01</span><br><span class="line">75%    4.165294e-01</span><br><span class="line">max    7.228819e+00</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可以看到使用z-score标准化后的数据，均值接近0，标准差接近1</p>
+<img src="/images/517519-20221110003259894-1848731269.png" width="300" height="243" loading="lazy">
+
+<h4 id="2-robustscaler"><a href="#2-RobustScaler" class="headerlink" title="2.RobustScaler"></a>2.<strong>RobustScaler</strong><a href="#2-robustscaler" class="header-anchor">#</a></h4><p><strong><strong><strong>RobustScaler</strong>的适用场景：</strong></strong></p>
+<ul>
+<li>某种情况下，假如数据集中有离群点，我们可以使用Z-Score进行标准化，但是标准化之后的数据并不理想，因为异常点的特征往往在标准化之后便容易失去离群特征。此时可以使用RobustScaler针对离群点做标准化处理，该方法对数据中心化和数据的缩放健壮性有更强的参数控制能力。</li>
+<li>如果要最大限度保留数据集中的异常，使用RobustScaler方法。</li>
+</ul>
+<p>如果数据集包含较多的异常值，可以使用<strong>RobustScaler方法</strong>进行处理，它可以对数据集的中心和范围进行更具有鲁棒性的评估，如下</p>
+<img src="/images/517519-20221110003843781-1680125069.png" width="300" height="265" loading="lazy">
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">import pandas as pd</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">import seaborn as sns</span><br><span class="line">from scipy.stats import norm</span><br><span class="line">from sklearn.preprocessing import RobustScaler</span><br><span class="line"></span><br><span class="line"># Robust</span><br><span class="line">transfer = RobustScaler()</span><br><span class="line">data_robust = transfer.fit_transform(train_data[[&quot;SalePrice&quot;]])</span><br><span class="line">sns.distplot(pd.DataFrame(data_robust), fit=norm)</span><br><span class="line">print(pd.DataFrame(data_robust).describe())</span><br><span class="line">plt.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-mi-bian-huan-power-transform"><a href="#3-幂变换（Power-Transform）" class="headerlink" title="3.幂变换（Power Transform）"></a><strong>3.幂变换（Power Transform）</strong><a href="#3-mi-bian-huan-power-transform" class="header-anchor">#</a></h3><p>常用的幂变换包括：对数变换，box-cox变换，指数变换等，属于<strong>非线性变换</strong></p>
+<p>PowerTransformer 目前提供两个这样的幂变换,<span id="more"></span><br>&nbsp;Yeo-Johnson transform 和 the Box-Cox transform。其中&nbsp;Box-Cox 仅能应用于严格的正数，Yeo-Johnson 可以是正数也可以是负数<br></p>
+<h4 id="1-yeo-johnson-biao-zhun-hua"><a href="#1-Yeo-Johnson标准化：" class="headerlink" title="1.Yeo-Johnson标准化："></a><strong><strong>1.Yeo-Johnson标准化</strong>：</strong><a href="#1-yeo-johnson-biao-zhun-hua" class="header-anchor">#</a></h4><p>其转化函数为：</p>
+<img src="/images/517519-20221112212822868-1449265647.png" width="300" height="91">
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">data_yeojohnson = preprocessing.PowerTransformer(method=&#x27;yeo-johnson&#x27;, standardize=False)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-box-cox-biao-zhun-hua"><a href="#2-box-cox标准化：" class="headerlink" title="2.box-cox标准化："></a><strong><strong>2.box-cox标准化</strong>：</strong><a href="#2-box-cox-biao-zhun-hua" class="header-anchor">#</a></h4><p>Box-Cox转换法是幂变换中最受欢迎的方法，用于连续的响应变量不满足正态分布的情况，其通过对原始分布改变其lambda (&lambda;)，将非正态数据转换为正态数据，lambda (&lambda;)是我们自己决定的参数，用于得到最适合的转换效果。</p>
+<h4 id><a href="#" class="headerlink" title></a><strong><img src="/images/517519-20221107225530763-1624210928.png" width="200" height="73"></strong><a href="#" class="header-anchor">#</a></h4><p>在进行Box-Cox转换之前，原始数据Y需要全部为<strong>正数</strong>。如果不是正数，那么添加一个常数C，再进行转换 <msup><mi>Y</mi><mo>&amp;#x2032;</mo></msup><mo>=</mo><mo stretchy="&quot;false&quot;">(</mo><mi>Y</mi><mo>+</mo><mi>C</mi><msup><mo stretchy="&quot;false&quot;">)</mo><mrow class="&quot;MJX-TeXAtom-ORD&quot;"><mi>&amp;#x03BB;</mi></mrow></msup>“&gt; 。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># box-cox, 返回2个值，第二个值是最佳_lambda</span><br><span class="line">data_boxcox, _lambda = stats.boxcox(train_data[&quot;SalePrice&quot;])</span><br><span class="line">print(_lambda)</span><br><span class="line">sns.distplot(data_boxcox, fit=norm)</span><br><span class="line">print(pd.DataFrame(data_boxcox).describe())</span><br><span class="line">plt.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">data_boxcox = preprocessing.PowerTransformer(method=&#x27;box-cox&#x27;, standardize=False)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-log-dui-shu-han-shu-bian-huan"><a href="#3-log对数函数变换" class="headerlink" title="3.log对数函数变换"></a>3.log对数函数变换<a href="#3-log-dui-shu-han-shu-bian-huan" class="header-anchor">#</a></h4><p>通过log函数转换的方法同样可以实现正态化，具体方法如下：Y(x)=ln(x)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">import pandas as pd</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">import seaborn as sns</span><br><span class="line">from scipy.stats import norm</span><br><span class="line"></span><br><span class="line"># log</span><br><span class="line">sns.distplot(np.log(train_data[[&quot;SalePrice&quot;]]), fit=norm)</span><br><span class="line">print(np.log(train_data[[&quot;SalePrice&quot;]]).describe())</span><br><span class="line">plt.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-fen-wei-shu-zhuan-hua-quantile-transform"><a href="#4-分位数转化（Quantile-Transform）" class="headerlink" title="4.分位数转化（Quantile Transform）"></a><strong>4.分位数转化（Quantile Transform）</strong><a href="#4-fen-wei-shu-zhuan-hua-quantile-transform" class="header-anchor">#</a></h3><p>QuantileTransformer 是一种非参数的数据转化技术，可以将数据转化到特定的分布（一般是高斯分布或者均匀分布），通过分位数函数来实现。</p>
+<p>这是一种<strong>非线性变换</strong>。QuantileTransformer类将每个特征缩放在同样的范围或分布情况下。但是，通过执行一个秩转换能够使<strong>异常的分布平滑化</strong>，并且能够比缩放更少地受到离群值的影响。但是它的确使特征间及特征内的<strong>关联和距离失真</strong>了。参考：参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/415705923">sklearn中常用的特征预处理方法（scaler）</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.preprocessing import QuantileTransformer</span><br><span class="line"></span><br><span class="line"># Quantile Transform</span><br><span class="line">quantile_transformer = QuantileTransformer(random_state=0,  output_distribution=&#x27;normal&#x27;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-zheng-ze-hua-normalization"><a href="#5-正则化（normalization）" class="headerlink" title="5.正则化（normalization）"></a><strong>5.正则化（</strong>normalization<strong>）</strong><a href="#5-zheng-ze-hua-normalization" class="header-anchor">#</a></h3><h4 id="1-normalizer"><a href="#1-normalizer" class="headerlink" title="1.normalizer"></a>1.normalizer<a href="#1-normalizer" class="header-anchor">#</a></h4><p>参考：<a target="_blank" rel="noopener" href="https://wutaoblog.com.cn/2021/08/20/data_preprocess/">数据转化</a> 和 <a target="_blank" rel="noopener" href="https://xie.infoq.cn/article/1a72c74d073a807c4a738284f">机器学习 | 数据缩放与转换方法（1）</a></p>
+<p>正则化的过程是将每个样本缩放到单位范数（每个样本的范数为1），如果后面要使用如二次型（点积）或者其它核方法计算两个样本之间的相似性这个方法会很有用。</p>
+<p>Normalization主要思想是对每个样本计算其p-范数，然后对该样本中每个元素除以该范数，这样处理的结果是使得每个处理后样本的p-范数（l1-norm,l2-norm）等于1。p-范数的定义为：</p>
+<img src="/images/517519-20221112213053746-2135268993.png" width="250" height="50">
+
+<p><strong>normalizer归一化的特点：</strong></p>
+<ul>
+<li>缩放到0和1之间，保留原始数据的分布</li>
+</ul>
+<p><strong>normalizer归一化的使用场景：</strong></p>
+<ul>
+<li>该方法主要应用于文本分类和聚类中。例如，对于两个TF-IDF向量的l2-norm进行点积，就可以得到这两个向量的余弦相似性。</li>
+</ul>
+<p>sklearn 中有两种方法可以进行 Normalization：normalize 函数和&nbsp;Normalizer 类，可以通过&nbsp;norm 参数指定使用的范数类型（l1,l2,max）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.preprocessing import Normalizer</span><br><span class="line"></span><br><span class="line">transfer = Normalizer() </span><br><span class="line">data_normal = transfer.fit_transform(train_data[[&quot;SalePrice&quot;]], norm=&#x27;max&#x27;)</span><br><span class="line">print(data_normal)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>图片转自：<a target="_blank" rel="noopener" href="https://www.zhihu.com/people/sun_shuai">https://www.zhihu.com/people/sun_shuai</a>_</p>
+<p><img src="/images/517519-20221112205223034-1498039690.png" width="300" height="217"><img src="/images/517519-20221112205753436-677132225.png" width="300" height="216"></p>
+
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/%E7%89%B9%E5%BE%81%E9%A2%84%E5%A4%84%E7%90%86%E2%80%94%E2%80%94%E7%89%B9%E5%BE%81%E7%BC%A9%E6%94%BE.html">特征预处理——特征缩放</a>
+          </div>
+        </div>
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://tonglin0325.github.io/%E7%89%B9%E5%BE%81%E9%A2%84%E5%A4%84%E7%90%86%E2%80%94%E2%80%94%E7%89%B9%E5%BE%81%E7%BC%A9%E6%94%BE.html" data-id="cln8csfau00xul00le4od67jy" class="article-share-link">
+        <i class="fa fa-share"></i> 分享
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/" rel="tag">Python</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/%E7%89%B9%E5%BE%81%E9%A2%84%E5%A4%84%E7%90%86%E2%80%94%E2%80%94%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9%E5%92%8C%E7%89%B9%E5%BE%81%E7%90%86%E8%A7%A3.html" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">特征预处理——特征选择和特征理解</span>
+    </a>
+  </li>
+  
+  
+  <li role="presentation">
+    <a href="/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E2%80%94%E2%80%94%E7%99%BB%E5%BD%95%E7%B3%BB%E7%BB%9F.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <span class="article-nav-link-title">系统设计——登录系统</span>
+      <i class="fa fa-chevron-right pull-right"></i>
+    </a>
+  </li>
+  
+</ul>
+
+
+  
+</article>
+
+
+
+
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>tonglin0325</h4>
+  <div style="text-align:center;"><img src="/images/WechatIMG1.jpeg" width="150" height="150" style="vertical-align:middle;"/></div>
+</div>
+
+
+  
+
+
+  
+  <div class="sidebar-module">
+    <h4>标签</h4>
+    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/AWS/" rel="tag">AWS</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Airbnb/" rel="tag">Airbnb</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Android/" rel="tag">Android</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/CDH/" rel="tag">CDH</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Doris/" rel="tag">Doris</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ELK/" rel="tag">ELK</a><span class="sidebar-module-list-count">14</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Flink/" rel="tag">Flink</a><span class="sidebar-module-list-count">29</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Git/" rel="tag">Git</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Grafana/" rel="tag">Grafana</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HAProxy/" rel="tag">HAProxy</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HBase/" rel="tag">HBase</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hadoop/" rel="tag">Hadoop</a><span class="sidebar-module-list-count">7</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hive/" rel="tag">Hive</a><span class="sidebar-module-list-count">20</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Hudi/" rel="tag">Hudi</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/InfluxDB/" rel="tag">InfluxDB</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JDBC/" rel="tag">JDBC</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JMeter/" rel="tag">JMeter</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Java/" rel="tag">Java</a><span class="sidebar-module-list-count">19</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/JavaWeb/" rel="tag">JavaWeb</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/LaTex/" rel="tag">LaTex</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Linkedin/" rel="tag">Linkedin</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="sidebar-module-list-count">35</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ML/" rel="tag">ML</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ML-Infra/" rel="tag">ML Infra</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/MPP/" rel="tag">MPP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Maven/" rel="tag">Maven</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/MySQL/" rel="tag">MySQL</a><span class="sidebar-module-list-count">16</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Nexus/" rel="tag">Nexus</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/OpenTSDB/" rel="tag">OpenTSDB</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Paper/" rel="tag">Paper</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Play/" rel="tag">Play</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Prometheus/" rel="tag">Prometheus</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Python/" rel="tag">Python</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/React/" rel="tag">React</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/RocksDB/" rel="tag">RocksDB</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Scala/" rel="tag">Scala</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Solr/" rel="tag">Solr</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Spark/" rel="tag">Spark</a><span class="sidebar-module-list-count">25</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SpringMVC/" rel="tag">SpringMVC</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Thrift/" rel="tag">Thrift</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/YARN/" rel="tag">YARN</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/antlr/" rel="tag">antlr</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/arthas/" rel="tag">arthas</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/avro/" rel="tag">avro</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/cassandra/" rel="tag">cassandra</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/clickhouse/" rel="tag">clickhouse</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/confluent/" rel="tag">confluent</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/docker/" rel="tag">docker</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/filebeat/" rel="tag">filebeat</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/flume/" rel="tag">flume</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/golang/" rel="tag">golang</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/google/" rel="tag">google</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/gradle/" rel="tag">gradle</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/hexo/" rel="tag">hexo</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/impala/" rel="tag">impala</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/jenkins/" rel="tag">jenkins</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/k8s/" rel="tag">k8s</a><span class="sidebar-module-list-count">11</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kafka/" rel="tag">kafka</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kerberos/" rel="tag">kerberos</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/kudu/" rel="tag">kudu</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ldap/" rel="tag">ldap</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mac/" rel="tag">mac</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mongo/" rel="tag">mongo</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/mybatis/" rel="tag">mybatis</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nginx/" rel="tag">nginx</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nlp/" rel="tag">nlp</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/open-falcon/" rel="tag">open-falcon</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/openwrt/" rel="tag">openwrt</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/parquet/" rel="tag">parquet</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/presto/" rel="tag">presto</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/ranger/" rel="tag">ranger</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/scyllaDB/" rel="tag">scyllaDB</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/twitter/" rel="tag">twitter</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/zookeeper/" rel="tag">zookeeper</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%88%B7%E9%A2%98/" rel="tag">刷题</a><span class="sidebar-module-list-count">22</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%9B%BE%E5%AD%98%E5%82%A8%E5%8F%8A%E8%AE%A1%E7%AE%97/" rel="tag">图存储及计算</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F/" rel="tag">广告系统</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" rel="tag">开发工具</a><span class="sidebar-module-list-count">19</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a><span class="sidebar-module-list-count">18</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a><span class="sidebar-module-list-count">9</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="sidebar-module-list-count">25</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" rel="tag">系统设计</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="sidebar-module-list-count">5</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>标签云</h4>
+    <p class="tagcloud">
+      <a href="/tags/AWS/" style="font-size: 11.3px;">AWS</a> <a href="/tags/Airbnb/" style="font-size: 14.35px;">Airbnb</a> <a href="/tags/Android/" style="font-size: 11.74px;">Android</a> <a href="/tags/CDH/" style="font-size: 14.35px;">CDH</a> <a href="/tags/Doris/" style="font-size: 10px;">Doris</a> <a href="/tags/ELK/" style="font-size: 15.65px;">ELK</a> <a href="/tags/Flink/" style="font-size: 19.57px;">Flink</a> <a href="/tags/Git/" style="font-size: 10.43px;">Git</a> <a href="/tags/Grafana/" style="font-size: 10px;">Grafana</a> <a href="/tags/HAProxy/" style="font-size: 10.87px;">HAProxy</a> <a href="/tags/HBase/" style="font-size: 12.61px;">HBase</a> <a href="/tags/Hadoop/" style="font-size: 12.61px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 17.39px;">Hive</a> <a href="/tags/Hudi/" style="font-size: 11.3px;">Hudi</a> <a href="/tags/InfluxDB/" style="font-size: 10px;">InfluxDB</a> <a href="/tags/JDBC/" style="font-size: 13.48px;">JDBC</a> <a href="/tags/JMeter/" style="font-size: 10px;">JMeter</a> <a href="/tags/JVM/" style="font-size: 11.74px;">JVM</a> <a href="/tags/Java/" style="font-size: 16.96px;">Java</a> <a href="/tags/JavaWeb/" style="font-size: 11.3px;">JavaWeb</a> <a href="/tags/LaTex/" style="font-size: 10px;">LaTex</a> <a href="/tags/Linkedin/" style="font-size: 10px;">Linkedin</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/ML/" style="font-size: 18.7px;">ML</a> <a href="/tags/ML-Infra/" style="font-size: 11.3px;">ML Infra</a> <a href="/tags/MPP/" style="font-size: 10px;">MPP</a> <a href="/tags/Maven/" style="font-size: 10.43px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 16.09px;">MySQL</a> <a href="/tags/Nexus/" style="font-size: 11.74px;">Nexus</a> <a href="/tags/OpenTSDB/" style="font-size: 10.43px;">OpenTSDB</a> <a href="/tags/Paper/" style="font-size: 10px;">Paper</a> <a href="/tags/Play/" style="font-size: 10px;">Play</a> <a href="/tags/Prometheus/" style="font-size: 10.43px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 17.83px;">Python</a> <a href="/tags/React/" style="font-size: 10.43px;">React</a> <a href="/tags/Redis/" style="font-size: 10.87px;">Redis</a> <a href="/tags/RocksDB/" style="font-size: 10px;">RocksDB</a> <a href="/tags/Scala/" style="font-size: 13.91px;">Scala</a> <a href="/tags/Solr/" style="font-size: 10.87px;">Solr</a> <a href="/tags/Spark/" style="font-size: 19.13px;">Spark</a> <a href="/tags/SpringBoot/" style="font-size: 16.52px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 14.35px;">SpringMVC</a> <a href="/tags/Thrift/" style="font-size: 12.17px;">Thrift</a> <a href="/tags/YARN/" style="font-size: 11.74px;">YARN</a> <a href="/tags/antlr/" style="font-size: 10.43px;">antlr</a> <a href="/tags/arthas/" style="font-size: 10px;">arthas</a> <a href="/tags/avro/" style="font-size: 13.91px;">avro</a> <a href="/tags/cassandra/" style="font-size: 10px;">cassandra</a> <a href="/tags/clickhouse/" style="font-size: 10.43px;">clickhouse</a> <a href="/tags/confluent/" style="font-size: 10.43px;">confluent</a> <a href="/tags/docker/" style="font-size: 10.87px;">docker</a> <a href="/tags/filebeat/" style="font-size: 11.3px;">filebeat</a> <a href="/tags/flume/" style="font-size: 10.43px;">flume</a> <a href="/tags/golang/" style="font-size: 15.22px;">golang</a> <a href="/tags/google/" style="font-size: 13.04px;">google</a> <a href="/tags/gradle/" style="font-size: 10px;">gradle</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/impala/" style="font-size: 11.3px;">impala</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/k8s/" style="font-size: 14.35px;">k8s</a> <a href="/tags/kafka/" style="font-size: 14.78px;">kafka</a> <a href="/tags/kerberos/" style="font-size: 10px;">kerberos</a> <a href="/tags/kudu/" style="font-size: 10.43px;">kudu</a> <a href="/tags/ldap/" style="font-size: 10.43px;">ldap</a> <a href="/tags/mac/" style="font-size: 11.74px;">mac</a> <a href="/tags/mongo/" style="font-size: 11.74px;">mongo</a> <a href="/tags/mybatis/" style="font-size: 10.87px;">mybatis</a> <a href="/tags/nginx/" style="font-size: 12.17px;">nginx</a> <a href="/tags/nlp/" style="font-size: 10px;">nlp</a> <a href="/tags/open-falcon/" style="font-size: 10.87px;">open-falcon</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/parquet/" style="font-size: 10.87px;">parquet</a> <a href="/tags/presto/" style="font-size: 12.17px;">presto</a> <a href="/tags/ranger/" style="font-size: 10px;">ranger</a> <a href="/tags/scyllaDB/" style="font-size: 10.87px;">scyllaDB</a> <a href="/tags/twitter/" style="font-size: 10.43px;">twitter</a> <a href="/tags/zookeeper/" style="font-size: 14.78px;">zookeeper</a> <a href="/tags/%E5%88%B7%E9%A2%98/" style="font-size: 18.26px;">刷题</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 12.17px;">前端</a> <a href="/tags/%E5%9B%BE%E5%AD%98%E5%82%A8%E5%8F%8A%E8%AE%A1%E7%AE%97/" style="font-size: 10.43px;">图存储及计算</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.91px;">多线程</a> <a href="/tags/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F/" style="font-size: 13.04px;">广告系统</a> <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" style="font-size: 16.96px;">开发工具</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 16.52px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 13.48px;">杂谈</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 19.13px;">算法</a> <a href="/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" style="font-size: 10.43px;">系统设计</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 13.04px;">计算机网络</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 11.74px;">设计模式</a>
+    </p>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>文章归档</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/08/">八月 2024</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/05/">五月 2024</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2023/08/">八月 2023</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/07/">七月 2022</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/01/">一月 2022</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/12/">十二月 2021</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/11/">十一月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/09/">九月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">七月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/05/">五月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/03/">三月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/01/">一月 2021</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/12/">十二月 2020</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/11/">十一月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/10/">十月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/09/">九月 2020</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/08/">八月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/07/">七月 2020</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/06/">六月 2020</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/05/">五月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/04/">四月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/03/">三月 2020</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">二月 2020</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/01/">一月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">十月 2019</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/09/">九月 2019</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">八月 2019</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/07/">七月 2019</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/04/">四月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/03/">三月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/01/">一月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/12/">十二月 2018</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/11/">十一月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/09/">九月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/06/">六月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/05/">五月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/04/">四月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/02/">二月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/01/">一月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/11/">十一月 2017</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/09/">九月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/07/">七月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/06/">六月 2017</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/05/">五月 2017</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/04/">四月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/03/">三月 2017</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/01/">一月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/12/">十二月 2016</a><span class="sidebar-module-list-count">15</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/11/">十一月 2016</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">十月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">九月 2016</a><span class="sidebar-module-list-count">16</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/08/">八月 2016</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/07/">七月 2016</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">六月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">五月 2016</a><span class="sidebar-module-list-count">32</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/04/">四月 2016</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/03/">三月 2016</a><span class="sidebar-module-list-count">136</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/02/">二月 2016</a><span class="sidebar-module-list-count">22</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/09/">九月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/08/">八月 2015</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/07/">七月 2015</a><span class="sidebar-module-list-count">30</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/06/">六月 2015</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/04/">四月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2013/04/">四月 2013</a><span class="sidebar-module-list-count">2</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>最近文章</h4>
+    <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Istio%E5%92%8CKong.html">k8s学习笔记——Istio和Kong</a>
+        </li>
+      
+        <li>
+          <a href="/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ingress.html">k8s学习笔记——ingress</a>
+        </li>
+      
+        <li>
+          <a href="/Presto%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Go%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5Presto.html">Presto学习笔记——Go客户端连接Presto</a>
+        </li>
+      
+        <li>
+          <a href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94wire%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5.html">go学习笔记——wire依赖注入</a>
+        </li>
+      
+        <li>
+          <a href="/screen%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html">screen使用教程</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+
+        </div>
+    </div>
+  </div>
+  <footer class="blog-footer">
+  <div class="container">
+    <div id="footer-info" class="inner">
+      &copy; 2024 tonglin0325<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+  
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" integrity="sha384-8gBf6Y4YYq7Jx97PIqmTwLPin4hxIzQw5aDmUg/DDhul9fFpbbLcLh3nTIIDJKhx" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9HZSXL1LDJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9HZSXL1LDJ');
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+<script src="/js/jquery.qrcode.min.js"></script>
+
+
+
+<script src="/js/jquery-1.6.2.min.js"></script>
+
+
+</body>
+</html>
