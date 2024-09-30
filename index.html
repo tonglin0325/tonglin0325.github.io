@@ -942,13 +942,13 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
 
   
-    <article id="post-面试题目——系统设计" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-特征预处理——编码" class="article article-type-post" itemscope itemprop="blogPost">
 
   <header class="article-header">
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE%E2%80%94%E2%80%94%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1.html">面试题目——系统设计</a>
+      <a class="article-title" href="/%E7%89%B9%E5%BE%81%E9%A2%84%E5%A4%84%E7%90%86%E2%80%94%E2%80%94%E7%BC%96%E7%A0%81.html">特征预处理——编码</a>
     </h1>
   
 
@@ -957,7 +957,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE%E2%80%94%E2%80%94%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1.html" class="article-date"><time datetime="2023-08-05T16:00:00.000Z" itemprop="datePublished">2023-08-06</time></a>
+  <a href="/%E7%89%B9%E5%BE%81%E9%A2%84%E5%A4%84%E7%90%86%E2%80%94%E2%80%94%E7%BC%96%E7%A0%81.html" class="article-date"><time datetime="2023-08-05T16:00:00.000Z" itemprop="datePublished">2023-08-06</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -969,10 +969,34 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        有东西被加密了, 请输入密码查看.
+        <p>对于标称型数据，在特征处理的时候，需要对其进行编码</p>
+<p>在编码之前，如果训练集和测试集是分开的，则需要对其进行合并，避免标称数据丢失</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 合并</span><br><span class="line">df = train.append(test).reset_index()</span><br><span class="line"># 列名</span><br><span class="line">original_columns = list(df.columns)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>常用的编码方式如下</p>
+<h2 id="1-Label编码"><a href="#1-Label编码" class="headerlink" title="1.Label编码"></a>1.Label编码</h2><p>对于一个有m个category的特征，经过label encoding以后，每个category会映射到0到m-1之间的一个数。label encoding适用于ordinal feature （特征存在内在顺序）。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">from sklearn import preprocessing</span><br><span class="line"></span><br><span class="line">for col in original_columns:</span><br><span class="line">    enc = preprocessing.LabelEncoder()</span><br><span class="line">    enc.fit(np.concatenate([train[col], test[col]]))</span><br><span class="line">    train[col] = enc.transform(train[col])</span><br><span class="line">    test[col] = enc.transform(test[col])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">train_data = train_data.replace(&#123;&#x27;BsmtQual&#x27;: &#123;&#x27;Ex&#x27;: 5, &#x27;Gd&#x27;: 4, &#x27;TA&#x27;: 3, &#x27;Fa&#x27;: 2, &#x27;Po&#x27;: 1, np.NaN: 0&#125;&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-顺序编码"><a href="#2-顺序编码" class="headerlink" title="2.顺序编码"></a>2.顺序编码</h2><p>类似于Label编码</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://wutaoblog.com.cn/2021/08/20/data_preprocess/">数据转化</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">from sklearn import preprocessing</span><br><span class="line"></span><br><span class="line">enc = preprocessing.OrdinalEncoder()</span><br><span class="line">X = [[&#x27;male&#x27;, &#x27;from US&#x27;, &#x27;uses Safari&#x27;], [&#x27;female&#x27;, &#x27;from Europe&#x27;, &#x27;uses Firefox&#x27;]]</span><br><span class="line">enc.fit(X)</span><br><span class="line">&gt;&gt; OrdinalEncoder()</span><br><span class="line"></span><br><span class="line">enc.transform([[&#x27;female&#x27;, &#x27;from US&#x27;, &#x27;uses Safari&#x27;]])</span><br><span class="line">&gt;&gt; array([[0., 1., 1.]])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-one-hot编码"><a href="#3-one-hot编码" class="headerlink" title="3.one-hot编码"></a>3.one-hot编码</h2><p>对于一个有m个category的特征，经过独热编码（OHE）处理后，会变为m个二元特征，每个特征对应于一个category。这m个二元特征互斥，每次只有一个激活。</p>
+<p>独热编码解决了原始特征缺少内在顺序的问题，但是缺点是对于high-cardinality categorical feature (category数量很多)，编码之后特征空间过大（此处可以考虑PCA降维），而且由于one-hot feature 比较unbalanced，树模型里每次的切分增益较小，树模型通常需要grow very deep才能得到不错的精度。因此OHE一般用于category数量 &lt;4的情况。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://xie.infoq.cn/article/1a72c74d073a807c4a738284f">机器学习 | 数据缩放与转换方法（1）</a> 和 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/40231966">kaggle编码categorical feature总结</a></p>
+<p>使用sklearn来one-hot编码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">from sklearn import preprocessing</span><br><span class="line"></span><br><span class="line">enc = preprocessing.OneHotEncoder()</span><br><span class="line"># enc = preprocessing.OneHotEncoder(handle_unknown=&#x27;ignore&#x27;) # 当 handle_unknown=&#x27;ignore&#x27; 被指定而在转换的过程中碰到了未知的枚举特征值，不会产生任何错误，但是该特征的 one-hot 编码列将会被全部置 0</span><br><span class="line"></span><br><span class="line">X = [[&#x27;male&#x27;, &#x27;from US&#x27;, &#x27;uses Safari&#x27;], [&#x27;female&#x27;, &#x27;from Europe&#x27;, &#x27;uses Firefox&#x27;]]</span><br><span class="line">enc.fit(X) </span><br><span class="line">&gt;&gt; OneHotEncoder() </span><br><span class="line"></span><br><span class="line">enc.transform([[&#x27;female&#x27;, &#x27;from US&#x27;, &#x27;uses Safari&#x27;], [&#x27;male&#x27;, &#x27;from Europe&#x27;, &#x27;uses Safari&#x27;]]).toarray() </span><br><span class="line">&gt;&gt; array([[1., 0., 0., 1., 0., 1.], [0., 1., 1., 0., 0., 1.]]) </span><br><span class="line"></span><br><span class="line"># 查看每个特征的特征值 </span><br><span class="line">enc.categories_ </span><br><span class="line">&gt;&gt; [array([&#x27;female&#x27;, &#x27;male&#x27;], dtype=object), array([&#x27;from Europe&#x27;, &#x27;from US&#x27;], dtype=object), array([&#x27;uses Firefox&#x27;, &#x27;uses Safari&#x27;], dtype=object)]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>使用pandas来one-hot编码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">import pandas as pd</span><br><span class="line"></span><br><span class="line">X = [[&#x27;male&#x27;, &#x27;from US&#x27;, &#x27;uses Safari&#x27;], [&#x27;female&#x27;, &#x27;from Europe&#x27;, &#x27;uses Firefox&#x27;]]</span><br><span class="line">df = pd.DataFrame(X, columns=[&#x27;sex&#x27;,&#x27;country&#x27;,&#x27;browser&#x27;])</span><br><span class="line"># columns是需要编码的列名</span><br><span class="line">df = pd.get_dummies(df, columns=[&#x27;sex&#x27;,&#x27;country&#x27;], dummy_na = True)</span><br><span class="line">print(df)</span><br><span class="line"></span><br><span class="line">        browser  sex_female  sex_male  sex_nan  country_from Europe  country_from US  country_nan</span><br><span class="line">0   uses Safari           0         1        0                    0                1            0</span><br><span class="line">1  uses Firefox           1         0        0                    1                0            0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="4-target编码"><a href="#4-target编码" class="headerlink" title="4.target编码"></a>4.target编码</h2><p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/466389890">三种Target Encoding方式总结</a>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE%E2%80%94%E2%80%94%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1.html#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/%E7%89%B9%E5%BE%81%E9%A2%84%E5%A4%84%E7%90%86%E2%80%94%E2%80%94%E7%BC%96%E7%A0%81.html#more">全文 &gt;&gt;</a>
           </p>
         
 
@@ -982,12 +1006,12 @@ if ($('.local-search').resize() && !isMobile.any()) {
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE%E2%80%94%E2%80%94%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1.html" data-id="cm1m8b5990013o20lak763a2n" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/%E7%89%B9%E5%BE%81%E9%A2%84%E5%A4%84%E7%90%86%E2%80%94%E2%80%94%E7%BC%96%E7%A0%81.html" data-id="cln8csfav00xxl00la7nbhvy1" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%88%B7%E9%A2%98/" rel="tag">刷题</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/" rel="tag">Python</a></li></ul>
 
 
     </footer>
