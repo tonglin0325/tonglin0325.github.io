@@ -372,13 +372,13 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
 
   
-    <article id="post-多用户同时操作一条Mysql记录问题" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-MySQL学习笔记——乐观锁和悲观锁" class="article article-type-post" itemscope itemprop="blogPost">
 
   <header class="article-header">
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/%E5%A4%9A%E7%94%A8%E6%88%B7%E5%90%8C%E6%97%B6%E6%93%8D%E4%BD%9C%E4%B8%80%E6%9D%A1Mysql%E8%AE%B0%E5%BD%95%E9%97%AE%E9%A2%98.html">多用户同时操作一条Mysql记录问题</a>
+      <a class="article-title" href="/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81.html">MySQL学习笔记——乐观锁和悲观锁</a>
     </h1>
   
 
@@ -387,7 +387,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/%E5%A4%9A%E7%94%A8%E6%88%B7%E5%90%8C%E6%97%B6%E6%93%8D%E4%BD%9C%E4%B8%80%E6%9D%A1Mysql%E8%AE%B0%E5%BD%95%E9%97%AE%E9%A2%98.html" class="article-date"><time datetime="2019-10-22T16:00:00.000Z" itemprop="datePublished">2019-10-23</time></a>
+  <a href="/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81.html" class="article-date"><time datetime="2019-10-22T16:00:00.000Z" itemprop="datePublished">2019-10-23</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -400,9 +400,12 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>场景：两个用户同时读取了数据库中的一条记录，此时用户A对其中一个字段的值进行了修改操作并进行了提交，后来用户B也对这个字段进行了修改，用户B的提交将会覆盖用户A提交的值</p>
+<h2 id="乐观锁和悲观锁"><a href="#乐观锁和悲观锁" class="headerlink" title="乐观锁和悲观锁"></a><strong>乐观锁</strong>和<strong>悲观锁</strong></h2><h3 id="悲观锁："><a href="#悲观锁：" class="headerlink" title="悲观锁："></a><strong>悲观锁</strong>：</h3><p>每次去取数据，很悲观，都觉得会被别人修改，所以在拿数据的时候都会上锁。</p>
+<p>简言之，共享资源每次都只给一个线程使用，其他线程阻塞，等第一个线程用完后再把资源转让给其他线程。</p>
+<p>select … for update，synchronized和ReentranLock等都是悲观锁思想的体现。
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/%E5%A4%9A%E7%94%A8%E6%88%B7%E5%90%8C%E6%97%B6%E6%93%8D%E4%BD%9C%E4%B8%80%E6%9D%A1Mysql%E8%AE%B0%E5%BD%95%E9%97%AE%E9%A2%98.html#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81.html#more">全文 &gt;&gt;</a>
           </p>
         
 
@@ -412,7 +415,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/%E5%A4%9A%E7%94%A8%E6%88%B7%E5%90%8C%E6%97%B6%E6%93%8D%E4%BD%9C%E4%B8%80%E6%9D%A1Mysql%E8%AE%B0%E5%BD%95%E9%97%AE%E9%A2%98.html" data-id="cln8csfa400v5l00l7rg32nt5" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81.html" data-id="cm20m1qhq0000i70l0gp3a1e1" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       
