@@ -710,22 +710,10 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <h2 id="2-Flink-Mongo-CDC"><a href="#2-Flink-Mongo-CDC" class="headerlink" title="2.Flink Mongo CDC"></a>2.Flink Mongo CDC</h2><p>官方文档和原理，参考：<a target="_blank" rel="noopener" href="https://www.51cto.com/article/712109.html">Flink CDC MongoDB Connector 的实现原理和使用实践</a></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://ververica.github.io/flink-cdc-connectors/release-2.3/content/connectors/mongodb-cdc.html#</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>从Flink CDC 2.1.0开始，支持了Mongo CDC的connector，当前最新的版本是2.3.0</p>
-<p>相比2.2.0，2.3.0版本主要新增了Incremental Snapshot的特性（在snapshot阶段支持断点续传和并发同步），且要求至少mongo 4.0版本，这样就可以解决大表在第一次snapshot同步的时候，一旦失败就得重头再开始同步的问题，以及之前只能单并发同步很慢的问题</p>
-<p>具体新增的特性可以查看release</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/ververica/flink-cdc-connectors/releases</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>下面例子中的前flink mongo cdc的sink为hudi sink</p>
-<h3 id="1-snapshot阶段支持checkpoint（断点续传）"><a href="#1-snapshot阶段支持checkpoint（断点续传）" class="headerlink" title="1.snapshot阶段支持checkpoint（断点续传）"></a>1.snapshot阶段支持checkpoint（断点续传）</h3><p>这个具体值的是如果在snapshot阶段，某次checkpoint failed，或者停掉flink job，然后从最新的checkpoint重新flink job，都是能实现断点续传的，使用的话只需要添加如下配置</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scan.incremental.snapshot.enabled = true</span><br></pre></td></tr></table></figure>
-
-<img src="/images/517519-20230510104736582-758175905.png" width="1200" height="500" loading="lazy" />
-
-<h3 id="2-snapshot阶段支持并发同步"><a href="#2-snapshot阶段支持并发同步" class="headerlink" title="2.snapshot阶段支持并发同步"></a>2.snapshot阶段支持并发同步</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/lib/flink/bin/flink run -t yarn-session -p 10 ...　　</span><br></pre></td></tr></table></figure>
-
-<img src="/images/517519-20230510105152426-2035315116.png" width="1400" height="559" loading="lazy" />
-
-<p>bucket_write阶段的并发度由
+<p>从<strong>Flink CDC 2.1.0</strong>开始，支持了<strong>Mongo CDC的connector</strong>，flink Mongo cdc的connector和flink MySQL cdc不同，是基于MongoDB的change stream，并不基于Debezium（Debezium Mongo Connector读取的是oplog）。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-cdc-docs-release-3.1/docs/connectors/flink-sources/mongodb-cdc/#change-streams">https://nightlies.apache.org/flink/flink-cdc-docs-release-3.1/docs/connectors/flink-sources/mongodb-cdc/#change-streams</a></p>
+<p>截止2023年中，最新的版本是2.3.0，相比2.2.0，2.3.0版本主要新增了Incremental Snapshot的特性（在snapshot阶段支持断点续传和并发同步），且要求至少mongo 4.0版本，这样就可以解决大表在第一次snapshot同步的时候，一旦失败就得重头再开始同步的问题，以及之前只能单并发同步很慢的问题</p>
+<p>具体新增的特性可以查看release：<a target="_blank" rel="noopener" href="https://github.com/ververica/flink-cdc-connectors/releases">https://github.com/ververica/flink-cdc-connectors/releases</a></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Flink%20Mongo%20CDC.html#more">全文 &gt;&gt;</a>
