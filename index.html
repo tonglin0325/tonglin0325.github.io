@@ -199,25 +199,50 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <!-- 目录 -->
-
-<div id="toc">
-  
-</div>
-
-        <p>DTM是一款开源的分布式事务管理器，解决跨数据库、跨服务、跨语言栈更新数据的一致性问题。</p>
+        <p>DTM是一款开源的GO语言分布式事务管理器，解决跨数据库、跨服务、跨语言栈更新数据的一致性问题。</p>
+<p>DTM可适合多语言栈的公司使用。方便go、python、php、nodejs、ruby、c# 各类语言使用。</p>
+<p>支持的分布式事务协议包括：SAGA，TCC，XA和二阶段消息这几种模式。</p>
 <p>官方网站：<a target="_blank" rel="noopener" href="https://dtm.pub/">https://dtm.pub/</a></p>
+<h2 id="1-启动DTM服务"><a href="#1-启动DTM服务" class="headerlink" title="1.启动DTM服务"></a>1.启动DTM服务</h2><p>参考：<a target="_blank" rel="noopener" href="https://dtm.pub/guide/install.html#%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8C%85%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85">https://dtm.pub/guide/install.html#%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8C%85%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85</a></p>
+<p>项目</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/dtm-labs/dtm</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-        <div class="article-entry">
-          <div id="footer-info" class="inner">
-          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E6%A1%86%E6%9E%B6DTM.html"></a>
-          </div>
-        </div>
+<p>git dtm项目</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/dtm-labs/dtm &amp;amp;&amp;amp; cd dtm</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>启动dtm</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./dtm</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>dtm运行后，会监听两个端口</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http：36789</span><br><span class="line">grpc：36790</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-分布式事务协议"><a href="#2-分布式事务协议" class="headerlink" title="2.分布式事务协议"></a>2.分布式事务协议</h2><h3 id="1-SAGA模式"><a href="#1-SAGA模式" class="headerlink" title="1.SAGA模式"></a>1.SAGA模式</h3><p>Saga核心思想是将长事务拆分为多个短事务，由Saga事务协调器协调，如果每个短事务都成功提交完成，那么全局事务就正常完成，如果某个步骤失败，则根据相反顺序一次调用补偿操作。</p>
+<p><strong>适用场景</strong>：适合需要最终一致性的大型跨服务事务，且允许一定时间的临时不一致。</p>
+<p><strong>优点</strong>：实现简单，不需要锁定资源，性能高。</p>
+<p><strong>缺点</strong>：数据一致性较弱，可能存在短时间的不一致。</p>
+<h3 id="2-TCC模式"><a href="#2-TCC模式" class="headerlink" title="2.TCC模式"></a>2.TCC模式</h3><p>TCC分为3个阶段</p>
+<ul>
+<li>Try 资源预留阶段：尝试执行，完成所有业务检查（一致性）, 预留必须业务资源（准隔离性）</li>
+<li>Confirm 确认阶段：如果所有分支的Try都成功了，则走到Confirm阶段。Confirm真正执行业务，不作任何业务检查，只使用 Try 阶段预留的业务资源</li>
+<li>Cancel 取消阶段：如果所有分支的Try有一个失败了，则走到Cancel阶段。Cancel释放 Try 阶段预留的业务资源。</li>
+</ul>
+<p><strong>适用场景</strong>：适合强一致性要求的场景，例如支付扣款、库存预扣等需要确保每个操作的资源在短时间内完全一致。</p>
+<p><strong>优点</strong>：可以精细控制资源的锁定和释放，提高一致性。</p>
+<p><strong>缺点</strong>：实现复杂，需为每个操作编写补偿逻辑。</p>
+<h3 id="3-二阶段消息模式"><a href="#3-二阶段消息模式" class="headerlink" title="3.二阶段消息模式"></a>3.二阶段消息模式</h3><h3 id="4-XA模式"><a href="#4-XA模式" class="headerlink" title="4.XA模式"></a>4.XA模式</h3><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>二阶段消息模式: 适合不需要回滚的场景</li>
+<li>saga模式: 适合需要回滚的场景</li>
+<li>tcc事务模式: 适合一致性要求较高的场景</li>
+<li>xa事务模式: 适合并发要求不高，没有数据库行锁争抢的场景</li>
+</ul>
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E6%A1%86%E6%9E%B6DTM.html#more">全文 &gt;&gt;</a>
+          </p>
+        
+
       
     </div>
-
-    
-      
 
     
 
