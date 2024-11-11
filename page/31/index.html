@@ -835,7 +835,87 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>可以参考kratos的example</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/go-kratos/examples/tree/main/casbin</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>以及 <a target="_blank" rel="noopener" href="https://juejin.cn/post/7183310583876288571">golang微服务框架Kratos实现鉴权 - Casbin</a></p>
+<p>在这个例子中，作者定义了3种角色，分别具有不同的权限</p>
+<ul>
+<li>admin：<strong>管理员角色</strong>，具有所有权限，显示<strong>所有标签页</strong>。</li>
+<li>moderator：<strong>普通用户角色</strong>，具有部分权限，<strong>无权限访问User标签页，无法看到Admin标签页</strong>。</li>
+<li>user：<strong>普通用户角色</strong>，具有一些权限，<strong>无权限访问User标签页，无法看到Admin和Moderator标签页</strong>。</li>
+</ul>
+<p>admin用户</p>
+<img src="/images/517519-20241112000259831-900791172.png" width="1200" height="305" loading="lazy" />
+
+<p>moderator用户</p>
+<img src="/images/517519-20241111235700527-2034510679.png" width="1200" height="299" loading="lazy" />
+
+<p>user用户</p>
+<img src="/images/517519-20241112000344604-328738343.png" width="1200" height="290" loading="lazy" />
+
+<p>在authz_model.conf文件中定义了<strong>访问控制模型</strong>，在authz_policy.csv中存储了<strong>权限策略</strong></p>
+<p>authz_model.conf文件如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[request_definition]</span><br><span class="line">r = sub, obj, act</span><br><span class="line"></span><br><span class="line">[policy_definition]</span><br><span class="line">p = sub, obj, act</span><br><span class="line"></span><br><span class="line">[role_definition]</span><br><span class="line">g = _, _</span><br><span class="line"></span><br><span class="line">[policy_effect]</span><br><span class="line">e = some(where (p.eft == allow))</span><br><span class="line"></span><br><span class="line">[matchers]</span><br><span class="line">m = g(r.sub, p.sub) &amp;amp;&amp;amp; keyMatch(r.obj, p.obj) &amp;amp;&amp;amp; (r.act == p.act || p.act == &quot;*&quot;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<li>
+**[request_definition]**：
+<ul>
+- 定义了请求的结构，即请求包含的参数。
+- 这里的 `r = sub, obj, act` 表示请求由三个要素组成：`sub`（主体，例如用户或角色）、`obj`（访问的对象，例如资源或 URL）、和 `act`（操作，例如读、写）。
+
+<p>**[policy_definition]**：</p>
+<ul>
+<li>定义了权限策略的结构，表示策略包含的参数。</li>
+<li><code>p = sub, obj, act</code> 表示策略同样包含主体、对象和操作三部分。每条策略通过匹配这些属性来决定权限。</li>
+</ul>
+<p>**[role_definition]**：</p>
+<ul>
+<li>定义了角色的继承关系，用于角色访问控制（RBAC）。</li>
+<li><code>g = _, _</code> 表示使用角色继承的关系。例如，<code>g(alice, admin)</code> 表示用户 <code>alice</code> 是 <code>admin</code> 角色的成员，继承该角色的权限。</li>
+</ul>
+<p>**[policy_effect]**：</p>
+<ul>
+<li>定义策略的效果，说明在多条策略匹配时如何处理。</li>
+<li><code>e = some(where (p.eft == allow))</code> 表示当某条策略生效（即 <code>p.eft</code> 等于 <code>allow</code>）时，允许请求通过。<code>some(where (...))</code> 的语法意味着只要有一条策略允许访问即可。</li>
+</ul>
+<p>**[matchers]**：</p>
+<ul>
+<li>定义了请求和策略如何匹配，以生成访问决策。<li>`m = g(r.sub, p.sub) &amp;&amp; keyMatch(r.obj, p.obj) &amp;&amp; (r.act == p.act || p.act == "*")` 规则的含义：
+<ul></li>
+<li><code>g(r.sub, p.sub)</code>：检查请求的主体 <code>r.sub</code> 是否具有策略中的角色 <code>p.sub</code>。</li>
+<li><code>keyMatch(r.obj, p.obj)</code>：支持 URL 模式匹配（如路径前缀匹配），判断请求对象 <code>r.obj</code> 是否匹配策略中的对象 <code>p.obj</code>。</li>
+<li><code>(r.act == p.act || p.act == &quot;*&quot;)</code>：检查请求的操作 <code>r.act</code> 是否与策略中的操作 <code>p.act</code> 相符，或者策略允许任意操作（`p.act == “*”）。</li>
+</ul>
+<p>authz_policy.csv文件如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">p, moderator, /admin.v1.AdminService/GetModeratorBoard, *</span><br><span class="line">p, api_admin, /admin.v1.AdminService/*, *</span><br><span class="line">g, admin, api_admin</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<li>
+**`p, moderator, /admin.v1.AdminService/GetModeratorBoard, *`**
+<ul>
+1. 这是一个权限策略 (`p`)。
+1. `moderator` 角色可以访问 `/admin.v1.AdminService/GetModeratorBoard` 路径。
+1. 最后一个参数是 `*`，表示对该路径上的任意操作（如 GET、POST 等）都允许。
+</ul>
+</li>
+<li>
+**`p, api_admin, /admin.v1.AdminService/*, *`**
+<ul>
+1. 另一个权限策略 (`p`)。
+1. `api_admin` 角色可以访问 `/admin.v1.AdminService/` 下的所有路径（使用了通配符 `*`）。
+1. 同样，`*` 表示允许对这些路径上的所有操作。
+</ul>
+</li>
+<li>
+**`g, admin, api_admin`**
+<ul>
+1. 这是一个角色继承关系 (`g`)。
+1. `admin` 角色继承了 `api_admin` 角色的权限，因此拥有 `api_admin` 角色所允许的所有权限。
+</ul>
+</li>
+
+<ul>
+<li>另一个权限策略 (<code>p</code>)。</li>
+<li><code>api_admin</code> 角色可以访问 <code>/admin.v1.AdminService/</code> 下的所有路径（使用了通配符 <code>*</code>）。</li>
+<li>同样，<code>*</code> 表示允许对这些路径上的所有操作。</li>
+</ul>
+<p>参考：<a target="_blank" rel="noopener" href="https://darjun.github.io/2020/06/12/godailylib/casbin/">Go 每日一库之 casbin</a></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94casbin%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86.html#more">全文 &gt;&gt;</a>
