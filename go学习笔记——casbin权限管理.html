@@ -5,18 +5,19 @@
   
   <title>go学习笔记——casbin权限管理 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在golang web中可以使用casbin实现RBAC权限管理，类似java spring security 可以参考kratos的example 12https:&#x2F;&#x2F;github.com&#x2F;go-kratos&#x2F;examples&#x2F;tree&#x2F;main&#x2F;casbin  在这个例子中，作者定义了3种角色，分别具有不同的权限  admin：管理员角色，具有所有权限，显示所有标签页。 moderator：普">
+  <meta name="description" content="在golang web中可以使用casbin实现RBAC权限管理，类似java spring security 可以参考kratos的example中的casbin项目：https:&#x2F;&#x2F;github.com&#x2F;go-kratos&#x2F;examples&#x2F;tree&#x2F;main&#x2F;casbin 在这个例子中，作者定义了3种角色，分别具有不同的权限  admin：管理员角色，具有所有权限，显示所有标签页。 mode">
 <meta property="og:type" content="article">
 <meta property="og:title" content="go学习笔记——casbin权限管理">
 <meta property="og:url" content="http://tonglin0325.github.io/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94casbin%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="在golang web中可以使用casbin实现RBAC权限管理，类似java spring security 可以参考kratos的example 12https:&#x2F;&#x2F;github.com&#x2F;go-kratos&#x2F;examples&#x2F;tree&#x2F;main&#x2F;casbin  在这个例子中，作者定义了3种角色，分别具有不同的权限  admin：管理员角色，具有所有权限，显示所有标签页。 moderator：普">
+<meta property="og:description" content="在golang web中可以使用casbin实现RBAC权限管理，类似java spring security 可以参考kratos的example中的casbin项目：https:&#x2F;&#x2F;github.com&#x2F;go-kratos&#x2F;examples&#x2F;tree&#x2F;main&#x2F;casbin 在这个例子中，作者定义了3种角色，分别具有不同的权限  admin：管理员角色，具有所有权限，显示所有标签页。 mode">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20241112000259831-900791172.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20241111235700527-2034510679.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20241112000344604-328738343.png">
+<meta property="og:image" content="http://tonglin0325.github.io/images/517519-20241112001932054-1331107933.png">
 <meta property="article:published_time" content="2016-06-02T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-11-11T16:08:14.355Z">
+<meta property="article:modified_time" content="2024-11-12T13:30:56.711Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="golang">
 <meta name="twitter:card" content="summary">
@@ -213,9 +214,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </div>
 
         <p>在golang web中可以使用casbin实现RBAC权限管理，类似java spring security</p>
-<p>可以参考kratos的example</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/go-kratos/examples/tree/main/casbin</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
+<p>可以参考kratos的example中的casbin项目：<a target="_blank" rel="noopener" href="https://github.com/go-kratos/examples/tree/main/casbin">https://github.com/go-kratos/examples/tree/main/casbin</a></p>
 <p>在这个例子中，作者定义了3种角色，分别具有不同的权限</p>
 <ul>
 <li>admin：<strong>管理员角色</strong>，具有所有权限，显示<strong>所有标签页</strong>。</li>
@@ -296,11 +295,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <li><code>api_admin</code> 角色可以访问 <code>/admin.v1.AdminService/</code> 下的所有路径（使用了通配符 <code>*</code>）。</li>
 <li>同样，<code>*</code> 表示允许对这些路径上的所有操作。</li>
 </ul>
-<p>参考：<a target="_blank" rel="noopener" href="https://darjun.github.io/2020/06/12/godailylib/casbin/">Go 每日一库之 casbin</a></p>
-<span id="more"></span>
-<p>&nbsp;</p>
-<p>以及 <a target="_blank" rel="noopener" href="https://juejin.cn/post/7183310583876288571">golang微服务框架Kratos实现鉴权 - Casbin</a></p>
-<p>&nbsp;</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://darjun.github.io/2020/06/12/godailylib/casbin/">Go 每日一库之 casbin</a> 以及 <a target="_blank" rel="noopener" href="https://juejin.cn/post/7183310583876288571">golang微服务框架Kratos实现鉴权 - Casbin</a></p>
+<p>可以尝试启动这个casbin项目，体会一下</p>
+<p>项目需要依赖Consul和Jaeger</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">docker pull bitnami/consul:latest</span><br><span class="line"></span><br><span class="line">docker run -itd \</span><br><span class="line">    --name consul-server-standalone \</span><br><span class="line">    -p 8300:8300 \</span><br><span class="line">    -p 8500:8500 \</span><br><span class="line">    -p 8600:8600/udp \</span><br><span class="line">    -e CONSUL_BIND_INTERFACE=&#x27;eth0&#x27; \</span><br><span class="line">    -e CONSUL_AGENT_MODE=server \</span><br><span class="line">    -e CONSUL_ENABLE_UI=true \</span><br><span class="line">    -e CONSUL_BOOTSTRAP_EXPECT=1 \</span><br><span class="line">    -e CONSUL_CLIENT_LAN_ADDRESS=0.0.0.0 \</span><br><span class="line">    bitnami/consul:latest</span><br><span class="line"></span><br><span class="line">docker pull jaegertracing/all-in-one:latest</span><br><span class="line"></span><br><span class="line">docker run -d \</span><br><span class="line">    --name jaeger \</span><br><span class="line">    -e COLLECTOR_ZIPKIN_HOST_PORT=:9411 \</span><br><span class="line">    -p 5775:5775/udp \</span><br><span class="line">    -p 6831:6831/udp \</span><br><span class="line">    -p 6832:6832/udp \</span><br><span class="line">    -p 5778:5778 \</span><br><span class="line">    -p 16686:16686 \</span><br><span class="line">    -p 14268:14268 \</span><br><span class="line">    -p 14250:14250 \</span><br><span class="line">    -p 9411:9411 \</span><br><span class="line">    jaegertracing/all-in-one:latest</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>启动后端，配置如下</p>
+<img src="/images/517519-20241112001932054-1331107933.png" width="600" height="494" loading="lazy">
+
+<p>访问swagger-ui：<a target="_blank" rel="noopener" href="http://localhost:8800/q/swagger-ui">http://localhost:8800/q/swagger-ui</a></p>
+<p>启动前端</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yarn start</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>访问前端界面：<a target="_blank" rel="noopener" href="http://localhost:8081/">http://localhost:8081</a></p>
 </ul></li>
         <div class="article-entry">
           <div id="footer-info" class="inner">

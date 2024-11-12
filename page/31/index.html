@@ -831,10 +831,14 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在golang web中可以使用casbin实现RBAC权限管理，类似java spring security</p>
-<p>可以参考kratos的example</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/go-kratos/examples/tree/main/casbin</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        <!-- 目录 -->
 
+<div id="toc">
+  
+</div>
+
+        <p>在golang web中可以使用casbin实现RBAC权限管理，类似java spring security</p>
+<p>可以参考kratos的example中的casbin项目：<a target="_blank" rel="noopener" href="https://github.com/go-kratos/examples/tree/main/casbin">https://github.com/go-kratos/examples/tree/main/casbin</a></p>
 <p>在这个例子中，作者定义了3种角色，分别具有不同的权限</p>
 <ul>
 <li>admin：<strong>管理员角色</strong>，具有所有权限，显示<strong>所有标签页</strong>。</li>
@@ -842,13 +846,13 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <li>user：<strong>普通用户角色</strong>，具有一些权限，<strong>无权限访问User标签页，无法看到Admin和Moderator标签页</strong>。</li>
 </ul>
 <p>admin用户</p>
-<img src="/images/517519-20241112000259831-900791172.png" width="1200" height="305" loading="lazy" />
+<img src="/images/517519-20241112000259831-900791172.png" width="1200" height="305" loading="lazy">
 
 <p>moderator用户</p>
-<img src="/images/517519-20241111235700527-2034510679.png" width="1200" height="299" loading="lazy" />
+<img src="/images/517519-20241111235700527-2034510679.png" width="1200" height="299" loading="lazy">
 
 <p>user用户</p>
-<img src="/images/517519-20241112000344604-328738343.png" width="1200" height="290" loading="lazy" />
+<img src="/images/517519-20241112000344604-328738343.png" width="1200" height="290" loading="lazy">
 
 <p>在authz_model.conf文件中定义了<strong>访问控制模型</strong>，在authz_policy.csv中存储了<strong>权限策略</strong></p>
 <p>authz_model.conf文件如下</p>
@@ -877,8 +881,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </ul>
 <p>**[matchers]**：</p>
 <ul>
-<li>定义了请求和策略如何匹配，以生成访问决策。<li>`m = g(r.sub, p.sub) &amp;&amp; keyMatch(r.obj, p.obj) &amp;&amp; (r.act == p.act || p.act == "*")` 规则的含义：
-<ul></li>
+<li>定义了请求和策略如何匹配，以生成访问决策。</li><li>`m = g(r.sub, p.sub) &amp;&amp; keyMatch(r.obj, p.obj) &amp;&amp; (r.act == p.act || p.act == "*")` 规则的含义：
+<ul></ul></li>
 <li><code>g(r.sub, p.sub)</code>：检查请求的主体 <code>r.sub</code> 是否具有策略中的角色 <code>p.sub</code>。</li>
 <li><code>keyMatch(r.obj, p.obj)</code>：支持 URL 模式匹配（如路径前缀匹配），判断请求对象 <code>r.obj</code> 是否匹配策略中的对象 <code>p.obj</code>。</li>
 <li><code>(r.act == p.act || p.act == &quot;*&quot;)</code>：检查请求的操作 <code>r.act</code> 是否与策略中的操作 <code>p.act</code> 相符，或者策略允许任意操作（`p.act == “*”）。</li>
@@ -915,15 +919,30 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <li><code>api_admin</code> 角色可以访问 <code>/admin.v1.AdminService/</code> 下的所有路径（使用了通配符 <code>*</code>）。</li>
 <li>同样，<code>*</code> 表示允许对这些路径上的所有操作。</li>
 </ul>
-<p>参考：<a target="_blank" rel="noopener" href="https://darjun.github.io/2020/06/12/godailylib/casbin/">Go 每日一库之 casbin</a></p>
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94casbin%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86.html#more">全文 &gt;&gt;</a>
-          </p>
-        
+<p>参考：<a target="_blank" rel="noopener" href="https://darjun.github.io/2020/06/12/godailylib/casbin/">Go 每日一库之 casbin</a> 以及 <a target="_blank" rel="noopener" href="https://juejin.cn/post/7183310583876288571">golang微服务框架Kratos实现鉴权 - Casbin</a></p>
+<p>可以尝试启动这个casbin项目，体会一下</p>
+<p>项目需要依赖Consul和Jaeger</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">docker pull bitnami/consul:latest</span><br><span class="line"></span><br><span class="line">docker run -itd \</span><br><span class="line">    --name consul-server-standalone \</span><br><span class="line">    -p 8300:8300 \</span><br><span class="line">    -p 8500:8500 \</span><br><span class="line">    -p 8600:8600/udp \</span><br><span class="line">    -e CONSUL_BIND_INTERFACE=&#x27;eth0&#x27; \</span><br><span class="line">    -e CONSUL_AGENT_MODE=server \</span><br><span class="line">    -e CONSUL_ENABLE_UI=true \</span><br><span class="line">    -e CONSUL_BOOTSTRAP_EXPECT=1 \</span><br><span class="line">    -e CONSUL_CLIENT_LAN_ADDRESS=0.0.0.0 \</span><br><span class="line">    bitnami/consul:latest</span><br><span class="line"></span><br><span class="line">docker pull jaegertracing/all-in-one:latest</span><br><span class="line"></span><br><span class="line">docker run -d \</span><br><span class="line">    --name jaeger \</span><br><span class="line">    -e COLLECTOR_ZIPKIN_HOST_PORT=:9411 \</span><br><span class="line">    -p 5775:5775/udp \</span><br><span class="line">    -p 6831:6831/udp \</span><br><span class="line">    -p 6832:6832/udp \</span><br><span class="line">    -p 5778:5778 \</span><br><span class="line">    -p 16686:16686 \</span><br><span class="line">    -p 14268:14268 \</span><br><span class="line">    -p 14250:14250 \</span><br><span class="line">    -p 9411:9411 \</span><br><span class="line">    jaegertracing/all-in-one:latest</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
+<p>启动后端，配置如下</p>
+<img src="/images/517519-20241112001932054-1331107933.png" width="600" height="494" loading="lazy">
+
+<p>访问swagger-ui：<a target="_blank" rel="noopener" href="http://localhost:8800/q/swagger-ui">http://localhost:8800/q/swagger-ui</a></p>
+<p>启动前端</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yarn start</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>访问前端界面：<a target="_blank" rel="noopener" href="http://localhost:8081/">http://localhost:8081</a></p>
+</ul></li>
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94casbin%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86.html"></a>
+          </div>
+        </div>
       
     </div>
+
+    
+      
 
     
 
