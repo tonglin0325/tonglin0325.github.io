@@ -172,13 +172,13 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <div class="col-sm-8 blog-main">
           
   
-    <article id="post-go学习笔记——go-redis" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Glide和Govendor安装和使用" class="article article-type-post" itemscope itemprop="blogPost">
 
   <header class="article-header">
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94go-redis.html">go学习笔记——go-redis</a>
+      <a class="article-title" href="/Glide%E5%92%8CGovendor%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8.html">Glide和Govendor安装和使用</a>
     </h1>
   
 
@@ -187,7 +187,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94go-redis.html" class="article-date"><time datetime="2015-06-29T16:00:00.000Z" itemprop="datePublished">2015-06-30</time></a>
+  <a href="/Glide%E5%92%8CGovendor%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8.html" class="article-date"><time datetime="2015-06-29T16:00:00.000Z" itemprop="datePublished">2015-06-30</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -199,24 +199,28 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <p>官方文档</p>
-<p><a target="_blank" rel="noopener" href="https://pkg.go.dev/github.com/go-redis/redis/v8#section-readme">https://pkg.go.dev/github.com/go-redis/redis/v8#section-readme</a></p>
-<p>添加依赖</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">go get github.com/go-redis/redis/v8</span><br><span class="line">go get github.com/go-redis/redis/extra/redisotel/v8</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        <p><strong>下面介绍几种go的包管理工具，推荐使用go mod</strong></p>
+<h2 id="1-go-mod"><a href="#1-go-mod" class="headerlink" title="1.go mod"></a><strong>1.go mod</strong></h2><p><strong>参考：</strong><a target="_blank" rel="noopener" href="https://www.cnblogs.com/tonglin0325/p/5321328.html">go学习笔记&mdash;&mdash;引入依赖</a></p>
+<h2 id="2-Glide"><a href="#2-Glide" class="headerlink" title="2.Glide"></a><strong>2.Glide</strong></h2><p><strong>参考</strong>：<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000013016957">golang 依赖管理</a></p>
+<p>/etc/profile</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#Go</span><br><span class="line">export GOROOT=/home/lintong/software/go</span><br><span class="line">export PATH=$PATH:$GOROOT/bin:$GOPATH/bin</span><br><span class="line">export GOPATH=/home/lintong/software/gopath</span><br><span class="line">export GOBIN=$GOROOT/bin</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>初始化client</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">client := redis.NewClient(&amp;amp;redis.Options&#123;</span><br><span class="line">    Addr:     &quot;localhost:6379&quot;,</span><br><span class="line">    Password: &quot;&quot;, // no password set</span><br><span class="line">    DB: 0,          // use default DB</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">client.AddHook(&amp;amp;redisotel.TracingHook&#123;&#125;)</span><br><span class="line">if err := client.Ping(context.Background()).Err(); err != nil &#123;</span><br><span class="line">    logger.Error(&quot;redis connect failed, err:&quot;, zap.Any(&quot;err&quot;, err))</span><br><span class="line">    panic(&quot;failed to connect redis&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Linux下安装</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl https://glide.sh/get | sh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>set key</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">err = rdb.Set(ctx, &quot;key&quot;, 10, time.Hour).Err()</span><br><span class="line">if err != nil &#123;</span><br><span class="line">    fmt.Println(err)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Mac下安装</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew install glide</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>get key</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">result := client.Get(ctx, &quot;key&quot;)</span><br><span class="line">str, err := result.Result()</span><br><span class="line">if err != nil &#123;</span><br><span class="line">	fmt.Println(err)</span><br><span class="line">&#125;</span><br><span class="line">fmt.Println(str)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>初始化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">glide init</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>参考：<a target="_blank" rel="noopener" href="https://www.liwenzhou.com/posts/Go/redis/">Go语言操作Redis</a></p>
+<p>依赖下载</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">glide update</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>然后就能编译原来不能编译的Go工程了</p>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94go-redis.html#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/Glide%E5%92%8CGovendor%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8.html#more">全文 &gt;&gt;</a>
           </p>
         
 
@@ -226,7 +230,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94go-redis.html" data-id="cltlm9m6h0000so0l9qdc8g08" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/Glide%E5%92%8CGovendor%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8.html" data-id="cln8csf2n003wl00l4ift3ihy" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       

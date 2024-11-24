@@ -553,13 +553,13 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
 
   
-    <article id="post-Python爬虫——使用selenium和phantomjs爬取js动态加载的网页" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Python爬虫——使用request请求网页" class="article article-type-post" itemscope itemprop="blogPost">
 
   <header class="article-header">
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/Python%E7%88%AC%E8%99%AB%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8selenium%E5%92%8Cphantomjs%E7%88%AC%E5%8F%96js%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E7%9A%84%E7%BD%91%E9%A1%B5.html">Python爬虫——使用selenium和phantomjs爬取js动态加载的网页</a>
+      <a class="article-title" href="/Python%E7%88%AC%E8%99%AB%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8request%E8%AF%B7%E6%B1%82%E7%BD%91%E9%A1%B5.html">Python爬虫——使用request请求网页</a>
     </h1>
   
 
@@ -568,7 +568,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/Python%E7%88%AC%E8%99%AB%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8selenium%E5%92%8Cphantomjs%E7%88%AC%E5%8F%96js%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E7%9A%84%E7%BD%91%E9%A1%B5.html" class="article-date"><time datetime="2017-04-30T16:00:00.000Z" itemprop="datePublished">2017-05-01</time></a>
+  <a href="/Python%E7%88%AC%E8%99%AB%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8request%E8%AF%B7%E6%B1%82%E7%BD%91%E9%A1%B5.html" class="article-date"><time datetime="2017-04-30T16:00:00.000Z" itemprop="datePublished">2017-05-01</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -580,17 +580,26 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <p><strong>1.安装selenium</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">pip install selenium</span><br><span class="line">Collecting selenium</span><br><span class="line">  Downloading selenium-3.4.1-py2.py3-none-any.whl (931kB)</span><br><span class="line">    100% |████████████████████████████████| 942kB 573kB/s </span><br><span class="line">Installing collected packages: selenium</span><br><span class="line">Successfully installed selenium-3.4.1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        <p><strong>1.安装request</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install requests</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p><strong>2.安装phantomjs</strong></p>
+<p><strong>2.请求网页</strong></p>
 <p>下载地址：<a target="_blank" rel="noopener" href="http://phantomjs.org/download.html">http://phantomjs.org/download.html</a></p>
-<p>下载的版本是：phantomjs-2.1.1-linux-x86_64.tar.bz2</p>
-<p>解压下载好的文件，并把文件夹移动到/usr/local目录下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo mv phantomjs-2.1.1-linux-x86_64 /usr/local/phantomjs</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import requests</span><br><span class="line">&gt;&gt;&gt; r = requests.get(&#x27;https://wwww.baidu.com&#x27;)</span><br><span class="line">&gt;&gt;&gt; print(r.text)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>3.请求失败重试</strong></p>
+<p>如果请求失败的话，可以使用urllib3的Retry来进行重试</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line">from requests.adapters import HTTPAdapter</span><br><span class="line">from urllib3.util import Retry</span><br><span class="line"></span><br><span class="line">try:</span><br><span class="line">    retry = Retry(</span><br><span class="line">        total=5,</span><br><span class="line">        backoff_factor=2,</span><br><span class="line">        status_forcelist=[429, 500, 502, 503, 504],</span><br><span class="line">    )</span><br><span class="line">    adapter = HTTPAdapter(max_retries=retry)</span><br><span class="line">    session = requests.Session()</span><br><span class="line">    session.mount(&#x27;https://&#x27;, adapter)</span><br><span class="line">    r = session.get(&#x27;https://httpbin.org/status/502&#x27;, timeout=180)</span><br><span class="line">    print(r.status_code)</span><br><span class="line">except Exception as e:</span><br><span class="line">    print(e)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>参考：<a target="_blank" rel="noopener" href="https://oxylabs.io/blog/python-requests-retry">https://oxylabs.io/blog/python-requests-retry</a></p>
+<p><strong>4.使用lxml解析网页</strong></p>
+<p>可以安装xpath helper插件来测试xpath，<a target="_blank" rel="noopener" href="https://chromewebstore.google.com/detail/xpath-helper/hgimnogjllphhhkhlmebbmlgjoejdpjl">https://chromewebstore.google.com/detail/xpath-helper/hgimnogjllphhhkhlmebbmlgjoejdpjl</a>，使用如下</p>
+<img src="/images/517519-20241124205450545-1438736200.png" width="1000" height="124" loading="lazy" />
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">from lxml import etree</span><br><span class="line"></span><br><span class="line">tree = etree.HTML(r.content)</span><br><span class="line">text = tree.xpath(&#x27;/html/body/div/header/div/nav/ul/li&#x27;)</span><br><span class="line">print(text)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
-            <a class="btn btn-primary" href="/Python%E7%88%AC%E8%99%AB%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8selenium%E5%92%8Cphantomjs%E7%88%AC%E5%8F%96js%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E7%9A%84%E7%BD%91%E9%A1%B5.html#more">全文 &gt;&gt;</a>
+            <a class="btn btn-primary" href="/Python%E7%88%AC%E8%99%AB%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8request%E8%AF%B7%E6%B1%82%E7%BD%91%E9%A1%B5.html#more">全文 &gt;&gt;</a>
           </p>
         
 
@@ -600,7 +609,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
     
 
     <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/Python%E7%88%AC%E8%99%AB%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8selenium%E5%92%8Cphantomjs%E7%88%AC%E5%8F%96js%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E7%9A%84%E7%BD%91%E9%A1%B5.html" data-id="clyygkzap0007g30l51xlbbad" class="article-share-link">
+      <a data-url="http://tonglin0325.github.io/Python%E7%88%AC%E8%99%AB%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8request%E8%AF%B7%E6%B1%82%E7%BD%91%E9%A1%B5.html" data-id="cm3vm4u2k0000uj0l43q2goj1" class="article-share-link">
         <i class="fa fa-share"></i> 分享
       </a>
       

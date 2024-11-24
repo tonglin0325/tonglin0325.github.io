@@ -5,12 +5,12 @@
   
   <title>go学习笔记——casbin权限管理 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.casbin简介#casbin是一个可用于Golang, Java, C&#x2F;C++, Node.js, Javascript, PHP, Laravel, Python, .NET (C#), Delphi, Rust, Ruby, Lua (OpenResty), Dart (Flutter)和Elixir的授权库。 在golang web中可以使用casbin实现RBAC权限管理，类似jav">
+  <meta name="description" content="1.casbin简介casbin是一个可用于Golang, Java, C&#x2F;C++, Node.js, Javascript, PHP, Laravel, Python, .NET (C#), Delphi, Rust, Ruby, Lua (OpenResty), Dart (Flutter)和Elixir的授权库。 在golang web中可以使用casbin实现RBAC权限管理，类似java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="go学习笔记——casbin权限管理">
 <meta property="og:url" content="http://tonglin0325.github.io/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94casbin%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="1.casbin简介#casbin是一个可用于Golang, Java, C&#x2F;C++, Node.js, Javascript, PHP, Laravel, Python, .NET (C#), Delphi, Rust, Ruby, Lua (OpenResty), Dart (Flutter)和Elixir的授权库。 在golang web中可以使用casbin实现RBAC权限管理，类似jav">
+<meta property="og:description" content="1.casbin简介casbin是一个可用于Golang, Java, C&#x2F;C++, Node.js, Javascript, PHP, Laravel, Python, .NET (C#), Delphi, Rust, Ruby, Lua (OpenResty), Dart (Flutter)和Elixir的授权库。 在golang web中可以使用casbin实现RBAC权限管理，类似java">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20241112000259831-900791172.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20241111235700527-2034510679.png">
@@ -23,8 +23,8 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20241123223511329-996308251.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20241123224222111-839904543.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20241123224455459-1739231000.png">
-<meta property="article:published_time" content="2016-06-02T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-11-24T04:40:21.290Z">
+<meta property="article:published_time" content="2018-06-06T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-11-24T13:06:02.372Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="golang">
 <meta name="twitter:card" content="summary">
@@ -202,7 +202,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94casbin%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86.html" class="article-date"><time datetime="2016-06-02T16:00:00.000Z" itemprop="datePublished">2016-06-03</time></a>
+  <a href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94casbin%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86.html" class="article-date"><time datetime="2018-06-06T16:00:00.000Z" itemprop="datePublished">2018-06-07</time></a>
 </div>
 
     <div class="article-author">tonglin0325</div>
@@ -234,13 +234,13 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <li>user：<strong>普通用户角色</strong>，具有一些权限，<strong>无权限访问User标签页，无法看到Admin和Moderator标签页</strong>。</li>
 </ul>
 <p>admin用户</p>
-<img src="/images/517519-20241112000259831-900791172.png" width="1200" height="305" loading="lazy">
+<img src="/images/517519-20241112000259831-900791172.png" width="1200" height="305">
 
 <p>moderator用户</p>
-<img src="/images/517519-20241111235700527-2034510679.png" width="1200" height="299" loading="lazy">
+<img src="/images/517519-20241111235700527-2034510679.png" width="1200" height="299">
 
 <p>user用户</p>
-<img src="/images/517519-20241112000344604-328738343.png" width="1200" height="290" loading="lazy">
+<img src="/images/517519-20241112000344604-328738343.png" width="1200" height="290">
 
 <p>在authz_model.conf文件中定义了<strong>访问控制模型</strong>，在authz_policy.csv中存储了<strong>权限策略</strong></p>
 <p>authz_model.conf文件如下</p>
@@ -313,7 +313,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">docker pull bitnami/consul:latest</span><br><span class="line"></span><br><span class="line">docker run -itd \</span><br><span class="line">    --name consul-server-standalone \</span><br><span class="line">    -p 8300:8300 \</span><br><span class="line">    -p 8500:8500 \</span><br><span class="line">    -p 8600:8600/udp \</span><br><span class="line">    -e CONSUL_BIND_INTERFACE=&#x27;eth0&#x27; \</span><br><span class="line">    -e CONSUL_AGENT_MODE=server \</span><br><span class="line">    -e CONSUL_ENABLE_UI=true \</span><br><span class="line">    -e CONSUL_BOOTSTRAP_EXPECT=1 \</span><br><span class="line">    -e CONSUL_CLIENT_LAN_ADDRESS=0.0.0.0 \</span><br><span class="line">    bitnami/consul:latest</span><br><span class="line"></span><br><span class="line">docker pull jaegertracing/all-in-one:latest</span><br><span class="line"></span><br><span class="line">docker run -d \</span><br><span class="line">    --name jaeger \</span><br><span class="line">    -e COLLECTOR_ZIPKIN_HOST_PORT=:9411 \</span><br><span class="line">    -p 5775:5775/udp \</span><br><span class="line">    -p 6831:6831/udp \</span><br><span class="line">    -p 6832:6832/udp \</span><br><span class="line">    -p 5778:5778 \</span><br><span class="line">    -p 16686:16686 \</span><br><span class="line">    -p 14268:14268 \</span><br><span class="line">    -p 14250:14250 \</span><br><span class="line">    -p 9411:9411 \</span><br><span class="line">    jaegertracing/all-in-one:latest</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>启动后端，配置如下</p>
-<img src="/images/517519-20241112001932054-1331107933.png" width="600" height="494" loading="lazy">
+<img src="/images/517519-20241112001932054-1331107933.png" width="600" height="494">
 
 <p>访问swagger-ui：<a target="_blank" rel="noopener" href="http://localhost:8800/q/swagger-ui">http://localhost:8800/q/swagger-ui</a></p>
 <p>启动前端</p>
@@ -353,7 +353,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">p, admin, /api/v1/user/*, *</span><br><span class="line">p, admin, /api/v1/user, POST</span><br><span class="line">p, foo, /api/v1/user/1, GET</span><br><span class="line">p, austin, /api/v1/user, POST</span><br><span class="line">p, lena, /api/v1/user, PUT</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>admin用户拥有创建user的权限</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl -i &#x27;http://localhost:18080/api/v1/user&#x27; \&lt;br /&gt;--header &#x27;Content-Type: application/json&#x27; \&lt;br /&gt;--header &#x27;Authorization: Basic YWRtaW46YWRtaW4=&#x27; \&lt;br /&gt;--data-raw &#x27;&#123;&lt;br /&gt;&lt;!--more--&gt;</span><br><span class="line">&amp;nbsp;&amp;nbsp;&amp;nbsp; &quot;username&quot;: &quot;test&quot;,&lt;br /&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; &quot;email&quot;:&quot;test@test&quot;&lt;br /&gt;&#125;&#x27;&lt;br /&gt;HTTP/1.1 200 OK&lt;br /&gt;Content-Type: application/json; charset=utf-8&lt;br /&gt;Date: Sat, 23 Nov 2024 15:48:38 GMT&lt;br /&gt;Content-Length: 98&lt;br /&gt;&lt;br /&gt;&#123;&quot;code&quot;:200,&quot;msg&quot;:&quot;create user success&quot;,&quot;data&quot;:&#123;&quot;id&quot;:10025,&quot;username&quot;:&quot;test&quot;,&quot;email&quot;:&quot;test@test&quot;&#125;&#125;%</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">curl -i &#x27;http://localhost:18080/api/v1/user&#x27; \</span><br><span class="line">--header &#x27;Content-Type: application/json&#x27; \</span><br><span class="line">--header &#x27;Authorization: Basic YWRtaW46YWRtaW4=&#x27; \</span><br><span class="line">--data-raw &#x27;&#123;</span><br><span class="line">    &quot;username&quot;: &quot;test&quot;,</span><br><span class="line">    &quot;email&quot;:&quot;test@test&quot;</span><br><span class="line">&#125;&#x27;</span><br><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Content-Type: application/json; charset=utf-8</span><br><span class="line">Date: Sat, 23 Nov 2024 15:48:38 GMT</span><br><span class="line">Content-Length: 98</span><br><span class="line"></span><br><span class="line">&#123;&quot;code&quot;:200,&quot;msg&quot;:&quot;create user success&quot;,&quot;data&quot;:&#123;&quot;id&quot;:10025,&quot;username&quot;:&quot;test&quot;,&quot;email&quot;:&quot;test@test&quot;&#125;&#125;%</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>foo用户只有访问id=1的用户的权限，访问id=2会返回403</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">curl -I -X GET &#x27;http://localhost:18080/api/v1/user/2&#x27; \</span><br><span class="line">--header &#x27;Authorization: Basic Zm9vOmJhcg==&#x27; \</span><br><span class="line">--header &#x27;Content-Type: application/json&#x27;</span><br><span class="line">HTTP/1.1 403 Forbidden</span><br><span class="line">Date: Sun, 17 Nov 2024 16:21:01 GMT</span><br><span class="line">Content-Length: 0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -365,7 +365,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">func NewEnforcer(adapter *gormadapter.Adapter) (*casbin.Enforcer, error) &#123;</span><br><span class="line">	//enforcer, err := casbin.NewEnforcer(&quot;./conf/authz_model.conf&quot;, &quot;./conf/authz_policy.csv&quot;)</span><br><span class="line">	enforcer, err := casbin.NewEnforcer(&quot;./conf/authz_model.conf&quot;, adapter)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		panic(err)</span><br><span class="line">	&#125;</span><br><span class="line">	return enforcer, nil</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func NewGormAdapter(conf *viper.Viper) (*gormadapter.Adapter, error) &#123;</span><br><span class="line">	dsn := conf.GetString(&quot;db.mysql.dsn&quot;)</span><br><span class="line">	print(dsn)</span><br><span class="line">	adapter, err := gormadapter.NewAdapter(&quot;mysql&quot;, dsn, true)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		panic(err)</span><br><span class="line">	&#125;</span><br><span class="line">	return adapter, nil</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>运行代码后，会自动在MySQL数据库中创建一张名为casbin_rule的表，如下</p>
-<img src="/images/517519-20241121004423756-507602134.png" width="400" height="282" loading="lazy">
+<img src="/images/517519-20241121004423756-507602134.png" width="400" height="282">
 
 <p>表定义应为(id int primary key, ptype varchar, v0 varchar, v1 varchar, v2 varchar, v3 varchar, v4 varchar, v5 varchar)。</p>
 <p>唯一键索引应在ptype,v0,v1,v2,v3,v4,v5列上建立。</p>
@@ -373,7 +373,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">package auth</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;gin-template/internal/config&quot;</span><br><span class="line">	zaplog &quot;gin-template/internal/logger&quot;</span><br><span class="line">	&quot;github.com/spf13/viper&quot;</span><br><span class="line">	&quot;go.uber.org/zap&quot;</span><br><span class="line">	&quot;testing&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">var (</span><br><span class="line">	conf       *viper.Viper</span><br><span class="line">	zap_logger *zap.Logger</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func init() &#123;</span><br><span class="line">	conf = config.InitConfig()</span><br><span class="line">	zap_logger = zaplog.InitLogger(conf)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func TestNewGormAdapter(t *testing.T) &#123;</span><br><span class="line">	adapter, err := NewGormAdapter(conf)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		fmt.Println(err)</span><br><span class="line">		return</span><br><span class="line">	&#125;</span><br><span class="line">	enforcer, err := NewEnforcer(adapter)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		fmt.Println(err)</span><br><span class="line">		return</span><br><span class="line">	&#125;</span><br><span class="line">	_, err = enforcer.AddPolicy(&quot;jack&quot;, &quot;data1&quot;, &quot;write&quot;)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		fmt.Println(err)</span><br><span class="line">		return</span><br><span class="line">	&#125;</span><br><span class="line">	_, err = enforcer.AddPolicy(&quot;jack&quot;, &quot;data2&quot;, &quot;write&quot;)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		fmt.Println(err)</span><br><span class="line">		return</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>参考：<a target="_blank" rel="noopener" href="https://github.com/casbin/gorm-adapter">https://github.com/casbin/gorm-adapter</a></p>
-<img src="/images/517519-20241123112023778-681558361.png" width="600" height="133" loading="lazy">
+<img src="/images/517519-20241123112023778-681558361.png" width="600" height="133">
 
 <p>如果要移除policy</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// 删除policy</span><br><span class="line">_, err = enforcer.RemovePolicy(&quot;jack&quot;, &quot;data3&quot;, &quot;write&quot;)</span><br><span class="line">if err != nil &#123;</span><br><span class="line">	fmt.Println(err)</span><br><span class="line">	return</span><br><span class="line">&#125;</span><br><span class="line">// 删除index=0位置的值等于jack的policy</span><br><span class="line">_, err = enforcer.RemoveFilteredPolicy(0, &quot;jack&quot;)</span><br><span class="line">if err != nil &#123;</span><br><span class="line">	fmt.Println(err)</span><br><span class="line">	return</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -398,6 +398,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>查看原先的日志，获取到2次policy变更的消息</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;Method&quot;:&quot;UpdateForAddPolicy&quot;,&quot;ID&quot;:&quot;a14b5075-bd4c-43fa-b987-8e500d9fcf46&quot;,&quot;Sec&quot;:&quot;p&quot;,&quot;Ptype&quot;:&quot;p&quot;,&quot;OldRule&quot;:null,&quot;OldRules&quot;:null,&quot;NewRule&quot;:[&quot;jack&quot;,&quot;data1&quot;,&quot;write&quot;],&quot;NewRules&quot;:null,&quot;FieldIndex&quot;:0,&quot;FieldValues&quot;:null&#125;</span><br><span class="line">&#123;&quot;Method&quot;:&quot;UpdateForAddPolicy&quot;,&quot;ID&quot;:&quot;a14b5075-bd4c-43fa-b987-8e500d9fcf46&quot;,&quot;Sec&quot;:&quot;p&quot;,&quot;Ptype&quot;:&quot;p&quot;,&quot;OldRule&quot;:null,&quot;OldRules&quot;:null,&quot;NewRule&quot;:[&quot;jack&quot;,&quot;data2&quot;,&quot;write&quot;],&quot;NewRules&quot;:null,&quot;FieldIndex&quot;:0,&quot;FieldValues&quot;:null&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
+<span id="more"></span>
 <p>&nbsp;</p>
 <h2 id="4-casbin-guan-li-jie-mian"><a href="#4-casbin管理界面" class="headerlink" title="4.casbin管理界面"></a>4.casbin管理界面<a href="#4-casbin-guan-li-jie-mian" class="header-anchor">#</a></h2><p>casbin生态提供了admin-portal用于模型管理和策略管理，参考：<a target="_blank" rel="noopener" href="https://casbin.org/zh/docs/admin-portal">https://casbin.org/zh/docs/admin-portal</a></p>
 <p>casdoor就是其中之一（别用casbin-hub这个项目，已经过时），官网：<a target="_blank" rel="noopener" href="https://casdoor.org/">https://casdoor.org/</a></p>
@@ -413,22 +414,22 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd web</span><br><span class="line">yarn install</span><br><span class="line">yarn start</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>参考：<a target="_blank" rel="noopener" href="https://casdoor.org/docs/basic/server-installation/">https://casdoor.org/docs/basic/server-installation/</a></p>
-<p>界面如下</p>
-<img src="/images/517519-20241123220725245-1400649783.png" width="1000" height="401" loading="lazy">
+<p>界面如下，默认的账号密码是admin 123</p>
+<img src="/images/517519-20241123220725245-1400649783.png" width="1000" height="401">
 
 <p>在casbin管理中可以添加casbin的model，adapter和enforcer</p>
 <p>添加casbin model模型，即模型控制文件，比如上面的 authz_model.conf</p>
-<img src="/images/517519-20241123222841571-72610990.png" alt loading="lazy">
+<img src="/images/517519-20241123222841571-72610990.png" alt>
 
 <p>添加casbin adapter适配器，需要指定MySQL表的名字，这里指定table的名字为casbin_rule，和GORM adapter默认创建的table名字保持一致</p>
 <p>这个当然也可以选择和casdoor不同的MySQL database</p>
-<img src="/images/517519-20241123223511329-996308251.png" alt loading="lazy">
+<img src="/images/517519-20241123223511329-996308251.png" alt>
 
 <p>添加casbin enforcer执行器，需要指定model和adapter，同时在enforcer中添加policy，如下</p>
-<img src="/images/517519-20241123224222111-839904543.png" width="1300" height="525" loading="lazy">
+<img src="/images/517519-20241123224222111-839904543.png" width="1300" height="525">
 
 <p>对应MySQL表中已经添加了该policy</p>
-<img src="/images/517519-20241123224455459-1739231000.png" width="600" height="114" loading="lazy">
+<img src="/images/517519-20241123224455459-1739231000.png" width="600" height="114">
 
 <p>&nbsp;</p>
 </ul></li>
@@ -461,16 +462,16 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <ul id="article-nav" class="nav nav-pills nav-justified">
   
   <li role="presentation">
-    <a href="/%E7%89%B9%E5%BE%81%E5%B9%B3%E5%8F%B0%E7%AE%80%E4%BB%8B.html" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/Ubuntu%E4%B8%8BAnsible%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8.html" id="article-nav-older" class="article-nav-link-wrap">
       <i class="fa fa-chevron-left pull-left"></i>
-      <span class="article-nav-link-title">特征平台简介</span>
+      <span class="article-nav-link-title">Ubuntu下Ansible安装和使用</span>
     </a>
   </li>
   
   
   <li role="presentation">
-    <a href="/%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE%E2%80%94%E2%80%94%E3%80%8ALeetcode%E3%80%8B%E9%93%BE%E8%A1%A8.html" id="article-nav-newer" class="article-nav-link-wrap">
-      <span class="article-nav-link-title">面试题目——《Leetcode》链表</span>
+    <a href="/elephant-bird%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <span class="article-nav-link-title">elephant-bird学习笔记</span>
       <i class="fa fa-chevron-right pull-right"></i>
     </a>
   </li>
