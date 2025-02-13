@@ -18,7 +18,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20241019223454556-1656569630.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20241019224009494-1573477091.png">
 <meta property="article:published_time" content="2024-10-18T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-12-21T10:58:13.365Z">
+<meta property="article:modified_time" content="2025-02-13T15:10:02.993Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="golang">
 <meta name="twitter:card" content="summary">
@@ -211,7 +211,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <!-- 目录 -->
 
 <div id="toc">
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-chuang-jian-go-module-xiang-mu"><span class="toc-text">1.创建go module项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-yin-yong-si-you-cang-ku-de-go-module"><span class="toc-text">2.引用私有仓库的go module</span></a></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-chuang-jian-go-module-xiang-mu"><span class="toc-text">1.创建go module项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-yin-yong-si-you-cang-ku-de-go-module"><span class="toc-text">2.引用私有仓库的go module</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-github-si-you-cang-ku"><span class="toc-text">1.Github私有仓库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-gitlab-si-you-cang-ku"><span class="toc-text">2.Gitlab私有仓库</span></a></li></ol></li></ol>
 </div>
 
         <h2 id="1-chuang-jian-go-module-xiang-mu"><a href="#1-创建go-module项目" class="headerlink" title="1.创建go module项目"></a>1.创建go module项目<a href="#1-chuang-jian-go-module-xiang-mu" class="header-anchor">#</a></h2><img src="/images/517519-20241019214247291-2081870372.png" width="600" height="581" loading="lazy">
@@ -231,7 +231,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>如果GitHub repository设置成public的话，此时就可以使用如下命令引用这个module了</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  /Users/lintong/coding/go/gin-template git:(main) ✗ $ go get github.com/tonglin0325/go-test@latest</span><br><span class="line">go: downloading github.com/tonglin0325/go-test v1.0.1</span><br><span class="line">go: added github.com/tonglin0325/go-test v1.0.1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h2 id="2-yin-yong-si-you-cang-ku-de-go-module"><a href="#2-引用私有仓库的go-module" class="headerlink" title="2.引用私有仓库的go module"></a>2.引用私有仓库的go module<a href="#2-yin-yong-si-you-cang-ku-de-go-module" class="header-anchor">#</a></h2><p>如果电脑配置了github的私钥的话，可以直接使用go get命令来引用私有仓库的依赖</p>
+<h2 id="2-yin-yong-si-you-cang-ku-de-go-module"><a href="#2-引用私有仓库的go-module" class="headerlink" title="2.引用私有仓库的go module"></a>2.引用私有仓库的go module<a href="#2-yin-yong-si-you-cang-ku-de-go-module" class="header-anchor">#</a></h2><h3 id="1-github-si-you-cang-ku"><a href="#1-Github私有仓库" class="headerlink" title="1.Github私有仓库"></a>1.Github私有仓库<a href="#1-github-si-you-cang-ku" class="header-anchor">#</a></h3><p>如果使用的私有仓库是github，则电脑配置了github的私钥的话，可以直接使用go get命令来引用私有仓库的依赖</p>
 <p>如果没有设置的话，则可以使用github的token来下载依赖</p>
 <p>在github用户settings的Developer settings中创建一个token，token name假设为goland</p>
 <img src="/images/517519-20241019223454556-1656569630.png" width="400" height="202" loading="lazy">
@@ -260,6 +260,11 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
 <p>最后使用go get命令引用依赖</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go get github.com/tonglin0325/go-test@latest</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-gitlab-si-you-cang-ku"><a href="#2-Gitlab私有仓库" class="headerlink" title="2.Gitlab私有仓库"></a>2.Gitlab私有仓库<a href="#2-gitlab-si-you-cang-ku" class="header-anchor">#</a></h3><p>如果使用的私有仓库是gitlab，则可以参考如下文档，在 ~/.netrc 文件中配置gitlab的access token</p>
+<p><a target="_blank" rel="noopener" href="https://docs.gitlab.com/ee/user/project/use_project_as_go_package.html">Use a project as a Go package</a></p>
+<p>然后使用如下命令来get依赖</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">GOPRIVATE=gitlab.xx.com go get gitlab.xx.com/xx/xx</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <span id="more"></span>
 <p>&nbsp;</p>
@@ -391,7 +396,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
   <footer class="blog-footer">
   <div class="container">
     <div id="footer-info" class="inner">
-      &copy; 2024 tonglin0325<br>
+      &copy; 2025 tonglin0325<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

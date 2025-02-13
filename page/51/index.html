@@ -385,12 +385,13 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <p>如果想在Gin Web服务中实现限流功能，可以使用<a target="_blank" rel="noopener" href="https://github.com/ulule/limiter/">ulule/limiter</a></p>
-<p>ulule/limiter是一款支持分布式限流的框架，其可以在Redis中存储和共享限流状态，从而在分布式环境中实现一致的限流逻辑。</p>
+        <p>如果想在Gin Web服务中实现限流功能，可以使用<a target="_blank" rel="noopener" href="https://github.com/ulule/limiter/">ulule/limiter</a>，<a target="_blank" rel="noopener" href="https://github.com/uber-go/ratelimit">uber-go/ratelimit</a></p>
+<h2 id="1-ulule-limiter"><a href="#1-ulule-limiter" class="headerlink" title="1.ulule/limiter"></a>1.ulule/limiter</h2><p>ulule/limiter是一款支持分布式限流的框架，其可以在Redis中存储和共享限流状态，从而在分布式环境中实现一致的限流逻辑。</p>
 <p>1.引用</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go get github.com/ulule/limiter/v3@v3.11.2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>2.Gin限流中间件</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://github.com/ulule/limiter-examples/blob/master/gin/main.go">https://github.com/ulule/limiter-examples/blob/master/gin/main.go</a></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">package middleware</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;github.com/gin-gonic/gin&quot;</span><br><span class="line">	&quot;github.com/redis/go-redis/v9&quot;</span><br><span class="line">	&quot;github.com/ulule/limiter/v3&quot;</span><br><span class="line">	mgin &quot;github.com/ulule/limiter/v3/drivers/middleware/gin&quot;</span><br><span class="line">	redisstore &quot;github.com/ulule/limiter/v3/drivers/store/redis&quot;</span><br><span class="line">	&quot;time&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func RateLimitMiddleWare(rdb *redis.Client) gin.HandlerFunc &#123;</span><br><span class="line">	// 定义限流规则：1 请求/10秒</span><br><span class="line">	rate := limiter.Rate&#123;</span><br><span class="line">		Period: 10 * time.Second,</span><br><span class="line">		Limit:  1,</span><br><span class="line">	&#125;</span><br><span class="line">	// 创建限流存储</span><br><span class="line">	store, err := redisstore.NewStoreWithOptions(rdb, limiter.StoreOptions&#123;</span><br><span class="line">		Prefix:   &quot;rate_limiter&quot;, // Redis 键的前缀</span><br><span class="line">	&#125;)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		panic(err)</span><br><span class="line">	&#125;</span><br><span class="line">	// 创建限流实例</span><br><span class="line">	instance := limiter.New(store, rate)</span><br><span class="line">	middleware := mgin.NewMiddleware(instance)</span><br><span class="line">	return middleware</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>3.在router中使用限流中间件</p>
@@ -402,6 +403,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>在redis中会存储限流状态，如下</p>
 <p>其中默认的key是prefix+ip，value是API的请求次数</p>
 <img src="/images/517519-20241221172937680-637160254.png" width="800" height="105" loading="lazy" />
+
+<h2 id="2-uber-go-ratelimit"><a href="#2-uber-go-ratelimit" class="headerlink" title="2.uber-go/ratelimit"></a>2.uber-go/ratelimit</h2><p>uber-go/ratelimit是uber提供的Leaky Bucket（漏桶）限流算法的Golang实现，其不支持分布式限流</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94gin%E9%99%90%E6%B5%81.html#more">全文 &gt;&gt;</a>
@@ -884,7 +887,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
   <footer class="blog-footer">
   <div class="container">
     <div id="footer-info" class="inner">
-      &copy; 2024 tonglin0325<br>
+      &copy; 2025 tonglin0325<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
