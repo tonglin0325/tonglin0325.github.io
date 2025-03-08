@@ -172,6 +172,130 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <div class="col-sm-8 blog-main">
           
   
+    <article id="post-go学习笔记——gin框架" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94gin%E6%A1%86%E6%9E%B6.html">go学习笔记——gin框架</a>
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94gin%E6%A1%86%E6%9E%B6.html" class="article-date"><time datetime="2024-05-08T16:00:00.000Z" itemprop="datePublished">2024-05-09</time></a>
+</div>
+
+    <div class="article-author">tonglin0325</div>
+    
+
+  </div>
+
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>gin是一款轻量级的go web开发框架，官方文档</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://gin-gonic.com/docs/examples/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="1-gin-web项目结构"><a href="#1-gin-web项目结构" class="headerlink" title="1.gin web项目结构"></a>1.gin web项目结构</h2><p>参考</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/voyagegroup/gin-boilerplate</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>gin+protobuf wire参考</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/mohuishou/blog-code/tree/main/01-go-training/04-project/10-layout</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-gin-web-quick-start"><a href="#2-gin-web-quick-start" class="headerlink" title="2.gin web quick start"></a>2.gin web quick start</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://gin-gonic.com/docs/quickstart/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在官方文档中提供了2个quick start的demo，一个稍微复杂，一个比较简单</p>
+<p>简单的例子如下，创建一个/ping接口，返回pong</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;github.com/gin-gonic/gin&quot;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	r := gin.Default()</span><br><span class="line">	r.GET(&quot;/ping&quot;, func(c *gin.Context) &#123;</span><br><span class="line">		c.JSON(200, gin.H&#123;</span><br><span class="line">			&quot;message&quot;: &quot;pong&quot;,</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;)</span><br><span class="line">	r.Run() // listen and serve on 0.0.0.0:8080</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-路由分组"><a href="#3-路由分组" class="headerlink" title="3.路由分组"></a>3.路由分组</h2><p>如果gin项目的接口比较多的话，可以使用路由分组</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://gin-gonic.com/docs/examples/grouping-routes/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>参考：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7220329768108146743">【Go】基于 Gin 从0到1搭建 Web 管理后台系统后端服务（三）路由、自定义校验器和 Redis</a></p>
+<h2 id="4-数据绑定"><a href="#4-数据绑定" class="headerlink" title="4.数据绑定"></a>4.数据绑定</h2><p>将请求的参数传递给接口中的变量，需要使用gin的数据绑定</p>
+<p>如果是path parameter</p>
+<p>使用c.Param(“name”)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://gin-gonic.com/docs/examples/param-in-path/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>使用c.ShouldBindUri(&amp;person)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://gin-gonic.com/docs/examples/bind-uri/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果是query parameter或者post请求的form-data</p>
+<p>使用c.ShouldBind(&amp;user)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://gin-gonic.com/docs/examples/bind-query-or-post/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="5-统一的response"><a href="#5-统一的response" class="headerlink" title="5.统一的response"></a>5.统一的response</h2><p>可以如下定义统一的接口response，其中的interface{}类似java中的泛型T</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">type ControllerResponse struct &#123;</span><br><span class="line">	Code int</span><br><span class="line">	Msg  string</span><br><span class="line">	Data interface&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func Response(ctx *gin.Context, code int, msg string, data interface&#123;&#125;) &#123;</span><br><span class="line">	resp := ControllerResponse&#123;Code: code, Msg: msg, Data: data&#125;</span><br><span class="line">	ctx.JSON(code, resp)</span><br><span class="line">	ctx.Abort()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func Success(ctx *gin.Context, msg string, data interface&#123;&#125;) &#123;</span><br><span class="line">	Response(ctx, 200, msg, data)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func Fail(ctx *gin.Context, msg string, data interface&#123;&#125;) &#123;</span><br><span class="line">	Response(ctx, 500, msg, data)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43881017/article/details/112471847">go语言web开发系列之十五:gin框架统一定义API错误码</a></p>
+<h2 id="6-Gin的middleware中间件"><a href="#6-Gin的middleware中间件" class="headerlink" title="6.Gin的middleware中间件"></a>6.Gin的middleware中间件</h2><h3 id="1-使用middleware"><a href="#1-使用middleware" class="headerlink" title="1.使用middleware"></a>1.使用middleware</h3><p>gin的middleware需要实现<strong>gin.HandlerFunc</strong>，可以用其来实现诸如jwt，auth等功能，参考</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/gin-gonic/contrib/blob/master/jwt/jwt.go">https://github.com/gin-gonic/contrib/blob/master/jwt/jwt.go</a></p>
+<p><a target="_blank" rel="noopener" href="https://gin-gonic.com/zh-cn/docs/examples/using-middleware/">https://gin-gonic.com/zh-cn/docs/examples/using-middleware/</a></p>
+<p>下面定义了3个middleware</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">// MiddleWare1 定义中间件1</span><br><span class="line">func MiddleWare1() gin.HandlerFunc &#123;</span><br><span class="line">	return func(c *gin.Context) &#123;</span><br><span class="line">		fmt.Println(&quot;前 m1&quot;)</span><br><span class="line">		c.Next()</span><br><span class="line">		fmt.Println(&quot;后 m1&quot;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// MiddleWare2 定义中间件2</span><br><span class="line">func MiddleWare2() gin.HandlerFunc &#123;</span><br><span class="line">	return func(c *gin.Context) &#123;</span><br><span class="line">		fmt.Println(&quot;前 m2&quot;)</span><br><span class="line">		c.Next()</span><br><span class="line">		fmt.Println(&quot;后 m2&quot;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// MiddleWare3 定义中间件3</span><br><span class="line">func MiddleWare3() gin.HandlerFunc &#123;</span><br><span class="line">	return func(c *gin.Context) &#123;</span><br><span class="line">		fmt.Println(&quot;前 m3&quot;)</span><br><span class="line">		c.Next()</span><br><span class="line">		fmt.Println(&quot;后 m3&quot;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在gin中添加middleware</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">func main() &#123;</span><br><span class="line">   // 创建路由</span><br><span class="line">   engine := gin.Default()</span><br><span class="line"></span><br><span class="line">   // 注册中间件</span><br><span class="line">   engine.Use(MiddleWare1(), MiddleWare2(), MiddleWare3())</span><br><span class="line"></span><br><span class="line">   // 路由规则</span><br><span class="line">   engine.GET(&quot;/ping&quot;, func(c *gin.Context) &#123;</span><br><span class="line">      fmt.Println(&quot;hello world&quot;)</span><br><span class="line">      c.JSON(200, gin.H&#123;&quot;msg&quot;: &quot;pong&quot;&#125;)</span><br><span class="line">   &#125;)</span><br><span class="line">   err:=engine.Run(&quot;:3000&quot;)</span><br><span class="line">   if err != nil &#123;</span><br><span class="line">      fmt.Println(err)</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>输出如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">前 m1</span><br><span class="line">前 m2</span><br><span class="line">前 m3</span><br><span class="line">hello world</span><br><span class="line">后 m3</span><br><span class="line">后 m2</span><br><span class="line">后 m1</span><br><span class="line">[GIN] 2023/12/25 - 00:06:11 | 200 |      35.726&amp;micro;s |       127.0.0.1 | GET      &quot;/ping&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>接口返回pong</p>
+<h3 id="2-Next-和Abort"><a href="#2-Next-和Abort" class="headerlink" title="2.Next()和Abort()"></a>2.Next()和Abort()</h3><p>Next()之前的代码会在执行HandlerFunc之前执行，之后的代码会在执行HandlerFunc之后执行</p>
+<p>如果将middleware2中的c.Next()修改成c.Abort()</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// MiddleWare2 定义中间件2</span><br><span class="line">func MiddleWare2() gin.HandlerFunc &#123;</span><br><span class="line">	return func(c *gin.Context) &#123;</span><br><span class="line">		fmt.Println(&quot;前 m2&quot;)</span><br><span class="line">		c.Abort()</span><br><span class="line">		fmt.Println(&quot;后 m2&quot;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>则输出将会如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">前 m1</span><br><span class="line">前 m2</span><br><span class="line">后 m2</span><br><span class="line">后 m1</span><br><span class="line">[GIN] 2023/12/25 - 00:11:05 | 200 |      16.262&amp;micro;s |       127.0.0.1 | GET      &quot;/ping&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>接口无返回</p>
+<p>可以Abort()不会阻止当前middleware的执行，但是会中止下游middleware以及HandlerFunc的执行</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7134929302822322207">[Go Package] gin 中间件流程控制:c.Next() / c.Abort（）</a></p>
+<h3 id="3-全局中间件和局部中间件"><a href="#3-全局中间件和局部中间件" class="headerlink" title="3.全局中间件和局部中间件"></a>3.全局中间件和局部中间件</h3><h4 id="1-白名单"><a href="#1-白名单" class="headerlink" title="1.白名单"></a>1.白名单</h4><p>上面给出的例子中，middleware将对全部的请求生效，这里可以通过指定白名单的方法来使其只对部分请求生效</p>
+<h4 id="2-局部中间件"><a href="#2-局部中间件" class="headerlink" title="2.局部中间件"></a>2.局部中间件</h4><p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_34556414/article/details/129922392">Golang Gin 局部、全局 中间件使用</a></p>
+<h2 id="7-在Gin中使用http-handler中间件"><a href="#7-在Gin中使用http-handler中间件" class="headerlink" title="7.在Gin中使用http handler中间件"></a>7.在Gin中使用http handler中间件</h2><p>除了使用gin的middleware来实现中间件之外，也可以使用Go的标准库的net/http包来初始http请求</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/guyan0319/article/details/89183816">GO中间件(Middleware)</a></p>
+<p>在gin中使用的话，需要将http.Handler转换成gin.HanlderFunc</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// MiddleWare4 定义中间件4</span><br><span class="line">func MiddleWare4(next http.Handler) http.Handler &#123;</span><br><span class="line">	return http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) &#123;</span><br><span class="line">		fmt.Println(&quot;前 m4&quot;)</span><br><span class="line">		next.ServeHTTP(writer, request)</span><br><span class="line">		fmt.Println(&quot;后 m4&quot;)</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 将 http.Handler 包装成 Gin 中间件的函数</span><br><span class="line">func WrapHandler(handler http.Handler) gin.HandlerFunc &#123;</span><br><span class="line">	return func(c *gin.Context) &#123;</span><br><span class="line">		handler.ServeHTTP(c.Writer, c.Request)</span><br><span class="line">		c.Next()</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在router中添加middleware，注意需要将middleware写在局部路由的前面才能生效</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">wrappedMiddleware := middleware.WrapHandler(middleware.MiddleWare4(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">	// 空的 http.HandlerFunc，只为了包装中间件</span><br><span class="line">&#125;)))</span><br><span class="line">r.Use(wrappedMiddleware, middleware.MiddleWare1(), middleware.MiddleWare2())</span><br><span class="line"></span><br><span class="line">// Ping test</span><br><span class="line">r.GET(&quot;/ping&quot;, func(c *gin.Context) &#123;</span><br><span class="line">	c.String(http.StatusOK, &quot;pong&quot;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>参考：<a target="_blank" rel="noopener" href="https://github.com/go-kratos/examples/blob/main/http/middlewares/middlewares.go">https://github.com/go-kratos/examples/blob/main/http/middlewares/middlewares.go</a> </p>
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94gin%E6%A1%86%E6%9E%B6.html#more">全文 &gt;&gt;</a>
+          </p>
+        
+
+      
+    </div>
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://tonglin0325.github.io/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94gin%E6%A1%86%E6%9E%B6.html" data-id="clq906k590000b60l09lf97qh" class="article-share-link">
+        <i class="fa fa-share"></i> 分享
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/golang/" rel="tag">golang</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-go学习笔记——Kratos框架" class="article article-type-post" itemscope itemprop="blogPost">
 
   <header class="article-header">
@@ -823,87 +947,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
 
   
-    <article id="post-Kafka学习笔记——Consumer API" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <header class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Consumer%20API.html">Kafka学习笔记——Consumer API</a>
-    </h1>
-  
-
-
-  </header>
-
-  <div class="article-meta">
-    <div class="article-datetime">
-  <a href="/Kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Consumer%20API.html" class="article-date"><time datetime="2021-07-06T16:00:00.000Z" itemprop="datePublished">2021-07-07</time></a>
-</div>
-
-    <div class="article-author">tonglin0325</div>
-    
-
-  </div>
-
-  <div class="article-inner">
-
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- 目录 -->
-
-<div id="toc">
-  
-</div>
-
-        <p>参考kafka官方文档，版本1.0.x</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://kafka.apache.org/10/documentation.html#consumerapi</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>依赖，选择 Cloudera Rel 中的 1.0.1-kafka-3.1.0</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.kafka&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;kafka-clients&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.0.1-kafka-3.1.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>Kafka的消费者有2套API，一个是新版的Java API，在 org.apache.kafka.clients 包中</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://kafka.apache.org/10/documentation.html#newconsumerconfigs</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>一个是旧版的Scala API，在 kafka.consumer 包中</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://kafka.apache.org/10/documentation.html#oldconsumerconfigs</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>其中new consumer api中文含义参考</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://tonglin0325.github.io/xml/kafka/1.0.1-kafka-3.1.0/new-consumer-api.xml</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>kafka consumer参数调优：<a target="_blank" rel="noopener" href="http://blog.51yip.com/hadoop/2128.html">kafka consumer 参数调优</a></p>
-<p>Kafka消费者不是线程安全的。所有的网络I/O都发生在进行调用的应用程序的线程中。用户有责任确保多线程访问是正确同步的。</p>
-
-        <div class="article-entry">
-          <div id="footer-info" class="inner">
-          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/Kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Consumer%20API.html"></a>
-          </div>
-        </div>
-      
-    </div>
-
-    
-      
-
-    
-
-    <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/Kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Consumer%20API.html" data-id="cln8csf5700ckl00lharg5v9v" class="article-share-link">
-        <i class="fa fa-share"></i> 分享
-      </a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kafka/" rel="tag">kafka</a></li></ul>
-
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <div id="page-nav">
@@ -945,7 +988,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
   <div class="sidebar-module">
     <h4>文章归档</h4>
-    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2025/02/">二月 2025</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/10/">十月 2024</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/08/">八月 2024</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/05/">五月 2024</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2023/08/">八月 2023</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/07/">七月 2022</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/01/">一月 2022</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/12/">十二月 2021</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/11/">十一月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/09/">九月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">七月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/05/">五月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/03/">三月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/01/">一月 2021</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/12/">十二月 2020</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/11/">十一月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/10/">十月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/09/">九月 2020</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/08/">八月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/07/">七月 2020</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/06/">六月 2020</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/05/">五月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/04/">四月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/03/">三月 2020</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">二月 2020</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/01/">一月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">十月 2019</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/09/">九月 2019</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">八月 2019</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/07/">七月 2019</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/04/">四月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/03/">三月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/01/">一月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/12/">十二月 2018</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/11/">十一月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/09/">九月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/06/">六月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/05/">五月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/04/">四月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/02/">二月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/01/">一月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/11/">十一月 2017</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/09/">九月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/07/">七月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/06/">六月 2017</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/05/">五月 2017</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/04/">四月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/03/">三月 2017</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/01/">一月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/12/">十二月 2016</a><span class="sidebar-module-list-count">15</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/11/">十一月 2016</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">十月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">九月 2016</a><span class="sidebar-module-list-count">16</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/08/">八月 2016</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/07/">七月 2016</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">六月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">五月 2016</a><span class="sidebar-module-list-count">32</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/04/">四月 2016</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/03/">三月 2016</a><span class="sidebar-module-list-count">134</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/02/">二月 2016</a><span class="sidebar-module-list-count">22</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/09/">九月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/08/">八月 2015</a><span class="sidebar-module-list-count">14</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/07/">七月 2015</a><span class="sidebar-module-list-count">31</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/06/">六月 2015</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/04/">四月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2013/04/">四月 2013</a><span class="sidebar-module-list-count">2</span></li></ul>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2025/03/">三月 2025</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2025/02/">二月 2025</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/10/">十月 2024</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/08/">八月 2024</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/05/">五月 2024</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2023/08/">八月 2023</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/07/">七月 2022</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/01/">一月 2022</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/12/">十二月 2021</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/11/">十一月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/09/">九月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">七月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/05/">五月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/03/">三月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/01/">一月 2021</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/12/">十二月 2020</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/11/">十一月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/10/">十月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/09/">九月 2020</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/08/">八月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/07/">七月 2020</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/06/">六月 2020</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/05/">五月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/04/">四月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/03/">三月 2020</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">二月 2020</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/01/">一月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">十月 2019</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/09/">九月 2019</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">八月 2019</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/07/">七月 2019</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/04/">四月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/03/">三月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/01/">一月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/12/">十二月 2018</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/11/">十一月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/09/">九月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/06/">六月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/05/">五月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/04/">四月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/02/">二月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/01/">一月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/11/">十一月 2017</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/09/">九月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/07/">七月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/06/">六月 2017</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/05/">五月 2017</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/04/">四月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/03/">三月 2017</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/01/">一月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/12/">十二月 2016</a><span class="sidebar-module-list-count">15</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/11/">十一月 2016</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">十月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">九月 2016</a><span class="sidebar-module-list-count">16</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/08/">八月 2016</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/07/">七月 2016</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">六月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">五月 2016</a><span class="sidebar-module-list-count">32</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/04/">四月 2016</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/03/">三月 2016</a><span class="sidebar-module-list-count">134</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/02/">二月 2016</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/09/">九月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/08/">八月 2015</a><span class="sidebar-module-list-count">14</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/07/">七月 2015</a><span class="sidebar-module-list-count">31</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/06/">六月 2015</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/04/">四月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2013/04/">四月 2013</a><span class="sidebar-module-list-count">2</span></li></ul>
   </div>
 
 
@@ -954,6 +997,10 @@ if ($('.local-search').resize() && !isMobile.any()) {
   <div class="sidebar-module">
     <h4>最近文章</h4>
     <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94gin%E9%99%90%E6%B5%81.html">go学习笔记——gin限流</a>
+        </li>
       
         <li>
           <a href="/golang%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94gorm.html">golang学习笔记——gorm</a>
@@ -969,10 +1016,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <li>
           <a href="/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Istio%E5%92%8CKong.html">k8s学习笔记——Istio和Kong</a>
-        </li>
-      
-        <li>
-          <a href="/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ingress.html">k8s学习笔记——ingress</a>
         </li>
       
     </ul>

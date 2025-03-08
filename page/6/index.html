@@ -172,6 +172,89 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <div class="col-sm-8 blog-main">
           
   
+    <article id="post-Kafka学习笔记——存储结构" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84.html">Kafka学习笔记——存储结构</a>
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/Kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84.html" class="article-date"><time datetime="2020-07-18T16:00:00.000Z" itemprop="datePublished">2020-07-19</time></a>
+</div>
+
+    <div class="article-author">tonglin0325</div>
+    
+
+  </div>
+
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>1，由cdh安装的kafka的默认存储路径如图所示在/var/local/kafka/data，一般会进行修改</p>
+<img src="/images/517519-20200719165104346-185256693.png" width="500" height="116" loading="lazy" />
+
+<p>kafka配置参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/lizhitao/article/details/25667831">apache kafka系列之server.properties配置文件参数说明</a></p>
+<p>路径下文件如下</p>
+<img src="/images/517519-20200719165325582-1321225246.png" width="700" height="50" loading="lazy" />
+
+<p>如果是多个路径的话，使用,进行分隔，比如/data01/kafka/data,/data02/kafka/data，注意data的权限需要是kafka用户和kafka组</p>
+<p>对应kafka manager上的topic</p>
+<img src="/images/517519-20200719165438343-1809914824.png" width="400" height="199" loading="lazy" />
+
+<p>具体的topic的目录下的文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lintong@master:/var/local/kafka/data/test_topic-0$ ls</span><br><span class="line">00000000000000000187.index  00000000000000000187.snapshot   leader-epoch-checkpoint</span><br><span class="line">00000000000000000187.log    00000000000000000187.timeindex</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>其中</p>
+<p>187就是这个日志数据文件开始的offset</p>
+<p>00000000000000000187.log是<strong>日志数据文件</strong></p>
+<p>可以使用解码命令查看日志片段中的内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">/opt/cloudera/parcels/KAFKA/bin/kafka-run-class kafka.tools.DumpLogSegments --files ./00000000000000000187.log</span><br><span class="line">20/07/19 17:28:55 INFO utils.Log4jControllerRegistration$: Registered kafka:type=kafka.Log4jController MBean</span><br><span class="line">Dumping ./00000000000000000187.log</span><br><span class="line">Starting offset: 187</span><br><span class="line">baseOffset: 187 lastOffset: 187 count: 1 baseSequence: -1 lastSequence: -1 producerId: -1 producerEpoch: -1 partitionLeaderEpoch: 0 isTransactional: false isControl: false position: 0 CreateTime: 1595149737820 size: 71 magic: 2 compresscodec: NONE crc: 1738564593 isvalid: true</span><br><span class="line">baseOffset: 188 lastOffset: 188 count: 1 baseSequence: -1 lastSequence: -1 producerId: -1 producerEpoch: -1 partitionLeaderEpoch: 0 isTransactional: false isControl: false position: 71 CreateTime: 1595149744449 size: 74 magic: 2 compresscodec: NONE crc: 3794338178 isvalid: true</span><br><span class="line">baseOffset: 189 lastOffset: 189 count: 1 baseSequence: -1 lastSequence: -1 producerId: -1 producerEpoch: -1 partitionLeaderEpoch: 0 isTransactional: false isControl: false position: 145 CreateTime: 1595149757514 size: 75 magic: 2 compresscodec: NONE crc: 3084259622 isvalid: true</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>log.segment.bytes设置是1G，如果log文件的大小达到1G之后会生成另外一个log文件</p>
+<img src="/images/517519-20200719224704351-504957439.png" width="400" height="90" />
+
+<p><strong>该参数在1.0.1及以下的kafka有bug</strong>，可能会影响消费者消费topic的数据，但是不影响生产者，参考：<a target="_blank" rel="noopener" href="https://issues.apache.org/jira/browse/KAFKA-6292">https://issues.apache.org/jira/browse/KAFKA-6292</a></p>
+<p>当kafka的broker读取segment文件的时候，会判断当前当前读取的segment的偏移量position在继续读取一段<code>HEADER_SIZE_UP_TO_MAGIC</code>之后和该segment文件最大可读取的偏移量end之间的大小</p>
+<p>当调高了log.segment.bytes=2G，注意此处2G=有符号INT的最大值=2147483647，有可能导致position+<code>HEADER_SIZE_UP_TO_MAGIC</code>的大小超过int最大值，从而成为负数，小于end，返回null，并导致从log文件的末尾开始读取数据</p>
+<p>参考kafka 1.0.1版本源码：<a target="_blank" rel="noopener" href="https://github.com/apache/kafka/blob/1.0.1/clients/src/main/java/org/apache/kafka/common/record/FileLogInputStream.java">https://github.com/apache/kafka/blob/1.0.1/clients/src/main/java/org/apache/kafka/common/record/FileLogInputStream.java</a></p>
+<img src="/images/517519-20200720144452996-1799650750.png" width="800" height="431" loading="lazy" />
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/Kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84.html#more">全文 &gt;&gt;</a>
+          </p>
+        
+
+      
+    </div>
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://tonglin0325.github.io/Kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84.html" data-id="cln8csf5b00czl00le54hffel" class="article-share-link">
+        <i class="fa fa-share"></i> 分享
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kafka/" rel="tag">kafka</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-分布式协议——Paxos、Raft和ZAB" class="article article-type-post" itemscope itemprop="blogPost">
 
   <header class="article-header">
@@ -743,82 +826,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
 
   
-    <article id="post-小米手机卸载小爱同学" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <header class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/%E5%B0%8F%E7%B1%B3%E6%89%8B%E6%9C%BA%E5%8D%B8%E8%BD%BD%E5%B0%8F%E7%88%B1%E5%90%8C%E5%AD%A6.html">小米手机卸载小爱同学</a>
-    </h1>
-  
-
-
-  </header>
-
-  <div class="article-meta">
-    <div class="article-datetime">
-  <a href="/%E5%B0%8F%E7%B1%B3%E6%89%8B%E6%9C%BA%E5%8D%B8%E8%BD%BD%E5%B0%8F%E7%88%B1%E5%90%8C%E5%AD%A6.html" class="article-date"><time datetime="2020-06-13T16:00:00.000Z" itemprop="datePublished">2020-06-14</time></a>
-</div>
-
-    <div class="article-author">tonglin0325</div>
-    
-
-  </div>
-
-  <div class="article-inner">
-
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="1-将系统进行root"><a href="#1-将系统进行root" class="headerlink" title="1.将系统进行root"></a>1.将系统进行root</h2><p>手机的miui版本需要是开发版，并且进行了root，这样才能获取到卸载系统自带软件的权限</p>
-<p>尤其是小爱同学这个语音助手，消耗了过多的系统资源，使得手机变得卡顿，所以建议卸载掉</p>
-<p>像通过安全中心进行卸载的方式是不能完全卸载掉的，会随着系统后台再次进行安装，所以只能获取root权限后，使用root权限进行删除</p>
-<p>如果需要获取root权限，就需要刷开发版的rom，下载ROM请去</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://xiaomirom.com/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="2-在手机上安装termux-app"><a href="#2-在手机上安装termux-app" class="headerlink" title="2.在手机上安装termux app"></a>2.在手机上安装termux app</h2><p>这个app用于在手机上执行终端命令</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/termux/termux-app/releases</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="3-手机安装termux-adb"><a href="#3-手机安装termux-adb" class="headerlink" title="3.手机安装termux-adb"></a>3.手机安装termux-adb</h2><p>这个用于在termux上连上手机adb模式，开启调试</p>
-<p>参考：<a target="_blank" rel="noopener" href="https://github.com/MasterDevX/Termux-ADB">https://github.com/MasterDevX/Termux-ADB</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt update &amp;amp;&amp;amp; apt install wget &amp;amp;&amp;amp; wget https://github.com/MasterDevX/Termux-ADB/raw/master/RemoveTools.sh &amp;amp;&amp;amp; bash RemoveTools.sh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="4-使用pm-uninstall命令将小爱同学卸载掉"><a href="#4-使用pm-uninstall命令将小爱同学卸载掉" class="headerlink" title="4.使用pm uninstall命令将小爱同学卸载掉"></a>4.使用pm uninstall命令将小爱同学卸载掉</h2><p>然后如图所示在termux终端中连上adb，输入命令进行卸载操作，就可以卸载小爱同学了</p>
-<img src="/images/517519-20200614132915932-1570750100.png" width="600" height="1072" loading="lazy" />
-
-<p>如果还需要卸载其他的系统应用的话，参考下面文章</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://powersee.github.io/2019/09/MIUI-adb/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>卸载某些系统应用会导致系统异常，下面列出了我验证过的可以卸载的应用</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">pm uninstall com.xiaomi.mimobile.noti</span><br><span class="line">pm uninstall com.xiaomi.jr.security</span><br><span class="line">pm uninstall -k --user 0 com.miui.voiceassist</span><br><span class="line">pm uninstall -k --user 0 com.miui.yellowpage</span><br><span class="line">pm uninstall -k --user 0 com.miui.bugreport</span><br><span class="line">pm uninstall -k --user 0 com.miui.hybrid</span><br><span class="line">pm uninstall -k --user 0 com.xiaomi.ab</span><br><span class="line">pm uninstall -k --user 0 com.xiaomi.vipaccount</span><br><span class="line">pm uninstall -k --user 0 com.miui.milivetalk</span><br><span class="line">pm uninstall -k --user 0 com.xiaomi.payment</span><br><span class="line">pm uninstall -k --user 0 com.miui.hybrid.accessory</span><br><span class="line">pm uninstall -k --user 0 com.sohu.inputmethod.sogou.xiaomi</span><br><span class="line">pm uninstall -k --user 0 com.xiaomi.gamecenter</span><br><span class="line">pm uninstall -k --user 0 com.miui.analytics</span><br><span class="line">pm uninstall -k --user 0 com.mipay.wallet</span><br><span class="line">pm uninstall -k --user 0 com.xiaomi.joyose</span><br><span class="line">pm uninstall -k --user 0 com.xiaomi.miplay</span><br><span class="line">pm uninstall -k --user 0 com.miui.video</span><br><span class="line">pm uninstall -k --user 0 com.miui.klo.bugreport</span><br><span class="line">pm uninstall -k --user 0 com.baidu.input_mi</span><br><span class="line">pm uninstall -k --user 0 com.xiaomi.pass</span><br><span class="line">pm uninstall -k --user 0 com.miui.virtualsim</span><br><span class="line">pm uninstall -k --user 0 com.miui.player</span><br><span class="line">pm uninstall -k --user 0 com.miui.compass</span><br><span class="line">pm uninstall -k --user 0 com.miui.systemAdSolution</span><br><span class="line">pm uninstall -k --user 0 com.android.browser</span><br><span class="line">pm uninstall -k --user 0 com.miui.contentextension</span><br><span class="line">pm uninstall -k --user 0 com.xiaomi.gamecenter.sdk.service</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/%E5%B0%8F%E7%B1%B3%E6%89%8B%E6%9C%BA%E5%8D%B8%E8%BD%BD%E5%B0%8F%E7%88%B1%E5%90%8C%E5%AD%A6.html#more">全文 &gt;&gt;</a>
-          </p>
-        
-
-      
-    </div>
-
-    
-
-    <footer class="article-footer">
-      <a data-url="http://tonglin0325.github.io/%E5%B0%8F%E7%B1%B3%E6%89%8B%E6%9C%BA%E5%8D%B8%E8%BD%BD%E5%B0%8F%E7%88%B1%E5%90%8C%E5%AD%A6.html" data-id="cln8csfa800vkl00l7rb3d0w4" class="article-share-link">
-        <i class="fa fa-share"></i> 分享
-      </a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/" rel="tag">Android</a></li></ul>
-
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <div id="page-nav">
@@ -860,7 +867,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
   <div class="sidebar-module">
     <h4>文章归档</h4>
-    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2025/02/">二月 2025</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/10/">十月 2024</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/08/">八月 2024</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/05/">五月 2024</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2023/08/">八月 2023</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/07/">七月 2022</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/01/">一月 2022</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/12/">十二月 2021</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/11/">十一月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/09/">九月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">七月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/05/">五月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/03/">三月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/01/">一月 2021</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/12/">十二月 2020</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/11/">十一月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/10/">十月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/09/">九月 2020</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/08/">八月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/07/">七月 2020</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/06/">六月 2020</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/05/">五月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/04/">四月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/03/">三月 2020</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">二月 2020</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/01/">一月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">十月 2019</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/09/">九月 2019</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">八月 2019</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/07/">七月 2019</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/04/">四月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/03/">三月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/01/">一月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/12/">十二月 2018</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/11/">十一月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/09/">九月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/06/">六月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/05/">五月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/04/">四月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/02/">二月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/01/">一月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/11/">十一月 2017</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/09/">九月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/07/">七月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/06/">六月 2017</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/05/">五月 2017</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/04/">四月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/03/">三月 2017</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/01/">一月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/12/">十二月 2016</a><span class="sidebar-module-list-count">15</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/11/">十一月 2016</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">十月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">九月 2016</a><span class="sidebar-module-list-count">16</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/08/">八月 2016</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/07/">七月 2016</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">六月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">五月 2016</a><span class="sidebar-module-list-count">32</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/04/">四月 2016</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/03/">三月 2016</a><span class="sidebar-module-list-count">134</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/02/">二月 2016</a><span class="sidebar-module-list-count">22</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/09/">九月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/08/">八月 2015</a><span class="sidebar-module-list-count">14</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/07/">七月 2015</a><span class="sidebar-module-list-count">31</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/06/">六月 2015</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/04/">四月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2013/04/">四月 2013</a><span class="sidebar-module-list-count">2</span></li></ul>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2025/03/">三月 2025</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2025/02/">二月 2025</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/10/">十月 2024</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/08/">八月 2024</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2024/05/">五月 2024</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2023/08/">八月 2023</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/07/">七月 2022</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2022/01/">一月 2022</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/12/">十二月 2021</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/11/">十一月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/09/">九月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/07/">七月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/05/">五月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/03/">三月 2021</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2021/01/">一月 2021</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/12/">十二月 2020</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/11/">十一月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/10/">十月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/09/">九月 2020</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/08/">八月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/07/">七月 2020</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/06/">六月 2020</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/05/">五月 2020</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/04/">四月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/03/">三月 2020</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/02/">二月 2020</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2020/01/">一月 2020</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">十月 2019</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/09/">九月 2019</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/08/">八月 2019</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/07/">七月 2019</a><span class="sidebar-module-list-count">8</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/04/">四月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/03/">三月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/01/">一月 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/12/">十二月 2018</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/11/">十一月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/09/">九月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/06/">六月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/05/">五月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/04/">四月 2018</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/02/">二月 2018</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2018/01/">一月 2018</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/11/">十一月 2017</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/09/">九月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/07/">七月 2017</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/06/">六月 2017</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/05/">五月 2017</a><span class="sidebar-module-list-count">13</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/04/">四月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/03/">三月 2017</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2017/01/">一月 2017</a><span class="sidebar-module-list-count">23</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/12/">十二月 2016</a><span class="sidebar-module-list-count">15</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/11/">十一月 2016</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">十月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">九月 2016</a><span class="sidebar-module-list-count">16</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/08/">八月 2016</a><span class="sidebar-module-list-count">10</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/07/">七月 2016</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">六月 2016</a><span class="sidebar-module-list-count">12</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">五月 2016</a><span class="sidebar-module-list-count">32</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/04/">四月 2016</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/03/">三月 2016</a><span class="sidebar-module-list-count">134</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/02/">二月 2016</a><span class="sidebar-module-list-count">21</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/09/">九月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/08/">八月 2015</a><span class="sidebar-module-list-count">14</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/07/">七月 2015</a><span class="sidebar-module-list-count">31</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/06/">六月 2015</a><span class="sidebar-module-list-count">26</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2015/04/">四月 2015</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2013/04/">四月 2013</a><span class="sidebar-module-list-count">2</span></li></ul>
   </div>
 
 
@@ -869,6 +876,10 @@ if ($('.local-search').resize() && !isMobile.any()) {
   <div class="sidebar-module">
     <h4>最近文章</h4>
     <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94gin%E9%99%90%E6%B5%81.html">go学习笔记——gin限流</a>
+        </li>
       
         <li>
           <a href="/golang%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94gorm.html">golang学习笔记——gorm</a>
@@ -884,10 +895,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <li>
           <a href="/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Istio%E5%92%8CKong.html">k8s学习笔记——Istio和Kong</a>
-        </li>
-      
-        <li>
-          <a href="/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ingress.html">k8s学习笔记——ingress</a>
         </li>
       
     </ul>
