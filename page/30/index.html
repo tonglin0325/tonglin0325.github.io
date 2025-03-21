@@ -226,23 +226,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </article>
 
 
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
-
 
 
   
@@ -273,17 +256,34 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
+        <!-- 目录 -->
+
+<div id="toc">
+  
+</div>
+
         <p>因为gedit-plugins : 依赖: gir1.2-zeitgeist-2.0</p>
 <p>所以首先</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install gir1.2-zeitgeist-2.0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/ubuntu%E4%B8%8B%E5%AE%89%E8%A3%85gedit%E6%8F%92%E4%BB%B6.html#more">全文 &gt;&gt;</a>
-          </p>
-        
 
+<p>&nbsp;如果报错可以先</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;然后</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install gedit-plugins</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;在gedit的插件里面选中嵌入终端、单词补全等插件就行了</p>
+
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/ubuntu%E4%B8%8B%E5%AE%89%E8%A3%85gedit%E6%8F%92%E4%BB%B6.html"></a>
+          </div>
+        </div>
       
     </div>
+
+    
+      
 
     
 
@@ -301,23 +301,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -352,16 +335,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <h2 id="1-安装cuda"><a href="#1-安装cuda" class="headerlink" title="1.安装cuda"></a>1.安装cuda</h2><p>参考：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/6ef7c0e54172">Ubuntu下安装CUDA</a></p>
 <p>pytorch可以不依赖GPU运行，但是如果需要使用NVIDIA的GPU，则需要安装cuda</p>
 <p>查看是否安装cuda</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lintong@master:~$ nvcc -V</span><br><span class="line">程序&amp;ldquo;nvcc&amp;rdquo;尚未安装。 您可以使用以下命令安装：</span><br><span class="line">sudo apt install nvidia-cuda-toolkit</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>查看GPU型号，GPU型号是GTX1050Ti</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lspci | grep -i nvidia</span><br><span class="line">01:00.0 VGA compatible controller: NVIDIA Corporation GP107 [GeForce GTX 1050 Ti] (rev a1)</span><br><span class="line">01:00.1 Audio device: NVIDIA Corporation GP107GL High Definition Audio Controller (rev a1)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>查看是否安装NVIDIA GPU的驱动，驱动的版本是430.64，最高能支持到的cuda版本是10.1</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">nvidia-smi</span><br><span class="line">Sun Oct 23 20:27:21 2022</span><br><span class="line">+-----------------------------------------------------------------------------+</span><br><span class="line">| NVIDIA-SMI 430.64       Driver Version: 430.64       CUDA Version: 10.1     |</span><br><span class="line">|-------------------------------+----------------------+----------------------+</span><br><span class="line">| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |</span><br><span class="line">| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |</span><br><span class="line">|===============================+======================+======================|</span><br><span class="line">|   0  GeForce GTX 105...  Off  | 00000000:01:00.0  On |                  N/A |</span><br><span class="line">| 40%   29C    P8    N/A / 100W |    370MiB /  4036MiB |      0%      Default |</span><br><span class="line">+-------------------------------+----------------------+----------------------+</span><br><span class="line"></span><br><span class="line">+-----------------------------------------------------------------------------+</span><br><span class="line">| Processes:                                                       GPU Memory |</span><br><span class="line">|  GPU       PID   Type   Process name                             Usage      |</span><br><span class="line">|=============================================================================|</span><br><span class="line">|    0      1106      G   /usr/lib/xorg/Xorg                           259MiB |</span><br><span class="line">|    0     28186      G   compiz                                       106MiB |</span><br><span class="line">|    0     28455      G   ...AAAAAAAAAAAACAAAAAAAAAA= --shared-files     1MiB |</span><br><span class="line">+-----------------------------------------------------------------------------+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>去官方下载runfile来安装cuda</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://developer.nvidia.com/cuda-toolkit-archive</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Ubuntu16.04%E5%AE%89%E8%A3%85cuda%E5%92%8Cpytorch.html#more">全文 &gt;&gt;</a>
@@ -387,23 +360,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -436,15 +392,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>1.下载jmeter</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">https://jmeter.apache.org/download_jmeter.cgi</span><br><span class="line">wget https://dlcdn.apache.org//jmeter/binaries/apache-jmeter-5.4.3.tgz</span><br><span class="line">tar -zxvf apache-jmeter-5.4.3.tgz</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>2.修改配置成中文</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  /Users/lintong/software/apache-jmeter-5.4.3/bin $ vim jmeter.properties</span><br><span class="line">language=zh_CN</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>3.启动</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  /Users/lintong/software/apache-jmeter-5.4.3/bin $ sh jmeter</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<img src="/images/517519-20220322101509551-1195033661.png" width="800" height="481" loading="lazy" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E4%BD%BF%E7%94%A8JMeter%E8%BF%9B%E8%A1%8C%E5%8E%8B%E6%B5%8B.html#more">全文 &gt;&gt;</a>
@@ -470,23 +417,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -545,23 +475,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </article>
 
 
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
-
 
 
   
@@ -592,14 +505,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <!-- 目录 -->
-
-<div id="toc">
-  
-</div>
-
         <p>MPP（<strong>Massively Parallel Processor/大规模并行处理</strong>）数据仓库，其属于OLAP（Online analytical processing，联机分析处理）的范畴</p>
-<img src="/images/517519-20230825135228288-1940908073.png" width="400" height="340" loading="lazy">
+<img src="/images/517519-20230825135228288-1940908073.png" width="400" height="340" loading="lazy" />
 
 <p>其中，ROLAP指的是（Relational OLAP/关系OLAP）；MOLAP指的是（Multi-dimensional OLAP/多维OLAP），参考：<a target="_blank" rel="noopener" href="https://www.modb.pro/db/562271">主流开源OLAP引擎大比拼</a></p>
 <p><strong><strong>ROLAP 的优点和缺点</strong></strong></p>
@@ -609,22 +516,14 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>但是当数据量较大或 query 较为复杂时，查询性能也无法像 MOLAP 那样稳定。所有计算都是即时触发 ( 没有预处理 )，因此会耗费更多的计算资源，带来潜在的重复计算。</p>
 <p>因此，ROLAP 适用于对查询模式不固定、查询灵活性要求高的场景。如数据分析师常用的数据分析类产品，他们往往会对数据做各种预先不能确定的分析，所以需要更高的查询灵活性。</p>
 <p><strong>MOLAP 的优点和缺点</strong></p>
-<p>MOLAP的典型代表是：Druid，Kylin，MOLAP一般会根据用户定义的数据维度、度量（也可以叫指标）在数据写入时生成预聚合数据；Query查询到来时，实际上查询的是预聚合的数据而不是原始明细数据，在查询模式相对固定的场景中，这种优化提速很明显。</p>
-<p>MOLAP 的优点和缺点都来自于其数据预处理 ( pre-processing ) 环节。数据预处理，将原始数据按照指定的计算规则预先做聚合计算，这样避免了查询过程中出现大量的即使计算，提升了查询性能。</p>
-<p>但是这样的预聚合处理，需要预先定义维度，会限制后期数据查询的灵活性；如果查询工作涉及新的指标，需要重新增加预处理流程，损失了灵活度，存储成本也很高；同时，这种方式不支持明细数据的查询，仅适用于聚合型查询（如：sum，avg，count）。</p>
-<p>因此，MOLAP 适用于查询场景相对固定并且对查询性能要求非常高的场景。如广告主经常使用的广告投放报表分析。虽然这么说，但是随着Doris的发布，其被广告应用于统计以及广告主报表的场景，参考：<a target="_blank" rel="noopener" href="https://www.oomspot.com/post/dorisjianshi">Doris简史</a>，<a target="_blank" rel="noopener" href="https://tech.meituan.com/2020/04/09/doris-in-meituan-waimai.html">Apache Doris在美团外卖数仓中的应用实践</a>，<a target="_blank" rel="noopener" href="https://my.oschina.net/u/5735652/blog/8694738">日增百亿数据，查询结果秒出， Apache Doris 在 360 商业化的统一 OLAP 应用实践</a>，<a target="_blank" rel="noopener" href="https://www.gbase8.cn/5113">Apache Doris产品调研报告</a></p>
-<p>参考：<a target="_blank" rel="noopener" href="http://www.hangdaowangluo.com/archives/2914">常见开源OLAP技术架构对比</a></p>
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/MPP%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E7%AE%80%E4%BB%8B.html#more">全文 &gt;&gt;</a>
+          </p>
+        
 
-        <div class="article-entry">
-          <div id="footer-info" class="inner">
-          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/MPP%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E7%AE%80%E4%BB%8B.html"></a>
-          </div>
-        </div>
       
     </div>
-
-    
-      
 
     
 
@@ -642,23 +541,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -695,19 +577,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>umijs官方文档：<a target="_blank" rel="noopener" href="https://v3.umijs.org/zh-CN/docs/directory-structure">https://v3.umijs.org/zh-CN/docs/directory-structure</a></p>
 <p>项目demo：<a target="_blank" rel="noopener" href="https://preview.pro.ant.design/dashboard/analysis">https://preview.pro.ant.design/dashboard/analysis</a></p>
 <h2 id="1-初始化ant-design-pro-v5项目"><a href="#1-初始化ant-design-pro-v5项目" class="headerlink" title="1.初始化ant-design-pro v5项目"></a>1.初始化ant-design-pro v5项目</h2><p>快速创建项目，ant-design-pro v5需要node14，如果版本过低的话则需要升级</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://pro.ant.design/zh-CN/docs/getting-started/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>选项我选了umi@3和simple，创建出来项目结构如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">├── config                   # umi 配置，包含路由，构建等配置</span><br><span class="line">├── mock                     # 本地模拟数据</span><br><span class="line">├── public</span><br><span class="line">│   └── favicon.png          # Favicon</span><br><span class="line">├── src</span><br><span class="line">│   ├── assets               # 本地静态资源</span><br><span class="line">│   ├── components           # 业务通用组件</span><br><span class="line">│   ├── e2e                  # 集成测试用例</span><br><span class="line">│   ├── layouts              # 通用布局</span><br><span class="line">│   ├── models               # 全局 dva model</span><br><span class="line">│   ├── pages                # 业务页面入口和常用模板</span><br><span class="line">│   ├── services             # 后台接口服务</span><br><span class="line">│   ├── utils                # 工具库</span><br><span class="line">│   ├── locales              # 国际化资源</span><br><span class="line">│   ├── global.less          # 全局样式</span><br><span class="line">│   └── global.ts            # 全局 JS</span><br><span class="line">├── tests                    # 测试工具</span><br><span class="line">├── README.md</span><br><span class="line">└── package.json</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<img src="/images/517519-20221117233004453-936629982.png" width="200" height="592" loading="lazy" />
-
-<p>如果需要去掉手机登录相关的，参考：<a target="_blank" rel="noopener" href="https://www.sunzhongwei.com/modify-antd-pro-v5-login-page">修改 Antd Pro V5 登录页面</a></p>
-<p>如果需要去掉国家化的代码，参考：<a target="_blank" rel="noopener" href="https://pro.ant.design/zh-CN/docs/getting-started">https://pro.ant.design/zh-CN/docs/getting-started</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm run i18n-remove</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="2-ant-design-pro-v5项目的路由"><a href="#2-ant-design-pro-v5项目的路由" class="headerlink" title="2.ant-design-pro v5项目的路由"></a>2.ant-design-pro v5项目的路由</h2><p>参考：<a target="_blank" rel="noopener" href="https://www.sunzhongwei.com/ant-design-pro-v5-routing-setup">Ant Design Pro V5 的路由设置</a></p>
-<p>ant-design-pro
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/ant-design-pro%20v5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html#more">全文 &gt;&gt;</a>
@@ -733,23 +602,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -781,7 +633,10 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <p>安装和配置VIM，参考
+        <p>安装和配置VIM，参考&nbsp;&nbsp; <a target="_blank" rel="noopener" href="http://jingyan.baidu.com/album/046a7b3efd165bf9c27fa915.html?picindex=4">http://jingyan.baidu.com/album/046a7b3efd165bf9c27fa915.html?picindex=4</a></p>
+<p>&nbsp;</p>
+<p>在home/你的用户名 这个目录下打开.vimrc文件，由于这种文件是隐藏的，查看的时候要使用ls -al命令查看</p>
+<p>没有就建立一个</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/ubuntu%E4%B8%8Bgedit%E5%92%8Cvim%E8%BE%93%E5%85%A5%E4%B8%AD%E6%96%87%E5%92%8C%E4%B8%AD%E6%96%87%E6%98%BE%E7%A4%BA.html#more">全文 &gt;&gt;</a>
@@ -807,23 +662,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -856,12 +694,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="1-程序输入和输出"><a href="#1-程序输入和输出" class="headerlink" title="1.程序输入和输出"></a><strong>1.<strong>程序输入和输出</strong></strong></h2><p><strong><strong>raw_input()内建函数</strong></strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; user = raw_input(&#x27;Enter your name:&#x27;)</span><br><span class="line">Enter your name:root</span><br><span class="line">&gt;&gt;&gt; print &#x27;Your name is:&#x27;,user</span><br><span class="line">Your name is: root</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong>print语句</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; myString = &#x27;Hello World!&#x27;</span><br><span class="line">&gt;&gt;&gt; print myString</span><br><span class="line">Hello World!</span><br><span class="line">&gt;&gt;&gt; myString</span><br><span class="line">&#x27;Hello World!&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; print type(u&quot;你&quot;)    #都能输出汉字，但是输出的类型不一样</span><br><span class="line">&lt;type &#x27;unicode&#x27;&gt;</span><br><span class="line">&gt;&gt;&gt; print type(&quot;你&quot;)</span><br><span class="line">&lt;type &#x27;str&#x27;&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95.html#more">全文 &gt;&gt;</a>
@@ -887,23 +719,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -969,23 +784,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 

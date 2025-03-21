@@ -200,12 +200,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>CDH安装官方参考文档:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://www.cloudera.com/documentation/enterprise/5-16-x/topics/configure_cm_repo.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果是在生产环境进行安装，建议查看cloudera官方提供的机型建议</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://docs.cloudera.com/documentation/enterprise/release-notes/topics/hardware_requirements_guide.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>同时还在CDH的角色分布建议，参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1035458">如何给Hadoop集群划分角色</a>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Ubuntu16.04%E5%AE%89%E8%A3%85CDH%205.16.2.html#more">全文 &gt;&gt;</a>
@@ -231,23 +225,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -279,136 +256,15 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <!-- 目录 -->
-
-<div id="toc">
-  
-</div>
-
         <p>1.安装的docker版本</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker -v</span><br><span class="line">Docker version 17.03.2-ce</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/docker%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8.html#more">全文 &gt;&gt;</a>
+          </p>
+        
 
-<p>2.查看本地的镜像</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>3.拉取镜像</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull centos:7</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>4.编写Dockerfile</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FROM nginx</span><br><span class="line">RUN echo &#x27;&lt;h1&gt;Hello, Docker!&lt;/h1&gt;&#x27; &gt; /usr/share/nginx/html/index.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>5.build Dockerfile</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker build -t . xxx # 镜像的名字</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>或者</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker build -f ./Dockerfile . -t xxx:xxxx</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>bash</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run -i -t ubuntu:15.10 /bin/bash</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>将容器中的8080端口映射到本机的18080端口</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 18080:8080 -it xxxx:v1.0.0dev /bin/bash</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果是多个端口，使用多个-p</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-p 18080:8080 -p 18081:8081</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参数</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-it：这是两个参数，一个是 -i：交互式操作，一个是 -t 终端。我们这里打算进入 bash 执行一些命令并查看返回结果，因此我们需要交互式终端。</span><br><span class="line">--rm：这个参数是说容器退出后随之将其删除。默认情况下，为了排障需求，退出的容器并不会立即删除，除非手动 docker rm。我们这里只是随便执行个命令，看看结果，不需要排障和保留结果，因此使用 --rm 可以避免浪费空间</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>6.运行</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run xxx # 镜像的名字</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>7.查看自己镜像的id</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>8.列出所有的容器，包括exit状态的容器</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker ps -a</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>9.查看内网ip地址等运行情况</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">docker inspect id | grep IP </span><br><span class="line">            &quot;LinkLocalIPv6Address&quot;: &quot;&quot;,</span><br><span class="line">            &quot;LinkLocalIPv6PrefixLen&quot;: 0,</span><br><span class="line">            &quot;SecondaryIPAddresses&quot;: null,</span><br><span class="line">            &quot;SecondaryIPv6Addresses&quot;: null,</span><br><span class="line">            &quot;GlobalIPv6Address&quot;: &quot;&quot;,</span><br><span class="line">            &quot;GlobalIPv6PrefixLen&quot;: 0,</span><br><span class="line">            &quot;IPAddress&quot;: &quot;172.17.0.5&quot;,</span><br><span class="line">            &quot;IPPrefixLen&quot;: 16,</span><br><span class="line">            &quot;IPv6Gateway&quot;: &quot;&quot;,</span><br><span class="line">                    &quot;IPAMConfig&quot;: null,</span><br><span class="line">                    &quot;IPAddress&quot;: &quot;172.17.0.5&quot;,</span><br><span class="line">                    &quot;IPPrefixLen&quot;: 16,</span><br><span class="line">                    &quot;IPv6Gateway&quot;: &quot;&quot;,</span><br><span class="line">                    &quot;GlobalIPv6Address&quot;: &quot;&quot;,</span><br><span class="line">                    &quot;GlobalIPv6PrefixLen&quot;: 0,</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>9.请求nginx</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl 172.17.0.5:80</span><br><span class="line">&lt;h1&gt;Hello, Docker!&lt;/h1&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>10.如果想要镜像不退出,然后进行镜像中</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># run</span><br><span class="line">ENTRYPOINT [&quot;/bin/bash&quot;,&quot;-c&quot;,&quot;cat /hosts.txt &gt;&gt; /etc/hosts &amp;amp;&amp;amp; bash /sleep.sh&quot;]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>sleep.sh内容</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env bash</span><br><span class="line"></span><br><span class="line">while true;</span><br><span class="line">do</span><br><span class="line">    sleep 10000;</span><br><span class="line">done</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>或者</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ENTRYPOINT [&quot;/bin/bash&quot;,&quot;-c&quot;,&quot;while true; do sleep 10000; done&quot;]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>然后执行</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run  --network=host xxxx</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>查看id</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>进入镜像中</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it xxxx bash</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>11.删除container，先停再删</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker stop 3f6822d8f262</span><br><span class="line">docker rm 3f6822d8f262</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>12.使用docker命令从pod向宿主机拷贝文件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker cp pod_id:/tmp/abc /tmp/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>使用docker命令从宿主机向pod中拷贝文件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker cp ./xx-xx pod_id:/home/xxx　　</span><br></pre></td></tr></table></figure>
-
-<p>13.<strong>mac使用docker的时候配置仓库</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">https://registry.docker-cn.com</span><br><span class="line">http://docker.mirrors.ustc.edu.cn</span><br><span class="line">http://hub-mirror.c.163.com</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<img src="/images/517519-20200322162611354-629263110.png" width="500" height="573">
-
-<p>注意：mac版本docker升级到高版本后Daemon选项没了，需要在docker engine中填写json配置</p>
-<img src="/images/517519-20220606165651191-975979512.png" width="500" height="269" loading="lazy">
-
-<p>14.<strong>ubuntu配置docker仓库</strong>，在/etc/docker目录下新建daemon.json，内容</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;https://registry.docker-cn.com&quot;,&quot;http://docker.mirrors.ustc.edu.cn&quot;,&quot;http://hub-mirror.c.163.com&quot;,&quot;https://3laho3y3.mirror.aliyuncs.com&quot;,&quot;http://f1361db2.m.daocloud.io&quot;]</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>重启docker服务</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart docker</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>15.查看docker的磁盘使用情况</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">lintong@master:~$ docker system df</span><br><span class="line">TYPE            TOTAL     ACTIVE    SIZE      RECLAIMABLE</span><br><span class="line">Images          31        1         19.17GB   19.11GB (99%)</span><br><span class="line">Containers      1         1         0B        0B</span><br><span class="line">Local Volumes   48        0         0B        0B</span><br><span class="line">Build Cache     0         0         0B        0B</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>清理磁盘，删除关闭的容器、无用的数据卷和网络，以及dangling镜像(即无tag的镜像)</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker system prune</span><br><span class="line">WARNING! This will remove:</span><br><span class="line">        - all stopped containers</span><br><span class="line">        - all networks not used by at least one container</span><br><span class="line">        - all dangling images</span><br><span class="line">        - all build cache</span><br><span class="line">Are you sure you want to continue? [y/N] y</span><br><span class="line">Total reclaimed space: 0B</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果有2个镜像的id相同，则删除的时候会报</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker rmi 85f602b72c3c</span><br><span class="line">Error response from daemon: conflict: unable to delete 85f602b72c3c (must be forced) - image is referenced in multiple repositories</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>此时应该找到2个id相同的镜像，然后一个个进行删除</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker images | grep 85f602b72c3c</span><br><span class="line">xxxxx                                   v0.9.1          85f602b72c3c   6 weeks ago     2.65GB</span><br><span class="line">xxxxx   &lt;none&gt;             85f602b72c3c   6 weeks ago     2.65GB</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>删除第一个</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker rmi xxxxx:v0.9.1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>再删除另一个</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker rmi 85f602b72c3c</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>15.<a target="_blank" rel="noopener" href="https://www.oschina.net/translate/10-things-to-avoid-in-docker-containers">使用 Docker 容器应该避免的 10 个事情</a> </p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1.不要在容器中存储数据 &amp;ndash;  容器可能被停止，销毁，或替换。</span><br><span class="line">2.不要将你的应用发布两份 &amp;ndash;  一些人将容器视为虚拟机。</span><br><span class="line">3.不要创建超大镜像 &amp;ndash; 一个超大镜像只会难以分发。</span><br><span class="line">4.不要使用单层镜像</span><br><span class="line">5.不要为运行中的容器创建镜像</span><br><span class="line">6.不要只使用&amp;ldquo;最新&amp;rdquo;标签</span><br><span class="line">7.不要在单一容器中运行超过一个进程</span><br><span class="line">8.不要在镜像中存储凭据</span><br><span class="line">9.使用非root用户运行进程</span><br><span class="line">10.不要依赖IP地址</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://developers.redhat.com/blog/2016/02/24/10-things-to-avoid-in-docker-containers/">10 things to avoid in docker containers</a></p>
-<p>16.docker设置时区</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ENV TZ=Asia/Shanghai</span><br><span class="line"># ENV TZ=America/Los_Angeles</span><br><span class="line"></span><br><span class="line">RUN echo $&#123;TZ&#125; &gt; /etc/timezone \</span><br><span class="line">    &amp;amp;&amp;amp; ln -fs /usr/share/zoneinfo/$&#123;TZ&#125; /etc/localtime \</span><br><span class="line">    &amp;amp;&amp;amp; apt update \</span><br><span class="line">    &amp;amp;&amp;amp; apt install -y tzdata</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>17.ubuntu镜像换源</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list &amp;amp;&amp;amp; \</span><br><span class="line">	sed -i s@/security.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list &amp;amp;&amp;amp; \</span><br><span class="line">	apt-get clean &amp;amp;&amp;amp; \</span><br><span class="line">	apt-get update</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-        <div class="article-entry">
-          <div id="footer-info" class="inner">
-          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/docker%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8.html"></a>
-          </div>
-        </div>
       
     </div>
-
-    
-      
 
     
 
@@ -426,23 +282,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -475,14 +314,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>在编译thrift文件的时候发现报了如下的错误</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Cannot use reserved language keyword: &quot;class&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>后来查了一下,发现class是thrift的关键字之一,变量起名的时候不能和关键字重复</p>
-<p>thrift的全部关键字可以查看thrift的源码</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/apache/thrift/blob/master/compiler/cpp/src/thrift/generate/t_py_generator.cc</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>搜索keywords,下面这些都是thrift关键字,在起名的时候需要注意</p>
-<img src="/images/517519-20190327100917790-236207791.png" alt="" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Thrift%E5%85%B3%E9%94%AE%E5%AD%97.html#more">全文 &gt;&gt;</a>
@@ -508,23 +339,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -557,7 +371,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>parquet是列式存储格式，官方文档</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://parquet.apache.org/documentation/latest/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Parquet%E6%A0%BC%E5%BC%8F%E8%A7%A3%E6%9E%90.html#more">全文 &gt;&gt;</a>
@@ -583,23 +396,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -631,6 +427,12 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
+        <!-- 目录 -->
+
+<div id="toc">
+  
+</div>
+
         <p>ubuntu环境下安装thrift-0.10.0</p>
 <p>1.解压</p>
 <p>2.编译安装</p>
@@ -638,14 +440,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
 <p>3.是否安装成功</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">thrift -version</span><br><span class="line">Thrift version 0.10.0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/ubuntu%E5%AE%89%E8%A3%85thrift.html#more">全文 &gt;&gt;</a>
-          </p>
-        
 
+<p>&nbsp;</p>
+
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/ubuntu%E5%AE%89%E8%A3%85thrift.html"></a>
+          </div>
+        </div>
       
     </div>
+
+    
+      
 
     
 
@@ -663,23 +470,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -712,13 +502,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p><strong>xxl-job</strong>是一个开源的分布式调度框架,其他类似的框架还有airflow,oozie等等,需要进行对比</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/xuxueli/xxl-job</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong>1.首先git clone工程</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github.com:xuxueli/xxl-job.git</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>打包工程,打包的过程中会下载所需要的jar包</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mvn package</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/xxl-job%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B.html#more">全文 &gt;&gt;</a>
@@ -744,23 +527,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -793,38 +559,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>1.创建索引，名字为index</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -XPUT http://localhost:9200/index</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>2.创建一个mapping</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST http://localhost:9200/index/fulltext/_mapping -H &#x27;Content-Type:application/json&#x27; -d&#x27;</span><br><span class="line">&#123;</span><br><span class="line">        &quot;properties&quot;: &#123;</span><br><span class="line">            &quot;content&quot;: &#123;</span><br><span class="line">                &quot;type&quot;: &quot;text&quot;,</span><br><span class="line">                &quot;analyzer&quot;: &quot;ik_max_word&quot;,</span><br><span class="line">                &quot;search_analyzer&quot;: &quot;ik_max_word&quot;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">&#125;&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>3.查看mapping</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -XPUT http://localhost:9200/xxx/yyy/_mapping</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>4.删除一个文档,按照id来删除</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -XDELETE &#x27;http://localhost:9200/index3/fulltext3/272&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>5.通过query来删除文档</p>
-<p>不同版本之间的es不太一样，6.2的参考</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://www.elastic.co/guide/en/elasticsearch/reference/6.2/docs-delete-by-query.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>比如使用kibana里面的dev tool，就可以删掉所有schema字段是&ldquo;xxxx&rdquo;的数据</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">POST xxxxx_2019-12-09/_delete_by_query</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123; </span><br><span class="line">    &quot;match&quot;: &#123;</span><br><span class="line">      &quot;schema&quot;: &quot;xxxx&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>6.es的task api，参考</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://xiaorui.cc/archives/3089</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>7.scroll查看数据，from+size查询最多只能查10000</p>
-<p>参考：<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/6.8/search-request-scroll.html">https://www.elastic.co/guide/en/elasticsearch/reference/6.8/search-request-scroll.html</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST -H &#x27;Content-Type: application/json&#x27; http://localhost:9200/_search/scroll -d@data.json</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>data.json</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;scroll&quot; : &quot;1m&quot;,</span><br><span class="line">    &quot;scroll_id&quot; : &quot;xxxxxxxx&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>8.删除一个索引</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -XDELETE http://ip:port/xxxx</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>　　</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Elasticsearch%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.html#more">全文 &gt;&gt;</a>
@@ -850,23 +584,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -905,6 +622,9 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>（2）simple analyzer：简单分词器<br /><br>set, the, shape, to, semi, transparent, by, calling, set, trans</p>
 <p>（3）whitespace analyzer：空白分词器。大小写，下划线等都不会转换<br /><br>Set, the, shape, to, semi-transparent, by, calling, set_trans(5)</p>
 <p>（4）language analyzer：（特定语言分词器，比如说English英语分词器）<br /><br>set, shape, semi, transpar, call, set_tran, 5</p>
+<p>&nbsp;</p>
+<p><strong>2.为Elasticsearch的index设置分词</strong></p>
+<p>这样就将这个index里面的所有type的分词设置成了simple</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Elasticsearch%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%88%86%E8%AF%8D.html#more">全文 &gt;&gt;</a>
@@ -930,23 +650,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -980,6 +683,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>简介:antlr工具将语法文件转换成可以识别该语法文件所描述的语言的程序.</p>
 <p>例如:给定一个识别json的语法,antlr工具将会根据该语法生成一个程序,该程序可以通过antlr运行库来识别输入的json.</p>
+<p>&nbsp;</p>
+<p>1.下载jar包，antlr-4.7.1-complete.jar</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Ubuntu%E4%B8%8B%E5%AE%89%E8%A3%85antlr-4.7.1.html#more">全文 &gt;&gt;</a>
@@ -1005,23 +710,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -1054,30 +742,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>使用flink来读写hudi有2种API，一个是Flink SQL API，另一个是DataStream API，参考</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://hudi.apache.org/cn/docs/flink-quick-start-guide</span><br></pre></td></tr></table></figure>
-
-<h2 id="1-Flink-SQL-API"><a href="#1-Flink-SQL-API" class="headerlink" title="1.Flink SQL API"></a>1.Flink SQL API</h2><p>首先启动yarn session</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/lib/flink/bin/yarn-session.sh -n 3 -s 5 -jm 1024 -tm 4096 -d</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>使用SQL API提交任务到YARN上的方式有以下几种：</p>
-<h3 id="1-使用交互式的sql-client"><a href="#1-使用交互式的sql-client" class="headerlink" title="1.使用交互式的sql client"></a>1.使用交互式的sql client</h3><p>不过由于sql client目前处于beta版本，所以建议用于原型验证，不建议在生产环境中使用，参考：<a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/709475">Apache Flink 零基础入门（四）：客户端操作的 5 种模式</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://nightlies.apache.org/flink/flink-docs-release-1.13/docs/dev/table/sqlclient/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>启动</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/lib/flink/bin/sql-client.sh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<img src="/images/517519-20230308215908824-235391100.png" width="500" height="193" loading="lazy" />
-
-<p>首先使用Flink SQL创建hudi表</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">Flink SQL&gt; CREATE TABLE hudi_test_table(</span><br><span class="line">            _id STRING,</span><br><span class="line">            xxx STRING,</span><br><span class="line">            primary key(_id) not enforced</span><br><span class="line">        ) WITH (</span><br><span class="line">            &#x27;connector&#x27; = &#x27;hudi&#x27;,</span><br><span class="line">            &#x27;path&#x27; = &#x27;s3a://xxxx/hudi_test_table&#x27;,</span><br><span class="line">            &#x27;table.type&#x27; = &#x27;MERGE_ON_READ&#x27;,</span><br><span class="line">            &#x27;changelog.enabled&#x27;= &#x27;true&#x27;,</span><br><span class="line">            &#x27;compaction.async.enabled&#x27;=&#x27;true&#x27;,</span><br><span class="line">            &#x27;compaction.tasks&#x27;= &#x27;4&#x27;,</span><br><span class="line">            &#x27;compaction.trigger.strategy&#x27;= &#x27;time_elapsed&#x27;,</span><br><span class="line">            &#x27;compaction.delta_seconds&#x27;= &#x27;600&#x27;,</span><br><span class="line">            &#x27;compaction.max_memory&#x27;= &#x27;1024&#x27;,</span><br><span class="line">            &#x27;write.option&#x27; = &#x27;upsert&#x27;,</span><br><span class="line">            &#x27;read.streaming.check-interval&#x27;= &#x27;3&#x27;,</span><br><span class="line">            &#x27;hive_sync.enable&#x27; = &#x27;true&#x27;,</span><br><span class="line">            &#x27;hive_sync.mode&#x27; = &#x27;hms&#x27;,</span><br><span class="line">            &#x27;hive_sync.metastore.uris&#x27; = &#x27;thrift://xxx:9083&#x27;,</span><br><span class="line">            &#x27;hive_sync.table&#x27;=&#x27;hudi_test_table&#x27;,</span><br><span class="line">            &#x27;hive_sync.db&#x27;=&#x27;default&#x27;,</span><br><span class="line">            &#x27;write.tasks&#x27;=&#x27;4&#x27;</span><br><span class="line">        );</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>查询该hudi表</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Flink SQL&gt; select * from hudi_test_table limit 10;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>查询结果</p>
-<img src="/images/517519-20230418144035519-1571562662.png" alt="" loading="lazy" />
-
-<h3 id="2-编写flink-job，使用StreamExecutionEnvironment"><a href="#2-编写flink-job，使用StreamExecutionEnvironment" class="headerlink" title="2.编写flink job，使用StreamExecutionEnvironment"></a>2.编写flink job，使用StreamExecutionEnvironment</h3><p>在生产环境中如果使用FlinkSQL，建议使用
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%AF%BB%E5%86%99hudi.html#more">全文 &gt;&gt;</a>
@@ -1103,23 +767,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 

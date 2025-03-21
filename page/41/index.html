@@ -200,7 +200,9 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>可以使用 @RestControllerAdvice 拦截异常并进行统一处理</p>
-<p>1.首先定义统一的异常码
+<p>1.首先定义统一的异常码&nbsp;ResultCode，</p>
+<p>其中code以HTTP code status为前缀，后缀为具体异常编号</p>
+<p>message为异常消息，前端可以直接拿来显示给用户</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%BB%9F%E4%B8%80%E7%9A%84%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86.html#more">全文 &gt;&gt;</a>
@@ -226,23 +228,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -278,12 +263,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p><strong>1.Ehcache缓存</strong></p>
 <p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_28988969/article/details/78210873">SpringBoot学习－（十八）SpringBoot整合EhCache</a></p>
 <p>添加依赖，starter+ehcache</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-cache&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;net.sf.ehcache&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;ehcache&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-
-<p>添加配置文件 ecache.xml</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;ehcache xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:noNamespaceSchemaLocation=&quot;http://ehcache.org/ehcache.xsd&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!--timeToIdleSeconds 当缓存闲置n秒后销毁 --&gt;</span><br><span class="line">    &lt;!--timeToLiveSeconds 当缓存存活n秒后销毁 --&gt;</span><br><span class="line">    &lt;!-- 缓存配置</span><br><span class="line">        name:缓存名称。</span><br><span class="line">        maxElementsInMemory：缓存最大个数。</span><br><span class="line">        eternal:对象是否永久有效，一但设置了，timeout将不起作用。</span><br><span class="line">        timeToIdleSeconds：设置对象在失效前的允许闲置时间（单位：秒）。仅当eternal=false对象不是永久有效时使用，可选属性，默认值是0，也就是可闲置时间无穷大。</span><br><span class="line">        timeToLiveSeconds：设置对象在失效前允许存活时间（单位：秒）。最大时间介于创建时间和失效时间之间。仅当eternal=false对象不是永久有效时使用，默认是0.，也就是对象存活时间无穷大。</span><br><span class="line">        overflowToDisk：当内存中对象数量达到maxElementsInMemory时，Ehcache将会对象写到磁盘中。 diskSpoolBufferSizeMB：这个参数设置DiskStore（磁盘缓存）的缓存区大小。默认是30MB。每个Cache都应该有自己的一个缓冲区。</span><br><span class="line">        maxElementsOnDisk：硬盘最大缓存个数。</span><br><span class="line">        diskPersistent：是否缓存虚拟机重启期数据 Whether the disk</span><br><span class="line">        store persists between restarts of the Virtual Machine. The default value</span><br><span class="line">        is false.</span><br><span class="line">        diskExpiryThreadIntervalSeconds：磁盘失效线程运行时间间隔，默认是120秒。  memoryStoreEvictionPolicy：当达到maxElementsInMemory限制时，Ehcache将会根据指定的策略去清理内存。默认策略是</span><br><span class="line">LRU（最近最少使用）。你可以设置为FIFO（先进先出）或是LFU（较少使用）。</span><br><span class="line">        clearOnFlush：内存数量最大时是否清除。 --&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 磁盘缓存位置 --&gt;</span><br><span class="line">    &lt;diskStore path=&quot;java.io.tmpdir&quot;/&gt;</span><br><span class="line">    &lt;!-- 默认缓存 --&gt;</span><br><span class="line">    &lt;defaultCache</span><br><span class="line">            maxElementsInMemory=&quot;10000&quot;</span><br><span class="line">            eternal=&quot;false&quot;</span><br><span class="line">            timeToIdleSeconds=&quot;120&quot;</span><br><span class="line">            timeToLiveSeconds=&quot;120&quot;</span><br><span class="line">            maxElementsOnDisk=&quot;10000000&quot;</span><br><span class="line">            diskExpiryThreadIntervalSeconds=&quot;120&quot;</span><br><span class="line">            memoryStoreEvictionPolicy=&quot;LRU&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;persistence strategy=&quot;localTempSwap&quot;/&gt;</span><br><span class="line">    &lt;/defaultCache&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 测试 --&gt;</span><br><span class="line">    &lt;cache name=&quot;GoodsType&quot;</span><br><span class="line">           eternal=&quot;false&quot;</span><br><span class="line">           timeToIdleSeconds=&quot;2400&quot;</span><br><span class="line">           timeToLiveSeconds=&quot;2400&quot;</span><br><span class="line">           maxEntriesLocalHeap=&quot;10000&quot;</span><br><span class="line">           maxEntriesLocalDisk=&quot;10000000&quot;</span><br><span class="line">           diskExpiryThreadIntervalSeconds=&quot;120&quot;</span><br><span class="line">           overflowToDisk=&quot;false&quot;</span><br><span class="line">           memoryStoreEvictionPolicy=&quot;LRU&quot;&gt;</span><br><span class="line">    &lt;/cache&gt;</span><br><span class="line"></span><br><span class="line">&lt;/ehcache&gt;</span><br></pre></td></tr></table></figure>
-
-<p>添加 @EnableCaching注解 开启缓存</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%BC%93%E5%AD%98.html#more">全文 &gt;&gt;</a>
@@ -309,23 +288,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -393,23 +355,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </article>
 
 
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
-
 
 
   
@@ -442,19 +387,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <h2 id="1-Flink-CDC介绍"><a href="#1-Flink-CDC介绍" class="headerlink" title="1.Flink CDC介绍"></a>1.Flink CDC介绍</h2><p>Flink CDC提供了一系列connector，用于从其他数据源获取变更数据（change data capture），其中的Flink MySQL CDC基于Debezium</p>
 <p>官方文档</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://ververica.github.io/flink-cdc-connectors/release-2.3/content/about.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>官方github</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/ververica/flink-cdc-connectors</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>Flink和Flink CDC的版本对应关系参考：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://nightlies.apache.org/flink/flink-cdc-docs-release-3.1/docs/connectors/flink-sources/overview/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>各种数据源使用案例，参考：</p>
-<p><a target="_blank" rel="noopener" href="https://aws.amazon.com/cn/blogs/china/use-emr-to-migrate-cdh-based-on-aws-s3-emr-flink-presto-and-hudi-real-time-data-lake/">基于 AWS S3、EMR Flink、Presto 和 Hudi 的实时数据湖仓 &ndash; 使用 EMR 迁移 CDH</a></p>
-<p><a target="_blank" rel="noopener" href="http://junyao.tech/posts/748d18ad.html">Flink CDC关于source和sink全调研及实践</a></p>
-<h2 id="2-Flink-MySQL-CDC"><a href="#2-Flink-MySQL-CDC" class="headerlink" title="2.Flink MySQL CDC"></a>2.Flink MySQL CDC</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>Flink MySQL CDC官方文档：<a target="_blank" rel="noopener" href="https://github.com/apache/flink-cdc/blob/master/docs/content/docs/connectors/flink-sources/mysql-cdc.md">https://github.com/apache/flink-cdc/blob/master/docs/content/docs/connectors/flink-sources/mysql-cdc.md</a></p>
-<p>MySQL binlog可以参考：
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Flink%20MySQL%20CDC.html#more">全文 &gt;&gt;</a>
@@ -480,23 +412,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -530,18 +445,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>可以使用mock对springboot web接口进行测试</p>
 <p>1.依赖</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;</span><br><span class="line">    &lt;scope&gt;test&lt;/scope&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>2.编写测试用例</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.tomcat.util.codec.binary.Base64;</span><br><span class="line">import org.junit.Test;</span><br><span class="line">import org.junit.runner.RunWith;</span><br><span class="line">import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;</span><br><span class="line">import org.springframework.boot.test.context.SpringBootTest;</span><br><span class="line">import org.springframework.http.HttpHeaders;</span><br><span class="line">import org.springframework.test.context.junit4.SpringRunner;</span><br><span class="line">import org.springframework.test.web.servlet.MockMvc;</span><br><span class="line">import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;</span><br><span class="line">import org.springframework.test.web.servlet.result.MockMvcResultHandlers;</span><br><span class="line">import org.springframework.test.web.servlet.result.MockMvcResultMatchers;</span><br><span class="line"></span><br><span class="line">import javax.annotation.Resource;</span><br><span class="line"></span><br><span class="line">import java.nio.charset.StandardCharsets;</span><br><span class="line"></span><br><span class="line">@RunWith(SpringRunner.class)</span><br><span class="line">@SpringBootTest</span><br><span class="line">@AutoConfigureMockMvc</span><br><span class="line">public class HelloControllerTest &#123;</span><br><span class="line"></span><br><span class="line">    @Resource</span><br><span class="line">    private MockMvc mockMvc;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    public void helloTest() throws Exception &#123;</span><br><span class="line">        String expect = &quot;&#123;\&quot;code\&quot;:200,\&quot;msg\&quot;:\&quot;hello: 1\&quot;,\&quot;data\&quot;: null&#125;&quot;;</span><br><span class="line">        String auth = &quot;admin:admin&quot;;</span><br><span class="line">        byte[] originAuth = auth.getBytes(StandardCharsets.US_ASCII);</span><br><span class="line">        byte[] encodedAuth = Base64.encodeBase64(originAuth);</span><br><span class="line">        String authHeader = &quot;Basic &quot; + new String(encodedAuth);</span><br><span class="line">        HttpHeaders headers = new HttpHeaders();</span><br><span class="line">        headers.set(&quot;Authorization&quot;, authHeader);</span><br><span class="line">        mockMvc.perform(MockMvcRequestBuilders.get(&quot;/hello/1&quot;)</span><br><span class="line">                .headers(headers))</span><br><span class="line">                .andExpect(MockMvcResultMatchers.content().json(expect))</span><br><span class="line">                .andDo(MockMvcResultHandlers.print());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>测试GET请求</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">MockHttpServletRequest:</span><br><span class="line">      HTTP Method = GET</span><br><span class="line">      Request URI = /hello/1</span><br><span class="line">       Parameters = &#123;&#125;</span><br><span class="line">          Headers = [Authorization:&quot;Basic YWRtaW46YWRtaW4=&quot;]</span><br><span class="line">             Body = null</span><br><span class="line">    Session Attrs = &#123;SPRING_SECURITY_CONTEXT=SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=admin, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, credentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=127.0.0.1, SessionId=1], Granted Authorities=[ROLE_USER]]]&#125;</span><br><span class="line"></span><br><span class="line">Handler:</span><br><span class="line">             Type = com.example.demo.controller.HelloController</span><br><span class="line">           Method = com.example.demo.controller.HelloController#hello(Integer)</span><br><span class="line"></span><br><span class="line">Async:</span><br><span class="line">    Async started = false</span><br><span class="line">     Async result = null</span><br><span class="line"></span><br><span class="line">Resolved Exception:</span><br><span class="line">             Type = null</span><br><span class="line"></span><br><span class="line">ModelAndView:</span><br><span class="line">        View name = null</span><br><span class="line">             View = null</span><br><span class="line">            Model = null</span><br><span class="line"></span><br><span class="line">FlashMap:</span><br><span class="line">       Attributes = null</span><br><span class="line"></span><br><span class="line">MockHttpServletResponse:</span><br><span class="line">           Status = 200</span><br><span class="line">    Error message = null</span><br><span class="line">          Headers = [Content-Type:&quot;application/json&quot;, X-Content-Type-Options:&quot;nosniff&quot;, X-XSS-Protection:&quot;1; mode=block&quot;, Cache-Control:&quot;no-cache, no-store, max-age=0, must-revalidate&quot;, Pragma:&quot;no-cache&quot;, Expires:&quot;0&quot;, X-Frame-Options:&quot;DENY&quot;]</span><br><span class="line">     Content type = application/json</span><br><span class="line">             Body = &#123;&quot;code&quot;:200,&quot;msg&quot;:&quot;hello: 1&quot;,&quot;data&quot;:null&#125;</span><br><span class="line">    Forwarded URL = null</span><br><span class="line">   Redirected URL = null</span><br><span class="line">          Cookies = []</span><br><span class="line"></span><br><span class="line">Process finished with exit code 0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>测试POST请求</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">@Test</span><br><span class="line">@Transactional</span><br><span class="line">public void createUserTest() throws Exception &#123;</span><br><span class="line">    String expect = &quot;&#123;\&quot;code\&quot;:200,\&quot;msg\&quot;:\&quot;success\&quot;,\&quot;data\&quot;: null&#125;&quot;;</span><br><span class="line">    String auth = &quot;admin:admin&quot;;</span><br><span class="line">    byte[] originAuth = auth.getBytes(StandardCharsets.US_ASCII);</span><br><span class="line">    byte[] encodedAuth = Base64.encodeBase64(originAuth);</span><br><span class="line">    String authHeader = &quot;Basic &quot; + new String(encodedAuth);</span><br><span class="line">    HttpHeaders headers = new HttpHeaders();</span><br><span class="line">    headers.set(&quot;Authorization&quot;, authHeader);</span><br><span class="line">    mockMvc.perform(</span><br><span class="line">            MockMvcRequestBuilders.post(&quot;/user&quot;)</span><br><span class="line">                    .headers(headers)</span><br><span class="line">                    .contentType(MediaType.APPLICATION_JSON)</span><br><span class="line">                    .content(&quot;&#123;\n&quot; +</span><br><span class="line">                            &quot;  \&quot;username\&quot;: \&quot;admin\&quot;,\n&quot; +</span><br><span class="line">                            &quot;  \&quot;password\&quot;: \&quot;admin\&quot;\n&quot; +</span><br><span class="line">                            &quot;&#125;&quot;))</span><br><span class="line">            .andExpect(MockMvcResultMatchers.content().json(expect))</span><br><span class="line">            .andDo(MockMvcResultHandlers.print());</span><br><span class="line">&#125;　　</span><br></pre></td></tr></table></figure>
-
-<p>在对POST请求的测试中，添加了
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94mock.html#more">全文 &gt;&gt;</a>
@@ -567,23 +470,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -616,7 +502,10 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>对于接口的返回结果，需要有统一的结构，因为对于不用考虑流量费用的内部系统，对接口数据长度往往不太介意</p>
-<h2 id="开源项目的接口规范案例："><a href="#开源项目的接口规范案例：" class="headerlink" title="开源项目的接口规范案例："></a>开源项目的接口规范案例：</h2><h3 id="1-阿里云："><a href="#1-阿里云：" class="headerlink" title="1.阿里云："></a>1.阿里云：</h3><p>阿里云健康码引擎的response结构
+<h2 id="开源项目的接口规范案例："><a href="#开源项目的接口规范案例：" class="headerlink" title="开源项目的接口规范案例："></a>开源项目的接口规范案例：</h2><h3 id="1-阿里云："><a href="#1-阿里云：" class="headerlink" title="1.阿里云："></a>1.阿里云：</h3><p>阿里云健康码引擎的response结构&nbsp;ResponseResult</p>
+<img src="/images/517519-20210603153043911-48126906.png" alt="" loading="lazy" />
+
+<p>ResponseResult代码 参考：</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%BB%9F%E4%B8%80%E7%9A%84%E6%8E%A5%E5%8F%A3response%E6%A0%BC%E5%BC%8F.html#more">全文 &gt;&gt;</a>
@@ -642,23 +531,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -691,6 +563,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p><br class="Apple-interchange-newline" /><img src="/images/517519-20160325093521479-1942813553.png" alt="" /></p>
+<p>&nbsp;</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Java%E2%80%94%E2%80%94%E4%B8%8B%E6%8B%89%E5%88%97%E8%A1%A8%E6%A1%86%EF%BC%8C%E5%A4%8D%E9%80%89%E6%A1%86%EF%BC%8C%E5%88%97%E8%A1%A8%E6%A1%86%EF%BC%8C%E6%96%87%E4%BB%B6%E9%80%89%E6%8B%A9%E6%A1%86.html#more">全文 &gt;&gt;</a>
@@ -716,23 +589,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -765,6 +621,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <img src="/images/517519-20160323234523386-2051310609.png" alt="" />
+
+<p>&nbsp;</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Java%E2%80%94%E2%80%94Swing%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86.html#more">全文 &gt;&gt;</a>
@@ -790,23 +648,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -840,6 +681,9 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>它是一种在运行时，动态地将代码切入到类的指定方法、指定位置上的编程思想。用于切入到指定类指定方法的代码片段叫做切面，而切入到哪些类中的哪些方法叫做切入点</p>
 <p>AOP编程允许把遍布应用各处的功能分离出来形成可重用的组件</p>
+<p>&nbsp;</p>
+<p>实现一个AOP可以分成下面几个步骤：</p>
+<p>1.引入依赖&nbsp;</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94aop.html#more">全文 &gt;&gt;</a>
@@ -865,23 +709,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -915,26 +742,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>统一的service接口基于统一的mapper，参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/tonglin0325/p/5267526.html">Mybatis学习笔记&mdash;&mdash;通用mapper</a></p>
 <p>接口AbstractService<T></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">package com.example.demo.core.service;</span><br><span class="line"></span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">public interface AbstractService&lt;T&gt; &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取所有</span><br><span class="line">     *</span><br><span class="line">     * @return List&lt;T&gt;</span><br><span class="line">     */</span><br><span class="line">    List&lt;T&gt; listObjects();</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 通过key查找</span><br><span class="line">     *</span><br><span class="line">     * @param key Object</span><br><span class="line">     * @return T</span><br><span class="line">     */</span><br><span class="line">    T selectByKey(Object key);</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 根据实体条件查找</span><br><span class="line">     *</span><br><span class="line">     * @param example Object</span><br><span class="line">     * @return List&lt;T&gt;</span><br><span class="line">     */</span><br><span class="line">    List&lt;T&gt; selectByExample(Object example);</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 持久化</span><br><span class="line">     *</span><br><span class="line">     * @param entity T</span><br><span class="line">     * @return key</span><br><span class="line">     */</span><br><span class="line">    int save(T entity);</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 通过主鍵刪除</span><br><span class="line">     *</span><br><span class="line">     * @param key Object</span><br><span class="line">     */</span><br><span class="line">    int deleteByKey(Object key);</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 通过example条件刪除</span><br><span class="line">     *</span><br><span class="line">     * @param example T</span><br><span class="line">     */</span><br><span class="line">    int deleteByExample(T example);</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 更新</span><br><span class="line">     *</span><br><span class="line">     * @param entity T</span><br><span class="line">     */</span><br><span class="line">    int update(T entity);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>抽象类AbstractServiceImpl<T></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">package com.example.demo.core.service.impl;</span><br><span class="line"></span><br><span class="line">import com.example.demo.core.mapper.MyMapper;</span><br><span class="line">import com.example.demo.core.service.AbstractService;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.transaction.annotation.Propagation;</span><br><span class="line">import org.springframework.transaction.annotation.Transactional;</span><br><span class="line"></span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">@Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)</span><br><span class="line">public abstract class AbstractServiceImpl&lt;T&gt; implements AbstractService&lt;T&gt; &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    protected MyMapper&lt;T&gt; mapper;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public List&lt;T&gt; listObjects() &#123;</span><br><span class="line">        return mapper.selectAll();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public T selectByKey(Object key) &#123;</span><br><span class="line">        return mapper.selectByPrimaryKey(key);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public List&lt;T&gt; selectByExample(Object example) &#123;</span><br><span class="line">        return mapper.selectByExample(example);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    @Transactional</span><br><span class="line">    public int save(T entity) &#123;</span><br><span class="line">        return mapper.insert(entity);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    @Transactional</span><br><span class="line">    public int deleteByKey(Object key) &#123;</span><br><span class="line">        return mapper.deleteByPrimaryKey(key);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    @Transactional</span><br><span class="line">    public int deleteByExample(Object key) &#123;</span><br><span class="line">        return mapper.deleteByExample(key);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    @Transactional</span><br><span class="line">    public int update(T entity) &#123;</span><br><span class="line">        return mapper.updateByPrimaryKeySelective(entity);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/febsteam/FEBS-Security/blob/master/febs-common/src/main/java/cc/mrbird/common/service/impl/BaseService.java</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>以及</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/Zoctan/WYUOnlineJudge/blob/master/api/src/main/java/com/zoctan/api/core/service/AbstractService.java</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>之后在使用的时候，可以通过继承AbstractServiceImpl<T>的方式，来省略一些通用service方法的编写，比如</p>
-<p>UserService接口</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">package com.example.demo.service;</span><br><span class="line"></span><br><span class="line">import com.example.demo.core.service.AbstractService;</span><br><span class="line">import com.example.demo.model.User;</span><br><span class="line"></span><br><span class="line">public interface UserService extends AbstractService&lt;User&gt; &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>UserServiceImpl实现类</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">package com.example.demo.service.impl;</span><br><span class="line"></span><br><span class="line">import com.example.demo.core.service.impl.AbstractServiceImpl;</span><br><span class="line">import com.example.demo.model.User;</span><br><span class="line">import com.example.demo.service.UserService;</span><br><span class="line">import org.springframework.stereotype.Service;</span><br><span class="line">import org.springframework.transaction.annotation.Transactional;</span><br><span class="line"></span><br><span class="line">@Service</span><br><span class="line">@Transactional(rollbackFor = Exception.class)</span><br><span class="line">public class UserServiceImpl extends AbstractServiceImpl&lt;User&gt; implements UserService &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>进行测试</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">package com.example.demo.service.impl;</span><br><span class="line"></span><br><span class="line">import com.example.demo.model.User;</span><br><span class="line">import org.junit.Test;</span><br><span class="line">import org.junit.runner.RunWith;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.boot.test.context.SpringBootTest;</span><br><span class="line">import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;</span><br><span class="line"></span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">@RunWith(SpringJUnit4ClassRunner.class)</span><br><span class="line">@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)</span><br><span class="line">public class UserServiceImplTest &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private UserServiceImpl userService;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    public void UserMapper() &#123;</span><br><span class="line">        List&lt;User&gt; list = userService.listObjects();</span><br><span class="line">        for (User user: list) &#123;</span><br><span class="line">            System.out.println(user.getId());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%BB%9F%E4%B8%80%E7%9A%84service%E6%8E%A5%E5%8F%A3.html#more">全文 &gt;&gt;</a>
@@ -960,23 +767,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 

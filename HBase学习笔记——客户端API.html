@@ -5,17 +5,17 @@
   
   <title>HBase学习笔记——客户端API | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="介绍HBase的Java API，参考：HBase读写的几种方式（一）java篇">
+  <meta name="description" content="介绍HBase的Java API，参考：HBase读写的几种方式（一）java篇&amp;nbsp;和&amp;nbsp;Hbase–put、BufferedMutator、get 1.写HBase1.单行putHTable非线程安全，切较为低效   &amp;nbsp; 2.客户端的写缓冲区和List一个put操作都是一个RPC操作，只适合小数据量的操作，HBase的API配置了客户端的写缓冲区，缓冲区负责收集put宝">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HBase学习笔记——客户端API">
 <meta property="og:url" content="http://tonglin0325.github.io/HBase%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%A2%E6%88%B7%E7%AB%AFAPI.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="介绍HBase的Java API，参考：HBase读写的几种方式（一）java篇">
+<meta property="og:description" content="介绍HBase的Java API，参考：HBase读写的几种方式（一）java篇&amp;nbsp;和&amp;nbsp;Hbase–put、BufferedMutator、get 1.写HBase1.单行putHTable非线程安全，切较为低效   &amp;nbsp; 2.客户端的写缓冲区和List一个put操作都是一个RPC操作，只适合小数据量的操作，HBase的API配置了客户端的写缓冲区，缓冲区负责收集put宝">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20201229164640569-1533529902.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20201229164602009-1001146075.png">
 <meta property="article:published_time" content="2022-01-12T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:16.137Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:06.218Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="HBase">
 <meta name="twitter:card" content="summary">
@@ -211,7 +211,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
   <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-xie-hbase"><span class="toc-text">1.写HBase</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-dan-xing-put"><span class="toc-text">1.单行put</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-ke-hu-duan-de-xie-huan-chong-qu-he-list"><span class="toc-text">2.客户端的写缓冲区和List</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-shi-yong-bufferedmutator"><span class="toc-text">3.使用BufferedMutator</span></a></li></ol></li></ol>
 </div>
 
-        <p><strong>介绍HBase的Java API</strong>，参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/swordfall/p/10301707.html">HBase读写的几种方式（一）java篇</a><span id="more"></span><br>&nbsp;和&nbsp;<a target="_blank" rel="noopener" href="https://blog.csdn.net/XiaodunLP/article/details/100168615">Hbase–put、BufferedMutator、get</a></p>
+        <p><strong>介绍HBase的Java API</strong>，参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/swordfall/p/10301707.html">HBase读写的几种方式（一）java篇</a>&nbsp;和&nbsp;<a target="_blank" rel="noopener" href="https://blog.csdn.net/XiaodunLP/article/details/100168615">Hbase–put、BufferedMutator、get</a></p>
 <h2 id="1-xie-hbase"><a href="#1-写HBase" class="headerlink" title="1.写HBase"></a><strong>1.写HBase</strong><a href="#1-xie-hbase" class="header-anchor">#</a></h2><h3 id="1-dan-xing-put"><a href="#1-单行put" class="headerlink" title="1.单行put"></a><strong>1.单行put</strong><a href="#1-dan-xing-put" class="header-anchor">#</a></h3><p>HTable非线程安全，切较为低效</p>
 <img src="/images/517519-20201229164640569-1533529902.png" alt loading="lazy">
 
@@ -219,6 +219,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <h3 id="2-ke-hu-duan-de-xie-huan-chong-qu-he-list"><a href="#2-客户端的写缓冲区和List" class="headerlink" title="2.客户端的写缓冲区和List"></a><strong>2.客户端的写缓冲区和List<put></put></strong><a href="#2-ke-hu-duan-de-xie-huan-chong-qu-he-list" class="header-anchor">#</a></h3><p>一个put操作都是一个RPC操作，只适合<strong>小数据量</strong>的操作，HBase的API配置了客户端的<strong>写缓冲区</strong>，缓冲区负责收集put宝座，然后调用RPC操作一次性将put送往服务器。</p>
 <p>默认情况下，<strong>客户端缓冲区是禁用</strong>的，可以通过将<strong>自动刷写（****autoflush=false）</strong>来激活缓冲区，如果<strong>（****autoflush=true）</strong>，用户每次调用put方法是都会触发刷写。当激活缓冲区后，单行put不会产生RPC调用，因为存储的Put实例保存在客户端进程的内存中。只有<strong>flushCommits方法</strong>调用后才会将所有的修改传送到远程服务器。</p>
 <p>默认的写缓冲区大小为2MB（2097152字节），可以在客户端中配置，也可以在habse-site.xml中的<strong>hbase.client.write.buffer</strong> 配置一个较大的预设值，比如20MB</p>
+<span id="more"></span>
+
 <p><strong>显式刷写</strong>，即用户调用&nbsp;<strong>flushCommits<strong>方法</strong></strong></p>
 <p><strong><strong>隐式刷写</strong></strong>，即会在调用put方法和setWriteBufferSize方法后比较<strong>超出缓冲区大小</strong>后调用&nbsp;<strong>flushCommits<strong>方法</strong></strong></p>
 <p><strong><strong><img src="/images/517519-20201229164602009-1001146075.png" alt loading="lazy"></strong></strong></p>

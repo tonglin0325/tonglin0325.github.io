@@ -199,34 +199,15 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <!-- 目录 -->
-
-<div id="toc">
-  
-</div>
-
         <p>1.判断s3 object是否存在</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">import boto3</span><br><span class="line"></span><br><span class="line">s3 = boto3.resource(&#x27;s3&#x27;)</span><br><span class="line">bucket = s3.Bucket(&#x27;my-bucket&#x27;)</span><br><span class="line">key = &#x27;dootdoot.jpg&#x27;</span><br><span class="line">objs = list(bucket.objects.filter(Prefix=key))</span><br><span class="line">if any([w.key == path_s3 for w in objs]):</span><br><span class="line">    print(&quot;Exists!&quot;)</span><br><span class="line">else:</span><br><span class="line">    print(&quot;Doesn&#x27;t exist&quot;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/%E4%BD%BF%E7%94%A8python%E6%93%8D%E4%BD%9CAmazon%20S3.html#more">全文 &gt;&gt;</a>
+          </p>
+        
 
-<p>2.读取s3 object文件内容</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import boto3</span><br><span class="line"></span><br><span class="line">s3 = boto3.resource(&#x27;s3&#x27;)</span><br><span class="line">object_content = s3.Object(&#x27;my_bucket_name&#x27;, object_dir)</span><br><span class="line">file_content = object_content.get()[&#x27;Body&#x27;].read().decode(&#x27;utf-8&#x27;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>3.列出s3 object目录</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import boto3</span><br><span class="line"></span><br><span class="line">s3 = boto3.resource(&#x27;s3&#x27;)</span><br><span class="line">my_bucket = s3.Bucket(&#x27;my_bucket_name&#x27;)</span><br><span class="line">dirs = sorted([_.key for _ in my_bucket.objects.filter(Prefix=&quot;aaa/bbb/ccc/&quot;)], reverse=True)</span><br><span class="line">for dir in dirs:</span><br><span class="line">    print(dir)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>4.查看emr集群信息，参考：<a target="_blank" rel="noopener" href="https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/emr.html#EMR.Client.describe_cluster">https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/emr.html#EMR.Client.describe_cluster</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import boto3</span><br><span class="line"></span><br><span class="line">emr_client = boto3.client(&#x27;emr&#x27;,region_name=&#x27;us-west-2&#x27;)</span><br><span class="line">response = emr_client.describe_cluster(ClusterId=&quot;j-xxxxxx&quot;)</span><br><span class="line">print(response[&#x27;Cluster&#x27;][&#x27;MasterPublicDnsName&#x27;])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-        <div class="article-entry">
-          <div id="footer-info" class="inner">
-          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/%E4%BD%BF%E7%94%A8python%E6%93%8D%E4%BD%9CAmazon%20S3.html"></a>
-          </div>
-        </div>
       
     </div>
-
-    
-      
 
     
 
@@ -244,23 +225,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -297,7 +261,12 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>HDFS 的文件权限与 Linux/Unix 系统类似，也是采用UGO模型，分成用户、组和其他权限。其权限you两种实现方式：1.基于Linux/Unix系统的用户和用户组；2.基于使用LDAP协议的数据库</p>
 <p>参考网易数帆的文章：<a target="_blank" rel="noopener" href="https://sq.sf.163.com/blog/article/178584865073586176">HDFS权限管理实践</a></p>
 <p>使用基于Linux/Unix系统的用户和用户组，即 hadoop.security.group.mapping 的值为 org.apache.hadoop.security.ShellBasedUnixGroupsMapping</p>
-<p>使用基于使用LDAP协议的数据库，即 hadoop.security.group.mapping 的值为
+<p>使用基于使用LDAP协议的数据库，即 hadoop.security.group.mapping 的值为&nbsp;org.apache.hadoop.security.LdapGroupsMapping</p>
+<p>首先在phpldapadmin上配置好user和group</p>
+<img src="/images/517519-20211107203010714-1416797422.png" width="250" height="68" />
+
+<p>1.给用户创建一个新的ou，叫person</p>
+<img src="/images/517519-20211107203123300-1565447791.png" width="250" height="38" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/CDH5.16%E9%9B%86%E6%88%90ldap.html#more">全文 &gt;&gt;</a>
@@ -323,23 +292,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -372,7 +324,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>安装chronograf来使用UI对InfluxDB进行操作</p>
-<p>参考：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/912464e4c92f">mac 安装influxdb + Chronograf
+<p>参考：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/912464e4c92f">mac 安装influxdb + Chronograf&nbsp;</a></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/mac%E5%AE%89%E8%A3%85chronograf.html#more">全文 &gt;&gt;</a>
@@ -398,23 +350,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -481,23 +416,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </article>
 
 
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
-
 
 
   
@@ -529,16 +447,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="1-deb安装方法"><a href="#1-deb安装方法" class="headerlink" title="1.deb安装方法"></a>1.deb安装方法</h2><p>安装Oracle的jdk8</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://s3.cn-north-1.amazonaws.com.cn/tfssa/packages/oracle-java/oracle-java8-jdk_8u181_amd64.deb</span><br><span class="line">sudo dpkg -i ./oracle-java8-jdk_8u181_amd64.deb</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如何依赖不满足</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install -f</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果依赖的包找不到，可以尝试</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo mv /etc/apt/sources.list.d/backports.list /etc/apt/sources.list.d/backports.list.bak</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>选择使用rpm或者apt-get来安装java-8-oracle，这时的配置将会在 /etc/profile.d/jdk.sh 中</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/profile.d/jdk.sh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/ubuntu%E4%B8%8BJDK%E7%9A%84%E5%AE%89%E8%A3%85.html#more">全文 &gt;&gt;</a>
@@ -564,23 +472,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -651,23 +542,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </article>
 
 
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
-
 
 
   
@@ -699,17 +573,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p><strong>kafka connect</strong>是kafka提供的一个用于在kafka和其他数据系统之间传输数据的工具</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://kafka.apache.org/documentation/#connect</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="1-Kafka-Connect组件"><a href="#1-Kafka-Connect组件" class="headerlink" title="1.Kafka Connect组件"></a>1.Kafka Connect组件</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://docs.confluent.io/platform/current/connect/concepts.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<ol>
-<li><a target="_blank" rel="noopener" href="https://docs.confluent.io/platform/current/connect/concepts.html#connect-connectors">Connectors</a> &ndash; the high level abstraction that coordinates data streaming by managing tasks</li>
-</ol>
-<p>Connectors定义了数据是如何拷贝进kafka以及如何复制出kafka的</p>
-<p>包含2种形式的connector，source connector和sink connector</p>
-<ul>
-<li>Source connector
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Kafka%20Connect.html#more">全文 &gt;&gt;</a>
@@ -735,23 +598,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -791,6 +637,9 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <img src="/images/517519-20210531171828658-1248690128.png" alt="" loading="lazy" />
 
 <p>参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1432121">spring 自动加载配置</a></p>
+<p>&nbsp;</p>
+<p>步骤：</p>
+<p>1.添加依赖</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94spring-boot-configuration-processor%E4%BD%9C%E7%94%A8.html#more">全文 &gt;&gt;</a>
@@ -816,23 +665,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -865,19 +697,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>schema registry是confluent公司开发的一个集中式管理和验证kafka消息schema的组件。官方网站如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://docs.confluent.io/platform/current/schema-registry/index.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>其支持3种格式的schema：JSON，AVRO和protobuf</p>
-<p>docker镜像地址如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://hub.docker.com/r/confluentinc/cp-schema-registry</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>其提供了schema registry的后端服务，提供API用于管理，验证和存储schema，保证了kafka的生产者和消费者可以使用schema来保证数据的一致性和兼容性。</p>
-<p>有开源的schema registry前端UI，比如</p>
-<p>schema-registry-ui，只支持AVRO的schema</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://hub.docker.com/r/landoop/schema-registry-ui/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>kafka-ui，支持JSON，AVRO和protobuf（pb嵌套schema需要等0.8版本发布）格式的schema</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://hub.docker.com/r/provectuslabs/kafka-ui</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/confluent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94schema%20registry.html#more">全文 &gt;&gt;</a>
@@ -903,23 +722,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -951,15 +753,29 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <img src="/images/517519-20160331103029723-1758410325.png" alt="" />
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/Java%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E8%A1%A8%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F.html#more">全文 &gt;&gt;</a>
-          </p>
-        
+        <!-- 目录 -->
 
+<div id="toc">
+  
+</div>
+
+        <img src="/images/517519-20160331103029723-1758410325.png" alt>
+
+<p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">public class ListInsertSort_demo &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		// TODO 自动生成的方法存根</span><br><span class="line">		int Size = 10;</span><br><span class="line">		Link_long[] linkArray = new Link_long[Size];</span><br><span class="line">		</span><br><span class="line">		for(int i =0;i&lt;Size;i++)&#123;</span><br><span class="line">			long n = (long)(java.lang.Math.random()*99);</span><br><span class="line">			linkArray[i] = new Link_long(n);</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(&quot;未排序小于100的数组：&quot;);</span><br><span class="line">		for(int i=0;i&lt;Size;i++)&#123;</span><br><span class="line">			System.out.print(linkArray[i].dData+&quot;、&quot;);</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		SortedList theSortedList = new SortedList();</span><br><span class="line">		for(int i=0;i&lt;Size;i++)&#123;</span><br><span class="line">			theSortedList.insert(linkArray[i].dData);</span><br><span class="line">		&#125;</span><br><span class="line">		for(int i=0;i&lt;Size;i++)&#123;</span><br><span class="line">			linkArray[i].dData = theSortedList.remove();</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println();</span><br><span class="line">		System.out.println(&quot;已经排序的小于100的数组：&quot;);</span><br><span class="line">		for(int i=0;i&lt;Size;i++)&#123;</span><br><span class="line">			System.out.print(linkArray[i].dData+&quot;、&quot;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/Java%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E8%A1%A8%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F.html"></a>
+          </div>
+        </div>
       
     </div>
+
+    
+      
 
     
 
@@ -977,23 +793,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 

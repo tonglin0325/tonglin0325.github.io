@@ -5,15 +5,15 @@
   
   <title>Flink学习笔记——读写HBase | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.如果是csa(Cloudera Streaming Analytics)版本的高版本HBase可以参考Cloudera官方例子，通过引入官方提供的flink-hbase来实现 123456&lt;dependency&gt;    &lt;groupId&gt;org.apache.flink&lt;&#x2F;groupId&gt;    &lt;artifactId&gt;flink-hbase_2">
+  <meta name="description" content="1.如果是csa(Cloudera Streaming Analytics)版本的高版本HBase可以参考Cloudera官方例子，通过引入官方提供的flink-hbase来实现">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Flink学习笔记——读写HBase">
 <meta property="og:url" content="http://tonglin0325.github.io/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%AF%BB%E5%86%99HBase.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="1.如果是csa(Cloudera Streaming Analytics)版本的高版本HBase可以参考Cloudera官方例子，通过引入官方提供的flink-hbase来实现 123456&lt;dependency&gt;    &lt;groupId&gt;org.apache.flink&lt;&#x2F;groupId&gt;    &lt;artifactId&gt;flink-hbase_2">
+<meta property="og:description" content="1.如果是csa(Cloudera Streaming Analytics)版本的高版本HBase可以参考Cloudera官方例子，通过引入官方提供的flink-hbase来实现">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-01-11T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:16.141Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:06.221Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Flink">
 <meta property="article:tag" content="HBase">
@@ -210,12 +210,13 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </div>
 
         <h2 id="1-ru-guo-shi-csa-cloudera-streaming-analytics-ban-ben-de-gao-ban-ben-hbase"><a href="#1-如果是csa-Cloudera-Streaming-Analytics-版本的高版本HBase" class="headerlink" title="1.如果是csa(Cloudera Streaming Analytics)版本的高版本HBase"></a>1.如果是<strong>csa(Cloudera Streaming Analytics)版本</strong>的高版本HBase<a href="#1-ru-guo-shi-csa-cloudera-streaming-analytics-ban-ben-de-gao-ban-ben-hbase" class="header-anchor">#</a></h2><p>可以参考Cloudera官方例子，通过引入官方提供的flink-hbase来实现</p>
+<span id="more"></span>
+
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.flink&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;flink-hbase_2.11&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.9.0-csa1.0.0.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>要求flink最低版本1.9.0，hbase最低版本2.1.0-cdh6.3.0，然后就可以使用HBaseSinkFunction来写Hbase</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://docs.cloudera.com/csa/1.2.0/datastream-connectors/topics/csa-hbase-configuration.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<span id="more"></span>
 <p>&nbsp;</p>
 <h2 id="2-ru-guo-shi-di-ban-ben-de-hbase"><a href="#2-如果是低版本的HBase" class="headerlink" title="2.如果是低版本的HBase"></a>2.如果是<strong>低版本的HBase</strong><a href="#2-ru-guo-shi-di-ban-ben-de-hbase" class="header-anchor">#</a></h2><p>则需要自行使用<strong>Java API</strong>来写HBase，比如我使用hbase版本为1.2.0-cdh5.1.6.2，可以参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/swordfall/p/10527423.html">HBase读写的几种方式（三）flink篇</a> 和 <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42003671/article/details/103196825">Flink 消费kafka数据写入hbase</a></p>
 <p>写HBase的时候注意开启Hbase regionserver的hbase.regionserver.port端口防火墙，默认为60020</p>

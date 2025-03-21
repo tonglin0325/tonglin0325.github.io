@@ -13,7 +13,7 @@
 <meta property="og:description" content="参考：分布式系统协议Paxos、Raft和ZAB Paxos算法是一种提高分布式系统容错率的一致性算法 Paxos 算法的步骤是这样： 1.首先有两种角色，一个是&amp;ldquo;提议者&amp;rdquo;，一个是&amp;ldquo;接受者&amp;rdquo;。提议者可以向接受者提出提议，然后接受者表达意见。 2.因为存在多个提议者，如果同时表达意见会出现意见不一致的情况，所以首先需要尽快选出一个领导者，让意见统一。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-07-17T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:16.351Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:06.369Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="zookeeper">
 <meta name="twitter:card" content="summary">
@@ -214,11 +214,12 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>1.首先有两种角色，一个是&ldquo;提议者&rdquo;，一个是&ldquo;接受者&rdquo;。提议者可以向接受者提出提议，然后接受者表达意见。</p>
 <p>2.因为存在多个提议者，如果同时表达意见会出现意见不一致的情况，所以首先需要尽快选出一个领导者，让意见统一。</p>
 <p>3.然后领导者会给接受者发出提议，如果一个提议被大多数接受者接纳，这个提议就通过了。</p>
-<span id="more"></span>
 <p>&nbsp;</p>
 <p><strong>Raft协议</strong></p>
 <p>Raft 协议的每个副本都会处于三种状态之一：Leader、Follower、Candidate。</p>
 <p><strong>Leader</strong>：所有请求的处理者，Leader 副本接受 client 的更新请求，本地处理后再同步至多个其他副本。</p>
+<span id="more"></span>
+
 <p><strong>Follower</strong>：请求的被动更新者，从 Leader 接受更新请求，然后写入本地日志文件。</p>
 <p><strong>Candidate</strong>：如果 Follower 副本在一段时间内没有收到 Leader 副本的心跳，则判断 Leader 可能已经故障，此时启动选主过程，此时副本会变成 Candidate 状态，直到选主结束。</p>
 <p>&nbsp;</p>

@@ -5,17 +5,17 @@
   
   <title>Solr学习笔记——导入JSON数据 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.导入JSON数据的方式有两种，一种是在web管理界面中导入，另一种是使用curl命令来导入 12curl http:&#x2F;&#x2F;localhost:8983&#x2F;solr&#x2F;baikeperson&#x2F;update&#x2F;json?commit&#x3D;true --data-binary @&#x2F;home&#x2F;XXX&#x2F;下载&#x2F;person&#x2F;test1.json -H &amp;#x27;Content-type:text&#x2F;json; cha">
+  <meta name="description" content="1.导入JSON数据的方式有两种，一种是在web管理界面中导入，另一种是使用curl命令来导入">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Solr学习笔记——导入JSON数据">
 <meta property="og:url" content="http://tonglin0325.github.io/Solr%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AF%BC%E5%85%A5JSON%E6%95%B0%E6%8D%AE.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="1.导入JSON数据的方式有两种，一种是在web管理界面中导入，另一种是使用curl命令来导入 12curl http:&#x2F;&#x2F;localhost:8983&#x2F;solr&#x2F;baikeperson&#x2F;update&#x2F;json?commit&#x3D;true --data-binary @&#x2F;home&#x2F;XXX&#x2F;下载&#x2F;person&#x2F;test1.json -H &amp;#x27;Content-type:text&#x2F;json; cha">
+<meta property="og:description" content="1.导入JSON数据的方式有两种，一种是在web管理界面中导入，另一种是使用curl命令来导入">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170510221056191-1305284810.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170510221212097-734059287.png">
 <meta property="article:published_time" content="2017-05-09T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:17.126Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:07.099Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Solr">
 <meta name="twitter:card" content="summary">
@@ -212,13 +212,14 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </div>
 
         <p>1.导入JSON数据的方式有两种，一种是在web管理界面中导入，另一种是使用curl命令来导入</p>
+<span id="more"></span>
+
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl http://localhost:8983/solr/baikeperson/update/json?commit=true --data-binary @/home/XXX/下载/person/test1.json -H &#x27;Content-type:text/json; charset=utf-8&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>2.导入的时候注意格式</p>
 <p>使用curl可以导入的格式</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">　　&quot;add&quot;: &#123;</span><br><span class="line">　　　　&quot;overwrite&quot;: true,</span><br><span class="line">　　　　&quot;doc&quot;: &#123;</span><br><span class="line">　　　　　　&quot;id&quot;: 1,</span><br><span class="line">　　　　　　&quot;name&quot;: &quot;Some book&quot;,</span><br><span class="line">　　　　　　&quot;author&quot;: [&quot;John&quot;, &quot;Marry&quot;]</span><br><span class="line">　　　　&#125;</span><br><span class="line">　　&#125;,</span><br><span class="line">　　&quot;add&quot;: &#123;</span><br><span class="line">　　　　&quot;overwrite&quot;: true,</span><br><span class="line">　　　　&quot;boost&quot;: 2.5,</span><br><span class="line">　　　　&quot;doc&quot;: &#123;</span><br><span class="line">　　　　　　&quot;id&quot;: 2,</span><br><span class="line">　　　　　　&quot;name&quot;: &quot;Important Book&quot;,</span><br><span class="line">　　　　　　&quot;author&quot;: [&quot;Harry&quot;, &quot;Jane&quot;]</span><br><span class="line">　　　　&#125;</span><br><span class="line">　　&#125;,</span><br><span class="line">　　&quot;add&quot;: &#123;</span><br><span class="line">　　　　&quot;overwrite&quot;: true,</span><br><span class="line">　　　　&quot;doc&quot;: &#123;</span><br><span class="line">　　　　　　&quot;id&quot;: 3,</span><br><span class="line">　　　　　　&quot;name&quot;: &quot;Some other book&quot;,</span><br><span class="line">　　　　　　&quot;author&quot;: &quot;Marry&quot;</span><br><span class="line">　　　　&#125;</span><br><span class="line">　　&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<span id="more"></span>
 <p>&nbsp;</p>
 <p>在web界面中可以导入的格式</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;title&quot;:&quot;许宝江&quot;,&quot;url&quot;:&quot;7254863&quot;,&quot;chineseName&quot;:&quot;许宝江&quot;,&quot;sex&quot;:&quot;男&quot;,&quot;occupation&quot;:&quot; 滦县农业局局长&quot;,&quot;nationality&quot;:&quot;中国&quot;&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>

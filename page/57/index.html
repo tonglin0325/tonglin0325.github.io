@@ -329,23 +329,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </article>
 
 
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
-
 
 
   
@@ -380,38 +363,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <h2 id="1-内置函数和运算符"><a href="#1-内置函数和运算符" class="headerlink" title="1.内置函数和运算符"></a><strong>1.内置函数和运算符</strong></h2><p>参考：<a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/built-in-function-reference.html">https://dev.mysql.com/doc/refman/5.7/en/built-in-function-reference.html</a></p>
 <h3 id="1-常用函数"><a href="#1-常用函数" class="headerlink" title="1.常用函数"></a>1.常用函数</h3><h3 id="5-流程控制函数"><a href="#5-流程控制函数" class="headerlink" title="5.流程控制函数"></a>5.流程控制函数</h3><p>参考：<a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/flow-control-functions.html">https://dev.mysql.com/doc/refman/5.7/en/flow-control-functions.html</a></p>
 <p>CASE函数</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 条件判断语句</span><br><span class="line">SELECT NAME,sex,age &#x27;原来年龄&#x27;</span><br><span class="line">    CASE </span><br><span class="line">    WHEN age IS NULL THEN 100</span><br><span class="line">    ELSE age</span><br><span class="line">    END AS &#x27;年龄&#x27;</span><br><span class="line">FROM tb_emp;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>IF()函数</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># IF(expr1,expr2,expr3)，如果expr1是True，返回expr2，否则返回expr3</span><br><span class="line">mysql&gt; SELECT IF(1&gt;2,2,3);</span><br><span class="line">        -&gt; 3</span><br><span class="line">mysql&gt; SELECT IF(1&lt;2,&#x27;yes&#x27;,&#x27;no&#x27;);</span><br><span class="line">        -&gt; &#x27;yes&#x27;</span><br><span class="line">mysql&gt; SELECT IF(STRCMP(&#x27;test&#x27;,&#x27;test1&#x27;),&#x27;no&#x27;,&#x27;yes&#x27;);</span><br><span class="line">        -&gt; &#x27;no&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>IFNULL()函数</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># IFNULL(expr1,expr2)，如果字expr1不为NULL，则返回expr1，如果为NULL，则返回expr2 </span><br><span class="line">mysql&gt; SELECT IFNULL(1,0);</span><br><span class="line">        -&gt; 1</span><br><span class="line">mysql&gt; SELECT IFNULL(NULL,10);</span><br><span class="line">        -&gt; 10</span><br><span class="line">mysql&gt; SELECT IFNULL(1/0,10);</span><br><span class="line">        -&gt; 10</span><br><span class="line">mysql&gt; SELECT IFNULL(1/0,&#x27;yes&#x27;);</span><br><span class="line">        -&gt; &#x27;yes&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>NULLIF()函数</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># NULLIF(expr1,expr2)，如果expr1=expr2，则返回NULL，否则返回expr1</span><br><span class="line">mysql&gt; SELECT NULLIF(1,1);</span><br><span class="line">        -&gt; NULL</span><br><span class="line">mysql&gt; SELECT NULLIF(1,2);</span><br><span class="line">        -&gt; 1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="6-数值函数和操作符"><a href="#6-数值函数和操作符" class="headerlink" title="6.数值函数和操作符"></a><strong>6.数值函数和操作符</strong></h3><p>参考：<a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/numeric-functions.html">https://dev.mysql.com/doc/refman/5.7/en/numeric-functions.html</a></p>
-<p>使用CEIL(x)函数/CEILING(x)函数返回不小于x的最小整数值</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT CEILING(1.23);</span><br><span class="line">        -&gt; 2</span><br><span class="line">mysql&gt; SELECT CEILING(-1.23);</span><br><span class="line">        -&gt; -1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>使用FLOOR(x)函数返回不大于x的最大整数值</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT FLOOR(1.23), FLOOR(-1.23);</span><br><span class="line">        -&gt; 1, -2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>使用ROUND()函数保留N位小数</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT ROUND(-1.23);</span><br><span class="line">        -&gt; -1</span><br><span class="line">mysql&gt; SELECT ROUND(-1.58);</span><br><span class="line">        -&gt; -2</span><br><span class="line">mysql&gt; SELECT ROUND(1.58);</span><br><span class="line">        -&gt; 2</span><br><span class="line">mysql&gt; SELECT ROUND(1.298, 1);</span><br><span class="line">        -&gt; 1.3</span><br><span class="line">mysql&gt; SELECT ROUND(1.298, 0);</span><br><span class="line">        -&gt; 1</span><br><span class="line">mysql&gt; SELECT ROUND(23.298, -1);</span><br><span class="line">        -&gt; 20</span><br><span class="line">mysql&gt; SELECT ROUND(.12345678901234567890123456789012345, 35);</span><br><span class="line">        -&gt; 0.123456789012345678901234567890</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>使用RAND()函数生成随机数</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select RAND() from user limit 3;</span><br><span class="line">+---------------------+</span><br><span class="line">| RAND()              |</span><br><span class="line">+---------------------+</span><br><span class="line">|  0.1310934062405428 |</span><br><span class="line">|  0.8610111650647699 |</span><br><span class="line">|  0.9117756373358663 |</span><br><span class="line">+---------------------+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="7-日期和时间函数"><a href="#7-日期和时间函数" class="headerlink" title="7.日期和时间函数"></a><strong>7.日期和时间函数</strong></h3><p>参考：<a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/date-and-time-functions.html">https://dev.mysql.com/doc/refman/5.7/en/date-and-time-functions.html</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># 返回当前</span><br><span class="line">SELECT NOW();</span><br><span class="line"></span><br><span class="line"># 查询时间是1981年</span><br><span class="line">SELECT * FROM tb_emp</span><br><span class="line">WHERE YEAR(diredate) = 1981</span><br><span class="line">AND MONTH(diredate) = 1982;</span><br><span class="line"></span><br><span class="line">#插入时间</span><br><span class="line">INSERT INTO tb_emp(NAME,sex,age,address,email,dept_id,diredate)</span><br><span class="line">VALUES(&#x27;ZHOU&#x27;,&#x27;男&#x27;,33,&#x27;香港&#x27;,&#x27;ZHOU@163.com&#x27;,2,&#x27;1988-09-09&#x27;);</span><br><span class="line"></span><br><span class="line">INSERT INTO tb_emp(NAME,sex,age,address,email,dept_id,diredate)</span><br><span class="line">VALUES(&#x27;CAI&#x27;,&#x27;女&#x27;,30,&#x27;香港&#x27;,&#x27;CAI@163.com&#x27;,2,NOW());</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="8-字符串函数和操作符"><a href="#8-字符串函数和操作符" class="headerlink" title="8.字符串函数和操作符"></a><strong>8.字符串函数和操作符</strong></h3><p>参考：<a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/string-functions.html">https://dev.mysql.com/doc/refman/5.7/en/string-functions.html</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"># concat 连接字符串</span><br><span class="line">SELECT CONCAT(NAME,sex) FROM tb_emp;</span><br><span class="line"></span><br><span class="line"># UPPER 转换大写/LOWER 转换小写</span><br><span class="line">SELECT UPPER(NAME) FROM tb_emp WHERE dept_id=1;</span><br><span class="line">SELECT LOWER(NAME) FROM tb_emp WHERE dept_id=1;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 返回字符串长度</span><br><span class="line">SELECT LENGTH(NAME) FROM tb_emp WHERE dept_id=1;</span><br><span class="line"></span><br><span class="line"># 返回部分字符</span><br><span class="line">SELECT SUBSTR(NAME,2,2) FROM tb_emp WHERE dept_id=1;</span><br><span class="line"></span><br><span class="line"># 比较字符串，按顺序比较，相等返回0，如果第一个的字符小于第二个，返回-1，否则返回1</span><br><span class="line">mysql&gt; SELECT STRCMP(&#x27;text&#x27;, &#x27;text2&#x27;);</span><br><span class="line">+-------------------------+</span><br><span class="line">| STRCMP(&#x27;text&#x27;, &#x27;text2&#x27;) |</span><br><span class="line">+-------------------------+</span><br><span class="line">|                      -1 |</span><br><span class="line">+-------------------------+</span><br><span class="line">mysql&gt; SELECT STRCMP(&#x27;text&#x27;, &#x27;texu&#x27;);</span><br><span class="line">+------------------------+</span><br><span class="line">| STRCMP(&#x27;text&#x27;, &#x27;texu&#x27;) |</span><br><span class="line">+------------------------+</span><br><span class="line">|                     -1 |</span><br><span class="line">+------------------------+</span><br><span class="line">mysql&gt; SELECT STRCMP(&#x27;text&#x27;, &#x27;texa&#x27;);</span><br><span class="line">+------------------------+</span><br><span class="line">| STRCMP(&#x27;text&#x27;, &#x27;texa&#x27;) |</span><br><span class="line">+------------------------+</span><br><span class="line">|                      1 |</span><br><span class="line">+------------------------+</span><br><span class="line">mysql&gt; SELECT STRCMP(&#x27;text&#x27;, &#x27;texa1&#x27;);</span><br><span class="line">+-------------------------+</span><br><span class="line">| STRCMP(&#x27;text&#x27;, &#x27;texa1&#x27;) |</span><br><span class="line">+-------------------------+</span><br><span class="line">|                       1 |</span><br><span class="line">+-------------------------+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="19-聚合函数"><a href="#19-聚合函数" class="headerlink" title="19.聚合函数"></a><strong>19.聚合函数</strong></h3><p>参考：<a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/aggregate-functions-and-modifiers.html">https://dev.mysql.com/doc/refman/5.7/en/aggregate-functions-and-modifiers.html</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"># 聚合函数，也叫组合函数，忽略空值</span><br><span class="line">SELECT AVG(age) FROM tb_emp;</span><br><span class="line">SELECT SUM(age) FROM tb_emp;</span><br><span class="line">SELECT MAX(age) FROM tb_emp;</span><br><span class="line">SELECT MIN(age) FROM tb_emp;</span><br><span class="line">SELECT AVG(age) AS &#x27;平均年龄&#x27;,SUM(age) AS &#x27;总年龄&#x27;,MAX(age) AS &#x27;最高年龄&#x27;,MIN(age) AS &#x27;最低年龄&#x27;</span><br><span class="line">FROM tb_emp WHERE dept_id=1;</span><br><span class="line"></span><br><span class="line"># COUNT不统计null，统计的是行数/记录数</span><br><span class="line">SELECT COUNT(*) FROM tb_emp</span><br><span class="line">SELECT COUNT(email) FROM tb_emp</span><br><span class="line"></span><br><span class="line"># 不统计重复记录</span><br><span class="line">SELECT COUNT(DISTINCT diredate) FROM tb_emp</span><br><span class="line"></span><br><span class="line"># 分组统计 GROUP BY</span><br><span class="line"># 每个部门的平均年龄</span><br><span class="line">SELECT dept_id,AVG(age) FROM tb_emp GROUP BY dept_id</span><br><span class="line"></span><br><span class="line">SELECT dept_id,AVG(age),address FROM tb_emp GROUP BY dept_id,address</span><br><span class="line"></span><br><span class="line"># 限定查询结果 HAVING 不能使用where,where子句中不可以使用函数</span><br><span class="line">SELECT dept_id,AVG(age) FROM tb_emp GROUP BY dept_id</span><br><span class="line">HAVING AVG(age)&gt;23</span><br><span class="line">ORDER BY AVG(age) DESC;</span><br><span class="line"></span><br><span class="line"># LIMIT 常用来分页</span><br><span class="line">SELECT * FROM tb_emp LIMIT 5; #查询前5个记录</span><br><span class="line">SELECT * FROM tb_emp LIMIT 5,10; #查询前6-10个记录</span><br><span class="line"></span><br><span class="line"># group_concat，先聚合，再返回concat后的字符串</span><br><span class="line">select username, group_concat(email),count(1) as cnt from user group by username having cnt &gt; 1;</span><br><span class="line"># 输出</span><br><span class="line">+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+-----+</span><br><span class="line">| username     | group_concat(email)                                                                                                                                    | cnt |</span><br><span class="line">+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+-----+</span><br><span class="line">| jshellshear0 | jshellshear0@prlog.org,jshellshear0@taobao.com                                                                                                         |   2 |</span><br><span class="line">| test         | ,test@test,test@test,test@test,test@test,test@test,test@test,test@test,test@test,test@test,test@test,test@test,test@test,test@test,test@test,test@test |  16 |</span><br><span class="line">+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+-----+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%87%BD%E6%95%B0.html#more">全文 &gt;&gt;</a>
@@ -437,23 +388,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -494,6 +428,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>　　　　-查询排序</p>
 <p>　　　　-聚合函数</p>
 <p>　　　　-分组查询</p>
+<p>&nbsp;</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5.html#more">全文 &gt;&gt;</a>
@@ -519,23 +454,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -576,14 +494,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>　　- FOREIGN KEY外键</p>
 <p>　　- CHECK检查</p>
 <p>4.约束作为数据库对象，存放在系统表中，也有自己的名字</p>
-<p>5.创建约束的时机：</p>
-<p>　　-在建表的同时创建</p>
-<p>　　-建表后创建（修改表）</p>
-<p>6.有单列约束和多列约束</p>
-<h2 id="2-列级约束和表级约束"><a href="#2-列级约束和表级约束" class="headerlink" title="2.列级约束和表级约束"></a>2.列级约束和表级约束</h2><p>列级约束直接跟在列后面定义，不再需要指定列名，与列定义之间用空格分开</p>
-<p>表级约束通常放在所有的列定义之后定义，要显式指定对哪些列建立列级约束，与列定义之间采用英语逗号，隔开</p>
-<p>如果是对多列建联合约束，只能使用表级约束语法</p>
-<h3 id="1-非空约束-NOT-NULL"><a href="#1-非空约束-NOT-NULL" class="headerlink" title="1.非空约束(NOT NULL)"></a>1.非空约束(NOT NULL)<br /></h3>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%BA%A6%E6%9D%9F.html#more">全文 &gt;&gt;</a>
@@ -609,23 +519,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -660,40 +553,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p>SQL&mdash;&mdash;结构化查询语言（Structured Query Language）</p>
 <h2 id="1-字符集和大小写"><a href="#1-字符集和大小写" class="headerlink" title="1. 字符集和大小写"></a><strong>1. 字符集和<strong>大小写</strong><br /></strong></h2><p><strong>SQL语言不区分大小写，建议关键字用大写，但是字符串常量区分大小写</strong></p>
 <p><strong>字符集</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">character_set_client：服务器将系统变量character_set_client作为客户端发送语句时使用的字符集。</span><br><span class="line">character_set_connection：用于没有字符集介绍器指定的字面量和用于数字到字符串转换的字符集。</span><br><span class="line">character_set_database：默认数据库使用的字符集。每当默认数据库更改时，服务器都会设置此变量。</span><br><span class="line">character_set_filesystem：文件系统字符集。</span><br><span class="line">character_set_results：用于向客户端返回查询结果的字符集。这包括结果数据(如列值)、结果元数据(如列名)和错误消息。</span><br><span class="line">character_set_server：服务器的默认字符集。如果你设置了这个变量，你还应该设置collation_server来指定字符集的排序规则。</span><br><span class="line">character_set_system：服务器用于存储标识符的字符集。</span><br><span class="line">character_sets_dir：安装字符集的目录。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>MySQL5.7的默认字符集character和排序字符集collation</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &#x27;%character%&#x27;;</span><br><span class="line">+--------------------------+--------------------------------------------------------------+</span><br><span class="line">| Variable_name            | Value                                                        |</span><br><span class="line">+--------------------------+--------------------------------------------------------------+</span><br><span class="line">| character_set_client     | latin1                                                       |</span><br><span class="line">| character_set_connection | latin1                                                       |</span><br><span class="line">| character_set_database   | latin1                                                       |</span><br><span class="line">| character_set_filesystem | binary                                                       |</span><br><span class="line">| character_set_results    | latin1                                                       |</span><br><span class="line">| character_set_server     | latin1                                                       |</span><br><span class="line">| character_set_system     | utf8                                                         |</span><br><span class="line">| character_sets_dir       | /opt/rh/rh-mysql57/root/usr/share/rh-mysql57-mysql/charsets/ |</span><br><span class="line">+--------------------------+--------------------------------------------------------------+</span><br><span class="line">8 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; show variables like &#x27;%collation%&#x27;;</span><br><span class="line">+----------------------+-------------------+</span><br><span class="line">| Variable_name        | Value             |</span><br><span class="line">+----------------------+-------------------+</span><br><span class="line">| collation_connection | latin1_swedish_ci |</span><br><span class="line">| collation_database   | latin1_swedish_ci |</span><br><span class="line">| collation_server     | latin1_swedish_ci |</span><br><span class="line">+----------------------+-------------------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>MySQL8.0的默认字符集</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &#x27;%character%&#x27;;</span><br><span class="line">+--------------------------+--------------------------------+</span><br><span class="line">| Variable_name            | Value                          |</span><br><span class="line">+--------------------------+--------------------------------+</span><br><span class="line">| character_set_client     | latin1                         |</span><br><span class="line">| character_set_connection | latin1                         |</span><br><span class="line">| character_set_database   | utf8mb4                        |</span><br><span class="line">| character_set_filesystem | binary                         |</span><br><span class="line">| character_set_results    | latin1                         |</span><br><span class="line">| character_set_server     | utf8mb4                        |</span><br><span class="line">| character_set_system     | utf8mb3                        |</span><br><span class="line">| character_sets_dir       | /usr/share/mysql-8.0/charsets/ |</span><br><span class="line">+--------------------------+--------------------------------+</span><br><span class="line">8 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; show variables like &#x27;%collation%&#x27;;</span><br><span class="line">+-------------------------------+--------------------+</span><br><span class="line">| Variable_name                 | Value              |</span><br><span class="line">+-------------------------------+--------------------+</span><br><span class="line">| collation_connection          | latin1_swedish_ci  |</span><br><span class="line">| collation_database            | utf8mb4_0900_ai_ci |</span><br><span class="line">| collation_server              | utf8mb4_0900_ai_ci |</span><br><span class="line">| default_collation_for_utf8mb4 | utf8mb4_0900_ai_ci |</span><br><span class="line">+-------------------------------+--------------------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>查看mysql table字段的字符集</p>
-<p>MySQL5.7</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table user</span><br><span class="line">(</span><br><span class="line">    id bigint unsigned auto_increment comment &#x27;主键&#x27; primary key,</span><br><span class="line">    username varchar(128) not null comment &#x27;用户名&#x27;,</span><br><span class="line">    email varchar(128) not null comment &#x27;邮箱&#x27;</span><br><span class="line">)</span><br><span class="line">comment &#x27;用户表&#x27; charset=utf8mb4;</span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT COLUMN_NAME, CHARACTER_SET_NAME, COLLATION_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = &#x27;default&#x27; and TABLE_NAME = &#x27;user&#x27;;</span><br><span class="line">+-------------+--------------------+--------------------+</span><br><span class="line">| COLUMN_NAME | CHARACTER_SET_NAME | COLLATION_NAME     |</span><br><span class="line">+-------------+--------------------+--------------------+</span><br><span class="line">| id          | NULL               | NULL               |</span><br><span class="line">| username    | utf8mb4            | utf8mb4_general_ci |</span><br><span class="line">| email       | utf8mb4            | utf8mb4_general_ci |</span><br><span class="line">+-------------+--------------------+--------------------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>或者</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mysql &gt; CREATE TABLE IF NOT EXISTS `t_user` (`username` varchar(64) NOT NULL,`password` varchar(11) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8;</span><br><span class="line"></span><br><span class="line">mysql &gt; SELECT COLUMN_NAME, CHARACTER_SET_NAME, COLLATION_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = &#x27;default&#x27; and TABLE_NAME = &#x27;t_user&#x27;;</span><br><span class="line">+-------------+--------------------+-----------------+</span><br><span class="line">| COLUMN_NAME | CHARACTER_SET_NAME | COLLATION_NAME  |</span><br><span class="line">+-------------+--------------------+-----------------+</span><br><span class="line">| username    | utf8               | utf8_general_ci |</span><br><span class="line">| password    | utf8               | utf8_general_ci |</span><br><span class="line">+-------------+--------------------+-----------------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>MySQL8.0</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; CREATE TABLE IF NOT EXISTS `t_user123` (`username` varchar(64) NOT NULL,`password` varchar(11) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8;</span><br><span class="line">Query OK, 0 rows affected, 1 warning (0.02 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT COLUMN_NAME, CHARACTER_SET_NAME, COLLATION_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = &#x27;test&#x27; and TABLE_NAME = &#x27;t_user123&#x27;;</span><br><span class="line">+-------------+--------------------+-----------------+</span><br><span class="line">| COLUMN_NAME | CHARACTER_SET_NAME | COLLATION_NAME  |</span><br><span class="line">+-------------+--------------------+-----------------+</span><br><span class="line">| password    | utf8mb3            | utf8_general_ci |</span><br><span class="line">| username    | utf8mb3            | utf8_general_ci |</span><br><span class="line">+-------------+--------------------+-----------------+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong>utf8</strong>（别名utf8mb3）utf8 是 MySQL 早期版本使用的字符集，它实际上是 UTF-8 的一种实现，只支持最多 3 字节来存储一个字符。utf8 是 utf8mb3 的别名。从 MySQL 8.0.28 版本开始，utf8 已经被明确标识为 utf8mb3，但在此之前，它们是同义的。utf8适用于大多数情况，但不能用于需要存储 4 字节 UTF-8 字符的场景（如表情符号）。</p>
-<p><strong>utf8mb4</strong> 是 MySQL 完整实现的 UTF-8 字符集，支持最多 4 字节来存储一个字符。支持所有 Unicode 字符，包括所有表情符号和扩展字符。</p>
-<p><strong>utf8mb4_general_ci</strong> 的 ci 表示 <strong>case-insensitive</strong>，即<strong>不区分大小写</strong>。</p>
-<p><strong>utf8mb4_bin</strong> 的 bin 表示 <strong>binary</strong>，这种排序规则是<strong>区分大小写</strong>的。</p>
-<p>将字段类型修改成可区别大小写</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE your_table_name (column_name VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>在创建表的时候指定可区别大小写</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE user (</span><br><span class="line">    id BIGINT UNSIGNED AUTO_INCREMENT COMMENT &#x27;主键&#x27; PRIMARY KEY,</span><br><span class="line">    username VARCHAR(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT &#x27;用户名&#x27;,</span><br><span class="line">    email VARCHAR(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT &#x27;邮箱&#x27;</span><br><span class="line">) </span><br><span class="line">COMMENT &#x27;用户表&#x27; CHARSET=utf8mb4;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果想区分case insensitive的字段，也可以使用binary函数将其转换成大小写敏感的，如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select * from user where binary username = &#x27;mlinnockax&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="2-Database"><a href="#2-Database" class="headerlink" title="2. Database"></a><strong>2. Database</strong></h2><h3 id="1-列出MySQL服务器主机上的数据库"><a href="#1-列出MySQL服务器主机上的数据库" class="headerlink" title="1.列出MySQL服务器主机上的数据库"></a>1.列出MySQL服务器主机上的数据库</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SHOW DATABASES[LIKE wild];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="2-用给定的名字创建一个数据库"><a href="#2-用给定的名字创建一个数据库" class="headerlink" title="2. 用给定的名字创建一个数据库"></a>2. 用给定的名字创建一个数据库</h3><p>语法：CREATE DATABASE[IF NO EXISTS]
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95.html#more">全文 &gt;&gt;</a>
@@ -719,23 +578,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -768,28 +610,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>confleunt提供了一些方法，可以将protobuf schema转换成avro schema，用于支持将kafka protobuf序列化的message落盘成avro格式的文件</p>
-<h2 id="1-引入依赖"><a href="#1-引入依赖" class="headerlink" title="1.引入依赖"></a>1.引入依赖</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">&lt;repositories&gt;</span><br><span class="line">    &lt;repository&gt;</span><br><span class="line">        &lt;id&gt;cloudera&lt;/id&gt;</span><br><span class="line">        &lt;url&gt;https://repository.cloudera.com/artifactory/cloudera-repos/&lt;/url&gt;</span><br><span class="line">    &lt;/repository&gt;</span><br><span class="line">    &lt;repository&gt;</span><br><span class="line">        &lt;id&gt;confluent&lt;/id&gt;</span><br><span class="line">        &lt;url&gt;https://packages.confluent.io/maven/&lt;/url&gt;</span><br><span class="line">    &lt;/repository&gt;</span><br><span class="line">&lt;/repositories&gt;</span><br><span class="line"></span><br><span class="line">&lt;dependencies&gt;</span><br><span class="line">    &lt;!--pb--&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;com.google.protobuf&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;protobuf-java&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;3.21.7&lt;/version&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;!--confluent--&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;io.confluent&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;kafka-schema-registry&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;7.1.1&lt;/version&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;io.confluent&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;kafka-protobuf-provider&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;7.1.1&lt;/version&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;io.confluent&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;kafka-connect-avro-data&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;7.1.1&lt;/version&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;io.confluent&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;kafka-connect-protobuf-converter&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;7.1.1&lt;/version&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;io.confluent&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;kafka-connect-avro-data&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;7.1.1&lt;/version&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;!--kafka--&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.apache.kafka&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;connect-api&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;1.1.0&lt;/version&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">&lt;/dependencies&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="2-定义protobuf-schema"><a href="#2-定义protobuf-schema" class="headerlink" title="2.定义protobuf schema"></a>2.定义protobuf schema</h2><p>定义一个protobuf schema</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">syntax = &quot;proto3&quot;;</span><br><span class="line">package com.acme;</span><br><span class="line"></span><br><span class="line">message MyRecord &#123;</span><br><span class="line">  string f1 = 1;</span><br><span class="line">  OtherRecord f2 = 2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message OtherRecord &#123;</span><br><span class="line">  int32 other_id = 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>编译java代码</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">protoc -I=./ --java_out=./src/main/java ./src/main/proto/other.proto</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>得到schema的java代码</p>
-<img src="/images/517519-20231026122002799-1052709931.png" width="300" height="81" loading="lazy" />
-
-<h2 id="3-将protobuf-schema转换成avro-schema"><a href="#3-将protobuf-schema转换成avro-schema" class="headerlink" title="3.将protobuf schema转换成avro schema"></a>3.将protobuf schema转换成avro schema</h2><p>confluent schema registry在处理处理protobuf，avro，json格式的数据的时候，会统一先将其转换成connect schema格式的数据，然后再将其写成parquet，avro等具体的文件格式</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">import com.acme.Other;</span><br><span class="line">import io.confluent.connect.avro.AvroData;</span><br><span class="line">import io.confluent.connect.avro.AvroDataConfig;</span><br><span class="line">import io.confluent.connect.protobuf.ProtobufData;</span><br><span class="line">import io.confluent.kafka.schemaregistry.protobuf.ProtobufSchema;</span><br><span class="line">import io.confluent.kafka.schemaregistry.protobuf.ProtobufSchemaUtils;</span><br><span class="line">import org.apache.kafka.connect.data.SchemaAndValue;</span><br><span class="line"></span><br><span class="line">public class ProtobufToAvro &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        // 初始化protobuf定义的类</span><br><span class="line">        Other.MyRecord obj = Other.MyRecord.newBuilder().build();</span><br><span class="line">        // 获取pb schema</span><br><span class="line">        ProtobufSchema pbSchema = ProtobufSchemaUtils.getSchema(obj);</span><br><span class="line">        ProtobufData protobufData = new ProtobufData();</span><br><span class="line">//        SchemaAndValue result = protobufData.toConnectData(pbSchema, obj);</span><br><span class="line">//        System.out.println(result);</span><br><span class="line"></span><br><span class="line">        AvroDataConfig avroDataConfig = new AvroDataConfig.Builder()</span><br><span class="line">                .with(AvroDataConfig.SCHEMAS_CACHE_SIZE_CONFIG, 1)</span><br><span class="line">                .with(AvroDataConfig.CONNECT_META_DATA_CONFIG, false)</span><br><span class="line">                .with(AvroDataConfig.ENHANCED_AVRO_SCHEMA_SUPPORT_CONFIG, true)</span><br><span class="line">                .build();</span><br><span class="line">        AvroData avroData = new AvroData(avroDataConfig);</span><br><span class="line">        // 先将protobuf schema转换成connect schema，然后再转换成avro schema</span><br><span class="line">        org.apache.avro.Schema avroSchema = avroData.fromConnectSchema(protobufData.toConnectSchema(pbSchema));</span><br><span class="line">        System.out.println(avroSchema);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>转换的avro schema输出如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   &quot;type&quot;:&quot;record&quot;,</span><br><span class="line">   &quot;name&quot;:&quot;MyRecord&quot;,</span><br><span class="line">   &quot;fields&quot;:[</span><br><span class="line">      &#123;</span><br><span class="line">         &quot;name&quot;:&quot;f1&quot;,</span><br><span class="line">         &quot;type&quot;:[</span><br><span class="line">            &quot;null&quot;,</span><br><span class="line">            &quot;string&quot;</span><br><span class="line">         ],</span><br><span class="line">         &quot;default&quot;:null</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">         &quot;name&quot;:&quot;f2&quot;,</span><br><span class="line">         &quot;type&quot;:[</span><br><span class="line">            &quot;null&quot;,</span><br><span class="line">            &#123;</span><br><span class="line">               &quot;type&quot;:&quot;record&quot;,</span><br><span class="line">               &quot;name&quot;:&quot;OtherRecord&quot;,</span><br><span class="line">               &quot;fields&quot;:[</span><br><span class="line">                  &#123;</span><br><span class="line">                     &quot;name&quot;:&quot;other_id&quot;,</span><br><span class="line">                     &quot;type&quot;:[</span><br><span class="line">                        &quot;null&quot;,</span><br><span class="line">                        &quot;int&quot;</span><br><span class="line">                     ],</span><br><span class="line">                     &quot;default&quot;:null</span><br><span class="line">                  &#125;</span><br><span class="line">               ]</span><br><span class="line">            &#125;</span><br><span class="line">         ],</span><br><span class="line">         &quot;default&quot;:null</span><br><span class="line">      &#125;</span><br><span class="line">   ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>注意：confluent在具体实现的时候，比较严谨，在protobuf的uint32（0 到 2^32 -1）的时候，会统一转换成long（-2^63 ~ 2^63-1）,不会出现越界的情况，参考源码</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/confluentinc/schema-registry/blob/v7.1.1/protobuf-converter/src/main/java/io/confluent/connect/protobuf/ProtobufData.java#L1485</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>转换实现参考源码</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/confluentinc/schema-registry/blob/v7.1.1/avro-data/src/test/java/io/confluent/connect/avro/AdditionalAvroDataTest.java</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="1-引入依赖"><a href="#1-引入依赖" class="headerlink" title="1.引入依赖"></a>1.引入依赖</h2>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E4%BD%BF%E7%94%A8confluent%20schema%20registry%E5%B0%86protobuf%20schema%E8%BD%AC%E6%8D%A2%E6%88%90avro%20schema.html#more">全文 &gt;&gt;</a>
@@ -815,23 +636,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -906,23 +710,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </article>
 
 
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
-
 
 
   
@@ -989,23 +776,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </article>
 
 
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
-
 
 
   
@@ -1037,10 +807,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="1-使用java语言来实现avro序列化和反序列化"><a href="#1-使用java语言来实现avro序列化和反序列化" class="headerlink" title="1.使用java语言来实现avro序列化和反序列化"></a>1.使用java语言来实现avro序列化和反序列化</h2><p>使用DatumWriter和DatumReader对avro进行序列化和反序列化</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">public static &lt;T&gt; byte[] binarySerializable(T t) &#123;</span><br><span class="line">    ByteArrayOutputStream out = new ByteArrayOutputStream();</span><br><span class="line">    BinaryEncoder binaryEncoder = EncoderFactory.get().binaryEncoder(out, null);</span><br><span class="line">    DatumWriter&lt;T&gt; writer = new SpecificDatumWriter&lt;T&gt;((Class&lt;T&gt;) t.getClass());</span><br><span class="line">    try &#123;</span><br><span class="line">        writer.write(t, binaryEncoder);</span><br><span class="line">        binaryEncoder.flush();</span><br><span class="line">        out.flush();</span><br><span class="line">    &#125; catch (IOException e) &#123;</span><br><span class="line">        LOGGER.error(&quot;binary serializable error&quot;);</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    LOGGER.debug(&quot;ByteArrayOutputStream = &#123;&#125;&quot;, new String(out.toByteArray()));</span><br><span class="line">    return out.toByteArray();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public static &lt;T&gt; T binaryDeserialize(byte[] bytes, Schema schema) &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        BinaryDecoder binaryDecoder = DecoderFactory.get().binaryDecoder(bytes, null);</span><br><span class="line">        DatumReader&lt;T&gt; datumReader = new SpecificDatumReader&lt;T&gt;(schema);</span><br><span class="line">        T read = datumReader.read(null, binaryDecoder);</span><br><span class="line">        return read;</span><br><span class="line">    &#125; catch (IOException e) &#123;</span><br><span class="line">        LOGGER.error(&quot;binary deserialize error&quot;);</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    return null;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>使用Twitter 的 Bijection 类库来实现avro对象的序列化和反序列化</p>
-<p>参考：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/a70950bab06d">Kafka 中使用 Avro 序列化框架(二)：使用 Twitter 的 Bijection 类库实现 avro 的序列化与反序列化</a></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/avro%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%9E%E7%8E%B0%E5%BA%8F%E5%88%97%E5%8C%96%E5%92%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96.html#more">全文 &gt;&gt;</a>
@@ -1066,23 +832,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -1122,6 +871,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>　　再创建一个TestObject2.java，然后在web.xml中写<load-on-startup>2</load-on-startup></p>
 <p>　　</p>
 <p>　　　　1&gt;在Servlet的配置文件中，可以使用一个或多个<init-param>标签为servlet配置一些初始化参数。（配置在某个servlet标签或者整个web-app下）</p>
+<p>&nbsp; &nbsp; &nbsp;　　&nbsp;2&gt;当servlet配置了初始化参数后，web容器在创建servlet实例对象时，会自动将这些初始化参数封装到ServletConfig对象中，</p>
+<p>&nbsp; &nbsp; &nbsp; 并在调用servlet的init方法时，将ServletConfig对象传递给servlet。进而，程序员通过ServletConfig对象就可以得到当前servlet的初始化参数信息。</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/SpringMVC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ServletConfig%E5%92%8CServletContext.html#more">全文 &gt;&gt;</a>
@@ -1147,23 +898,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 

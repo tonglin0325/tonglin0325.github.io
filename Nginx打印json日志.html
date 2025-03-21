@@ -5,16 +5,16 @@
   
   <title>Nginx打印json日志 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.修改配置，在http{}中添加 123456789101112131415log_format access_json &amp;#x27;&amp;#123;&quot;@timestamp&quot;:&quot;$time_iso8601&quot;,&amp;#x27;                           &amp;#x27;&quot;host&quot;:&quot;$server_addr&amp;qu">
+  <meta name="description" content="1.修改配置，在http{}中添加">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Nginx打印json日志">
 <meta property="og:url" content="http://tonglin0325.github.io/Nginx%E6%89%93%E5%8D%B0json%E6%97%A5%E5%BF%97.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="1.修改配置，在http{}中添加 123456789101112131415log_format access_json &amp;#x27;&amp;#123;&quot;@timestamp&quot;:&quot;$time_iso8601&quot;,&amp;#x27;                           &amp;#x27;&quot;host&quot;:&quot;$server_addr&amp;qu">
+<meta property="og:description" content="1.修改配置，在http{}中添加">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20191012184314679-707127817.png">
 <meta property="article:published_time" content="2019-10-11T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:16.740Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:06.734Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="nginx">
 <meta name="twitter:card" content="summary">
@@ -211,9 +211,10 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </div>
 
         <p>1.修改配置，在http{}中添加</p>
+<span id="more"></span>
+
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">log_format access_json &#x27;&#123;&quot;@timestamp&quot;:&quot;$time_iso8601&quot;,&#x27;</span><br><span class="line">                           &#x27;&quot;host&quot;:&quot;$server_addr&quot;,&#x27;</span><br><span class="line">                           &#x27;&quot;clientip&quot;:&quot;$remote_addr&quot;,&#x27;</span><br><span class="line">                           &#x27;&quot;size&quot;:$body_bytes_sent,&#x27;</span><br><span class="line">                           &#x27;&quot;responsetime&quot;:$request_time,&#x27;</span><br><span class="line">                           &#x27;&quot;upstreamtime&quot;:&quot;$upstream_response_time&quot;,&#x27;</span><br><span class="line">                           &#x27;&quot;upstreamhost&quot;:&quot;$upstream_addr&quot;,&#x27;</span><br><span class="line">                           &#x27;&quot;http_host&quot;:&quot;$host&quot;,&#x27;</span><br><span class="line">                           &#x27;&quot;url&quot;:&quot;$uri&quot;,&#x27;</span><br><span class="line">                           &#x27;&quot;domain&quot;:&quot;$host&quot;,&#x27;</span><br><span class="line">                           &#x27;&quot;xff&quot;:&quot;$http_x_forwarded_for&quot;,&#x27;</span><br><span class="line">                           &#x27;&quot;referer&quot;:&quot;$http_referer&quot;,&#x27;</span><br><span class="line">                           &#x27;&quot;status&quot;:&quot;$status&quot;&#125;&#x27;;</span><br><span class="line">access_log  /var/log/nginx/access.log  access_json;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<span id="more"></span>
 <p>&nbsp;<img src="/images/517519-20191012184314679-707127817.png" alt></p>
 <p>&nbsp;</p>
 <p>&nbsp;2.重启</p>

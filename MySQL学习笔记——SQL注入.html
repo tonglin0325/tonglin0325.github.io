@@ -5,16 +5,16 @@
   
   <title>MySQL学习笔记——SQL注入 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.常见SQL注入的方法#假设我们使用goland的GORM框架写了以下面SQL 123456err :&#x3D; u.data.db.Raw(&quot;select id, username, email from user where username &#x3D; &amp;#x27;&quot; + s + &quot;&amp;#x27;&quot;).Scan(&amp;amp;user).Errorif err !">
+  <meta name="description" content="1.常见SQL注入的方法假设我们使用goland的GORM框架写了以下面SQL">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL学习笔记——SQL注入">
 <meta property="og:url" content="http://tonglin0325.github.io/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94SQL%E6%B3%A8%E5%85%A5.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="1.常见SQL注入的方法#假设我们使用goland的GORM框架写了以下面SQL 123456err :&#x3D; u.data.db.Raw(&quot;select id, username, email from user where username &#x3D; &amp;#x27;&quot; + s + &quot;&amp;#x27;&quot;).Scan(&amp;amp;user).Errorif err !">
+<meta property="og:description" content="1.常见SQL注入的方法假设我们使用goland的GORM框架写了以下面SQL">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240316204314792-358820179.png">
 <meta property="article:published_time" content="2015-06-28T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:28.253Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:12.057Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary">
@@ -211,6 +211,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </div>
 
         <h2 id="1-chang-jian-sql-zhu-ru-de-fang-fa"><a href="#1-常见SQL注入的方法" class="headerlink" title="1.常见SQL注入的方法"></a>1.常见SQL注入的方法<a href="#1-chang-jian-sql-zhu-ru-de-fang-fa" class="header-anchor">#</a></h2><p>假设我们使用goland的GORM框架写了以下面SQL</p>
+<span id="more"></span>
+
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">err := u.data.db.Raw(&quot;select id, username, email from user where username = &#x27;&quot; + s + &quot;&#x27;&quot;).Scan(&amp;amp;user).Error</span><br><span class="line">if err != nil &#123;</span><br><span class="line">	u.log.Error(fmt.Sprintf(&quot;find user by id username fail, error: %v&quot;, err))</span><br><span class="line">	return nil, err</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>如果正常的查询参数的值为test123，请求如下接口传入该值</p>

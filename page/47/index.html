@@ -199,6 +199,12 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
+        <!-- 目录 -->
+
+<div id="toc">
+  
+</div>
+
         <ol>
 <li>安装filebeat，选择tar包安装方式，下载并解压</li>
 </ol>
@@ -209,15 +215,24 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </ol>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mv filebeat.yml filebeat.yml.bak</span><br><span class="line">touch filebeat.yml</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>配置文件内容
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/Filebeat%E9%87%87%E9%9B%86%E6%96%87%E6%9C%AC%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E5%8F%91%E9%80%81%E5%88%B0kafka.html#more">全文 &gt;&gt;</a>
-          </p>
-        
+<p>配置文件内容&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">logging.level: info</span><br><span class="line">logging.to_files: true</span><br><span class="line">logging.files:</span><br><span class="line">    path: /data/log_path/filebeat</span><br><span class="line">    name: filebeat</span><br><span class="line">    keepfiles: 7</span><br><span class="line">    permissions: 0644</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">filebeat.inputs:</span><br><span class="line">-   type: log</span><br><span class="line">    enabled: true</span><br><span class="line">    paths:</span><br><span class="line">        - /your_file_name</span><br><span class="line">    scan_frequency: 1s</span><br><span class="line">    backoff: 1s</span><br><span class="line">    max_backoff: 1s</span><br><span class="line">    ignore_older: 24h</span><br><span class="line">    close_inactive: 30m</span><br><span class="line">    close_timeout: 24h</span><br><span class="line">    clean_inactive: 720h</span><br><span class="line">    encoding: utf-8</span><br><span class="line"> </span><br><span class="line">output.kafka:</span><br><span class="line">    version: &quot;2.0.0&quot;</span><br><span class="line">    enabled: true</span><br><span class="line">    hosts: your_kafka_ip:tour_kafka_port</span><br><span class="line">    topic: your_kafka_topic  # topic name</span><br><span class="line">    username: xxxxxx   # kafka username</span><br><span class="line">    password: xxxxxx   # kafka password</span><br><span class="line">    required_acks: 1</span><br><span class="line">    compression: gzip</span><br><span class="line">    max_message_bytes: 1000000</span><br><span class="line">    codec.format:</span><br><span class="line">        string: &#x27;%&#123;[message]&#125;&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
+<ol start="3">
+<li>启动脚本</li>
+</ol>
+<p>&nbsp;</p>
+
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/Filebeat%E9%87%87%E9%9B%86%E6%96%87%E6%9C%AC%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E5%8F%91%E9%80%81%E5%88%B0kafka.html"></a>
+          </div>
+        </div>
       
     </div>
+
+    
+      
 
     
 
@@ -235,23 +250,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -284,6 +282,11 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>在java.util包中提供了<strong>Observable类</strong>和<strong>Observer接口</strong>，使用它们即可完成<strong>观察者模式</strong>。</p>
+<p>&nbsp;</p>
+<img src="/images/517519-20160312234318397-1659122869.png" alt="" />
+
+<p>&nbsp;</p>
+<p><strong>多个观察者都在关注着价格的变化，只要价格一有变化，则所有的观察者会立即有所行动。</strong></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Java%E8%A7%82%E5%AF%9F%E8%80%85%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.html#more">全文 &gt;&gt;</a>
@@ -309,23 +312,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -359,6 +345,14 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>代理模式是一种设计模式，提供了对目标对象额外的访问方式，即通过代理对象访问目标对象，这样可以在不修改原目标对象的前提下，提供额外的功能操作，扩展目标对象的功能。</p>
 <img src="/images/517519-20210627213011652-1197436829.png" width="500" height="471" loading="lazy" />
+
+<p>&nbsp;</p>
+<p><strong>1.静态代理：</strong>&nbsp;在编译时就已经实现，编译完成后代理类是一个实际的class文件</p>
+<p>静态代理的方式：创建一个接口，然后创建被代理的类实现该接口并且实现该接口中的抽象方法。之后再创建一个代理类，同时使其也实现这个接口。在代理类中持有一个被代理对象的引用，而后在代理类方法中调用该对象的方法。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/GT1-yrxJ5KF0xeMydbJDCQ#">什么是动态代理？</a>&nbsp;</p>
+<p><strong>2.动态代理：</strong>&nbsp;在运行时动态生成的，即编译完成后没有实际的class文件，而是<strong>在运行时动态生成类字节码，并加载到JVM中</strong></p>
+<p>动态代理的方式：JDK动态代理 和 CGLIB动态代理</p>
+<p>在springboot 2.x中默认使用的CGLIB动态代理，如果要强制使用JDK代理的话，需要添加配置</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86.html#more">全文 &gt;&gt;</a>
@@ -384,23 +378,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -433,19 +410,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>清华镜像站</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/h/haproxy/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>下载haproxy</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/h/haproxy/haproxy_1.6.3-1ubuntu0.3_amd64.deb</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>安装haproxy</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo dpkg -i ./haproxy_1.6.3-1ubuntu0.3_amd64.deb</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>编辑配置文件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/haproxy/haproxy.cfg</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>其默认配置如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">global</span><br><span class="line">        log /dev/log    local0</span><br><span class="line">        log /dev/log    local1 notice</span><br><span class="line">        chroot /var/lib/haproxy</span><br><span class="line">        stats socket /run/haproxy/admin.sock mode 660 level admin</span><br><span class="line">        stats timeout 30s</span><br><span class="line">        user haproxy</span><br><span class="line">        group haproxy</span><br><span class="line">        daemon</span><br><span class="line"></span><br><span class="line">        # Default SSL material locations</span><br><span class="line">        ca-base /etc/ssl/certs</span><br><span class="line">        crt-base /etc/ssl/private</span><br><span class="line"></span><br><span class="line">        # Default ciphers to use on SSL-enabled listening sockets.</span><br><span class="line">        # For more information, see ciphers(1SSL). This list is from:</span><br><span class="line">        #  https://hynek.me/articles/hardening-your-web-servers-ssl-ciphers/</span><br><span class="line">        ssl-default-bind-ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS</span><br><span class="line">        ssl-default-bind-options no-sslv3</span><br><span class="line"></span><br><span class="line">defaults</span><br><span class="line">        log     global</span><br><span class="line">        mode    http</span><br><span class="line">        option  httplog</span><br><span class="line">        option  dontlognull</span><br><span class="line">        timeout connect 5000</span><br><span class="line">        timeout client  50000</span><br><span class="line">        timeout server  50000</span><br><span class="line">        errorfile 400 /etc/haproxy/errors/400.http</span><br><span class="line">        errorfile 403 /etc/haproxy/errors/403.http</span><br><span class="line">        errorfile 408 /etc/haproxy/errors/408.http</span><br><span class="line">        errorfile 500 /etc/haproxy/errors/500.http</span><br><span class="line">        errorfile 502 /etc/haproxy/errors/502.http</span><br><span class="line">        errorfile 503 /etc/haproxy/errors/503.http</span><br><span class="line">        errorfile 504 /etc/haproxy/errors/504.http</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/ubuntu16.04%E5%AE%89%E8%A3%85haproxy.html#more">全文 &gt;&gt;</a>
@@ -471,23 +435,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -520,12 +467,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/zhangshenghang/article/details/104447587">Yarn 监控 - 监控任务运行状态 （包括Spark，MR 所有在Yarn中运行的任务）</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line">    //获取任务的applicationId</span><br><span class="line">    public static String getAppId(String jobName) throws IOException &#123;</span><br><span class="line"></span><br><span class="line">        Configuration conf = new Configuration();</span><br><span class="line">        System.setProperty(&quot;java.security.krb5.conf&quot;, &quot;/etc/krb5.conf&quot;);</span><br><span class="line">        conf.set(&quot;hadoop.security.authentication&quot;, &quot;Kerberos&quot;);</span><br><span class="line">        UserGroupInformation.setConfiguration(conf);</span><br><span class="line">        UserGroupInformation.loginUserFromKeytab(&quot;hdfs@XXXX&quot;, &quot;/home/xxxx/hdfs.keytab&quot;);</span><br><span class="line"></span><br><span class="line">        YarnClient client = YarnClient.createYarnClient();</span><br><span class="line">        client.init(conf);</span><br><span class="line">        client.start();</span><br><span class="line">        EnumSet&lt;YarnApplicationState&gt; appStates = EnumSet.noneOf(YarnApplicationState.class);</span><br><span class="line"></span><br><span class="line">        if (appStates.isEmpty()) &#123;</span><br><span class="line">            appStates.add(YarnApplicationState.RUNNING);</span><br><span class="line">            appStates.add(YarnApplicationState.ACCEPTED);</span><br><span class="line">            appStates.add(YarnApplicationState.SUBMITTED);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        List&lt;ApplicationReport&gt; appsReport = null;</span><br><span class="line">        try &#123;</span><br><span class="line">            // 返回EnumSet&lt;YarnApplicationState&gt;中个人任务状态的所有任务</span><br><span class="line">            appsReport = client.getApplications(appStates);</span><br><span class="line">        &#125; catch (YarnException | IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        assert appsReport != null;</span><br><span class="line"></span><br><span class="line">        for (ApplicationReport appReport : appsReport) &#123;</span><br><span class="line">            System.out.println(appReport);</span><br><span class="line">            // 获取任务名</span><br><span class="line">            String jn = appReport.getName();</span><br><span class="line">            String applicationType = appReport.getApplicationType();</span><br><span class="line">            if (jn.equals(jobName)) &#123; // &amp;amp;&amp;amp; &quot;Apache Flink&quot;.equals(applicationType)) &#123;</span><br><span class="line">                try &#123;</span><br><span class="line">                    client.close();</span><br><span class="line">                &#125; catch (IOException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">                return appReport.getApplicationId().toString();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        try &#123;</span><br><span class="line">            client.close();</span><br><span class="line">        &#125; catch (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 根据任务的applicationId去获取任务的状态</span><br><span class="line">    public static YarnApplicationState getState(String appId) throws IOException &#123;</span><br><span class="line"></span><br><span class="line">        Configuration conf = new Configuration();</span><br><span class="line">        System.setProperty(&quot;java.security.krb5.conf&quot;, &quot;/etc/krb5.conf&quot;);</span><br><span class="line">        conf.set(&quot;hadoop.security.authentication&quot;, &quot;Kerberos&quot;);</span><br><span class="line">        UserGroupInformation.setConfiguration(conf);</span><br><span class="line">        UserGroupInformation.loginUserFromKeytab(&quot;hdfs@XXXXX&quot;, &quot;/home/xxxx/hdfs.keytab&quot;);</span><br><span class="line"></span><br><span class="line">        YarnClient client = YarnClient.createYarnClient();</span><br><span class="line">        client.init(conf);</span><br><span class="line">        client.start();</span><br><span class="line">        ApplicationId applicationId = ConverterUtils.toApplicationId(appId);</span><br><span class="line">        YarnApplicationState yarnApplicationState = null;</span><br><span class="line">        try &#123;</span><br><span class="line">            ApplicationReport applicationReport = client.getApplicationReport(applicationId);</span><br><span class="line">            yarnApplicationState = applicationReport.getYarnApplicationState();</span><br><span class="line">        &#125; catch (YarnException | IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        try &#123;</span><br><span class="line">            client.close();</span><br><span class="line">        &#125; catch (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return yarnApplicationState;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws IOException, InterruptedException &#123;</span><br><span class="line">        String state = getAppId(&quot;job_xxxxx&quot;);</span><br><span class="line">        System.out.println(state);</span><br><span class="line">//        System.out.println(state == YarnApplicationState.RUNNING);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>输出</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">applicationId &#123; id: 279 cluster_timestamp: 1620359479641 &#125; </span><br><span class="line">user: &quot;dl&quot; </span><br><span class="line">queue: &quot;root.xxxx&quot; </span><br><span class="line">name: &quot;xxx-flink&quot; </span><br><span class="line">host: &quot;xxxxx&quot; </span><br><span class="line">rpc_port: 18000 </span><br><span class="line">client_to_am_token &#123; identifier: &quot;xxxx@XXXX&quot; password: &quot;;xxxxx&quot; kind: &quot;YARN_CLIENT_TOKEN&quot; service: &quot;&quot; &#125; </span><br><span class="line">yarn_application_state: RUNNING </span><br><span class="line">trackingUrl: &quot;http://xxxxx:8088/proxy/application_xxxxx/&quot; </span><br><span class="line">diagnostics: &quot;&quot; </span><br><span class="line">startTime: 1620391776339 </span><br><span class="line">finishTime: 0 </span><br><span class="line">final_application_status: APP_UNDEFINED </span><br><span class="line">app_resource_Usage &#123; num_used_containers: 4 num_reserved_containers: 0 used_resources &#123; memory: 8192 virtual_cores: 7 &#125; reserved_resources &#123; memory: 0 virtual_cores: 0 &#125; needed_resources &#123; memory: 8192 virtual_cores: 7 &#125; memory_seconds: 12703546778 vcore_seconds: 10855065 &#125; </span><br><span class="line">originalTrackingUrl: &quot;http://xxxx:18000&quot; currentApplicationAttemptId &#123; application_id &#123; id: 279 cluster_timestamp: 1620359479641 &#125; attemptId: 1 &#125; progress: 1.0 </span><br><span class="line">applicationType: &quot;XXXX Flink&quot; </span><br><span class="line">log_aggregation_status: LOG_NOT_START</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>　　</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/yarn%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94yarn%20api.html#more">全文 &gt;&gt;</a>
@@ -551,23 +492,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -636,23 +560,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </article>
 
 
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
-
 
 
   
@@ -683,7 +590,9 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在使用mybatis-generator自动生成mapper代码的时候，对于基本的增删改查方法可以通过继承通用mapper的方式进行简化，参考：<a target="_blank" rel="noopener" href="https://mapperhelper.github.io/docs/5.professional/">MyBatis 通用 Mapper
+        <p>在使用mybatis-generator自动生成mapper代码的时候，对于基本的增删改查方法可以通过继承通用mapper的方式进行简化，参考：<a target="_blank" rel="noopener" href="https://mapperhelper.github.io/docs/5.professional/">MyBatis 通用 Mapper&nbsp;&nbsp;5. 高级用法</a></p>
+<p>mapper接口，参考：<a target="_blank" rel="noopener" href="https://mapperhelper.github.io/all/">Mapper 接口大全</a></p>
+<p>1.依赖</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Mybatis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%80%9A%E7%94%A8mapper.html#more">全文 &gt;&gt;</a>
@@ -709,23 +618,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -759,10 +651,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>Spring Security是提供了认证，鉴权以及其他的安全特性的java框架，下面是Spring Security的使用教程</p>
 <p>1.引入依赖</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-security&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>引入依赖用会发现请求所有的接口都会跳转到 /login，要求你进行账号密码的认证</p>
-<img src="/images/517519-20210610192537624-491689321.png" alt="" loading="lazy" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94spring%20security.html#more">全文 &gt;&gt;</a>
@@ -788,23 +676,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -871,23 +742,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </article>
 
 
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
-
 
 
   
@@ -919,11 +773,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p><strong>查看容器的网络模式</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE                                    COMMAND                  CREATED             STATUS              PORTS               NAMES</span><br><span class="line">3f6822d8f262        confluentinc/cp-schema-registry:latest   &quot;/etc/confluent/dock&amp;hellip;&quot;   13 minutes ago      Up 13 minutes                           schema-registry</span><br><span class="line"></span><br><span class="line">docker inspect 3f6822d8f262 | grep -i &quot;network&quot;</span><br><span class="line">            &quot;NetworkMode&quot;: &quot;host&quot;,</span><br><span class="line">        &quot;NetworkSettings&quot;: &#123;</span><br><span class="line">            &quot;Networks&quot;: &#123;</span><br><span class="line">                    &quot;NetworkID&quot;: &quot;5d40a7d178679339f87cc31965ba9a1c662c74ccea853945967d4303e4f9acc0&quot;,</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>docker总共有4种网络模式，从上到下隔离度下降：</p>
-<p>1.Close容器，即<strong>none模式</strong>，运行在Close容器中的进程只能访问本地回环接口，隔离度最高</p>
-<p>2.Bridge容器，即<strong>bridge模式</strong>，当容器中的进程需要访问外部网络的时候应该使用，且bridge是docker的default网络模式。</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F.html#more">全文 &gt;&gt;</a>
@@ -949,23 +798,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 

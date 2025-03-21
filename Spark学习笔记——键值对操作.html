@@ -5,12 +5,12 @@
   
   <title>Spark学习笔记——键值对操作 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="键值对 RDD是 Spark 中许多操作所需要的常见数据类型 键值对 RDD 通常用来进行聚合计算。我们一般要先通过一些初始** ETL(抽取、转化、装载)**操作来将数据转化为键值对形式。 Spark 为包含键值对类型的 RDD 提供了一些专有的操作。">
+  <meta name="description" content="键值对 RDD是 Spark 中许多操作所需要的常见数据类型 键值对 RDD 通常用来进行聚合计算。我们一般要先通过一些初始** ETL(抽取、转化、装载)**操作来将数据转化为键值对形式。 Spark 为包含键值对类型的 RDD 提供了一些专有的操作。 &amp;nbsp; 1.创建Pair RDD">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spark学习笔记——键值对操作">
 <meta property="og:url" content="http://tonglin0325.github.io/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%94%AE%E5%80%BC%E5%AF%B9%E6%93%8D%E4%BD%9C.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="键值对 RDD是 Spark 中许多操作所需要的常见数据类型 键值对 RDD 通常用来进行聚合计算。我们一般要先通过一些初始** ETL(抽取、转化、装载)**操作来将数据转化为键值对形式。 Spark 为包含键值对类型的 RDD 提供了一些专有的操作。">
+<meta property="og:description" content="键值对 RDD是 Spark 中许多操作所需要的常见数据类型 键值对 RDD 通常用来进行聚合计算。我们一般要先通过一些初始** ETL(抽取、转化、装载)**操作来将数据转化为键值对形式。 Spark 为包含键值对类型的 RDD 提供了一些专有的操作。 &amp;nbsp; 1.创建Pair RDD">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170407183139019-524414097.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170407183510457-112776039.png">
@@ -18,7 +18,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170407193059863-1476536116.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170408165032441-580107157.png">
 <meta property="article:published_time" content="2017-04-06T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:17.243Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:07.176Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Spark">
 <meta name="twitter:card" content="summary">
@@ -217,9 +217,10 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p><strong>键值对 RDD</strong>是 Spark 中许多操作所需要的常见数据类型</p>
 <p>键值对 RDD 通常用来进行聚合计算。我们一般要先通过一些初始** ETL(抽取、转化、装载)**操作来将数据转化为键值对形式。</p>
 <p>Spark 为包含键值对类型的 RDD 提供了一些专有的操作。</p>
-<span id="more"></span>
 <p>&nbsp;</p>
 <p><strong>1.创建Pair RDD</strong></p>
+<span id="more"></span>
+
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">    val input = sc.parallelize(List(1, 2, 3, 4))</span><br><span class="line">　　val pairs = input.map(x =&gt; (x+1, x))</span><br><span class="line">    for (pair &lt;- pairs)&#123;</span><br><span class="line">      println(pair)</span><br><span class="line">    &#125;</span><br><span class="line">　　//输出</span><br><span class="line">(2,1)</span><br><span class="line">(3,2)</span><br><span class="line">(4,3)</span><br><span class="line">(5,4)       </span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>&nbsp;</p>

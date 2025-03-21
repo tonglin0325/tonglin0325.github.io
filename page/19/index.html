@@ -200,13 +200,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p><strong>进入HBase的安装目录，****启动HBase</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bin/start-hbase.sh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong>打开shell命令行模式</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bin/hbase shell</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong>关闭HBase</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bin/stop-hbase.sh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/HBase%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%ACCRUD%E6%93%8D%E4%BD%9C.html#more">全文 &gt;&gt;</a>
@@ -232,23 +225,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -291,7 +267,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p><strong>Spark 执行器节点</strong>是一种工作进程，负责在 Spark 作业中运行任务，任务间相互独立。 Spark 应用启动时， 执行器节点就被同时启动，并且始终伴随着整个 Spark 应用的生命周期而存在。</p>
 <p><strong>执行器进程</strong>有两大作用： 第一，它们负责运行组成 Spark 应用的任务，并将结果返回给驱动器进程； 第二，它们通过自身的块管理器（Block Manager）为用户程序中要求缓存的 RDD 提供内存式存储。</p>
 <p><strong>3.集群管理器：</strong></p>
-<p>驱动器节点和执行器节点是如何启动的呢？ Spark 依赖于集群管理器来启动执行器节点，而在某些特殊情况下，也依赖集群管理器来启动驱动器节点。</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Spark%20on%20YARN.html#more">全文 &gt;&gt;</a>
@@ -317,23 +292,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -367,6 +325,12 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p><strong>spark所支持的文件格式</strong></p>
 <img src="/images/517519-20170408171821253-1118136829.png" alt="" width="614" height="293" />
+
+<p>&nbsp;</p>
+<h2 id="1-文本文件"><a href="#1-文本文件" class="headerlink" title="1.文本文件"></a><strong>1.文本文件</strong></h2><p>在 Spark 中读写文本文件很容易。</p>
+<p>当我们将一个<strong>文本文件</strong>读取为** RDD** 时，<strong>输入的每一行</strong> 都会成为 <strong>RDD 的 一个元素</strong>。</p>
+<p>也可以将<strong>多个完整的文本文件</strong>一次性读取为<strong>一个 pair RDD</strong>， 其中<strong>键是文件名，值是文件内容</strong>。</p>
+<p>&nbsp;在 Scala 中<strong>读取一个文本文件</strong></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E8%AF%BB%E5%8F%96%E5%92%8C%E4%BF%9D%E5%AD%98.html#more">全文 &gt;&gt;</a>
@@ -392,23 +356,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -443,6 +390,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p><strong>键值对 RDD</strong>是 Spark 中许多操作所需要的常见数据类型</p>
 <p>键值对 RDD 通常用来进行聚合计算。我们一般要先通过一些初始** ETL(抽取、转化、装载)**操作来将数据转化为键值对形式。</p>
 <p>Spark 为包含键值对类型的 RDD 提供了一些专有的操作。</p>
+<p>&nbsp;</p>
+<p><strong>1.创建Pair RDD</strong></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%94%AE%E5%80%BC%E5%AF%B9%E6%93%8D%E4%BD%9C.html#more">全文 &gt;&gt;</a>
@@ -468,23 +417,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -519,13 +451,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p><strong>1.RDD&mdash;&mdash;弹性分布式数据集（Resilient Distributed Dataset）</strong></p>
 <p>RDD是一个分布式的元素集合，在Spark中，对数据的操作就是<strong>创建RDD</strong>、<strong>转换已有的RDD</strong>和<strong>调用RDD操作进行求值</strong>。</p>
 <p>Spark 中的 RDD 就是一个不可变的分布式对象集合。每个 RDD 都被分为多个分区,这些分区运行在集群中的不同节点上。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">object WordCount &#123;</span><br><span class="line">  def main(args: Array[String]) &#123;</span><br><span class="line">    val inputFile =  &quot;file:///home/common/coding/coding/Scala/word-count/test.segmented&quot;</span><br><span class="line">    val conf = new SparkConf().setAppName(&quot;WordCount&quot;).setMaster(&quot;local&quot;)　　　　#创建一个SparkConf对象来配置应用&lt;br&gt;　　　　#集群URL：告诉Spark连接到哪个集群，local是单机单线程，无需连接到集群，应用名：在集群管理器的用户界面方便找到应用</span><br><span class="line">    val sc = new SparkContext(conf)　　　　　　　　#然后基于这SparkConf创建一个SparkContext对象</span><br><span class="line">    val textFile = sc.textFile(inputFile)　　　　#读取输入的数据</span><br><span class="line">    val wordCount = textFile.flatMap(line =&gt; line.split(&quot; &quot;)).map(word =&gt; (word, 1)).reduceByKey((a, b) =&gt; a + b)　　#切分成单词，转换成键值对并计数</span><br><span class="line">    wordCount.foreach(println)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong>创建一个RDD</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val textFile = sc.textFile(inputFile)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>或者</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val lines = sc.parallelize(List(&quot;pandas&quot;, &quot;i like pandas&quot;))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94RDD%E7%BC%96%E7%A8%8B.html#more">全文 &gt;&gt;</a>
@@ -551,23 +476,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -602,10 +510,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p><strong>1.本地函数</strong></p>
 <p>可以在一个方法内再次定义一个方法，这个方法就是外部方法的内部私有方法，省略了private关键字</p>
 <p><strong>2.头等函数</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var increase = (x: Int) =&gt; x + 1</span><br><span class="line">System.out.println(increase(10))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>集合类的<strong>foreach方法</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var list1 = List(1, 2)</span><br><span class="line">list1.foreach((x: Int) =&gt; println(x))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Scala%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%87%BD%E6%95%B0%E5%92%8C%E9%97%AD%E5%8C%85.html#more">全文 &gt;&gt;</a>
@@ -631,23 +535,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -680,13 +567,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>1.通过<strong>realy机器</strong>登录<strong>relay-shell</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh XXX@XXX</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>2.登录了跳板机之后，<strong>连接可以用的机器</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">XXXX.bj</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>3.在本地的idea生成好程序的jar包（word-count_2.11-1.0.jar）之后，把<strong>jar包</strong>和<strong>需要put到远程机器的hdfs文件系统中的文件</strong>通过scp命令从开发机传到远程的机器中</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scp 开发机用户名@开发机ip地址:/home/XXXXX/文件 .    #最后一个.表示cd的根目录下</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9C%A8%E8%BF%9C%E7%A8%8B%E6%9C%BA%E5%99%A8%E4%B8%AD%E8%BF%90%E8%A1%8CWordCount.html#more">全文 &gt;&gt;</a>
@@ -712,23 +592,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -763,20 +626,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p>1.在清华镜像站点下载hbase的安装文件，选择的是stable的版本，版本号是hbase-1.2.5/</p>
 <p>2.解压放在/usr/local的目录下</p>
 <p>3.修改权限</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo chown -R hduser hadoop hbase-1.2.5/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>4.修改文件夹的名称为hbase</p>
-<p>5.在～/.bashrc下添加，之后source一下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export PATH=$PATH:/usr/local/hbase/bin</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>或者在 /etc/profile中添加</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export HBASE_HOME=/usr/local/hbase</span><br><span class="line">export PATH=$&#123;HBASE_HOME&#125;/bin:$PATH</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>6.修改文件夹的权限</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local</span><br><span class="line">sudo chown -R hadoop ./hbase</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>7.测试一下是否安装成功</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hbase version</span><br><span class="line">HBase 1.2.5...</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Ubuntu%E4%B8%8B%E5%AE%89%E8%A3%85hbase.html#more">全文 &gt;&gt;</a>
@@ -802,23 +651,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -890,23 +722,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </article>
 
 
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
-
 
 
   
@@ -939,7 +754,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>Scala的<strong>内建控制结构</strong>包括：if、while、for、try、match和函数调用</p>
 <p><strong>1.if表达式</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//常见的写法</span><br><span class="line">var filename = &quot;name&quot;</span><br><span class="line">if (!args.isEmpty)</span><br><span class="line">  filename = args(0)</span><br><span class="line"></span><br><span class="line">//比较简洁的写法</span><br><span class="line">var filename1 =</span><br><span class="line">  if (!args.isEmpty) args(0)</span><br><span class="line">  else &quot;name&quot;</span><br><span class="line"></span><br><span class="line">//更简洁的写法，不要有中间变量</span><br><span class="line">println(if(!args.isEmpty) args(0) else &quot;name&quot;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Scala%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%86%85%E5%BB%BA%E6%8E%A7%E5%88%B6%E7%BB%93%E6%9E%84.html#more">全文 &gt;&gt;</a>
@@ -965,23 +779,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 

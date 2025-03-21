@@ -200,7 +200,20 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>MySQL的架构可以分成连接层，Server层和存储引擎层。</p>
-<p>undo log
+<p>undo log&nbsp;和&nbsp;redo log 是 MySQL InnoDB <strong>存储引擎</strong>管理的数据日志类型，它们主要用于支持事务的 ACID 特性，即原子性、一致性、隔离性和持久性。</p>
+<h2 id="1-Undo-Log（回滚日志）"><a href="#1-Undo-Log（回滚日志）" class="headerlink" title="1.Undo Log（回滚日志）"></a>1.Undo Log（回滚日志）</h2><p>undo log&nbsp;用于支持事务的<strong>原子性（Atomicity）</strong>和<strong>隔离性（Isolation）</strong>。它在事务发生更改之前记录数据的原始状态，以便在事务回滚时能够将数据恢复到其原始状态。</p>
+<p><strong>undo log工作原理</strong>：</p>
+<ul>
+<li>当一个事务对数据库中的数据进行修改（如 <code>INSERT</code>、<code>UPDATE</code> 或 <code>DELETE</code> 操作）时，InnoDB 会先将原始数据的副本写入 <code>undo log</code>。</li>
+<li>如果事务需要回滚（无论是由于用户请求还是由于系统错误），InnoDB 使用 <code>undo log</code> 将更改撤销，使数据恢复到事务开始之前的状态。</li>
+<li><code>undo log</code> 也用于实现 <strong>一致性非锁定读（Consistent Non-Locking Reads）</strong>，<strong>一致性非锁定读</strong> 是 MVCC 的核心特性之一。这意味着在事务的隔离级别为 <strong>REPEATABLE READ</strong> 或 <strong>READ COMMITTED</strong> 时，可以提供一致的读取视图。它允许事务在读取数据时不加锁，从而避免阻塞其他事务。这种机制依赖于 <code>undo log</code> 和 <code>ReadView</code>，确保在高并发的情况下提供一致的读取视图。</li>
+</ul>
+<p><strong><strong>undo log</strong>存储位置</strong>：</p>
+<ul>
+<li><code>undo log</code> 存储在专用的 <strong>回滚段（rollback segment）</strong> 中，通常位于与数据文件相同的表空间内。</li>
+</ul>
+<p>undo log主要用于<strong>事务回滚</strong>和<strong>MVCC（多并发版本控制）</strong>。</p>
+<p><strong>MVCC工作原理：</strong></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94undo%20log%E5%92%8Credo%20log.html#more">全文 &gt;&gt;</a>
@@ -226,23 +239,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -288,12 +284,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <img src="/images/517519-20240803160912383-823795157.png" width="600" height="43" loading="lazy" />
 
 <p>查看postman的logs</p>
-<img src="/images/517519-20240803164157840-474031179.png" width="800" height="324" loading="lazy" />
-
-<p>使用mock server也可以使用变量和模板定义response</p>
-<p>参考：<a target="_blank" rel="noopener" href="https://learning.postman.com/docs/designing-and-developing-your-api/mocking-data/creating-dynamic-responses/">https://learning.postman.com/docs/designing-and-developing-your-api/mocking-data/creating-dynamic-responses/</a></p>
-<p>在 Response Body 中可以使用模板来自定义response，比如<br /></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;name&quot;: &quot;&#123;&#123;$randomFullName&#125;&#125;&quot;,</span><br><span class="line">    &quot;userName&quot;: &quot;&#123;&#123;$randomUserName&#125;&#125;&quot;,</span><br><span class="line">    &quot;location&quot;: &quot;&#123;&#123;$randomCity&#125;&#125;&quot;,</span><br><span class="line">    &quot;company&quot;: &quot;&#123;&#123;$randomCompanyName&#125;&#125;&quot;,</span><br><span class="line">    &quot;jobTitle&quot;: &quot;&#123;&#123;$randomJobTitle&#125;&#125;&quot;,</span><br><span class="line">    &quot;updatedAt&quot;: &quot;&#123;&#123;$timestamp&#125;&#125;&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E4%BD%BF%E7%94%A8postman%E5%88%9B%E5%BB%BAmock%20server.html#more">全文 &gt;&gt;</a>
@@ -319,23 +309,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -367,51 +340,15 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <!-- 目录 -->
+        <h2 id="1-获取元素"><a href="#1-获取元素" class="headerlink" title="1.获取元素"></a>1.获取元素</h2><p>通过a标签的文本筛选</p>
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/Python%E7%88%AC%E8%99%AB%E2%80%94%E2%80%94selenium%E8%AF%AD%E6%B3%95.html#more">全文 &gt;&gt;</a>
+          </p>
+        
 
-<div id="toc">
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-huo-qu-yuan-su"><span class="toc-text">1.获取元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-shi-jian-shai-xuan-qi-xuan-ze-shi-jian"><span class="toc-text">2.时间筛选器选择时间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-zhi-ding-chrome-xia-zai-lu-jing"><span class="toc-text">3.指定chrome下载路径</span></a></li></ol>
-</div>
-
-        <h2 id="1-huo-qu-yuan-su"><a href="#1-获取元素" class="headerlink" title="1.获取元素"></a>1.获取元素<a href="#1-huo-qu-yuan-su" class="header-anchor">#</a></h2><p>通过a标签的文本筛选</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">driver.find_element(By.LINK_TEXT, &#x27;xx&#x27;).click()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>通过css筛选</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">driver.find_element(By.CSS_SELECTOR, &quot;input[type=&#x27;email&#x27;]&quot;).send_keys(&quot;xxx&quot;)</span><br><span class="line">driver.find_element(By.CSS_SELECTOR, &quot;button[type=&#x27;button&#x27;]&quot;).click()</span><br><span class="line">driver.find_element(By.CSS_SELECTOR, &quot;a.btn_download&quot;).click()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>通过element name或者css name筛选</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">driver.find_element(By.NAME, &quot;xx&quot;).send_keys(&quot;xxx&quot;)</span><br><span class="line">driver.find_element(By.CLASS_NAME, &quot;xx&quot;).click()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>通过xpath筛选，只会contains，starts-with等语法</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">driver.find_element(By.XPATH, &#x27;//a[starts-with(@title, &quot;xx&quot;)]&#x27;).click()</span><br><span class="line">driver.find_element(By.XPATH, &#x27;//iframe[contains(@title, &quot;xx&quot;)]&#x27;).click()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="2-shi-jian-shai-xuan-qi-xuan-ze-shi-jian"><a href="#2-时间筛选器选择时间" class="headerlink" title="2.时间筛选器选择时间"></a>2.时间筛选器选择时间<a href="#2-shi-jian-shai-xuan-qi-xuan-ze-shi-jian" class="header-anchor">#</a></h2><p>可以使用driver.execute_script(js)将元素的readonly属性去掉，再click后clear掉日期，最后send_keys输入新的日期时间</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">element = driver.find_elements(By.CSS_SELECTOR, &quot;input[class=&#x27;xxx&#x27;]&quot;)</span><br><span class="line">js = &#x27;document.getElementsByClassName(&quot;xxx&quot;)[0].removeAttribute(&quot;readonly&quot;);&#x27;</span><br><span class="line">driver.execute_script(js)</span><br><span class="line">element[0].click()</span><br><span class="line">element[0].clear()</span><br><span class="line">element[0].send_keys(&quot;2022-01-01&quot;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/xjhzjut/article/details/136392800">selenium控制日历控件，readonly为true</a></p>
-<h2 id="3-zhi-ding-chrome-xia-zai-lu-jing"><a href="#3-指定chrome下载路径" class="headerlink" title="3.指定chrome下载路径"></a>3.指定chrome下载路径<a href="#3-zhi-ding-chrome-xia-zai-lu-jing" class="header-anchor">#</a></h2><p>在使用selenium下载文件的时候，如果不指定chrome的下载路径，会弹出下载框让你确定文件名和下载路径</p>
-<p>需要在selenium的driver中使用prefs<code>属性添加如下属性</code></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">prefs = &#123;&#x27;profile.default_content_settings.popups&#x27;: 0,  # 设置为 0 禁止弹出窗口</span><br><span class="line">         &#x27;download.default_directory&#x27;: &#x27;/Users/seluser/Downloads&#x27;&#125;          # 指定下载路径</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>代码如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">from selenium import webdriver</span><br><span class="line"></span><br><span class="line">profile = webdriver.ChromeOptions()</span><br><span class="line"></span><br><span class="line">prefs = &#123;&#x27;profile.default_content_settings.popups&#x27;: 0,  # 设置为 0 禁止弹出窗口</span><br><span class="line">         &#x27;download.default_directory&#x27;: &#x27;d:\\&#x27;&#125;          # 指定下载路径</span><br><span class="line"></span><br><span class="line">profile.add_experimental_option(&#x27;prefs&#x27;, prefs)</span><br><span class="line"></span><br><span class="line"># executable_path这个是chromedriver的路径 如果设置过环境变量，此参数可以省略</span><br><span class="line">chromedriver_path = &quot;D:\\path\\chromedriver.exe&quot;   # 自己本地电脑路径</span><br><span class="line">driver = webdriver.Chrome(executable_path=chromedriver_path, chrome_options=profile)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/yoyoketang/p/7657436.html">selenium+python自动化80-文件下载（不弹询问框）</a></p>
-<p>如果使用的是undetected_chromedriver，则不支持chrome_options参数，需要使用如下方式进行添加prefs</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">import json</span><br><span class="line">import os</span><br><span class="line">import tempfile</span><br><span class="line">from functools import reduce</span><br><span class="line"></span><br><span class="line">import undetected_chromedriver as webdriver</span><br><span class="line"></span><br><span class="line">class ChromeWithPrefs(webdriver.Chrome):</span><br><span class="line">    def __init__(self, *args, options=None, **kwargs):</span><br><span class="line">        if options:</span><br><span class="line">            self._handle_prefs(options)</span><br><span class="line"></span><br><span class="line">        super().__init__(*args, options=options, **kwargs)</span><br><span class="line"></span><br><span class="line">        # remove the user_data_dir when quitting</span><br><span class="line">        self.keep_user_data_dir = False</span><br><span class="line"></span><br><span class="line">    @staticmethod</span><br><span class="line">    def _handle_prefs(options):</span><br><span class="line">        if prefs := options.experimental_options.get(&quot;prefs&quot;):</span><br><span class="line">            # turn a (dotted key, value) into a proper nested dict</span><br><span class="line">            def undot_key(key, value):</span><br><span class="line">                if &quot;.&quot; in key:</span><br><span class="line">                    key, rest = key.split(&quot;.&quot;, 1)</span><br><span class="line">                    value = undot_key(rest, value)</span><br><span class="line">                return &#123;key: value&#125;</span><br><span class="line"></span><br><span class="line">            # undot prefs dict keys</span><br><span class="line">            undot_prefs = reduce(</span><br><span class="line">                lambda d1, d2: &#123;**d1, **d2&#125;,  # merge dicts</span><br><span class="line">                (undot_key(key, value) for key, value in prefs.items()),</span><br><span class="line">            )</span><br><span class="line"></span><br><span class="line">            # create an user_data_dir and add its path to the options</span><br><span class="line">            user_data_dir = os.path.normpath(tempfile.mkdtemp())</span><br><span class="line">            options.add_argument(f&quot;--user-data-dir=&#123;user_data_dir&#125;&quot;)</span><br><span class="line"></span><br><span class="line">            # create the preferences json file in its default directory</span><br><span class="line">            default_dir = os.path.join(user_data_dir, &quot;Default&quot;)</span><br><span class="line">            os.mkdir(default_dir)</span><br><span class="line"></span><br><span class="line">            prefs_file = os.path.join(default_dir, &quot;Preferences&quot;)</span><br><span class="line">            with open(prefs_file, encoding=&quot;latin1&quot;, mode=&quot;w&quot;) as f:</span><br><span class="line">                json.dump(undot_prefs, f)</span><br><span class="line"></span><br><span class="line">            # pylint: disable=protected-access</span><br><span class="line">            # remove the experimental_options to avoid an error</span><br><span class="line">            del options._experimental_options[&quot;prefs&quot;]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    prefs = &#123;</span><br><span class="line">        &quot;profile.default_content_setting_values.images&quot;: 2,</span><br><span class="line">        # &quot;download.default_directory&quot;: &quot;d:/temp&quot;,</span><br><span class="line">        # &quot;plugins.always_open_pdf_externally&quot;: True,</span><br><span class="line">    &#125;</span><br><span class="line">    options = webdriver.ChromeOptions()</span><br><span class="line">    options.add_experimental_option(&quot;prefs&quot;, prefs)</span><br><span class="line"></span><br><span class="line">    # use the derived Chrome class that handles prefs</span><br><span class="line">    driver = ChromeWithPrefs(options=options)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://github.com/ultrafunkamsterdam/undetected-chromedriver/issues/524">https://github.com/ultrafunkamsterdam/undetected-chromedriver/issues/524</a></p>
-
-        <div class="article-entry">
-          <div id="footer-info" class="inner">
-          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/Python%E7%88%AC%E8%99%AB%E2%80%94%E2%80%94selenium%E8%AF%AD%E6%B3%95.html"></a>
-          </div>
-        </div>
       
     </div>
-
-    
-      
 
     
 
@@ -429,23 +366,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -479,7 +399,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>使用parquet-tools的方法有2种</p>
 <p>1.在安装了CDH的机器上，会自动有parquet-tools命令</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lintong@master:/opt/cloudera/parcels/CDH/bin$ ls| grep parquet-tools</span><br><span class="line">parquet-tools</span><br><span class="line">lintong@master:/opt/cloudera/parcels/CDH/bin$ parquet-tools</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/parquet-tools%E4%BD%BF%E7%94%A8.html#more">全文 &gt;&gt;</a>
@@ -505,23 +424,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -553,41 +455,17 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <!-- 目录 -->
-
-<div id="toc">
-  
-</div>
-
         <p>avro-protobuf项目提供ProtobufDatumReader类，可以用于从protobuf定义生成的java class中获得avro schema</p>
 <p>使用方法如下：</p>
 <p>1.引入依赖</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.avro&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;avro-protobuf&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.11.1&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.google.protobuf&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;protobuf-java&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;3.21.7&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/%E4%BD%BF%E7%94%A8avro-protobuf%E5%B0%86protobuf%E8%BD%AC%E6%8D%A2%E6%88%90avro.html#more">全文 &gt;&gt;</a>
+          </p>
+        
 
-<p>2.定义protobuf schema，名为other.proto，schema如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">syntax = &quot;proto3&quot;;</span><br><span class="line">package com.acme;</span><br><span class="line"></span><br><span class="line">message MyRecord &#123;</span><br><span class="line">  string f1 = 1;</span><br><span class="line">  OtherRecord f2 = 2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message OtherRecord &#123;</span><br><span class="line">  int32 other_id = 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>从使用protobuf定义生成java class</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">protoc -I=./ --java_out=./src/main/java ./src/main/proto/other.proto</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>3.编写java代码</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">package com.example.demo;</span><br><span class="line"></span><br><span class="line">import com.acme.Other;</span><br><span class="line"></span><br><span class="line">import java.util.*;</span><br><span class="line">import org.apache.avro.protobuf.ProtobufDatumReader;</span><br><span class="line"></span><br><span class="line">public class Demo &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws Exception &#123; </span><br><span class="line"></span><br><span class="line">        ProtobufDatumReader&lt;Other.MyRecord&gt; datumReader = new ProtobufDatumReader&lt;Other.MyRecord&gt;(Other.MyRecord.class);</span><br><span class="line">        System.out.println(datumReader.getSchema().toString(true));</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>输出如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;type&quot; : &quot;record&quot;,</span><br><span class="line">  &quot;name&quot; : &quot;MyRecord&quot;,</span><br><span class="line">  &quot;namespace&quot; : &quot;com.acme.Other&quot;,</span><br><span class="line">  &quot;fields&quot; : [ &#123;</span><br><span class="line">    &quot;name&quot; : &quot;f1&quot;,</span><br><span class="line">    &quot;type&quot; : &#123;</span><br><span class="line">      &quot;type&quot; : &quot;string&quot;,</span><br><span class="line">      &quot;avro.java.string&quot; : &quot;String&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;default&quot; : &quot;&quot;</span><br><span class="line">  &#125;, &#123;</span><br><span class="line">    &quot;name&quot; : &quot;f2&quot;,</span><br><span class="line">    &quot;type&quot; : [ &quot;null&quot;, &#123;</span><br><span class="line">      &quot;type&quot; : &quot;record&quot;,</span><br><span class="line">      &quot;name&quot; : &quot;OtherRecord&quot;,</span><br><span class="line">      &quot;fields&quot; : [ &#123;</span><br><span class="line">        &quot;name&quot; : &quot;other_id&quot;,</span><br><span class="line">        &quot;type&quot; : &quot;int&quot;,</span><br><span class="line">        &quot;default&quot; : 0</span><br><span class="line">      &#125; ]</span><br><span class="line">    &#125; ],</span><br><span class="line">    &quot;default&quot; : null</span><br><span class="line">  &#125; ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong>注意</strong>：该工具在把protobuf schema转换成avro schema的时候，可能会出现不严谨的时候，比如在转换protobuf的uint32（0 到 2^32 -1）的时候，会统一转换成int（-2^31 ~ 2^31-1），这可能会产生问题，解决方法是使用confluent schema registry提供的工具，参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/tonglin0325/p/4642622.html">使用confluent schema registry将protobuf schema转换成avro schema</a></p>
-
-        <div class="article-entry">
-          <div id="footer-info" class="inner">
-          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/%E4%BD%BF%E7%94%A8avro-protobuf%E5%B0%86protobuf%E8%BD%AC%E6%8D%A2%E6%88%90avro.html"></a>
-          </div>
-        </div>
       
     </div>
-
-    
-      
 
     
 
@@ -605,23 +483,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -657,30 +518,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>使用Amazon EMR的好处是快速伸缩，版本升级也较为方便，如果配合S3存储，可以做到计算和存储分离，这样对于运维的压力会小一些，存储的稳定性交给S3，计算集群即使故障也可以很方便的进行重建，很适合小团队。缺点是界面友好程度远不如CDH和HDP。</p>
 <p>如果使用Amazon EMR，最好阅读一下官方的2个文档：</p>
 <p>1.Amazon EMR最佳实践</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://d0.awsstatic.com/whitepapers/aws-amazon-emr-best-practices.pdf</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>2.Amazon EMR迁移指南</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://d1.awsstatic.com/whitepapers/amazon_emr_migration_guide.pdf</span><br></pre></td></tr></table></figure>
-
-<h2 id="1-创建EMR集群"><a href="#1-创建EMR集群" class="headerlink" title="1.创建EMR集群"></a>1.创建EMR集群</h2><p>在创建Amazon EMR集群的时候可以选择<strong>快速模式</strong>，界面如下</p>
-<img src="/images/517519-20220129151433350-335157056.png" alt="" loading="lazy" />
-
-<p>也可以选择<strong>高级模式</strong></p>
-<img src="/images/517519-20220129154043393-629951081.png" alt="" loading="lazy" />
-
-<p>集群启动了之后，EMR大数据组件的安装目录在/usr/lib</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@ip-xxxxxxxx lib]$ ls</span><br><span class="line">bigtop-groovy  dracut      hadoop            hadoop-yarn    java        jvm          ld-linux-aarch64.so.1  modules-load.d  rpm               systemd</span><br><span class="line">bigtop-utils   fontconfig  hadoop-hdfs       hbase          java-1.5.0  jvm-commmon  livy                   oozie           sendmail          tez</span><br><span class="line">binfmt.d       games       hadoop-httpfs     hive           java-1.6.0  jvm-exports  locale                 presto          sendmail.postfix  tmpfiles.d</span><br><span class="line">cpp            gcc         hadoop-kms        hive-hcatalog  java-1.7.0  jvm-private  lsb                    python2.7       spark             udev</span><br><span class="line">cups           gems        hadoop-lzo        hudi           java-1.8.0  kbd          modprobe.d             python3.7       sse2              yum-plugins</span><br><span class="line">debug          grub        hadoop-mapreduce  hue            java-ext    kernel       modules                ranger-kms      sysctl.d          zookeeper</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>EMR管理组件的安装目录在/usr/share/aws/emr</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@ip-xxxxxxxxxx emr]$ ls</span><br><span class="line">cloudwatch-sink  ddb    emr-log-analytics-metrics  goodies              instance-controller  node-provisioner  s3select</span><br><span class="line">command-runner   emrfs  emr-metrics-collector      hadoop-state-pusher  kinesis              s3-dist-cp        scripts</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="2-EMR-CLI使用"><a href="#2-EMR-CLI使用" class="headerlink" title="2.EMR CLI使用"></a>2.EMR CLI使用</h2><p>查看集群的cluster id，参考：<a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/zh_cn/emr/latest/ManagementGuide/emr-manage-view-clusters.html">https://docs.aws.amazon.com/zh_cn/emr/latest/ManagementGuide/emr-manage-view-clusters.html</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">aws emr list-clusters</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>根据cluster id查看集群配置</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">aws emr describe-cluster --cluster-id j-xxxxxx</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="3-EMR角色分布"><a href="#3-EMR角色分布" class="headerlink" title="3.EMR角色分布"></a>3.EMR角色分布</h2>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Amazon%20EMR%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html#more">全文 &gt;&gt;</a>
@@ -706,23 +543,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -754,8 +574,14 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
+        <!-- 目录 -->
+
+<div id="toc">
+  
+</div>
+
         <p>在使用grafana的filter的时候，其支持一些语法用于对指标进行过滤，如下</p>
-<img src="/images/517519-20230601152518908-497096837.png" width="500" height="317" loading="lazy" />
+<img src="/images/517519-20230601152518908-497096837.png" width="500" height="317" loading="lazy">
 
 <p>literal_or ： tagv的过滤规则: 精确匹配多项迭代值，多项迭代值以’|’分隔，大小写敏感</p>
 <p>iliteral_or： tagv的过滤规则: 精确匹配多项迭代值，多项迭代值以’|’分隔，忽略大小写</p>
@@ -764,14 +590,18 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>regexp： tagv的过滤规则: 正则表达式匹配</p>
 <p>not_literal_or： tagv的过滤规则: 通配符取非匹配，大小写敏感</p>
 <p>not_iliteral_or： tagv的过滤规则: 通配符取非匹配，忽略大小写</p>
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/Grafana%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94filter%E8%AF%AD%E6%B3%95.html#more">全文 &gt;&gt;</a>
-          </p>
-        
+<p>&nbsp;</p>
 
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/Grafana%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94filter%E8%AF%AD%E6%B3%95.html"></a>
+          </div>
+        </div>
       
     </div>
+
+    
+      
 
     
 
@@ -789,23 +619,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -878,23 +691,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </article>
 
 
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
-
 
 
   
@@ -927,6 +723,16 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <h2 id="1-webstorm开发环境调试"><a href="#1-webstorm开发环境调试" class="headerlink" title="1.webstorm开发环境调试"></a>1.webstorm开发环境调试</h2><p>配置npm，然后run start</p>
 <img src="/images/517519-20220419082012376-1571267013.png" width="600" height="400" loading="lazy" />
+
+<p>&nbsp;</p>
+<p>command+shift，并点击url</p>
+<img src="/images/517519-20220419082216875-1793122081.png" width="300" height="51" loading="lazy" />
+
+<p>&nbsp;</p>
+<p>这时webstorm会自动添加JavaScript debug</p>
+<img src="/images/517519-20220419082350594-2131897545.png" width="600" height="171" loading="lazy" />
+
+<p>&nbsp;</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E7%A1%80.html#more">全文 &gt;&gt;</a>
@@ -952,23 +758,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -1002,7 +791,12 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <h2 id="1-oplog"><a href="#1-oplog" class="headerlink" title="1.oplog"></a>1.oplog</h2><p>MongoDB副本集由一组服务器组成，这些服务器都具有相同数据的副本，复制可确保客户端对副本集主副本集上的文档所做的所有更改都正确应用于其他副本集的服务器，称为secondaries副本。</p>
 <p>MongoDB 复制的工作原理是让主节点在其操作日志（或操作日志）中记录更改，然后每个从节点读取主节点的操作日志并将所有操作按顺序应用到它们自己的文档中。</p>
-<p>将新服务器添加到副本集时，该服务器首先对主服务器上的所有数据库和集合执行snapshot，然后读取主服务器的
+<p>将新服务器添加到副本集时，该服务器首先对主服务器上的所有数据库和集合执行snapshot，然后读取主服务器的&nbsp;<strong>oplog</strong>&nbsp;以应用自启动快照以来可能所做的所有更改。这个新服务器在赶上主服务器oplog的尾部时成为secondary服务器（并且能够处理查询）。</p>
+<h2 id="2-change-stream"><a href="#2-change-stream" class="headerlink" title="2.change stream"></a>2.change stream</h2><p>Debezium MongoDB 连接器使用与上述类似的复制机制，尽管它实际上并没有成为副本集的成员。主要区别在于连接器不直接读取 oplog，而是将捕获和解码 oplog 委托给 MongoDB 的&nbsp;<strong>Change Streams</strong>&nbsp;功能。</p>
+<p>使用change stream，MongoDB服务器将集合的更改公开为事件流。Debezium 连接器监视流并将更改传递到下游。而且，当连接器第一次看到副本集时，它会查看 oplog 以获取上次记录的事务，然后执行主数据库和集合的快照。复制完所有数据后，连接器会从之前从操作日志中读取的位置创建更改流。</p>
+<p>当MongoDB连接器进程发生变化时，它会定期记录oplog/stream中事件发起的位置。当连接器停止时，它会记录它处理的最后一个oplog/流位置，以便在重新启动时它只是从该位置开始流式传输。换句话说，连接器可以停止、升级或维护，并在一段时间后重新启动，它将准确地从中断的位置继续，而不会丢失单个事件。当然，MongoDB的oplog通常被限制在最大大小，这意味着连接器不应该停止太久，否则oplog中的某些操作可能会在连接器有机会读取它们之前被清除。在这种情况下，重新启动时，连接器将检测缺少的oplog操作，执行快照，然后继续流式传输更改。</p>
+<p>限制：change stream只能用于 replica set 集群和 sharded cluster 集群，单节点mongo因为没有oplog，所以不支持</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1711794">MongoDB Change Stream之一&mdash;&mdash;上手及初体验</a></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Mongo%E7%9A%84oplog%E5%92%8Cchange%20stream.html#more">全文 &gt;&gt;</a>
@@ -1028,23 +822,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 

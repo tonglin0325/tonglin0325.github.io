@@ -204,6 +204,11 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>1.全自动安装：<code>easy_install jieba</code> 或者 <code>pip install jieba</code> / <code>pip3 install jieba</code></p>
 <p>2.半自动安装：先下载 <a target="_blank" rel="noopener" href="http://pypi.python.org/pypi/jieba/">http://pypi.python.org/pypi/jieba/</a> ，解压后运行 <code>python setup.py install</code></p>
 <p>3.手动安装：将 jieba 目录放置于当前目录或者 site-packages 目录</p>
+<p>&nbsp;</p>
+<p><strong>作者介绍其采用的算法</strong>：</p>
+<p>1.基于前缀词典实现高效的词图扫描，生成句子中汉字所有可能成词情况所构成的有向无环图 (DAG)</p>
+<p>2.采用了动态规划查找最大概率路径, 找出基于词频的最大切分组合</p>
+<p>3.对于未登录词，采用了基于汉字成词能力的 HMM 模型，使用了 Viterbi 算法</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Python%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94jieba%E5%88%86%E8%AF%8D.html#more">全文 &gt;&gt;</a>
@@ -229,23 +234,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -282,6 +270,11 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>　　2.降低很多算法的计算开销</p>
 <p>　　3.取出噪声</p>
 <p>　　4.使得结果易懂</p>
+<p>&nbsp;</p>
+<p>在<strong>已标注和未标注的数据</strong>上都有<strong>降维技术</strong>，<strong>降维的方法</strong>：</p>
+<p>　　1.<strong>主成分分析（Principal Component Analysis，PCA）</strong>。在PCA中，数据从原来的坐标系<strong>转换到新的坐标系</strong>，新坐标系的选择是由数据本身决定的。第一个新坐标轴选择的是原始数据中<strong>方差最大</strong>的方向，第二个新坐标轴的选择和第一个坐标轴<strong>正交且具有最大方差</strong>的方向。该过程中一直重复，重复次数为原始数据中特征的数目。我们会发现，大部分方差都包含在最前面的几个新坐标轴中。因此，我们就可以忽略余下的坐标轴，即对数据进行了降维处理。</p>
+<p>　　2.<strong>因子分析（Factor Analysis）</strong>。在因子分析中，我们假设在观察数据的生成中有一些观察不到的<strong>隐变量（latent variable）</strong>。假设观察数据是这些隐变量和某些噪声的线性组合。那么<strong>隐变量的数据可能比观察数据的数目少</strong>，也就是说通过<strong>找到隐变量就可以实现数据的降维</strong>。</p>
+<p>　　3.<strong>独立成分分析（Independent Component Analysis，ICA）</strong>。ICA假设数据是从<strong>N个数据源</strong>生成的，这一点和因子分析有些类似。假设数据为多个数据源的混合观察结果，<strong>这些数据源之间在统计上相互独立的</strong>，而在PCA中只假设数据是不相关的。同因子分析一样，<strong>如果数据源的数目少于观察数据的数目，则可以实现降维过程</strong>。</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E5%88%A9%E7%94%A8PCA%E6%9D%A5%E7%AE%80%E5%8C%96%E6%95%B0%E6%8D%AE.html#more">全文 &gt;&gt;</a>
@@ -307,23 +300,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -357,82 +333,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>pandas是python特征预处理常用的框架</p>
 <h2 id="1-查看数据"><a href="#1-查看数据" class="headerlink" title="1.查看数据"></a>1.查看数据</h2><p>加载数据</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#-*- coding: utf-8 -*-</span><br><span class="line">import pandas as pd</span><br><span class="line"></span><br><span class="line">train_data = pd.read_csv(&quot;./data/train.csv&quot;)</span><br><span class="line">print(train_data)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<img src="/images/517519-20221029164515738-1420097445.png" width="400" height="137" loading="lazy" />
-
-<p>pandas显示DataFrame数据的所有列，set_option其他参数参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42662568/article/details/104993201">Pandas函数set_option()学习笔记</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">pd.set_option(&#x27;expand_frame_repr&#x27;, False) # 不换行</span><br><span class="line">#pd.set_option(&#x27;display.width&#x27;, 200)    # 列最多显示多少字符后换行</span><br><span class="line"></span><br><span class="line">pd.set_option(&#x27;display.min_rows&#x27;, 20) # 至少显示20行数据 </span><br><span class="line">pd.set_option(&#x27;display.max_columns&#x27;, None) # 显示所有列 </span><br><span class="line"></span><br><span class="line">print(train_data)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<img src="/images/517519-20221029192305392-188351075.png" width="600" height="296" loading="lazy" />
-
-<h2 id="2-查看空值"><a href="#2-查看空值" class="headerlink" title="2.查看空值"></a>2.查看空值</h2><p>在pandas中的空值为NaN，isna()等同于isnull()</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(train_data.isna()) # 判断所有值是否是na，转换成boolean值</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>对于csv字符串NA，用pandas读取的时候，会转换成NaN，对于字符串None，则不是NaN</p>
-<img src="/images/517519-20221029202924191-117381866.png" width="300" height="109" loading="lazy" />
-
-<img src="/images/517519-20221029202754664-1368512968.png" width="500" height="371" loading="lazy" />
-
-<p>统计字段中Nan空值的总数</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(train_data.isna().sum())</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<img src="/images/517519-20221029204255818-422581419.png" width="180" height="257" loading="lazy" />
-
-<p>查看某列是NaN的行</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(train_data[train_data.MiscFeature.isnull()])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<img src="/images/517519-20221029210056011-545240882.png" width="400" height="218" loading="lazy" />
-
-<p>查看有NaN值的列名</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">print(train_data.columns[train_data.isnull().any()].tolist())</span><br><span class="line"></span><br><span class="line">[&#x27;LotFrontage&#x27;, &#x27;Alley&#x27;, &#x27;MasVnrType&#x27;, &#x27;MasVnrArea&#x27;, &#x27;BsmtQual&#x27;, &#x27;BsmtCond&#x27;, &#x27;BsmtExposure&#x27;, &#x27;BsmtFinType1&#x27;, &#x27;BsmtFinType2&#x27;, &#x27;Electrical&#x27;, &#x27;FireplaceQu&#x27;, &#x27;GarageType&#x27;, &#x27;GarageYrBlt&#x27;, &#x27;GarageFinish&#x27;, &#x27;GarageQual&#x27;, &#x27;GarageCond&#x27;, &#x27;PoolQC&#x27;, &#x27;Fence&#x27;, &#x27;MiscFeature&#x27;]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>对有Nan值的列的空值比例进行排序</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">total = train_data.isna().sum().sort_values(ascending=False)</span><br><span class="line">percent = (train_data.isna().sum() / train_data.isnull().count()).sort_values(ascending=False)</span><br><span class="line">missing_data = pd.concat([total, percent], axis=1, keys=[&#x27;Total&#x27;, &#x27;Percent&#x27;])</span><br><span class="line">print(missing_data.head(20))</span><br><span class="line"></span><br><span class="line">              Total   Percent</span><br><span class="line">PoolQC         1453  0.995205</span><br><span class="line">MiscFeature    1406  0.963014</span><br><span class="line">Alley          1369  0.937671</span><br><span class="line">Fence          1179  0.807534</span><br><span class="line">FireplaceQu     690  0.472603</span><br><span class="line">LotFrontage     259  0.177397</span><br><span class="line">GarageYrBlt      81  0.055479</span><br><span class="line">GarageCond       81  0.055479</span><br><span class="line">GarageType       81  0.055479</span><br><span class="line">GarageFinish     81  0.055479</span><br><span class="line">GarageQual       81  0.055479</span><br><span class="line">BsmtFinType2     38  0.026027</span><br><span class="line">BsmtExposure     38  0.026027</span><br><span class="line">BsmtQual         37  0.025342</span><br><span class="line">BsmtCond         37  0.025342</span><br><span class="line">BsmtFinType1     37  0.025342</span><br><span class="line">MasVnrArea        8  0.005479</span><br><span class="line">MasVnrType        8  0.005479</span><br><span class="line">Electrical        1  0.000685</span><br><span class="line">Id                0  0.000000</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="3-删除和替换空值"><a href="#3-删除和替换空值" class="headerlink" title="3.删除和替换空值"></a>3.删除和替换空值</h2><p>删除某一列为NaN值的行，只要有一列是NaN，该行数据就会被删除</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(train_data.dropna(how=&#x27;any&#x27;))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>删除subset中某一列为NaN值的行，只要有一列是NaN，该行数据就会被删除</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(train_data.dropna(subset=[&#x27;Fence&#x27;, &#x27;MiscFeature&#x27;], how=&#x27;any&#x27;))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>删除所有列都是NaN值的行</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(train_data.dropna(how=&#x27;all&#x27;))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>删除subset中所有列都是NaN值的行</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(train_data.dropna(subset=[&#x27;Fence&#x27;, &#x27;MiscFeature&#x27;], how=&#x27;all&#x27;))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>其他</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">df.dropna(axis=1) #丢弃有缺失值的列</span><br><span class="line">df.dropna(axis=1, how = &#x27;all&#x27;) #丢弃所有列中所有值均缺失的列</span><br><span class="line">df.dropna(axis=0, subset=[&#x27;name&#x27;, &#x27;age&#x27;])#丢弃name和age这两列中有缺失值的行</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>替换某列中的Nan值</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">train_data[&#x27;Alley&#x27;].fillna(value=&#x27;Not Found&#x27;, inplace=True)</span><br><span class="line">print(train_data)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<img src="/images/517519-20221029211751793-507471722.png" width="500" height="148" loading="lazy" />
-
-<p>替换None字符串</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(train_data.replace(&#x27;None&#x27;, np.nan))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<img src="/images/517519-20221029231036402-409933291.png" width="400" height="324" loading="lazy" />
-
-<p>替换字符串的时候，如果替换改变原数据的值</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">train_data.replace(&#x27;None&#x27;, np.nan, inplace=True)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="4-缺失值填充"><a href="#4-缺失值填充" class="headerlink" title="4.缺失值填充"></a>4.缺失值填充</h2><p>参考：<a target="_blank" rel="noopener" href="https://wutaoblog.com.cn/2021/08/20/data_preprocess/">数据转化</a></p>
-<p><a target="_blank" rel="noopener" href="https://scikit-learn.org.cn/view/124.html">6.4 缺失值插补</a></p>
-<p>也可以使用sklearn对特征的缺失值进行填充，方法有2种：</p>
-<ul>
-<li>单变量：对第 i 个特征中的缺失值只使用该特征的某些信息来进行填充（impute.SimpleImputer）</li>
-<li>多变量：对第 i 个特征中的缺失值使用整个数据集的信息来填充（impute.IterativeImputer）</li>
-</ul>
-<h3 id="数值型单变量缺失值填充"><a href="#数值型单变量缺失值填充" class="headerlink" title="数值型单变量缺失值填充"></a>数值型单变量缺失值填充</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">from sklearn.impute import SimpleImputer</span><br><span class="line"></span><br><span class="line"># 数值型单变量缺失值填充</span><br><span class="line">imp = SimpleImputer(missing_values=np.nan, strategy=&#x27;mean&#x27;)</span><br><span class="line">imp.fit([[1, 2], [np.nan, 3], [7, 6]])</span><br><span class="line">&gt;&gt; SimpleImputer()</span><br><span class="line"></span><br><span class="line"># 缺失值填充 (1+7)/2=4和(2+3+6)/3=3.66666667</span><br><span class="line">X = [[np.nan, 2], [6, np.nan], [7, 6]]</span><br><span class="line">print(imp.transform(X))</span><br><span class="line">[[4.         2.        ]</span><br><span class="line"> [6.         3.66666667]</span><br><span class="line"> [7.         6.        ]]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="标称型单变量缺失值填充"><a href="#标称型单变量缺失值填充" class="headerlink" title="标称型单变量缺失值填充"></a>标称型单变量缺失值填充</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">from sklearn.impute import SimpleImputer</span><br><span class="line">import pandas as pd</span><br><span class="line"></span><br><span class="line"># 标称型变量缺失值填充</span><br><span class="line">df = pd.DataFrame([[&quot;a&quot;, &quot;x&quot;],</span><br><span class="line">                    [np.nan, &quot;y&quot;],</span><br><span class="line">                   [&quot;a&quot;, np.nan],</span><br><span class="line">                    [&quot;b&quot;, &quot;y&quot;]], dtype=&quot;category&quot;)</span><br><span class="line"># 使用出现次数最多的值来填充缺失值</span><br><span class="line">imp = SimpleImputer(strategy=&quot;most_frequent&quot;)</span><br><span class="line">print(imp.fit_transform(df))</span><br><span class="line"></span><br><span class="line">[[&#x27;a&#x27; &#x27;x&#x27;]</span><br><span class="line"> [&#x27;a&#x27; &#x27;y&#x27;]</span><br><span class="line"> [&#x27;a&#x27; &#x27;y&#x27;]</span><br><span class="line"> [&#x27;b&#x27; &#x27;y&#x27;]]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="多变量填充"><a href="#多变量填充" class="headerlink" title="多变量填充"></a>多变量填充</h3><p>多变量填充是使用全部数据建模的方式进行填充缺失值：含有缺失值的特征被视为 y，而其他特征当作 x，对 （x, y）拟合回归模型，然后利用这个模型来预测 y 中的缺失值：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.experimental import enable_iterative_imputer</span><br><span class="line">from sklearn.impute import IterativeImputer</span><br><span class="line"></span><br><span class="line">imp = IterativeImputer(max_iter=10, random_state=0)</span><br><span class="line">imp.fit([[1, 2], [3, 6], [4, 8], [np.nan, 3], [7, np.nan]])</span><br><span class="line">&gt;&gt; IterativeImputer(random_state=0)</span><br><span class="line"></span><br><span class="line"># 拟合出第2个变量是第1个变量的2倍</span><br><span class="line">X_test = [[np.nan, 2], [6, np.nan], [np.nan, 6]]</span><br><span class="line">print(np.round(imp.transform(X_test)))</span><br><span class="line"></span><br><span class="line">[[ 1.  2.]</span><br><span class="line"> [ 6. 12.]</span><br><span class="line"> [ 3.  6.]]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="最近邻填充"><a href="#最近邻填充" class="headerlink" title="最近邻填充"></a>最近邻填充</h3>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E7%89%B9%E5%BE%81%E9%A2%84%E5%A4%84%E7%90%86%E2%80%94%E2%80%94%E5%BC%82%E5%B8%B8%E5%80%BC%E5%A4%84%E7%90%86.html#more">全文 &gt;&gt;</a>
@@ -458,23 +358,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -507,6 +390,15 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>从大规模的数据集中<strong>寻找隐含关系</strong>被称作为<strong>关联分析（association analysis）</strong>或者<strong>关联规则学习（association rule learning）</strong>。</p>
+<p>&nbsp;</p>
+<p><strong>Apriori算法</strong></p>
+<p><strong>优点</strong>：易编码实现</p>
+<p><strong>缺点</strong>：在大数据集上可能较慢</p>
+<p><strong>使用数据类型</strong>：数值型或者标称型数据</p>
+<p>&nbsp;</p>
+<p><strong>关联分析</strong>寻找的是<strong>隐含关系</strong>，这些关系可以有两种形式：<strong>频繁项集</strong>或者<strong>关联规则</strong>。</p>
+<p><strong>频繁项集（frequent item sets）</strong>是经常出现在一起的集合</p>
+<p><strong>关联规则（association rule）</strong>暗示两种物品之间可能存在很强的关系</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8Apriori%E7%AE%97%E6%B3%95%E8%BF%9B%E8%A1%8C%E5%85%B3%E8%81%94%E5%88%86%E6%9E%90.html#more">全文 &gt;&gt;</a>
@@ -532,23 +424,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -581,10 +456,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>安装<strong>mongo数据库</strong>，在shell下输入</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install mongodb</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果需要<strong>在Python中使用mongo数据库</strong>，还需要额外安装Python封装库</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install pymongo</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/ubuntu%E5%AE%89%E8%A3%85mongo%E6%95%B0%E6%8D%AE%E5%BA%93.html#more">全文 &gt;&gt;</a>
@@ -610,23 +481,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -659,7 +513,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p><strong>1.首先在浏览器中进入WAP版微博的网址，因为手机版微博的内容较为简洁，方便后续使用正则表达式或者beautifulSoup等工具对所需要内容进行过滤</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://login.weibo.cn/login/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Python%E7%88%AC%E8%99%AB%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8Cookie%E7%99%BB%E5%BD%95%E6%96%B0%E6%B5%AA%E5%BE%AE%E5%8D%9A.html#more">全文 &gt;&gt;</a>
@@ -685,23 +538,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -733,7 +569,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <p>用homebrew 在电脑上安装tesseract库
+        <p>用homebrew 在电脑上安装tesseract库&nbsp;</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Python%E7%88%AC%E8%99%AB%E2%80%94%E2%80%94%E5%85%89%E5%AD%A6%E5%AD%97%E7%AC%A6%E8%AF%86%E5%88%AB.html#more">全文 &gt;&gt;</a>
@@ -759,23 +595,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -810,21 +629,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p>可以使用pprof来分析golang程序的CPU性能，内存占用，block死锁，Goroutine性能等，pprof一般是在需要分析代码性能的时候才加入</p>
 <h2 id="1-分析Gin-web服务的性能"><a href="#1-分析Gin-web服务的性能" class="headerlink" title="1.分析Gin web服务的性能"></a>1.分析Gin web服务的性能</h2><p>可以使用 <a target="_blank" rel="noopener" href="https://github.com/gin-contrib/pprof">gin-contrib/pprof</a> 这个工具，参考：<a target="_blank" rel="noopener" href="https://liumurong.org/2019/12/gin_pprof/">Gin框架中使用pprof</a></p>
 <p>添加依赖</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go get github.com/gin-contrib/pprof@v1.4.0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>在gin的路由上添加 pprof.Register(app)</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">    &quot;net/http&quot;</span><br><span class="line"></span><br><span class="line">    &quot;github.com/gin-contrib/pprof&quot;</span><br><span class="line">    &quot;github.com/gin-gonic/gin&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">    app := gin.Default()</span><br><span class="line"></span><br><span class="line">    // 性能分析</span><br><span class="line">    pprof.Register(app)</span><br><span class="line"></span><br><span class="line">    app.GET(&quot;/test&quot;, func(c *gin.Context) &#123;</span><br><span class="line">        c.String(http.StatusOK, &quot;test&quot;)</span><br><span class="line">    &#125;)</span><br><span class="line">    app.Run(&quot;:3000&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>启动web应用后访问如下path</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:3000/debug/pprof/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>可以看到如下页面</p>
-<img src="/images/517519-20240818145446806-955281051.png" width="800" height="321" loading="lazy" />
-
-<p>使用go tool pprof命令采集20s的goroutine（Goroutine 是 Go 语言中的一种轻量级线程，提供了并发执行代码的能力）指标数据，如果不设置采集时间是默认采集30s，每10ms采集一次</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go tool pprof --seconds 20 http://localhost:18080/debug/pprof/goroutine</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>采集完毕后可以直接输入 web 来可视化查看数据，不过需要提前安装graphviz，否则会报
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94pprof%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7.html#more">全文 &gt;&gt;</a>
@@ -850,23 +654,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -899,6 +686,15 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p><strong>Semaphore [ˈseməfɔːr] <strong>可以维护当前访问自身的线程个数，并提供了同步机制。</strong>使用Semaphore可以控制同时访问资源的线程个数（即允许n个任务同时访问这个资源）</strong>，例如，实现一个文件允许的并发访问数。</p>
+<p>&nbsp;</p>
+<p>Semaphore实现的功能就类似厕所有5个坑，假如有十个人要上厕所，那么同时能有多少个人去上厕所呢？同时只能有5个人能够占用，当5个人中的任何一个人让开后，其中在等待的另外5个人中又有一个可以占用了。</p>
+<p>另外等待的5个人中可以是随机获得优先机会，也可以是按照先来后到的顺序获得机会，这取决于构造Semaphore对象时传入的参数选项。</p>
+<p>&nbsp;</p>
+<p>单个信号量的Semaphore对象可以实现互斥锁的功能，并且可以是由一个线程获得了&ldquo;锁&rdquo;，再由另一个线程释放&ldquo;锁&rdquo;，这可应用于死锁恢复的一些场合。</p>
+<p>通过<strong>acquire()获取访问许可</strong>，使用<strong>release()释放访问许可</strong>，Semaphore可以初始化是0，然后通过release来变成1</p>
+<p>sp.availablePermits()可以获取当前可访问的许可的数量</p>
+<p>sp.drainPermits()可以把所有许可全部清零</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.51cto.com/article/633255.html">并发编程之Semaphore原理与应用</a></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E2%80%94%E2%80%94Semaphore%E4%BF%A1%E5%8F%B7%E7%81%AF.html#more">全文 &gt;&gt;</a>
@@ -924,23 +720,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -975,9 +754,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p><strong>CyclicBarrier</strong></p>
 <p>适用于：创建一组任务，它们并行地执行任务，然后<strong>在进行下一个步骤之前等待</strong>，直至所有任务完成。它使得所有的并行任务都将在栅栏处列队，因此可以一致地向前移动。</p>
 <p>表示大家彼此等待，大家集合好后才开始出发，分散活动后又在指定地点集合碰面，这就好比整个公司的人员利用周末时间集体郊游一样，先各自从家出发到公司集合后，再同时出发到公园游玩，在指定地点集合后再同时开始就餐&hellip;</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">package java_thread;</span><br><span class="line">import java.util.concurrent.CyclicBarrier;</span><br><span class="line">import java.util.concurrent.ExecutorService;</span><br><span class="line">import java.util.concurrent.Executors;</span><br><span class="line"></span><br><span class="line">public class CyclicBarrierTest &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		ExecutorService service = Executors.newCachedThreadPool();</span><br><span class="line">		final  CyclicBarrier cb = new CyclicBarrier(3);</span><br><span class="line">		for(int i=0;i&lt;3;i++)&#123;</span><br><span class="line">			Runnable runnable = new Runnable()&#123;</span><br><span class="line">					public void run()&#123;</span><br><span class="line">					try &#123;</span><br><span class="line">						Thread.sleep((long)(Math.random()*10000));	</span><br><span class="line">						System.out.println(&quot;线程&quot; + Thread.currentThread().getName() + </span><br><span class="line">								&quot;即将到达集合地点1，当前已有&quot; + (cb.getNumberWaiting()+1) + &quot;个已经到达，&quot; + (cb.getNumberWaiting()==2?&quot;都到齐了，继续走啊&quot;:&quot;正在等候&quot;));						</span><br><span class="line">						cb.await();</span><br><span class="line">						</span><br><span class="line">						Thread.sleep((long)(Math.random()*10000));	</span><br><span class="line">						System.out.println(&quot;线程&quot; + Thread.currentThread().getName() + </span><br><span class="line">								&quot;即将到达集合地点2，当前已有&quot; + (cb.getNumberWaiting()+1) + &quot;个已经到达，&quot; + (cb.getNumberWaiting()==2?&quot;都到齐了，继续走啊&quot;:&quot;正在等候&quot;));</span><br><span class="line">						cb.await();	</span><br><span class="line">						Thread.sleep((long)(Math.random()*10000));	</span><br><span class="line">						System.out.println(&quot;线程&quot; + Thread.currentThread().getName() + </span><br><span class="line">								&quot;即将到达集合地点3，当前已有&quot; + (cb.getNumberWaiting() + 1) + &quot;个已经到达，&quot; + (cb.getNumberWaiting()==2?&quot;都到齐了，继续走啊&quot;:&quot;正在等候&quot;));						</span><br><span class="line">						cb.await();						</span><br><span class="line">					&#125; catch (Exception e) &#123;</span><br><span class="line">						e.printStackTrace();</span><br><span class="line">					&#125;				</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;;</span><br><span class="line">			service.execute(runnable);</span><br><span class="line">		&#125;</span><br><span class="line">		service.shutdown();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong><img src="/images/517519-20170109152318822-667703062.png" alt="" /></strong></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E2%80%94%E2%80%94%E5%85%B6%E4%BB%96%E5%B7%A5%E5%85%B7%E7%B1%BBCyclicBarrier%E3%80%81CountDownLatch%E5%92%8CExchange.html#more">全文 &gt;&gt;</a>
@@ -1003,23 +779,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 

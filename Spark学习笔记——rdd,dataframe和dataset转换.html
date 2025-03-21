@@ -5,16 +5,16 @@
   
   <title>Spark学习笔记——rdd,dataframe和dataset转换 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.生成RDD 12val rdd: RDD[(String, Int)] &#x3D; sc.parallelize(Seq((&quot;cat&quot;, 30), (&quot;fox&quot;, 40)))  2.生成case class RDD 123case class WordCount(word: String, count: Long)val rdd: RDD[WordCount]">
+  <meta name="description" content="1.生成RDD">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spark学习笔记——rdd,dataframe和dataset转换">
 <meta property="og:url" content="http://tonglin0325.github.io/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94rdd,dataframe%E5%92%8Cdataset%E8%BD%AC%E6%8D%A2.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="1.生成RDD 12val rdd: RDD[(String, Int)] &#x3D; sc.parallelize(Seq((&quot;cat&quot;, 30), (&quot;fox&quot;, 40)))  2.生成case class RDD 123case class WordCount(word: String, count: Long)val rdd: RDD[WordCount]">
+<meta property="og:description" content="1.生成RDD">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20211225204921345-986265448.png">
 <meta property="article:published_time" content="2015-06-16T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:28.318Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:12.129Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Spark">
 <meta name="twitter:card" content="summary">
@@ -211,6 +211,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </div>
 
         <p><strong>1.生成RDD</strong></p>
+<span id="more"></span>
+
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val rdd: RDD[(String, Int)] = sc.parallelize(Seq((&quot;cat&quot;, 30), (&quot;fox&quot;, 40)))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p><strong>2.生成case class RDD</strong></p>
@@ -219,7 +221,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p><strong>3.rdd转df</strong>，注意这里需要隐式转换</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import spark.implicits._</span><br><span class="line"></span><br><span class="line">val df = rdd.toDF()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p><strong>4.rdd转ds</strong>，注意<span id="more"></span><br>&nbsp;WordCount 需要写在主函数之外</p>
+<p><strong>4.rdd转ds</strong>，注意&nbsp;WordCount 需要写在主函数之外</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import spark.implicits._</span><br><span class="line"></span><br><span class="line">val ds: Dataset[WordCount]= rdd.toDS()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p><strong>5.df转ds</strong></p>

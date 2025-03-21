@@ -205,160 +205,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </ul>
 <p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/staff/p/13215017.html">Go中*和&amp;区别</a></p>
 <p>println打印对象只能打印出其指针，需要使用fmt.Printf，如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fmt.Printf(&quot;%+v\n&quot;, user)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://blog.cyeam.com/golang/2017/03/06/go-fmt-v">Golang 通过fmt包输出完整struct信息</a></p>
-<h2 id="2-defer"><a href="#2-defer" class="headerlink" title="2.defer"></a>2.defer</h2><p>defer是Go语言提供的一种用于注册延迟调用的机制：让函数或语句可以在当前函数执行完毕后（包括通过return正常结束或者panic导致的异常结束）执行。</p>
-<p>defer语句通常用于一些成对操作的场景：打开连接/关闭连接；加锁/释放锁；打开文件/关闭文件等。</p>
-<p>defer在一些需要回收资源的场景非常有用，可以很方便地在函数结束前做一些清理操作。在打开资源语句的下一行，直接一句defer就可以在函数返回前关闭资源，可谓相当优雅。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">f, _ := os.Open(&quot;defer.txt&quot;)</span><br><span class="line">defer f.Close()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/qcrao-2018/p/10367346.html">Golang之轻松化解defer的温柔陷阱 </a></p>
-<h2 id="3-日志库"><a href="#3-日志库" class="headerlink" title="3.日志库"></a>3.日志库</h2><h3 id="1-sirupsen-logrus"><a href="#1-sirupsen-logrus" class="headerlink" title="1.sirupsen/logrus"></a>1.<a target="_blank" rel="noopener" href="https://github.com/sirupsen/logrus">sirupsen/logrus</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go get -u github.com/sirupsen/logrus</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>文档</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://pkg.go.dev/github.com/sirupsen/logrus#section-readme</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>使用</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">  &quot;os&quot;</span><br><span class="line">  &quot;github.com/sirupsen/logrus&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">// Create a new instance of the logger. You can have any number of instances.</span><br><span class="line">var log = logrus.New()</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">  // The API for setting attributes is a little different than the package level</span><br><span class="line">  // exported logger. See Godoc.</span><br><span class="line">  log.Out = os.Stdout</span><br><span class="line"></span><br><span class="line">  // You could set this to any `io.Writer` such as a file</span><br><span class="line">  // file, err := os.OpenFile(&quot;logrus.log&quot;, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)</span><br><span class="line">  // if err == nil &#123;</span><br><span class="line">  //  log.Out = file</span><br><span class="line">  // &#125; else &#123;</span><br><span class="line">  //  log.Info(&quot;Failed to log to file, using default stderr&quot;)</span><br><span class="line">  // &#125;</span><br><span class="line"></span><br><span class="line">  log.WithFields(logrus.Fields&#123;</span><br><span class="line">    &quot;animal&quot;: &quot;walrus&quot;,</span><br><span class="line">    &quot;size&quot;:   10,</span><br><span class="line">  &#125;).Info(&quot;A group of walrus emerges from the ocean&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="2-rs-zerolog"><a href="#2-rs-zerolog" class="headerlink" title="2.rs/zerolog"></a>2.<a target="_blank" rel="noopener" href="https://github.com/rs/zerolog">rs/zerolog</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go get -u github.com/rs/zerolog/log</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>使用</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">log.Logger = log.With().Caller().Logger()</span><br><span class="line">log.Info().Msg(&quot;hello world&quot;)</span><br><span class="line"></span><br><span class="line">// Output: &#123;&quot;level&quot;: &quot;info&quot;, &quot;message&quot;: &quot;hello world&quot;, &quot;caller&quot;: &quot;/go/src/your_project/some_file:21&quot;&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="3-uber-zap"><a href="#3-uber-zap" class="headerlink" title="3.uber/zap"></a>3.uber/zap</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go get -u go.uber.org/zap</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>文档</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://pkg.go.dev/go.uber.org/zap</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>zap提供了2种logger，分别是Logger和SugaredLogger</p>
-<p>在性能要求高但是不是很重要的场景下，适合使用SugaredLogger</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">logger, _ := zap.NewProduction()</span><br><span class="line">defer logger.Sync() // flushes buffer, if any</span><br><span class="line">sugar := logger.Sugar()</span><br><span class="line">sugar.Infow(&quot;failed to fetch URL&quot;,</span><br><span class="line">  // Structured context as loosely typed key-value pairs.</span><br><span class="line">  &quot;url&quot;, url,</span><br><span class="line">  &quot;attempt&quot;, 3,</span><br><span class="line">  &quot;backoff&quot;, time.Second,</span><br><span class="line">)</span><br><span class="line">sugar.Infof(&quot;Failed to fetch URL: %s&quot;, url)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>输出</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;level&quot;:&quot;info&quot;,&quot;ts&quot;:1703922949.209576,&quot;caller&quot;:&quot;server/main.go:109&quot;,&quot;msg&quot;:&quot;failed to fetch URL&quot;,&quot;url&quot;:&quot;http://example.com&quot;,&quot;attempt&quot;:3,&quot;backoff&quot;:1&#125;</span><br><span class="line">&#123;&quot;level&quot;:&quot;info&quot;,&quot;ts&quot;:1703922949.209731,&quot;caller&quot;:&quot;server/main.go:115&quot;,&quot;msg&quot;:&quot;Failed to fetch URL: http://example.com&quot;&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>在性能要求高且需要类型安全的场景下，适合使用Logger</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">logger, _ := zap.NewProduction()</span><br><span class="line">defer logger.Sync()</span><br><span class="line">url := &quot;http://example.com&quot;</span><br><span class="line">logger.Info(&quot;failed to fetch URL&quot;,</span><br><span class="line">	// Structured context as strongly typed Field values.</span><br><span class="line">	zap.String(&quot;url&quot;, url),</span><br><span class="line">	zap.Int(&quot;attempt&quot;, 3),</span><br><span class="line">	zap.Duration(&quot;backoff&quot;, time.Second),</span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>输出</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;level&quot;:&quot;info&quot;,&quot;ts&quot;:1703923022.603034,&quot;caller&quot;:&quot;server/main.go:108&quot;,&quot;msg&quot;:&quot;failed to fetch URL&quot;,&quot;url&quot;:&quot;http://example.com&quot;,&quot;attempt&quot;:3,&quot;backoff&quot;:1&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>NewExample/NewDevelopment/NewProduction区别</p>
-<p>NewExample适用于测试代码，它将DebugLevel及以上级别的日志以JSON格式标准输出，但省略了时间戳和调用函数，以保持示例输出简短和确定。</p>
-<p>NewDevelopment适用于开发环境，它以人类友好的格式将DebugLevel及以上级别的日志写入标准错误。</p>
-<p>NewProduction适用于生产环境，它将info level及以上级别的日志以JSON格式写入标准错误。</p>
-<p>其他参考文档：<a target="_blank" rel="noopener" href="https://darjun.github.io/2020/04/23/godailylib/zap/">Go 每日一库之 zap</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/jiujuan/p/17304844.html">golang常用库包：log日志记录-uber的Go日志库zap使用详解 </a></p>
-<h3 id="4-kratos-logrus"><a href="#4-kratos-logrus" class="headerlink" title="4.kratos logrus"></a>4.<a target="_blank" rel="noopener" href="https://pkg.go.dev/github.com/go-kratos/kratos/v2/log#section-readme">kratos logrus</a></h3><p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/gz-wod/p/17248450.html">go各框架的log日志</a></p>
-<h3 id="5-日志文件回滚"><a href="#5-日志文件回滚" class="headerlink" title="5.日志文件回滚"></a>5.日志文件回滚</h3><p>日志文件按时间回滚：<a target="_blank" rel="noopener" href="https://github.com/natefinch/lumberjack">natefinch/lumberjack</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go get gopkg.in/natefinch/lumberjack.v2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="4-strconv包"><a href="#4-strconv包" class="headerlink" title="4.strconv包"></a>4.strconv包</h2><p>int转string</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s := strconv.Itoa(i)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>int64转string</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s := strconv.FormatInt(i, 10)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>string转int</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">i, err := strconv.Atoi(s)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>string转int64</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">i, err := strconv.ParseInt(s, 10, 64)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>float转string</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">v := 3.1415926535</span><br><span class="line">s1 := strconv.FormatFloat(v, &#x27;E&#x27;, -1, 32)//float32</span><br><span class="line">s2 := strconv.FormatFloat(v, &#x27;E&#x27;, -1, 64)//float64</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>string转float</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">s := &quot;3.1415926535&quot;</span><br><span class="line">v1, err := strconv.ParseFloat(v, 32)</span><br><span class="line">v2, err := strconv.ParseFloat(v, 64)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/Survivalist/articles/10287383.html">Go语言从入门到精通 - 【精华篇】strconv包详解</a></p>
-<h2 id="5-属性复制"><a href="#5-属性复制" class="headerlink" title="5.属性复制"></a>5.属性复制</h2><p>可以使用 <a target="_blank" rel="noopener" href="https://github.com/jinzhu/copier">jinzhu/copier</a></p>
-<p>使用jinzhu/copier</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go get github.com/jinzhu/copier</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>copy</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">copier.Copy(&amp;amp;employee, &amp;amp;user)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>deepcopy，区别是deepcopy的时候，对dst的属性进行修改，是肯定不会影响src的</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var dst User</span><br><span class="line">copier.CopyWithOption(&amp;amp;dst, src, copier.Option&#123;DeepCopy: true&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果想在复制的时候，对属性进行修改，可以使用方法赋值，注意需要使用copier.Copy，如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">type User struct &#123;</span><br><span class="line">  Name string</span><br><span class="line">  Age  int</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (u *User) DoubleAge() int &#123;</span><br><span class="line">  return 2 * u.Age</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type Employee struct &#123;</span><br><span class="line">  Name      string</span><br><span class="line">  DoubleAge int</span><br><span class="line">  Role      string</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">  user := User&#123;Name: &quot;dj&quot;, Age: 18&#125;</span><br><span class="line">  employee := Employee&#123;&#125;</span><br><span class="line"></span><br><span class="line">  copier.Copy(&amp;amp;employee, &amp;amp;user)</span><br><span class="line">  fmt.Printf(&quot;%#v\n&quot;, employee)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://darjun.github.io/2020/03/13/godailylib/copier/">Go 每日一库之 copier</a></p>
-<p>其他类似的库还有ulule/deepcoper，参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/fengxiandada/article/details/128810055">golang struct拷贝工具（类似于java中 BeanUtils.copyProperties()）</a></p>
-<p>以及</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/jinzhu/copier</span><br><span class="line">https://github.com/mohae/deepcopy</span><br><span class="line">https://github.com/ulule/deepcopier</span><br><span class="line">https://github.com/mitchellh/copystructure</span><br><span class="line">https://github.com/globusdigital/deep-copy</span><br><span class="line">https://github.com/getlantern/deepcopy</span><br><span class="line">https://github.com/antlabs/deepcopy </span><br><span class="line">https://github.com/go-toolsmith/astcopy</span><br><span class="line">https://github.com/qdm12/reprint</span><br><span class="line">https://github.com/huandu/go-clone</span><br><span class="line">https://github.com/wzshiming/deepclone </span><br><span class="line">https://github.com/davidwalter0/go-clone</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="6-其他数据结构"><a href="#6-其他数据结构" class="headerlink" title="6.其他数据结构"></a>6.其他数据结构</h2><p>golang没有set，priorityqueue这些数据结构，可以使用<a target="_blank" rel="noopener" href="https://pkg.go.dev/github.com/emirpasic/gods">emirpasic/gods</a></p>
-<p>参考：<a target="_blank" rel="noopener" href="https://github.com/emirpasic/gods">https://github.com/emirpasic/gods</a></p>
-<h2 id="7-切片处理"><a href="#7-切片处理" class="headerlink" title="7.切片处理"></a>7.切片处理</h2><p>可以使用<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://github.com/samber/lo"><strong>samber/lo</strong></a>来对切片、数组或集合进行处理</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go get github.com/samber/lo@v1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>比如filter操作</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">even := lo.Filter([]int&#123;1, 2, 3, 4&#125;, func(x int, index int) bool &#123;</span><br><span class="line">    return x%2 == 0</span><br><span class="line">&#125;)</span><br><span class="line">// []int&#123;2, 4&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>map操作</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import &quot;github.com/samber/lo&quot;</span><br><span class="line"></span><br><span class="line">lo.Map([]int64&#123;1, 2, 3, 4&#125;, func(x int64, index int) string &#123;</span><br><span class="line">    return strconv.FormatInt(x, 10)</span><br><span class="line">&#125;)</span><br><span class="line">// []string&#123;&quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>去重操作</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">uniqValues := lo.Uniq([]int&#123;1, 2, 2, 1&#125;)</span><br><span class="line">// []int&#123;1, 2&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>获得map的key，并转换成数组</p>
-<p>不使用lo</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">m := map[string]int&#123;</span><br><span class="line">	&quot;foo&quot;: 1,</span><br><span class="line">	&quot;bar&quot;: 2,</span><br><span class="line">&#125;</span><br><span class="line">keys := make([]string, 0, len(m))</span><br><span class="line">for key := range m &#123;</span><br><span class="line">	keys = append(keys, key)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>使用lo</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">m := map[string]int&#123;</span><br><span class="line">	&quot;foo&quot;: 1,</span><br><span class="line">	&quot;bar&quot;: 2,</span><br><span class="line">&#125;</span><br><span class="line">keys := lo.Keys[string, int](m)</span><br><span class="line">fmt.Println(keys)</span><br><span class="line"></span><br><span class="line">// [foo bar]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>range操作</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">result := lo.Range(4)</span><br><span class="line">// [0, 1, 2, 3]</span><br><span class="line"></span><br><span class="line">result := lo.Range(-4)</span><br><span class="line">// [0, -1, -2, -3]</span><br><span class="line"></span><br><span class="line">result := lo.RangeFrom(1, 5)</span><br><span class="line">// [1, 2, 3, 4, 5]</span><br><span class="line"></span><br><span class="line">result := lo.RangeFrom[float64](1.0, 5)</span><br><span class="line">// [1.0, 2.0, 3.0, 4.0, 5.0]</span><br><span class="line"></span><br><span class="line">result := lo.RangeWithSteps(0, 20, 5)</span><br><span class="line">// [0, 5, 10, 15]</span><br><span class="line"></span><br><span class="line">result := lo.RangeWithSteps[float32](-1.0, -4.0, -1.0)</span><br><span class="line">// [-1.0, -2.0, -3.0]</span><br><span class="line"></span><br><span class="line">result := lo.RangeWithSteps(1, 4, -1)</span><br><span class="line">// []</span><br><span class="line"></span><br><span class="line">result := lo.Range(0)</span><br><span class="line">// []</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="8-时间处理"><a href="#8-时间处理" class="headerlink" title="8.时间处理"></a>8.时间处理</h2><p>可以使用time或者<a target="_blank" rel="noopener" href="https://github.com/golang-module/carbon">carbon</a></p>
-<h3 id="1-time"><a href="#1-time" class="headerlink" title="1.time"></a>1.time</h3><p>字符串转time.Time</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;time&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	timeStr := &quot;2023-07-21 14:30:00&quot;</span><br><span class="line">	// DateTime   = &quot;2006-01-02 15:04:05&quot;</span><br><span class="line">	// DateOnly   = &quot;2006-01-02&quot;</span><br><span class="line">	// TimeOnly   = &quot;15:04:05&quot;</span><br><span class="line">	// RFC3339     = &quot;2006-01-02T15:04:05Z07:00&quot;</span><br><span class="line"></span><br><span class="line">	parsedTime, err := time.Parse(time.DateTime, timeStr)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		fmt.Println(&quot;解析时间字符串时出错:&quot;, err)</span><br><span class="line">		return</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fmt.Println(&quot;解析后的时间:&quot;, parsedTime)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>time.Time转字符串</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;time&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	// 获取当前时间</span><br><span class="line">	currentTime := time.Now()</span><br><span class="line">	// DateTime   = &quot;2006-01-02 15:04:05&quot;</span><br><span class="line">	// DateOnly   = &quot;2006-01-02&quot;</span><br><span class="line">	// TimeOnly   = &quot;15:04:05&quot;</span><br><span class="line">	// RFC3339     = &quot;2006-01-02T15:04:05Z07:00&quot;</span><br><span class="line">	timeStr := currentTime.Format(time.DateOnly)</span><br><span class="line">	// 输出格式化后的时间字符串</span><br><span class="line">	fmt.Println(&quot;格式化后的时间字符串:&quot;, timeStr)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="2-carbon"><a href="#2-carbon" class="headerlink" title="2.carbon"></a>2.carbon</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go get -u github.com/golang-module/carbon/v2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>文档</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://pkg.go.dev/github.com/golang-module/carbon/v2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="9-断言"><a href="#9-断言" class="headerlink" title="9.断言"></a>9.断言</h2><p>可以使用<a target="_blank" rel="noopener" href="https://github.com/stretchr/testify">stretchr/testify</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go get -u github.com/stretchr/testify</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>使用assert</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">import (</span><br><span class="line">  &quot;testing&quot;</span><br><span class="line">  &quot;github.com/stretchr/testify/assert&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func TestSomething(t *testing.T) &#123;</span><br><span class="line"></span><br><span class="line">  // assert equality</span><br><span class="line">  assert.Equal(t, 123, 123, &quot;they should be equal&quot;)</span><br><span class="line"></span><br><span class="line">  // assert inequality</span><br><span class="line">  assert.NotEqual(t, 123, 456, &quot;they should not be equal&quot;)</span><br><span class="line"></span><br><span class="line">  // assert for nil (good for errors)</span><br><span class="line">  assert.Nil(t, object)</span><br><span class="line"></span><br><span class="line">  // assert for not nil (good when you expect something)</span><br><span class="line">  if assert.NotNil(t, object) &#123;</span><br><span class="line"></span><br><span class="line">    // now we know that object isn&#x27;t nil, we are safe to make</span><br><span class="line">    // further assertions without causing any errors</span><br><span class="line">    assert.Equal(t, &quot;Something&quot;, object.Value)</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="10-resty"><a href="#10-resty" class="headerlink" title="10.resty"></a>10.resty</h2><p>在go中请求接口可以使用<a target="_blank" rel="noopener" href="https://github.com/go-resty/resty">go-resty/resty</a>框架</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go get github.com/go-resty/resty/v2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>get请求</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">// Create a Resty Client</span><br><span class="line">client := resty.New()</span><br><span class="line"></span><br><span class="line">resp, err := client.R().</span><br><span class="line">      SetQueryParams(map[string]string&#123;</span><br><span class="line">          &quot;page_no&quot;: &quot;1&quot;,</span><br><span class="line">          &quot;limit&quot;: &quot;20&quot;,</span><br><span class="line">          &quot;sort&quot;:&quot;name&quot;,</span><br><span class="line">          &quot;order&quot;: &quot;asc&quot;,</span><br><span class="line">          &quot;random&quot;:strconv.FormatInt(time.Now().Unix(), 10),</span><br><span class="line">      &#125;).</span><br><span class="line">      SetHeader(&quot;Accept&quot;, &quot;application/json&quot;).</span><br><span class="line">      SetResult(&amp;amp;Result&#123;&#125;).</span><br><span class="line">      SetAuthToken(&quot;BC594900518B4F7EAC75BD37F019E08FBC594900518B4F7EAC75BD37F019E08F&quot;).</span><br><span class="line">      Get(&quot;/search_result&quot;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>post请求</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// Create a Resty Client</span><br><span class="line">client := resty.New()</span><br><span class="line"></span><br><span class="line">// POST JSON string</span><br><span class="line">// No need to set content type, if you have client level setting</span><br><span class="line">resp, err := client.R().</span><br><span class="line">      SetHeader(&quot;Content-Type&quot;, &quot;application/json&quot;).</span><br><span class="line">      SetBody(`&#123;&quot;username&quot;:&quot;testuser&quot;, &quot;password&quot;:&quot;testpass&quot;&#125;`).</span><br><span class="line">      SetResult(&amp;amp;AuthSuccess&#123;&#125;).    // or SetResult(AuthSuccess&#123;&#125;).</span><br><span class="line">      Post(&quot;https://myapp.com/login&quot;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="11-单元测试"><a href="#11-单元测试" class="headerlink" title="11.单元测试"></a>11.单元测试</h2><p>使用testing框架进行单元测试</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">package dao</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;gin-template/internal/database&quot;</span><br><span class="line">	&quot;gin-template/internal/model&quot;</span><br><span class="line">	&quot;testing&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func Test_userDo_Create(t *testing.T) &#123;</span><br><span class="line">	user := model.User&#123;</span><br><span class="line">		Username: &quot;test&quot;,</span><br><span class="line">		Email:    &quot;test@test&quot;,</span><br><span class="line">	&#125;</span><br><span class="line">	SetDefault(database.DB)</span><br><span class="line"></span><br><span class="line">	err := User.Create(&amp;amp;user)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		fmt.Println(&quot;creat user&quot;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果遇到go testing flag provided but not defined: -test.v的报错，解决方法是添加一个init.go文件</p>
-<img src="/images/517519-20240203162551151-631373911.png" width="200" height="370" loading="lazy" />
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">package test</span><br><span class="line"></span><br><span class="line">import &quot;testing&quot;</span><br><span class="line"></span><br><span class="line">func init() &#123;</span><br><span class="line">	testing.Init()</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>然后在使用了flag的地方添加的import中</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">_ &quot;gin-template/internal/test&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<img src="/images/517519-20240203162722882-1100534949.png" width="250" height="274" loading="lazy" />
-
-<p>参考：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/a4c5071c5c05">问题记录：flag provided but not defined: -test.v 异常处理过程</a></p>
-<h2 id="12-打桩工具-mdash-mdash-go-monkey"><a href="#12-打桩工具-mdash-mdash-go-monkey" class="headerlink" title="12.打桩工具&mdash;&mdash;go monkey"></a>12.打桩工具&mdash;&mdash;go monkey</h2><p>go monkey可以用于在单元测试中进行打桩（指补齐未实现的代码）</p>
-<p>参考：<a target="_blank" rel="noopener" href="https://www.liwenzhou.com/posts/Go/unit-test-4/">Go单测从零到溜系列4&mdash;使用monkey打桩</a></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95.html#more">全文 &gt;&gt;</a>
@@ -384,23 +230,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -435,6 +264,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p>如果要通过<strong>一个对象找到一个类的名称</strong>，此时就需要用到<strong>反射机制（反射技术是用来做框架的，一般情况下Java私有对象不能被访问，但是暴力反射可以访问私有对象）</strong>。</p>
 <p>任何一个类如果没有明确地声明继承自哪个父类的时候，则<strong>默认继承Object类</strong>，所以getClass()方法是Object类中的。</p>
 <p>文件在包<strong>java_reflect目录</strong>下</p>
+<p>&nbsp;</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6.html#more">全文 &gt;&gt;</a>
@@ -460,23 +290,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -508,33 +321,17 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <!-- 目录 -->
-
-<div id="toc">
-  
-</div>
-
         <p>airflow分布式部署所依赖的组件有mysql，redis，web-server，scheduler，worker等，可以将这些组件部署在不同的机器上，来减低单台机器的压力</p>
 <p>单机安装请参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/tonglin0325/p/7911022.html">Ubuntu16.04安装apache-airflow</a></p>
 <p>然后在不同的机器上启动不同的组件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">airflow webserver -D</span><br><span class="line">airflow scheduler -D</span><br><span class="line">airflow worker -D</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/Airflow%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2.html#more">全文 &gt;&gt;</a>
+          </p>
+        
 
-<p>安装airflow其他支持组件，比如airflow-kerberos，参考</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://awesome.dbyun.net/study/details?mid=160&amp;amp;id=7427</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>airflow启用kerberos，参考</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/astronomer/airflow-guides/blob/main/guides/kerberos.md</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-        <div class="article-entry">
-          <div id="footer-info" class="inner">
-          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/Airflow%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2.html"></a>
-          </div>
-        </div>
       
     </div>
-
-    
-      
 
     
 
@@ -552,23 +349,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -606,7 +386,11 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>相关的MySQL功能包括:</p>
 <ul>
 <li>AUTOCOMMIT设置。</li>
-<li>COMMIT语句。
+<li>COMMIT语句。&nbsp;</li>
+<li>ROLLBACK语句。</li>
+</ul>
+<h3 id="2-Consistency（一致性）"><a href="#2-Consistency（一致性）" class="headerlink" title="2.Consistency（一致性）"></a>2.Consistency（一致性）</h3><p>数据库通常有各种完整性约束，如主键约束（Primary Key Constraint）、外键约束（Foreign Key Constraint）、唯一性约束（Unique Constraint）、检查约束（Check Constraint）等。一致性要求在事务执行之前和之后，这些约束必须始终满足。</p>
+<p>例如，假设数据库要求每个用户的余额不能为负数，如果一个事务试图将用户的余额更新为负数，该事务将会失败并回滚，因为它违反了数据库的一致性约束。</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E4%BA%8B%E5%8A%A1%E5%92%8C%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB.html#more">全文 &gt;&gt;</a>
@@ -632,23 +416,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -684,23 +451,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>参考：<a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/zh_cn/emr/latest/ReleaseGuide/emr-hudi-installation-and-configuration.html">创建安装了 Hudi 的集群</a></p>
 <p>Amazon EMR的版本和hudi的版本对应可以参考文档：<a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/zh_cn/emr/latest/ReleaseGuide/Hudi-release-history.html">Hudi 发行版历史记录</a></p>
 <p>可以使用下面命令进入hudi-cli</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/lib/hudi/cli/bin/hudi-cli.sh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>hudi-cli如下</p>
-<img src="/images/517519-20230110153539593-1470562504.png" alt="" loading="lazy" />
-
-<p>退出cli，输入exit</p>
-<p>我们可以在hive中注册hudi表，然后使用hive，sparkSQL或者presto对其进行查询</p>
-<p>参考：<a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/zh_cn/emr/latest/ReleaseGuide/emr-hudi-how-it-works.html">Hudi 的工作原理</a></p>
-<p>常用命令：<a target="_blank" rel="noopener" href="https://blog.csdn.net/yy8623977/article/details/123861951">Apache Hudi数据湖hudi-cli客户端使用</a></p>
-<p>官方文档：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://hudi.apache.org/docs/cli#local-set-up</span><br></pre></td></tr></table></figure>
-
-<h2 id="1-连接hudi表"><a href="#1-连接hudi表" class="headerlink" title="1.连接hudi表"></a>1.连接hudi表</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">connect --path s3://bucket_name/path_xxx</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="2-查看hudi表的属性"><a href="#2-查看hudi表的属性" class="headerlink" title="2.查看hudi表的属性"></a>2.查看hudi表的属性</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">desc</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/517519-20230414170849276-830600102.png" alt="" loading="lazy" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/hudi-cli%E4%BD%BF%E7%94%A8.html#more">全文 &gt;&gt;</a>
@@ -726,23 +476,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -775,32 +508,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="1-安装mongo客户端"><a href="#1-安装mongo客户端" class="headerlink" title="1.安装mongo客户端"></a>1.安装mongo客户端</h2><p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_38138879/article/details/117249425">ubuntu安装mongodb-4.4(通过apt命令)</a></p>
-<h2 id="2-连接mongodb"><a href="#2-连接mongodb" class="headerlink" title="2.连接mongodb"></a>2.连接mongodb</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongo ip:27017/db_name -u user_name -p</span><br></pre></td></tr></table></figure>
-
-<h2 id="3-创建collection"><a href="#3-创建collection" class="headerlink" title="3.创建collection"></a>3.创建collection</h2><p>参考：<a target="_blank" rel="noopener" href="https://www.runoob.com/mongodb/mongodb-create-collection.html">MongoDB 教程</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">use xx_db</span><br><span class="line">db.createCollection(&quot;xx_collection&quot;)</span><br></pre></td></tr></table></figure>
-
-<h2 id="4-插入数据"><a href="#4-插入数据" class="headerlink" title="4.插入数据"></a>4.插入数据</h2><p>insert one</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">use xx_db</span><br><span class="line"></span><br><span class="line">db.xx_collection.insertOne(</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;id&quot;:&quot;100000&quot;,</span><br><span class="line">        &quot;time&quot;:new Date(),</span><br><span class="line">        &quot;abc&quot;:&quot;123456&quot;</span><br><span class="line">    &#125;</span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>insert many</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">db.xx_collection.insertMany(</span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;id&quot;:&quot;200000&quot;,</span><br><span class="line">        &quot;time&quot;:new Date(),</span><br><span class="line">        &quot;token&quot;:&quot;1111111&quot;</span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        &quot;id&quot;:&quot;300000&quot;,</span><br><span class="line">        &quot;time&quot;:new Date(),</span><br><span class="line">        &quot;token&quot;:&quot;2222222&quot;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
-<h2 id="5-删除数据"><a href="#5-删除数据" class="headerlink" title="5.删除数据"></a>5.删除数据</h2><p>delete one</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use xx_db</span><br><span class="line">db.xx_collection.deleteOne(&#123;&#x27;id&#x27;:&#x27;200000&#x27;&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>delete many</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">db.xx_collection.deleteMany(&#123;&#x27;token&#x27;:&#x27;1111111&#x27;&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="6-查看Mongo的collection大小"><a href="#6-查看Mongo的collection大小" class="headerlink" title="6.查看Mongo的collection大小"></a>6.查看Mongo的collection大小</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">db.getCollection(&quot;your_collection&quot;).stats()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<img src="/images/517519-20230613151257342-1840298846.png" alt="" loading="lazy" />
-
-<p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/baby123/p/13527801.html">获取mongo 数据大小及collection大小</a></p>
-<h2 id="7-查看collection是否是sharded"><a href="#7-查看collection是否是sharded" class="headerlink" title="7.查看collection是否是sharded"></a>7.查看collection是否是sharded</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">db.getCollection(&quot;your_collection&quot;).stats()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>没有sharded字段，或者sharded值为false，都不是sharded collection</p>
-<img src="/images/517519-20230613150816471-937556156.png" alt="" loading="lazy" />
+<h2 id="2-连接mongodb"><a href="#2-连接mongodb" class="headerlink" title="2.连接mongodb"></a>2.连接mongodb</h2>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/mongo%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C.html#more">全文 &gt;&gt;</a>
@@ -826,23 +534,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -876,6 +567,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>Helm是k8s的包管理工具，使用helm可以简化k8s应用部署</p>
 <p>而使用了helm之后，helm会提供一个模板，将这些yaml文件作为一个整体进行管理，高效复用，同时方便版本管理</p>
+<p>&nbsp;</p>
+<h2 id="1-安装Helm和配置仓库"><a href="#1-安装Helm和配置仓库" class="headerlink" title="1.安装Helm和配置仓库"></a><strong>1.安装Helm和配置仓库</strong></h2>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Helm%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C.html#more">全文 &gt;&gt;</a>
@@ -901,23 +594,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -957,24 +633,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>cow是Copy On Write的缩写，含义是<strong>写入时复制</strong>（只有parquet文件）</p>
 <p>mor是Merge On Read的缩写，含义是<strong>读取时合并</strong>（log文件+parquet文件）</p>
 <p>2种hudi表类型的对比</p>
-<img src="/images/517519-20230130115036946-292986041.png" alt="" width="496" height="224" loading="lazy" />
-
-<p>适用场景，参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1897241">ByteLake：字节跳动基于Apache Hudi的实时数据湖平台</a></p>
-<p><strong>COW表</strong>适用于<strong>批量离线更新场景</strong></p>
-<p><strong>MOR表</strong>适用于<strong>实时高频更新场景</strong></p>
-<h3 id="1-写时复制"><a href="#1-写时复制" class="headerlink" title="1.写时复制"></a>1.写时复制</h3><p><strong>写时复制存储</strong>中的文件片仅包含基本/列文件，并且每次提交都会生成新版本的基本文件。 换句话说，我们压缩每个提交，从而所有的数据都是以列数据的形式储存。在这种情况下，写入数据非常昂贵（我们需要重写整个列数据文件，即使只有一个字节的新数据被提交），而读取数据的成本则没有增加。 这种视图有利于读取繁重的分析工作。</p>
-<p>cow类型的hudi表文件目录如下，参考：<a target="_blank" rel="noopener" href="https://jxeditor.github.io/2021/05/07/Hudi%E5%88%9D%E6%8E%A2/#%E5%BC%80%E5%A7%8B%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90COW">https://jxeditor.github.io/2021/05/07/Hudi初探/#开始文件分析COW</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── .hoodie</span><br><span class="line">│   ├── .aux</span><br><span class="line">│   │   └── .bootstrap</span><br><span class="line">│   │       ├── .fileids</span><br><span class="line">│   │       └── .partitions</span><br><span class="line">│   ├── .temp</span><br><span class="line">│   ├── 20210511100234.commit</span><br><span class="line">│   ├── 20210511100234.commit.requested</span><br><span class="line">│   ├── 20210511100234.inflight</span><br><span class="line">│   ├── 20210511100304.commit</span><br><span class="line">│   ├── 20210511100304.commit.requested</span><br><span class="line">│   ├── 20210511100304.inflight</span><br><span class="line">│   ├── 20210511100402.commit</span><br><span class="line">│   ├── 20210511100402.commit.requested</span><br><span class="line">│   ├── 20210511100402.inflight</span><br><span class="line">│   ├── 20210511100503.commit.requested</span><br><span class="line">│   ├── 20210511100503.inflight</span><br><span class="line">│   ├── archived</span><br><span class="line">│   └── hoodie.properties</span><br><span class="line">└── par1</span><br><span class="line">    ├── .hoodie_partition_metadata</span><br><span class="line">    ├── 48ca22d7-d503-4073-93ec-be7a33e6e8f4_0-1-0_20210511100234.parquet</span><br><span class="line">    ├── 99aaf2d1-8e82-42d9-a982-65ed8d258f28_0-1-0_20210511100304.parquet</span><br><span class="line">    └── 99aaf2d1-8e82-42d9-a982-65ed8d258f28_0-1-0_20210511100402.parquet</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>使用写时复制的时候，对于update操作，当commit了之后，即使只是update了一行数据的一个字段，hudi会将这行数据所在的文件再copy一遍，然后加个这个更新之后，重新生成一个文件，所以在使用COW表的时候可能会产生<strong>写放大</strong>的问题，参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/bluishglc/article/details/115531015">Hudi COW表的数据膨胀（清除历史版本）问题</a></p>
-<p>hudi对于历史数据的保留版本，由hoodie.cleaner.commits.retained参数来控制，默认是24</p>
-<p>在查询COW表的时候，可以通过read.start-commit加上read.end-commit参数来按commit时间来控制查询范围，格式为yyyyMMddHHmmss，所有只使用一个参数的话，只有查询最新的一个commit，参考官方配置文档：<a target="_blank" rel="noopener" href="https://hudi.apache.org/docs/configurations/">https://hudi.apache.org/docs/configurations/</a></p>
-<h3 id="2-读时合并"><a href="#2-读时合并" class="headerlink" title="2.读时合并"></a><strong>2.读时合并</strong></h3><p><strong>读时合并存储</strong>是写时复制的升级版，从某种意义上说，它仍然可以通过读优化表提供数据集的读取优化视图（写时复制的功能）。 此外，它将每个文件组的更新插入存储到基于行的增量日志中，通过文件id，将增量日志和最新版本的基本文件进行合并，从而提供近实时的数据查询。因此，此存储类型智能地平衡了读和写的成本，以提供近乎实时的查询。 这里最重要的一点是压缩器，它现在可以仔细挑选需要压缩到其列式基础文件中的增量日志（根据增量日志的文件大小），以保持查询性能（较大的增量日志将会提升近实时的查询时间，并同时需要更长的合并时间）。</p>
-<p>mor类型的hudi表文件目录如下，参考：<a target="_blank" rel="noopener" href="https://jxeditor.github.io/2021/05/07/Hudi%E5%88%9D%E6%8E%A2/#%E5%BC%80%E5%A7%8B%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90MOR">https://jxeditor.github.io/2021/05/07/Hudi初探/#开始文件分析MOR</a></p>
-<p>可以看到，采用读时合并的目录下除了.parquet文件，还有.log文件，其中.log文件采用的就是avro序列化格式，log文件格式结构可以参考：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7045527350519431204">Hudi Log 文件格式与读写流程</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── .hoodie</span><br><span class="line">│   ├── .aux</span><br><span class="line">│   │   ├── .bootstrap</span><br><span class="line">│   │   │   ├── .fileids</span><br><span class="line">│   │   │   └── .partitions</span><br><span class="line">│   │   ├── 20210510175131.compaction.requested</span><br><span class="line">│   │   ├── 20210510181521.compaction.requested</span><br><span class="line">│   │   ├── 20210510190422.compaction.requested</span><br><span class="line">│   │   └── 20210511091552.compaction.requested</span><br><span class="line">│   ├── .temp</span><br><span class="line">│   │   ├── 20210510175131</span><br><span class="line">│   │   │   └── par1</span><br><span class="line">│   │   │       ├── 0a0110a8-b26b-4595-b5fb-b2388263ac54_0-1-0_20210510175131.parquet.marker.CREATE</span><br><span class="line">│   │   │       ├── 39798d42-eb9f-46c7-aece-bdbe9fed3c45_0-1-0_20210510175131.parquet.marker.CREATE</span><br><span class="line">│   │   │       └── 75dff8c0-614a-43e9-83c7-452dfa1dc797_0-1-0_20210510175131.parquet.marker.CREATE</span><br><span class="line">│   │   ├── 20210510181521</span><br><span class="line">│   │   │   └── par1</span><br><span class="line">│   │   │       └── 39798d42-eb9f-46c7-aece-bdbe9fed3c45_0-1-0_20210510181521.parquet.marker.MERGE</span><br><span class="line">│   │   └── 20210510190422</span><br><span class="line">│   │       └── par1</span><br><span class="line">│   │           └── 39798d42-eb9f-46c7-aece-bdbe9fed3c45_0-1-0_20210510190422.parquet.marker.MERGE</span><br><span class="line">│   ├── 20210510174713.deltacommit</span><br><span class="line">│   ├── 20210510174713.deltacommit.inflight</span><br><span class="line">│   ├── 20210510174713.deltacommit.requested</span><br><span class="line">......</span><br><span class="line">│   ├── 20210510181212.rollback</span><br><span class="line">│   ├── 20210510181212.rollback.inflight</span><br><span class="line">......</span><br><span class="line">│   ├── 20210510181521.commit</span><br><span class="line">│   ├── 20210510181521.compaction.inflight</span><br><span class="line">│   ├── 20210510181521.compaction.requested</span><br><span class="line">......</span><br><span class="line">│   ├── 20210511090334.clean</span><br><span class="line">│   ├── 20210511090334.clean.inflight</span><br><span class="line">│   ├── 20210511090334.clean.requested</span><br><span class="line">......</span><br><span class="line">│   ├── archived -- 归档目录,操作未达到默认值时,没有产生对应文件</span><br><span class="line">│   └── hoodie.properties</span><br><span class="line">└── par1</span><br><span class="line">    ├── .39798d42-eb9f-46c7-aece-bdbe9fed3c45_20210510181521.log.1_0-1-0</span><br><span class="line">    ├── .39798d42-eb9f-46c7-aece-bdbe9fed3c45_20210510190422.log.1_0-1-0</span><br><span class="line">    ├── .39798d42-eb9f-46c7-aece-bdbe9fed3c45_20210511091552.log.1_0-1-2</span><br><span class="line">    ├── .hoodie_partition_metadata</span><br><span class="line">    ├── 0a0110a8-b26b-4595-b5fb-b2388263ac54_0-1-0_20210510175131.parquet</span><br><span class="line">    ├── 39798d42-eb9f-46c7-aece-bdbe9fed3c45_0-1-0_20210510181521.parquet</span><br><span class="line">    ├── 39798d42-eb9f-46c7-aece-bdbe9fed3c45_0-1-0_20210510190422.parquet</span><br><span class="line">    └── 75dff8c0-614a-43e9-83c7-452dfa1dc797_0-1-0_20210510175131.parquet</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>parquet文件什么时候合并由参数 compaction.delta_commits 和
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Hudi%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C.html#more">全文 &gt;&gt;</a>
@@ -1000,23 +658,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -1086,23 +727,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </article>
 
 
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
-
 
 
   
@@ -1134,16 +758,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>kudu支持的数据类型</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">boolean</span><br><span class="line"></span><br><span class="line">8-bit signed integer</span><br><span class="line"></span><br><span class="line">16-bit signed integer</span><br><span class="line"></span><br><span class="line">32-bit signed integer</span><br><span class="line"></span><br><span class="line">64-bit signed integer</span><br><span class="line"></span><br><span class="line">date (32-bit days since the Unix epoch)</span><br><span class="line"></span><br><span class="line">unixtime_micros (64-bit microseconds since the Unix epoch)</span><br><span class="line"></span><br><span class="line">single-precision (32-bit) IEEE-754 floating-point number</span><br><span class="line"></span><br><span class="line">double-precision (64-bit) IEEE-754 floating-point number</span><br><span class="line"></span><br><span class="line">decimal (see Decimal Type for details)</span><br><span class="line"></span><br><span class="line">varchar (see Varchar Type for details)</span><br><span class="line"></span><br><span class="line">UTF-8 encoded string (up to 64KB uncompressed)</span><br><span class="line"></span><br><span class="line">binary (up to 64KB uncompressed)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://kudu.apache.org/docs/schema_design.html">Apache Kudu Schema Design</a></p>
-<p>kudu的建表语句</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE sales_by_year(					# 列存储</span><br><span class="line">	year INT, 						# 有限固定列，强类型</span><br><span class="line">	sale_id INT COLPROPERTIES (encoding=&amp;ldquo;bitshuffle&amp;rdquo;),	# 每一列均可以设置encoding及压缩方式</span><br><span class="line">	amount INT,</span><br><span class="line">	PRIMARY	KEY (year,sale_id)				# 主键索引</span><br><span class="line">)</span><br><span class="line">PARTITION BY HASH (sale_id) PARTITIONS 4,　　　　　　　　　　　　　　# 哈希分区</span><br><span class="line">RANGE (year)</span><br><span class="line">(</span><br><span class="line">PARTITION 2014 &lt;= VALUES &lt;= 2016,				# 范围分区</span><br><span class="line">PARTITION VALUE	= 2017</span><br><span class="line">)</span><br><span class="line">STORED AS KUDU</span><br><span class="line">TBLPROPERTIES (replication=3);					# 多副本</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>或者</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE xxxx.xxxx(</span><br><span class="line">  uuid STRING,</span><br><span class="line">  ds string,</span><br><span class="line">  `date` string,</span><br><span class="line">  `ts` string,</span><br><span class="line">  `col1` int,</span><br><span class="line">  `col2` bigint,</span><br><span class="line">  `col3` int,</span><br><span class="line">PRIMARY KEY (uuid, ds))</span><br><span class="line">PARTITION BY HASH (uuid, ds) PARTITIONS 9,</span><br><span class="line">RANGE(ds) (</span><br><span class="line">PARTITION VALUE=&quot;2020-09-05&quot;,</span><br><span class="line">PARTITION VALUE=&quot;2020-09-06&quot;,</span><br><span class="line">PARTITION VALUE=&quot;2020-09-07&quot;,</span><br><span class="line">PARTITION VALUE=&quot;2020-09-08&quot;,</span><br><span class="line">PARTITION VALUE=&quot;2020-09-09&quot;</span><br><span class="line">)</span><br><span class="line">STORED AS KUDU;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="http://docsplayer.com/148383520-Dtcc2017-kudu%E4%BB%8B%E7%BB%8D-%E5%B0%8F%E7%B1%B3%E5%BC%A0%E9%9C%87-final.html">DTCC2017-Kudu介绍-小米张震-final</a></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/kudu%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%BB%BA%E8%A1%A8%E8%AF%AD%E5%8F%A5.html#more">全文 &gt;&gt;</a>
@@ -1169,23 +783,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 

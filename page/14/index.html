@@ -202,19 +202,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p>在Ubuntu下安装open-falcon和Centos下安装的方法有点区别，因为Ubuntu使用的包管理器是apt-get，而Centos下使用的是Yum，建议不要再Ubuntu下使用yum</p>
 <p>建议自己下载源码打包二进制包来安装，因为官方给出的二进制包应该是再centos下打包的，再Ubuntu下运行可能会出现问题</p>
 <p>1.安装Go，首先去官网下载，需要fq</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://golang.org</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>顺便安装Goland，注册服务器 <a target="_blank" rel="noopener" href="http://idea.youbbs.org/">http://idea.youbbs.org</a></p>
-<p>2.在/etc/profile中添加，后source /etc/profile</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#Go</span><br><span class="line">export GOROOT=/home/lintong/software/go</span><br><span class="line">export PATH=$PATH:$GOROOT/bin:$GOPATH/bin</span><br><span class="line">export GOPATH=/home/lintong/software/gopath</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>验证是否安装成功</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">go version</span><br><span class="line">go version go1.10.2 linux/amd64</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>接下来参考</p>
-<p><a target="_blank" rel="noopener" href="http://www.sysctl.me/2017/09/07/open-falcon/">Ubuntu 16.04 部署 open-falcon</a></p>
-<p><a target="_blank" rel="noopener" href="http://www.cnblogs.com/nulige/p/7741580.html">运维监控系统之Open-Falcon</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/open-falcon/falcon-plus/blob/master/README.md">Open-falcon的官方README</a></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Ubuntu%E4%B8%8B%E5%AE%89%E8%A3%85open-falcon-v0.2.1.html#more">全文 &gt;&gt;</a>
@@ -240,23 +227,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -292,6 +262,11 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>请参考博文 <a target="_blank" rel="noopener" href="http://www.cnblogs.com/tonglin0325/p/8963395.html">Flume的监控参数</a></p>
 <p>即在 <a target="_blank" rel="noopener" href="http://localhost:3000/metrics">http://localhost:3000/metrics</a> 可以访问到如下内容</p>
 <img src="/images/517519-20180502105657695-1413771658.png" alt="" />
+
+<p>&nbsp;</p>
+<p>2.在open-falcon中安装flume监控插件，参考官方文档 <a target="_blank" rel="noopener" href="http://book.open-falcon.org/zh_0_2/usage/flume.html">http://book.open-falcon.org/zh_0_2/usage/flume.html</a></p>
+<p>官方文档写的很不清楚，请参考本文接下来给出的步骤</p>
+<p>首先修改agent的配置文件，agent负责的是采集数据，同时有调度脚本插件的功能</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/open-falcon%E7%9B%91%E6%8E%A7Flume.html#more">全文 &gt;&gt;</a>
@@ -317,23 +292,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -367,14 +325,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>1.首先需要注册一个网易的邮箱，开启smtp服务，并使用其授权码</p>
 <p>2.发送邮件的Python脚本</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/python</span><br><span class="line"># -*- coding: UTF-8 -*-</span><br><span class="line"></span><br><span class="line">import smtplib</span><br><span class="line">from email.header import Header</span><br><span class="line">from email.mime.text import MIMEText</span><br><span class="line"></span><br><span class="line"># 第三方 SMTP 服务  </span><br><span class="line">mail_host = &quot;smtp.163.com&quot;  # SMTP服务器</span><br><span class="line">mail_user = &quot;XXX&quot;  # 用户名</span><br><span class="line">mail_pass = &quot;XXX&quot;  # 授权密码，非登录密码</span><br><span class="line"></span><br><span class="line">sender = &quot;XXX@163.com&quot;  # 发件人邮箱(最好写全, 不然会失败)</span><br><span class="line">receivers = [&quot;XXX@126.com&quot;]  # 接收邮件，可设置为你的QQ邮箱或者其他邮箱</span><br><span class="line"></span><br><span class="line">content = &#x27;我用Python&#x27;</span><br><span class="line">title = &#x27;人生苦短&#x27;  # 邮件主题  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def sendEmail():</span><br><span class="line">    message = MIMEText(content, &#x27;plain&#x27;, &#x27;utf-8&#x27;)  # 内容, 格式, 编码</span><br><span class="line">    message[&#x27;From&#x27;] = &quot;&#123;&#125;&quot;.format(sender)</span><br><span class="line">    message[&#x27;To&#x27;] = &quot;,&quot;.join(receivers)</span><br><span class="line">    message[&#x27;Subject&#x27;] = title</span><br><span class="line"></span><br><span class="line">    try:</span><br><span class="line">        smtpObj = smtplib.SMTP_SSL(mail_host, 465)  # 启用SSL发信, 端口一般是465  </span><br><span class="line">        smtpObj.login(mail_user, mail_pass)  # 登录验证  </span><br><span class="line">        smtpObj.sendmail(sender, receivers, message.as_string())  # 发送  </span><br><span class="line">        print(&quot;mail has been send successfully.&quot;)</span><br><span class="line">    except smtplib.SMTPException as e:</span><br><span class="line">        print(e)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def send_email2(SMTP_host, from_account, from_passwd, to_account, subject, content):</span><br><span class="line">    email_client = smtplib.SMTP(SMTP_host)</span><br><span class="line">    email_client.login(from_account, from_passwd)</span><br><span class="line">    # create msg  </span><br><span class="line">    msg = MIMEText(content, &#x27;plain&#x27;, &#x27;utf-8&#x27;)</span><br><span class="line">    msg[&#x27;Subject&#x27;] = Header(subject, &#x27;utf-8&#x27;)  # subject  </span><br><span class="line">    msg[&#x27;From&#x27;] = from_account</span><br><span class="line">    msg[&#x27;To&#x27;] = to_account</span><br><span class="line">    email_client.sendmail(from_account, to_account, msg.as_string())</span><br><span class="line"></span><br><span class="line">    email_client.quit()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">    sendEmail()</span><br><span class="line">    # receiver = &#x27;***&#x27;  </span><br><span class="line">    # send_email2(mail_host, mail_user, mail_pass, receiver, title, content)  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_40475396/article/details/78693408">Python3实现163邮箱SMTP发送邮件</a></p>
-<p>如果想美化邮件，可以在其中添加html样式，并将邮件的格式指定成html</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line">content = &quot;&quot;&quot;</span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</span><br><span class="line">    &lt;title&gt;Email Template&lt;/title&gt;</span><br><span class="line">    &lt;style&gt;</span><br><span class="line">        body &#123;</span><br><span class="line">            font-family: Arial, sans-serif;</span><br><span class="line">            background-color: #f4f4f4;</span><br><span class="line">            margin: 0;</span><br><span class="line">            padding: 0;</span><br><span class="line">        &#125;</span><br><span class="line">        .container &#123;</span><br><span class="line">            max-width: 600px;</span><br><span class="line">            margin: 20px auto;</span><br><span class="line">            background-color: #ffffff;</span><br><span class="line">            border: 1px solid #ddd;</span><br><span class="line">            border-radius: 5px;</span><br><span class="line">            overflow: hidden;</span><br><span class="line">        &#125;</span><br><span class="line">        .header &#123;</span><br><span class="line">            background-color: #007bff;</span><br><span class="line">            color: #ffffff;</span><br><span class="line">            text-align: center;</span><br><span class="line">            padding: 20px;</span><br><span class="line">        &#125;</span><br><span class="line">        .header h1 &#123;</span><br><span class="line">            margin: 0;</span><br><span class="line">            font-size: 24px;</span><br><span class="line">        &#125;</span><br><span class="line">        .content &#123;</span><br><span class="line">            padding: 20px;</span><br><span class="line">        &#125;</span><br><span class="line">        .content p &#123;</span><br><span class="line">            margin: 10px 0;</span><br><span class="line">            line-height: 1.5;</span><br><span class="line">            color: #333;</span><br><span class="line">        &#125;</span><br><span class="line">        .button &#123;</span><br><span class="line">            display: block;</span><br><span class="line">            width: 200px;</span><br><span class="line">            margin: 20px auto;</span><br><span class="line">            text-align: center;</span><br><span class="line">            padding: 10px 15px;</span><br><span class="line">            background-color: #007bff;</span><br><span class="line">            color: #ffffff;</span><br><span class="line">            text-decoration: none;</span><br><span class="line">            border-radius: 5px;</span><br><span class="line">            font-weight: bold;</span><br><span class="line">        &#125;</span><br><span class="line">        .button:hover &#123;</span><br><span class="line">            background-color: #0056b3;</span><br><span class="line">        &#125;</span><br><span class="line">        .footer &#123;</span><br><span class="line">            background-color: #f4f4f4;</span><br><span class="line">            text-align: center;</span><br><span class="line">            padding: 10px;</span><br><span class="line">            font-size: 12px;</span><br><span class="line">            color: #666;</span><br><span class="line">            border-top: 1px solid #ddd;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    </span><br><span class="line">        &lt;!-- Header Section --&gt;</span><br><span class="line">        </span><br><span class="line">            &lt;h1&gt;Welcome to Our Service&lt;/h1&gt;</span><br><span class="line">        </span><br><span class="line">        &lt;!-- Content Section --&gt;</span><br><span class="line">        </span><br><span class="line">            Dear [User],</span><br><span class="line">            Thank you for signing up for our service! We&#x27;re excited to have you on board. Please click the button below to confirm your email address and get started:</span><br><span class="line">            [Confirm Email]([CONFIRMATION_LINK])</span><br><span class="line">            If you did not sign up for this account, you can safely ignore this email.</span><br><span class="line">        </span><br><span class="line">        &lt;!-- Footer Section --&gt;</span><br><span class="line">        </span><br><span class="line">            &amp;copy; 2024 Your Company. All rights reserved.</span><br><span class="line">        </span><br><span class="line">    </span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">def sendEmail():</span><br><span class="line">    message = MIMEText(content, &quot;html&quot;, _charset=&#x27;utf-8&#x27;)  # 内容, 格式, 编码</span><br><span class="line">    message[&#x27;From&#x27;] = &quot;&#123;&#125;&quot;.format(sender)</span><br><span class="line">    message[&#x27;To&#x27;] = &quot;,&quot;.join(receivers)</span><br><span class="line">    message[&#x27;Subject&#x27;] = title</span><br><span class="line">    try:</span><br><span class="line">        smtpObj = smtplib.SMTP_SSL(mail_host, 465)  # 启用SSL发信, 端口一般是465  </span><br><span class="line">        smtpObj.login(mail_user, mail_pass)  # 登录验证  </span><br><span class="line">        smtpObj.sendmail(sender, receivers, message.as_string())  # 发送  </span><br><span class="line">        print(&quot;mail has been send successfully.&quot;)</span><br><span class="line">    except smtplib.SMTPException as e:</span><br><span class="line">        print(e)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>邮件样式如下</p>
-<img src="/images/517519-20241124232710477-2115034120.png" width="300" height="533" loading="lazy" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%8F%91%E9%82%AE%E4%BB%B6.html#more">全文 &gt;&gt;</a>
@@ -400,23 +350,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -449,6 +382,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>参考 <a target="_blank" rel="noopener" href="http://flume.cn/2016/05/18/flume%E7%9A%84http%E7%9B%91%E6%8E%A7%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E/">flume的http监控参数说明</a></p>
+<p>&nbsp;</p>
+<p>普通的flume启动命令</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Flume%E7%9A%84%E7%9B%91%E6%8E%A7%E5%8F%82%E6%95%B0.html#more">全文 &gt;&gt;</a>
@@ -474,23 +409,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -523,6 +441,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>参考 ： <a target="_blank" rel="noopener" href="https://blog.csdn.net/lsshlsw/article/details/47300145">kafka管理器kafka-manager部署安装</a></p>
+<p>&nbsp;</p>
+<p>下载Kafka Manager，并进行打包，由于Kafka manager是由scala写的，所以需要由sbt的支持</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Ubuntu%E4%B8%8B%E5%AE%89%E8%A3%85Kafka%20Manager.html#more">全文 &gt;&gt;</a>
@@ -548,23 +468,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -598,15 +501,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>参考： <a target="_blank" rel="noopener" href="http://www.cnblogs.com/EasonJim/p/7130171.html">http://www.cnblogs.com/EasonJim/p/7130171.html</a></p>
 <p>安装<strong>indicator-sysmonitor</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:fossfreedom/indicator-sysmonitor</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install indicator-sysmonitor</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>或者直接下载deb包</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://launchpad.net/indicator-sysmonitor/+download</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>启动：</p>
-<p>indicator-sysmonitor &amp;</p>
-<p>添加</p>
-<p>cpu: {cpu} 内存: {mem} 网络: {net}保存</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Ubuntu%E7%B3%BB%E7%BB%9F%E7%9B%91%E6%8E%A7indicator-sysmonitor.html#more">全文 &gt;&gt;</a>
@@ -632,23 +526,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -680,18 +557,29 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
+        <!-- 目录 -->
+
+<div id="toc">
+  
+</div>
+
         <ol>
 <li>搭建kafka的时候需要根据数据流量预估kafka集群的规模，aws为其MSK服务（aws上的托管kafka）提供了一个excel表格，可以输入参数来评估集群需要的硬件参数</li>
 </ol>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://amazonmsk.s3.amazonaws.com/MSK_Sizing_Pricing.xlsx</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/kafka%E7%9F%A5%E8%AF%86%E7%82%B9.html#more">全文 &gt;&gt;</a>
-          </p>
-        
 
+<p>&nbsp;</p>
+
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/kafka%E7%9F%A5%E8%AF%86%E7%82%B9.html"></a>
+          </div>
+        </div>
       
     </div>
+
+    
+      
 
     
 
@@ -709,23 +597,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -757,7 +628,9 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <p>参考
+        <p>参考 &nbsp;<a target="_blank" rel="noopener" href="http://www.cnblogs.com/wrencai/p/3867898.html">ubuntu14 手动安装sbt</a></p>
+<p>&nbsp;</p>
+<p>1、下载sbt通用平台压缩包：sbt-0.13.5.tgz</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Ubuntu%E4%B8%8B%E5%AE%89%E8%A3%85sbt.html#more">全文 &gt;&gt;</a>
@@ -783,23 +656,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -832,9 +688,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>参考 <a target="_blank" rel="noopener" href="https://blog.csdn.net/yasinsun/article/details/79217657">ubuntu16.04 配置shadowsocks及使用教程，支持chacha20-ietf-poly1305加密方式 </a></p>
-<h3 id="安装shadow-ocks-libev"><a href="#安装shadow-ocks-libev" class="headerlink" title="安装shadow$ocks-libev"></a>安装shadow$ocks-libev</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install software-properties-common -y</span><br><span class="line">sudo add-apt-repository ppa:max-c-lv/shadowsocks-libev -y</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt install shadowsocks-libev </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id=""><a href="#" class="headerlink" title="**"></a>**
+<h3 id="安装shadow-ocks-libev"><a href="#安装shadow-ocks-libev" class="headerlink" title="安装shadow$ocks-libev"></a>安装shadow$ocks-libev</h3>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Ubuntu%E5%AE%89%E8%A3%85shadow$ocks-libev.html#more">全文 &gt;&gt;</a>
@@ -860,23 +714,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -913,39 +750,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <img src="/images/517519-20230907114650884-1677157538.png" width="700" height="525" loading="lazy" />
 
 <p>查看当前路径</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grub&gt; ls</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>输出如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(proc) (hd0)、(hd0, msdos1) (hd1) (hd1,gpt4) (hd1,gpt3) (hd1,gpt2) (hd1,gpt1) (hd2) (hd2,gpt3) (hd2,gpt2) (hd2,gpt1) (hd3) (hd3,gpt1)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>我这边机器挂了4块硬盘，所以就会有hd0，hd1，hd2，hd4</p>
-<p>这时候就需要找到linux系统安装所在的分区，只能每个盘的每个分区一个个试过去，比如hd0只有1个分区，我们就可以使用如下命令查看1分区的文件目录</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grub&gt; ls (hd0,1) #再按tab键</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>出现的是lost+found，说明这是一个数据盘，并不是linux系统分区，当试到hd1,4的时候</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grub&gt; ls (hd1,4) #再按tab键</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>出现，说明找到了linux系统安装的盘</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lost+found/ etc/ media/ bin/ boot/ dev/ home/ lib/ lib64/ mnt/ opt/ proc/ root/ run/ sbin/ snap/ srv/ sys/ tmp/ usr/ var/ initrd.img/ vmlinux cdrom/ lib32/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>接下来使用如下命令选择这个引导</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">set root=(hd1,4)</span><br><span class="line">set prefix=(hd1,4)/boot/grub</span><br><span class="line">insmod normal</span><br><span class="line">normal</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>会正常进到grub系统选择页面，然后就可以正常进入linux系统，如下</p>
-<img src="/images/517519-20230906220114516-1292972033.png" width="700" height="466" />
-
-<p>参考：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903934255955976">Ubuntu开机出现grub指令，无法正常开机</a></p>
-<h2 id="2-修复GRUB引导"><a href="#2-修复GRUB引导" class="headerlink" title="2.修复GRUB引导"></a>2.修复GRUB引导</h2><p>安装boot-repair来对引导进行修复</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:yannubuntu/boot-repair &amp;amp;&amp;amp; sudo apt-get update</span><br><span class="line">sudo apt-get install -y boot-repair</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>然后运行boot-repair按布置操作即可</p>
-<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/kevin_1996/article/details/124086483">ubuntu启动盘修复grub引导</a></p>
-<p>对于ubuntu18.04以下的版本，可能无法通过apt-get来安装boot-reapir，会报源找不到的错误</p>
-<p>可以直接下载deb包来进行安装boot-repair</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># Download debian packages</span><br><span class="line">wget https://launchpad.net/~yannubuntu/+archive/ubuntu/boot-repair/+files/glade2script_3.2.3~ppa4_all.deb</span><br><span class="line">wget https://launchpad.net/~yannubuntu/+archive/ubuntu/boot-repair/+files/boot-sav_4ppa65_all.deb</span><br><span class="line">wget https://launchpad.net/~yannubuntu/+archive/ubuntu/boot-repair/+files/boot-repair_4ppa65_all.deb</span><br><span class="line"></span><br><span class="line"># Attempt to install them</span><br><span class="line">sudo dpkg -i ./glade2script_3.2.3~ppa4_all.deb</span><br><span class="line">sudo dpkg -i ./boot-sav_4ppa65_all.deb</span><br><span class="line">sudo dpkg -i ./boot-repair_4ppa65_all.deb</span><br><span class="line"></span><br><span class="line"># Now that dpkg knows we need to install dependancies for these packages</span><br><span class="line"># use apt-get to auto-install said dependancies</span><br><span class="line">sudo apt-get -f install</span><br><span class="line"></span><br><span class="line"># Install the packages FOR REAL this time</span><br><span class="line">sudo dpkg -i ./glade2script_3.2.3~ppa4_all.deb</span><br><span class="line">sudo dpkg -i ./boot-sav_4ppa65_all.deb</span><br><span class="line">sudo dpkg -i ./boot-repair_4ppa65_all.deb</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://gist.github.com/wilm0x42/6f11a58d3ef1ccb1238045e29834af40</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/ubuntu%E4%B8%8BGRUB%E4%BD%BF%E7%94%A8.html#more">全文 &gt;&gt;</a>
@@ -971,23 +775,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 

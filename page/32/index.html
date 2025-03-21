@@ -202,18 +202,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p>官方文档</p>
 <p><a target="_blank" rel="noopener" href="https://pkg.go.dev/github.com/go-redis/redis/v8#section-readme">https://pkg.go.dev/github.com/go-redis/redis/v8#section-readme</a></p>
 <p>添加依赖</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">go get github.com/go-redis/redis/v8</span><br><span class="line">go get github.com/go-redis/redis/extra/redisotel/v8</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>初始化client</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">client := redis.NewClient(&amp;amp;redis.Options&#123;</span><br><span class="line">    Addr:     &quot;localhost:6379&quot;,</span><br><span class="line">    Password: &quot;&quot;, // no password set</span><br><span class="line">    DB: 0,          // use default DB</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">client.AddHook(&amp;amp;redisotel.TracingHook&#123;&#125;)</span><br><span class="line">if err := client.Ping(context.Background()).Err(); err != nil &#123;</span><br><span class="line">    logger.Error(&quot;redis connect failed, err:&quot;, zap.Any(&quot;err&quot;, err))</span><br><span class="line">    panic(&quot;failed to connect redis&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>set key</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">err = rdb.Set(ctx, &quot;key&quot;, 10, time.Hour).Err()</span><br><span class="line">if err != nil &#123;</span><br><span class="line">    fmt.Println(err)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>get key</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">result := client.Get(ctx, &quot;key&quot;)</span><br><span class="line">str, err := result.Result()</span><br><span class="line">if err != nil &#123;</span><br><span class="line">	fmt.Println(err)</span><br><span class="line">&#125;</span><br><span class="line">fmt.Println(str)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://www.liwenzhou.com/posts/Go/redis/">Go语言操作Redis</a></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94go-redis.html#more">全文 &gt;&gt;</a>
@@ -239,23 +227,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -303,30 +274,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <img src="/images/517519-20230921210709760-217846670.png" width="800" height="448" loading="lazy" />
 
 <h3 id="2-美团"><a href="#2-美团" class="headerlink" title="2.美团"></a>2.美团</h3><p>特征平台所能解决的一些问题：</p>
-<ul>
-<li><strong>特征迭代成本高</strong>：框架缺乏配置化管理，新特征上线需要同时改动离线侧和在线侧代码，迭代周期较长。</li>
-<li><strong>特征复用困难</strong>：外卖不同业务线间存在相似场景，使特征的复用成为可能，但框架缺乏对复用能力的很好支撑，导致资源浪费、特征价值无法充分发挥。</li>
-<li><strong>平台化能力缺失</strong>：框架提供了特征读写的底层开发能力，但缺乏对特征迭代完整周期的平台化追踪和管理能力。</li>
-</ul>
-<p>参考：<a target="_blank" rel="noopener" href="https://tech.meituan.com/2021/03/04/featureplatform-in-mtwaimai.html">美团外卖特征平台的建设与实践</a></p>
-<p>其他美团的文章：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/gafduk7jhD9QnB1Lmmb1qw">美团配送实时特征平台建设实践</a></p>
-<h3 id="3-字节跳动"><a href="#3-字节跳动" class="headerlink" title="3.字节跳动"></a>3.字节跳动</h3><p>特征存储所解决的一些问题：</p>
-<ol>
-<li><p>存储原始特征：由于在线特征抽取在特征调研上的低效率，我们期望能够存储原始特征；</p>
-</li>
-<li><p>离线调研能力：在原始特征的基础上，可以进行离线调研，从而提升特征调研效率；</p>
-</li>
-<li><p>支持特征回填：支持特征回填，在调研完成后，可以将历史数据全部刷上调研好的特征；</p>
-</li>
-<li><p>降低存储成本：充分利用数据分布的特殊性，降低存储成本，腾出资源来存储原始特征；</p>
-</li>
-<li><p>降低训练成本：训练时只读需要的特征，而非全量特征，降低训练成本；</p>
-</li>
-<li><p>提升训练速度：训练时尽量降低数据的拷贝和序列化反序列化开销。</p>
-</li>
-</ol>
-<p>参考：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7109391565855916045">字节跳动基于 Iceberg 的海量特征存储实践</a></p>
-<h2 id="2-特征拼接问题"><a href="#2-特征拼接问题" class="headerlink" title="2.特征拼接问题"></a>2.特征拼接问题</h2><h3 id="1-离线拼接（离线特征）"><a href="#1-离线拼接（离线特征）" class="headerlink" title="1.离线拼接（离线特征）"></a>1.离线拼接（离线特征）</h3><p>以天级的batch任务来实现特征和曝光/点击的join，比如</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E7%89%B9%E5%BE%81%E5%B9%B3%E5%8F%B0%E7%AE%80%E4%BB%8B.html#more">全文 &gt;&gt;</a>
@@ -352,23 +299,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -402,17 +332,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <h2 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1.介绍"></a>1.介绍</h2><p>kafka-ui是一个开源的kafka ui工具，支持kafka，schema registry（avro和protobuf都支持），kafka connect，KSQL DB等组件</p>
 <p>github项目</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/provectus/kafka-ui</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>docker镜像地址</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://hub.docker.com/r/provectuslabs/kafka-ui</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>注意：该kafka-ui只支持2.x.x版本的kafka，对于低版本的kafka不支持，参考issue：<a target="_blank" rel="noopener" href="https://github.com/provectus/kafka-ui/issues/2097">https://github.com/provectus/kafka-ui/issues/2097</a></p>
-<p>界面如下</p>
-<img src="/images/517519-20230511144621127-431557646.png" alt="" loading="lazy" />
-
-<p>其中schema registry的schema类型支持AVRO，JSON和PROTOBUF</p>
-<img src="/images/517519-20230511145247779-1535338122.png" width="1000" height="457" loading="lazy" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/kafka-ui%E9%83%A8%E7%BD%B2.html#more">全文 &gt;&gt;</a>
@@ -438,23 +357,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -512,23 +414,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -605,23 +490,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </article>
 
 
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
-
 
 
   
@@ -653,38 +521,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>官方下载地址</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://go.dev/dl/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>1.下载pkg版本的安装包，直接双击安装，比如</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://go.dev/dl/go1.20.12.darwin-amd64.pkg</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>这时默认的GOPATH路径（go依赖的下载路径）在~/go</p>
-<p>2.也可以下载tar的压缩包进行安装</p>
-<p>下载mac对应的安装版，intel版本的mac下载x86版本</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://go.dev/dl/go1.20.12.darwin-amd64.tar.gz</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>解压到/usr/local目录</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo tar -xzvf go1.20.12.darwin-amd64.tar.gz -C /usr/local</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<img src="/images/517519-20221208142147082-1800122387.png" alt="" loading="lazy" />
-
-<p>配置环境变量</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># go</span><br><span class="line">export GOROOT=/usr/local/go</span><br><span class="line">export GOPATH=$HOME/go</span><br><span class="line">export GO111MODULE=on</span><br><span class="line">export GOPROXY=http://goproxy.cn,direct</span><br><span class="line">export PATH=$GOROOT/bin:$GOPATH/bin:$PATH</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>其中</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">GOPATH： go工作区， 下载的依赖会存放在此目录中，默认会在~/go目录下</span><br><span class="line">GOROOT： go的安装目录</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>在<code>GOPATH</code>工作区目录下，有3个目录</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">bin: 存储可执行bin文件</span><br><span class="line">pkg: 编译完成的文件</span><br><span class="line">src: 源代码文件</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>source配置</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source ~/.bash_profile</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>验证安装版本</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">go version</span><br><span class="line">go version go1.20.12 darwin/amd64</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://zhuxiongxian.cc/2021/03/18/install-go-on-mac/">mac下安装go开发环境</a></p>
-<p>如果在Goland中遇到报错：Unresolved dependency<br /><img src="/images/517519-20221208152656149-20447188.png" alt="" loading="lazy" /></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/mac%E5%AE%89%E8%A3%85go1.20.html#more">全文 &gt;&gt;</a>
@@ -710,23 +546,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -758,12 +577,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <!-- 目录 -->
-
-<div id="toc">
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-string-zi-fu-chuan"><span class="toc-text">1.string（字符串）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-session"><span class="toc-text">1.session</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-cache"><span class="toc-text">2.cache</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-fen-bu-shi-suo"><span class="toc-text">3.分布式锁</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-string-shu-zhi-lei-xing"><span class="toc-text">2.string（数值类型）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-counter"><span class="toc-text">1.counter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-xian-liu-qi"><span class="toc-text">2.限流器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-quan-ju-id-sheng-cheng-qi"><span class="toc-text">3.全局ID生成器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-hash"><span class="toc-text">3.hash</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-gou-wu-che"><span class="toc-text">1.购物车</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-bitmap"><span class="toc-text">4.bitmap</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-zai-xian-yong-hu-tong-ji-liu-cun-yong-hu-tong-ji"><span class="toc-text">1.在线用户统计，留存用户统计</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-list"><span class="toc-text">5.list</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-xiao-xi-dui-lie"><span class="toc-text">1.消息队列</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-zset"><span class="toc-text">6.zset</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-pai-xing-bang"><span class="toc-text">1.排行榜</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-zui-jin-liu-lan-gong-neng"><span class="toc-text">2.最近浏览功能</span></a></li></ol></li></ol>
-</div>
-
         <p>redis共有5种基本数据类型：</p>
 <p><strong>String（可以是字符串，整数或者浮点数）<strong>、</strong></strong></p>
 <p><strong>Hash（哈希，</strong>Redis hash 是一个 string 类型的 field（字段） 和 value（值） 的映射表，hash 特别适合用于存储对象。Redis 中每个 hash 可以存储 2<sup>32</sup> - 1 键值对（40多亿）<strong>）<strong>、</strong></strong></p>
@@ -777,39 +590,14 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>hash-max-ziplist-entries 512 // ziplist中最多能存放的</p>
 <p><strong>List（列表）<strong>、</strong></strong></p>
 <p><strong>Set（集合）、</strong></p>
-<p><strong>Zset（有序集合）</strong></p>
-<p>随着 Redis 版本的更新，后面又支持了四种数据类型： <strong>BitMap（2.2 版新增）、HyperLogLog（2.8 版新增）、GEO（3.2 版新增）、Stream（5.0 版新增）</strong>。</p>
-<p>参考：<a target="_blank" rel="noopener" href="https://z.itpub.net/article/detail/57CC0434AC20414A5F15466616575A62">16个 Redis 常见使用场景</a></p>
-<h2 id="1-string-zi-fu-chuan"><a href="#1-string（字符串）" class="headerlink" title="1.string（字符串）"></a>1.string（字符串）<a href="#1-string-zi-fu-chuan" class="header-anchor">#</a></h2><h3 id="1-session"><a href="#1-session" class="headerlink" title="1.session"></a>1.session<a href="#1-session" class="header-anchor">#</a></h3><p>在多个应用之间共享数据</p>
-<h3 id="2-cache"><a href="#2-cache" class="headerlink" title="2.cache"></a>2.cache<a href="#2-cache" class="header-anchor">#</a></h3><p>热点数据缓存</p>
-<h3 id="3-fen-bu-shi-suo"><a href="#3-分布式锁" class="headerlink" title="3.分布式锁"></a>3.分布式锁<a href="#3-fen-bu-shi-suo" class="header-anchor">#</a></h3><p>只有redis的key不存在的时候，才能获得这个锁</p>
-<h2 id="2-string-shu-zhi-lei-xing"><a href="#2-string（数值类型）" class="headerlink" title="2.string（数值类型）"></a>2.string（数值类型）<a href="#2-string-shu-zhi-lei-xing" class="header-anchor">#</a></h2><h3 id="1-counter"><a href="#1-counter" class="headerlink" title="1.counter"></a>1.counter<a href="#1-counter" class="header-anchor">#</a></h3><p>int类型，incr方法，例如：文章的阅读量、微博点赞数、允许一定的延迟，先写入Redis再定时同步到数据库</p>
-<h3 id="2-xian-liu-qi"><a href="#2-限流器" class="headerlink" title="2.限流器"></a>2.限流器<a href="#2-xian-liu-qi" class="header-anchor">#</a></h3><p>int类型，incr方法，以访问者的ip和其他信息作为key，访问一次增加一次计数，超过次数则返回false</p>
-<h3 id="3-quan-ju-id-sheng-cheng-qi"><a href="#3-全局ID生成器" class="headerlink" title="3.全局ID生成器"></a>3.全局ID生成器<a href="#3-quan-ju-id-sheng-cheng-qi" class="header-anchor">#</a></h3><p>场景：用于保证分库分表之后主键的全局唯一性，参考：<a target="_blank" rel="noopener" href="https://zq99299.github.io/note-architect/hc/02/04.html#_10%E4%B8%A8%E5%8F%91%E5%8F%B7%E5%99%A8-%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E5%90%8E-id-%E7%9A%84%E5%85%A8%E5%B1%80%E5%94%AF%E4%B8%80%E6%80%A7">10丨发号器：如何保证分库分表后 ID 的全局唯一性？</a></p>
-<h2 id="3-hash"><a href="#3-hash" class="headerlink" title="3.hash"></a>3.hash<a href="#3-hash" class="header-anchor">#</a></h2><h3 id="1-gou-wu-che"><a href="#1-购物车" class="headerlink" title="1.购物车"></a>1.购物车<a href="#1-gou-wu-che" class="header-anchor">#</a></h3><p>选择 hash 的话，每个用户的购物车对应一个 hash 对象，field 存的是<code>skuID</code>，value 存的是购物车<code>单种sku总量</code>。hash 的底层编码是 <code>ziplist</code> 和 <code>hashtable</code>。</p>
-<p>除了hash，其它的数据类型，都需要 <strong>get 出来计算后 set 回去</strong>，有的还需保存<code>加入购物车时间</code> 来排序。用来做购物车还是可以的，就是有点小麻烦，也没有充分利用 <code>Redis</code> 的数据类型（充分利用的话性能有很大的优势）；而 hash 就不一样了，我们满足它以 <code>ziplist</code>编码的条件，它就是**<code>有序</code><strong>的了 ，不需要额外计算，可以直接使用 <code>Redis</code> 命令来完成对购物车的维护，性能上无疑达到了</strong>最优**。</p>
-<p>参考：<a target="_blank" rel="noopener" href="https://ynfatal.github.io/2019/08/17/SpringBoot2/SpringBoot2%E7%AC%AC%E4%BA%8C%E5%8D%81%E4%B9%9D%E7%AF%87Redis%E5%AE%9E%E7%8E%B0%E8%B4%AD%E7%89%A9%E8%BD%A6/">SpringBoot2 | 第二十九篇：Redis 实现购物车</a></p>
-<h2 id="4-bitmap"><a href="#4-bitmap" class="headerlink" title="4.bitmap"></a>4.bitmap<a href="#4-bitmap" class="header-anchor">#</a></h2><h3 id="1-zai-xian-yong-hu-tong-ji-liu-cun-yong-hu-tong-ji"><a href="#1-在线用户统计，留存用户统计" class="headerlink" title="1.在线用户统计，留存用户统计"></a><strong>1.在线用户统计，留存用户统计</strong><a href="#1-zai-xian-yong-hu-tong-ji-liu-cun-yong-hu-tong-ji" class="header-anchor">#</a></h3><p>因为bit非常节省空间（1 MB=8388608 bit），可以用来做大数据量的统计。</p>
-<p><code>Redis</code>的位图就是一个由二进制位组成的数组， 通过将数组中的每个二进制位与用户 ID 进行一一对应， 我们可以使用位图去记录每个用户是否在线。</p>
-<p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/409386645">使用redis中的位图（bitmap）统计在线人数</a></p>
-<h2 id="5-list"><a href="#5-list" class="headerlink" title="5.list"></a>5.list<a href="#5-list" class="header-anchor">#</a></h2><h3 id="1-xiao-xi-dui-lie"><a href="#1-消息队列" class="headerlink" title="1.消息队列"></a>1.消息队列<a href="#1-xiao-xi-dui-lie" class="header-anchor">#</a></h3><p>使用LPUSH指令来进行入列操作，使用RPOP指令来进行出列操作</p>
-<p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/wzh2010/p/17205390.html">Redis系列14：使用List实现消息队列</a></p>
-<h2 id="6-zset"><a href="#6-zset" class="headerlink" title="6.zset"></a>6.zset<a href="#6-zset" class="header-anchor">#</a></h2><h3 id="1-pai-xing-bang"><a href="#1-排行榜" class="headerlink" title="1.排行榜"></a>1.排行榜<a href="#1-pai-xing-bang" class="header-anchor">#</a></h3><p>参考：<a target="_blank" rel="noopener" href="https://duyanghao.github.io/redis-rank/">redis zset实现排行榜</a></p>
-<h3 id="2-zui-jin-liu-lan-gong-neng"><a href="#2-最近浏览功能" class="headerlink" title="2.最近浏览功能"></a><strong>2.最近浏览功能</strong><a href="#2-zui-jin-liu-lan-gong-neng" class="header-anchor">#</a></h3><p>使用redis的list和zset都可以实现</p>
-<p>list实现参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/keepsilence233/p/13668090.html">使用 Redis 缓存来实现用户最近浏览的商品列表 </a></p>
-<p>zset实现参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/258317820">如何实现类似知乎的功能查看最近1000条记录呢?</a></p>
-<p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/146082021">Redis经典案例场景</a></p>
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF.html#more">全文 &gt;&gt;</a>
+          </p>
+        
 
-        <div class="article-entry">
-          <div id="footer-info" class="inner">
-          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF.html"></a>
-          </div>
-        </div>
       
     </div>
-
-    
-      
 
     
 
@@ -827,23 +615,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -876,6 +647,15 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>JSR 303 &ndash; Bean Validation 是一个数据验证的规范，2009 年 11 月确定最终方案。2009 年 12 月 Java EE 6 发布，Bean Validation 作为一个重要特性被包含其中。本文将对 Bean Validation 的主要功能进行介绍，并通过一些示例来演示如何在 Java 开发过程正确的使用 Bean Validation。</p>
+<p>&nbsp;</p>
+<p><a>关于 Bean Validation</a></p>
+<p>在任何时候，当你要处理一个应用程序的业务逻辑，数据校验是你必须要考虑和面对的事情。应用程序必须通过某种手段来确保输入进来的数据从语 义上来讲是正确的。在通常的情况下，应用程序是分层的，不同的层由不同的开发人员来完成。很多时候同样的数据验证逻辑会出现在不同的层，这样就会导致代码 冗余和一些管理的问题，比如说语义的一致性等。为了避免这样的情况发生，最好是将验证逻辑与相应的域模型进行绑定。</p>
+<p>Bean Validation 为 JavaBean 验证定义了相应的元数据模型和 API。缺省的元数据是 Java Annotations，通过使用 XML 可以对原有的元数据信息进行覆盖和扩展。在应用程序中，通过使用 Bean Validation 或是你自己定义的 constraint，例如 <code>@NotNull</code>, <code>@Max</code>, <code>@ZipCode</code>， 就可以确保数据模型（JavaBean）的正确性。constraint 可以附加到字段，getter 方法，类或者接口上面。对于一些特定的需求，用户可以很容易的开发定制化的 constraint。Bean Validation 是一个运行时的数据验证框架，在验证之后验证的错误信息会被马上返回。</p>
+<p>下载 JSR 303 &ndash; Bean Validation 规范 <a target="_blank" rel="noopener" href="http://jcp.org/en/jsr/detail?id=303">http://jcp.org/en/jsr/detail?id=303</a></p>
+<p>Hibernate Validator 是 Bean Validation 的参考实现 . Hibernate Validator 提供了 JSR 303 规范中所有内置 constraint 的实现，除此之外还有一些附加的 constraint。如果想了解更多有关 Hibernate Validator 的信息，请查看 <a target="_blank" rel="noopener" href="http://www.hibernate.org/subprojects/validator.html">http://www.hibernate.org/subprojects/validator.html</a></p>
+<p><a>Bean Validation 中的 constraint</a></p>
+<p><br /><a><strong>表 1. Bean Validation 中内置的 constraint</strong></a></p>
+<p>&nbsp;<br>| <strong>Constraint</strong> | <strong>详细信息</strong><br>|<code>@Null</code>|被注释的元素必须为 <code>null</code><br>|<code>@NotNull</code>|被注释的元素必须不为 <code>null</code><br>|<code>@AssertTrue</code>|被注释的元素必须为 <code>true</code><br>|<code>@AssertFalse</code>|被注释的元素必须为 <code>false</code><br>|<code>@Min(value)</code>|被注释的元素必须是一个数字，其值必须大于等于指定的最小值<br>|<code>@Max(value)</code>|被注释的元素必须是一个数字，其值必须小于等于指定的最大值<br>|<code>@DecimalMin(value)</code>|被注释的元素必须是一个数字，其值必须大于等于指定的最小值<br>|<code>@DecimalMax(value)</code>|被注释的元素必须是一个数字，其值必须小于等于指定的最大值<br>|<code>@Size(max, min)</code>|被注释的元素的大小必须在指定的范围内<br>|<code>@Digits (integer, fraction)</code>|被注释的元素必须是一个数字，其值必须在可接受的范围内<br>|<code>@Past</code>|被注释的元素必须是一个过去的日期<br>|<code>@Future</code>|被注释的元素必须是一个将来的日期<br>|<code>@Pattern(value)</code>|被注释的元素必须符合指定的正则表达式   </p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Spring%20MVC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94JSR303%E4%BB%8B%E7%BB%8D%E5%8F%8A%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5.html#more">全文 &gt;&gt;</a>
@@ -901,23 +681,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -951,6 +714,11 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p><strong>建立一个动态web项目，起名为SpringMVC_crud</strong></p>
 <p><strong>导包，其中包括jstl的一些包等</strong></p>
+<p>&nbsp;</p>
+<p><strong>1.先写一个User.java，是用户类</strong></p>
+<p>**　　<img src="/images/517519-20170101191209101-38674362.png" alt="" />**</p>
+<p>&nbsp;</p>
+<p>**　　文件User.java文件**</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Spring%20MVC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%94%A8%E6%88%B7%E5%A2%9E%E5%88%A0%E8%AF%A5%E6%9F%A5%E5%92%8C%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E9%AA%8C%E8%AF%81.html#more">全文 &gt;&gt;</a>
@@ -976,23 +744,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -1026,21 +777,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <h2 id="1-Flink-CDC介绍"><a href="#1-Flink-CDC介绍" class="headerlink" title="1.Flink CDC介绍"></a>1.Flink CDC介绍</h2><p>Flink CDC提供了一系列connector，用于从其他数据源获取变更数据（change data capture）</p>
 <p>官方文档</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://ververica.github.io/flink-cdc-connectors/release-2.3/content/about.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>官方github</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/ververica/flink-cdc-connectors</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>各种数据源使用案例，参考：</p>
-<p><a target="_blank" rel="noopener" href="https://aws.amazon.com/cn/blogs/china/use-emr-to-migrate-cdh-based-on-aws-s3-emr-flink-presto-and-hudi-real-time-data-lake/">基于 AWS S3、EMR Flink、Presto 和 Hudi 的实时数据湖仓 &ndash; 使用 EMR 迁移 CDH</a></p>
-<p><a target="_blank" rel="noopener" href="http://junyao.tech/posts/748d18ad.html">Flink CDC关于source和sink全调研及实践</a></p>
-<h2 id="2-Flink-Mongo-CDC"><a href="#2-Flink-Mongo-CDC" class="headerlink" title="2.Flink Mongo CDC"></a>2.Flink Mongo CDC</h2><p>官方文档和原理，参考：<a target="_blank" rel="noopener" href="https://www.51cto.com/article/712109.html">Flink CDC MongoDB Connector 的实现原理和使用实践</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://ververica.github.io/flink-cdc-connectors/release-2.3/content/connectors/mongodb-cdc.html#</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>从<strong>Flink CDC 2.1.0</strong>开始，支持了<strong>Mongo CDC的connector</strong>，flink Mongo cdc的connector和flink MySQL cdc不同，是基于MongoDB的change stream，并不基于Debezium（Debezium Mongo Connector读取的是oplog）。</p>
-<p>参考：<a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-cdc-docs-release-3.1/docs/connectors/flink-sources/mongodb-cdc/#change-streams">https://nightlies.apache.org/flink/flink-cdc-docs-release-3.1/docs/connectors/flink-sources/mongodb-cdc/#change-streams</a></p>
-<p>截止2023年中，最新的版本是2.3.0，相比2.2.0，2.3.0版本主要新增了Incremental Snapshot的特性（在snapshot阶段支持断点续传和并发同步），且要求至少mongo 4.0版本，这样就可以解决大表在第一次snapshot同步的时候，一旦失败就得重头再开始同步的问题，以及之前只能单并发同步很慢的问题</p>
-<p>具体新增的特性可以查看release：<a target="_blank" rel="noopener" href="https://github.com/ververica/flink-cdc-connectors/releases">https://github.com/ververica/flink-cdc-connectors/releases</a></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Flink%20Mongo%20CDC.html#more">全文 &gt;&gt;</a>
@@ -1066,23 +802,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 

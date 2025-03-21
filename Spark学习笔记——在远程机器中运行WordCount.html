@@ -5,15 +5,15 @@
   
   <title>Spark学习笔记——在远程机器中运行WordCount | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.通过realy机器登录relay-shell 12ssh XXX@XXX  2.登录了跳板机之后，连接可以用的机器 12XXXX.bj  3.在本地的idea生成好程序的jar包（word-count_2.11-1.0.jar）之后，把jar包和需要put到远程机器的hdfs文件系统中的文件通过scp命令从开发机传到远程的机器中 12scp 开发机用户名@开发机ip地址:&#x2F;home&#x2F;XXXXX">
+  <meta name="description" content="1.通过realy机器登录relay-shell">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spark学习笔记——在远程机器中运行WordCount">
 <meta property="og:url" content="http://tonglin0325.github.io/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9C%A8%E8%BF%9C%E7%A8%8B%E6%9C%BA%E5%99%A8%E4%B8%AD%E8%BF%90%E8%A1%8CWordCount.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="1.通过realy机器登录relay-shell 12ssh XXX@XXX  2.登录了跳板机之后，连接可以用的机器 12XXXX.bj  3.在本地的idea生成好程序的jar包（word-count_2.11-1.0.jar）之后，把jar包和需要put到远程机器的hdfs文件系统中的文件通过scp命令从开发机传到远程的机器中 12scp 开发机用户名@开发机ip地址:&#x2F;home&#x2F;XXXXX">
+<meta property="og:description" content="1.通过realy机器登录relay-shell">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2017-04-04T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:17.253Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:07.189Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Spark">
 <meta name="twitter:card" content="summary">
@@ -209,6 +209,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </div>
 
         <p>1.通过<strong>realy机器</strong>登录<strong>relay-shell</strong></p>
+<span id="more"></span>
+
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh XXX@XXX</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>2.登录了跳板机之后，<strong>连接可以用的机器</strong></p>
@@ -217,7 +219,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>3.在本地的idea生成好程序的jar包（word-count_2.11-1.0.jar）之后，把<strong>jar包</strong>和<strong>需要put到远程机器的hdfs文件系统中的文件</strong>通过scp命令从开发机传到远程的机器中</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scp 开发机用户名@开发机ip地址:/home/XXXXX/文件 .    #最后一个.表示cd的根目录下</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<span id="more"></span>
 <p>&nbsp;</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">object WordCount &#123;</span><br><span class="line">  def main(args: Array[String]) &#123;</span><br><span class="line">//    val inputFile =  &quot;file:///home/mi/coding/coding/Scala/word-count/input/README.txt&quot;</span><br><span class="line">//    val inputFile =  &quot;file://README.txt&quot;</span><br><span class="line">    val inputFile =  &quot;/user/XXXX/lintong/README.txt&quot;</span><br><span class="line">    val conf = new SparkConf().setAppName(&quot;WordCount&quot;).setMaster(&quot;yarn-client&quot;)</span><br><span class="line">    val sc = new SparkContext(conf)</span><br><span class="line">    val textFile = sc.textFile(inputFile)</span><br><span class="line">    val wordCount = textFile.flatMap(line =&gt; line.split(&quot; &quot;)).map(word =&gt; (word, 1)).reduceByKey((a, b) =&gt; a + b)</span><br><span class="line">//    wordCount.foreach(println)</span><br><span class="line">//    wordCount.saveAsTextFile(&quot;file:///home/mi/coding/coding/Scala/word-count/output/READMEOUT.txt&quot;)</span><br><span class="line">    wordCount.saveAsTextFile(&quot;/user/XXXX/lintong/READMEOUT.txt&quot;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 

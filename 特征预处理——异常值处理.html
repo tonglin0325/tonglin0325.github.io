@@ -5,12 +5,12 @@
   
   <title>特征预处理——异常值处理 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="pandas是python特征预处理常用的框架 1.查看数据加载数据 123456#-*- coding: utf-8 -*-import pandas as pdtrain_data &#x3D; pd.read_csv(&quot;.&#x2F;data&#x2F;train.csv&quot;)print(train_data)    pandas显示DataFrame数据的所有列，set_option其他参数参考：Pa">
+  <meta name="description" content="pandas是python特征预处理常用的框架 1.查看数据加载数据">
 <meta property="og:type" content="article">
 <meta property="og:title" content="特征预处理——异常值处理">
 <meta property="og:url" content="http://tonglin0325.github.io/%E7%89%B9%E5%BE%81%E9%A2%84%E5%A4%84%E7%90%86%E2%80%94%E2%80%94%E5%BC%82%E5%B8%B8%E5%80%BC%E5%A4%84%E7%90%86.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="pandas是python特征预处理常用的框架 1.查看数据加载数据 123456#-*- coding: utf-8 -*-import pandas as pdtrain_data &#x3D; pd.read_csv(&quot;.&#x2F;data&#x2F;train.csv&quot;)print(train_data)    pandas显示DataFrame数据的所有列，set_option其他参数参考：Pa">
+<meta property="og:description" content="pandas是python特征预处理常用的框架 1.查看数据加载数据">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20221029164515738-1420097445.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20221029192305392-188351075.png">
@@ -21,7 +21,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20221029211751793-507471722.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20221029231036402-409933291.png">
 <meta property="article:published_time" content="2017-01-17T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:17.344Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:07.322Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary">
@@ -219,6 +219,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
         <p>pandas是python特征预处理常用的框架</p>
 <h2 id="1-cha-kan-shu-ju"><a href="#1-查看数据" class="headerlink" title="1.查看数据"></a>1.查看数据<a href="#1-cha-kan-shu-ju" class="header-anchor">#</a></h2><p>加载数据</p>
+<span id="more"></span>
+
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#-*- coding: utf-8 -*-</span><br><span class="line">import pandas as pd</span><br><span class="line"></span><br><span class="line">train_data = pd.read_csv(&quot;./data/train.csv&quot;)</span><br><span class="line">print(train_data)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <img src="/images/517519-20221029164515738-1420097445.png" width="400" height="137" loading="lazy">
@@ -294,8 +296,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <h3 id="duo-bian-liang-tian-chong"><a href="#多变量填充" class="headerlink" title="多变量填充"></a>多变量填充<a href="#duo-bian-liang-tian-chong" class="header-anchor">#</a></h3><p>多变量填充是使用全部数据建模的方式进行填充缺失值：含有缺失值的特征被视为 y，而其他特征当作 x，对 （x, y）拟合回归模型，然后利用这个模型来预测 y 中的缺失值：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.experimental import enable_iterative_imputer</span><br><span class="line">from sklearn.impute import IterativeImputer</span><br><span class="line"></span><br><span class="line">imp = IterativeImputer(max_iter=10, random_state=0)</span><br><span class="line">imp.fit([[1, 2], [3, 6], [4, 8], [np.nan, 3], [7, np.nan]])</span><br><span class="line">&gt;&gt; IterativeImputer(random_state=0)</span><br><span class="line"></span><br><span class="line"># 拟合出第2个变量是第1个变量的2倍</span><br><span class="line">X_test = [[np.nan, 2], [6, np.nan], [np.nan, 6]]</span><br><span class="line">print(np.round(imp.transform(X_test)))</span><br><span class="line"></span><br><span class="line">[[ 1.  2.]</span><br><span class="line"> [ 6. 12.]</span><br><span class="line"> [ 3.  6.]]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h3 id="zui-jin-lin-tian-chong"><a href="#最近邻填充" class="headerlink" title="最近邻填充"></a>最近邻填充<a href="#zui-jin-lin-tian-chong" class="header-anchor">#</a></h3><span id="more"></span>
-<p>&nbsp;</p>
+<h3 id="zui-jin-lin-tian-chong"><a href="#最近邻填充" class="headerlink" title="最近邻填充"></a>最近邻填充<a href="#zui-jin-lin-tian-chong" class="header-anchor">#</a></h3><p>&nbsp;</p>
 
         <div class="article-entry">
           <div id="footer-info" class="inner">

@@ -201,54 +201,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>使用原生包管理工具安装kubectl</p>
 <p>1.更新 apt 包索引，并安装使用 Kubernetes apt 仓库所需要的包</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install -y apt-transport-https ca-certificates curl</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>2.下载 Google Cloud 公开签名秘钥，如果有网络问题的话，可以手动下载apt-key.gpg文件，然后将其改名并移动到/usr/share/keyrings/kubernetes-archive-keyring.gpg目录</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>3.添加 Kubernetes apt 仓库：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main&quot; | sudo tee /etc/apt/sources.list.d/kubernetes.list</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果报错，可以使用中科大的源</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] http://mirrors.ustc.edu.cn/kubernetes/apt kubernetes-xenial main&quot; | sudo tee /etc/apt/sources.list.d/kubernetes.list</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>4.更新 apt 包索引，使之包含新的仓库并安装 kubectl：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install -y kubectl</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://kubernetes.io/zh/docs/tasks/tools/install-kubectl-linux/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>　　</p>
-<p>使用minikube在单机上启动一个K8S机器用于测试</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/kubernetes/minikube/releases/tag/v1.21.0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>1.安装minikube</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl -LO https://github.com/kubernetes/minikube/releases/download/v1.21.0/minikube_1.21.0-0_amd64.deb</span><br><span class="line">sudo dpkg -i minikube_1.21.0-0_amd64.deb</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>2.创建集群</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">minikube start</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果遇到The image ‘xxx’ was not found; unable to add it to cache的报错，可以使用如下命令</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">minikube start --image-mirror-country=&#x27;cn&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>删除集群</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">minikube delete</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>创建特定版本的集群</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">minikube start --kubernetes-version=v1.21.1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>3.查看集群</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">kubectl get po -A</span><br><span class="line">NAMESPACE              NAME                                        READY   STATUS    RESTARTS      AGE</span><br><span class="line">kube-system            coredns-64897985d-9hqwg                     1/1     Running   0             20h</span><br><span class="line">kube-system            etcd-minikube                               1/1     Running   0             20h</span><br><span class="line">kube-system            kube-apiserver-minikube                     1/1     Running   0             20h</span><br><span class="line">kube-system            kube-controller-manager-minikube            1/1     Running   0             20h</span><br><span class="line">kube-system            kube-proxy-gzjgt                            1/1     Running   0             20h</span><br><span class="line">kube-system            kube-scheduler-minikube                     1/1     Running   0             20h</span><br><span class="line">kube-system            storage-provisioner                         1/1     Running   1 (20h ago)   20h</span><br><span class="line">kubernetes-dashboard   dashboard-metrics-scraper-58549894f-sztfp   1/1     Running   0             132m</span><br><span class="line">kubernetes-dashboard   kubernetes-dashboard-ccd587f44-bvdc9        1/1     Running   0             132m</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>minikube一些命令：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/anliven/p/13844135.html">K8s - Install Minikube in Linux</a></p>
-<p>4.启动kubernetes-dashboard，需要在图形界面中</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">minikube dashboard</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>5.配置dashboard外网访问，address是你的运行minikube的机器ip，port是对外暴露的端口</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kubectl proxy --port=10018 --address=&#x27;192.168.xx.xx&#x27; --accept-hosts=&#x27;^.*&#x27; &amp;amp;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>此时就可以访问如下的网址来访问minikube dashboard</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://master:10018/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/workloads?namespace=_all</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/ubuntu16.04%E5%AE%89%E8%A3%85minikube.html#more">全文 &gt;&gt;</a>
@@ -274,23 +226,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -322,42 +257,16 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <!-- 目录 -->
-
-<div id="toc">
-  
-</div>
-
         <p>Presto的语法解析器是使用ANTLR生成的</p>
 <p>PrestoDB的parser g4语法文件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/prestodb/presto/blob/master/presto-parser/src/main/antlr4/com/facebook/presto/sql/parser/SqlBase.g4</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/%E4%BD%BF%E7%94%A8Presto%20parser%E8%A7%A3%E6%9E%90SQL.html#more">全文 &gt;&gt;</a>
+          </p>
+        
 
-<p>PrestoSQL（Trino）的parser g4语法文件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/trinodb/trino/blob/master/core/trino-grammar/src/main/antlr4/io/trino/grammar/sql/SqlBase.g4</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果想在java代码中使用Presto的parser进行语法解析的话，可以引用下面的依赖</p>
-<p>PrestoDB（Facebook版本）</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.facebook.presto&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;presto-parser&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;0.285.1&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>PrestoSQL（社区版本，350及其以下版本叫prestosql，以上改名为Trino）</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;io.prestosql&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;presto-parser&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;330&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>Trino（社区版本，版本从351开始）</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;io.trino&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;trino-parser&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;351&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>presto parser的使用</p>
-<p>可以参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38783098/article/details/117340625">《Hive、Spark、Presto SQL 输入输出表解析》</a></p>
-
-        <div class="article-entry">
-          <div id="footer-info" class="inner">
-          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/%E4%BD%BF%E7%94%A8Presto%20parser%E8%A7%A3%E6%9E%90SQL.html"></a>
-          </div>
-        </div>
       
     </div>
-
-    
-      
 
     
 
@@ -375,23 +284,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -423,16 +315,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1-使用jmap命令生成内存快照文件-Heap-Profile"><a href="#1-使用jmap命令生成内存快照文件-Heap-Profile" class="headerlink" title="1.使用jmap命令生成内存快照文件(Heap Profile)"></a>1.使用jmap命令生成内存快照文件(Heap Profile)</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jmap -dump:format=b,file=heap.hprof $&#123;pid&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果生成快照的时候遇到如下报错</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Dumping heap to /mnt/tmp/heap.hprof ...</span><br><span class="line">Exception in thread &quot;main&quot; java.io.IOException: Premature EOF</span><br><span class="line">	at sun.tools.attach.HotSpotVirtualMachine.readInt(HotSpotVirtualMachine.java:292)</span><br><span class="line">	at sun.tools.attach.LinuxVirtualMachine.execute(LinuxVirtualMachine.java:200)</span><br><span class="line">	at sun.tools.attach.HotSpotVirtualMachine.executeCommand(HotSpotVirtualMachine.java:261)</span><br><span class="line">	at sun.tools.attach.HotSpotVirtualMachine.dumpHeap(HotSpotVirtualMachine.java:224)</span><br><span class="line">	at sun.tools.jmap.JMap.dump(JMap.java:247)</span><br><span class="line">	at sun.tools.jmap.JMap.main(JMap.java:142)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>添加如下参数就可以解决</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jmap -J-d64 -dump:format=b,file=/mnt/tmp/heap.hprof $&#123;pid&#125;</span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://little-star.love/posts/657c8eb4/">jmap -dump导出jvm堆内存信息时报错</a></p>
-<h2 id="2-使用Eclipse-Memory-Analyzer工具对hprof文件进行分析"><a href="#2-使用Eclipse-Memory-Analyzer工具对hprof文件进行分析" class="headerlink" title="2.使用Eclipse Memory Analyzer工具对hprof文件进行分析"></a>2.使用Eclipse Memory Analyzer工具对hprof文件进行分析</h2><p>如果机器的java版本是java8的话，需要注意MAT
+        <h2 id="1-使用jmap命令生成内存快照文件-Heap-Profile"><a href="#1-使用jmap命令生成内存快照文件-Heap-Profile" class="headerlink" title="1.使用jmap命令生成内存快照文件(Heap Profile)"></a>1.使用jmap命令生成内存快照文件(Heap Profile)</h2>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E4%BD%BF%E7%94%A8jmap%E6%8E%92%E6%9F%A5java%E7%A8%8B%E5%BA%8F%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2.html#more">全文 &gt;&gt;</a>
@@ -458,23 +341,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -507,48 +373,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>flink官方从1.8.0开始提供Table&amp;SQL API，参考</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/apache/flink/tree/release-1.8.0/flink-table</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果想使用Flink SQL的话，可以参考官方的get start文档，如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://nightlies.apache.org/flink/flink-docs-master/docs/dev/table/sql/gettingstarted/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>找到flink的安装目录</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/lib/flink</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>首先需要启动一个flink集群，这里使用yarn-session模式来启动一个flink session集群，比如</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./bin/yarn-session.sh -n 3 -s 5 -jm 1024 -tm 4096 -d</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>一旦flink集群启动，你就可以访问一个本地的FlinkUI</p>
-<img src="/images/517519-20230131155103757-1000146192.png" alt="" loading="lazy" />
-
-<p>如下</p>
-<img src="/images/517519-20230131144128871-1534653344.png" alt="" loading="lazy" />
-
-<p>也可以在YARN上看到flink session cluster的任务</p>
-<img src="/images/517519-20230131155205469-1160551191.png" width="800" height="137" loading="lazy" />
-
-<p>这时再启动flink SQL</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./bin/sql-client.sh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<img src="/images/517519-20230131144341230-1388879218.png" width="500" height="665" loading="lazy" />
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT &#x27;Hello World&#x27;;</span><br></pre></td></tr></table></figure>
-
-<img src="/images/517519-20230131155422734-9316893.png" alt="" loading="lazy" />
-
-<p>运行结果</p>
-<img src="/images/517519-20230131155809652-2036517278.png" width="1000" height="408" loading="lazy" />
-
-<p>默认的显示模式是表格模式，可以通过一下语句进行调整</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SET sql-client.execution.result-mode = table;</span><br><span class="line">SET sql-client.execution.result-mode = tableau;</span><br><span class="line">SET sql-client.execution.result-mode = changelog;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>tableau模式，更接近于spark sql的显示方式</p>
-<img src="/images/517519-20230131161007074-231894884.png" alt="" loading="lazy" />
-
-<p>changelog模式，变更日志模式（changelog mode）不会物化结果。可视化展示由插入（+）和撤销（-）组成的持续查询结果流。</p>
-<img src="/images/517519-20230131161256877-296222188.png" width="1000" height="415" loading="lazy" />
-
-<p>参考：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6989587704153374728">flink sql-client 菜鸟记录</a></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Flink%20SQL.html#more">全文 &gt;&gt;</a>
@@ -574,23 +398,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -622,41 +429,15 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <!-- 目录 -->
-
-<div id="toc">
-  
-</div>
-
         <p>Flink的部署方式有如下几种，本文主要介绍standalone模式</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Yarn</span><br><span class="line">Mesos</span><br><span class="line">Docker/Kubernetes</span><br><span class="line">Standalone</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Standalone%E6%A8%A1%E5%BC%8F.html#more">全文 &gt;&gt;</a>
+          </p>
+        
 
-<p>standalone模式的官方文档可以参考</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://nightlies.apache.org/flink/flink-docs-master/docs/deployment/resource-providers/standalone/overview/#standalone</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>进入flink的安装目录</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/lib/flink</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>启动一个standalone的flink集群</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./bin/start-cluster.sh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>这时可以在默认的8081端口查看FlinkUI</p>
-<p>提交任务</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./bin/flink run ./examples/streaming/TopSpeedWindowing.jar</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>关闭集群</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./bin/stop-cluster.sh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-        <div class="article-entry">
-          <div id="footer-info" class="inner">
-          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Standalone%E6%A8%A1%E5%BC%8F.html"></a>
-          </div>
-        </div>
       
     </div>
-
-    
-      
 
     
 
@@ -674,23 +455,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -724,6 +488,10 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>Java程序开启JMX的方法有2种：</p>
 <p>第1种是在启动参数中添加如下配置</p>
+<p>&nbsp;</p>
+<p>第2种是在环境变量中添加</p>
+<p>&nbsp;</p>
+<p>官方JMX exporter</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Java%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%90%AFJMX%E4%BB%A5%E5%8F%8A%E9%85%8D%E7%BD%AEPromethus%20exporter.html#more">全文 &gt;&gt;</a>
@@ -749,23 +517,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -800,6 +551,13 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p><strong>1、net.core.somaxconn</strong></p>
 <p>net.core.somaxconn是Linux中的一个kernel参数，表示socket监听（listen）的backlog上限。什么是backlog呢？backlog就是socket的监听队列，当一个请求（request）尚未被处理或建立时，他会进入backlog。而socket server可以一次性处理backlog中的所有请求，处理后的请求不再位于监听队列中。当server处理请求较慢，以至于监听队列被填满后，新来的请求会被拒绝。在Hadoop 1.0中，参数ipc.server.listen.queue.size控制了服务端socket的监听队列长度，即backlog长度，默认值是128。而Linux的参数net.core.somaxconn默认值同样为128。当服务端繁忙时，如NameNode或JobTracker，128是远远不够的。这样就需要增大backlog，例如我们的3000台集群就将ipc.server.listen.queue.size设成了32768，为了使得整个参数达到预期效果，同样需要将kernel参数net.core.somaxconn设成一个大于等于32768的值。</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://www.codenong.com/cs105985731/">关于linux内核参数的调优，你需要知道</a></p>
+<p>&nbsp;</p>
+<p><strong>2、net.ipv4.tcp_max_syn_backlog</strong></p>
+<p>表示SYN队列长度，默认1024，改成8192，可以容纳更多等待连接的网络连接数。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1682961">Linux内核参数调优</a></p>
+<p>&nbsp;</p>
+<p><strong>3、编辑/etc/sysctl.conf</strong></p>
+<p>net.ipv4.tcp_syncookies&nbsp;=&nbsp;1<br />net.ipv4.tcp_tw_reuse&nbsp;=&nbsp;1<br />net.ipv4.tcp_tw_recycle&nbsp;=&nbsp;1<br />net.ipv4.tcp_fin_timeout&nbsp;=&nbsp;30</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/linux%20os%E5%8F%82%E6%95%B0%E8%B0%83%E4%BC%98.html#more">全文 &gt;&gt;</a>
@@ -825,23 +583,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -874,6 +615,9 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <img src="/images/517519-20160315232539615-1473879989.png" alt="" />
+
+<p>&nbsp;</p>
+<img src="/images/517519-20160315233612881-1466285335.png" alt="" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81.html#more">全文 &gt;&gt;</a>
@@ -899,23 +643,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -988,23 +715,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </article>
 
 
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
-
 
 
   
@@ -1036,7 +746,9 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>官方文档：<a target="_blank" rel="noopener" href="https://prometheus.io/docs/prometheus/latest/getting_started/">https://prometheus.io/docs/prometheus/latest/getting_started/</a></p>
-<p>其他参考：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/967cb76cd5ca">CentOS7安装部署Prometheus+Grafana
+<p>其他参考：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/967cb76cd5ca">CentOS7安装部署Prometheus+Grafana&nbsp;</a></p>
+<h2 id="1-安装Prometheus"><a href="#1-安装Prometheus" class="headerlink" title="1.安装Prometheus"></a>1.安装Prometheus</h2><p>官方网站下载二进制安装包：<a target="_blank" rel="noopener" href="https://prometheus.io/download/">https://prometheus.io/download/</a></p>
+<p>可以选择mac，linux和Windows版本</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Prometheus%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html#more">全文 &gt;&gt;</a>
@@ -1062,23 +774,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 

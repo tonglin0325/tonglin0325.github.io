@@ -199,7 +199,16 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <p>参考 <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/41774446/kafka-bootstrap-servers-vs-zookeeper-in-kafka-console-consumer">Kafka bootstrap-servers vs zookeeper in kafka-console-consumer</a>
+        <p>参考 <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/41774446/kafka-bootstrap-servers-vs-zookeeper-in-kafka-console-consumer">Kafka bootstrap-servers vs zookeeper in kafka-console-consumer</a>&nbsp; 中说建议使用新版(新版本指的是kafka 0.8.0之后的版本)的 –bootstrap-server</p>
+<p>&nbsp;</p>
+<p>Kafka专业术语，参考 <a target="_blank" rel="noopener" href="https://www.ibm.com/developerworks/cn/opensource/os-cn-kafka/index.html">Apache kafka 工作原理介绍</a></p>
+<p><strong>Broker</strong>：Kafka 集群包含一个或多个服务器，这种服务器被称为 broker。</p>
+<p><strong>Topic</strong>：每条发布到 Kafka 集群的消息都有一个类别，这个类别被称为 Topic。（物理上不同 Topic 的消息分开存储，逻辑上一个 Topic 的消息虽然保存于一个或多个 broker 上，但用户只需指定消息的 Topic 即可生产或消费数据而不必关心数据存于何处）。</p>
+<p><strong>Partition</strong>：Partition 是物理上的概念，每个 Topic 包含一个或多个 Partition。</p>
+<p><strong>Producer</strong>：负责发布消息到 Kafka broker。</p>
+<p><strong>Consumer</strong>：消息消费者，向 Kafka broker 读取消息的客户端。</p>
+<p><strong>Consumer Group</strong>：每个 Consumer 属于一个特定的 Consumer Group（可为每个 Consumer 指定 group name，若不指定 group name 则属于默认的 group）。</p>
+<p>&nbsp;</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Kafka%E4%B8%ADbootstrap-server%E3%80%81broker-list%E5%92%8Czookeeper%E7%9A%84%E5%8C%BA%E5%88%AB.html#more">全文 &gt;&gt;</a>
@@ -225,23 +234,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -309,23 +301,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </article>
 
 
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
-
 
 
   
@@ -359,6 +334,12 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p><strong>Flume</strong>是一个分布式、可靠、和高可用的<strong>海量日志聚合的系统</strong>，支持在系统中定制各类数据发送方，用于收集数据；<br />同时，Flume提供对数据进行简单处理，并写到各种数据接受方（可定制）的能力。</p>
 <p><strong>Flume</strong>是一个专门设计用来从大量的源，推送数据到Hadoop生态系统中各种各样存储系统中去的，例如HDFS和HBase。</p>
 <p><strong>Guide</strong>: <a target="_blank" rel="noopener" href="http://flume.apache.org/FlumeUserGuide.html">http://flume.apache.org/FlumeUserGuide.html</a></p>
+<p>&nbsp;</p>
+<h2 id="体系架构"><a href="#体系架构" class="headerlink" title="体系架构"></a>体系架构</h2><p>Flume的数据流由<strong>事件(Event)<strong>贯穿始终。</strong>事件</strong>是Flume的基本数据单位，它携带日志数据(字节数组形式)并且携带有头信息，这些Event由Agent外部的Source生成，当<strong>Source捕获事件</strong>后会进行特定的格式化，然后Source会把事件推入(单个或多个)<strong>Channel</strong>中。你可以把Channel看作是一个缓冲区，它将保存事件直到<strong>Sink处理</strong>完该事件。Sink负责持久化日志或者把事件推向另一个Source。</p>
+<p>&nbsp;Flume以<strong>Flume Agent</strong>为<strong>最小的独立运行单位</strong>。一个Agent就是一个JVM。<strong>单agent由Source、Sink和Channel三大组件构成。</strong>一个Flume Agent可以连接一个或者多个其他的Flume Agent；一个Flume Agent也可以从一个或者多个Flume Agent接收数据。</p>
+<p><strong>注意</strong>：在Flume管道中如果有意想不到的错误、超时并进行了重试，Flume会产生重复的数据最终被被写入，后续需要处理这些冗余的数据。</p>
+<p><strong><img src="/images/517519-20180411211152242-1287192651.png" alt="" /></strong></p>
+<p>具体可以参考文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/yuan_xw/article/details/51143698">Flume教程(一) Flume入门教程 </a></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/flume%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8.html#more">全文 &gt;&gt;</a>
@@ -384,23 +365,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -433,43 +397,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>到elasticsearch网站下载最新版本的elasticsearch 6.2.1</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://www.elastic.co/downloads/elasticsearch</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong>其他版本</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://www.elastic.co/cn/downloads/past-releases/elasticsearch-6-4-2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong>嫌弃官方下载速度慢的可以去华为的镜像站去</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://mirrors.huaweicloud.com/elasticsearch/6.4.2/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong>中文文档</strong>请参考</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://www.elastic.co/guide/cn/elasticsearch/guide/current/index.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong>英文文档</strong>及其<strong>Java API使用方法</strong>请参考，官方文档比任何博客都可信</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://www.elastic.co/guide/en/elasticsearch/client/java-api/current/index.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong>Python API</strong>使用方法</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://elasticsearch-py.readthedocs.io/en/master/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>下载tar包，然后解压到/usr/local目录下，修改一下用户和组之后可以使用非root用户启动，启动命令</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./bin/elasticsearch</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>然后访问<a target="_blank" rel="noopener" href="http://127.0.0.1:9200/">http://127.0.0.1:9200/</a></p>
-<img src="/images/517519-20180213160735734-1038531418.png" alt="" width="460" height="295" />
-
-<p>如果需要让外网访问Elasticsearch的9200端口的话，需要将es的host绑定到外网</p>
-<p>修改 /configs/elasticsearch.yml文件，添加如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">network.host: 0.0.0.0</span><br><span class="line">http.port: 9200</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>然后重启，如果遇到下面问题的话</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[2018-01-28T23:51:35,204][INFO ][o.e.b.BootstrapChecks    ] [qR5cyzh] bound or publishing to a non-loopback address, enforcing bootstrap checks</span><br><span class="line">ERROR: [2] bootstrap checks failed</span><br><span class="line">[1]: max file descriptors [4096] for elasticsearch process is too low, increase to at least [65536]</span><br><span class="line">[2]: max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>解决方法</p>
-<p>第一个ERROR,</p>
-<p>在文件中添加 sudo vim /etc/security/limits.conf,然后重新登录</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">* soft nofile 65536</span><br><span class="line">* hard nofile 131072</span><br><span class="line">* soft nproc 2048</span><br><span class="line">* hard nproc 4096</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果你是用supervisor启动es的话,需要修改文件 vim /etc/supervisor/supervisord.conf,然后重启supervisor</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[supervisord]</span><br><span class="line"></span><br><span class="line">minfds=65536</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Elasticsearch%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%89%E8%A3%85%E3%80%81%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5%E5%92%8C%E6%9F%A5%E8%AF%A2.html#more">全文 &gt;&gt;</a>
@@ -495,23 +422,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -544,7 +454,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>学习的资料是官网的Programming Guide</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://spark.apache.org/docs/latest/graphx-programming-guide.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/GraphX%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Programming%20Guide.html#more">全文 &gt;&gt;</a>
@@ -570,23 +479,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -620,7 +512,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>首先自己造了一份简单的社交关系的图</p>
 <p>第一份是人物数据，id和姓名，person.txt</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1 孙俪</span><br><span class="line">2 邓超</span><br><span class="line">3 佟大为</span><br><span class="line">4 冯绍峰</span><br><span class="line">5 黄晓明</span><br><span class="line">6 angelababy</span><br><span class="line">7 李冰冰</span><br><span class="line">8 范冰冰</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/GraphX%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%8F%AF%E8%A7%86%E5%8C%96.html#more">全文 &gt;&gt;</a>
@@ -646,23 +537,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -695,11 +569,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>使用gephi对图数据进行可视化操作，下面网址是gephi的说明文档</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://seinecle.github.io/gephi-tutorials/generated-pdf/semantic-web-importer-en.pdf</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>使用的gephi版本号：0.9.1</p>
-<p>系统：Ubuntu 16.04</p>
-<p>内存：8G</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Gephi%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html#more">全文 &gt;&gt;</a>
@@ -725,23 +594,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -774,33 +626,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p><strong>1.下载mysql的repo源</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong>2.安装mysql-community-release-el7-5.noarch.rpm包</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo rpm -ivh mysql-community-release-el7-5.noarch.rpm</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>安装这个包后，会获得两个mysql的yum repo源：/etc/yum.repos.d/mysql-community.repo，/etc/yum.repos.d/mysql-community-source.repo。</p>
-<p><strong>3.安装mysql</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install mysql-server</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>根据提示安装就可以了,不过安装完成后没有密码,需要重置密码</p>
-<p><strong>4.重置mysql密码</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>登录时有可能报这样的错：ERROR 2002 (HY000): Can&lsquo;t connect to local MySQL server through socket &lsquo;/var/lib/mysql/mysql.sock&lsquo; (2)，原因是/var/lib/mysql的访问权限问题。下面的命令把/var/lib/mysql的拥有者改为当前用户：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo chown -R root:root /var/lib/mysql</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>重启mysql服务</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">service mysqld restart</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>接下来登录重置密码：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ mysql -u root  //直接回车进入mysql控制台</span><br><span class="line">mysql &gt; use mysql;</span><br><span class="line">mysql &gt; update user set password=password(&#x27;123456&#x27;) where user=&#x27;root&#x27;;</span><br><span class="line">mysql &gt; FLUSH PRIVILEGES;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong>如果mysql -u root遇到/var/lib/mysql/mysql.sock错误的时候</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ln -s /tmp/mysql.sock /var/lib/mysql/mysql.sock </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong>远程使用workbench登录MySQL</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p #登录MySQL</span><br><span class="line">use mysql;        #库</span><br><span class="line">select host,user,password from user; #表中存放的是有访问权限的用户和ip</span><br><span class="line">grant all privileges on *.* to &#x27;root&#x27;@&#x27;你的IP&#x27; identified by &#x27;root&#x27; with grant option; # 添加用户，其中identified by &#x27;root&#x27;中的root是&#x27;root&#x27;@&#x27;你的IP&#x27;这个用户登录时候使用的密码</span><br><span class="line">flush privileges;</span><br><span class="line">set password for &#x27;root&#x27;@&#x27;你的IP&#x27;=password(&#x27;你的密码&#x27;); # 更改密码</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Centos7.0%E4%B8%8BMySQL%E7%9A%84%E5%AE%89%E8%A3%85.html#more">全文 &gt;&gt;</a>
@@ -826,23 +651,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -876,23 +684,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <h2 id="1-安装apache-airflow-1-8-0"><a href="#1-安装apache-airflow-1-8-0" class="headerlink" title="1.安装apache-airflow 1.8.0"></a>1.安装apache-airflow 1.8.0</h2><p>服务器使用的是centos系统，需要安装好pip和setuptools，同时注意更新安装的版本</p>
 <p>接下来参考安装好Airflow</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Airflow 1.8 工作流平台搭建 http://blog.csdn.net/kk185800961/article/details/78431484</span><br><span class="line">airflow最简安装方法 centos 6.5 http://blog.csdn.net/Excaliburace/article/details/53818530</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>以mysql作为数据库，airflow默认使用sqlite作为数据库</p>
-<p>1.建表</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 创建相关数据库及账号  </span><br><span class="line">mysql&gt; create database airflow default charset utf8 collate utf8_general_ci;  </span><br><span class="line">mysql&gt; create user airflow@&#x27;localhost&#x27; identified by &#x27;airflow&#x27;;  </span><br><span class="line">mysql&gt; grant all on airflow.* to airflow@&#x27;localhost&#x27;;  </span><br><span class="line">mysql&gt; flush privileges;  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>2.安装airflow，需要环境隔离的时候请使用virtualenv ./<strong>en</strong>v创建隔离环境</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo pip install apache-airflow==1.8.0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>3.使用pip来安装，安装的路径在python路径下site-packages文件夹，在使用上述命令一遍就能看到</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~/anaconda2/lib/python2.7/site-packages/airflow</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>4.在/etc/proofile中添加，之后source一下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#Airflow</span><br><span class="line">export AIRFLOW_HOME=/home/lintong/airflow</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>5.创建数据库，这一步会创建上面路径的airflow文件夹，以及文件夹中的一些文件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">airflow initdb</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Ubuntu16.04%E5%AE%89%E8%A3%85apache-airflow.html#more">全文 &gt;&gt;</a>
@@ -918,23 +709,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -967,10 +741,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>安装</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install shadow$ocks</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>创建文件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">touch /etc/shadow$ocks.json</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E5%9C%A8Ubuntu%E4%B8%8A%E4%BD%BF%E7%94%A8shadow$ocks.html#more">全文 &gt;&gt;</a>
@@ -996,23 +766,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 

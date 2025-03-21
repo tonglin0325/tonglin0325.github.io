@@ -5,12 +5,12 @@
   
   <title>Kaggle学习笔记——房屋价格预测 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Kaggle的房价数据集使用的是Ames Housing">
+  <meta name="description" content="Kaggle的房价数据集使用的是Ames Housing&amp;nbsp;dataset，是美国爱荷华州的艾姆斯镇2006-2010年的房价 1.特征探索和分析1.了解特征的含义首先使用Python的pandas加载一下训练样本和测试样本，数据的格式是csv格式的，且第一列是特征的名称   查看一下特征的维度">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Kaggle学习笔记——房屋价格预测">
 <meta property="og:url" content="http://tonglin0325.github.io/Kaggle%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%88%BF%E5%B1%8B%E4%BB%B7%E6%A0%BC%E9%A2%84%E6%B5%8B.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="Kaggle的房价数据集使用的是Ames Housing">
+<meta property="og:description" content="Kaggle的房价数据集使用的是Ames Housing&amp;nbsp;dataset，是美国爱荷华州的艾姆斯镇2006-2010年的房价 1.特征探索和分析1.了解特征的含义首先使用Python的pandas加载一下训练样本和测试样本，数据的格式是csv格式的，且第一列是特征的名称   查看一下特征的维度">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230323215533168-1043888981.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230402224842886-452119346.png">
@@ -23,7 +23,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170529171410805-1848160120.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170529171700774-1032569400.png">
 <meta property="article:published_time" content="2017-05-27T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:17.104Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:07.067Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="ML">
 <meta name="twitter:card" content="summary">
@@ -219,11 +219,13 @@ if ($('.local-search').resize() && !isMobile.any()) {
   <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-te-zheng-tan-suo-he-fen-xi"><span class="toc-text">1.特征探索和分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-liao-jie-te-zheng-de-han-yi"><span class="toc-text">1.了解特征的含义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-cha-kan-te-zheng-shi-chi-san-te-zheng-huan-shi-lian-xu-te-zheng"><span class="toc-text">2.查看特征是离散特征还是连续特征</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-cha-kan-te-zheng-de-tong-ji-zhi-biao"><span class="toc-text">3.查看特征的统计指标</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-shu-ju-qing-xi-he-que-shi-zhi-tian-chong"><span class="toc-text">2.数据清洗和缺失值填充</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-chu-li-que-shi-zhi"><span class="toc-text">1.处理缺失值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-chu-li-chi-qun-zhi"><span class="toc-text">4.处理离群值</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-shu-ju-zhuan-huan"><span class="toc-text">3.数据转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-te-zheng-xuan-ze"><span class="toc-text">4.特征选择</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-qu-diao-bian-hua-xiao-de-te-zheng"><span class="toc-text">1.去掉变化小的特征</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-xiang-guan-xing-fen-xi"><span class="toc-text">2.相关性分析</span></a></li></ol></li></ol>
 </div>
 
-        <p>Kaggle的房价数据集使用的是<a target="_blank" rel="noopener" href="http://www.amstat.org/publications/jse/v19n3/decock.pdf">Ames Housing<span id="more"></span><br>&nbsp;dataset</a>，是美国爱荷华州的艾姆斯镇2006-2010年的房价</p>
+        <p>Kaggle的房价数据集使用的是<a target="_blank" rel="noopener" href="http://www.amstat.org/publications/jse/v19n3/decock.pdf">Ames Housing&nbsp;dataset</a>，是美国爱荷华州的艾姆斯镇2006-2010年的房价</p>
 <h2 id="1-te-zheng-tan-suo-he-fen-xi"><a href="#1-特征探索和分析" class="headerlink" title="1.特征探索和分析"></a>1.特征探索和分析<a href="#1-te-zheng-tan-suo-he-fen-xi" class="header-anchor">#</a></h2><h3 id="1-liao-jie-te-zheng-de-han-yi"><a href="#1-了解特征的含义" class="headerlink" title="1.了解特征的含义"></a>1.了解特征的含义<a href="#1-liao-jie-te-zheng-de-han-yi" class="header-anchor">#</a></h3><p>首先使用Python的pandas加载一下训练样本和测试样本，数据的格式是csv格式的，且第一列是特征的名称</p>
 <img src="/images/517519-20230323215533168-1043888981.png" width="500" height="50">
 
 <p>查看一下特征的维度</p>
+<span id="more"></span>
+
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import pandas as pd</span><br><span class="line"></span><br><span class="line"># 加载数据</span><br><span class="line">train_data = pd.read_csv(&quot;./raw_data/train.csv&quot;)</span><br><span class="line"></span><br><span class="line"># 去掉id和售价，只看特征</span><br><span class="line">data: DataFrame = train_data.drop(columns=[&quot;Id&quot;, &quot;SalePrice&quot;])</span><br><span class="line"></span><br><span class="line">print(data.shape)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>输出如下，除去Id和SalePrice，总共有79维的特征</p>

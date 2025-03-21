@@ -5,15 +5,15 @@
   
   <title>docker学习笔记——网络模式 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="查看容器的网络模式 12345678910docker ps -aCONTAINER ID        IMAGE                                    COMMAND                  CREATED             STATUS              PORTS               NAMES3f6822d8f262">
+  <meta name="description" content="查看容器的网络模式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="docker学习笔记——网络模式">
 <meta property="og:url" content="http://tonglin0325.github.io/docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="查看容器的网络模式 12345678910docker ps -aCONTAINER ID        IMAGE                                    COMMAND                  CREATED             STATUS              PORTS               NAMES3f6822d8f262">
+<meta property="og:description" content="查看容器的网络模式">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-03-10T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:24.632Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:09.983Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="docker">
 <meta name="twitter:card" content="summary">
@@ -209,12 +209,13 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </div>
 
         <p><strong>查看容器的网络模式</strong></p>
+<span id="more"></span>
+
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE                                    COMMAND                  CREATED             STATUS              PORTS               NAMES</span><br><span class="line">3f6822d8f262        confluentinc/cp-schema-registry:latest   &quot;/etc/confluent/dock&amp;hellip;&quot;   13 minutes ago      Up 13 minutes                           schema-registry</span><br><span class="line"></span><br><span class="line">docker inspect 3f6822d8f262 | grep -i &quot;network&quot;</span><br><span class="line">            &quot;NetworkMode&quot;: &quot;host&quot;,</span><br><span class="line">        &quot;NetworkSettings&quot;: &#123;</span><br><span class="line">            &quot;Networks&quot;: &#123;</span><br><span class="line">                    &quot;NetworkID&quot;: &quot;5d40a7d178679339f87cc31965ba9a1c662c74ccea853945967d4303e4f9acc0&quot;,</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>docker总共有4种网络模式，从上到下隔离度下降：</p>
 <p>1.Close容器，即<strong>none模式</strong>，运行在Close容器中的进程只能访问本地回环接口，隔离度最高</p>
 <p>2.Bridge容器，即<strong>bridge模式</strong>，当容器中的进程需要访问外部网络的时候应该使用，且bridge是docker的default网络模式。</p>
-<span id="more"></span>
 <p>&nbsp;</p>
 <p>bridge容器拥有2个接口，一个是私有的本地回环接口，另一个是私有接口通过网桥连接到主机的其他容器。</p>
 <p>3.Joined容器，</p>

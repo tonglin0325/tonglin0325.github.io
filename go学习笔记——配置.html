@@ -5,19 +5,19 @@
   
   <title>go学习笔记——配置 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.读取命令行参数1234func main() &amp;#123;    println(&quot;Hello &quot;, os.Args[1])&amp;#125;  配置arg   输出 12Hello World  注意arg[0]是go程序的运行目录 2.使用flag加载环境变量golang内置的标准库flag，可以用来读取配置文件的路径 1234567func main() &amp;#123;	va">
+  <meta name="description" content="1.读取命令行参数">
 <meta property="og:type" content="article">
 <meta property="og:title" content="go学习笔记——配置">
 <meta property="og:url" content="http://tonglin0325.github.io/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%85%8D%E7%BD%AE.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="1.读取命令行参数1234func main() &amp;#123;    println(&quot;Hello &quot;, os.Args[1])&amp;#125;  配置arg   输出 12Hello World  注意arg[0]是go程序的运行目录 2.使用flag加载环境变量golang内置的标准库flag，可以用来读取配置文件的路径 1234567func main() &amp;#123;	va">
+<meta property="og:description" content="1.读取命令行参数">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240128153101073-1364009315.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240128153846865-1143823151.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240128154302824-725057671.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240131004641640-922883998.png">
 <meta property="article:published_time" content="2015-07-20T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:27.394Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:11.164Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="golang">
 <meta name="twitter:card" content="summary">
@@ -213,7 +213,9 @@ if ($('.local-search').resize() && !isMobile.any()) {
   <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-du-qu-ming-ling-xing-can-shu"><span class="toc-text">1.读取命令行参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-shi-yong-flag-jia-zai-huan-jing-bian-liang"><span class="toc-text">2.使用flag加载环境变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-shi-yong-toml-huo-zhe-multiconfig-jia-zai-toml-pei-zhi-wen-jian"><span class="toc-text">3.使用toml或者multiconfig加载toml配置文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-shi-yong-toml"><span class="toc-text">1.使用toml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-shi-yong-multiconfig"><span class="toc-text">2.使用multiconfig</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-shi-yong-viper-jia-zai-pei-zhi-wen-jian"><span class="toc-text">4.使用viper加载配置文件</span></a></li></ol>
 </div>
 
-        <h2 id="1-du-qu-ming-ling-xing-can-shu"><a href="#1-读取命令行参数" class="headerlink" title="1.读取命令行参数"></a>1.读取命令行参数<a href="#1-du-qu-ming-ling-xing-can-shu" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">func main() &#123;</span><br><span class="line">    println(&quot;Hello &quot;, os.Args[1])</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        <h2 id="1-du-qu-ming-ling-xing-can-shu"><a href="#1-读取命令行参数" class="headerlink" title="1.读取命令行参数"></a>1.读取命令行参数<a href="#1-du-qu-ming-ling-xing-can-shu" class="header-anchor">#</a></h2><span id="more"></span>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">func main() &#123;</span><br><span class="line">    println(&quot;Hello &quot;, os.Args[1])</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>配置arg</p>
 <img src="/images/517519-20240128153101073-1364009315.png" width="500" height="315" loading="lazy">
@@ -267,7 +269,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>读取配置</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">func main() &#123;</span><br><span class="line"></span><br><span class="line">	var configFilePath = flag.String(&quot;conf&quot;, &quot;./&quot;, &quot;config file path&quot;)</span><br><span class="line">	flag.Parse()</span><br><span class="line"></span><br><span class="line">	if err := config.Load(*configFilePath); err != nil &#123;</span><br><span class="line">		panic(err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	println(config.Viper.GetString(&quot;db.mysql.dsn&quot;))</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<span id="more"></span>
 <p>&nbsp;配置路径</p>
 <img src="/images/517519-20240131004641640-922883998.png" width="500" height="61" loading="lazy">
 

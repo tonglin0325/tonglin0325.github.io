@@ -5,17 +5,17 @@
   
   <title>Spark学习笔记——RDD编程 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.RDD&amp;mdash;&amp;mdash;弹性分布式数据集（Resilient Distributed Dataset） RDD是一个分布式的元素集合，在Spark中，对数据的操作就是创建RDD、转换已有的RDD和调用RDD操作进行求值。 Spark 中的 RDD 就是一个不可变的分布式对象集合。每个 RDD 都被分为多个分区,这些分区运行在集群中的不同节点上。 1234567891011object">
+  <meta name="description" content="1.RDD&amp;mdash;&amp;mdash;弹性分布式数据集（Resilient Distributed Dataset） RDD是一个分布式的元素集合，在Spark中，对数据的操作就是创建RDD、转换已有的RDD和调用RDD操作进行求值。 Spark 中的 RDD 就是一个不可变的分布式对象集合。每个 RDD 都被分为多个分区,这些分区运行在集群中的不同节点上。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spark学习笔记——RDD编程">
 <meta property="og:url" content="http://tonglin0325.github.io/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94RDD%E7%BC%96%E7%A8%8B.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="1.RDD&amp;mdash;&amp;mdash;弹性分布式数据集（Resilient Distributed Dataset） RDD是一个分布式的元素集合，在Spark中，对数据的操作就是创建RDD、转换已有的RDD和调用RDD操作进行求值。 Spark 中的 RDD 就是一个不可变的分布式对象集合。每个 RDD 都被分为多个分区,这些分区运行在集群中的不同节点上。 1234567891011object">
+<meta property="og:description" content="1.RDD&amp;mdash;&amp;mdash;弹性分布式数据集（Resilient Distributed Dataset） RDD是一个分布式的元素集合，在Spark中，对数据的操作就是创建RDD、转换已有的RDD和调用RDD操作进行求值。 Spark 中的 RDD 就是一个不可变的分布式对象集合。每个 RDD 都被分为多个分区,这些分区运行在集群中的不同节点上。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170406233514972-813112650.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170407174056519-1855793921.png">
 <meta property="article:published_time" content="2017-04-05T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:17.250Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:07.181Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Spark">
 <meta name="twitter:card" content="summary">
@@ -214,6 +214,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p><strong>1.RDD&mdash;&mdash;弹性分布式数据集（Resilient Distributed Dataset）</strong></p>
 <p>RDD是一个分布式的元素集合，在Spark中，对数据的操作就是<strong>创建RDD</strong>、<strong>转换已有的RDD</strong>和<strong>调用RDD操作进行求值</strong>。</p>
 <p>Spark 中的 RDD 就是一个不可变的分布式对象集合。每个 RDD 都被分为多个分区,这些分区运行在集群中的不同节点上。</p>
+<span id="more"></span>
+
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">object WordCount &#123;</span><br><span class="line">  def main(args: Array[String]) &#123;</span><br><span class="line">    val inputFile =  &quot;file:///home/common/coding/coding/Scala/word-count/test.segmented&quot;</span><br><span class="line">    val conf = new SparkConf().setAppName(&quot;WordCount&quot;).setMaster(&quot;local&quot;)　　　　#创建一个SparkConf对象来配置应用&lt;br&gt;　　　　#集群URL：告诉Spark连接到哪个集群，local是单机单线程，无需连接到集群，应用名：在集群管理器的用户界面方便找到应用</span><br><span class="line">    val sc = new SparkContext(conf)　　　　　　　　#然后基于这SparkConf创建一个SparkContext对象</span><br><span class="line">    val textFile = sc.textFile(inputFile)　　　　#读取输入的数据</span><br><span class="line">    val wordCount = textFile.flatMap(line =&gt; line.split(&quot; &quot;)).map(word =&gt; (word, 1)).reduceByKey((a, b) =&gt; a + b)　　#切分成单词，转换成键值对并计数</span><br><span class="line">    wordCount.foreach(println)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p><strong>创建一个RDD</strong></p>
@@ -222,7 +224,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>或者</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val lines = sc.parallelize(List(&quot;pandas&quot;, &quot;i like pandas&quot;))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<span id="more"></span>
 <p>&nbsp;</p>
 <p>RDD支持两种类型的操作: **转化操作(transformation)<strong>和</strong>行动操作(action)**。</p>
 <p><strong>转化操作，是返回一个新的RDD的操作：</strong></p>

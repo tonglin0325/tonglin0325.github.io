@@ -206,20 +206,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <li>由数据库自动维护，表被删除时，该表上的索引自动被删除</li>
 </ul>
 <p>索引的原理：当以某个字段建立一个索引的时候，数据库就会生成一个索引页，索引页不单单保存索引的数据，还保存了索引在数据库的具体的物理地址。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 手动创建索引</span><br><span class="line">CREATE INDEX index_tb_dept_name</span><br><span class="line">ON tb_dept(NAME);</span><br><span class="line"></span><br><span class="line"># 使用索引，在where之后加上索引，提高查询效率</span><br><span class="line">SELECT * FROM tb_dept WHERE NAME=&#x27;Tom&#x27;</span><br><span class="line"></span><br><span class="line"># 重建索引</span><br><span class="line">drop index index_name;</span><br><span class="line">create index index_name on table(column);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>注意：如果表的列很少，不适合建立索引。当执行过很多次的insert、delete、update后，会出现索引碎片。影响查询速度，我们应该对索引进行重组。</p>
-<p>**索引列最好设置为 <code>NOT NULL</code>**，这通常可以提升查询效率和简化索引操作。</p>
-<p><strong>索引失效</strong>的场景：</p>
-<ul>
-<li>当我们使用左或者左右模糊匹配的时候，也就是 <code>like %xx</code> 或者 <code>like %xx%</code>这两种方式都会造成索引失效；</li>
-<li>当我们在查询条件中对索引列做了计算、函数、类型转换操作，这些情况下都会造成索引失效；</li>
-<li>联合索引要能正确使用需要遵循最左匹配原则，也就是按照最左优先的方式进行索引的匹配，否则就会导致索引失效。</li>
-<li>在 WHERE 子句中，如果在 OR 前的条件列是索引列，而在 OR 后的条件列不是索引列，那么索引会失效。</li>
-</ul>
-<p>参考：<a target="_blank" rel="noopener" href="https://xiaolincoding.com/mysql/index/index_interview.html#%E6%9C%89%E4%BB%80%E4%B9%88%E4%BC%98%E5%8C%96%E7%B4%A2%E5%BC%95%E7%9A%84%E6%96%B9%E6%B3%95">https://xiaolincoding.com/mysql/index/index_interview.html#有什么优化索引的方法？</a></p>
-<p><a target="_blank" rel="noopener" href="https://xiaolincoding.com/mysql/index/index_lose.html#%E7%B4%A2%E5%BC%95%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84%E9%95%BF%E4%BB%80%E4%B9%88%E6%A0%B7">https://xiaolincoding.com/mysql/index/index_lose.html#索引失效有哪些？</a></p>
-<h2 id="2-常见索引的种类"><a href="#2-常见索引的种类" class="headerlink" title="2.常见索引的种类"></a><strong>2.常见索引的种类</strong></h2><p>主键索引 PRIMARY、唯一索引 UNIQUE、普通索引 INDEX（多字段为组合索引）、全文索引 FULLTEXT、空间索引
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%B4%A2%E5%BC%95%E5%8E%9F%E7%90%86.html#more">全文 &gt;&gt;</a>
@@ -245,23 +231,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -295,6 +264,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>该工程的功能是实现关于数据库的操作，即creat、update、insert、query、delete</p>
 <p>调试的时候请用模拟器，用真机调试的时候进入cmd-adb shell，再进入cd data/data的时候会显示permission denied</p>
+<p>&nbsp;</p>
+<p>以下的代码是MainActivity.java中的代码</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94SQLite.html#more">全文 &gt;&gt;</a>
@@ -320,23 +291,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -371,7 +325,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p>下面列举了Android中Layout，Table，Menu，Checkbox，Listview，Button，Bundle的基本使用和demo</p>
 <h2 id="1-Layout：该工程的功能是实现LinearLayout"><a href="#1-Layout：该工程的功能是实现LinearLayout" class="headerlink" title="1.Layout：该工程的功能是实现LinearLayout"></a>1.Layout：该工程的功能是实现LinearLayout</h2><p>Android Layout有多种，比如：Layout，MixLayout，TableLayout等</p>
 <p>以下的代码是MainActivity.java中的代码</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">package com.example.linearlayout;</span><br><span class="line"></span><br><span class="line">import android.app.Activity;</span><br><span class="line">import android.os.Bundle;</span><br><span class="line">import android.view.Menu;</span><br><span class="line">import android.view.MenuItem;</span><br><span class="line">import android.widget.TextView;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public class MainActivity extends Activity &#123;</span><br><span class="line"></span><br><span class="line">    private TextView firstText;</span><br><span class="line">    private TextView secondText;</span><br><span class="line">    </span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        </span><br><span class="line">        firstText = (TextView)findViewById(R.id.firstText);</span><br><span class="line">        secondText = (TextView)findViewById(R.id.secondText);</span><br><span class="line">        </span><br><span class="line">        firstText.setText(R.string.firstText);</span><br><span class="line">        secondText.setText(R.string.secondText);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Android%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Layout.html#more">全文 &gt;&gt;</a>
@@ -397,23 +350,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -445,6 +381,12 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
+        <!-- 目录 -->
+
+<div id="toc">
+  
+</div>
+
         <p>使用broadcast state实现动态配置更新，即双流：一个数据流，一个配置流</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://flink.apache.org/2019/06/26/broadcast-state.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
@@ -452,14 +394,18 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://ci.apache.org/projects/flink/flink-docs-release-1.13/docs/dev/datastream/fault-tolerance/broadcast_state/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>例子：<a target="_blank" rel="noopener" href="http://shiyanjun.cn/archives/1857.html">Flink使用Broadcast State实现流处理配置实时更新</a></p>
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Broadcast%20State.html#more">全文 &gt;&gt;</a>
-          </p>
-        
+<p>&nbsp;</p>
 
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Broadcast%20State.html"></a>
+          </div>
+        </div>
       
     </div>
+
+    
+      
 
     
 
@@ -477,23 +423,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -563,23 +492,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </article>
 
 
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
-
 
 
   
@@ -610,34 +522,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1-安装kubectl命令"><a href="#1-安装kubectl命令" class="headerlink" title="1.安装kubectl命令"></a>1.安装kubectl命令</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew install kubectl</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果想安装指定版本的kubectl</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">curl -LO &quot;https://dl.k8s.io/release/v1.20.0/bin/darwin/amd64/kubectl&quot;</span><br><span class="line">chmod +x ./kubectl</span><br><span class="line">sudo mv ./kubectl /usr/local/bin/kubectl</span><br><span class="line">sudo chown root: /usr/local/bin/kubectl</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>验证版本，会打印出client端和server端的版本，官方建议2个版本直接版本相差不要大于+/-1</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">kubectl version</span><br><span class="line">Client Version: version.Info&#123;Major:&quot;1&quot;, Minor:&quot;20&quot;, GitVersion:&quot;v1.20.0&quot;, GitCommit:&quot;af46c47ce925f4c4ad5cc8d1fca46c7b77d13b38&quot;, GitTreeState:&quot;clean&quot;, BuildDate:&quot;2020-12-08T17:59:43Z&quot;, GoVersion:&quot;go1.15.5&quot;, Compiler:&quot;gc&quot;, Platform:&quot;darwin/amd64&quot;&#125;</span><br><span class="line">Server Version: version.Info&#123;Major:&quot;1&quot;, Minor:&quot;20&quot;, GitVersion:&quot;v1.20.7&quot;, GitCommit:&quot;132a687512d7fb058d0f5890f07d4121b3f0a2e2&quot;, GitTreeState:&quot;clean&quot;, BuildDate:&quot;2021-05-12T12:32:49Z&quot;, GoVersion:&quot;go1.15.12&quot;, Compiler:&quot;gc&quot;, Platform:&quot;linux/amd64&quot;&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>　　</p>
-<h2 id="2-下载和安装minikube"><a href="#2-下载和安装minikube" class="headerlink" title="2.下载和安装minikube"></a>2.下载和安装minikube</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">➜  /Users/lintong/Downloads $ curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-darwin-amd64</span><br><span class="line"></span><br><span class="line">  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current</span><br><span class="line">                                 Dload  Upload   Total   Spent    Left  Speed</span><br><span class="line">100 68.6M  100 68.6M    0     0  9365k      0  0:00:07  0:00:07 --:--:-- 11.0M</span><br><span class="line">➜  /Users/lintong/Downloads $ sudo install minikube-darwin-amd64 /usr/local/bin/minikube</span><br><span class="line"></span><br><span class="line">Password:</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://minikube.sigs.k8s.io/docs/start/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果要安装<strong>指定版本</strong>的话，请到下面的地址下载</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/kubernetes/minikube/releases</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>比如安装v1.21.0版本</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl -LO https://github.com/kubernetes/minikube/releases/download/v1.21.0/minikube-darwin-amd64</span><br><span class="line">sudo install minikube-darwin-amd64 /usr/local/bin/minikube</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>卸载minikube</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">minikube delete</span><br><span class="line">rm -rf ~/.minikube</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>　　</p>
-<h2 id="3-安装virtualbox"><a href="#3-安装virtualbox" class="headerlink" title="3.安装virtualbox"></a>3.安装virtualbox</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew install virtualbox</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>　　</p>
-<h2 id="4-使用virtualbox来启动minikube集群"><a href="#4-使用virtualbox来启动minikube集群" class="headerlink" title="4.使用virtualbox来启动minikube集群"></a>4.使用virtualbox来启动minikube集群</h2><p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42072289/article/details/110450042">在Mac上基于virtualbox安装minikube</a></p>
+        <h2 id="1-安装kubectl命令"><a href="#1-安装kubectl命令" class="headerlink" title="1.安装kubectl命令"></a>1.安装kubectl命令</h2>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Mac%E4%B8%8B%E5%AE%89%E8%A3%85minikube.html#more">全文 &gt;&gt;</a>
@@ -663,23 +548,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -711,36 +579,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1-添加mongo的仓库"><a href="#1-添加mongo的仓库" class="headerlink" title="1.添加mongo的仓库"></a>1.添加mongo的仓库</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew tap mongodb/brew</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-安装mongodb"><a href="#2-安装mongodb" class="headerlink" title="2.安装mongodb"></a>2.安装mongodb</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install mongodb-community@4.4</span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://www.runoob.com/mongodb/mongodb-osx-install.html">Mac OSX 平台安装 MongoDB</a></p>
-<p>安装成功</p>
-<img src="/images/517519-20230605142917566-1092537610.png" width="600" height="184" loading="lazy" />
-
-<h2 id="3-打开mongo-shell"><a href="#3-打开mongo-shell" class="headerlink" title="3.打开mongo shell"></a>3.打开mongo shell</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/opt/mongodb-community@4.4/bin/mongo xxx:27017/your_db</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果是mongo 6.0的话，是没有mongo命令的，需要额外安装mongosh，下载地址</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://www.mongodb.com/try/download/shell</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="4-查询数据"><a href="#4-查询数据" class="headerlink" title="4.查询数据"></a>4.查询数据</h2><p>查看db</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">show dbs</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果遇到not master and slaveOk=false的报错，可以执行如下命令</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rs.slaveOk()</span><br><span class="line">或者</span><br><span class="line">rs.secondaryOk()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果遇到Error: Authentication failed的报错，可能是缺少了–authenticationDatabase admin参数</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/Users/lintong/Downloads/mongosh-1.9.1-darwin-x64/bin/mongosh mongodb://xxx:27017/test -u xxx --authenticationDatabase admin -p</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>其他参数参考：<a target="_blank" rel="noopener" href="https://www.mongodb.com/docs/mongodb-shell/reference/options/">https://www.mongodb.com/docs/mongodb-shell/reference/options/</a></p>
-<p>查询数据</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">db.getCollection(&quot;your_collection&quot;).find()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>查询一条数据</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">db.getCollection(&quot;your_collection&quot;).findOne()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>　　</p>
+        <h2 id="1-添加mongo的仓库"><a href="#1-添加mongo的仓库" class="headerlink" title="1.添加mongo的仓库"></a>1.添加mongo的仓库</h2>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Mac%E4%B8%8B%E5%AE%89%E8%A3%85mongodb.html#more">全文 &gt;&gt;</a>
@@ -766,23 +605,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -815,15 +637,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p><strong>1.生成RDD</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val rdd: RDD[(String, Int)] = sc.parallelize(Seq((&quot;cat&quot;, 30), (&quot;fox&quot;, 40)))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong>2.生成case class RDD</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">case class WordCount(word: String, count: Long)</span><br><span class="line">val rdd: RDD[WordCount] = sc.parallelize(Seq(WordCount(&quot;dog&quot;, 50), WordCount(&quot;cow&quot;, 60)))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong>3.rdd转df</strong>，注意这里需要隐式转换</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import spark.implicits._</span><br><span class="line"></span><br><span class="line">val df = rdd.toDF()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong>4.rdd转ds</strong>，注意
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94rdd,dataframe%E5%92%8Cdataset%E8%BD%AC%E6%8D%A2.html#more">全文 &gt;&gt;</a>
@@ -849,23 +662,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -897,16 +693,27 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
+        <!-- 目录 -->
+
+<div id="toc">
+  
+</div>
+
         <p>ajax-interceptor chrome安装地址</p>
 <p><a target="_blank" rel="noopener" href="https://chromewebstore.google.com/detail/ajax-modifier/nhpjggchkhnlbgdfcbgpdpkifemomkpg?hl=zh-CN">https://chromewebstore.google.com/detail/ajax-modifier/nhpjggchkhnlbgdfcbgpdpkifemomkpg?hl=zh-CN</a></p>
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/%E4%BD%BF%E7%94%A8ajax-interceptor%20mock%E6%95%B0%E6%8D%AE.html#more">全文 &gt;&gt;</a>
-          </p>
-        
+<p>&nbsp;</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7049211255181017102">前端请装上这个Chrome插件</a></p>
 
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/%E4%BD%BF%E7%94%A8ajax-interceptor%20mock%E6%95%B0%E6%8D%AE.html"></a>
+          </div>
+        </div>
       
     </div>
+
+    
+      
 
     
 
@@ -924,23 +731,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -972,53 +762,27 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <!-- 目录 -->
-
-<div id="toc">
-  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-lan-jie-qing-qiu"><span class="toc-text">1.拦截请求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-xiu-gai-qing-qiu"><span class="toc-text">2.修改请求</span></a></li></ol>
-</div>
-
         <p><strong>tweak</strong>是一款可以对request请求的response进行修改的浏览器插件，区别于ModHeader只能对header进行修改，tweak可以对请求的request payload（收费）和response payload（免费）进行拦截和修改。</p>
-<img src="/images/517519-20240327002249517-1643874648.png" width="500" height="424" loading="lazy">
+<img src="/images/517519-20240327002249517-1643874648.png" width="500" height="424" loading="lazy" />
 
 <p>下图是tweak的界面</p>
-<img src="/images/517519-20240326004110052-1646498984.png" width="600" height="278" loading="lazy">
+<img src="/images/517519-20240326004110052-1646498984.png" width="600" height="278" loading="lazy" />
 
 <p>同类产品还有<strong>requestly</strong>，<strong>tweak</strong>的修改HTTP请求response功能是免费的<strong>，</strong>而<strong>requestly</strong>修改API response和request body都是需要收费版本才提供支持</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/zhq426/article/details/127284730">requestly 代理插件</a></p>
-<img src="/images/517519-20240326003745996-1452148544.png" width="400" height="542" loading="lazy">
+<img src="/images/517519-20240326003745996-1452148544.png" width="400" height="542" loading="lazy" />
 
 <p>Firefox tweak插件安装地址</p>
 <p><a target="_blank" rel="noopener" href="https://addons.mozilla.org/en-US/firefox/addon/tweak-extension/">https://addons.mozilla.org/en-US/firefox/addon/tweak-extension/</a></p>
 <p>Chrome tweak插件安装地址</p>
-<p><a target="_blank" rel="noopener" href="https://chromewebstore.google.com/detail/feahianecghpnipmhphmfgmpdodhcapi">https://chromewebstore.google.com/detail/feahianecghpnipmhphmfgmpdodhcapi</a></p>
-<p>tweak的使用分成<strong>拦截请求</strong>和<strong>修改请求</strong>2个步骤</p>
-<h3 id="1-lan-jie-qing-qiu"><a href="#1-拦截请求" class="headerlink" title="1.拦截请求"></a>1.拦截请求<a href="#1-lan-jie-qing-qiu" class="header-anchor">#</a></h3><p>点击图中按钮</p>
-<img src="/images/517519-20240326102407856-871195610.png" width="600" height="237" loading="lazy">
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/%E4%BD%BF%E7%94%A8tweak%E6%8F%92%E4%BB%B6%E4%BF%AE%E6%94%B9HTTP%E8%AF%B7%E6%B1%82.html#more">全文 &gt;&gt;</a>
+          </p>
+        
 
-<p>在浏览器中请求对应的接口</p>
-<p>接下来在URL中输入接口的相关关键字，tweak就能找到这个接口</p>
-<img src="/images/517519-20240326102704096-1497591470.png" width="600" height="423" loading="lazy">
-
-<h3 id="2-xiu-gai-qing-qiu"><a href="#2-修改请求" class="headerlink" title="2.修改请求"></a>2.<strong>修改请求</strong><a href="#2-xiu-gai-qing-qiu" class="header-anchor">#</a></h3><p>修改HTTP请求的response，比如我们将返回json中的技术修改成技术xxxx，产品修改成产品yyyy</p>
-<p>然后取消request autocomplete，勾选extension</p>
-<img src="/images/517519-20240327002602783-1601840038.png" width="600" height="415" loading="lazy">
-
-<p>再次刷新页面发起请求，这时我们会发生页面中的信息已经被拦截和修改</p>
-<img src="/images/517519-20240327002845424-1174517526.png" width="600" height="265" loading="lazy">
-
-<p>参考：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7069040602385498142">方便智能的chrome数据mock插件</a></p>
-
-        <div class="article-entry">
-          <div id="footer-info" class="inner">
-          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/%E4%BD%BF%E7%94%A8tweak%E6%8F%92%E4%BB%B6%E4%BF%AE%E6%94%B9HTTP%E8%AF%B7%E6%B1%82.html"></a>
-          </div>
-        </div>
       
     </div>
-
-    
-      
 
     
 
@@ -1036,23 +800,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 

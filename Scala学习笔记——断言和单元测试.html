@@ -5,15 +5,15 @@
   
   <title>Scala学习笔记——断言和单元测试 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.断言 **assert(conditon)**将在条件不成立的时候，抛出assertionError **assert(conditon,explanation)**讲在条件不成立的时候，抛出explanation作为说明 123456789101112131415161718192021222324252627282930313233343536package com.scala.first">
+  <meta name="description" content="1.断言 **assert(conditon)**将在条件不成立的时候，抛出assertionError **assert(conditon,explanation)**讲在条件不成立的时候，抛出explanation作为说明">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Scala学习笔记——断言和单元测试">
 <meta property="og:url" content="http://tonglin0325.github.io/Scala%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%96%AD%E8%A8%80%E5%92%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="1.断言 **assert(conditon)**将在条件不成立的时候，抛出assertionError **assert(conditon,explanation)**讲在条件不成立的时候，抛出explanation作为说明 123456789101112131415161718192021222324252627282930313233343536package com.scala.first">
+<meta property="og:description" content="1.断言 **assert(conditon)**将在条件不成立的时候，抛出assertionError **assert(conditon,explanation)**讲在条件不成立的时候，抛出explanation作为说明">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2017-04-18T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:17.187Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:07.143Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Scala">
 <meta name="twitter:card" content="summary">
@@ -211,9 +211,10 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p><strong>1.断言</strong></p>
 <p>**assert(conditon)**将在条件不成立的时候，抛出assertionError</p>
 <p>**assert(conditon,explanation)**讲在条件不成立的时候，抛出explanation作为说明</p>
+<span id="more"></span>
+
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">package com.scala.first</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">  * Created by common on 17-4-19.</span><br><span class="line">  */</span><br><span class="line">object Assert &#123;</span><br><span class="line"></span><br><span class="line">  def main(args: Array[String]): Unit = &#123;</span><br><span class="line">    val a = new Assert()</span><br><span class="line">    a.above1(0)</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Assert &#123;</span><br><span class="line">  val value = 1</span><br><span class="line"></span><br><span class="line">  def above(that: Int): Unit = &#123;</span><br><span class="line">    val thatVal = that</span><br><span class="line">    val thisVal = this.value</span><br><span class="line">    //如果条件不满足，Exception in thread &quot;main&quot; java.lang.AssertionError: assertion failed</span><br><span class="line">    assert(thatVal == thisVal)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  //另一种断言</span><br><span class="line">  //如果条件不满足，Exception in thread &quot;main&quot; java.lang.AssertionError: assertion failed</span><br><span class="line">  def above1(that: Int): Unit = &#123;</span><br><span class="line">    &#123;</span><br><span class="line">      val thatVal = that</span><br><span class="line">      val thisVal = this.value</span><br><span class="line">    &#125; ensuring(that == this.value)</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<span id="more"></span>
 <p>&nbsp;</p>
 <p><strong>2.单元测试</strong></p>
 <p><strong>Scala中提供了多种单元测试的方法，比如ScalaTest</strong></p>

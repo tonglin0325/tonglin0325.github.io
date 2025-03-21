@@ -226,23 +226,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </article>
 
 
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
-
 
 
   
@@ -300,23 +283,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </article>
 
 
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
-
 
 
   
@@ -350,7 +316,13 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p>文字部分为转载：<a target="_blank" rel="noopener" href="http://hxraid.iteye.com/blog/647759">http://hxraid.iteye.com/blog/647759</a></p>
 <p>对N个关键字进行桶排序的时间复杂度分为两个部分：</p>
 <p>(1) 循环计算每个关键字的桶映射函数，这个时间复杂度是O(N)。</p>
-<p>(2) 利用先进的比较排序<a target="_blank" rel="noopener" href="http://lib.csdn.net/base/31">算法</a>对每个桶内的所有数据进行排序，其时间复杂度为
+<p>(2) 利用先进的比较排序<a target="_blank" rel="noopener" href="http://lib.csdn.net/base/31">算法</a>对每个桶内的所有数据进行排序，其时间复杂度为&nbsp; &sum; O(Ni*logNi) 。其中Ni 为第i个桶的数据量。</p>
+<p>&nbsp;</p>
+<p>很显然，第(2)部分是桶排序性能好坏的决定因素。尽量减少桶内数据的数量是提高效率的唯一办法(因为基于比较排序的最好平均时间复杂度只能达到O(N*logN)了)。因此，我们需要尽量做到下面两点：</p>
+<p>(1) 映射函数f(k)能够将N个数据平均的分配到M个桶中，这样每个桶就有[N/M]个数据量。</p>
+<p>(2) 尽量的增大桶的数量。极限情况下每个桶只能得到一个数据，这样就完全避开了桶内数据的&ldquo;比较&rdquo;排序操作。当然，做到这一点很不容易，数据量巨大的情况下，f(k)函数会使得桶集合的数量巨大，空间浪费严重。这就是一个时间代价和空间代价的权衡问题了。</p>
+<p>&nbsp;</p>
+<p>对于N个待排数据，M个桶，平均每个桶[N/M]个数据的桶排序平均时间复杂度为：</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Java%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E6%A1%B6%E6%8E%92%E5%BA%8F.html#more">全文 &gt;&gt;</a>
@@ -376,23 +348,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -451,23 +406,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </article>
 
 
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
-
 
 
   
@@ -525,23 +463,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </article>
 
 
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
-
 
 
   
@@ -573,12 +494,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p><strong>点<br /></strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//类名：Vertex</span><br><span class="line">//属性：</span><br><span class="line">//方法：</span><br><span class="line">class Vertex&#123;</span><br><span class="line">	public char label;	//点的名称，如A</span><br><span class="line">	public boolean wasVisited;</span><br><span class="line">	</span><br><span class="line">	public Vertex(char lab)&#123;	//构造函数</span><br><span class="line">		label = lab;</span><br><span class="line">		wasVisited = false;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong>建立无权图，添加新的顶点，添加边，显示顶点，返回一个和v邻接的未访问顶点，无权图的深度搜索，广度搜索，基于深度搜索的最小生成树，删除顶点，有向图的拓扑排序</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br></pre></td><td class="code"><pre><span class="line">//类名：Graph</span><br><span class="line">//属性：</span><br><span class="line">//方法：</span><br><span class="line">class Graph&#123;</span><br><span class="line">	private final int MAX_VERTS = 20;</span><br><span class="line">	private Vertex vertexList[];	//顶点列表数组</span><br><span class="line">	private int adjMat[][];			//邻接矩阵</span><br><span class="line">	private int nVerts;					//当前的顶点</span><br><span class="line">	private char sortedArray[];</span><br><span class="line">	</span><br><span class="line">	public Graph()&#123;	//构造函数</span><br><span class="line">		vertexList = new Vertex[MAX_VERTS];</span><br><span class="line">		adjMat = new int[MAX_VERTS][MAX_VERTS];</span><br><span class="line">		nVerts = 0;</span><br><span class="line">		for(int j=0;j&lt;MAX_VERTS;j++)&#123;</span><br><span class="line">			for(int k=0;k&lt;MAX_VERTS;k++)</span><br><span class="line">				adjMat[j][k] = 0;</span><br><span class="line">		&#125;</span><br><span class="line">		sortedArray = new char[MAX_VERTS];</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public void addVertex(char lab)&#123;	//添加新的顶点，传入顶点的lab，并修改nVerts</span><br><span class="line">		vertexList[nVerts++] = new Vertex(lab);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public void addEdge(int start,int end)&#123;	//添加边，这里是无向图</span><br><span class="line">		adjMat[start][end] = 1;</span><br><span class="line">		//adjMat[end][start] = 1;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public void displayVertex(int v)&#123;	//显示顶点</span><br><span class="line">		System.out.print(vertexList[v].label);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public int getAdjUnvisitedVertex(int v)&#123;	//返回一个和v邻接的未访问顶点</span><br><span class="line">		for(int j=0;j&lt;nVerts;j++)</span><br><span class="line">			if(adjMat[v][j] == 1 &amp;amp;&amp;amp; vertexList[j].wasVisited == false)&#123;</span><br><span class="line">				return j;</span><br><span class="line">			&#125;</span><br><span class="line">			return -1;	//如果没有，返回-1</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public void dfs()&#123;	//深度搜索</span><br><span class="line">		Stack&lt;Integer&gt; theStack = new Stack&lt;Integer&gt;();</span><br><span class="line">		vertexList[0].wasVisited = true;</span><br><span class="line">		displayVertex(0);</span><br><span class="line">		theStack.push(0);	//把根入栈</span><br><span class="line">		</span><br><span class="line">		while(!theStack.empty())&#123;</span><br><span class="line">			int v = getAdjUnvisitedVertex(theStack.peek());//取得一个和栈顶元素邻接的未访问元素</span><br><span class="line">			if(v == -1)		//如果没有和栈顶元素邻接的元素，就弹出这个栈顶</span><br><span class="line">				theStack.pop();</span><br><span class="line">			else&#123;				//如果有这个元素，则输出这个元素，标记为已访问，并入栈</span><br><span class="line">				vertexList[v].wasVisited = true;</span><br><span class="line">				displayVertex(v);</span><br><span class="line">				theStack.push(v);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		for(int j=0;j&lt;nVerts;j++)		//全部置为未访问</span><br><span class="line">			vertexList[j].wasVisited = false;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public void bfs()&#123;	//广度搜索</span><br><span class="line">		Queue&lt;Integer&gt; theQueue = new LinkedList&lt;Integer&gt;();</span><br><span class="line">		vertexList[0].wasVisited = true;</span><br><span class="line">		displayVertex(0);</span><br><span class="line">		theQueue.offer(0);	//把根入队列</span><br><span class="line">		int v2;</span><br><span class="line">		</span><br><span class="line">		while(!theQueue.isEmpty())&#123;</span><br><span class="line">			int v1 = theQueue.remove();//v1记录第1层的元素，然后记录第2层第1个元素...</span><br><span class="line">			</span><br><span class="line">			while((v2=getAdjUnvisitedVertex(v1)) != -1)&#123;//输出所有和第1层邻接的元素，输出和第2层第1个元素邻接的元素...</span><br><span class="line">				vertexList[v2].wasVisited = true;</span><br><span class="line">				displayVertex(v2);</span><br><span class="line">				theQueue.offer(v2);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		for(int j=0;j&lt;nVerts;j++)		//全部置为未访问</span><br><span class="line">			vertexList[j].wasVisited = false;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public void mst()&#123;	//基于深度搜索的最小生成树</span><br><span class="line">		Stack&lt;Integer&gt; theStack = new Stack&lt;Integer&gt;();</span><br><span class="line">		vertexList[0].wasVisited = true;</span><br><span class="line">		theStack.push(0);	//把根入栈</span><br><span class="line">		</span><br><span class="line">		while(!theStack.empty())&#123;</span><br><span class="line">			int currentVertex = theStack.peek();	//记录栈顶元素，当有为邻接元素的时候，才会输出</span><br><span class="line">			int v = getAdjUnvisitedVertex(theStack.peek());//取得一个和栈顶元素邻接的未访问元素</span><br><span class="line">			if(v == -1)		//如果没有和栈顶元素邻接的元素，就弹出这个栈顶</span><br><span class="line">				theStack.pop();</span><br><span class="line">			else&#123;				//如果有这个元素，则输出这个元素，标记为已访问，并入栈</span><br><span class="line">				vertexList[v].wasVisited = true;</span><br><span class="line">				theStack.push(v);</span><br><span class="line">				</span><br><span class="line">				displayVertex(currentVertex);</span><br><span class="line">				displayVertex(v);</span><br><span class="line">				System.out.println();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		for(int j=0;j&lt;nVerts;j++)		//全部置为未访问</span><br><span class="line">			vertexList[j].wasVisited = false;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public int noSuccessors()&#123;	//使用邻接矩阵找到没有后继的顶点，有后继顶点返回行数，没有返回-1</span><br><span class="line">		boolean isEdge;</span><br><span class="line">		</span><br><span class="line">		for(int row=0;row&lt;nVerts;row++)&#123;//从第1行开始</span><br><span class="line">			isEdge = false;</span><br><span class="line">			for(int col=0;col&lt;nVerts;col++)&#123;//如果某一行某一列为1，返回这个行的行数</span><br><span class="line">				if(adjMat[row][col] &gt; 0)&#123;</span><br><span class="line">					isEdge = true;</span><br><span class="line">					break;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			if(!isEdge)</span><br><span class="line">				return row;</span><br><span class="line">		&#125;</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public void moveRowUp(int row,int length)&#123;</span><br><span class="line">		for(int col=0;col&lt;length;col++)</span><br><span class="line">			adjMat[row][col] = adjMat[row+1][col];</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public void moveColLeft(int col,int length)&#123;</span><br><span class="line">		for(int row=0;row&lt;length;row++)</span><br><span class="line">			adjMat[row][col] = adjMat[row][col+1];</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public void deleteVertex(int delVert)&#123;</span><br><span class="line">		if(delVert != nVerts-1)&#123;</span><br><span class="line">			for(int j=delVert;j&lt;nVerts-1;j++)//在数组中去掉这个顶点</span><br><span class="line">				vertexList[j] = vertexList[j+1];</span><br><span class="line">			for(int row=delVert;row&lt;nVerts-1;row++)//在邻接矩阵中把删除的这一行下的所有行上移</span><br><span class="line">				moveRowUp(row,nVerts);</span><br><span class="line">			for(int col=delVert;col&lt;nVerts-1;col++)//在邻接矩阵中把删除的这一列下的所有列左移</span><br><span class="line">				moveColLeft(col,nVerts-1);</span><br><span class="line">		&#125;</span><br><span class="line">		nVerts--;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public void topo()&#123;	//拓扑排序，必须在无环的有向图中进行，必须在有向图中</span><br><span class="line">		int orig_nVerts = nVerts;	//记录有多少个顶点</span><br><span class="line">		</span><br><span class="line">		while(nVerts &gt; 0)&#123;</span><br><span class="line">			int currentVertex = noSuccessors();</span><br><span class="line">			if(currentVertex == -1)&#123;</span><br><span class="line">				System.out.println(&quot;错误：图含有环！&quot;);</span><br><span class="line">				return;</span><br><span class="line">			&#125;</span><br><span class="line">			sortedArray[nVerts-1] = vertexList[currentVertex].label;</span><br><span class="line">			deleteVertex(currentVertex);</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(&quot;拓扑排序结果：&quot;);</span><br><span class="line">		for(int j=0;j&lt;orig_nVerts;j++)</span><br><span class="line">			System.out.println(sortedArray[j]);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E5%9B%BE.html#more">全文 &gt;&gt;</a>
@@ -604,23 +519,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -653,6 +551,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p><strong><strong>带权图的最小生成树&mdash;&mdash;Prim算法和Kruskal算法</strong></strong></p>
+<p>&nbsp;</p>
+<p><strong>带权图的最短路径算法&mdash;&mdash;Dijkstra算法</strong></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E5%B8%A6%E6%9D%83%E5%9B%BE.html#more">全文 &gt;&gt;</a>
@@ -678,23 +578,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -727,55 +610,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="npm安装"><a href="#npm安装" class="headerlink" title="npm安装"></a>npm安装</h2><p>查看npm版本</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm -v</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>npm查看所有版本</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm view npm versions</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>npm更新到最新版</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install -g npm</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>``查看npm当前镜像源</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm config get registry</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>设置npm镜像源为淘宝镜像</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm config set registry https://registry.npm.taobao.org/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>遇到如下报错，是npm版本过低</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Block-scoped declarations (let, const, function, class) not yet supported outside strict mode at</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>需要ubuntu升级npm和node</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">node -v</span><br><span class="line">v4.2.6</span><br><span class="line">npm -v</span><br><span class="line">3.5.2</span><br><span class="line"></span><br><span class="line">curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -</span><br><span class="line">sudo apt-get install -y nodejs</span><br><span class="line"></span><br><span class="line">node -v</span><br><span class="line">v12.22.12</span><br><span class="line">npm -v</span><br><span class="line">6.14.16</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>npm安装项目依赖</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install --dependencies</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>mac升级node，参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_35463964/article/details/125404969">Mac升级node14.17.2版本</a></p>
-<p>清除nodejs的缓存</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo npm cache clean -f</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="node版本管理"><a href="#node版本管理" class="headerlink" title="node版本管理"></a>node版本管理</h2><h3 id="1-使用n模块"><a href="#1-使用n模块" class="headerlink" title="1.使用n模块"></a>1.使用n模块</h3><p>安装n模块</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo npm install -g n</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>查看所有能安装的版本</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm view node versions</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>安装特定版本</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo n 14.17.2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>验证版本</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">node -v</span><br><span class="line">v14.17.2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>查看安装的node版本</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">n list</span><br><span class="line">node/14.17.2</span><br><span class="line">node/18.15.0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>切换系统node版本</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ sudo node -v</span><br><span class="line">v18.15.0</span><br><span class="line">$ sudo n 14.17.2</span><br><span class="line">     copying : node/14.17.2</span><br><span class="line">   installed : v14.17.2 (with npm 6.14.13)</span><br><span class="line">$ sudo node -v</span><br><span class="line">v14.17.2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>临时使用某个node版本</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">n use 18.15.0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="2-使用nvm模块"><a href="#2-使用nvm模块" class="headerlink" title="2.使用nvm模块"></a>2.使用nvm模块</h3>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/npm%E5%92%8Cyarn%E6%9B%B4%E6%8D%A2%E6%BA%90.html#more">全文 &gt;&gt;</a>
@@ -801,23 +635,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -857,7 +674,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>3.由什么导致</p>
 <p>　　caused by/suffer from</p>
 <p>4.升级给老板</p>
-<p>　　escalate the issue
+<p>　　escalate the issue&nbsp;to the manager</p>
+<p>5.xx的负责人</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E8%8B%B1%E6%96%87%E5%86%99%E4%BD%9C%E2%80%94%E2%80%94%E6%94%B6%E9%9B%86%E7%9A%84%E4%B8%80%E4%BA%9B%E8%AF%8D.html#more">全文 &gt;&gt;</a>
@@ -883,23 +701,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -957,23 +758,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 

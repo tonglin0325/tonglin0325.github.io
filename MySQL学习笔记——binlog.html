@@ -15,7 +15,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240813000924143-1457317742.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240815000607406-1331184034.png">
 <meta property="article:published_time" content="2016-03-10T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-08T13:39:56.831Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:09.981Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary">
@@ -214,6 +214,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <h2 id="1-docker-bu-shu-mysql"><a href="#1-docker部署MySQL" class="headerlink" title="1.docker部署MySQL"></a>1.docker部署MySQL<a href="#1-docker-bu-shu-mysql" class="header-anchor">#</a></h2><p>amd64的机器可以使用centos的MySQL5.7的镜像：<a target="_blank" rel="noopener" href="https://hub.docker.com/r/centos/mysql-57-centos7/">https://hub.docker.com/r/centos/mysql-57-centos7/</a></p>
 <p>arm64和amd64的机器也可以使用MySQL8.0的镜像：<a target="_blank" rel="noopener" href="https://hub.docker.com/layers/library/mysql/8.0.29/images/sha256-44f98f4dd825a945d2a6a4b7b2f14127b5d07c5aaa07d9d232c2b58936fb76dc">https://hub.docker.com/layers/library/mysql/8.0.29/images/sha256-44f98f4dd825a945d2a6a4b7b2f14127b5d07c5aaa07d9d232c2b58936fb76dc</a></p>
 <p>启动MySQL5.7的容器</p>
+<span id="more"></span>
+
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run --name mysqltest -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.7.44</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>启动MySQL8.0的容器</p>
@@ -274,7 +276,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>查看mysql的时区，可以看出使用的是UTC时间</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &#x27;%time_zone%&#x27;;</span><br><span class="line">+------------------+--------+</span><br><span class="line">| Variable_name    | Value  |</span><br><span class="line">+------------------+--------+</span><br><span class="line">| system_time_zone | UTC    |</span><br><span class="line">| time_zone        | SYSTEM |</span><br><span class="line">+------------------+--------+</span><br><span class="line">2 rows in set (0.02 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select now();</span><br><span class="line">+---------------------+</span><br><span class="line">| now()               |</span><br><span class="line">+---------------------+</span><br><span class="line">| 2024-08-17 15:29:48 |</span><br><span class="line">+---------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<span id="more"></span>
 <p>&nbsp;</p>
 
         <div class="article-entry">

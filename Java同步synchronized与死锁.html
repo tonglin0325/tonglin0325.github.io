@@ -5,12 +5,12 @@
   
   <title>Java同步synchronized与死锁 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="多个线程要操作同一资源时就有可能出现资源的同步问题。 同步就是指多个操作在同一个时间段内只能有一个线程进行，其他线程要等待此线程完成之后才可以继续执行。 解决资源共享的同步操作，可以使用同步代码块和同步方法两种方式完成。">
+  <meta name="description" content="多个线程要操作同一资源时就有可能出现资源的同步问题。 同步就是指多个操作在同一个时间段内只能有一个线程进行，其他线程要等待此线程完成之后才可以继续执行。 解决资源共享的同步操作，可以使用同步代码块和同步方法两种方式完成。 &amp;nbsp; &lt;1&gt;同步代码块   所谓代码块就是指使用&amp;ldquo;{}”括起来的一段代码，根据其位置和声明的不同，可以分为普通代码块、构造块、静态块3种，如果在代">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java同步synchronized与死锁">
 <meta property="og:url" content="http://tonglin0325.github.io/Java%E5%90%8C%E6%AD%A5synchronized%E4%B8%8E%E6%AD%BB%E9%94%81.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="多个线程要操作同一资源时就有可能出现资源的同步问题。 同步就是指多个操作在同一个时间段内只能有一个线程进行，其他线程要等待此线程完成之后才可以继续执行。 解决资源共享的同步操作，可以使用同步代码块和同步方法两种方式完成。">
+<meta property="og:description" content="多个线程要操作同一资源时就有可能出现资源的同步问题。 同步就是指多个操作在同一个时间段内只能有一个线程进行，其他线程要等待此线程完成之后才可以继续执行。 解决资源共享的同步操作，可以使用同步代码块和同步方法两种方式完成。 &amp;nbsp; &lt;1&gt;同步代码块   所谓代码块就是指使用&amp;ldquo;{}”括起来的一段代码，根据其位置和声明的不同，可以分为普通代码块、构造块、静态块3种，如果在代">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20160308115555022-1178560527.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170107113230284-1521636617.png">
@@ -19,7 +19,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170107193952175-906910675.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170107194032644-1756522005.png">
 <meta property="article:published_time" content="2016-03-07T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:24.657Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:10.009Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="多线程">
 <meta name="twitter:card" content="summary">
@@ -218,12 +218,13 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p>多个线程要<strong>操作同一资源</strong>时就有可能出现<strong>资源的同步问题</strong>。</p>
 <p><strong>同步</strong>就是指多个操作在同一个时间段内只能有一个线程进行，其他线程要等待此线程完成之后才可以继续执行。</p>
 <p>解决资源共享的同步操作，可以使用<strong>同步代码块</strong>和<strong>同步方法</strong>两种方式完成。</p>
-<span id="more"></span>
 <p>&nbsp;</p>
 <p>&lt;1&gt;<strong>同步代码块</strong></p>
 <img src="/images/517519-20160308115555022-1178560527.png" alt>
 
 <p>所谓代码块就是指使用&ldquo;{}”括起来的一段代码，根据其位置和声明的不同，可以分为普通代码块、构造块、静态块3种，如果在代码块上加上<strong>synchronized关键字</strong>，则此代码块就称为同步代码块。</p>
+<span id="more"></span>
+
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">package java_thread;</span><br><span class="line"></span><br><span class="line">class MyThread_2 implements Runnable&#123;</span><br><span class="line">	private int ticket = 5;	</span><br><span class="line">	</span><br><span class="line">	@Override</span><br><span class="line">	public void run() &#123;								//覆写Thread类中的run()方法</span><br><span class="line">		// TODO 自动生成的方法存根</span><br><span class="line">		for (int i=0;i&lt;10;i++)&#123;</span><br><span class="line">			synchronized (this) &#123;					//设置需要同步的操作</span><br><span class="line">				if(ticket&gt;0)&#123;</span><br><span class="line">					try&#123;</span><br><span class="line">						Thread.sleep(300);</span><br><span class="line">					&#125;catch(InterruptedException e)&#123;</span><br><span class="line">						e.printStackTrace();</span><br><span class="line">					&#125;</span><br><span class="line">					System.out.println(&quot;卖票：ticket=&quot;+ticket--);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">//			this.sale();												//调用同步方法</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Runnable_demo2 &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		// TODO 自动生成的方法存根</span><br><span class="line">		MyThread_2 mt = new MyThread_2();	//实例化Runnable子类对象</span><br><span class="line">		Thread t1 = new Thread(mt);			//实例化Thread类对象</span><br><span class="line">		Thread t2 = new Thread(mt);			//实例化Thread类对象</span><br><span class="line">		Thread t3 = new Thread(mt);			//实例化Thread类对象</span><br><span class="line">		t1.start();				//启动线程</span><br><span class="line">		t2.start();				//启动线程</span><br><span class="line">		t3.start();				//启动线程</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>&nbsp;<img src="/images/517519-20170107113230284-1521636617.png" alt></p>

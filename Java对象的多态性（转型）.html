@@ -5,15 +5,15 @@
   
   <title>Java对象的多态性（转型） | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="多态性在面向对象中主要有两种体现： &lt;1&gt;方法的重载与覆写&lt;2&gt;对象的多态性向上转型：子类对象–&gt;父类对象，向上转型会自动完成 向下转型：父类对象–&gt;子类对象，向下转型时，必须明确地指明转型的子类类型">
+  <meta name="description" content="多态性在面向对象中主要有两种体现： &lt;1&gt;方法的重载与覆写&lt;2&gt;对象的多态性向上转型：子类对象–&gt;父类对象，向上转型会自动完成 向下转型：父类对象–&gt;子类对象，向下转型时，必须明确地指明转型的子类类型 &amp;nbsp; 对象的向上转型虽然使用的父类对象调用fun1方法，但是实际上调用的方法是被子类覆写过的方法，也就是说，如果对象发生了向上转型关系后，所调用的方法一定">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java对象的多态性（转型）">
 <meta property="og:url" content="http://tonglin0325.github.io/Java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%A4%9A%E6%80%81%E6%80%A7%EF%BC%88%E8%BD%AC%E5%9E%8B%EF%BC%89.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="多态性在面向对象中主要有两种体现： &lt;1&gt;方法的重载与覆写&lt;2&gt;对象的多态性向上转型：子类对象–&gt;父类对象，向上转型会自动完成 向下转型：父类对象–&gt;子类对象，向下转型时，必须明确地指明转型的子类类型">
+<meta property="og:description" content="多态性在面向对象中主要有两种体现： &lt;1&gt;方法的重载与覆写&lt;2&gt;对象的多态性向上转型：子类对象–&gt;父类对象，向上转型会自动完成 向下转型：父类对象–&gt;子类对象，向下转型时，必须明确地指明转型的子类类型 &amp;nbsp; 对象的向上转型虽然使用的父类对象调用fun1方法，但是实际上调用的方法是被子类覆写过的方法，也就是说，如果对象发生了向上转型关系后，所调用的方法一定">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-03-02T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:24.708Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:10.082Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
@@ -211,10 +211,11 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p><strong>多态性</strong>在面向对象中主要有两种体现：</p>
 <h2 id="lt-1-gt-fang-fa-de-chong-zai-yu-fu-xie"><a href="#lt-1-gt-方法的重载与覆写" class="headerlink" title="&lt;1&gt;方法的重载与覆写"></a>&lt;1&gt;方法的重载与覆写<a href="#lt-1-gt-fang-fa-de-chong-zai-yu-fu-xie" class="header-anchor">#</a></h2><h2 id="lt-2-gt-dui-xiang-de-duo-tai-xing"><a href="#lt-2-gt-对象的多态性" class="headerlink" title="&lt;2&gt;对象的多态性"></a>&lt;2&gt;对象的多态性<a href="#lt-2-gt-dui-xiang-de-duo-tai-xing" class="header-anchor">#</a></h2><p>向上转型：子类对象–&gt;父类对象，向上转型会自动完成</p>
 <p>向下转型：父类对象–&gt;子类对象，向下转型时，必须明确地指明转型的子类类型</p>
-<span id="more"></span>
 <p>&nbsp;</p>
 <h3 id="dui-xiang-de-xiang-shang-zhuan-xing"><a href="#对象的向上转型" class="headerlink" title="对象的向上转型"></a><strong>对象的向上转型</strong><a href="#dui-xiang-de-xiang-shang-zhuan-xing" class="header-anchor">#</a></h3><p>虽然使用的父类对象调用fun1方法，但是实际上调用的方法是被子类覆写过的方法，也就是说，如果对象发生了向上转型关系后，所调用的方法一定是被子类覆写过的方法。</p>
 <p>但是父类的a无法调用b类中的fun3方法，因为这个方法只在子类中定义，而没有在父类中定义。</p>
+<span id="more"></span>
+
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">class C_1&#123;												// 定义接口C_1</span><br><span class="line">	public void fun1()&#123;							//定义fun1()方法</span><br><span class="line">		System.out.println(&quot;C_1---&gt;public void fun1&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public void fun2()&#123;							//定义fun2()方法</span><br><span class="line">		this.fun1();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class D_1 extends C_1&#123;												//子类D_1继承父类C_1</span><br><span class="line">	public void fun1()&#123;</span><br><span class="line">		System.out.println(&quot;D_1---&gt;public void fun1&quot;);	//覆写父类中的fun1()方法</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public void fun3()&#123;													</span><br><span class="line">		System.out.println(&quot;D_1---&gt;public void fun3&quot;);	//子类自己定义方法</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//	对象的多态性，对象向上转型</span><br><span class="line">public class ploy_up_demo &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		// TODO 自动生成的方法存根</span><br><span class="line">		D_1 b = new D_1();			//定义子类的实例化对象</span><br><span class="line">		C_1 a = b;						//声明一个父类，发生向上转型的关系，子类赋值给父类</span><br><span class="line">		a.fun1();							//此方法被子类覆写过，虽然a是父类，但是调用的是子类的fun1()方法</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>&nbsp;</p>

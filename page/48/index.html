@@ -201,6 +201,10 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>在nexus界面上可以手动上传release和hosted的包，但是无法手动上传snapshots的包</p>
 <img src="/images/517519-20210520173339863-599770525.png" alt="" loading="lazy" />
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;需要使用&nbsp;mvn deploy 来上传snapshots包，比如</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E4%B8%8A%E4%BC%A0snapshots%20jar%E5%8C%85%E5%88%B0nexus%E4%BB%93%E5%BA%93.html#more">全文 &gt;&gt;</a>
@@ -226,23 +230,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -277,65 +264,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <h2 id="1-docker部署MySQL"><a href="#1-docker部署MySQL" class="headerlink" title="1.docker部署MySQL"></a>1.docker部署MySQL</h2><p>amd64的机器可以使用centos的MySQL5.7的镜像：<a target="_blank" rel="noopener" href="https://hub.docker.com/r/centos/mysql-57-centos7/">https://hub.docker.com/r/centos/mysql-57-centos7/</a></p>
 <p>arm64和amd64的机器也可以使用MySQL8.0的镜像：<a target="_blank" rel="noopener" href="https://hub.docker.com/layers/library/mysql/8.0.29/images/sha256-44f98f4dd825a945d2a6a4b7b2f14127b5d07c5aaa07d9d232c2b58936fb76dc">https://hub.docker.com/layers/library/mysql/8.0.29/images/sha256-44f98f4dd825a945d2a6a4b7b2f14127b5d07c5aaa07d9d232c2b58936fb76dc</a></p>
 <p>启动MySQL5.7的容器</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run --name mysqltest -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.7.44</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>启动MySQL8.0的容器</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run --name mysqltest -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:8.0.29</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果想指定mysql配置和data挂载路径，可以先进入容器中将mysql的配置先拷贝出来</p>
-<p>进入容器查看MySQL的配置路径</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sh-4.4# mysql --help | grep my.cnf</span><br><span class="line">                      order of preference, my.cnf, $MYSQL_TCP_PORT,</span><br><span class="line">/etc/my.cnf /etc/mysql/my.cnf /usr/etc/my.cnf ~/.my.cnf </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41266196/article/details/130164908">Docker安装MySQL 并挂载数据及配置文件,设置远程访问权限</a></p>
-<p>将配置/etc/my.cnf拷贝到宿主机</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker cp mysqltest:/etc/my.cnf /Users/lintong/Downloads/mysql8.0/config/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>指定mysql配置和data挂载路径启动docker mysql</p>
-<p>mysql8.0</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run --name mysqltest \</span><br><span class="line">-v /Users/lintong/Downloads/mysql8.0/config/my.cnf:/etc/my.cnf \</span><br><span class="line">-v /Users/lintong/Downloads/mysql8.0/data:/var/lib/mysql \</span><br><span class="line">-p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:8.0.29</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>mysql5.7</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run --name mysqltest \</span><br><span class="line">-v /Users/lintong/Downloads/mysql5.7/config/my.cnf:/etc/my.cnf \</span><br><span class="line">-v /Users/lintong/Downloads/mysql5.7/data:/var/lib/mysql \</span><br><span class="line">-p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.7.44</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="2-开启binlog"><a href="#2-开启binlog" class="headerlink" title="2.开启binlog"></a>2.开启binlog</h2><p>查看binlog是否开启，MySQL8.0默认是开启的</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt;  show variables like &#x27;%log_bin%&#x27;;</span><br><span class="line">+---------------------------------+--------------------------------+</span><br><span class="line">| Variable_name                   | Value                          |</span><br><span class="line">+---------------------------------+--------------------------------+</span><br><span class="line">| log_bin                         | ON                             |</span><br><span class="line">| log_bin_basename                | /var/lib/mysql/mysql-bin       |</span><br><span class="line">| log_bin_index                   | /var/lib/mysql/mysql-bin.index |</span><br><span class="line">| log_bin_trust_function_creators | OFF                            |</span><br><span class="line">| log_bin_use_v1_row_events       | OFF                            |</span><br><span class="line">| sql_log_bin                     | ON                             |</span><br><span class="line">+---------------------------------+--------------------------------+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>低版本默认是关闭的</p>
-<img src="/images/517519-20240813000924143-1457317742.png" width="300" height="56" loading="lazy" />
-
-<p>如果是mysql5.7的话，需要在my.cnf配置中添加如下配置，参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/yeyuzhuanjia/p/18047618">MySQL-开启binlog</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]&lt;br /&gt;log-bin=mysql-bin&lt;br /&gt;server-id=1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>其他配置</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#设置日志格式</span><br><span class="line">binlog_format = mixed</span><br><span class="line">#设置binlog清理时间</span><br><span class="line">expire_logs_days = 5</span><br><span class="line">#binlog每个日志文件大小</span><br><span class="line">max_binlog_size = 50m</span><br><span class="line">#binlog缓存大小</span><br><span class="line">binlog_cache_size = 4m</span><br><span class="line">#最大binlog缓存大小</span><br><span class="line">max_binlog_cache_size = 512m</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/stcweb/articles/15141385.html">Docker内部MySQL开启binlog日志</a></p>
-<p>可以在data目录下看到生成的binlog文件</p>
-<img src="/images/517519-20240815000607406-1331184034.png" width="400" height="202" loading="lazy" />
-
-<p>使用命令查看binlog列表</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show binary logs;</span><br><span class="line">+------------------+-----------+</span><br><span class="line">| Log_name         | File_size |</span><br><span class="line">+------------------+-----------+</span><br><span class="line">| mysql-bin.000001 |       177 |</span><br><span class="line">| mysql-bin.000002 |   2947794 |</span><br><span class="line">| mysql-bin.000003 |       154 |</span><br><span class="line">+------------------+-----------+</span><br><span class="line">3 rows in set (0.01 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>查看当前记录的binlog文件的文件名和偏移</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show master status;</span><br><span class="line">+------------------+----------+--------------+------------------+-------------------+</span><br><span class="line">| File             | Position | Binlog_Do_DB | Binlog_Ignore_DB | Executed_Gtid_Set |</span><br><span class="line">+------------------+----------+--------------+------------------+-------------------+</span><br><span class="line">| mysql-bin.000004 |      154 |              |                  |                   |</span><br><span class="line">+------------------+----------+--------------+------------------+-------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>可以使用mysqlbinlog命令来查看binlog，如果想镜像中自带mysqlbinlog命令，可以使用debian的镜像，比如</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run --name mysqltest \</span><br><span class="line">-v /Users/lintong/Downloads/mysql5.7/config/my.cnf:/etc/my.cnf \</span><br><span class="line">-v /Users/lintong/Downloads/mysql5.7/data:/var/lib/mysql \</span><br><span class="line">-p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.7-debian</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>查看指定binlog文件的内容，可以看到这里先创建了一个test database，然后create了一张名为user的表</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show binlog events in &#x27;mysql-bin.000005&#x27;;</span><br><span class="line">+------------------+-----+----------------+-----------+-------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span><br><span class="line">| Log_name         | Pos | Event_type     | Server_id | End_log_pos | Info                                                                                                                                                                                                                                        |</span><br><span class="line">+------------------+-----+----------------+-----------+-------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span><br><span class="line">| mysql-bin.000005 |   4 | Format_desc    |         1 |         123 | Server ver: 5.7.42-log, Binlog ver: 4                                                                                                                                                                                                       |</span><br><span class="line">| mysql-bin.000005 | 123 | Previous_gtids |         1 |         154 |                                                                                                                                                                                                                                             |</span><br><span class="line">| mysql-bin.000005 | 154 | Anonymous_Gtid |         1 |         219 | SET @@SESSION.GTID_NEXT= &#x27;ANONYMOUS&#x27;                                                                                                                                                                                                        |</span><br><span class="line">| mysql-bin.000005 | 219 | Query          |         1 |         313 | create database test                                                                                                                                                                                                                        |</span><br><span class="line">| mysql-bin.000005 | 313 | Anonymous_Gtid |         1 |         378 | SET @@SESSION.GTID_NEXT= &#x27;ANONYMOUS&#x27;                                                                                                                                                                                                        |</span><br><span class="line">| mysql-bin.000005 | 378 | Query          |         1 |         675 | use `test`; create table user</span><br><span class="line">(</span><br><span class="line">    id       bigint unsigned auto_increment comment &#x27;&#x27;</span><br><span class="line">        primary key,</span><br><span class="line">    username varchar(128) not null comment &#x27;&#x27;,</span><br><span class="line">    email    varchar(128) not null comment &#x27;&#x27;</span><br><span class="line">)</span><br><span class="line">    comment &#x27;&#x27; charset = utf8mb4 |</span><br><span class="line">+------------------+-----+----------------+-----------+-------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span><br><span class="line">6 rows in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>查看binlog的格式，binlog的格式有3种，分别为STATEMENT，ROW和MIXED</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW VARIABLES LIKE &#x27;%binlog_format%&#x27;;</span><br><span class="line">+---------------+-------+</span><br><span class="line">| Variable_name | Value |</span><br><span class="line">+---------------+-------+</span><br><span class="line">| binlog_format | ROW   |</span><br><span class="line">+---------------+-------+</span><br><span class="line">1 row in set (0.01 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>可以使用mysqlbinlog命令将binlog导成sql文件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysqlbinlog --no-defaults --base64-output=decode-rows -v /var/lib/mysql/mysql-bin.000005 &gt; /tmp/binlog005.sql</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>也可以指定开始和结束时间来导出binlog，或者指定position</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysqlbinlog --no-defaults --base64-output=decode-rows -v --start-datetime=&#x27;2024-08-16 00:00:00&#x27; --stop-datetime=&#x27;2024-08-16 23:00:00&#x27; /var/lib/mysql/mysql-bin.000005 &gt; /tmp/binlog005.sql</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>查看mysql的时区，可以看出使用的是UTC时间</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &#x27;%time_zone%&#x27;;</span><br><span class="line">+------------------+--------+</span><br><span class="line">| Variable_name    | Value  |</span><br><span class="line">+------------------+--------+</span><br><span class="line">| system_time_zone | UTC    |</span><br><span class="line">| time_zone        | SYSTEM |</span><br><span class="line">+------------------+--------+</span><br><span class="line">2 rows in set (0.02 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select now();</span><br><span class="line">+---------------------+</span><br><span class="line">| now()               |</span><br><span class="line">+---------------------+</span><br><span class="line">| 2024-08-17 15:29:48 |</span><br><span class="line">+---------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94binlog.html#more">全文 &gt;&gt;</a>
@@ -361,23 +289,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -414,22 +325,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
 <p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/importbigdata/articles/15617347.html">Flink重点难点：Flink任务综合调优(Checkpoint/反压/内存)</a></p>
 <h2 id="1-堆外内存不足：java-lang-OutOfMemoryError-Direct-buffer-memory"><a href="#1-堆外内存不足：java-lang-OutOfMemoryError-Direct-buffer-memory" class="headerlink" title="1.堆外内存不足：java.lang.OutOfMemoryError: Direct buffer memory"></a>1.堆外内存不足：java.lang.OutOfMemoryError: Direct buffer memory</h2><p>报错如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">Caused by: java.lang.OutOfMemoryError: Direct buffer memory. The direct out-of-memory error has occurred. This can mean two things: either job(s) require(s) a larger size of JVM direct memory or there is a direct memory leak. &lt;br /&gt;The direct memory can be allocated by user code or some of its dependencies. &lt;br /&gt;In this case &#x27;taskmanager.memory.task.off-heap.size&#x27; configuration option should be increased. Flink framework and its dependencies also consume the direct memory, mostly for network communication. &lt;br /&gt;The most of network memory is managed by Flink and should not result in out-of-memory error. In certain special cases, in particular for jobs with high parallelism, the framework may require more direct memory which is not managed by Flink. &lt;br /&gt;In this case &#x27;taskmanager.memory.framework.off-heap.size&#x27; configuration option should be increased. If the error persists then there is probably a direct memory leak in user code or some of its dependencies which has to be investigated and fixed. The task executor has to be shutdown...</span><br><span class="line">	at java.nio.Bits.reserveMemory(Bits.java:695)</span><br><span class="line">	at java.nio.DirectByteBuffer.&lt;init&gt;(DirectByteBuffer.java:123)</span><br><span class="line">	at java.nio.ByteBuffer.allocateDirect(ByteBuffer.java:311)</span><br><span class="line">	at sun.nio.ch.Util.getTemporaryDirectBuffer(Util.java:247)</span><br><span class="line">	at sun.nio.ch.IOUtil.write(IOUtil.java:58)</span><br><span class="line">	at sun.nio.ch.FileChannelImpl.write(FileChannelImpl.java:211)</span><br><span class="line">	at java.nio.channels.Channels.writeFullyImpl(Channels.java:78)</span><br><span class="line">	at java.nio.channels.Channels.writeFully(Channels.java:101)</span><br><span class="line">	at java.nio.channels.Channels.access$000(Channels.java:61)</span><br><span class="line">	at java.nio.channels.Channels$1.write(Channels.java:174)</span><br><span class="line">	at java.io.BufferedOutputStream.write(BufferedOutputStream.java:122)</span><br><span class="line">	at java.security.DigestOutputStream.write(DigestOutputStream.java:145)</span><br><span class="line">	at com.amazon.ws.emr.hadoop.fs.s3n.MultipartUploadOutputStream.write(MultipartUploadOutputStream.java:172)</span><br><span class="line">	at org.apache.hadoop.fs.FSDataOutputStream$PositionCache.write(FSDataOutputStream.java:63)</span><br><span class="line">	at java.io.DataOutputStream.write(DataOutputStream.java:107)</span><br><span class="line">	at org.apache.hadoop.fs.FSDataOutputStream$PositionCache.write(FSDataOutputStream.java:63)</span><br><span class="line">	at java.io.DataOutputStream.write(DataOutputStream.java:107)</span><br><span class="line">	at org.apache.hudi.common.fs.SizeAwareFSDataOutputStream.lambda$write$0(SizeAwareFSDataOutputStream.java:58)</span><br><span class="line">	at org.apache.hudi.common.fs.HoodieWrapperFileSystem.executeFuncWithTimeMetrics(HoodieWrapperFileSystem.java:106)</span><br><span class="line">	at org.apache.hudi.common.fs.HoodieWrapperFileSystem.executeFuncWithTimeAndByteMetrics(HoodieWrapperFileSystem.java:124)</span><br><span class="line">	at org.apache.hudi.common.fs.SizeAwareFSDataOutputStream.write(SizeAwareFSDataOutputStream.java:55)</span><br><span class="line">	at org.apache.hadoop.fs.FSDataOutputStream$PositionCache.write(FSDataOutputStream.java:63)</span><br><span class="line">	at java.io.DataOutputStream.write(DataOutputStream.java:107)</span><br><span class="line">	at java.io.FilterOutputStream.write(FilterOutputStream.java:97)</span><br><span class="line">	at org.apache.hudi.common.table.log.HoodieLogFormatWriter.appendBlocks(HoodieLogFormatWriter.java:175)</span><br><span class="line">	at org.apache.hudi.io.HoodieAppendHandle.appendDataAndDeleteBlocks(HoodieAppendHandle.java:404)</span><br><span class="line">	at org.apache.hudi.io.HoodieAppendHandle.close(HoodieAppendHandle.java:439)</span><br><span class="line">	at org.apache.hudi.io.FlinkAppendHandle.close(FlinkAppendHandle.java:99)</span><br><span class="line">	at org.apache.hudi.execution.ExplicitWriteHandler.closeOpenHandle(ExplicitWriteHandler.java:62)</span><br><span class="line">	at org.apache.hudi.execution.ExplicitWriteHandler.finish(ExplicitWriteHandler.java:52)</span><br><span class="line">	at org.apache.hudi.common.util.queue.BoundedInMemoryQueueConsumer.consume(BoundedInMemoryQueueConsumer.java:41)</span><br><span class="line">	at org.apache.hudi.common.util.queue.BoundedInMemoryExecutor.lambda$null$2(BoundedInMemoryExecutor.java:135)</span><br><span class="line">	at java.util.concurrent.FutureTask.run(FutureTask.java:266)</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)</span><br><span class="line">	... 1 more</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>可能需要调整的是taskmanager的内存参数， taskmanager.memory.task.off-heap.size 或者 taskmanager.memory.framework.off-heap.size，在启动flink session cluster的时候添加如下配置</p>
-<p>需要注意的是，需要在启动session cluster的时候配置-D参数，在flink run的时候添加内存参数是无法生效的</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/lib/flink/bin/yarn-session.sh -s 1 -jm 51200 -tm 51200 -qu data -D taskmanager.memory.task.off-heap.size=4G -D taskmanager.memory.framework.off-heap.size=4G --detached</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>点到task manager的页面查看，配置的4G内存已经生效</p>
-<img src="/images/517519-20230428162823889-1458699743.png" alt="" loading="lazy" />
-
-<p>这是由于flink off-heap size默认只有128M，需要进行调整，如下</p>
-<img src="/images/517519-20230427161517997-1136953965.png" alt="" loading="lazy" />
-
-<p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/aquester/p/16986545.html">Flink 运行错误 java.lang.OutOfMemoryError: Direct buffer memory</a></p>
-<p>其他调优：<a target="_blank" rel="noopener" href="https://blog.csdn.net/xiaoyixiao_/article/details/122928240">Flink性能调优</a></p>
-<p>在flink cdc写hudi的场景下，建议使用BUCKET index type替换默认的FLINK STATE index type，FLINK STATE index type是in-memory的，十分消耗内存</p>
-<p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/magic-x/articles/16114261.html">HUDI-0.11.0 BUCKET index on Flink 新特性试用</a></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%86%85%E5%AD%98%E8%B0%83%E4%BC%98.html#more">全文 &gt;&gt;</a>
@@ -455,23 +350,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -507,6 +385,13 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
 <p>2.给项目配置远程python环境</p>
 <img src="/images/517519-20230319202558093-1519646490.png" width="800" height="577" loading="lazy" />
+
+<p>&nbsp;</p>
+<h2 id="2-配置python-interpreter以及代码同步的路径"><a href="#2-配置python-interpreter以及代码同步的路径" class="headerlink" title="2.配置python interpreter以及代码同步的路径"></a>2.配置python interpreter以及代码同步的路径</h2><img src="/images/517519-20230319203318450-1879531132.png" width="700" height="453" loading="lazy" />
+
+<p>&nbsp;</p>
+<p>最后选择remote的python环境来运行代码</p>
+<img src="/images/517519-20230319203727208-955746729.png" width="700" height="201" loading="lazy" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/pycharm%E8%BF%9E%E6%8E%A5%E8%BF%9C%E7%A8%8Bpython%E7%8E%AF%E5%A2%83.html#more">全文 &gt;&gt;</a>
@@ -532,23 +417,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -580,47 +448,15 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <!-- 目录 -->
-
-<div id="toc">
-  
-</div>
-
         <p>引入joda-time</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--jodatime--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;joda-time&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;joda-time&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;2.10&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/%E4%BD%BF%E7%94%A8joda-time%E5%A4%84%E7%90%86%E6%97%B6%E9%97%B4.html#more">全文 &gt;&gt;</a>
+          </p>
+        
 
-<p>1.字符串转joda-time的DateTime</p>
-<p>parse日期</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">DateTimeFormatter fmt = DateTimeFormat.forPattern(&quot;yyyy-MM-dd&quot;);</span><br><span class="line">DateTime dateTime = DateTime.parse(date, fmt);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>parse时间戳</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">DateTimeFormatter format = DateTimeFormat.forPattern(&quot;yyyy-MM-dd HH:mm:ss&quot;);</span><br><span class="line">DateTime dt = DateTime.parse(dateStr, format);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>转换时区</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">DateTimeFormatter format = DateTimeFormat.forPattern(&quot;EEE MMM dd HH:mm:ss yyyy&quot;).withLocale(Locale.ENGLISH);</span><br><span class="line">DateTime dt = DateTime.parse(dateStr, format);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>2.joda-time的DateTime转字符串</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String date = dt.toString(&quot;yyyy-MM-dd&quot;);</span><br><span class="line">String datetime = dt.toString(&quot;yyyy-MM-dd HH:mm:ss&quot;);</span><br><span class="line">String datetime = dt.toString(&quot;yyyy-MM-dd HH:00:00&quot;); // 整点</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>3.获取当前时间</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DateTime now = new DateTime();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>4.比较2个DateTime的时间差</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Days.daysBetween(dateTime, now).getDays() &gt; 7</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>5.jodatime添加时区</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DateTime now = new DateTime(DateTimeZone.UTC);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-        <div class="article-entry">
-          <div id="footer-info" class="inner">
-          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/%E4%BD%BF%E7%94%A8joda-time%E5%A4%84%E7%90%86%E6%97%B6%E9%97%B4.html"></a>
-          </div>
-        </div>
       
     </div>
-
-    
-      
 
     
 
@@ -638,23 +474,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -688,7 +507,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p><strong>泛型</strong>就是指在对象建立时不指定类中属性的具体类型，而由外部在声明及实例化对喜爱时指定类型。</p>
 <p>在泛型的指定中无法指定基本数据类型的，必须设置成一个类，这样在设置一个数字时就必须使用包装类。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">class Point&lt;T&gt;&#123;		//此处T可以是任意的标识符号，T是type的简称</span><br><span class="line">	private T var;		//此变量的类型由外部决定</span><br><span class="line"></span><br><span class="line">	public T getVar() &#123;		//返回值的类型由外部决定</span><br><span class="line">		return var;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void setVar(T var) &#123;	//设置的类型由外部指定</span><br><span class="line">		this.var = var;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Generics_demo &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		// TODO 自动生成的方法存根</span><br><span class="line">//		Point&lt;Integer&gt; p = new Point&lt;Integer&gt;();	//里面的var类型为Integer类型</span><br><span class="line">//		p.setVar(30);  														//设置数字，自动装箱</span><br><span class="line">//		System.out.println(p.getVar()*2);					//计算结果，按数字取出</span><br><span class="line">		Point&lt;String&gt; p = new Point&lt;String&gt;();	//里面的var类型为Integer类型</span><br><span class="line">		p.setVar(&quot;张三&quot;);  														//设置数字，自动装箱</span><br><span class="line">		System.out.println(p.getVar().length());					//计算结果，按数字取出</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Java%E6%B3%9B%E5%9E%8B.html#more">全文 &gt;&gt;</a>
@@ -714,23 +532,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -765,6 +566,11 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p>多个线程要<strong>操作同一资源</strong>时就有可能出现<strong>资源的同步问题</strong>。</p>
 <p><strong>同步</strong>就是指多个操作在同一个时间段内只能有一个线程进行，其他线程要等待此线程完成之后才可以继续执行。</p>
 <p>解决资源共享的同步操作，可以使用<strong>同步代码块</strong>和<strong>同步方法</strong>两种方式完成。</p>
+<p>&nbsp;</p>
+<p>&lt;1&gt;<strong>同步代码块</strong></p>
+<img src="/images/517519-20160308115555022-1178560527.png" alt="" />
+
+<p>所谓代码块就是指使用&ldquo;{}”括起来的一段代码，根据其位置和声明的不同，可以分为普通代码块、构造块、静态块3种，如果在代码块上加上<strong>synchronized关键字</strong>，则此代码块就称为同步代码块。</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Java%E5%90%8C%E6%AD%A5synchronized%E4%B8%8E%E6%AD%BB%E9%94%81.html#more">全文 &gt;&gt;</a>
@@ -790,23 +596,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -875,23 +664,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </article>
 
 
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
-
 
 
   
@@ -926,6 +698,14 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>比如对于HDFS组件，有的机型的磁盘为12块，有的机型的磁盘为16块，那么可以通过角色组将配置一致的机器分到一起</p>
 <p>在HDFS组件下，选择实例</p>
 <img src="/images/517519-20210511160441198-655150911.png" width="700" height="149" loading="lazy" />
+
+<p>&nbsp;</p>
+<p>再点击角色组，可以选择创建角色组</p>
+<img src="/images/517519-20210511160644964-1436856810.png" width="300" height="412" loading="lazy" />
+
+<p>其中DataNode Default Group有100台，每台有12块磁盘</p>
+<p>其中DataNode Group 1有50台，每台有16块磁盘</p>
+<p>此时在&nbsp;dfs.datanode.data.dir 参数可以分别对2个角色组进行配置，default组有12块盘，group 1有16块盘</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/CDH%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%A7%92%E8%89%B2%E7%BB%84.html#more">全文 &gt;&gt;</a>
@@ -951,23 +731,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -1033,23 +796,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 

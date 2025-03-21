@@ -201,28 +201,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>实现一个UDF函数可以继承 org.apache.hadoop.hive.ql.exec.UDF，也可以继承 org.apache.hadoop.hive.ql.udf.generic.GenericUDF</p>
 <p>1.继承UDF，参考</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://docs.microsoft.com/en-us/azure/hdinsight/hadoop/apache-hadoop-hive-java-udf</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>引入依赖</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.hive&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;hive-exec&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.1.0-cdh5.16.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;hadoop-common&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;2.6.0-cdh5.16.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>代码</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.hadoop.hive.ql.exec.Description;</span><br><span class="line">import org.apache.hadoop.hive.ql.exec.UDF;</span><br><span class="line">import org.slf4j.Logger;</span><br><span class="line">import org.slf4j.LoggerFactory;</span><br><span class="line"></span><br><span class="line">@Description(</span><br><span class="line">        name = &quot;hello&quot;,</span><br><span class="line">        value = &quot;_FUNC_(str) - from the input string&quot;</span><br><span class="line">                + &quot;returns the value that is \&quot;Hello $str\&quot; &quot;,</span><br><span class="line">        extended = &quot;Example:\n&quot;</span><br><span class="line">                + &quot; &gt; SELECT _FUNC_(str) FROM src;&quot;</span><br><span class="line">)</span><br><span class="line">public class MyUDF extends UDF &#123;</span><br><span class="line"></span><br><span class="line">    private static final Logger logger = LoggerFactory.getLogger(MyUDF.class);</span><br><span class="line"></span><br><span class="line">    public String evaluate(String str)&#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            return &quot;Hello &quot; + str;</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            // TODO: handle exception</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            return &quot;ERROR&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>打包的时候需要注意，需要把所以依赖的jar都打进去，然后将jar包上传到HDFS上或者s3上</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">hive&gt; add jar hdfs:///user/hive/udf/bigdata-1.0-SNAPSHOT-jar-with-dependencies.jar;</span><br><span class="line">converting to local hdfs:///user/hive/udf/bigdata-1.0-SNAPSHOT-jar-with-dependencies.jar</span><br><span class="line">Added [/tmp/5aa66ab6-35ab-45d5-bef1-5acc79d16b23_resources/bigdata-1.0-SNAPSHOT-jar-with-dependencies.jar] to class path</span><br><span class="line">Added resources: [hdfs:///user/hive/udf/bigdata-1.0-SNAPSHOT-jar-with-dependencies.jar]</span><br><span class="line">hive&gt; create temporary function my_lower as &quot;com.bigdata.hive.MyUDF&quot;;</span><br><span class="line">OK</span><br><span class="line">Time taken: 0.073 seconds</span><br><span class="line">hive&gt; select my_lower(&quot;123&quot;);</span><br><span class="line">OK</span><br><span class="line">Hello 123</span><br><span class="line">Time taken: 0.253 seconds, Fetched: 1 row(s)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>查看jar包</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hive&gt; list jar;</span><br><span class="line">/tmp/5aa66ab6-35ab-45d5-bef1-5acc79d16b23_resources/bigdata-1.0-SNAPSHOT-jar-with-dependencies.jar</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>删除jar包</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hive&gt; delete jar /tmp/5aa66ab6-35ab-45d5-bef1-5acc79d16b23_resources/bigdata-1.0-SNAPSHOT-jar-with-dependencies.jar;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>查看function</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">hive&gt; show functions like &#x27;*lower&#x27;;</span><br><span class="line">OK</span><br><span class="line">lower</span><br><span class="line">Time taken: 0.016 seconds, Fetched: 1 row(s)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>删除function</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hive&gt; drop function if exists my_lower;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94UDF%E5%BC%80%E5%8F%91.html#more">全文 &gt;&gt;</a>
@@ -248,23 +226,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -296,7 +257,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1-使用Flink-SQL"><a href="#1-使用Flink-SQL" class="headerlink" title="1.使用Flink SQL"></a>1.使用Flink SQL</h2><p>如果使用的是flink sql的话，如果想要同步表到hive metastore的话，只需要在flink sql的建表语句中添加
+        <h2 id="1-使用Flink-SQL"><a href="#1-使用Flink-SQL" class="headerlink" title="1.使用Flink SQL"></a>1.使用Flink SQL</h2><p>如果使用的是flink sql的话，如果想要同步表到hive metastore的话，只需要在flink sql的建表语句中添加&nbsp;hive_sync 相关的一些配置即可，如下</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Hudi%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%90%8C%E6%AD%A5hive%20metastore.html#more">全文 &gt;&gt;</a>
@@ -322,23 +283,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -373,6 +317,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <img src="/images/517519-20160326215416808-786433959.png" alt="" />
 
 <h2 id="1-缓冲区Buffer"><a href="#1-缓冲区Buffer" class="headerlink" title="1.缓冲区Buffer"></a><strong>1.缓冲区Buffer</strong></h2><p><strong><img src="/images/517519-20160326215624433-605360240.png" alt="" /></strong></p>
+<p>&nbsp;</p>
+<img src="/images/517519-20160326215652120-387254333.png" alt="" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Java%E2%80%94%E2%80%94NIO.html#more">全文 &gt;&gt;</a>
@@ -398,23 +344,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -447,13 +376,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p><strong>1.DataFrame API读取avro文件</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://sparkbyexamples.com/spark/read-write-avro-file-spark-dataframe/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>pom引入，spark2.4.0之后可以使用apache的spark-avro包，之前需要使用databricks的spark-avro包</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--avro--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.avro&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;avro&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.11.0&lt;/version&gt;</span><br><span class="line">    &lt;exclusions&gt;</span><br><span class="line">        &lt;exclusion&gt;</span><br><span class="line">            &lt;artifactId&gt;jackson-databind&lt;/artifactId&gt;</span><br><span class="line">            &lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;</span><br><span class="line">        &lt;/exclusion&gt;</span><br><span class="line">    &lt;/exclusions&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.parquet&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;parquet-avro&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.12.1&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;!--spark--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.spark&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spark-core_2.11&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;2.4.0.cloudera2&lt;/version&gt;</span><br><span class="line">    &lt;exclusions&gt;</span><br><span class="line">        &lt;exclusion&gt;</span><br><span class="line">            &lt;artifactId&gt;avro&lt;/artifactId&gt;</span><br><span class="line">            &lt;groupId&gt;org.apache.avro&lt;/groupId&gt;</span><br><span class="line">        &lt;/exclusion&gt;</span><br><span class="line">    &lt;/exclusions&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.spark&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spark-sql_2.11&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;2.4.0.cloudera2&lt;/version&gt;</span><br><span class="line">    &lt;exclusions&gt;</span><br><span class="line">        &lt;exclusion&gt;</span><br><span class="line">            &lt;artifactId&gt;avro&lt;/artifactId&gt;</span><br><span class="line">            &lt;groupId&gt;org.apache.avro&lt;/groupId&gt;</span><br><span class="line">        &lt;/exclusion&gt;</span><br><span class="line">        &lt;exclusion&gt;</span><br><span class="line">            &lt;artifactId&gt;parquet-jackson&lt;/artifactId&gt;</span><br><span class="line">            &lt;groupId&gt;com.twitter&lt;/groupId&gt;</span><br><span class="line">        &lt;/exclusion&gt;</span><br><span class="line">    &lt;/exclusions&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.spark&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spark-avro_2.11&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;2.4.0.cloudera2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>读取avro文件，得到DataFrame</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">import java.io.File</span><br><span class="line"></span><br><span class="line">import org.apache.avro.Schema</span><br><span class="line">import org.apache.spark.sql.SparkSession</span><br><span class="line"></span><br><span class="line">object SparkAvroDemo &#123;</span><br><span class="line"></span><br><span class="line">  def main(args: Array[String]) &#123;</span><br><span class="line"></span><br><span class="line">    val sparkSession = SparkSession.builder()</span><br><span class="line">      .master(&quot;local&quot;)</span><br><span class="line">      .appName(&quot;spark session example&quot;)</span><br><span class="line">      .getOrCreate()</span><br><span class="line"></span><br><span class="line">    val schemaAvro = new Schema.Parser().parse(new File(&quot;src/main/avro/kst.avsc&quot;))</span><br><span class="line"></span><br><span class="line">    val df = sparkSession.read</span><br><span class="line">      .format(&quot;avro&quot;)</span><br><span class="line">      .option(&quot;avroSchema&quot;, schemaAvro.toString)</span><br><span class="line">      .load(&quot;file:///Users/lintong/coding/java/interview/bigdata/data/000000_0&quot;)</span><br><span class="line"></span><br><span class="line">    df.show()</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%AF%BB%E5%86%99Avro.html#more">全文 &gt;&gt;</a>
@@ -479,23 +401,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -527,19 +432,34 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
+        <!-- 目录 -->
+
+<div id="toc">
+  
+</div>
+
         <p>IDEA中运行spark报如下错误</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Exception in thread &quot;main&quot; java.lang.NoSuchMethodError: scala.Product.$init$(Lscala/Product;)V</span><br><span class="line">	at org.apache.spark.SparkConf$DeprecatedConfig.&lt;init&gt;(SparkConf.scala:799)</span><br><span class="line">	at org.apache.spark.SparkConf$.&lt;init&gt;(SparkConf.scala:596)</span><br><span class="line">	at org.apache.spark.SparkConf$.&lt;clinit&gt;(SparkConf.scala)</span><br><span class="line">	at org.apache.spark.SparkConf.set(SparkConf.scala:94)</span><br><span class="line">	at org.apache.spark.SparkConf.set(SparkConf.scala:83)</span><br><span class="line">	at org.apache.spark.sql.SparkSession$Builder.$anonfun$getOrCreate$1(SparkSession.scala:916)</span><br><span class="line">	at scala.collection.mutable.HashMap$$anonfun$foreach$1.apply(HashMap.scala:130)</span><br><span class="line">	at scala.collection.mutable.HashMap$$anonfun$foreach$1.apply(HashMap.scala:130)</span><br><span class="line">	at scala.collection.mutable.HashTable$class.foreachEntry(HashTable.scala:236)</span><br><span class="line">	at scala.collection.mutable.HashMap.foreachEntry(HashMap.scala:40)</span><br><span class="line">	at scala.collection.mutable.HashMap.foreach(HashMap.scala:130)</span><br><span class="line">	at org.apache.spark.sql.SparkSession$Builder.getOrCreate(SparkSession.scala:916)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>是由于本应该使用scala 2.12，但是在IDEA中配置的却是Scala 2.11导致的</p>
-<img src="/images/517519-20220623173814330-1687225066.png" width="800" height="498" loading="lazy" />
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/scala%E6%8A%A5Exception%20in%20thread%20%22main%22%20java.lang.NoSuchMethodError%EF%BC%9Ascala.Product.$init$(Lscala%EF%BC%8FProduct;)V.html#more">全文 &gt;&gt;</a>
-          </p>
-        
+<img src="/images/517519-20220623173814330-1687225066.png" width="800" height="498" loading="lazy">
 
+<p>&nbsp;</p>
+<p>将其修改成2.12就解决了</p>
+<img src="/images/517519-20220623173900514-2033703258.png" width="800" height="276" loading="lazy">
+
+<p>&nbsp;</p>
+
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/scala%E6%8A%A5Exception%20in%20thread%20%22main%22%20java.lang.NoSuchMethodError%EF%BC%9Ascala.Product.$init$(Lscala%EF%BC%8FProduct;)V.html"></a>
+          </div>
+        </div>
       
     </div>
+
+    
+      
 
     
 
@@ -557,23 +477,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -605,39 +508,15 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <!-- 目录 -->
-
-<div id="toc">
-  
-</div>
-
         <p>1.引入依赖</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--parquet--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.parquet&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;parquet-avro&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.10.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.parquet&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;parquet-hadoop&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.10.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;!--hadoop--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;hadoop-client&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;2.7.3&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/%E5%B0%86parquet%20schema%E8%BD%AC%E6%8D%A2%E6%88%90avro%20schema.html#more">全文 &gt;&gt;</a>
+          </p>
+        
 
-<p>2.从parquet文件的footer读取parquet schema</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.hadoop.conf.Configuration;</span><br><span class="line">import org.apache.parquet.hadoop.ParquetFileReader;</span><br><span class="line">import org.apache.parquet.hadoop.util.HadoopInputFile;</span><br><span class="line">import org.apache.hadoop.fs.Path;</span><br><span class="line">import org.apache.parquet.schema.MessageType;</span><br><span class="line"></span><br><span class="line">Configuration config = new Configuration();</span><br><span class="line">        Path parquetPath = new Path(&quot;file:///Users/lintong/Downloads/xxxx.snappy.parquet&quot;);</span><br><span class="line">        ParquetFileReader reader = ParquetFileReader.open(HadoopInputFile.fromPath(parquetPath, config));</span><br><span class="line">        MessageType parquetSchema = reader.getFooter().getFileMetaData().getSchema();</span><br><span class="line">        System.out.println(parquetSchema);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>输出</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">message TestSerializer &#123;</span><br><span class="line">  optional binary string1 (UTF8);</span><br><span class="line">  optional int32 int1;</span><br><span class="line">  optional int32 tinyint1;</span><br><span class="line">  optional int32 smallint1;</span><br><span class="line">  optional int64 bigint1;</span><br><span class="line">  optional boolean boolean1;</span><br><span class="line">  optional double float1;</span><br><span class="line">  optional double double1;</span><br><span class="line">  optional group list1 (LIST) &#123;</span><br><span class="line">    repeated binary array (UTF8);</span><br><span class="line">  &#125;</span><br><span class="line">  optional group map1 (LIST) &#123;</span><br><span class="line">    repeated group array &#123;</span><br><span class="line">      optional binary key (UTF8);</span><br><span class="line">      optional int32 value;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  optional group struct1 &#123;</span><br><span class="line">    optional int32 sInt;</span><br><span class="line">    optional boolean sBoolean;</span><br><span class="line">    optional binary sString (UTF8);</span><br><span class="line">  &#125;</span><br><span class="line">  optional binary enum1 (UTF8);</span><br><span class="line">  optional int32 nullableint;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>3.将parquet schema转换成avro schema</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.parquet.avro.AvroSchemaConverter;</span><br><span class="line">import org.apache.avro.Schema;</span><br><span class="line"></span><br><span class="line">Schema avroSchema = new AvroSchemaConverter(config).convert(parquetSchema);</span><br><span class="line">System.out.println(avroSchema);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>输出</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   &quot;type&quot;:&quot;record&quot;,</span><br><span class="line">   &quot;name&quot;:&quot;TestSerializer&quot;,</span><br><span class="line">   &quot;fields&quot;:[</span><br><span class="line">      &#123;</span><br><span class="line">         &quot;name&quot;:&quot;string1&quot;,</span><br><span class="line">         &quot;type&quot;:[</span><br><span class="line">            &quot;null&quot;,</span><br><span class="line">            &quot;string&quot;</span><br><span class="line">         ],</span><br><span class="line">         &quot;default&quot;:null</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">         &quot;name&quot;:&quot;int1&quot;,</span><br><span class="line">         &quot;type&quot;:[</span><br><span class="line">            &quot;null&quot;,</span><br><span class="line">            &quot;int&quot;</span><br><span class="line">         ],</span><br><span class="line">         &quot;default&quot;:null</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">         &quot;name&quot;:&quot;tinyint1&quot;,</span><br><span class="line">         &quot;type&quot;:[</span><br><span class="line">            &quot;null&quot;,</span><br><span class="line">            &quot;int&quot;</span><br><span class="line">         ],</span><br><span class="line">         &quot;default&quot;:null</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">         &quot;name&quot;:&quot;smallint1&quot;,</span><br><span class="line">         &quot;type&quot;:[</span><br><span class="line">            &quot;null&quot;,</span><br><span class="line">            &quot;int&quot;</span><br><span class="line">         ],</span><br><span class="line">         &quot;default&quot;:null</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">         &quot;name&quot;:&quot;bigint1&quot;,</span><br><span class="line">         &quot;type&quot;:[</span><br><span class="line">            &quot;null&quot;,</span><br><span class="line">            &quot;long&quot;</span><br><span class="line">         ],</span><br><span class="line">         &quot;default&quot;:null</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">         &quot;name&quot;:&quot;boolean1&quot;,</span><br><span class="line">         &quot;type&quot;:[</span><br><span class="line">            &quot;null&quot;,</span><br><span class="line">            &quot;boolean&quot;</span><br><span class="line">         ],</span><br><span class="line">         &quot;default&quot;:null</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">         &quot;name&quot;:&quot;float1&quot;,</span><br><span class="line">         &quot;type&quot;:[</span><br><span class="line">            &quot;null&quot;,</span><br><span class="line">            &quot;double&quot;</span><br><span class="line">         ],</span><br><span class="line">         &quot;default&quot;:null</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">         &quot;name&quot;:&quot;double1&quot;,</span><br><span class="line">         &quot;type&quot;:[</span><br><span class="line">            &quot;null&quot;,</span><br><span class="line">            &quot;double&quot;</span><br><span class="line">         ],</span><br><span class="line">         &quot;default&quot;:null</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">         &quot;name&quot;:&quot;list1&quot;,</span><br><span class="line">         &quot;type&quot;:[</span><br><span class="line">            &quot;null&quot;,</span><br><span class="line">            &#123;</span><br><span class="line">               &quot;type&quot;:&quot;array&quot;,</span><br><span class="line">               &quot;items&quot;:&quot;string&quot;</span><br><span class="line">            &#125;</span><br><span class="line">         ],</span><br><span class="line">         &quot;default&quot;:null</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">         &quot;name&quot;:&quot;map1&quot;,</span><br><span class="line">         &quot;type&quot;:[</span><br><span class="line">            &quot;null&quot;,</span><br><span class="line">            &#123;</span><br><span class="line">               &quot;type&quot;:&quot;array&quot;,</span><br><span class="line">               &quot;items&quot;:&#123;</span><br><span class="line">                  &quot;type&quot;:&quot;record&quot;,</span><br><span class="line">                  &quot;name&quot;:&quot;array&quot;,</span><br><span class="line">                  &quot;fields&quot;:[</span><br><span class="line">                     &#123;</span><br><span class="line">                        &quot;name&quot;:&quot;key&quot;,</span><br><span class="line">                        &quot;type&quot;:[</span><br><span class="line">                           &quot;null&quot;,</span><br><span class="line">                           &quot;string&quot;</span><br><span class="line">                        ],</span><br><span class="line">                        &quot;default&quot;:null</span><br><span class="line">                     &#125;,</span><br><span class="line">                     &#123;</span><br><span class="line">                        &quot;name&quot;:&quot;value&quot;,</span><br><span class="line">                        &quot;type&quot;:[</span><br><span class="line">                           &quot;null&quot;,</span><br><span class="line">                           &quot;int&quot;</span><br><span class="line">                        ],</span><br><span class="line">                        &quot;default&quot;:null</span><br><span class="line">                     &#125;</span><br><span class="line">                  ]</span><br><span class="line">               &#125;</span><br><span class="line">            &#125;</span><br><span class="line">         ],</span><br><span class="line">         &quot;default&quot;:null</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">         &quot;name&quot;:&quot;struct1&quot;,</span><br><span class="line">         &quot;type&quot;:[</span><br><span class="line">            &quot;null&quot;,</span><br><span class="line">            &#123;</span><br><span class="line">               &quot;type&quot;:&quot;record&quot;,</span><br><span class="line">               &quot;name&quot;:&quot;struct1&quot;,</span><br><span class="line">               &quot;fields&quot;:[</span><br><span class="line">                  &#123;</span><br><span class="line">                     &quot;name&quot;:&quot;sInt&quot;,</span><br><span class="line">                     &quot;type&quot;:[</span><br><span class="line">                        &quot;null&quot;,</span><br><span class="line">                        &quot;int&quot;</span><br><span class="line">                     ],</span><br><span class="line">                     &quot;default&quot;:null</span><br><span class="line">                  &#125;,</span><br><span class="line">                  &#123;</span><br><span class="line">                     &quot;name&quot;:&quot;sBoolean&quot;,</span><br><span class="line">                     &quot;type&quot;:[</span><br><span class="line">                        &quot;null&quot;,</span><br><span class="line">                        &quot;boolean&quot;</span><br><span class="line">                     ],</span><br><span class="line">                     &quot;default&quot;:null</span><br><span class="line">                  &#125;,</span><br><span class="line">                  &#123;</span><br><span class="line">                     &quot;name&quot;:&quot;sString&quot;,</span><br><span class="line">                     &quot;type&quot;:[</span><br><span class="line">                        &quot;null&quot;,</span><br><span class="line">                        &quot;string&quot;</span><br><span class="line">                     ],</span><br><span class="line">                     &quot;default&quot;:null</span><br><span class="line">                  &#125;</span><br><span class="line">               ]</span><br><span class="line">            &#125;</span><br><span class="line">         ],</span><br><span class="line">         &quot;default&quot;:null</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">         &quot;name&quot;:&quot;enum1&quot;,</span><br><span class="line">         &quot;type&quot;:[</span><br><span class="line">            &quot;null&quot;,</span><br><span class="line">            &quot;string&quot;</span><br><span class="line">         ],</span><br><span class="line">         &quot;default&quot;:null</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">         &quot;name&quot;:&quot;nullableint&quot;,</span><br><span class="line">         &quot;type&quot;:[</span><br><span class="line">            &quot;null&quot;,</span><br><span class="line">            &quot;int&quot;</span><br><span class="line">         ],</span><br><span class="line">         &quot;default&quot;:null</span><br><span class="line">      &#125;</span><br><span class="line">   ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/54159454/how-to-convert-parquet-schema-to-avro-in-java-scala">https://stackoverflow.com/questions/54159454/how-to-convert-parquet-schema-to-avro-in-java-scala</a></p>
-
-        <div class="article-entry">
-          <div id="footer-info" class="inner">
-          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/%E5%B0%86parquet%20schema%E8%BD%AC%E6%8D%A2%E6%88%90avro%20schema.html"></a>
-          </div>
-        </div>
       
     </div>
-
-    
-      
 
     
 
@@ -655,23 +534,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -704,16 +566,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>1.在CDH管理页面进入parcels，下载GPLEXTRAS</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lintong@master:/opt/cloudera/parcel-repo$ ls | grep GPLEXTRAS</span><br><span class="line">GPLEXTRAS-5.16.2-1.cdh5.16.2.p0.8-xenial.parcel</span><br><span class="line">GPLEXTRAS-5.16.2-1.cdh5.16.2.p0.8-xenial.parcel.sha1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>将sha1改成sha</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo mv GPLEXTRAS-5.16.2-1.cdh5.16.2.p0.8-xenial.parcel.sha1 GPLEXTRAS-5.16.2-1.cdh5.16.2.p0.8-xenial.parcel.sha</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果parcels的哈希文件不存在，可以这样生成</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sha1sum ./SPARK2-2.4.0.cloudera2-1.cdh5.13.3.p0.1041012-xenial.parcel | cut -d &#x27; &#x27; -f 1 &gt; SPARK2-2.4..cloudera2-1.cdh5.13.3.p0.1041012-xenial.parcel.sha1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>2.在界面上分配并激活</p>
-<img src="/images/517519-20211112223614078-2124251515.png" width="800" height="188" loading="lazy" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/CDH5.16%E5%AE%89%E8%A3%85lzo.html#more">全文 &gt;&gt;</a>
@@ -739,23 +591,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -787,7 +622,17 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Flink有两种基本类型的状态：<strong>托管状态（Managed State）</strong>和<strong>原生状态（Raw State）</strong>。两者的区别：Managed State是由Flink管理的，Flink帮忙存储、恢复和优化，Raw State是开发者自己管理的，需要自己序列化。<br>|
+        <p>Flink有两种基本类型的状态：<strong>托管状态（Managed State）</strong>和<strong>原生状态（Raw State）</strong>。两者的区别：Managed State是由Flink管理的，Flink帮忙存储、恢复和优化，Raw State是开发者自己管理的，需要自己序列化。<br>|&nbsp;|Managed&nbsp;State|Raw&nbsp;State</p>
+<p>Raw&nbsp;State<br>|状态管理方式|&nbsp;Flink&nbsp;Runtime托管,&nbsp;自动存储,&nbsp;自动恢复,&nbsp;自动伸缩|&nbsp;用户自己管理<br>|状态数据结构|&nbsp;Flink提供多种常用数据结构,&nbsp;例如:ListState, MapState等|&nbsp;字节数组:&nbsp;byte[]<br>|使用场景|&nbsp;绝大数Flink算子|&nbsp;所有算子</p>
+<p>ListState使用案例：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/huangqingshi/p/12041032.html">使用flink实现一个topN的程序</a></p>
+<p>Managed State又有两种类型：Keyed State和Operator State。</p>
+<img src="/images/517519-20230804205606458-1771588050.png" width="600" height="391" />
+
+<p>在Flink 中，Keyed State 是<strong>绑定到数据流中的特定键（Key）的</strong>。 这意味着Flink 维护了数据流中每一个key 的状态。 当处理一个新的元素时，Flink 会将状态的键设置为该元素的键，然后调用对应的处理函数。 Keyed State 的一个典型应用场景是计算每个键的滚动聚合。参考：<a target="_blank" rel="noopener" href="https://www.hnbian.cn/posts/1dadc314.html">Flink系列 13. 介绍Flink中的Operator State 和 Keyed State</a></p>
+<p><strong>Operator State</strong>可以被所有的operators使用。它通常适用于source，例如FlinkKafkaConsumer。每个operator状态都绑定到一个并行operator实例。Kafka consumer的每个并行实例都维护着一个topic分区和offset的映射，作为它的operator状态。官方文档：<a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/datastream/fault-tolerance/state/#operator-state">https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/dev/datastream/fault-tolerance/state/#operator-state</a><br>|&nbsp;|Operator&nbsp;State|Keyed&nbsp;State</p>
+<p>Keyed&nbsp;State<br>|适用算子类型|&nbsp;可用于所有算子: 常用于source, 例如 FlinkKafkaConsumer|只适用于KeyedStream上的算子</p>
+<p>只适用于KeyedStream上的算子<br>|状态分配|一个算子的子任务对应一个状态|一个Key对应一个State: 一个算子会处理多个Key, 则访问相应的多个State</p>
+<p>一个算子的子任务对应一个状态<br>|创建和访问方式|实现CheckpointedFunction或ListCheckpointed(已经过时)接口|重写RichFunction, 通过里面的RuntimeContext访问</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Flink%20State.html#more">全文 &gt;&gt;</a>
@@ -813,23 +658,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -866,6 +694,11 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <img src="/images/517519-20160907100634269-1145144898.png" alt="" width="462" height="278" />
 
 <img src="/images/517519-20160907101809019-1824750390.png" alt="" width="585" height="446" />
+
+<p>&nbsp;</p>
+<img src="/images/517519-20160325212305198-1380934598.png" alt="" />
+
+<p>&nbsp;</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Java%E2%80%94%E2%80%94Java%E7%BD%91%E7%BB%9C.html#more">全文 &gt;&gt;</a>
@@ -891,23 +724,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -939,19 +755,29 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
+        <!-- 目录 -->
+
+<div id="toc">
+  
+</div>
+
         <p>Mybatis默认情况下，只开启一级缓存，一级缓存只是相对于同一个SqlSession而言。</p>
 <p>如果想要开启二级缓存，则需要在xml配置文件中添加</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;cache/&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>此外，还要求返回的POJO对象要实现Serializable接口</p>
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/Mybatis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%BC%93%E5%AD%98.html#more">全文 &gt;&gt;</a>
-          </p>
-        
+<p>&nbsp;</p>
 
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/Mybatis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%BC%93%E5%AD%98.html"></a>
+          </div>
+        </div>
       
     </div>
+
+    
+      
 
     
 
@@ -969,23 +795,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 

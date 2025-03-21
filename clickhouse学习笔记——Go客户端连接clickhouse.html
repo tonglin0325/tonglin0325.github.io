@@ -5,16 +5,16 @@
   
   <title>clickhouse学习笔记——Go客户端连接clickhouse | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.创建clickhouse环境安装clickhouse 参考：ubuntu16.04安装clickhouse 或者使用docker 参考：https:&#x2F;&#x2F;hub.docker.com&#x2F;r&#x2F;clickhouse&#x2F;clickhouse-server 12docker run -d -p 18123:8123 -p 19000:9000 --name some-clickhouse-server --">
+  <meta name="description" content="1.创建clickhouse环境安装clickhouse 参考：ubuntu16.04安装clickhouse 或者使用docker 参考：https:&#x2F;&#x2F;hub.docker.com&#x2F;r&#x2F;clickhouse&#x2F;clickhouse-server">
 <meta property="og:type" content="article">
 <meta property="og:title" content="clickhouse学习笔记——Go客户端连接clickhouse">
 <meta property="og:url" content="http://tonglin0325.github.io/clickhouse%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Go%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5clickhouse.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="1.创建clickhouse环境安装clickhouse 参考：ubuntu16.04安装clickhouse 或者使用docker 参考：https:&#x2F;&#x2F;hub.docker.com&#x2F;r&#x2F;clickhouse&#x2F;clickhouse-server 12docker run -d -p 18123:8123 -p 19000:9000 --name some-clickhouse-server --">
+<meta property="og:description" content="1.创建clickhouse环境安装clickhouse 参考：ubuntu16.04安装clickhouse 或者使用docker 参考：https:&#x2F;&#x2F;hub.docker.com&#x2F;r&#x2F;clickhouse&#x2F;clickhouse-server">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240525202735281-1790572630.png">
 <meta property="article:published_time" content="2017-01-02T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:17.414Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:07.365Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="clickhouse">
 <meta name="twitter:card" content="summary">
@@ -214,6 +214,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/tonglin0325/p/5576803.html">ubuntu16.04安装clickhouse</a></p>
 <p>或者使用docker</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://hub.docker.com/r/clickhouse/clickhouse-server">https://hub.docker.com/r/clickhouse/clickhouse-server</a></p>
+<span id="more"></span>
+
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 18123:8123 -p 19000:9000 --name some-clickhouse-server --ulimit nofile=262144:262144 clickhouse/clickhouse-server:23.8</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>使用datagrip连接</p>
@@ -249,7 +251,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>输出</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[&#123;101 Hello, ClickHouse! 2024-05-25 15:54:00 +0000 UTC -1&#125; &#123;101 Granules are the smallest chunks of data read 2024-05-25 15:54:00 +0000 UTC 3.14159&#125; &#123;102 Insert a lot of rows per batch 2024-05-25 15:54:00 +0000 UTC 1.41421&#125; &#123;102 Sort your data based on your commonly-used queries 2024-05-25 15:54:00 +0000 UTC 2.718&#125;]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<span id="more"></span>
 <p>&nbsp;</p>
 
         <div class="article-entry">

@@ -5,12 +5,12 @@
   
   <title>Hive学习笔记——hive hook | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Hive hook是hive的钩子函数，可以嵌入HQL执行的过程中运行，比如下面的这几种情况   参考 12https:&#x2F;&#x2F;www.slideshare.net&#x2F;julingks&#x2F;apache-hive-hooksminwookim130813  有了Hook，可以实现例如非法SQL拦截，SQL收集和审计等功能，业界的案例可以参考Airbnb的reair 12https:&#x2F;&#x2F;github.com&#x2F;">
+  <meta name="description" content="Hive hook是hive的钩子函数，可以嵌入HQL执行的过程中运行，比如下面的这几种情况   参考">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hive学习笔记——hive hook">
 <meta property="og:url" content="http://tonglin0325.github.io/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94hive%20hook.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="Hive hook是hive的钩子函数，可以嵌入HQL执行的过程中运行，比如下面的这几种情况   参考 12https:&#x2F;&#x2F;www.slideshare.net&#x2F;julingks&#x2F;apache-hive-hooksminwookim130813  有了Hook，可以实现例如非法SQL拦截，SQL收集和审计等功能，业界的案例可以参考Airbnb的reair 12https:&#x2F;&#x2F;github.com&#x2F;">
+<meta property="og:description" content="Hive hook是hive的钩子函数，可以嵌入HQL执行的过程中运行，比如下面的这几种情况   参考">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20200321193657092-1621988024.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20200328153748662-155259969.png">
@@ -21,7 +21,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20200321223922239-224576797.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20200321224111206-227149050.png">
 <meta property="article:published_time" content="2020-03-20T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:16.394Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:06.410Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Hive">
 <meta name="twitter:card" content="summary">
@@ -221,6 +221,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <img src="/images/517519-20200321193657092-1621988024.png" alt width="400" height="309">
 
 <p>参考</p>
+<span id="more"></span>
+
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://www.slideshare.net/julingks/apache-hive-hooksminwookim130813</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>有了Hook，可以实现例如非法SQL拦截，SQL收集和审计等功能，业界的案例可以参考Airbnb的reair</p>
@@ -229,7 +231,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>该项目中就使用了Hive的hook函数实现了一个Audit Log Hook，将提交到hiveserver2上的query写入到MySQL当中收集起来</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/airbnb/reair/blob/master/hive-hooks/src/main/java/com/airbnb/reair/hive/hooks/CliAuditLogHook.java</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<span id="more"></span>
 <p>&nbsp;</p>
 <p>这些hook函数的hive sql运行过程中的执行顺序</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">Driver.run()</span><br><span class="line"></span><br><span class="line">=&gt; HiveDriverRunHook.preDriverRun()(hive.exec.driver.run.hooks)</span><br><span class="line"></span><br><span class="line">=&gt; Driver.compile()</span><br><span class="line"></span><br><span class="line">=&gt; HiveSemanticAnalyzerHook.preAnalyze()(hive.semantic.analyzer.hook)</span><br><span class="line"></span><br><span class="line">=&gt; SemanticAnalyze(QueryBlock, LogicalPlan, PhyPlan, TaskTree)</span><br><span class="line"></span><br><span class="line">=&gt; HiveSemanticAnalyzerHook.postAnalyze()(hive.semantic.analyzer.hook)</span><br><span class="line"></span><br><span class="line">=&gt; QueryString redactor(hive.exec.query.redactor.hooks)</span><br><span class="line"></span><br><span class="line">=&gt; QueryPlan Generation</span><br><span class="line"></span><br><span class="line">=&gt; Authorization</span><br><span class="line"></span><br><span class="line">=&gt; Driver.execute()</span><br><span class="line"></span><br><span class="line">=&gt; ExecuteWithHookContext.run() || PreExecute.run() (hive.exec.pre.hooks)</span><br><span class="line"></span><br><span class="line">=&gt; TaskRunner</span><br><span class="line"></span><br><span class="line">=&gt; if failed, ExecuteWithHookContext.run()(hive.exec.failure.hooks)</span><br><span class="line"></span><br><span class="line">=&gt; ExecuteWithHookContext.run() || PostExecute.run() (hive.exec.post.hooks)</span><br><span class="line"></span><br><span class="line">=&gt; HiveDriverRunHook.postDriverRun()(hive.exec.driver.run.hooks)</span><br><span class="line"></span><br></pre></td></tr></table></figure>

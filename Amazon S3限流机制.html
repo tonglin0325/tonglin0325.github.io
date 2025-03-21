@@ -5,16 +5,16 @@
   
   <title>Amazon S3限流机制 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="当使用S3作为Amazon EMR的存储的时候，当写入的流量比较大的时候，有时会遇到性能瓶颈，报错如下 12Caused by: com.amazonaws.services.s3.model.AmazonS3Exception: Please reduce your request rate.  在如下的AWS文章中介绍，S3的性能不是按照bucket定义的，而是按照bucket的prefix，">
+  <meta name="description" content="当使用S3作为Amazon EMR的存储的时候，当写入的流量比较大的时候，有时会遇到性能瓶颈，报错如下">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Amazon S3限流机制">
 <meta property="og:url" content="http://tonglin0325.github.io/Amazon%20S3%E9%99%90%E6%B5%81%E6%9C%BA%E5%88%B6.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="当使用S3作为Amazon EMR的存储的时候，当写入的流量比较大的时候，有时会遇到性能瓶颈，报错如下 12Caused by: com.amazonaws.services.s3.model.AmazonS3Exception: Please reduce your request rate.  在如下的AWS文章中介绍，S3的性能不是按照bucket定义的，而是按照bucket的prefix，">
+<meta property="og:description" content="当使用S3作为Amazon EMR的存储的时候，当写入的流量比较大的时候，有时会遇到性能瓶颈，报错如下">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20221110104634263-245477808.png">
 <meta property="article:published_time" content="2017-01-01T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:17.459Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:07.419Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="AWS">
 <meta name="twitter:card" content="summary">
@@ -211,6 +211,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </div>
 
         <p>当使用S3作为Amazon EMR的存储的时候，当写入的流量比较大的时候，有时会遇到性能瓶颈，报错如下</p>
+<span id="more"></span>
+
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Caused by: com.amazonaws.services.s3.model.AmazonS3Exception: Please reduce your request rate.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>在如下的AWS文章中介绍，S3的性能不是按照<strong>bucket</strong>定义的，而是按照bucket的<strong>prefix，</strong>对于每个prefix，3500的PUT/COPY/POST/DELETE能力和5000的GET/HEAD能力，如果超过这个限制的话，就会被限流</p>
@@ -227,7 +229,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>如果增加了随机前缀，路径则会变成S3://bucket_name/[a-z,0-9][a-z,0-9]…./xxx/2022/10/01/object_name，这来一是流量被打散成36份，不会在每天的prefix上形成单独的热点；二来在遇到每年/每月/每日路径更新的时候，也不会进行S3扩容，因为扩容只会发生在第一个字符[a-z,0-9]</p>
 <p><strong>分区倒排</strong>：对于S3://bucket_name/xxx/2022/10/01/object_name的路径，分区倒排之后，路径变成S3://bucket_name/xxx/01/10/2022/object_name，即变成日/月/年，如果S3://bucket_name/xxx/路径下的并发超过3500/5000，第一个月过后，整个bucket会split成30或者31份（每天扩容一次），到了第二个月的时候，流量就会继续循环打到这30或者31个partition上，从而不会每天进行扩容</p>
 <p>上面介绍的S3<strong>自动split</strong>的原理，如果是<strong>手动split</strong>的话，就没有以上限制，就是给AWS对接的工程师提support case让他们后台调整，人工指定从第几个字符开始split，类似于预分区</p>
-<span id="more"></span>
 <p>&nbsp;</p>
 <p>其他优化方法，参考：<a target="_blank" rel="noopener" href="https://aws.amazon.com/cn/blogs/china/best-practices-to-optimize-data-access-performance-from-amazon-emr-and-aws-glue-to-amazon-s3/">从 Amazon EMR 和 AWS Glue 访问 Amazon S3 中数据的性能优化最佳实践</a></p>
 

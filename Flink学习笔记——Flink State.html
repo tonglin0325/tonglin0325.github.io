@@ -5,16 +5,16 @@
   
   <title>Flink学习笔记——Flink State | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Flink有两种基本类型的状态：托管状态（Managed State）和原生状态（Raw State）。两者的区别：Managed State是由Flink管理的，Flink帮忙存储、恢复和优化，Raw State是开发者自己管理的，需要自己序列化。|">
+  <meta name="description" content="Flink有两种基本类型的状态：托管状态（Managed State）和原生状态（Raw State）。两者的区别：Managed State是由Flink管理的，Flink帮忙存储、恢复和优化，Raw State是开发者自己管理的，需要自己序列化。|&amp;nbsp;|Managed&amp;nbsp;State|Raw&amp;nbsp;State Raw&amp;nbsp;State|状态管理方式|&amp;nbsp;Flink">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Flink学习笔记——Flink State">
 <meta property="og:url" content="http://tonglin0325.github.io/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Flink%20State.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="Flink有两种基本类型的状态：托管状态（Managed State）和原生状态（Raw State）。两者的区别：Managed State是由Flink管理的，Flink帮忙存储、恢复和优化，Raw State是开发者自己管理的，需要自己序列化。|">
+<meta property="og:description" content="Flink有两种基本类型的状态：托管状态（Managed State）和原生状态（Raw State）。两者的区别：Managed State是由Flink管理的，Flink帮忙存储、恢复和优化，Raw State是开发者自己管理的，需要自己序列化。|&amp;nbsp;|Managed&amp;nbsp;State|Raw&amp;nbsp;State Raw&amp;nbsp;State|状态管理方式|&amp;nbsp;Flink">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230804205606458-1771588050.png">
 <meta property="article:published_time" content="2016-03-24T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:24.296Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:09.668Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Flink">
 <meta name="twitter:card" content="summary">
@@ -210,7 +210,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </div>
 
-        <p>Flink有两种基本类型的状态：<strong>托管状态（Managed State）</strong>和<strong>原生状态（Raw State）</strong>。两者的区别：Managed State是由Flink管理的，Flink帮忙存储、恢复和优化，Raw State是开发者自己管理的，需要自己序列化。<br>|<span id="more"></span><br>&nbsp;|Managed&nbsp;State|Raw&nbsp;State</p>
+        <p>Flink有两种基本类型的状态：<strong>托管状态（Managed State）</strong>和<strong>原生状态（Raw State）</strong>。两者的区别：Managed State是由Flink管理的，Flink帮忙存储、恢复和优化，Raw State是开发者自己管理的，需要自己序列化。<br>|&nbsp;|Managed&nbsp;State|Raw&nbsp;State</p>
 <p>Raw&nbsp;State<br>|状态管理方式|&nbsp;Flink&nbsp;Runtime托管,&nbsp;自动存储,&nbsp;自动恢复,&nbsp;自动伸缩|&nbsp;用户自己管理<br>|状态数据结构|&nbsp;Flink提供多种常用数据结构,&nbsp;例如:ListState, MapState等|&nbsp;字节数组:&nbsp;byte[]<br>|使用场景|&nbsp;绝大数Flink算子|&nbsp;所有算子</p>
 <p>ListState使用案例：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/huangqingshi/p/12041032.html">使用flink实现一个topN的程序</a></p>
 <p>Managed State又有两种类型：Keyed State和Operator State。</p>
@@ -221,6 +221,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>Keyed&nbsp;State<br>|适用算子类型|&nbsp;可用于所有算子: 常用于source, 例如 FlinkKafkaConsumer|只适用于KeyedStream上的算子</p>
 <p>只适用于KeyedStream上的算子<br>|状态分配|一个算子的子任务对应一个状态|一个Key对应一个State: 一个算子会处理多个Key, 则访问相应的多个State</p>
 <p>一个算子的子任务对应一个状态<br>|创建和访问方式|实现CheckpointedFunction或ListCheckpointed(已经过时)接口|重写RichFunction, 通过里面的RuntimeContext访问</p>
+<span id="more"></span>
+
 <p>实现CheckpointedFunction或ListCheckpointed(已经过时)接口<br>|横向扩展|并发改变时有多重重写分配方式可选:&nbsp;均匀分配和合并后每个得到全量|并发改变,&nbsp;State随着Key在实例间迁移<br>|支持的数据结构|ListState和BroadCastState&nbsp;|ValueState, ListState,MapState ReduceState, AggregatingState</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://medium.com/big-data-processing/apache-flink-state-types-b5a76f36926d">Apache Flink State Types</a> 和 <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/5d71455cc578">【Flink】Flink 状态管理</a></p>
 <p>&nbsp;</p>

@@ -5,16 +5,16 @@
   
   <title>Spark学习笔记——读写Avro | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.DataFrame API读取avro文件 12https:&#x2F;&#x2F;sparkbyexamples.com&#x2F;spark&#x2F;read-write-avro-file-spark-dataframe&#x2F;  pom引入，spark2.4.0之后可以使用apache的spark-avro包，之前需要使用databricks的spark-avro包 1234567891011121314151617181920">
+  <meta name="description" content="1.DataFrame API读取avro文件">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spark学习笔记——读写Avro">
 <meta property="og:url" content="http://tonglin0325.github.io/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%AF%BB%E5%86%99Avro.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="1.DataFrame API读取avro文件 12https:&#x2F;&#x2F;sparkbyexamples.com&#x2F;spark&#x2F;read-write-avro-file-spark-dataframe&#x2F;  pom引入，spark2.4.0之后可以使用apache的spark-avro包，之前需要使用databricks的spark-avro包 1234567891011121314151617181920">
+<meta property="og:description" content="1.DataFrame API读取avro文件">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20211207221327312-1395173222.png">
 <meta property="article:published_time" content="2016-03-25T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:24.267Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:09.617Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="avro">
 <meta property="article:tag" content="Spark">
@@ -212,6 +212,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </div>
 
         <p><strong>1.DataFrame API读取avro文件</strong></p>
+<span id="more"></span>
+
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://sparkbyexamples.com/spark/read-write-avro-file-spark-dataframe/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>pom引入，spark2.4.0之后可以使用apache的spark-avro包，之前需要使用databricks的spark-avro包</p>
@@ -220,7 +222,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>读取avro文件，得到DataFrame</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">import java.io.File</span><br><span class="line"></span><br><span class="line">import org.apache.avro.Schema</span><br><span class="line">import org.apache.spark.sql.SparkSession</span><br><span class="line"></span><br><span class="line">object SparkAvroDemo &#123;</span><br><span class="line"></span><br><span class="line">  def main(args: Array[String]) &#123;</span><br><span class="line"></span><br><span class="line">    val sparkSession = SparkSession.builder()</span><br><span class="line">      .master(&quot;local&quot;)</span><br><span class="line">      .appName(&quot;spark session example&quot;)</span><br><span class="line">      .getOrCreate()</span><br><span class="line"></span><br><span class="line">    val schemaAvro = new Schema.Parser().parse(new File(&quot;src/main/avro/kst.avsc&quot;))</span><br><span class="line"></span><br><span class="line">    val df = sparkSession.read</span><br><span class="line">      .format(&quot;avro&quot;)</span><br><span class="line">      .option(&quot;avroSchema&quot;, schemaAvro.toString)</span><br><span class="line">      .load(&quot;file:///Users/lintong/coding/java/interview/bigdata/data/000000_0&quot;)</span><br><span class="line"></span><br><span class="line">    df.show()</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<span id="more"></span>
 <p>&nbsp;<img src="/images/517519-20211207221327312-1395173222.png" alt loading="lazy"></p>
 <p>&nbsp;</p>
 <p><strong>DataFrame API写入avro文件</strong>&nbsp;</p>

@@ -5,15 +5,15 @@
   
   <title>RocksDB原理 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="RocksDB">
+  <meta name="description" content="RocksDB&amp;nbsp;是由 Facebook 基于 LevelDB 开发的一款提供键值存储与读写功能的 LSM-tree 架构引擎。而LevelDB是一个可持久化的KV数据库引擎，由Google传奇工程师Jeff Dean和Sanjay Ghemawat开发并开源 用户写入的键值对会先写入磁盘上的 WAL (Write Ahead Log)，然后再写入内存中的跳表（SkipList，这部分结构">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RocksDB原理">
 <meta property="og:url" content="http://tonglin0325.github.io/RocksDB%E5%8E%9F%E7%90%86.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="RocksDB">
+<meta property="og:description" content="RocksDB&amp;nbsp;是由 Facebook 基于 LevelDB 开发的一款提供键值存储与读写功能的 LSM-tree 架构引擎。而LevelDB是一个可持久化的KV数据库引擎，由Google传奇工程师Jeff Dean和Sanjay Ghemawat开发并开源 用户写入的键值对会先写入磁盘上的 WAL (Write Ahead Log)，然后再写入内存中的跳表（SkipList，这部分结构">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-02-15T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:26.835Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:10.613Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="RocksDB">
 <meta name="twitter:card" content="summary">
@@ -208,7 +208,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </div>
 
-        <p><a target="_blank" rel="noopener" href="https://github.com/facebook/rocksdb">RocksDB</a><span id="more"></span><br>&nbsp;是由 Facebook 基于 LevelDB 开发的一款提供键值存储与读写功能的 LSM-tree 架构引擎。而LevelDB是一个可持久化的KV数据库引擎，由Google传奇工程师Jeff Dean和Sanjay Ghemawat开发并开源</p>
+        <p><a target="_blank" rel="noopener" href="https://github.com/facebook/rocksdb">RocksDB</a>&nbsp;是由 Facebook 基于 LevelDB 开发的一款提供键值存储与读写功能的 LSM-tree 架构引擎。而LevelDB是一个可持久化的KV数据库引擎，由Google传奇工程师Jeff Dean和Sanjay Ghemawat开发并开源</p>
 <p>用户写入的键值对会先写入磁盘上的 WAL (Write Ahead Log)，然后再写入内存中的跳表（SkipList，这部分结构又被称作 MemTable）。LSM-tree 引擎由于将用户的随机修改（插入）转化为了对 WAL 文件的顺序写，因此具有比 B 树类存储引擎更高的写吞吐。</p>
 <p>内存中的数据达到一定阈值后，会刷到磁盘上生成 SST 文件 (Sorted String Table)，SST 又分为多层（默认至多 6 层），每一层的数据达到一定阈值后会挑选一部分 SST 合并到下一层，每一层的数据是上一层的 10 倍（因此 90% 的数据存储在最后一层）。</p>
 <p>RocksDB 允许用户创建多个 ColumnFamily ，这些 ColumnFamily 各自拥有独立的内存跳表以及 SST 文件，但是共享同一个 WAL 文件，这样的好处是可以根据应用特点为不同的 ColumnFamily 选择不同的配置，但是又没有增加对 WAL 的写次数。</p>

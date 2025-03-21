@@ -200,7 +200,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>查看当前安装的linux内核版本号</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dpkg --get-selections |grep linux-image</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Ubuntu%E6%8F%90%E7%A4%BA%E5%8D%B7boot%E4%BB%85%E5%89%A90%E5%AD%97%E8%8A%82%E7%9A%84%E7%A1%AC%E7%9B%98%E7%A9%BA%E9%97%B4%EF%BC%8C%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95.html#more">全文 &gt;&gt;</a>
@@ -226,23 +225,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -276,31 +258,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>官方文档：<a target="_blank" rel="noopener" href="https://pandas.pydata.org/docs/reference/index.html">https://pandas.pydata.org/docs/reference/index.html</a></p>
 <p>1.loc属性，通过标签或布尔数组访问一组行和列。<a target="_blank" rel="noopener" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.loc.html#pandas-dataframe-loc">pandas.DataFrame.loc</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; df = pd.DataFrame([[1, 2], [4, 5], [7, 8]],</span><br><span class="line">...      index=[&#x27;cobra&#x27;, &#x27;viper&#x27;, &#x27;sidewinder&#x27;],</span><br><span class="line">...      columns=[&#x27;max_speed&#x27;, &#x27;shield&#x27;])</span><br><span class="line">&gt;&gt;&gt; df</span><br><span class="line">            max_speed  shield</span><br><span class="line">cobra               1       2</span><br><span class="line">viper               4       5</span><br><span class="line">sidewinder          7       8</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>获取单个label，返回是一个series</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; df.loc[&#x27;viper&#x27;]</span><br><span class="line">max_speed    4</span><br><span class="line">shield       5</span><br><span class="line">Name: viper, dtype: int64</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>获取List of labels。注意使用 <code>[[]]</code> 返回的是一个 DataFrame</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; df.loc[[&#x27;viper&#x27;, &#x27;sidewinder&#x27;]]</span><br><span class="line">            max_speed  shield</span><br><span class="line">viper               4       5</span><br><span class="line">sidewinder          7       8</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>通过行标签和列标签来获得具体值</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; df.loc[&#x27;cobra&#x27;, &#x27;shield&#x27;]</span><br><span class="line">2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>对行进行切片，对列进行单标签切片（取得部分行和部分列）</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; df.loc[&#x27;cobra&#x27;:&#x27;viper&#x27;, &#x27;max_speed&#x27;]</span><br><span class="line">cobra    1</span><br><span class="line">viper    4</span><br><span class="line">Name: max_speed, dtype: int64</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>通过boolean值来选取部分行</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; df.loc[[False, False, True]]</span><br><span class="line">            max_speed  shield</span><br><span class="line">sidewinder          7       8</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>条件筛选符合条件的行或者列</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; df.loc[df[&#x27;shield&#x27;] &gt; 6]</span><br><span class="line">            max_speed  shield</span><br><span class="line">sidewinder          7       8</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>条件筛选后再指定某个列</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; df.loc[df[&#x27;shield&#x27;] &gt; 6, [&#x27;max_speed&#x27;]]</span><br><span class="line">            max_speed</span><br><span class="line">sidewinder          7</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>多个条件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; df.loc[(df[&#x27;max_speed&#x27;] &gt; 1) &amp;amp; (df[&#x27;shield&#x27;] &lt; 8)]</span><br><span class="line">       max_speed  shield</span><br><span class="line">viper          4       5</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; df.loc[(df[&#x27;max_speed&#x27;] &gt; 4) | (df[&#x27;shield&#x27;] &lt; 5)]</span><br><span class="line">            max_speed  shield</span><br><span class="line">cobra               1       2</span><br><span class="line">sidewinder          7       8</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94pandas.html#more">全文 &gt;&gt;</a>
@@ -326,23 +283,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -378,6 +318,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>优点：计算复杂度不高，输出结果易于理解，对中间值的缺失不敏感，可以处理不相关特征数据</p>
 <p>缺点：可能会产生过度匹配问题</p>
 <p>适用数据类型：数值型和标称型</p>
+<p>&nbsp;</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E5%86%B3%E7%AD%96%E6%A0%91.html#more">全文 &gt;&gt;</a>
@@ -403,23 +344,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -457,6 +381,9 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
 <p>add custome JARs，所需要的jar包如下</p>
 <img src="/images/517519-20220923210342164-1360608000.png" width="600" height="103" loading="lazy" />
+
+<p>&nbsp;</p>
+<h2 id="2-添加data-source"><a href="#2-添加data-source" class="headerlink" title="2.添加data source"></a>2.添加data source</h2><p>添加hive URL</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Datagrip%E6%9F%A5%E8%AF%A2%E5%BC%80%E5%90%AFkerberos%E7%9A%84hive.html#more">全文 &gt;&gt;</a>
@@ -482,23 +409,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -534,36 +444,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <img src="/images/517519-20211105105922898-792948816.png" alt="" loading="lazy" />
 
 <h3 id="docker集群部署"><a href="#docker集群部署" class="headerlink" title="docker集群部署"></a>docker集群部署</h3><p>也可以使用docker镜像来部署scyllaDB集群</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker run --name scylla -p 9042:9042 -p 9160:9160 -p 10000:10000 -p 9180:9180 -v /var/lib/scylla:/var/lib/scylla -d scylladb/scylla</span><br><span class="line"></span><br><span class="line">docker run --name scylla-node2 -p 8042:9042 -p 8160:9160 -p 1000:10000 -p 8180:9180 -v /var/lib/scylladb2:/var/lib/scylla -d scylladb/scylla --seeds=&quot;$(docker inspect --format=&#x27;&#123;&#123; .NetworkSettings.IPAddress &#125;&#125;&#x27; scylla)&quot;</span><br><span class="line"></span><br><span class="line">docker run --name scylla-node3 -p 10042:9042 -p 10160:9160 -p 1100:10000 -p 10180:9180 -v /var/lib/scylladb3:/var/lib/scylla -d scylladb/scylla --seeds=&quot;$(docker inspect --format=&#x27;&#123;&#123; .NetworkSettings.IPAddress &#125;&#125;&#x27; scylla)&quot;</span><br><span class="line"></span><br><span class="line">docker run --name scylla-node4 -p 11042:9042 -p 11160:9160 -p 1200:10000 -p 11180:9180 -v /var/lib/scylladb4:/var/lib/scylla -d scylladb/scylla --seeds=&quot;$(docker inspect --format=&#x27;&#123;&#123; .NetworkSettings.IPAddress &#125;&#125;&#x27; scylla)&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>　　</p>
-<h2 id="2-在cqlsh中操作scyllaDB"><a href="#2-在cqlsh中操作scyllaDB" class="headerlink" title="2.在cqlsh中操作scyllaDB"></a>2.在cqlsh中操作scyllaDB</h2><p>在cqlsh中可以使用CQL (the Cassandra Query Language) 来对scyllaDB做一些基本操作</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sh-4.2# cqlsh</span><br><span class="line">Connected to  at 172.17.0.3:9042.</span><br><span class="line">[cqlsh 5.0.1 | Cassandra 3.0.8 | CQL spec 3.3.1 | Native protocol v4]</span><br><span class="line">Use HELP for help.</span><br><span class="line">cqlsh&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://docs.scylladb.com/getting-started/cqlsh/">CQLSh: the CQL shell</a></p>
-<p>　　</p>
-<h2 id="3-scyllaDB的操作"><a href="#3-scyllaDB的操作" class="headerlink" title="3.scyllaDB的操作"></a>3.scyllaDB的操作</h2><p>scylla数据存储于table当中，而table由keyspace分组</p>
-<h3 id="创建keysapce"><a href="#创建keysapce" class="headerlink" title="创建keysapce"></a>创建keysapce</h3><p>名字叫做test</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cqlsh&gt; CREATE KEYSPACE IF NOT EXISTS test WITH REPLICATION = &#123;&#x27;class&#x27;: &#x27;SimpleStrategy&#x27;,&#x27;replication_factor&#x27;:1&#125;;</span><br><span class="line">cqlsh&gt; describe keyspaces;</span><br><span class="line"></span><br><span class="line">system_schema  system_auth  system  system_distributed  test  system_traces</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>REPLICATION参数指定了备份策略，使用了REPLICATION后必须指定class，其中class有SimpleStrategy，NetworkTopologyStrategy，在这里由于是单机测试，所以我指定副本数量是1</p>
-<h3 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a>创建表</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">cqlsh&gt; use test;</span><br><span class="line">cqlsh:test&gt;</span><br><span class="line"></span><br><span class="line">CREATE TABLE demo (</span><br><span class="line">user_id int,</span><br><span class="line">str text,</span><br><span class="line">mtime timestamp,</span><br><span class="line">PRIMARY KEY (user_id, mtime)</span><br><span class="line">) WITH CLUSTERING ORDER BY (mtime DESC);</span><br><span class="line"></span><br><span class="line">cqlsh:test&gt; DESCRIBE TABLES</span><br><span class="line"></span><br><span class="line">demo</span><br><span class="line"></span><br><span class="line">cqlsh:test&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>PRIMARY KEY参数指定了主键，会按照user_id，mtime的顺序来排列key</p>
-<p>CLUSTERING参数指定了mtime按照降序排列</p>
-<h3 id="插入数据到scylla表"><a href="#插入数据到scylla表" class="headerlink" title="插入数据到scylla表"></a>插入数据到scylla表</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO demo (</span><br><span class="line">user_id,str,mtime</span><br><span class="line">) VALUES </span><br><span class="line">(6,&#x27;test&#x27;,&#x27;2021-10-09 07:00:00&#x27;) </span><br><span class="line">using TTL 86400;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>可以看到相同的key user_id会聚合到一起，相同的user_id中mtime按照降序排列</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">cqlsh:test&gt; select * from demo;</span><br><span class="line"></span><br><span class="line"> user_id | mtime                           | str</span><br><span class="line">---------+---------------------------------+-------</span><br><span class="line">       5 | 2021-10-09 02:00:00.000000+0000 | Panda</span><br><span class="line">       1 | 2021-10-09 04:00:00.000000+0000 |   Kay</span><br><span class="line">       1 | 2021-10-01 02:00:00.000000+0000 |   Kay</span><br><span class="line">       2 | 2021-10-09 03:00:00.000000+0000 | Snail</span><br><span class="line">       2 | 2021-10-01 02:00:00.000000+0000 | Snail</span><br><span class="line">       6 | 2021-10-09 07:00:00.000000+0000 |  test</span><br><span class="line"></span><br><span class="line">(6 rows)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://docs.scylladb.com/getting-started/ddl/">Data Definition</a>　</p>
-<h3 id="查看scylla集群状态"><a href="#查看scylla集群状态" class="headerlink" title="查看scylla集群状态"></a>查看scylla集群状态</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@6a30e1b8fc71 /]# nodetool status</span><br><span class="line">Using /etc/scylla/scylla.yaml as the config file</span><br><span class="line">Datacenter: datacenter1</span><br><span class="line">=======================</span><br><span class="line">Status=Up/Down</span><br><span class="line">|/ State=Normal/Leaving/Joining/Moving</span><br><span class="line">--  Address     Load       Tokens       Owns    Host ID                               Rack</span><br><span class="line">UN  172.17.0.2  1.49 MB    256          ?       eaee8765-450d-4d4e-a7b5-2ed4c6b20df3  rack1</span><br><span class="line">UN  172.17.0.5  1.04 MB    256          ?       17153bb7-f4f1-4436-bc49-f1eca3409040  rack1</span><br><span class="line">UN  172.17.0.4  1.03 MB    256          ?       25fd6224-7edc-4161-bf49-ba6fe51c9f73  rack1</span><br><span class="line">UN  172.17.0.6  1.04 MB    256          ?       3d5757d2-dc5f-4ba4-8d90-e02eb9d4c255  rack1</span><br><span class="line"></span><br><span class="line">Note: Non-system keyspaces don&#x27;t have the same replication settings, effective ownership information is meaningless　　</span><br></pre></td></tr></table></figure>
-
-<h3 id="查看表状态"><a href="#查看表状态" class="headerlink" title="查看表状态"></a>查看表状态</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nodetool tablestats my_ks.my_tb</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="增加字段"><a href="#增加字段" class="headerlink" title="增加字段"></a>增加字段</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE xx.xx ADD col_name col_type;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="删除scylla表"><a href="#删除scylla表" class="headerlink" title="删除scylla表"></a>删除scylla表
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/scyllaDB%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8.html#more">全文 &gt;&gt;</a>
@@ -589,23 +469,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -638,6 +501,16 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p><strong>k-近邻算法（kNN）</strong>采用<strong>测量不同特征值之间的距离</strong>方法进行分类。</p>
+<p>&nbsp;</p>
+<p>优点：精度高、对异常值不敏感、无数据输入假定</p>
+<p>缺点：计算复杂度高、空间复杂度高</p>
+<p>使用数据范围：数值型和标称型</p>
+<p>&nbsp;</p>
+<p><strong>工作原理</strong>：存在一个样本数据集合，也称为<strong>训练样本集</strong>，并且样本集中每个数据都存在标签，即我们知道样本集中每一数据与所属分类的对应关系。输入没有标签的新数据后，将新数据的每个特征与样本集中数据对应的特征进行比较，然后算法提取样本集中特征最相似数据（最近邻）的分类标签。一般来说，我们只选择样本数据集中前k个最相似的数据，这就是k-近邻算法中的k的出处，通常k是不大于20的整数。然后，选择k个最相似数据中出现次数最多的分类，作为新数据的分类。</p>
+<p>&nbsp;</p>
+<img src="/images/517519-20161108230327186-629442010.png" alt="" />
+
+<p>&nbsp;</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94k-%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95.html#more">全文 &gt;&gt;</a>
@@ -663,23 +536,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -712,6 +568,16 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p><strong>1.机器学习的主要任务：</strong><br />一是将实例数据划分到合适的分类中，即<strong>分类问题</strong>。 而是是<strong>回归</strong>， 它主要用于预测数值型数据，典型的回归例子：数据拟合曲线。</p>
+<p>&nbsp;</p>
+<p><strong>2.监督学习和无监督学习：</strong></p>
+<p><strong>分类和回归</strong>属于<strong>监督学习</strong>，之所以称之为监督学习，是因为这类算法必须直到预测什么，即<strong>目标变量的分类信息</strong>。</p>
+<p>&nbsp;</p>
+<p>对于<strong>无监督学习</strong>，此时<strong>数据没有类别信息，也不会给定目标值</strong>。在无监督学习中，将数据集合分成由类似的对象组成的多个类的过程被成为<strong>聚类</strong>；将寻找描述数据统计值的过程称之为<strong>密度估计</strong>。此外，无监督学习还可以减少数据特征的维度，以便我们可以使用二维或者三维图形更加直观地展示数据信息。</p>
+<img src="/images/517519-20161108221103624-1805790586.png" alt="" />
+
+<p>&nbsp;</p>
+<p><strong>3.线性回归和非线性回归</strong></p>
+<p>　　<strong>线性回归</strong>需要一个线性模型。一个<strong>线性的模型</strong>意味着模型的<strong>每一项</strong>要么是一个<strong>常数</strong>，要么是<strong>一个常数和一个预测变量的乘积</strong>。一个线性等式等于每一项相加的和。等式：</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E5%88%86%E7%B1%BB%E5%92%8C%E5%9B%9E%E5%BD%92.html#more">全文 &gt;&gt;</a>
@@ -737,23 +603,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -785,34 +634,15 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <!-- 目录 -->
-
-<div id="toc">
-  
-</div>
-
         <p>使用beeline连接hive</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kinit -kt xxx.keytab xxx</span><br><span class="line">beeline -u &quot;jdbc:hive2://10.65.13.98:10000/default;principal=hive/_HOST@CLOUDERA.SITE&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94beeline.html#more">全文 &gt;&gt;</a>
+          </p>
+        
 
-<p>参考：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://docs.cloudera.com/runtime/7.2.7/securing-hive/topics/hive_remote_data_access.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果要想直接运行SQL，可以</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">beeline -u &quot;jdbc:hive2://10.65.13.98:10000/default;principal=hive/_HOST@CLOUDERA.SITE&quot; --silent=true --outputformat=tsv2 --showHeader=false -e &quot;select * from xxx.xxx&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>退出beeline</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">!quit</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-        <div class="article-entry">
-          <div id="footer-info" class="inner">
-          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94beeline.html"></a>
-          </div>
-        </div>
       
     </div>
-
-    
-      
 
     
 
@@ -830,23 +660,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -879,6 +692,15 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="1-在IDEA或者pycharm中安装kubernets插件"><a href="#1-在IDEA或者pycharm中安装kubernets插件" class="headerlink" title="1.在IDEA或者pycharm中安装kubernets插件"></a><strong>1.在IDEA或者pycharm中安装kubernets插件</strong></h2><img src="/images/517519-20220515205810831-1113476921.png" width="600" height="589" loading="lazy" />
+
+<p>&nbsp;</p>
+<h2 id="2-使用kubernetes插件"><a href="#2-使用kubernetes插件" class="headerlink" title="2.使用kubernetes插件"></a><strong>2.使用kubernetes插件</strong></h2><p>在view的Tool windows中点击service</p>
+<img src="/images/517519-20220515221054940-1591523956.png" width="500" height="228" loading="lazy" />
+
+<p>可以看到docker和kubernetes的管理界面</p>
+<p>&nbsp;<img src="/images/517519-20220515221427343-1294800765.png" width="800" height="232" loading="lazy" /></p>
+<p>&nbsp;可以切换context，从而在不同k8s集群之间切换</p>
+<img src="/images/517519-20220518234757344-642887864.png" width="600" height="149" loading="lazy" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/IDEA%E7%9A%84kubernetes%E6%8F%92%E4%BB%B6%E4%BD%BF%E7%94%A8.html#more">全文 &gt;&gt;</a>
@@ -904,23 +726,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -955,6 +760,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p>又称<strong>单词查找树</strong>，<a target="_blank" rel="noopener" href="http://baike.baidu.com/view/1436495.htm">Trie树</a>，是一种<a target="_blank" rel="noopener" href="http://baike.baidu.com/view/540464.htm">树形结构</a>，是一种<strong>哈希树的变种</strong>。</p>
 <p>典型应用是用于统计，排序和保存大量的<a target="_blank" rel="noopener" href="http://baike.baidu.com/view/263416.htm">字符</a>串（但不仅限于字符串），所以经常被搜索引擎系统用于文本词频统计。</p>
 <p>它的优点是：利用字符串的公共前缀来减少查询时间，最大限度地减少无谓的字符串比较，<strong>查询效率比<a target="_blank" rel="noopener" href="http://baike.baidu.com/view/99075.htm">哈希</a>树高</strong>。</p>
+<p>&nbsp;</p>
+<p>下面是字典树数据的Java实现代码，字典树中存放的是26个英文字母</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E5%AD%97%E5%85%B8%E6%A0%91TRIE.html#more">全文 &gt;&gt;</a>
@@ -980,23 +787,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 

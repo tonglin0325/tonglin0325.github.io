@@ -5,17 +5,19 @@
   
   <title>Java数据结构——栈 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="article">
+  <meta name="description" content="&amp;nbsp;">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Java数据结构——栈">
 <meta property="og:url" content="http://tonglin0325.github.io/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E6%A0%88.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
+<meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20160329112254723-734210911.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20160329122048613-366891597.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20160329142814660-411463878.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20160329142834988-1613307503.png">
 <meta property="article:published_time" content="2016-03-28T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:24.238Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:09.597Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="数据结构">
 <meta name="twitter:card" content="summary">
@@ -213,8 +215,9 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
         <img src="/images/517519-20160329112254723-734210911.png" alt>
 
-<span id="more"></span>
 <p>&nbsp;</p>
+<span id="more"></span>
+
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">class Stack&#123;</span><br><span class="line">	private int maxSize;			//栈的长度</span><br><span class="line">	private long[] stackArray;		//创建栈的数组的引用</span><br><span class="line">	private int top;			//创建栈顶的引用</span><br><span class="line">	</span><br><span class="line">	public Stack(int s) &#123;			//构造函数</span><br><span class="line">		this.maxSize = s;</span><br><span class="line">		stackArray = new long[maxSize]; //创建对象</span><br><span class="line">		top = -1;			//栈顶等于-1</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public void push(long j)&#123;		//入栈操作</span><br><span class="line">		stackArray[++top] = j;		//先把top=-1自加成0,再入栈</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public long pop()&#123;</span><br><span class="line">		return stackArray[top--];	//弹出当前栈顶的元素后，再自减</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public long peek()&#123;</span><br><span class="line">		return stackArray[top];		//返回当前栈顶的元素</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public boolean isEmpty()&#123;	//栈顶为-1,即栈为空</span><br><span class="line">		return (top == -1);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public boolean isFull()&#123;		//栈顶为maxSize-1,即栈为满</span><br><span class="line">		return (top == maxSize-1);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Stack_demo &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		// TODO 自动生成的方法存根</span><br><span class="line">		Stack stack_demo = new Stack(10);</span><br><span class="line">		stack_demo.push(50);</span><br><span class="line">		stack_demo.push(60);</span><br><span class="line">		stack_demo.push(70);</span><br><span class="line">		stack_demo.push(80);</span><br><span class="line">		</span><br><span class="line">		while(!stack_demo.isEmpty())&#123;		//当栈不为空</span><br><span class="line">			long value = stack_demo.pop();</span><br><span class="line">			System.out.print(value+&quot;、&quot;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>&nbsp;<img src="/images/517519-20160329122048613-366891597.png" alt></p>

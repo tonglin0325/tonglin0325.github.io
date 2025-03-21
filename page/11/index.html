@@ -200,12 +200,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>Filebeat官方文档地址</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://www.elastic.co/guide/en/beats/filebeat/current/filebeat-installation.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>下载和安装</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.3.1-linux-x86_64.tar.gz</span><br><span class="line">tar xzvf filebeat-7.3.1-linux-x86_64.tar.gz</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>编写filebeat.yml</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Ubuntu16.04%E5%AE%89%E8%A3%85Filebeat.html#more">全文 &gt;&gt;</a>
@@ -231,23 +225,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -280,39 +257,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>1.下载安装包</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">https://www.consul.io/downloads.html</span><br><span class="line">wget https://releases.hashicorp.com/consul/1.5.3/consul_1.5.3_linux_amd64.zip</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>2.解压</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">unzip consul_1.5.3_linux_amd64.zip</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>3.mv</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo mv consul /usr/local/bin/consul</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>4.启动</p>
-<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/u010046908/article/details/61916389">https://blog.csdn.net/u010046908/article/details/61916389</a></p>
-<p><strong>-dev 开发模式</strong>启动的时候，数据是存储在内存中，重启之后数据将丢失</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">consul agent -dev</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>-server 生成模式启动的时候，如果是server的话需要指定-server，如果是client的话，需要指定-client，比如</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">consul agent -ui -server -bootstrap-expect 1 -data-dir /tmp/consul -node=consul-server -bind=192.168.1.100 -client=192.168.1.100</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>-bootstrap-expect 1 通知consul server我们现在准备加入的server节点个数，该参数是为了延迟日志复制的启动直到我们指定数量的server节点成功的加入后启动</p>
-<p>-data-dir /tmp/consul 数据持久的路径</p>
-<p>-node=consul-server 指定节点在集群中的名称</p>
-<p>-bind=192.168.1.100 该地址用来在集群内部的通讯，集群内的所有节点到地址都必须是可达的，<strong>默认是0.0.0.0</strong>，这意味着Consulo会使用第一个可用的私有IP地址，Consul可以使用TCP和UDP并且可以使用共同的端口，如果存在防火墙，这两者协议必须是允许的</p>
-<p>-client 指定节点为client，指定客户端接口的绑定地址，包括：HTTP、DNS、RPC，<strong>默认是127.0.0.1</strong>，<strong>只允许回环接口访问</strong>，也就是本机访问，如果要想同一局域网内的其他机器访问，需要修改成自己的内网ip</p>
-<p>server节点，指定client等于内网ip，统一局域网的机器可以访问，指定client=0.0.0.0，外网机器可以访问</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nohup ./consul agent -ui -server -bootstrap-expect 1 -data-dir /home/worker/projects/consul-1.5.3/consul-data -node=xxx -client=xxx &gt;&gt; ./logs/consul.log 2&gt;&amp;amp;1 &amp;amp;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>client节点，不指定client的话，只能本机访问client节点，指定client=0.0.0.0，外网机器可以访问</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nohup ./consul agent -ui -data-dir /home/worker/projects/consul-1.5.3/consul-data -node=xxx -bind=xxxx -client=xxx &gt;&gt; ./logs/consul.log 2&gt;&amp;amp;1 &amp;amp;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>join</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./consul join server的ip</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>当3台分布式部署的时候，需要如下部署</p>
-<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/chenchong08/article/details/77885989">https://blog.csdn.net/chenchong08/article/details/77885989</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">nohup ./consul agent -ui -server -bootstrap-expect 3 -data-dir /home/worker/projects/consul-1.5.3/consul-data -node=host1 -client=0.0.0.0 -bind=ip1 &gt;&gt; ./logs/consul.log 2&gt;&amp;amp;1 &amp;amp;</span><br><span class="line">nohup ./consul agent -ui -server -bootstrap-expect 3 -data-dir /home/worker/projects/consul-1.5.3/consul-data -node=host2 -client=0.0.0.0 -bind=ip2 &gt;&gt; ./logs/consul.log 2&gt;&amp;amp;1 &amp;amp;</span><br><span class="line">./consul join host1</span><br><span class="line">nohup ./consul agent -ui -server -bootstrap-expect 3 -data-dir /home/worker/projects/consul-1.5.3/consul-data -node=host3 -client=0.0.0.0 -bind=ip3 &gt;&gt; ./logs/consul.log 2&gt;&amp;amp;1 &amp;amp;</span><br><span class="line">./consul join host2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Ubuntu16.04%E5%AE%89%E8%A3%85Consul.html#more">全文 &gt;&gt;</a>
@@ -338,23 +282,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -387,6 +314,14 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="1-Kerberos介绍"><a href="#1-Kerberos介绍" class="headerlink" title="1.Kerberos介绍"></a><strong>1.Kerberos介绍</strong></h2><p><strong>Kerberos</strong>是一种计算机网络授权协议，用来在非安全网络中，对个人通信以安全的手段进行身份认证。这个词又指麻省理工学院为这个协议开发的一套计算机软件。软件设计上采用客户端/服务器结构，并且能够进行相互认证，即客户端和服务器端均可对对方进行身份认证。可以用于防止窃听、防止重放攻击、保护数据完整性等场合，是一种应用对称密钥体制进行密钥管理的系统。</p>
+<p>&nbsp;</p>
+<p><strong>Kerberos</strong>中的一些概念：</p>
+<p>1）KDC：密钥分发中心，负责管理发放票据，记录授权。</p>
+<p>2）Realm：Kerberos管理领域的标识。</p>
+<p>3）principal：当每添加一个用户或服务的时候都需要向kdc添加一条principal，principl的形式为：主名称／实例名@领域名。</p>
+<p>4）主名称：主名称可以是用户名或服务名，表示是用于提供各种网络服务（如hdfs，yarn，hive）的主体。</p>
+<p>5）实例名：实例名简单理解为主机名。</p>
+<h2 id="2-安装及配置KDC服务"><a href="#2-安装及配置KDC服务" class="headerlink" title="2.安装及配置KDC服务"></a>2.安装及配置KDC服务</h2>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/kerberos%E7%9B%B8%E5%85%B3.html#more">全文 &gt;&gt;</a>
@@ -412,23 +347,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -460,19 +378,30 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
+        <!-- 目录 -->
+
+<div id="toc">
+  
+</div>
+
         <p>在终端中执行即可</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">printf &quot;\e[?2004l&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>在终端无法复制问题</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set mouse=r</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/Linux%E7%BB%88%E7%AB%AF%E5%A4%8D%E5%88%B6%E7%B2%98%E8%B4%B4%E5%90%8E%E5%89%8D%E5%90%8E%E4%BC%9A%E5%A4%9A%E5%87%BA0~%E5%92%8C~1.html#more">全文 &gt;&gt;</a>
-          </p>
-        
 
+<p>&nbsp;</p>
+
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/Linux%E7%BB%88%E7%AB%AF%E5%A4%8D%E5%88%B6%E7%B2%98%E8%B4%B4%E5%90%8E%E5%89%8D%E5%90%8E%E4%BC%9A%E5%A4%9A%E5%87%BA0~%E5%92%8C~1.html"></a>
+          </div>
+        </div>
       
     </div>
+
+    
+      
 
     
 
@@ -490,23 +419,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -543,24 +455,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
 <h2 id="2-从一个任务开始，执行它以及它的下游任务"><a href="#2-从一个任务开始，执行它以及它的下游任务" class="headerlink" title="2.从一个任务开始，执行它以及它的下游任务"></a><strong>2.从一个任务开始，执行它以及它的下游任务</strong></h2><p>将downstream和recursive按钮的点击状态取消，然后点击clear，最后选择<strong>Ignore Task Deps</strong>，然后点击run</p>
 <p>其他：<a target="_blank" rel="noopener" href="https://blog.csdn.net/zzq900503/article/details/104537121">调度工具airflow的介绍和使用示例</a></p>
-<h2 id="3-airflow命令行"><a href="#3-airflow命令行" class="headerlink" title="3.airflow命令行"></a><strong>3.airflow命令行</strong></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://airflow.apache.org/docs/apache-airflow/stable/cli-and-env-variables-ref.html#dags</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="1-第一次登录创建airflow用户"><a href="#1-第一次登录创建airflow用户" class="headerlink" title="1.第一次登录创建airflow用户"></a>1.第一次登录创建airflow用户</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">airflow users create --username airflow --role Admin --password airflow --email airflow@xxx.com --lastname airflow --firstname airflow　</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-根据dag-id删除一个dag"><a href="#2-根据dag-id删除一个dag" class="headerlink" title="2.根据dag id删除一个dag"></a>2.根据dag id删除一个dag</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">airflow dags delete &#123;dag_id&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="3-触发一个airflow-dag"><a href="#3-触发一个airflow-dag" class="headerlink" title="3.触发一个airflow dag"></a>3.触发一个airflow dag</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">airflow dags trigger --help</span><br><span class="line">usage: airflow dags trigger [-h] [-c CONF] [-e EXEC_DATE] [-r RUN_ID]</span><br><span class="line">                            [-S SUBDIR]</span><br><span class="line">                            dag_id</span><br><span class="line"></span><br><span class="line">Trigger a DAG run</span><br><span class="line"></span><br><span class="line">positional arguments:</span><br><span class="line">  dag_id                The id of the dag</span><br><span class="line"></span><br><span class="line">optional arguments:</span><br><span class="line">  -h, --help            show this help message and exit</span><br><span class="line">  -c CONF, --conf CONF  JSON string that gets pickled into the DagRun&#x27;s conf attribute</span><br><span class="line">  -e EXEC_DATE, --exec-date EXEC_DATE</span><br><span class="line">                        The execution date of the DAG</span><br><span class="line">  -r RUN_ID, --run-id RUN_ID</span><br><span class="line">                        Helps to identify this run</span><br><span class="line">  -S SUBDIR, --subdir SUBDIR</span><br><span class="line">                        File location or directory from which to look for the dag. Defaults to &#x27;[AIRFLOW_HOME]/dags&#x27; where [AIRFLOW_HOME] is the value you set for &#x27;AIRFLOW_HOME&#x27; config you set in &#x27;airflow.cfg&#x27;</span><br><span class="line"></span><br><span class="line">airflow dags trigger -e &#x27;2022-07-19T08:00:00&#x27; your_dag_id</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>注意execution_time要在start_date和end_date之间，否则会报</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ValueError: The execution_date [2022-07-19T08:00:00+00:00] should be &gt;= start_date [2022-07-20T00:00:00+00:00] from DAG&#x27;s default_args</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="4-airflow按start-date和end-date触发backfill任务"><a href="#4-airflow按start-date和end-date触发backfill任务" class="headerlink" title="4.airflow按start_date和end_date触发backfill任务"></a>4.airflow按start_date和end_date触发backfill任务</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">airflow dags backfill -s 2022-01-01 -e 2022-01-10 DAG_ID</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>执行的任务是从2022-01-01到2022-01-09，包含startr_date，不包含end_date　　</p>
-<h3 id="5-测试airflow-task"><a href="#5-测试airflow-task" class="headerlink" title="5.测试airflow task"></a>5.测试airflow task</h3><h2 id="4-airflow会的connection配置参数"><a href="#4-airflow会的connection配置参数" class="headerlink" title="4.airflow会的connection配置参数"></a>4.airflow会的connection配置参数</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">from airflow.hooks.base import BaseHook</span><br><span class="line"></span><br><span class="line">connection = BaseHook.get_connection(&quot;username_connection&quot;)</span><br><span class="line">password = connection.password</span><br></pre></td></tr></table></figure>
-
-<h2 id="5-在airflow界面上触发特定execution-date的任务"><a href="#5-在airflow界面上触发特定execution-date的任务" class="headerlink" title="5.在airflow界面上触发特定execution date的任务"></a>5.在airflow界面上触发特定execution date的任务</h2><p>点击DAG Runs</p>
-<img src="/images/517519-20220926143150827-1733552506.png" alt="" loading="lazy" />
+<h2 id="3-airflow命令行"><a href="#3-airflow命令行" class="headerlink" title="3.airflow命令行"></a><strong>3.airflow命令行</strong></h2>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Airflow%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html#more">全文 &gt;&gt;</a>
@@ -586,23 +481,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -635,7 +513,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>1.安装impyla</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install impyla </span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Superset%E9%85%8D%E7%BD%AEimpala%E6%95%B0%E6%8D%AE%E6%BA%90.html#more">全文 &gt;&gt;</a>
@@ -661,23 +538,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -716,15 +576,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <img src="/images/517519-20190716152012205-1456417108.png" alt="" />
 
 <p>3.如果你的hive集群是带有kerberos认证的,hive数据源需要这样配置</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hive://xxx:xxx/default?auth=KERBEROS&amp;amp;kerberos_service_name=hive</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果在连接的时候报了如下的错</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Could not start SASL: b&#x27;Error in sasl_client_start (-1) SASL(-1): generic failure: GSSAPI Error: Unspecified GSS failure</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>那就就是你没有用keytab进行认证</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kinit -kt xxx.keytab xxx@XXXX</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<img src="/images/517519-20190716172747111-993865591.png" alt="" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Superset%E9%85%8D%E7%BD%AEhive%E6%95%B0%E6%8D%AE%E6%BA%90.html#more">全文 &gt;&gt;</a>
@@ -750,23 +601,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -802,22 +636,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <img src="/images/517519-20190716114754877-1692056408.png" alt="" />
 
 <p>测试连接的时候遇到</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">No module named &#x27;MySQLdb&#x27;&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>安装mysqlclient</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install mysqlclient</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果遇到</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ERROR: /bin/sh: 1: mysql_config: not found</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>安装</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libmysqlclient-dev python3-dev</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>添加mysql的url</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql://root:xxxx@localhost/mysql?charset=utf8</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>测试ok</p>
-<img src="/images/517519-20190716124318205-152081659.png" alt="" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Superset%E9%85%8D%E7%BD%AEmysql%E6%95%B0%E6%8D%AE%E6%BA%90.html#more">全文 &gt;&gt;</a>
@@ -843,23 +661,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -893,7 +694,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p><strong>1.查看hdfs文件的block信息</strong></p>
 <p>不正常的文件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">hdfs fsck /logs/xxx/xxxx.gz.gz -files -blocks -locations</span><br><span class="line">Connecting to namenode via http://xxx-01:50070/fsck?ugi=xxx&amp;amp;files=1&amp;amp;blocks=1&amp;amp;locations=1&amp;amp;path=%2Flogs%2Fxxx%2Fxxx%2F401294%2Fds%3Dxxxx-07-14%2Fxxx.gz.gz</span><br><span class="line">FSCK started by xxxx (auth:KERBEROS_SSL) from /10.90.1.91 for path xxxxx.gz.gz at Mon Jul 15 11:44:13 CST 2019</span><br><span class="line">Status: HEALTHY</span><br><span class="line"> Total size:	0 B (Total open files size: 194 B)</span><br><span class="line"> Total dirs:	0</span><br><span class="line"> Total files:	0</span><br><span class="line"> Total symlinks:		0 (Files currently being written: 1)</span><br><span class="line"> Total blocks (validated):	0 (Total open file blocks (not validated): 1)</span><br><span class="line"> Minimally replicated blocks:	0</span><br><span class="line"> Over-replicated blocks:	0</span><br><span class="line"> Under-replicated blocks:	0</span><br><span class="line"> Mis-replicated blocks:		0</span><br><span class="line"> Default replication factor:	3</span><br><span class="line"> Average block replication:	0.0</span><br><span class="line"> Corrupt blocks:		0</span><br><span class="line"> Missing replicas:		0</span><br><span class="line"> Number of data-nodes:		99</span><br><span class="line"> Number of racks:		3</span><br><span class="line">FSCK ended at Mon Jul 15 11:44:13 CST 2019 in 0 milliseconds</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Hadoop%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94HDFS.html#more">全文 &gt;&gt;</a>
@@ -919,23 +719,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -969,10 +752,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>**Superset **是Airbnb 开源的大数据可视化平台</p>
 <p>其支持的datasource</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://superset.incubator.apache.org/index.html?highlight=datasource</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>类似的开源项目Zeppelin所支持的datasource</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://zeppelin.apache.org/docs/0.8.0/quickstart/sql_with_zeppelin.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Ubuntu16.04%E5%AE%89%E8%A3%85Superset.html#more">全文 &gt;&gt;</a>
@@ -998,23 +777,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 

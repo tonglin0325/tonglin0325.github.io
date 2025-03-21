@@ -5,15 +5,15 @@
   
   <title>Zk学习笔记——应用场景 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.Master选举 在分布式系统中，需要选举一台机器作为master或者leader。 这时候，可以选择一个跟节点，比如&#x2F;master，然后多台机器同时像这个节点创建一个子节点&#x2F;master&#x2F;lock，利用zookeeper的特性，最终只有一台机器能否创建成功，成功的那台机器就是Master； 其他机器注册watch到这个子节点，然后当master宕机的时候，其他机器就会重新开始选举。">
+  <meta name="description" content="1.Master选举 在分布式系统中，需要选举一台机器作为master或者leader。 这时候，可以选择一个跟节点，比如&#x2F;master，然后多台机器同时像这个节点创建一个子节点&#x2F;master&#x2F;lock，利用zookeeper的特性，最终只有一台机器能否创建成功，成功的那台机器就是Master； 其他机器注册watch到这个子节点，然后当master宕机的时候，其他机器就会重新开始选举。 &amp;nbs">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Zk学习笔记——应用场景">
 <meta property="og:url" content="http://tonglin0325.github.io/Zk%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="1.Master选举 在分布式系统中，需要选举一台机器作为master或者leader。 这时候，可以选择一个跟节点，比如&#x2F;master，然后多台机器同时像这个节点创建一个子节点&#x2F;master&#x2F;lock，利用zookeeper的特性，最终只有一台机器能否创建成功，成功的那台机器就是Master； 其他机器注册watch到这个子节点，然后当master宕机的时候，其他机器就会重新开始选举。">
+<meta property="og:description" content="1.Master选举 在分布式系统中，需要选举一台机器作为master或者leader。 这时候，可以选择一个跟节点，比如&#x2F;master，然后多台机器同时像这个节点创建一个子节点&#x2F;master&#x2F;lock，利用zookeeper的特性，最终只有一台机器能否创建成功，成功的那台机器就是Master； 其他机器注册watch到这个子节点，然后当master宕机的时候，其他机器就会重新开始选举。 &amp;nbs">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-07-11T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:16.353Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:06.371Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="zookeeper">
 <meta name="twitter:card" content="summary">
@@ -212,12 +212,13 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>在分布式系统中，需要选举一台机器作为master或者leader。</p>
 <p>这时候，可以选择一个跟节点，比如/master，然后多台机器同时像这个节点创建一个子节点/master/lock，利用zookeeper的特性，最终只有一台机器能否创建成功，成功的那台机器就是Master；</p>
 <p>其他机器注册watch到这个子节点，然后当master宕机的时候，其他机器就会重新开始选举。</p>
-<span id="more"></span>
 <p>&nbsp;</p>
 <p><strong>2.分布式锁</strong></p>
 <p>分布式锁的场景通常是多个进程需要在某个节点保证同步，比如保证只有一个进程进到某个函数里面</p>
 <p>下面例子中的<strong>查询余额</strong>和<strong>更新余额</strong>操作就需要用锁锁住，保证一个线程做完了查询和更新操作之后，才能有另外一个线程来做查询和更新操作</p>
 <p>这个使用的锁称为<strong>排他锁</strong>（Exclusive Locks），又称为<strong>写锁</strong>或者独占锁。当一个事务1对数据对象1加了排他锁，那么在整个加锁期间，只允许事务1对对象1进行读取或者更新</p>
+<span id="more"></span>
+
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">一个账户有100元</span><br><span class="line">进程A，查询账户余额，等于100元</span><br><span class="line">进程B，查询账户余额，等于100元</span><br><span class="line">进程B，取出100元，并更新，100-100=0</span><br><span class="line">进程A，存入100元，并更新，100+100=200（此时发生错误）</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>其他的锁还有<strong>共享锁</strong>（Shared Locks），又称之为<strong>读锁</strong>。 如果事务1对数据对象1加了共享锁，那个当前事务只能对数据对象1进行读操作，其他事务也只能对这个对象加共享锁，直到所有共享锁都被释放。</p>

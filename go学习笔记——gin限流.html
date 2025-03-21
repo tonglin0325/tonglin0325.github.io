@@ -15,7 +15,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20241221172937680-637160254.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20250308140228237-1379102898.png">
 <meta property="article:published_time" content="2025-03-07T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:16.083Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:06.175Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="golang">
 <meta name="twitter:card" content="summary">
@@ -215,7 +215,9 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <h2 id="1-ulule-limiter"><a href="#1-ulule-limiter" class="headerlink" title="1.ulule/limiter"></a>1.ulule/limiter<a href="#1-ulule-limiter" class="header-anchor">#</a></h2><p>ulule/limiter是一款支持分布式限流的框架，其可以在Redis中存储和共享限流状态，从而在分布式环境中实现一致的限流逻辑。</p>
 <p>ulule/limiter基于<strong>令牌桶（Token Bucket）算法</strong>，因为允许<strong>累积令牌</strong>，若桶中有令牌，短时间可处理大量请求，所以可能会<strong>短时超限</strong>。令牌桶算法允许<strong>突发流量</strong>的业务，<strong>适用场景</strong>如 API 请求、流媒体加载。</p>
 <p>其他基于令牌桶算法的限流框架还有 <a target="_blank" rel="noopener" href="https://pkg.go.dev/golang.org/x/time/rate">golang.org/x/time/rate</a></p>
-<h3 id="1-yin-yong-yi-lai"><a href="#1-引用依赖" class="headerlink" title="1.引用依赖"></a>1.引用依赖<a href="#1-yin-yong-yi-lai" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go get github.com/ulule/limiter/v3@v3.11.2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="1-yin-yong-yi-lai"><a href="#1-引用依赖" class="headerlink" title="1.引用依赖"></a>1.引用依赖<a href="#1-yin-yong-yi-lai" class="header-anchor">#</a></h3><span id="more"></span>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go get github.com/ulule/limiter/v3@v3.11.2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>ulule/limiter可以和gin web框架集成，实现<strong>服务接收外部请求</strong>场景下的限流，或者<strong>服务请求外部API</strong>场景下的限流</p>
 <h3 id="2-shi-yong-gin-xian-liu-zhong-jian-jian-shi-xian-fu-wu-jie-shou-wai-bu-qing-qiu-chang-jing-xia-de-xian-liu"><a href="#2-使用Gin限流中间件实现服务接收外部请求场景下的限流" class="headerlink" title="2.使用Gin限流中间件实现服务接收外部请求场景下的限流"></a>2.使用Gin限流中间件实现<strong>服务接收外部请求</strong>场景下的限流<a href="#2-shi-yong-gin-xian-liu-zhong-jian-jian-shi-xian-fu-wu-jie-shou-wai-bu-qing-qiu-chang-jing-xia-de-xian-liu" class="header-anchor">#</a></h3><p>参考：<a target="_blank" rel="noopener" href="https://github.com/ulule/limiter-examples/blob/master/gin/main.go">https://github.com/ulule/limiter-examples/blob/master/gin/main.go</a></p>
@@ -251,7 +253,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>因为限制了每秒的请求数量最多是100个，令牌以1s/100=10ms的速度生成，take()的时候获得令牌，所以2次获得令牌的时间差是10ms，没有获取令牌的时候阻塞。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;time&quot;</span><br><span class="line"></span><br><span class="line">	&quot;go.uber.org/ratelimit&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">    rl := ratelimit.New(100) // per second</span><br><span class="line"></span><br><span class="line">    prev := time.Now()</span><br><span class="line">    for i := 0; i &lt; 10; i++ &#123;</span><br><span class="line">        now := rl.Take()</span><br><span class="line">        fmt.Println(i, now.Sub(prev))</span><br><span class="line">        prev = now</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Output:</span><br><span class="line">    // 0 0</span><br><span class="line">    // 1 10ms</span><br><span class="line">    // 2 10ms</span><br><span class="line">    // 3 10ms</span><br><span class="line">    // 4 10ms</span><br><span class="line">    // 5 10ms</span><br><span class="line">    // 6 10ms</span><br><span class="line">    // 7 10ms</span><br><span class="line">    // 8 10ms</span><br><span class="line">    // 9 10ms</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<span id="more"></span>
 <p>&nbsp;</p>
 
         <div class="article-entry">

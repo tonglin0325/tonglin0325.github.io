@@ -5,15 +5,15 @@
   
   <title>MySQL学习笔记——多表连接和子查询 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="多表连接查询 1234567891011121314151617181920212223242526272829303132# 返回的是两张表的乘积SELECT * FROM tb_emp,tb_deptSELECT COUNT(*) FROM tb_emp,tb_dept# 标准写法，每个数据库都能这么写SELECT * FROM tb_emp CROSS JOIN tb_dept# 内连接 只">
+  <meta name="description" content="多表连接查询">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL学习笔记——多表连接和子查询">
 <meta property="og:url" content="http://tonglin0325.github.io/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%A4%9A%E8%A1%A8%E8%BF%9E%E6%8E%A5%E5%92%8C%E5%AD%90%E6%9F%A5%E8%AF%A2.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="多表连接查询 1234567891011121314151617181920212223242526272829303132# 返回的是两张表的乘积SELECT * FROM tb_emp,tb_deptSELECT COUNT(*) FROM tb_emp,tb_dept# 标准写法，每个数据库都能这么写SELECT * FROM tb_emp CROSS JOIN tb_dept# 内连接 只">
+<meta property="og:description" content="多表连接查询">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2015-07-19T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:28.190Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:11.965Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary">
@@ -209,10 +209,11 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </div>
 
         <p><strong>多表连接查询</strong></p>
+<span id="more"></span>
+
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"># 返回的是两张表的乘积</span><br><span class="line">SELECT * FROM tb_emp,tb_dept</span><br><span class="line">SELECT COUNT(*) FROM tb_emp,tb_dept</span><br><span class="line"></span><br><span class="line"># 标准写法，每个数据库都能这么写</span><br><span class="line">SELECT * FROM tb_emp CROSS JOIN tb_dept</span><br><span class="line"></span><br><span class="line"># 内连接 只列出这些连接表中与连接条件相匹配的数据行</span><br><span class="line">SELECT * FROM tb_emp e,tb_dept d WHERE e.NAME = d.NAME</span><br><span class="line"></span><br><span class="line">SELECT * FROM tb_emp INNER JOIN tb_dept</span><br><span class="line">ON tb_emp.NAME = tb_dept.NAME</span><br><span class="line"></span><br><span class="line"># 外链接 不仅列出与连接条件相匹配的行，还列出左表（左外连接），右表（右外连接）或两个表（全外连接）中所有符合where过滤条件的数据行</span><br><span class="line"># 左外连接 在外连接中，某些不满足条件的列也会显示出来，也就是说，只限制其中一个表的行，而不限制另一个表的行</span><br><span class="line"># 左边的表作为主表，左边的表会全部显示</span><br><span class="line">SELECT * FROM tb_emp LEFT JOIN tb_dept</span><br><span class="line">ON tb_emp.NAME = tb_dept.NAME</span><br><span class="line"></span><br><span class="line">#oracle语法，左连接加号在左边</span><br><span class="line">SELECT * FROM tb_emp e,tb_dept d WHERE e.NAME=d.NAME(+)</span><br><span class="line"></span><br><span class="line">#右外连接</span><br><span class="line">SELECT * FROM tb_emp RIGHT JOIN tb_dept</span><br><span class="line">ON tb_emp.NAME = tb_dept.NAME</span><br><span class="line"></span><br><span class="line">#全外连接 MySQL不支持 OUTER</span><br><span class="line"></span><br><span class="line">#自连接</span><br><span class="line">SELECT c.NAME &#x27;部门名字&#x27;,c2.NAME &#x27;其他部门&#x27;</span><br><span class="line">FROM tb_dept c LEFT JOIN tb_dept c2</span><br><span class="line">ON c.description=c2.id&lt;br /&gt;&lt;br /&gt;# rollup&lt;br /&gt;SELECT  orderYear, productLine,  SUM(orderValue) totalOrderValue &lt;br /&gt;FROM sales &lt;br /&gt;GROUP BY  orderYear, productline &lt;br /&gt;WITH ROLLUP; </span><br></pre></td></tr></table></figure>
 
 <p>参考：<a target="_blank" rel="noopener" href="https://www.begtut.com/mysql/mysql-rollup.html">https://www.begtut.com/mysql/mysql-rollup.html</a> </p>
-<span id="more"></span>
 <p>&nbsp;</p>
 <p><strong>子查询</strong></p>
 <p>&nbsp;某些情况下，当运行查询的时候，需要的条件是另外一个select语句的结果，这个时候，就要用到子查询</p>

@@ -5,16 +5,16 @@
   
   <title>使用thrift的java client调用python server | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="参考：Thrift 连接 Java 与 Python，附 Java 通用工厂方法 上面这篇文章的例子是使用java client调用python server中的helloString方法来打印client传输过去的字符串 thrift文件，hello.thrift 1234service Hello &amp;#123;    string helloString(1:string word)&amp;#125">
+  <meta name="description" content="参考：Thrift 连接 Java 与 Python，附 Java 通用工厂方法 上面这篇文章的例子是使用java client调用python server中的helloString方法来打印client传输过去的字符串 thrift文件，hello.thrift">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用thrift的java client调用python server">
 <meta property="og:url" content="http://tonglin0325.github.io/%E4%BD%BF%E7%94%A8thrift%E7%9A%84java%20client%E8%B0%83%E7%94%A8python%20server.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="参考：Thrift 连接 Java 与 Python，附 Java 通用工厂方法 上面这篇文章的例子是使用java client调用python server中的helloString方法来打印client传输过去的字符串 thrift文件，hello.thrift 1234service Hello &amp;#123;    string helloString(1:string word)&amp;#125">
+<meta property="og:description" content="参考：Thrift 连接 Java 与 Python，附 Java 通用工厂方法 上面这篇文章的例子是使用java client调用python server中的helloString方法来打印client传输过去的字符串 thrift文件，hello.thrift">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20201009134617438-830998538.png">
 <meta property="article:published_time" content="2020-10-08T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:16.284Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:06.300Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Thrift">
 <meta name="twitter:card" content="summary">
@@ -213,13 +213,14 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p>参考：<a target="_blank" rel="noopener" href="http://www.ciphermagic.cn/thrift-python-java.html">Thrift 连接 Java 与 Python，附 Java 通用工厂方法</a></p>
 <p>上面这篇文章的例子是使用java client调用python server中的helloString方法来打印client传输过去的字符串</p>
 <p>thrift文件，hello.thrift</p>
+<span id="more"></span>
+
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">service Hello &#123;</span><br><span class="line">    string helloString(1:string word)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p><strong>Server端</strong></p>
 <p>生成Python server端代码</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">thrift --gen py hello.thrift</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<span id="more"></span>
 <p>&nbsp;python server端代码，其中包括生成的hello文件夹中的代码，以及server代码</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">from thrift.protocol import TBinaryProtocol</span><br><span class="line">from thrift.server import TServer</span><br><span class="line">from thrift.transport import TSocket</span><br><span class="line">from thrift.transport import TTransport</span><br><span class="line"></span><br><span class="line">from hello import Hello</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class HelloHandler:</span><br><span class="line">    def __init__(self):</span><br><span class="line">        pass</span><br><span class="line"></span><br><span class="line">    def helloString(self, word):</span><br><span class="line">        ret = &quot;hello Thrift! Received: &quot; + word</span><br><span class="line">        return ret</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># handler processer类</span><br><span class="line">handler = HelloHandler()</span><br><span class="line">processor = Hello.Processor(handler)</span><br><span class="line">transport = TSocket.TServerSocket(&quot;127.0.0.1&quot;, 8989)</span><br><span class="line"># 传输方式，使用buffer</span><br><span class="line">tfactory = TTransport.TBufferedTransportFactory()</span><br><span class="line"># 传输的数据类型：二进制</span><br><span class="line">pfactory = TBinaryProtocol.TBinaryProtocolFactory()</span><br><span class="line"># 创建一个thrift 服务~</span><br><span class="line">server = TServer.TThreadPoolServer(processor, transport, tfactory, pfactory)</span><br><span class="line">print(&quot;Starting thrift server in python...&quot;)</span><br><span class="line">server.serve()</span><br><span class="line">print(&quot;done!&quot;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 

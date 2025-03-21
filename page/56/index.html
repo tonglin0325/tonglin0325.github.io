@@ -199,26 +199,37 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
+        <!-- 目录 -->
+
+<div id="toc">
+  
+</div>
+
         <p>在使用Goland开发go项目的时候，突然有一次遇到有些包下面的类无法被引用的情况，排查下来发现是这些包下面的config.go文件无法被正常识别成go代码文件</p>
-<img src="/images/517519-20240129234917468-501235886.png" width="300" height="318" loading="lazy" />
+<img src="/images/517519-20240129234917468-501235886.png" width="300" height="318" loading="lazy">
 
 <p>从而导致下面无法引用其他包中的所有config.go文件中的类</p>
 <p>kratos无法正常引用</p>
-<img src="/images/517519-20240129235120750-122847709.png" width="300" height="127" loading="lazy" />
+<img src="/images/517519-20240129235120750-122847709.png" width="300" height="127" loading="lazy">
 
 <p>gorm的gen无法正常引用</p>
-<img src="/images/517519-20240129235227683-1391514350.png" width="300" height="228" loading="lazy" />
+<img src="/images/517519-20240129235227683-1391514350.png" width="300" height="228" loading="lazy">
 
 <p>解决方法是去File Type下面的File type auto-detected by file content下面将config.go配置删除，就可以解决这个问题</p>
-<img src="/images/517519-20240129235335354-189235061.png" width="800" height="476" loading="lazy" />
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/Goland%E4%B8%ADconfig.go%E6%96%87%E4%BB%B6%E6%97%A0%E6%B3%95%E8%A2%AB%E6%AD%A3%E5%B8%B8%E8%AF%86%E5%88%AB.html#more">全文 &gt;&gt;</a>
-          </p>
-        
+<img src="/images/517519-20240129235335354-189235061.png" width="800" height="476" loading="lazy">
 
+<p>&nbsp;</p>
+
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/Goland%E4%B8%ADconfig.go%E6%96%87%E4%BB%B6%E6%97%A0%E6%B3%95%E8%A2%AB%E6%AD%A3%E5%B8%B8%E8%AF%86%E5%88%AB.html"></a>
+          </div>
+        </div>
       
     </div>
+
+    
+      
 
     
 
@@ -236,23 +247,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -284,59 +278,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1-读取命令行参数"><a href="#1-读取命令行参数" class="headerlink" title="1.读取命令行参数"></a>1.读取命令行参数</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">func main() &#123;</span><br><span class="line">    println(&quot;Hello &quot;, os.Args[1])</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>配置arg</p>
-<img src="/images/517519-20240128153101073-1364009315.png" width="500" height="315" loading="lazy" />
-
-<p>输出</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Hello World</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>注意arg[0]是go程序的运行目录</p>
-<h2 id="2-使用flag加载环境变量"><a href="#2-使用flag加载环境变量" class="headerlink" title="2.使用flag加载环境变量"></a>2.使用flag加载环境变量</h2><p>golang内置的标准库flag，可以用来读取配置文件的路径</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func main() &#123;</span><br><span class="line"></span><br><span class="line">	var configFilePath = flag.String(&quot;conf&quot;, &quot;./&quot;, &quot;config file path&quot;) // flag也支持flag.Bool,flag.Int等用法</span><br><span class="line">	flag.Parse()</span><br><span class="line">	println(*configFilePath)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>配置</p>
-<img src="/images/517519-20240128153846865-1143823151.png" width="500" height="288" loading="lazy" />
-
-<p>输出</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./configs</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果找不到-conf配置的话，才会输出 ./</p>
-<h2 id="3-使用toml或者multiconfig加载toml配置文件"><a href="#3-使用toml或者multiconfig加载toml配置文件" class="headerlink" title="3.使用toml或者multiconfig加载toml配置文件"></a>3.使用toml或者multiconfig加载toml配置文件</h2><h3 id="1-使用toml"><a href="#1-使用toml" class="headerlink" title="1.使用toml"></a>1.使用toml</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go get github.com/BurntSushi/toml@latest</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://github.com/BurntSushi/toml">https://github.com/BurntSushi/toml</a></p>
-<p>config.toml配置</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Age = 25</span><br><span class="line">Cats = [ &quot;Cauchy&quot;, &quot;Plato&quot; ]</span><br><span class="line">Pi = 3.14</span><br><span class="line">Perfection = [ 6, 28, 496, 8128 ]</span><br><span class="line">DOB = 1987-07-05T05:45:00Z</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>读取配置</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">type Config struct &#123;</span><br><span class="line">   Age        int</span><br><span class="line">   Cats       []string</span><br><span class="line">   Pi         float64</span><br><span class="line">   Perfection []int</span><br><span class="line">   DOB        time.Time // requires `import time`</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line"></span><br><span class="line">	buf, err := os.ReadFile(&quot;./configs/config.toml&quot;)</span><br><span class="line">	tomlData := string(buf)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		panic(err)</span><br><span class="line">	&#125;</span><br><span class="line">	var conf Config</span><br><span class="line">	if _, err := toml.Decode(tomlData, &amp;amp;conf); err != nil &#123;</span><br><span class="line">		fmt.Println(err.Error())</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Println(conf)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>输出</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;25 [Cauchy Plato] 3.14 [6 28 496 8128] 1987-07-05 05:45:00 +0000 UTC&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="2-使用multiconfig"><a href="#2-使用multiconfig" class="headerlink" title="2.使用multiconfig"></a>2.使用multiconfig</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go get github.com/koding/multiconfig</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://github.com/koding/multiconfig">https://github.com/koding/multiconfig</a></p>
-<p>读取配置</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">func main() &#123;</span><br><span class="line"></span><br><span class="line">	m := multiconfig.NewWithPath(&quot;./configs/config.toml&quot;) // supports TOML and JSON</span><br><span class="line"></span><br><span class="line">	// Get an empty struct for your configuration</span><br><span class="line">	conf := new(Config)</span><br><span class="line"></span><br><span class="line">	// Populated the serverConf struct</span><br><span class="line">	m.MustLoad(conf) // Check for error</span><br><span class="line"></span><br><span class="line">	fmt.Printf(&quot;%+v\n&quot;, conf)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>输出</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&amp;amp;&#123;Age:25 Cats:[Cauchy Plato] Pi:3.14 Perfection:[6 28 496 8128] DOB:1987-07-05 05:45:00 +0000 UTC&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="4-使用viper加载配置文件"><a href="#4-使用viper加载配置文件" class="headerlink" title="4.使用viper加载配置文件"></a>4.使用viper加载配置文件</h2><p>安装viper</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go get github.com/spf13/viper</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>在config目录下添加viper.go文件</p>
-<img src="/images/517519-20240128154302824-725057671.png" width="200" height="179" loading="lazy" />
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">package config</span><br><span class="line"></span><br><span class="line">import &quot;github.com/spf13/viper&quot;</span><br><span class="line"></span><br><span class="line">// 全局Viper变量</span><br><span class="line">var Viper = viper.New()</span><br><span class="line"></span><br><span class="line">func Load(configFilePath string) error &#123;</span><br><span class="line">	Viper.SetConfigName(&quot;config&quot;)       // config file name without file type</span><br><span class="line">	Viper.SetConfigType(&quot;yaml&quot;)         // config file type</span><br><span class="line">	Viper.AddConfigPath(configFilePath) // config file path</span><br><span class="line">	return Viper.ReadInConfig()</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>配置文件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">db:</span><br><span class="line">  mysql:</span><br><span class="line">    dsn: root:123456@tcp(127.0.0.1:55000)/test?charset=utf8mb4&amp;amp;parseTime=True</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>读取配置</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">func main() &#123;</span><br><span class="line"></span><br><span class="line">	var configFilePath = flag.String(&quot;conf&quot;, &quot;./&quot;, &quot;config file path&quot;)</span><br><span class="line">	flag.Parse()</span><br><span class="line"></span><br><span class="line">	if err := config.Load(*configFilePath); err != nil &#123;</span><br><span class="line">		panic(err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	println(config.Viper.GetString(&quot;db.mysql.dsn&quot;))</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        <h2 id="1-读取命令行参数"><a href="#1-读取命令行参数" class="headerlink" title="1.读取命令行参数"></a>1.读取命令行参数</h2>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%85%8D%E7%BD%AE.html#more">全文 &gt;&gt;</a>
@@ -362,23 +304,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -421,10 +346,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <img src="/images/517519-20240206214453266-1673406463.png" width="200" height="120" loading="lazy" />
 
 <p>再按command+option+N</p>
-<img src="/images/517519-20240206214641840-414465523.png" width="300" height="228" loading="lazy" />
-
-<p>1:1表示从1开始，每次递增+1，也可以修改成1:2</p>
-<img src="/images/517519-20240206214804009-1538490863.png" width="300" height="246" loading="lazy" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/sublime%E6%8F%92%E4%BB%B6%E4%BD%BF%E7%94%A8.html#more">全文 &gt;&gt;</a>
@@ -450,23 +371,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -537,23 +441,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </article>
 
 
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
-
 
 
   
@@ -597,78 +484,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <h2 id="2-再刷armbian系统到TF卡"><a href="#2-再刷armbian系统到TF卡" class="headerlink" title="2.再刷armbian系统到TF卡"></a>2.再刷armbian系统到TF卡</h2><p>双系统不用<strong>把armbian系统刷进emmc</strong>，需要在安卓系统中安装Reboot to LibreELEC的apk来启动TF卡系统，装上TF卡就自动进行armbian系统</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://www.right.com.cn/forum/thread-4088276-1-1.html">魔百盒R3300L、CM101H以及中兴ZX10 B860AV1.2刷armbian跑甜糖</a></p>
 <p>使用的系统版本是Armbian_20.10_Arm-64_buster_current_5.9.0.img</p>
-<h2 id="3-armbian换源"><a href="#3-armbian换源" class="headerlink" title="3.armbian换源"></a>3.armbian换源</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp /etc/apt/sources.list /etc/apt/sources.list.bak</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>换成清华源</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/debian buster main contrib non-free</span><br><span class="line">#deb-src https://mirrors.tuna.tsinghua.edu.cn/debian buster main contrib non-free</span><br><span class="line"></span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/debian buster-updates main contrib non-free</span><br><span class="line">#deb-src https://mirrors.tuna.tsinghua.edu.cn/debian buster-updates main contrib non-free</span><br><span class="line"></span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/debian buster-backports main contrib non-free</span><br><span class="line">#deb-src https://mirrors.tuna.tsinghua.edu.cn/debian buster-backports main contrib non-free</span><br><span class="line"></span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/debian-security/ buster/updates main contrib non-free</span><br><span class="line">#deb-src https://mirrors.tuna.tsinghua.edu.cn/debian-security/ buster/updates main contrib non-free</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>然后</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果遇到NO_PUBKEY的报错</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Err:4 https://mirrors.tuna.tsinghua.edu.cn/debian buster-backports InRelease</span><br><span class="line">  The following signatures couldn&#x27;t be verified because the public key is not available: NO_PUBKEY XXXXXXXXX NO_PUBKEY XXXXXXXXX</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>执行下面命令</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys XXXXXXX</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="4-安装docker"><a href="#4-安装docker" class="headerlink" title="4.安装docker"></a>4.安装docker</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">armbian-config</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<img src="/images/517519-20240215135829342-28730660.png" width="400" height="247" loading="lazy" />
-
-<img src="/images/517519-20240215135902739-579065822.png" width="400" height="167" loading="lazy" />
-
-<img src="/images/517519-20240215135931851-960516431.png" width="400" height="385" loading="lazy" />
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@arm-64:~# docker -v</span><br><span class="line">Docker version 25.0.3, build 4debf41</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="5-docker部署openwrt"><a href="#5-docker部署openwrt" class="headerlink" title="5.docker部署openwrt"></a>5.docker部署openwrt</h2><h3 id="1-部署openwrt"><a href="#1-部署openwrt" class="headerlink" title="1.部署openwrt"></a>1.部署openwrt</h3><p>假设armbian的ip是192.168.0.xx</p>
-<p>创建network</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker network create -d macvlan --subnet=192.168.0.0/24 --gateway=192.168.0.1 -o parent=eth0 macnet</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>启动pod，其中192.168.0.11是openwrt后面会使用的ip</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker run \</span><br><span class="line">  -d \</span><br><span class="line">  --name=unifreq-openwrt-aarch64 \</span><br><span class="line">  --restart=unless-stopped \</span><br><span class="line">  --network=macnet \</span><br><span class="line">  --privileged \</span><br><span class="line">  --ip=192.168.0.11 \</span><br><span class="line">  unifreq/openwrt-aarch64:latest</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>打开网卡混杂模式</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo ip link set eth0 promisc on</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>进入pod查看/etc/config/network文件的option ipaddr，查看其值为192.168.0.1还是192.168.1.1</p>
-<p>接着将pod中/etc/config/network的192.168.0.1或者192.168.1.1修改成192.168.0.11</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker exec unifreq-openwrt-aarch64 sed -e &quot;s/192.168.0.1/192.168.0.11/&quot; -i /etc/config/network</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>重启pod</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker restart unifreq-openwrt-aarch64</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/momomoer/article/details/128234891">M401a系列：armbian下docker安装openwrt做旁路由</a></p>
-<h3 id="2-登录openwrt"><a href="#2-登录openwrt" class="headerlink" title="2.登录openwrt"></a>2.登录openwrt</h3><p>登录192.168.0.11访问openwrt的管理页面，注意是http的浏览器访问的时候需要接受风险，默认账号密码是root和password</p>
-<img src="/images/517519-20240215171810068-1342212521.png" width="700" height="256" loading="lazy" />
-
-<img src="/images/517519-20240215174250191-581901966.png" width="700" height="296" loading="lazy" />
-
-<h3 id="3-设置openwrt"><a href="#3-设置openwrt" class="headerlink" title="3.设置openwrt"></a>3.设置openwrt</h3><p>这时候openwrt需要进行一些设置</p>
-<h4 id="1-关闭-DHCP"><a href="#1-关闭-DHCP" class="headerlink" title="1.关闭 DHCP"></a>1.关闭 DHCP</h4><p>网络 =&gt; 接口 =&gt; LAN =&gt; DHCP 服务器 =&gt; 基本设置</p>
-<p>操作: 勾选忽略此接口</p>
-<img src="/images/517519-20240215172159588-1662516936.png" width="400" height="130" loading="lazy" />
-
-<h4 id="2-关闭ipv6"><a href="#2-关闭ipv6" class="headerlink" title="2.关闭ipv6"></a>2.关闭ipv6</h4><p>网络 =&gt; 接口 =&gt; LAN =&gt; DHCP 服务器 =&gt; IPv6 设置</p>
-<p>操作: 禁用 <code>路由通告服务</code>, <code>DHCPv6 服务</code>, <code>NDP 代理</code></p>
-<img src="/images/517519-20240215172315576-1844403389.png" width="500" height="228" loading="lazy" />
-
-<h4 id="3-配置-网关-和-DNS，这样在pod中才能访问网络"><a href="#3-配置-网关-和-DNS，这样在pod中才能访问网络" class="headerlink" title="3.配置 网关 和 DNS，这样在pod中才能访问网络"></a>3.配置 网关 和 DNS，这样在pod中才能访问网络</h4><p>网络 =&gt; 接口 =&gt; LAN =&gt; 一般设置 =&gt; 基本设置 <br />操作: </p>
-<ol>
-<li><code>IPv4 网关</code> 改为 <code>192.168.0.1</code><br />2. <code>IPv4 广播</code> 改为 <code>192.168.0.255</code><br />3. <code>使用自定义的 DNS 服务器</code> 改为 <code>114.114.114.114</code></li>
-</ol>
-<img src="/images/517519-20240215172434461-903637524.png" width="600" height="342" loading="lazy" />
-
-<p>这时候pod中就可以访问外网了</p>
-<img src="/images/517519-20240215171234479-1607314713.png" width="700" height="289" />
-
-<h4 id="4-armbian访问openwrt"><a href="#4-armbian访问openwrt" class="headerlink" title="4.armbian访问openwrt"></a>4.armbian访问openwrt</h4><p>其中192.168.0.116是armbian机器的ip，192.168.0.11是openwrt的ip</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">root@arm-64:~# ip link add mynet link eth0 type macvlan mode bridge</span><br><span class="line">root@arm-64:~# ip addr add 192.168.0.116 dev mynet</span><br><span class="line">root@arm-64:~# ip link set mynet up</span><br><span class="line">root@arm-64:~# ip route add 192.168.0.11 dev mynet</span><br><span class="line">root@arm-64:~# ping 192.168.0.11</span><br><span class="line"></span><br><span class="line">PING 192.168.0.11 (192.168.0.11) 56(84) bytes of data.</span><br><span class="line">64 bytes from 192.168.0.11: icmp_seq=1 ttl=64 time=1.02 ms</span><br><span class="line">64 bytes from 192.168.0.11: icmp_seq=2 ttl=64 time=0.415 ms</span><br><span class="line">64 bytes from 192.168.0.11: icmp_seq=3 ttl=64 time=0.426 ms</span><br><span class="line">64 bytes from 192.168.0.11: icmp_seq=4 ttl=64 time=0.413 ms</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://blog.isayme.org/posts/issues-65/">N1 通过 Docker 安装 Openwrt 为旁路由</a></p>
-<h4 id="5-设置软路由ss-kx上网"><a href="#5-设置软路由ss-kx上网" class="headerlink" title="5.设置软路由ss kx上网"></a>5.设置软路由ss kx上网</h4><p>注意需要把软路由接到主路器上</p>
-<p>如果不想修改主路由的DNS地址，那么可以通过修改手机的路由器地址到openwrt的ip地址+修改DNS地址到openwrt的ip地址的方式</p>
-<p>参考：软路由（operwrt）通过ss Plus+ kx上网教程<br /><br /></p>
+<h2 id="3-armbian换源"><a href="#3-armbian换源" class="headerlink" title="3.armbian换源"></a>3.armbian换源</h2>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/R3300L%E7%94%B5%E8%A7%86%E7%9B%92%E5%AD%90%E5%88%B7%E6%9C%BA.html#more">全文 &gt;&gt;</a>
@@ -694,23 +510,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -751,16 +550,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <h2 id="2-微信小程序"><a href="#2-微信小程序" class="headerlink" title="2.微信小程序"></a>2.微信小程序</h2><img src="/images/517519-20231223174152027-1530934469.png" width="500" height="507" loading="lazy" />
 
 <p><a target="_blank" rel="noopener" href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/login.html">https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/login.html</a></p>
-<h2 id="3-微博"><a href="#3-微博" class="headerlink" title="3.微博"></a>3.微博</h2><p>web端</p>
-<img src="/images/517519-20240415221334413-336064577.png" width="400" height="406" loading="lazy" />
-
-<p>app移动端，可以使用refresh token</p>
-<img src="/images/517519-20240415221403046-550225660.png" width="400" height="355" loading="lazy" />
-
-<p><a target="_blank" rel="noopener" href="https://open.weibo.com/wiki/%E6%8E%88%E6%9D%83%E6%9C%BA%E5%88%B6">https://open.weibo.com/wiki/%E6%8E%88%E6%9D%83%E6%9C%BA%E5%88%B6</a></p>
-<h2 id="4-哔哩哔哩"><a href="#4-哔哩哔哩" class="headerlink" title="4.哔哩哔哩"></a>4.哔哩哔哩</h2><img src="/images/517519-20231223174220005-352668560.png" width="400" height="477" loading="lazy" />
-
-<p><a target="_blank" rel="noopener" href="https://openhome.bilibili.com/doc/4/eaf0e2b5-bde9-b9a0-9be1-019bb455701c">https://openhome.bilibili.com/doc/4/eaf0e2b5-bde9-b9a0-9be1-019bb455701c</a></p>
+<h2 id="3-微博"><a href="#3-微博" class="headerlink" title="3.微博"></a>3.微博</h2>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E5%90%84%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0%E8%B4%A6%E5%8F%B7%E7%99%BB%E5%BD%95API%E5%AF%B9%E6%8E%A5%E6%96%87%E6%A1%A3.html#more">全文 &gt;&gt;</a>
@@ -786,23 +576,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -838,72 +611,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <img src="/images/517519-20240510221439592-929092042.png" width="350" height="442" loading="lazy" />
 
 <p>拉取镜像</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull selenium/standalone-chrome:120.0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>启动</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 4444:4444 -p 15900:5900 selenium/standalone-chrome:120.0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>其他参数</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 4444:4444 -p 15900:5900 -e SE_NODE_MAX_SESSIONS=5 --shm-size=2g selenium/standalone-chrome:120.0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://hub.docker.com/r/selenium/standalone-chrome">https://hub.docker.com/r/selenium/standalone-chrome</a></p>
-<p>访问 localhost:4444/ui 可以查看selenium的运行状态</p>
-<img src="/images/517519-20240413110242672-198944174.png" width="800" height="328" loading="lazy" />
-
-<p>可以使用mac自带的屏幕共享功能连接pod的vnc</p>
-<img src="/images/517519-20240413111207907-2016482097.png" width="400" height="87" loading="lazy" />
-
-<p>输入 vnc://localhost:15900，默认密码是secret</p>
-<img src="/images/517519-20240413111339595-332456418.png" width="400" height="116" loading="lazy" />
-
-<p>界面</p>
-<img src="/images/517519-20240413113120555-1200000210.png" width="600" height="505" loading="lazy" />
-
-<h2 id="2-安装依赖"><a href="#2-安装依赖" class="headerlink" title="2.安装依赖"></a>2.安装依赖</h2><p>ubuntu/debian换源</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo -s</span><br><span class="line">sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list</span><br><span class="line">apt-get update</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>安装pip3</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get install python3-pip</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>安装selenium和webdriver-manager</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pip3 install selenium</span><br><span class="line">pip3 install webdriver-manager</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="3-运行selenium"><a href="#3-运行selenium" class="headerlink" title="3.运行selenium"></a>3.运行selenium</h2><p>查看chrome和driver version</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">root@ced974ac3394:/# google-chrome --version</span><br><span class="line">Google Chrome 120.0.6099.224 </span><br><span class="line">root@ced974ac3394:/# chromedriver --version</span><br><span class="line">ChromeDriver 120.0.6099.109 (3419140ab665596f21b385ce136419fde0924272-refs/branch-heads/6099@&#123;#1483&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>1.不启用chrome gui</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">root@ced974ac3394:/# python3</span><br><span class="line">Python 3.10.12 (main, Nov 20 2023, 15:14:05) [GCC 11.4.0] on linux</span><br><span class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span><br><span class="line"></span><br><span class="line">from selenium import webdriver</span><br><span class="line">from selenium.webdriver.chrome.options import Options</span><br><span class="line">from selenium.webdriver.chrome.service import Service</span><br><span class="line">from webdriver_manager.chrome import ChromeDriverManager</span><br><span class="line">options = Options()</span><br><span class="line">options.add_argument(&#x27;--headless&#x27;)</span><br><span class="line">options.add_argument(&#x27;--no-sandbox&#x27;)</span><br><span class="line">options.add_argument(&#x27;--disable-dev-shm-usage&#x27;)</span><br><span class="line">driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)</span><br><span class="line">driver.get(&quot;https://python.org&quot;)</span><br><span class="line">print(driver.title)</span><br><span class="line"></span><br><span class="line">Welcome to Python.org</span><br><span class="line"></span><br><span class="line">exit()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://github.com/password123456/setup-selenium-with-chrome-driver-on-ubuntu_debian">https://github.com/password123456/setup-selenium-with-chrome-driver-on-ubuntu_debian</a></p>
-<p>2.启用chrome gui</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">root@fce0fc2def31:/# python3</span><br><span class="line">Python 3.10.12 (main, Nov 20 2023, 15:14:05) [GCC 11.4.0] on linux</span><br><span class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span><br><span class="line"></span><br><span class="line">from selenium import webdriver</span><br><span class="line">from selenium.webdriver.chrome.options import Options</span><br><span class="line">from selenium.webdriver.chrome.service import Service</span><br><span class="line">from webdriver_manager.chrome import ChromeDriverManager</span><br><span class="line">options = Options()</span><br><span class="line">options.add_argument(&#x27;--disable-dev-shm-usage&#x27;)</span><br><span class="line">options.add_argument(&quot;--remote-debugging-port=9222&quot;) # 不加的话会报session not created: DevToolsActivePort file doesn&#x27;t exist</span><br><span class="line">options.add_argument(&#x27;--no-sandbox&#x27;) # 不加的话会报chrome not reachable</span><br><span class="line">driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>此时vnc界面会弹出浏览器</p>
-<img src="/images/517519-20240413113414554-305887693.png" width="600" height="504" loading="lazy" />
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; driver.get(&quot;https://python.org&quot;)</span><br><span class="line">&gt;&gt;&gt; print(driver.title)</span><br><span class="line">Welcome to Python.org</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>打开了python的网页</p>
-<img src="/images/517519-20240413113534962-963092156.png" width="600" height="503" loading="lazy" />
-
-<h2 id="4-cloudflare人机校验"><a href="#4-cloudflare人机校验" class="headerlink" title="4.cloudflare人机校验"></a>4.cloudflare人机校验</h2><p>如果语言cloudflare的人机校验</p>
-<img src="/images/517519-20240422221602756-567501559.png" width="300" height="108" loading="lazy" />
-
-<h3 id="1-可以尝试使用-undetected-chromedriver-这个包来代替selenium的webdriver"><a href="#1-可以尝试使用-undetected-chromedriver-这个包来代替selenium的webdriver" class="headerlink" title="1.可以尝试使用 undetected_chromedriver 这个包来代替selenium的webdriver"></a>1.可以尝试使用 <strong>undetected_chromedriver</strong> 这个包来代替selenium的webdriver</h3><p>安装 undetected_chromedriver</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip3 install undetected_chromedriver</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>替换seleniuim的web driver</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import undetected_chromedriver as uc</span><br><span class="line"></span><br><span class="line">driver = uc.Chrome(headless=False,use_subprocess=False)</span><br><span class="line">driver.maximize_window()</span><br><span class="line">driver.get(&#x27;https://nowsecure.nl&#x27;)</span><br><span class="line">driver.save_screenshot(&#x27;nowsecure.png&#x27;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://github.com/ultrafunkamsterdam/undetected-chromedriver">https://github.com/ultrafunkamsterdam/undetected-chromedriver</a></p>
-<p>如果报from session not created: This version of ChromeDriver only supports Chrome version 125</p>
-<p>可以在代码中指定chrome的版本，如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">undetecteddriver = uc.Chrome(options=options, use_subprocess=True, version_main=125)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>或者可以尝试使用125.0版本的docker镜像</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 4444:4444 -p 15900:5900 -e SE_NODE_MAX_SESSIONS=5 --shm-size=2g selenium/standalone-chrome:125.0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="2-也可以尝试使用"><a href="#2-也可以尝试使用" class="headerlink" title="2.也可以尝试使用"></a>2.也可以尝试使用
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Python%E7%88%AC%E8%99%AB%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8selenium%E5%92%8Cchrome%E7%88%AC%E5%8F%96js%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E7%9A%84%E7%BD%91%E9%A1%B5.html#more">全文 &gt;&gt;</a>
@@ -929,23 +636,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -978,9 +668,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p><strong>多表连接查询</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"># 返回的是两张表的乘积</span><br><span class="line">SELECT * FROM tb_emp,tb_dept</span><br><span class="line">SELECT COUNT(*) FROM tb_emp,tb_dept</span><br><span class="line"></span><br><span class="line"># 标准写法，每个数据库都能这么写</span><br><span class="line">SELECT * FROM tb_emp CROSS JOIN tb_dept</span><br><span class="line"></span><br><span class="line"># 内连接 只列出这些连接表中与连接条件相匹配的数据行</span><br><span class="line">SELECT * FROM tb_emp e,tb_dept d WHERE e.NAME = d.NAME</span><br><span class="line"></span><br><span class="line">SELECT * FROM tb_emp INNER JOIN tb_dept</span><br><span class="line">ON tb_emp.NAME = tb_dept.NAME</span><br><span class="line"></span><br><span class="line"># 外链接 不仅列出与连接条件相匹配的行，还列出左表（左外连接），右表（右外连接）或两个表（全外连接）中所有符合where过滤条件的数据行</span><br><span class="line"># 左外连接 在外连接中，某些不满足条件的列也会显示出来，也就是说，只限制其中一个表的行，而不限制另一个表的行</span><br><span class="line"># 左边的表作为主表，左边的表会全部显示</span><br><span class="line">SELECT * FROM tb_emp LEFT JOIN tb_dept</span><br><span class="line">ON tb_emp.NAME = tb_dept.NAME</span><br><span class="line"></span><br><span class="line">#oracle语法，左连接加号在左边</span><br><span class="line">SELECT * FROM tb_emp e,tb_dept d WHERE e.NAME=d.NAME(+)</span><br><span class="line"></span><br><span class="line">#右外连接</span><br><span class="line">SELECT * FROM tb_emp RIGHT JOIN tb_dept</span><br><span class="line">ON tb_emp.NAME = tb_dept.NAME</span><br><span class="line"></span><br><span class="line">#全外连接 MySQL不支持 OUTER</span><br><span class="line"></span><br><span class="line">#自连接</span><br><span class="line">SELECT c.NAME &#x27;部门名字&#x27;,c2.NAME &#x27;其他部门&#x27;</span><br><span class="line">FROM tb_dept c LEFT JOIN tb_dept c2</span><br><span class="line">ON c.description=c2.id&lt;br /&gt;&lt;br /&gt;# rollup&lt;br /&gt;SELECT  orderYear, productLine,  SUM(orderValue) totalOrderValue &lt;br /&gt;FROM sales &lt;br /&gt;GROUP BY  orderYear, productline &lt;br /&gt;WITH ROLLUP; </span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://www.begtut.com/mysql/mysql-rollup.html">https://www.begtut.com/mysql/mysql-rollup.html</a> </p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%A4%9A%E8%A1%A8%E8%BF%9E%E6%8E%A5%E5%92%8C%E5%AD%90%E6%9F%A5%E8%AF%A2.html#more">全文 &gt;&gt;</a>
@@ -1006,23 +693,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -1054,9 +724,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1-标签"><a href="#1-标签" class="headerlink" title="1.标签"></a>1.标签</h2><h3 id="1-title标签、网站关键词、网站描述、实现网页的跳转、单标签、对标签、p标签"><a href="#1-title标签、网站关键词、网站描述、实现网页的跳转、单标签、对标签、p标签" class="headerlink" title="1.title标签、网站关键词、网站描述、实现网页的跳转、单标签、对标签、p标签"></a>1.title标签、网站关键词、网站描述、实现网页的跳转、单标签、对标签、p标签</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">    &lt;head&gt;</span><br><span class="line">        &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;</span><br><span class="line">        </span><br><span class="line">        &lt;!-- title标签 --&gt;</span><br><span class="line">        &lt;title&gt;我是title&lt;/title&gt;</span><br><span class="line">        </span><br><span class="line">        &lt;!-- 网站关键词 --&gt;</span><br><span class="line">        &lt;meta name=&#x27;keywords&#x27; content=&quot;切糕，卖切糕，卖切糕&quot;/&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- 网站描述 --&gt;</span><br><span class="line">        &lt;meta name=&#x27;description&#x27; content=&quot;本网站介绍，要有可读性，100-200字&quot;/&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- 5秒钟后跳转到百度网 --&gt;</span><br><span class="line">        &lt;meta http-equiv=&#x27;refresh&#x27; content=&quot;5;url=&#x27;http://www.baidu.com&#x27;&quot;/&gt;</span><br><span class="line">    &lt;/head&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;body&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- 单标签 --&gt;</span><br><span class="line">        &lt;img src=&quot;/images///images//images/dog.jpg&quot; width=&quot;100&quot; height=&quot;150&quot; title=&quot;图片&quot;/&gt;</span><br><span class="line">        </span><br><span class="line">        &lt;!-- 对标签 --&gt;</span><br><span class="line">        [百度](http://www.baidu.com)</span><br><span class="line"></span><br><span class="line">        **我是strong标签**</span><br><span class="line">        &lt;p&gt;我是p标签&lt;/p&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-h1标签、h2标签、font标签、加粗文字、下划线、嵌套"><a href="#2-h1标签、h2标签、font标签、加粗文字、下划线、嵌套" class="headerlink" title="2.h1标签、h2标签、font标签、加粗文字、下划线、嵌套"></a>2.h1标签、h2标签、font标签、加粗文字、下划线、嵌套</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;</span><br><span class="line">&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;</span><br><span class="line">&lt;title&gt;无标题文档&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- h1文章标题/只能用一次 --&gt;</span><br><span class="line">    &lt;h1&gt;我是p标签&lt;/h1&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- h2文章标题/可以用多次/权重较低 --&gt;</span><br><span class="line">    &lt;h2&gt;我是p标签&lt;/h2&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- font/color可以是英文或00ff00/size从1到7 --&gt;</span><br><span class="line">    &lt;font color=&quot;red&quot; size=&quot;7&quot;&gt;我是font标签&lt;/font&gt;</span><br><span class="line">    </span><br><span class="line">    &lt;!-- 加粗文字 --&gt;</span><br><span class="line">    **我是strong标签**</span><br><span class="line"></span><br><span class="line">    &lt;!-- 嵌套 --&gt;</span><br><span class="line">    &lt;font color=&quot;red&quot;&gt;&lt;u&gt;&lt;del&gt;红色文字加下划线&lt;/del&gt;&lt;/u&gt;&lt;/font&gt;</span><br><span class="line"></span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+        <h2 id="1-标签"><a href="#1-标签" class="headerlink" title="1.标签"></a>1.标签</h2><h3 id="1-title标签、网站关键词、网站描述、实现网页的跳转、单标签、对标签、p标签"><a href="#1-title标签、网站关键词、网站描述、实现网页的跳转、单标签、对标签、p标签" class="headerlink" title="1.title标签、网站关键词、网站描述、实现网页的跳转、单标签、对标签、p标签"></a>1.title标签、网站关键词、网站描述、实现网页的跳转、单标签、对标签、p标签</h3>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/HTML%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html#more">全文 &gt;&gt;</a>
@@ -1082,23 +750,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -1130,18 +781,29 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
+        <!-- 目录 -->
+
+<div id="toc">
+  
+</div>
+
         <p><strong>ModHeader</strong>全名modify header，这是一款可以对HTTP请求header进行修改的插件，其支持添加<strong>模式Mod</strong>和<strong>过滤器Filter</strong>。</p>
 <p><strong>Mod</strong>可以支持对request的header，response的header进行修改，对请求进行重定向redirect等；</p>
 <p><strong>Filter</strong>支持对特定的URL生效这面的这些Mod</p>
-<img src="/images/517519-20231129230300747-1818943298.png" width="500" height="411" loading="lazy" />
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/chrome%E6%8F%92%E4%BB%B6ModHeader%E4%BD%BF%E7%94%A8.html#more">全文 &gt;&gt;</a>
-          </p>
-        
+<img src="/images/517519-20231129230300747-1818943298.png" width="500" height="411" loading="lazy">
 
+<p>&nbsp;</p>
+
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/chrome%E6%8F%92%E4%BB%B6ModHeader%E4%BD%BF%E7%94%A8.html"></a>
+          </div>
+        </div>
       
     </div>
+
+    
+      
 
     
 
@@ -1159,23 +821,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 

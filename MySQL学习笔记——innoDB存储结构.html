@@ -5,19 +5,19 @@
   
   <title>MySQL学习笔记——innoDB存储结构 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.MySQL的存储路径12345678mysql&gt; SHOW VARIABLES LIKE &amp;#x27;datadir&amp;#x27;;+---------------+----------------------+| Variable_name | Value                |+---------------+----------------------+| datadir">
+  <meta name="description" content="1.MySQL的存储路径">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL学习笔记——innoDB存储结构">
 <meta property="og:url" content="http://tonglin0325.github.io/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94innoDB%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="1.MySQL的存储路径12345678mysql&gt; SHOW VARIABLES LIKE &amp;#x27;datadir&amp;#x27;;+---------------+----------------------+| Variable_name | Value                |+---------------+----------------------+| datadir">
+<meta property="og:description" content="1.MySQL的存储路径">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240831133138950-993195137.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240831151630359-159144194.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240831182038126-1063719033.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240907231022525-189840633.png">
 <meta property="article:published_time" content="2017-03-26T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:17.317Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:07.284Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary">
@@ -213,7 +213,9 @@ if ($('.local-search').resize() && !isMobile.any()) {
   <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-mysql-de-cun-chu-lu-jing"><span class="toc-text">1.MySQL的存储路径</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-mysql-innodb-de-cun-chu-jie-gou"><span class="toc-text">2.MySQL innoDB的存储结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-innodb-jia-gou"><span class="toc-text">1.innoDB架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-biao-kong-jian-tablespace"><span class="toc-text">2.表空间（Tablespace）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-duan-qu-ye-xing"><span class="toc-text">3.段，区，页，行</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#can-kao-mysql-storage-structure"><span class="toc-text">参考：MySQL Storage Structure</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-ye-page"><span class="toc-text">1.页（page）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-qu-extent"><span class="toc-text">2.区（extent）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-duan-segment"><span class="toc-text">3.段（segment）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-xing-row"><span class="toc-text">4.行（row）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-buffer-pool"><span class="toc-text">4.Buffer Pool</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-innodb-he-myisam-cun-chu-yin-qing-qu-bie"><span class="toc-text">3.InnoDB和MyISAM存储引擎区别</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-innodb-he-myisam-de-qu-bie"><span class="toc-text">1.InnoDB和MyISAM的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-cun-chu-qu-bie"><span class="toc-text">2.存储区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-suo-qu-bie"><span class="toc-text">3.锁区别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-mysql-innodb-de-suo-lei-xing"><span class="toc-text">4.MySQL InnoDB的锁类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-gong-xiang-suo-share-locks-you-cheng-wei-s-suo"><span class="toc-text">1.共享锁（Share Locks），又称为S锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-hu-chi-suo-exclusive-locks-you-cheng-wei-pai-ta-suo-du-zhan-suo-x-suo"><span class="toc-text">2.互斥锁（Exclusive Locks），又称为排他锁，独占锁，X锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-yi-xiang-suo-intention-locks"><span class="toc-text">3.意向锁（Intention Locks）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-ji-lu-suo-record-lock"><span class="toc-text">4.记录锁（Record Lock）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-jian-xi-suo-gap-lock"><span class="toc-text">5.间隙锁（Gap Lock）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-xia-yi-jian-suo-next-key-lock"><span class="toc-text">6.下一键锁（Next-Key Lock）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-cha-ru-yi-xiang-suo-nbsp-insert-intention-locks"><span class="toc-text">7.插入意向锁（ Insert Intention Locks）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-zi-zeng-suo-auto-inc-suo"><span class="toc-text">8.自增锁（AUTO-INC锁）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-kong-jian-suo-yin-de-wei-ci-suo-nbsp-predicate-locks-for-spatial-indexes"><span class="toc-text">9.空间索引的谓词锁（ Predicate Locks for Spatial Indexes）</span></a></li></ol></li></ol>
 </div>
 
-        <h2 id="1-mysql-de-cun-chu-lu-jing"><a href="#1-MySQL的存储路径" class="headerlink" title="1.MySQL的存储路径"></a>1.MySQL的存储路径<a href="#1-mysql-de-cun-chu-lu-jing" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW VARIABLES LIKE &#x27;datadir&#x27;;</span><br><span class="line">+---------------+----------------------+</span><br><span class="line">| Variable_name | Value                |</span><br><span class="line">+---------------+----------------------+</span><br><span class="line">| datadir       | /var/lib/mysql/data/ |</span><br><span class="line">+---------------+----------------------+</span><br><span class="line">1 row in set (0.01 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        <h2 id="1-mysql-de-cun-chu-lu-jing"><a href="#1-MySQL的存储路径" class="headerlink" title="1.MySQL的存储路径"></a>1.MySQL的存储路径<a href="#1-mysql-de-cun-chu-lu-jing" class="header-anchor">#</a></h2><span id="more"></span>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW VARIABLES LIKE &#x27;datadir&#x27;;</span><br><span class="line">+---------------+----------------------+</span><br><span class="line">| Variable_name | Value                |</span><br><span class="line">+---------------+----------------------+</span><br><span class="line">| datadir       | /var/lib/mysql/data/ |</span><br><span class="line">+---------------+----------------------+</span><br><span class="line">1 row in set (0.01 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>查看datadir目录下的所有文件夹</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sh-4.2$ ls -l | grep &#x27;^d&#x27;</span><br><span class="line">drwxr-x--- 2 mysql mysql     4096 Aug 24 12:36 default</span><br><span class="line">drwxr-x--- 2 mysql mysql     4096 Jan 31  2024 mysql</span><br><span class="line">drwxr-x--- 2 mysql mysql     4096 Jan 31  2024 performance_schema</span><br><span class="line">drwxr-x--- 2 mysql mysql    12288 Jan 31  2024 sys</span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -324,11 +326,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <td>外键约束</td>
 <td>InnoDB 支持外键约束</td>
 <td>MyISAM 不支持外键约束</td>
-</tr>
-<tr>
-<td><span id="more"></span></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
 <td>&nbsp;</td>

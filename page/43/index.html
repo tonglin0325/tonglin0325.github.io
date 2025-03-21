@@ -203,12 +203,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <img src="/images/517519-20210604153416620-1580870078.png" width="1000" height="339" loading="lazy" />
 
 <p>1.依赖</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- swagger2 --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;io.springfox&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;2.8.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;io.springfox&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;springfox-swagger-ui&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;2.8.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>2.配置swagger，注意修改basePackage成实际的包名</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">import org.springframework.context.annotation.Bean;</span><br><span class="line">import org.springframework.context.annotation.Configuration;</span><br><span class="line">import org.springframework.web.context.request.async.DeferredResult;</span><br><span class="line">import springfox.documentation.builders.ApiInfoBuilder;</span><br><span class="line">import springfox.documentation.builders.PathSelectors;</span><br><span class="line">import springfox.documentation.builders.RequestHandlerSelectors;</span><br><span class="line">import springfox.documentation.service.ApiInfo;</span><br><span class="line">import springfox.documentation.spi.DocumentationType;</span><br><span class="line">import springfox.documentation.spring.web.plugins.Docket;</span><br><span class="line">import springfox.documentation.swagger2.annotations.EnableSwagger2;</span><br><span class="line"></span><br><span class="line">@Configuration</span><br><span class="line">@EnableSwagger2</span><br><span class="line">public class SwaggerConfig &#123;</span><br><span class="line"></span><br><span class="line">    @Bean</span><br><span class="line">    public Docket createRestApi() &#123;</span><br><span class="line">        return new Docket(DocumentationType.SWAGGER_2)</span><br><span class="line">                .genericModelSubstitutes(DeferredResult.class)</span><br><span class="line">                .useDefaultResponseMessages(false)</span><br><span class="line">                .forCodeGeneration(true)</span><br><span class="line">                .apiInfo(apiInfo())</span><br><span class="line">                .pathMapping(&quot;/&quot;) // base，最终调用接口后会和paths拼接在一起</span><br><span class="line">                .select()</span><br><span class="line">                .apis(RequestHandlerSelectors.basePackage(&quot;com.example.demo&quot;)) // 过滤的接口</span><br><span class="line">                .paths(PathSelectors.any())</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private ApiInfo apiInfo() &#123;</span><br><span class="line">        return new ApiInfoBuilder()</span><br><span class="line">                .title(&quot;api文档&quot;) // 标题</span><br><span class="line">                .description(&quot;xxxx&quot;) // 描述</span><br><span class="line">                .termsOfServiceUrl(&quot;https://xxx.xxx.xxx&quot;)</span><br><span class="line">                .version(&quot;1.0&quot;)</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>3.给controller添加
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94swagger-ui.html#more">全文 &gt;&gt;</a>
@@ -234,23 +228,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -282,98 +259,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <!-- 目录 -->
-
-<div id="toc">
-  
-</div>
-
-        <span id="more"></span>
-<p>&nbsp;</p>
-<img src="/images/517519-20160322170004667-119370150.png" alt>
+        <p>&nbsp;</p>
+<img src="/images/517519-20160322170004667-119370150.png" alt="" />
 
 <p>&nbsp;</p>
 <p><strong>使用一个标签</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">import java.awt.Color;</span><br><span class="line">import java.awt.Dimension;</span><br><span class="line">import java.awt.Point;</span><br><span class="line"></span><br><span class="line">import javax.swing.JFrame;</span><br><span class="line">import javax.swing.JLabel;</span><br><span class="line"></span><br><span class="line">public class JFrame_demo &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		// TODO 自动生成的方法存根</span><br><span class="line">		</span><br><span class="line">		JFrame f = new JFrame(&quot;Swing窗口&quot;);							//实例化窗体对象</span><br><span class="line">		JLabel lab = new JLabel(&quot;Label&quot;,JLabel.CENTER);		//实例化对象，使用剧中对齐</span><br><span class="line">		f.add(lab);																				//向容器中加入组建</span><br><span class="line">		Dimension dim = new Dimension();								//实例化Dimension对象</span><br><span class="line">		</span><br><span class="line">		dim.setSize(230,80);			//设置大小</span><br><span class="line">		f.setSize(dim);						//设置组件大小</span><br><span class="line">		f.setBackground(Color.WHITE);</span><br><span class="line">		Point point = new Point(300,200);		//设置现实的坐标点</span><br><span class="line">		f.setLocation(point);</span><br><span class="line">		f.setVisible(true);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/Java%E2%80%94%E2%80%94%E7%BB%84%E4%BB%B6%EF%BC%9A%E6%A0%87%E7%AD%BE%E7%BB%84%E4%BB%B6%EF%BC%8C%E6%96%87%E6%9C%AC%E7%BB%84%E4%BB%B6%EF%BC%8C%E8%8F%9C%E5%8D%95%E7%BB%84%E4%BB%B6%EF%BC%8C%E8%A1%A8%E6%A0%BC%E7%BB%84%E4%BB%B6%EF%BC%8C%E6%8C%89%E9%92%AE%E7%BB%84%E4%BB%B6.html#more">全文 &gt;&gt;</a>
+          </p>
+        
 
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p><strong>更改JLabel的文本样式</strong></p>
-<p><strong><img src="/images/517519-20160322215153964-1773363108.png" alt></strong></p>
-<p>&nbsp;</p>
-<p><strong>设置标签的显示字体、大小、背景颜色</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">import java.awt.Color;</span><br><span class="line">import java.awt.Dimension;</span><br><span class="line">import java.awt.Font;</span><br><span class="line">import java.awt.Point;</span><br><span class="line"></span><br><span class="line">import javax.swing.JFrame;</span><br><span class="line">import javax.swing.JLabel;</span><br><span class="line"></span><br><span class="line">public class JFrame_demo &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		// TODO 自动生成的方法存根</span><br><span class="line">		</span><br><span class="line">		JFrame f = new JFrame(&quot;Swing窗口&quot;);							//实例化窗体对象</span><br><span class="line">		JLabel lab = new JLabel(&quot;Label&quot;,JLabel.CENTER);		//实例化对象，使用剧中对齐</span><br><span class="line">		Font fnt = new Font(&quot;Serief&quot;,Font.ITALIC+Font.BOLD,28);</span><br><span class="line">		lab.setFont(fnt); 									//设置标签的显示字体</span><br><span class="line">		lab.setForeground(Color.RED); 	//设置标签的文字颜色</span><br><span class="line">		f.add(lab);																				//向容器中加入组建</span><br><span class="line">		Dimension dim = new Dimension();								//实例化Dimension对象</span><br><span class="line">		</span><br><span class="line">		dim.setSize(230,80);			//设置大小</span><br><span class="line">		f.setSize(dim);						//设置组件大小</span><br><span class="line">		f.setBackground(Color.WHITE);</span><br><span class="line">		Point point = new Point(300,200);		//设置现实的坐标点</span><br><span class="line">		f.setLocation(point);</span><br><span class="line">		f.setVisible(true);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>&nbsp;<img src="/images/517519-20160322215855370-317888727.png" alt></p>
-<p>&nbsp;</p>
-<p><strong>在JLabel中设置图片</strong></p>
-<p><strong><img src="/images/517519-20160322220144339-1860416016.png" alt></strong></p>
-<p>&nbsp;</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">import java.awt.Color;</span><br><span class="line">import java.awt.Dimension;</span><br><span class="line">import java.awt.Font;</span><br><span class="line">import java.awt.Point;</span><br><span class="line"></span><br><span class="line">import javax.swing.Icon;</span><br><span class="line">import javax.swing.ImageIcon;</span><br><span class="line">import javax.swing.JFrame;</span><br><span class="line">import javax.swing.JLabel;</span><br><span class="line"></span><br><span class="line">public class JFrame_demo &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		// TODO 自动生成的方法存根</span><br><span class="line">		</span><br><span class="line">		JFrame f = new JFrame(&quot;Swing窗口&quot;);							//实例化窗体对象</span><br><span class="line">		String picPath = &quot;/home/common/software/database/photo.jpg&quot;;</span><br><span class="line">		Icon icon = new ImageIcon(picPath);</span><br><span class="line">		</span><br><span class="line">		JLabel lab = new JLabel(icon,JLabel.CENTER);		//实例化对象，使用剧中对齐</span><br><span class="line">		Font fnt = new Font(&quot;Serief&quot;,Font.ITALIC+Font.BOLD,28);</span><br><span class="line">		lab.setFont(fnt); 									//设置标签的显示字体</span><br><span class="line">		lab.setForeground(Color.RED); 	//设置标签的文字颜色</span><br><span class="line">		f.add(lab);																				//向容器中加入组建</span><br><span class="line">		Dimension dim = new Dimension();								//实例化Dimension对象</span><br><span class="line">		</span><br><span class="line">		dim.setSize(230,80);			//设置大小</span><br><span class="line">		f.setSize(dim);						//设置组件大小</span><br><span class="line">		f.setBackground(Color.WHITE);</span><br><span class="line">		Point point = new Point(300,200);		//设置现实的坐标点</span><br><span class="line">		f.setLocation(point);</span><br><span class="line">		f.setVisible(true);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>&nbsp;</p>
-<img src="/images/517519-20160323190326917-178714958.png" alt>
-
-<p>&nbsp;</p>
-<img src="/images/517519-20160323190434120-208037545.png" alt>
-
-<p>&nbsp;</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">import java.awt.GridLayout;</span><br><span class="line"></span><br><span class="line">import javax.swing.JFrame;</span><br><span class="line">import javax.swing.JLabel;</span><br><span class="line">import javax.swing.JTextField;</span><br><span class="line"></span><br><span class="line">public class JText_demo &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		// TODO 自动生成的方法存根</span><br><span class="line">		JFrame f = new JFrame(&quot;Swing窗口&quot;);							//实例化窗体对象</span><br><span class="line">		JTextField name = new JTextField(30);							//定义文本框，并指定长度</span><br><span class="line">		JTextField name_1 = new JTextField(&quot;指定内容&quot;,10);//定义文本框，并指定内容和长度</span><br><span class="line">		JLabel nameLab = new JLabel(&quot;输入用户姓名：&quot;);	//	定义标签</span><br><span class="line">		JLabel name_1Lab = new JLabel(&quot;不可编辑文本：&quot;);	//	定义标签</span><br><span class="line">		name_1.setEnabled(false);				//此文本框不可编辑</span><br><span class="line">		nameLab.setBounds(10,10,100,20); 		//设置组件位置和大小</span><br><span class="line">		name_1Lab.setBounds(10,40,100,20); 		//设置组件位置和大小</span><br><span class="line">		name.setBounds(110,10,100,20); 		//设置组件位置和大小</span><br><span class="line">		name_1.setBounds(110,40,100,20); 		//设置组件位置和大小</span><br><span class="line">		name.setColumns(10); 						//设置长度，但是此时不起作用</span><br><span class="line">		name_1.setColumns(10); 					//设置长度，但是此时不起作用</span><br><span class="line">//		f.setLayout(new GridLayout(2,2));		//设置容器的布局管理器</span><br><span class="line">		f.setLayout(null);		//设置容器的布局管理器</span><br><span class="line">		f.add(nameLab);					//向容器中增加组件</span><br><span class="line">		f.add(name);						//向容器中增加组件</span><br><span class="line">		f.add(name_1Lab);					//向容器中增加组件</span><br><span class="line">		f.add(name_1);						//向容器中增加组件</span><br><span class="line">		f.setSize(440, 320);  			//设置窗体</span><br><span class="line">		f.setLocation(300,200);		//设置显示位置</span><br><span class="line">		f.setVisible(true);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>&nbsp;<img src="/images/517519-20160323230242526-1631709652.png" alt></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">import javax.swing.JFrame;</span><br><span class="line">import javax.swing.JLabel;</span><br><span class="line">import javax.swing.JPasswordField;</span><br><span class="line">import javax.swing.JTextField;</span><br><span class="line"></span><br><span class="line">public class JPassword_demo &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		// TODO 自动生成的方法存根</span><br><span class="line">		JFrame f = new JFrame(&quot;Swing窗口&quot;);							//实例化窗体对象</span><br><span class="line">		JPasswordField jpf1 = new JPasswordField();			//定义秘文框</span><br><span class="line">		JPasswordField jpf2 = new JPasswordField();			//定义秘文框</span><br><span class="line">		jpf2.setEchoChar(&#x27;#&#x27;);  						//设置回显字符</span><br><span class="line">		JLabel nameLab = new JLabel(&quot;默认的显示：&quot;);	//	定义标签</span><br><span class="line">		JLabel name_1Lab = new JLabel(&quot;修改后的显示：&quot;);	//	定义标签</span><br><span class="line">		</span><br><span class="line">		nameLab.setBounds(10,10,100,20); 		//设置组件位置和大小</span><br><span class="line">		name_1Lab.setBounds(10,40,100,20); 		//设置组件位置和大小</span><br><span class="line">		jpf1.setBounds(110,10,100,20); 		//设置组件位置和大小</span><br><span class="line">		jpf2.setBounds(110,40,100,20); 		//设置组件位置和大小</span><br><span class="line"></span><br><span class="line">		f.setLayout(null);		//设置容器的布局管理器</span><br><span class="line">		f.add(nameLab);					//向容器中增加组件</span><br><span class="line">		f.add(jpf1);						//向容器中增加组件</span><br><span class="line">		f.add(name_1Lab);					//向容器中增加组件</span><br><span class="line">		f.add(jpf2);						//向容器中增加组件</span><br><span class="line">		f.setSize(440, 320);  			//设置窗体</span><br><span class="line">		f.setLocation(300,200);		//设置显示位置</span><br><span class="line">		f.setVisible(true);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>&nbsp;<img src="/images/517519-20160323230925761-1171054922.png" alt></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">import javax.swing.JFrame;</span><br><span class="line">import javax.swing.JLabel;</span><br><span class="line">import javax.swing.JTextArea;</span><br><span class="line">import javax.swing.JTextField;</span><br><span class="line"></span><br><span class="line">public class JTextArea_demo &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		// TODO 自动生成的方法存根</span><br><span class="line">		JFrame f = new JFrame(&quot;Swing窗口&quot;);							//实例化窗体对象</span><br><span class="line">		JTextArea name = new JTextArea(&quot;1231231231231312312&quot;,3,10);		//定义文本框</span><br><span class="line">		name.setLineWrap(true); 					//如果内容过长，自动换行</span><br><span class="line">		JLabel nameLab = new JLabel(&quot;多行文本域&quot;);	//	定义标签</span><br><span class="line"></span><br><span class="line">		nameLab.setBounds(10,10,120,20); 		//设置组件位置和大小</span><br><span class="line">		name.setBounds(130,10,150,100); 		//设置组件位置和大小</span><br><span class="line">		f.setLayout(null);		//设置容器的布局管理器</span><br><span class="line">		f.add(nameLab);					//向容器中增加组件</span><br><span class="line">		f.add(name);						//向容器中增加组件</span><br><span class="line">		f.setSize(440, 320);  			//设置窗体</span><br><span class="line">		f.setLocation(300,200);		//设置显示位置</span><br><span class="line">		f.setVisible(true);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>&nbsp;</p>
-<img src="/images/517519-20160325110340464-809406451.png" alt>
-
-<p>&nbsp;</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">import java.awt.Container;</span><br><span class="line">import java.awt.event.WindowAdapter;</span><br><span class="line">import java.awt.event.WindowEvent;</span><br><span class="line"></span><br><span class="line">import javax.swing.ImageIcon;</span><br><span class="line">import javax.swing.JComboBox;</span><br><span class="line">import javax.swing.JFrame;</span><br><span class="line">import javax.swing.JLabel;</span><br><span class="line">import javax.swing.JMenu;</span><br><span class="line">import javax.swing.JMenuBar;</span><br><span class="line">import javax.swing.JMenuItem;</span><br><span class="line">import javax.swing.JScrollPane;</span><br><span class="line">import javax.swing.JTextArea;</span><br><span class="line">import javax.swing.KeyStroke;</span><br><span class="line"></span><br><span class="line">public class Jmenu_demo &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		// TODO 自动生成的方法存根</span><br><span class="line">		JFrame frame = new JFrame(&quot;窗体&quot;);					//定义窗体</span><br><span class="line">		JTextArea text = new JTextArea();							//定义文本域</span><br><span class="line">		text.setEditable(true); 												//定义文本组件可编辑</span><br><span class="line">		frame.getContentPane().add(new JScrollPane(text)); 	//在面板中加入文本框及滚动条</span><br><span class="line">		</span><br><span class="line">		JMenu menuFile = new JMenu(&quot;文件&quot;);				//定义JMenu组件</span><br><span class="line">		//定义显示图标</span><br><span class="line">		menuFile.setIcon(new ImageIcon(&quot;/home/common/software/database/123.jpg&quot;));</span><br><span class="line">		JMenuBar menuBar = new JMenuBar();				//定义JMenu组件</span><br><span class="line">		//定义显示图标</span><br><span class="line">		JMenuItem newMenu = new JMenuItem(&quot;新建&quot;,new ImageIcon(&quot;/home/common/software/database/123.jpg&quot;));</span><br><span class="line">		//定义显示图标</span><br><span class="line">		JMenuItem openMenu = new JMenuItem(&quot;打开&quot;,new ImageIcon(&quot;/home/common/software/database/123.jpg&quot;));</span><br><span class="line">		</span><br><span class="line">		newMenu.setMnemonic(&#x27;N&#x27;);</span><br><span class="line">		openMenu.setMnemonic(&#x27;O&#x27;);</span><br><span class="line">		</span><br><span class="line">		newMenu.setAccelerator(KeyStroke.getKeyStroke(&#x27;N&#x27;,java.awt.Event.CTRL_MASK));</span><br><span class="line">		openMenu.setAccelerator(KeyStroke.getKeyStroke(&#x27;O&#x27;,java.awt.Event.CTRL_MASK));</span><br><span class="line">		</span><br><span class="line">		menuFile.add(newMenu);			//加入菜单项</span><br><span class="line">		menuFile.addSeparator();			//加入分割线</span><br><span class="line">		menuFile.add(openMenu);			//加入菜单项</span><br><span class="line">		</span><br><span class="line">		menuBar.add(menuFile);				//加入JMenu</span><br><span class="line">		frame.addWindowListener(new WindowAdapter()&#123;		//加入动作监听</span><br><span class="line">			public void windowClosing(WindowEvent e) &#123;			//窗口关闭时触发，按下关闭按钮</span><br><span class="line">			// TODO 自动生成的方法存根</span><br><span class="line">			System.out.println(&quot;windowClosing--&gt;窗口关闭&quot;);</span><br><span class="line">			System.exit(1);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">		frame.setJMenuBar(menuBar); 			//在窗体中加入JMenuBar组件</span><br><span class="line">		frame.setVisible(true);</span><br><span class="line">		frame.setLocation(300,200);		//设置显示位置</span><br><span class="line">		frame.setSize(300, 180);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>&nbsp;<img src="/images/517519-20160325170741604-562191370.png" alt></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">import java.awt.Container;</span><br><span class="line">import java.awt.event.ActionEvent;</span><br><span class="line">import java.awt.event.ActionListener;</span><br><span class="line">import java.awt.event.WindowAdapter;</span><br><span class="line">import java.awt.event.WindowEvent;</span><br><span class="line"></span><br><span class="line">import javax.swing.ImageIcon;</span><br><span class="line">import javax.swing.JComboBox;</span><br><span class="line">import javax.swing.JFrame;</span><br><span class="line">import javax.swing.JLabel;</span><br><span class="line">import javax.swing.JMenu;</span><br><span class="line">import javax.swing.JMenuBar;</span><br><span class="line">import javax.swing.JMenuItem;</span><br><span class="line">import javax.swing.JScrollPane;</span><br><span class="line">import javax.swing.JTextArea;</span><br><span class="line">import javax.swing.KeyStroke;</span><br><span class="line"></span><br><span class="line">public class Jmenu_demo &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		// TODO 自动生成的方法存根</span><br><span class="line">		JFrame frame = new JFrame(&quot;窗体&quot;);					//定义窗体</span><br><span class="line">		JTextArea text = new JTextArea();							//定义文本域</span><br><span class="line">		text.setEditable(true); 												//定义文本组件可编辑</span><br><span class="line">		frame.getContentPane().add(new JScrollPane(text)); 	//在面板中加入文本框及滚动条</span><br><span class="line">		</span><br><span class="line">		JMenu menuFile = new JMenu(&quot;文件&quot;);				//定义JMenu组件</span><br><span class="line">		//定义显示图标</span><br><span class="line">		menuFile.setIcon(new ImageIcon(&quot;/home/common/software/database/123.jpg&quot;));</span><br><span class="line">		JMenuBar menuBar = new JMenuBar();				//定义JMenu组件</span><br><span class="line">		//定义显示图标</span><br><span class="line">		JMenuItem newMenu = new JMenuItem(&quot;新建&quot;,new ImageIcon(&quot;/home/common/software/database/123.jpg&quot;));</span><br><span class="line">		//定义显示图标</span><br><span class="line">		JMenuItem openMenu = new JMenuItem(&quot;打开&quot;,new ImageIcon(&quot;/home/common/software/database/123.jpg&quot;));</span><br><span class="line">		</span><br><span class="line">		newMenu.setMnemonic(&#x27;N&#x27;);</span><br><span class="line">		openMenu.setMnemonic(&#x27;O&#x27;);</span><br><span class="line">		</span><br><span class="line">		newMenu.setAccelerator(KeyStroke.getKeyStroke(&#x27;N&#x27;,java.awt.Event.CTRL_MASK));</span><br><span class="line">		openMenu.setAccelerator(KeyStroke.getKeyStroke(&#x27;O&#x27;,java.awt.Event.CTRL_MASK));</span><br><span class="line">		</span><br><span class="line">		menuFile.add(newMenu);			//加入菜单项</span><br><span class="line">		menuFile.addSeparator();			//加入分割线</span><br><span class="line">		menuFile.add(openMenu);			//加入菜单项</span><br><span class="line">		</span><br><span class="line">		menuBar.add(menuFile);				//加入JMenu</span><br><span class="line">		</span><br><span class="line">		newMenu.addActionListener(new ActionListener() &#123;</span><br><span class="line">			</span><br><span class="line">			@Override</span><br><span class="line">			public void actionPerformed(ActionEvent e) &#123;</span><br><span class="line">				// TODO 自动生成的方法存根</span><br><span class="line">				text.append(&quot;选择了newMenu&quot;);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">		</span><br><span class="line">		openMenu.addActionListener(new ActionListener() &#123;</span><br><span class="line">			</span><br><span class="line">			@Override</span><br><span class="line">			public void actionPerformed(ActionEvent e) &#123;</span><br><span class="line">				// TODO 自动生成的方法存根</span><br><span class="line">				text.append(&quot;选择了openMenu&quot;);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">		</span><br><span class="line">		frame.addWindowListener(new WindowAdapter()&#123;		//加入动作监听</span><br><span class="line">			public void windowClosing(WindowEvent e) &#123;			//窗口关闭时触发，按下关闭按钮</span><br><span class="line">			// TODO 自动生成的方法存根</span><br><span class="line">			System.out.println(&quot;windowClosing--&gt;窗口关闭&quot;);</span><br><span class="line">			System.exit(1);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">		</span><br><span class="line">		frame.setJMenuBar(menuBar); 			//在窗体中加入JMenuBar组件</span><br><span class="line">		</span><br><span class="line">		frame.setVisible(true);</span><br><span class="line">		frame.setLocation(300,200);		//设置显示位置</span><br><span class="line">		frame.setSize(300, 180);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>&nbsp;</p>
-<img src="/images/517519-20160325191828214-76173339.png" alt>
-
-<p>&nbsp;</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">import java.awt.event.WindowAdapter;</span><br><span class="line">import java.awt.event.WindowEvent;</span><br><span class="line"></span><br><span class="line">import javax.swing.JFrame;</span><br><span class="line">import javax.swing.JScrollPane;</span><br><span class="line">import javax.swing.JTable;</span><br><span class="line"></span><br><span class="line">public class JTable_demo &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		// TODO 自动生成的方法存根</span><br><span class="line">		JFrame frame = new JFrame(&quot;窗体&quot;);					//定义窗体</span><br><span class="line">		String[] titles = &#123;&quot;姓名&quot;,&quot;年龄&quot;,&quot;性别&quot;,&quot;成绩&quot;,&quot;是否及格&quot;&#125;;</span><br><span class="line">		Object[][] userInfo = &#123;&#123;&quot;张三&quot;,22,&quot;男&quot;,99,true&#125;,&#123;&quot;张三&quot;,22,&quot;男&quot;,99,true&#125;</span><br><span class="line">		,&#123;&quot;张三&quot;,22,&quot;男&quot;,99,true&#125;,&#123;&quot;张三&quot;,22,&quot;男&quot;,99,true&#125;,&#123;&quot;张三&quot;,22,&quot;男&quot;,99,true&#125;&#125;;</span><br><span class="line">		</span><br><span class="line">		JTable table = new JTable(userInfo,titles);</span><br><span class="line">		</span><br><span class="line">		JScrollPane scr = new JScrollPane(table); </span><br><span class="line">		</span><br><span class="line">		frame.add(scr);</span><br><span class="line">		frame.setSize(330,100);</span><br><span class="line">		frame.setVisible(true);</span><br><span class="line">		frame.addWindowListener(new WindowAdapter()&#123;	//加入事件监听</span><br><span class="line">			public void windowClosing(WindowEvent arg0) &#123;			//窗口关闭时触发，按下关闭按钮</span><br><span class="line">			// TODO 自动生成的方法存根</span><br><span class="line">			System.out.println(&quot;windowClosing--&gt;窗口关闭&quot;);</span><br><span class="line">			System.exit(1);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>&nbsp;</p>
-<img src="/images/517519-20160322221129870-1542079507.png" alt>
-
-<p>&nbsp;</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">import java.awt.Color;</span><br><span class="line">import java.awt.Dimension;</span><br><span class="line">import java.awt.Font;</span><br><span class="line">import java.awt.Point;</span><br><span class="line"></span><br><span class="line">import javax.swing.Icon;</span><br><span class="line">import javax.swing.ImageIcon;</span><br><span class="line">import javax.swing.JButton;</span><br><span class="line">import javax.swing.JFrame;</span><br><span class="line">import javax.swing.JLabel;</span><br><span class="line"></span><br><span class="line">public class JFrame_demo &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		// TODO 自动生成的方法存根</span><br><span class="line">		</span><br><span class="line">		JFrame f = new JFrame(&quot;Swing窗口&quot;);							//实例化窗体对象</span><br><span class="line">		String picPath = &quot;/home/common/software/database/photo.jpg&quot;;</span><br><span class="line">		Icon icon = new ImageIcon(picPath);</span><br><span class="line">		</span><br><span class="line">		JButton but = new JButton(icon);</span><br><span class="line">		f.add(but);																				//向容器中加入组建</span><br><span class="line">		Dimension dim = new Dimension();								//实例化Dimension对象</span><br><span class="line">		</span><br><span class="line">		dim.setSize(230,80);			//设置大小</span><br><span class="line">		f.setSize(dim);						//设置组件大小</span><br><span class="line">		f.setBackground(Color.WHITE);</span><br><span class="line">		Point point = new Point(300,200);		//设置现实的坐标点</span><br><span class="line">		f.setLocation(point);</span><br><span class="line">		f.setVisible(true);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>&nbsp;</p>
-<img src="/images/517519-20160323185240808-10315153.png" alt>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">import java.awt.GridLayout;</span><br><span class="line"></span><br><span class="line">import javax.swing.JFrame;</span><br><span class="line">import javax.swing.JToggleButton;</span><br><span class="line"></span><br><span class="line">public class JToggleButton_demo &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		// TODO 自动生成的方法存根</span><br><span class="line">		JFrame f = new JFrame(&quot;Swing窗口&quot;);							//实例化窗体对象</span><br><span class="line">		JToggleButton but1 = new JToggleButton(&quot;已选中&quot;,true);</span><br><span class="line">		JToggleButton but2 = new JToggleButton(&quot;未选中&quot;);</span><br><span class="line">		JToggleButton but3 = new JToggleButton(&quot;按我&quot;);</span><br><span class="line">		f.setLayout(new GridLayout(3,1));				//设置排版样式</span><br><span class="line">		f.add(but1);</span><br><span class="line">		f.add(but2);</span><br><span class="line">		f.add(but3);</span><br><span class="line">		f.setSize(440, 320);  			//设置窗体</span><br><span class="line">		f.setLocation(300,200);		//设置显示位置</span><br><span class="line">		f.setVisible(true);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>&nbsp;</p>
-<img src="/images/517519-20160324162156901-886785836.png" alt>
-
-<p>&nbsp;</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">import java.awt.Container;</span><br><span class="line">import java.awt.GridLayout;</span><br><span class="line">import java.awt.event.WindowAdapter;</span><br><span class="line">import java.awt.event.WindowEvent;</span><br><span class="line"></span><br><span class="line">import javax.swing.BorderFactory;</span><br><span class="line">import javax.swing.ButtonGroup;</span><br><span class="line">import javax.swing.JFrame;</span><br><span class="line">import javax.swing.JPanel;</span><br><span class="line">import javax.swing.JRadioButton;</span><br><span class="line"></span><br><span class="line">class MyRadio&#123;</span><br><span class="line">	private JFrame frame = new JFrame(&quot;窗体&quot;);</span><br><span class="line">	private Container cont = frame.getContentPane();</span><br><span class="line">	private JRadioButton jrb1  = new JRadioButton(&quot;单选1&quot;);</span><br><span class="line">	private JRadioButton jrb2  = new JRadioButton(&quot;单选2&quot;); </span><br><span class="line">	private JRadioButton jrb3  = new JRadioButton(&quot;单选3&quot;); </span><br><span class="line">	private JPanel pan = new JPanel();</span><br><span class="line">	public MyRadio()&#123;</span><br><span class="line">		//定义一个面板的边框显示条</span><br><span class="line">		pan.setBorder(BorderFactory.createTitledBorder(&quot;请选择按钮&quot;));</span><br><span class="line">		pan.setLayout(new GridLayout(1,3));</span><br><span class="line">		ButtonGroup group = new ButtonGroup(); </span><br><span class="line">		group.add(this.jrb1);</span><br><span class="line">		group.add(this.jrb2);</span><br><span class="line">		group.add(this.jrb3);</span><br><span class="line">		pan.add(this.jrb1);</span><br><span class="line">		pan.add(this.jrb2);</span><br><span class="line">		pan.add(this.jrb3);</span><br><span class="line">		cont.add(pan);</span><br><span class="line">		this.frame.setSize(330,80);</span><br><span class="line">		this.frame.setVisible(true);</span><br><span class="line">		this.frame.addWindowListener(new WindowAdapter()&#123;</span><br><span class="line">			public void windowClosing(WindowEvent e) &#123;			//窗口关闭时触发，按下关闭按钮</span><br><span class="line">			// TODO 自动生成的方法存根</span><br><span class="line">			System.out.println(&quot;windowClosing--&gt;窗口关闭&quot;);</span><br><span class="line">			System.exit(1);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//主类</span><br><span class="line">//Function        : 	JRadioButton_demo</span><br><span class="line">public class JRadioButton_demo &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		// TODO 自动生成的方法存根</span><br><span class="line">		new MyRadio();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>&nbsp;</p>
-<p>&nbsp;<img src="/images/517519-20160324162156901-886785836.png" alt></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">import java.awt.Container;</span><br><span class="line">import java.awt.GridLayout;</span><br><span class="line">import java.awt.event.ItemEvent;</span><br><span class="line">import java.awt.event.ItemListener;</span><br><span class="line">import java.awt.event.WindowAdapter;</span><br><span class="line">import java.awt.event.WindowEvent;</span><br><span class="line"></span><br><span class="line">import javax.swing.BorderFactory;</span><br><span class="line">import javax.swing.ButtonGroup;</span><br><span class="line">import javax.swing.JFrame;</span><br><span class="line">import javax.swing.JPanel;</span><br><span class="line">import javax.swing.JRadioButton;</span><br><span class="line"></span><br><span class="line">class MyRadio implements ItemListener&#123;</span><br><span class="line">	private JFrame frame = new JFrame(&quot;窗体&quot;);</span><br><span class="line">	private Container cont = frame.getContentPane();</span><br><span class="line">	private JRadioButton jrb1  = new JRadioButton(&quot;单选1&quot;);</span><br><span class="line">	private JRadioButton jrb2  = new JRadioButton(&quot;单选2&quot;); </span><br><span class="line">	private JRadioButton jrb3  = new JRadioButton(&quot;单选3&quot;); </span><br><span class="line">	private JPanel pan = new JPanel();</span><br><span class="line">	public MyRadio()&#123;</span><br><span class="line">		//定义一个面板的边框显示条</span><br><span class="line">		pan.setBorder(BorderFactory.createTitledBorder(&quot;请选择按钮&quot;));</span><br><span class="line">		pan.setLayout(new GridLayout(1,3));</span><br><span class="line">		ButtonGroup group = new ButtonGroup(); </span><br><span class="line">		group.add(this.jrb1);</span><br><span class="line">		group.add(this.jrb2);</span><br><span class="line">		group.add(this.jrb3);</span><br><span class="line">		pan.add(this.jrb1);</span><br><span class="line">		pan.add(this.jrb2);</span><br><span class="line">		pan.add(this.jrb3);</span><br><span class="line">		</span><br><span class="line">		jrb1.addItemListener(this); 			//加入事件监听</span><br><span class="line">		jrb2.addItemListener(this); 			//加入事件监听</span><br><span class="line">		jrb3.addItemListener(this); 			//加入事件监听</span><br><span class="line">		</span><br><span class="line">		cont.add(pan);</span><br><span class="line">		this.frame.setSize(330,80);</span><br><span class="line">		this.frame.setVisible(true);</span><br><span class="line">		this.frame.addWindowListener(new WindowAdapter()&#123;</span><br><span class="line">			public void windowClosing(WindowEvent e) &#123;			//窗口关闭时触发，按下关闭按钮</span><br><span class="line">			// TODO 自动生成的方法存根</span><br><span class="line">			System.out.println(&quot;windowClosing--&gt;窗口关闭&quot;);</span><br><span class="line">			System.exit(1);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;</span><br><span class="line">	@Override</span><br><span class="line">	public void itemStateChanged(ItemEvent e) &#123;</span><br><span class="line">		// TODO 自动生成的方法存根</span><br><span class="line">		if(e.getSource() == jrb1)&#123;</span><br><span class="line">			System.out.println(&quot;jrb1&quot;);</span><br><span class="line">		&#125;else if(e.getSource() == jrb2)&#123;</span><br><span class="line">			System.out.println(&quot;jrb2&quot;);</span><br><span class="line">		&#125;else&#123;</span><br><span class="line">			System.out.println(&quot;jrb3&quot;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//主类</span><br><span class="line">//Function        : 	JRadioButton_demo</span><br><span class="line">public class JRadioButton_demo &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		// TODO 自动生成的方法存根</span><br><span class="line">		new MyRadio();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>&nbsp;</p>
-
-        <div class="article-entry">
-          <div id="footer-info" class="inner">
-          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/Java%E2%80%94%E2%80%94%E7%BB%84%E4%BB%B6%EF%BC%9A%E6%A0%87%E7%AD%BE%E7%BB%84%E4%BB%B6%EF%BC%8C%E6%96%87%E6%9C%AC%E7%BB%84%E4%BB%B6%EF%BC%8C%E8%8F%9C%E5%8D%95%E7%BB%84%E4%BB%B6%EF%BC%8C%E8%A1%A8%E6%A0%BC%E7%BB%84%E4%BB%B6%EF%BC%8C%E6%8C%89%E9%92%AE%E7%BB%84%E4%BB%B6.html"></a>
-          </div>
-        </div>
       
     </div>
-
-    
-      
 
     
 
@@ -391,23 +289,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -443,6 +324,9 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <img src="/images/517519-20160321194706433-1906890709.png" alt="" />
 
 <img src="/images/517519-20160321194742792-1087355534.png" alt="" />
+
+<p>&nbsp;</p>
+<p><strong>使用PreparedStatement完成数据的增加和查询操作</strong></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Java%E6%95%B0%E6%8D%AE%E5%BA%93%E2%80%94%E2%80%94PreparedStatement%E6%8E%A5%E5%8F%A3.html#more">全文 &gt;&gt;</a>
@@ -468,23 +352,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -516,16 +383,31 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <p>使用SQL中的SELECT语句可以查询出数据库的全部结果，在JDBC的操作中数据库的所有查询记录将使用ResultSet进行接收，并使用ResultSet显示内容。</p>
-<img src="/images/517519-20160321174614136-221449233.png" alt="" />
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/Java%E6%95%B0%E6%8D%AE%E5%BA%93%E2%80%94%E2%80%94ResultSet%E6%8E%A5%E5%8F%A3.html#more">全文 &gt;&gt;</a>
-          </p>
-        
+        <!-- 目录 -->
 
+<div id="toc">
+  
+</div>
+
+        <p>使用SQL中的SELECT语句可以查询出数据库的全部结果，在JDBC的操作中数据库的所有查询记录将使用ResultSet进行接收，并使用ResultSet显示内容。</p>
+<img src="/images/517519-20160321174614136-221449233.png" alt>
+
+<p>&nbsp;</p>
+<p><strong>从user表中查询数据</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">import java.sql.*;</span><br><span class="line"></span><br><span class="line">public class MySQL_demo &#123;</span><br><span class="line">	//定义MySQL的数据库驱动程序</span><br><span class="line">	public static final String DBDRIVER = &quot;org.gjt.mm.mysql.Driver&quot;;</span><br><span class="line">	//定义MySQL数据库的连接地址</span><br><span class="line">	public static final String DBURL = &quot;jdbc:mysql://localhost:3306/mysql_demo&quot;;</span><br><span class="line">	//MySQL数据库的连接用户名</span><br><span class="line">	public static final String DBUSER = &quot;root&quot;;</span><br><span class="line">	//MySQL数据库的连接密码</span><br><span class="line">	public static final String DBPASS = &quot;123456&quot;;</span><br><span class="line">	</span><br><span class="line">	public static void main(String[] args) throws Exception &#123;</span><br><span class="line">		// TODO 自动生成的方法存根</span><br><span class="line">		</span><br><span class="line">		Connection conn = null;					//数据库连接</span><br><span class="line">		Statement stmt = null;					//数据库操作</span><br><span class="line">		</span><br><span class="line">		ResultSet rs = null;			//保存查询结果</span><br><span class="line">		String sql = &quot;SELECT id,name,password,age,sex,birthday FROM user&quot;;</span><br><span class="line">		Class.forName(DBDRIVER);			//加载驱动程序</span><br><span class="line">		//连接MySQL数据库时，要写上连接的用户名和密码</span><br><span class="line">		conn = DriverManager.getConnection(DBURL,DBUSER,DBPASS);</span><br><span class="line">		stmt = conn.createStatement();		//实例化Statement对象</span><br><span class="line">		rs = stmt.executeQuery(sql);			//实例化ResultSet对象</span><br><span class="line">		while(rs.next())&#123;</span><br><span class="line">//			int id = rs.getInt(&quot;id&quot;);</span><br><span class="line">//			String name = rs.getString(&quot;name&quot;);</span><br><span class="line">//			String pass = rs.getString(&quot;password&quot;);</span><br><span class="line">//			int age = rs.getInt(&quot;age&quot;);</span><br><span class="line">//			String sex = rs.getString(&quot;sex&quot;);</span><br><span class="line">//			Date d = rs.getDate(&quot;birthday&quot;);</span><br><span class="line">			int id = rs.getInt(1);</span><br><span class="line">			String name = rs.getString(2);</span><br><span class="line">			String pass = rs.getString(3);</span><br><span class="line">			int age = rs.getInt(4);</span><br><span class="line">			String sex = rs.getString(5);</span><br><span class="line">			Date d = rs.getDate(6);</span><br><span class="line">			System.out.println(&quot;编号：&quot;+id);</span><br><span class="line">			System.out.println(&quot;名字：&quot;+name);</span><br><span class="line">			System.out.println(&quot;密码：&quot;+pass);</span><br><span class="line">			System.out.println(&quot;年龄：&quot;+age);</span><br><span class="line">			System.out.println(&quot;性别：&quot;+sex);</span><br><span class="line">			System.out.println(&quot;生日：&quot;+d);</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		rs.close(); 												//关闭结果集</span><br><span class="line">		stmt.close(); 										//操作关闭</span><br><span class="line">		conn.close(); 										//数据库关闭</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/Java%E6%95%B0%E6%8D%AE%E5%BA%93%E2%80%94%E2%80%94ResultSet%E6%8E%A5%E5%8F%A3.html"></a>
+          </div>
+        </div>
       
     </div>
+
+    
+      
 
     
 
@@ -543,23 +425,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -593,6 +458,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p><strong>连接数据库</strong></p>
 <p><strong><img src="/images/517519-20160321152355401-1010128728.png" alt="" /></strong></p>
+<p>&nbsp;</p>
+<img src="/images/517519-20160321152417933-1448767738.png" alt="" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Java%E6%95%B0%E6%8D%AE%E5%BA%93%E2%80%94%E2%80%94%E8%BF%9E%E6%8E%A5%E5%85%B3%E9%97%AD%E3%80%81%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5.html#more">全文 &gt;&gt;</a>
@@ -618,23 +485,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -666,24 +516,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1-下载avro-tools-jar"><a href="#1-下载avro-tools-jar" class="headerlink" title="1.下载avro-tools.jar"></a>1.下载avro-tools.jar</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://archive.apache.org/dist/avro/avro-1.10.1/java/</span><br></pre></td></tr></table></figure>
-
-<p>avro-tools.jar常用命令：<a target="_blank" rel="noopener" href="https://garystafford.medium.com/previewing-apache-avro-files-in-amazon-s3-98f41e98f656">Working with Apache Avro files in Amazon S3</a>　　</p>
-<p>也可以查看help</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">java -jar ./avro-tools-1.10.1.jar help</span><br><span class="line">Version 1.10.1 of Apache Avro</span><br><span class="line">Copyright 2010-2015 The Apache Software Foundation</span><br><span class="line"></span><br><span class="line">This product includes software developed at</span><br><span class="line">The Apache Software Foundation (https://www.apache.org/).</span><br><span class="line">----------------</span><br><span class="line">Available tools:</span><br><span class="line">    canonical  Converts an Avro Schema to its canonical form</span><br><span class="line">          cat  Extracts samples from files</span><br><span class="line">      compile  Generates Java code for the given schema.</span><br><span class="line">       concat  Concatenates avro files without re-compressing.</span><br><span class="line">        count  Counts the records in avro files or folders</span><br><span class="line">  fingerprint  Returns the fingerprint for the schemas.</span><br><span class="line">   fragtojson  Renders a binary-encoded Avro datum as JSON.</span><br><span class="line">     fromjson  Reads JSON records and writes an Avro data file.</span><br><span class="line">     fromtext  Imports a text file into an avro data file.</span><br><span class="line">      getmeta  Prints out the metadata of an Avro data file.</span><br><span class="line">    getschema  Prints out schema of an Avro data file.</span><br><span class="line">          idl  Generates a JSON schema from an Avro IDL file</span><br><span class="line"> idl2schemata  Extract JSON schemata of the types from an Avro IDL file</span><br><span class="line">       induce  Induce schema/protocol from Java class/interface via reflection.</span><br><span class="line">   jsontofrag  Renders a JSON-encoded Avro datum as binary.</span><br><span class="line">       random  Creates a file with randomly generated instances of a schema.</span><br><span class="line">      recodec  Alters the codec of a data file.</span><br><span class="line">       repair  Recovers data from a corrupt Avro Data file</span><br><span class="line">  rpcprotocol  Output the protocol of a RPC service</span><br><span class="line">   rpcreceive  Opens an RPC Server and listens for one message.</span><br><span class="line">      rpcsend  Sends a single RPC message.</span><br><span class="line">       tether  Run a tethered mapreduce job.</span><br><span class="line">       tojson  Dumps an Avro data file as JSON, record per line or pretty.</span><br><span class="line">       totext  Converts an Avro data file to a text file.</span><br><span class="line">     totrevni  Converts an Avro data file to a Trevni file.</span><br><span class="line">  trevni_meta  Dumps a Trevni file&#x27;s metadata as JSON.</span><br><span class="line">trevni_random  Create a Trevni file filled with random instances of a schema.</span><br><span class="line">trevni_tojson  Dumps a Trevni file as JSON.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="2-查看avro文件的schema"><a href="#2-查看avro文件的schema" class="headerlink" title="2.查看avro文件的schema"></a><strong>2.查看avro文件的schema</strong></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">java -jar ./avro-tools-1.10.1.jar getschema ./xxxx.avro</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="3-查看avro文件内容的json格式"><a href="#3-查看avro文件内容的json格式" class="headerlink" title="3.查看avro文件内容的json格式"></a><strong>3.查看avro文件内容的json格式</strong></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">java -jar ./avro-tools-1.10.1.jar tojson ./nova_ads_access_log-0-0008589084.avro | less</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="4-使用avro-tools编译java代码"><a href="#4-使用avro-tools编译java代码" class="headerlink" title="4.使用avro-tools编译java代码"></a><strong>4.使用avro-tools编译java代码</strong></h2><p>编译avro IDL文件，参考</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://avro.apache.org/docs/current/gettingstartedjava.html</span><br><span class="line">https://yanbin.blog/convert-apache-avro-to-parquet-format-in-java/</span><br></pre></td></tr></table></figure>
-
-<p>定义schema文件kst.avsc</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;namespace&quot;: &quot;com.linkedin.haivvreo&quot;,</span><br><span class="line">  &quot;name&quot;: &quot;test_serializer&quot;,</span><br><span class="line">  &quot;type&quot;: &quot;record&quot;,</span><br><span class="line">  &quot;fields&quot;: [</span><br><span class="line">    &#123; &quot;name&quot;:&quot;string1&quot;, &quot;type&quot;:&quot;string&quot; &#125;,</span><br><span class="line">    &#123; &quot;name&quot;:&quot;int1&quot;, &quot;type&quot;:&quot;int&quot; &#125;,</span><br><span class="line">    &#123; &quot;name&quot;:&quot;tinyint1&quot;, &quot;type&quot;:&quot;int&quot; &#125;,</span><br><span class="line">    &#123; &quot;name&quot;:&quot;smallint1&quot;, &quot;type&quot;:&quot;int&quot; &#125;,</span><br><span class="line">    &#123; &quot;name&quot;:&quot;bigint1&quot;, &quot;type&quot;:&quot;long&quot; &#125;,</span><br><span class="line">    &#123; &quot;name&quot;:&quot;boolean1&quot;, &quot;type&quot;:&quot;boolean&quot; &#125;,</span><br><span class="line">    &#123; &quot;name&quot;:&quot;float1&quot;, &quot;type&quot;:&quot;float&quot; &#125;,</span><br><span class="line">    &#123; &quot;name&quot;:&quot;double1&quot;, &quot;type&quot;:&quot;double&quot; &#125;,</span><br><span class="line">    &#123; &quot;name&quot;:&quot;list1&quot;, &quot;type&quot;:&#123;&quot;type&quot;:&quot;array&quot;, &quot;items&quot;:&quot;string&quot;&#125; &#125;,</span><br><span class="line">    &#123; &quot;name&quot;:&quot;map1&quot;, &quot;type&quot;:&#123;&quot;type&quot;:&quot;map&quot;, &quot;values&quot;:&quot;int&quot;&#125; &#125;,</span><br><span class="line">    &#123; &quot;name&quot;:&quot;struct1&quot;, &quot;type&quot;:&#123;&quot;type&quot;:&quot;record&quot;, &quot;name&quot;:&quot;struct1_name&quot;, &quot;fields&quot;: [</span><br><span class="line">          &#123; &quot;name&quot;:&quot;sInt&quot;, &quot;type&quot;:&quot;int&quot; &#125;, &#123; &quot;name&quot;:&quot;sBoolean&quot;, &quot;type&quot;:&quot;boolean&quot; &#125;, &#123; &quot;name&quot;:&quot;sString&quot;, &quot;type&quot;:&quot;string&quot; &#125; ] &#125; &#125;,</span><br><span class="line">    &#123; &quot;name&quot;:&quot;union1&quot;, &quot;type&quot;:[&quot;float&quot;, &quot;boolean&quot;, &quot;string&quot;] &#125;,</span><br><span class="line">    &#123; &quot;name&quot;:&quot;enum1&quot;, &quot;type&quot;:&#123;&quot;type&quot;:&quot;enum&quot;, &quot;name&quot;:&quot;enum1_values&quot;, &quot;symbols&quot;:[&quot;BLUE&quot;,&quot;RED&quot;, &quot;GREEN&quot;]&#125; &#125;,</span><br><span class="line">    &#123; &quot;name&quot;:&quot;nullableint&quot;, &quot;type&quot;:[&quot;int&quot;, &quot;null&quot;] &#125;,</span><br><span class="line">    &#123; &quot;name&quot;:&quot;bytes1&quot;, &quot;type&quot;:&quot;bytes&quot; &#125;,</span><br><span class="line">    &#123; &quot;name&quot;:&quot;fixed1&quot;, &quot;type&quot;:&#123;&quot;type&quot;:&quot;fixed&quot;, &quot;name&quot;:&quot;threebytes&quot;, &quot;size&quot;:3&#125; &#125;</span><br><span class="line">  ] &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>编译avro IDL文件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">java -jar ./src/main/resources/avro-tools-1.10.1.jar compile schema ./src/main/avro/kst.avsc ./src/main/java</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        <h2 id="1-下载avro-tools-jar"><a href="#1-下载avro-tools-jar" class="headerlink" title="1.下载avro-tools.jar"></a>1.下载avro-tools.jar</h2>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Avro%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94avro-tools%E5%B7%A5%E5%85%B7.html#more">全文 &gt;&gt;</a>
@@ -709,23 +542,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -757,6 +573,12 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
+        <!-- 目录 -->
+
+<div id="toc">
+  
+</div>
+
         <p>进入impala shell，port为Impala Daemon Beeswax 端口</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">impala-shell -i ip:port -k</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
@@ -765,14 +587,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
 <p>退出</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">exit;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/Impala%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94impala%20shell.html#more">全文 &gt;&gt;</a>
-          </p>
-        
 
+<p>&nbsp;</p>
+
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/Impala%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94impala%20shell.html"></a>
+          </div>
+        </div>
       
     </div>
+
+    
+      
 
     
 
@@ -790,23 +617,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -838,25 +648,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1-安装mysql-server"><a href="#1-安装mysql-server" class="headerlink" title="1.安装mysql-server"></a><strong>1.安装mysql-server</strong></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install mysql-server mysql-client</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="2-重新启动mysql服务"><a href="#2-重新启动mysql服务" class="headerlink" title="2.重新启动mysql服务"></a><strong>2.重新启动mysql服务</strong></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo service mysql restart</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="3-让apache支持mysql"><a href="#3-让apache支持mysql" class="headerlink" title="3.让apache支持mysql"></a><strong><strong>3.让apache支持mysql</strong></strong></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libapache2-mod-auth-mysql</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong><strong><strong>16.04使用下面命令</strong></strong></strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libmysqlclient-dev</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="4-登录mysql"><a href="#4-登录mysql" class="headerlink" title="4.登录mysql"></a><strong><strong><strong>4.登录mysql</strong></strong></strong></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong><strong><strong>如果修改了<strong>配置文件<strong>my.cnf配置文件，</strong>需要重启数据库（修改方法在下面），重启数据库之前需要先重新载入apparmor配置文件，使用下面命令重新载入：</strong></strong></strong></strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo /etc/init.d/apparmor restart</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong><strong><strong>重新启动数据库</strong></strong></strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo /etc/init.d/mysql start</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="5-查看数据库的编码"><a href="#5-查看数据库的编码" class="headerlink" title="5.查看数据库的编码"></a><strong><strong><strong>5.查看数据库的编码</strong></strong></strong></h2><p>1.查看MySQL数据库服务器和数据库MySQL字符集。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SHOW VARIABLES LIKE &#x27;character_set_%&#x27;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        <h2 id="1-安装mysql-server"><a href="#1-安装mysql-server" class="headerlink" title="1.安装mysql-server"></a><strong>1.安装mysql-server</strong></h2>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Ubuntu%E4%B8%8B%E7%9A%84MySQL%E5%AE%89%E8%A3%85.html#more">全文 &gt;&gt;</a>
@@ -882,23 +674,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -933,6 +708,15 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p>J2SE 5.0提供了很多新的特征。其中一个很重要的特征就是对元数据(Metadata)的支持。在J2SE 5.0中，这种元数据称为注解(Annotation)。</p>
 <p>通过使用注解，程序开发人员可以在不改变原有逻辑的情况下，在源文件嵌入一些补充的信息。</p>
 <img src="/images/517519-20160320155033209-655249060.png" alt="" />
+
+<p>&nbsp;</p>
+<p><strong>系统内建的Annotation</strong></p>
+<p>在JDK1.5之后，系统已经建立了如下3个内建的Annotation类型，用户直接使用即可。</p>
+<img src="/images/517519-20160320160958240-1970967121.png" alt="" />
+
+<p>&nbsp;</p>
+<p><strong>@Override</strong></p>
+<p><strong><img src="/images/517519-20160320161622443-1889132700.png" alt="" /></strong></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E5%85%83%E6%B3%A8%E8%A7%A3(Annotation).html#more">全文 &gt;&gt;</a>
@@ -958,23 +742,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -1042,23 +809,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 

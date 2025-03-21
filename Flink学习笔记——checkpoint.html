@@ -5,15 +5,15 @@
   
   <title>Flink学习笔记——checkpoint | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.开启checkpoint默认情况下checkpoint是禁用的，需要手动进行开启，如下 12345678910StreamExecutionEnvironment env &#x3D; StreamExecutionEnvironment.getExecutionEnvironment();StreamTableEnvironment tableEnv &#x3D; StreamTableEnvironment.">
+  <meta name="description" content="1.开启checkpoint默认情况下checkpoint是禁用的，需要手动进行开启，如下">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Flink学习笔记——checkpoint">
 <meta property="og:url" content="http://tonglin0325.github.io/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94checkpoint.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="1.开启checkpoint默认情况下checkpoint是禁用的，需要手动进行开启，如下 12345678910StreamExecutionEnvironment env &#x3D; StreamExecutionEnvironment.getExecutionEnvironment();StreamTableEnvironment tableEnv &#x3D; StreamTableEnvironment.">
+<meta property="og:description" content="1.开启checkpoint默认情况下checkpoint是禁用的，需要手动进行开启，如下">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-05-17T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:24.002Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:09.327Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Flink">
 <meta name="twitter:card" content="summary">
@@ -209,6 +209,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </div>
 
         <h2 id="1-kai-qi-checkpoint"><a href="#1-开启checkpoint" class="headerlink" title="1.开启checkpoint"></a>1.开启checkpoint<a href="#1-kai-qi-checkpoint" class="header-anchor">#</a></h2><p>默认情况下checkpoint是禁用的，需要手动进行开启，如下</p>
+<span id="more"></span>
+
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();</span><br><span class="line">StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env);</span><br><span class="line">env.getCheckpointConfig().setCheckpointTimeout(3600000); // checkpoint1小时超时</span><br><span class="line">env.enableCheckpointing(180000, CheckpointingMode.EXACTLY_ONCE); // 3分钟做一次checkpoint</span><br><span class="line">env.getCheckpointConfig().setMaxConcurrentCheckpoints(1); // 同一时间只允许一个 checkpoint 进行</span><br><span class="line">env.getCheckpointConfig().setTolerableCheckpointFailureNumber(2); // 允许两个连续的 checkpoint 错误</span><br><span class="line">env.setStateBackend(new EmbeddedRocksDBStateBackend(true)); // 使用rocksdb state backend</span><br><span class="line">env.getCheckpointConfig().setCheckpointStorage(&quot;s3://xxxx/xxxx/test_checkpoint&quot;); // 指定gcheckpoint路径</span><br><span class="line">env.getCheckpointConfig().setExternalizedCheckpointCleanup(CheckpointConfig.ExternalizedCheckpointCleanup.RETAIN_ON_CANCELLATION); // 使用 externalized checkpoints，这样 checkpoint 在作业取消后仍就会被保留</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>其他配置参考官方文档</p>
@@ -220,7 +222,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <h2 id="3-checkpoint-xiang-guan-wen-ti"><a href="#3-checkpoint相关问题" class="headerlink" title="3.checkpoint相关问题"></a>3.checkpoint相关问题<a href="#3-checkpoint-xiang-guan-wen-ti" class="header-anchor">#</a></h2><p>做checkpoint很慢问题排查，参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1954930">2022年最新版 | Flink经典线上问题小盘点</a></p>
 <p>增量checkpoint，参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1853214">Flink 管理大型状态之增量 Checkpoint</a></p>
 <p>大状态与 Checkpoint 调优，参考：<a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-master/zh/docs/ops/state/large_state_tuning/">大状态与 Checkpoint 调优</a></p>
-<span id="more"></span>
 <p>&nbsp;</p>
 <h2 id="4-checkpoint-yuan-li"><a href="#4-checkpoint原理" class="headerlink" title="4.checkpoint原理"></a><strong>4.checkpoint原理</strong><a href="#4-checkpoint-yuan-li" class="header-anchor">#</a></h2><p>Checkpoint 由 CheckpointCoordinator 发起、确认，通过Rpc 通知 Taskmanager 的具体算子完成 Checkpoint 操作，参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/Springmoon-venn/p/13565208.html">Flink Checkpoint 流程</a>，具体步骤如下</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">1、CheckpointCoordicator tirgger checkpoint 到 source</span><br><span class="line">2、Source</span><br><span class="line">　　1、生成并广播 CheckpointBarrier	</span><br><span class="line">　　2、Snapshot state（完成后 ack Checkpoint 到 CheckpointCoordicator）</span><br><span class="line">3、Map	</span><br><span class="line">　　1、接收到 CheckpointBarrier	</span><br><span class="line">　　2、广播 CheckpointBarrier	</span><br><span class="line">　　3、Snapshot state（完成后 ack Checkpoint 到 CheckpointCoordicator）</span><br><span class="line">4、Sink	</span><br><span class="line">　　1、接收到 CheckpointBarrier	</span><br><span class="line">　　2、Snapshot state（完成后 ack Checkpoint 到 CheckpointCoordicator）</span><br><span class="line">5、CheckpointCoordicator 接收到 所有 ack	</span><br><span class="line">　　1、给所有算子发 notifyCheckpointComplete</span><br><span class="line">6、Source、Map、Sink 收到 notifyCheckpointComplete</span><br><span class="line"></span><br></pre></td></tr></table></figure>

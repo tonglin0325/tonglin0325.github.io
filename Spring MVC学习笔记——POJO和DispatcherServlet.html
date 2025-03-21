@@ -16,7 +16,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20160507230121500-1325508727.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20160507230215359-2121756476.png">
 <meta property="article:published_time" content="2016-05-14T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:24.021Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:09.351Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="SpringMVC">
 <meta name="twitter:card" content="summary">
@@ -213,7 +213,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </div>
 
         <p>使用P<strong>OJO</strong>名称是为了避免和**<a target="_blank" rel="noopener" href="http://baike.baidu.com/view/3542.htm">EJB(Enterprise </a><a target="_blank" rel="noopener" href="http://baike.baidu.com/view/28155.htm">JavaBean</a><a target="_blank" rel="noopener" href="http://baike.baidu.com/view/3542.htm">)</a><strong>混淆起来, 而且简称比较直接. 其中有</strong>一些属性<strong>及其</strong>getter setter方法的类**,<strong>没有业务逻辑</strong>，有时可以作为<a target="_blank" rel="noopener" href="http://baike.baidu.com/view/1097386.htm">VO</a>(value -object)或<a target="_blank" rel="noopener" href="http://baike.baidu.com/view/160599.htm">dto</a>(Data Transform Object)来使用.当然,如果你有一个简单的运算属性也是可以的,但不允许有业务方法,也<strong>不能携带有connection之类的方法</strong></p>
-<span id="more"></span>
 <p>&nbsp;</p>
 <h2 id="pojo-yu-javabean-de-qu-bie"><a href="#POJO与javabean的区别" class="headerlink" title="POJO与javabean的区别"></a>POJO与javabean的区别<a href="#pojo-yu-javabean-de-qu-bie" class="header-anchor">#</a></h2><h2 id="dispatcherservlet-zuo-yong"><a href="#DispatcherServlet作用" class="headerlink" title="DispatcherServlet作用"></a>DispatcherServlet作用<a href="#dispatcherservlet-zuo-yong" class="header-anchor">#</a></h2><p>DispatcherServlet是前端控制器设计模式的实现,提供Spring Web MVC的集中访问点,而且负责职责的分派,而且与Spring IoC容器无缝集成,从而可以获得Spring的所有好处。</p>
 <p><strong>在web.xnl文件中配置DispatchServlet</strong></p>
@@ -221,6 +220,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p><strong>DispatcherServlet主要用作职责调度工作,本身主要用于控制流程,主要职责如下：</strong></p>
 <p>**　　1、文件上传解析,如果请求类型是multipart将通过MultipartResolver进行文件上传解析;<br>　　2、通过HandlerMapping,将请求映射到处理器(返回一个 HandlerExecutionChain ,它包括一个处理器、多个HandlerInterceptor拦截器);<br>　　3、通过HandlerAdapter支持多种类型的处理器( HandlerExecutionChain中的处理器);**</p>
 <p>**　　4、通过ViewResolver解析逻辑视图名到具体视图实现;<br>　　5、本地化解析;<br>　　6、渲染具体的视图等;<br>　　7、如果执行过程中遇到异常将交给HandlerExceptionResolver来解析。**</p>
+<span id="more"></span>
+
 <p>&nbsp;</p>
 <h2 id="shang-xia-wen-guan-xi-ye-shi-zai-web-xml-zhong-pei-zhi"><a href="#上下文关系，也是在web-xml中配置" class="headerlink" title="上下文关系，也是在web.xml中配置"></a>上下文关系，也是在web.xml中配置<a href="#shang-xia-wen-guan-xi-ye-shi-zai-web-xml-zhong-pei-zhi" class="header-anchor">#</a></h2><p>集成Web环境的通用配置:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- Spring集成WEB环境的通用配置，一般用于加载除Web层的Bean(如DAO、Service等),以便于与其他任何Web框架集成 --&gt;</span><br><span class="line">&lt;!-- Spring 的监听器可以通过这个上下文参数来获取beans.xml的位置 --&gt;</span><br><span class="line">&lt;context-param&gt;</span><br><span class="line">	&lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;</span><br><span class="line">	&lt;param-value&gt;</span><br><span class="line">		classpath:beans.xml</span><br><span class="line">	&lt;/param-value&gt;</span><br><span class="line">&lt;/context-param&gt;</span><br><span class="line">&lt;!-- 创建Spring的监听器 --&gt;</span><br><span class="line">&lt;listener&gt;</span><br><span class="line">	&lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;</span><br><span class="line">&lt;/listener&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>

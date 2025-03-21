@@ -5,18 +5,18 @@
   
   <title>MySQL学习笔记——基本语法 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="SQL&amp;mdash;&amp;mdash;结构化查询语言（Structured Query Language） 1. 字符集和大小写SQL语言不区分大小写，建议关键字用大写，但是字符串常量区分大小写 字符集 123456789character_set_client：服务器将系统变量character_set_client作为客户端发送语句时使用的字符集。character_set_connection：">
+  <meta name="description" content="SQL&amp;mdash;&amp;mdash;结构化查询语言（Structured Query Language） 1. 字符集和大小写SQL语言不区分大小写，建议关键字用大写，但是字符串常量区分大小写 字符集">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL学习笔记——基本语法">
 <meta property="og:url" content="http://tonglin0325.github.io/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="SQL&amp;mdash;&amp;mdash;结构化查询语言（Structured Query Language） 1. 字符集和大小写SQL语言不区分大小写，建议关键字用大写，但是字符串常量区分大小写 字符集 123456789character_set_client：服务器将系统变量character_set_client作为客户端发送语句时使用的字符集。character_set_connection：">
+<meta property="og:description" content="SQL&amp;mdash;&amp;mdash;结构化查询语言（Structured Query Language） 1. 字符集和大小写SQL语言不区分大小写，建议关键字用大写，但是字符串常量区分大小写 字符集">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20160321095115995-1235227035.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20160321095133261-1419919399.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230302160723730-125737714.png">
 <meta property="article:published_time" content="2015-07-13T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:28.221Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:11.998Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary">
@@ -216,6 +216,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p>SQL&mdash;&mdash;结构化查询语言（Structured Query Language）</p>
 <h2 id="1-zi-fu-ji-he-da-xiao-xie"><a href="#1-字符集和大小写" class="headerlink" title="1. 字符集和大小写"></a><strong>1. 字符集和<strong>大小写</strong><br></strong><a href="#1-zi-fu-ji-he-da-xiao-xie" class="header-anchor">#</a></h2><p><strong>SQL语言不区分大小写，建议关键字用大写，但是字符串常量区分大小写</strong></p>
 <p><strong>字符集</strong></p>
+<span id="more"></span>
+
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">character_set_client：服务器将系统变量character_set_client作为客户端发送语句时使用的字符集。</span><br><span class="line">character_set_connection：用于没有字符集介绍器指定的字面量和用于数字到字符串转换的字符集。</span><br><span class="line">character_set_database：默认数据库使用的字符集。每当默认数据库更改时，服务器都会设置此变量。</span><br><span class="line">character_set_filesystem：文件系统字符集。</span><br><span class="line">character_set_results：用于向客户端返回查询结果的字符集。这包括结果数据(如列值)、结果元数据(如列名)和错误消息。</span><br><span class="line">character_set_server：服务器的默认字符集。如果你设置了这个变量，你还应该设置collation_server来指定字符集的排序规则。</span><br><span class="line">character_set_system：服务器用于存储标识符的字符集。</span><br><span class="line">character_sets_dir：安装字符集的目录。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>MySQL5.7的默认字符集character和排序字符集collation</p>
@@ -249,7 +251,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
 <h2 id="2-database"><a href="#2-Database" class="headerlink" title="2. Database"></a><strong>2. Database</strong><a href="#2-database" class="header-anchor">#</a></h2><h3 id="1-lie-chu-mysql-fu-wu-qi-zhu-ji-shang-de-shu-ju-ku"><a href="#1-列出MySQL服务器主机上的数据库" class="headerlink" title="1.列出MySQL服务器主机上的数据库"></a>1.列出MySQL服务器主机上的数据库<a href="#1-lie-chu-mysql-fu-wu-qi-zhu-ji-shang-de-shu-ju-ku" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SHOW DATABASES[LIKE wild];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h3 id="2-yong-gei-ding-de-ming-zi-chuang-jian-yi-ge-shu-ju-ku"><a href="#2-用给定的名字创建一个数据库" class="headerlink" title="2. 用给定的名字创建一个数据库"></a>2. 用给定的名字创建一个数据库<a href="#2-yong-gei-ding-de-ming-zi-chuang-jian-yi-ge-shu-ju-ku" class="header-anchor">#</a></h3><p>语法：CREATE DATABASE[IF NO EXISTS]<span id="more"></span><br>&nbsp;数据库名字　　创建之后要刷新才能在列表中看见新建立的数据库</p>
+<h3 id="2-yong-gei-ding-de-ming-zi-chuang-jian-yi-ge-shu-ju-ku"><a href="#2-用给定的名字创建一个数据库" class="headerlink" title="2. 用给定的名字创建一个数据库"></a>2. 用给定的名字创建一个数据库<a href="#2-yong-gei-ding-de-ming-zi-chuang-jian-yi-ge-shu-ju-ku" class="header-anchor">#</a></h3><p>语法：CREATE DATABASE[IF NO EXISTS]&nbsp;数据库名字　　创建之后要刷新才能在列表中看见新建立的数据库</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">create database spring_user default character set utf8 collate utf8_general_ci;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h3 id="3-nbsp-shan-chu-shu-ju-ku-zhong-de-suo-you-biao-he-shu-ju"><a href="#3-nbsp-删除数据库中的所有表和数据" class="headerlink" title="3.&nbsp;删除数据库中的所有表和数据"></a>3.&nbsp;删除数据库中的所有表和数据<a href="#3-nbsp-shan-chu-shu-ju-ku-zhong-de-suo-you-biao-he-shu-ju" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DROP DATABASE[IF NO EXISTS] 数据库名字</span><br><span class="line"></span><br></pre></td></tr></table></figure>

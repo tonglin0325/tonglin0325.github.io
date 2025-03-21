@@ -200,74 +200,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>gin是一款轻量级的go web开发框架，官方文档</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://gin-gonic.com/docs/examples/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="1-gin-web项目结构"><a href="#1-gin-web项目结构" class="headerlink" title="1.gin web项目结构"></a>1.gin web项目结构</h2><p>参考</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/voyagegroup/gin-boilerplate</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>gin+protobuf wire参考</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/mohuishou/blog-code/tree/main/01-go-training/04-project/10-layout</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="2-gin-web-quick-start"><a href="#2-gin-web-quick-start" class="headerlink" title="2.gin web quick start"></a>2.gin web quick start</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://gin-gonic.com/docs/quickstart/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>在官方文档中提供了2个quick start的demo，一个稍微复杂，一个比较简单</p>
-<p>简单的例子如下，创建一个/ping接口，返回pong</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;github.com/gin-gonic/gin&quot;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	r := gin.Default()</span><br><span class="line">	r.GET(&quot;/ping&quot;, func(c *gin.Context) &#123;</span><br><span class="line">		c.JSON(200, gin.H&#123;</span><br><span class="line">			&quot;message&quot;: &quot;pong&quot;,</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;)</span><br><span class="line">	r.Run() // listen and serve on 0.0.0.0:8080</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="3-路由分组"><a href="#3-路由分组" class="headerlink" title="3.路由分组"></a>3.路由分组</h2><p>如果gin项目的接口比较多的话，可以使用路由分组</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://gin-gonic.com/docs/examples/grouping-routes/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7220329768108146743">【Go】基于 Gin 从0到1搭建 Web 管理后台系统后端服务（三）路由、自定义校验器和 Redis</a></p>
-<h2 id="4-数据绑定"><a href="#4-数据绑定" class="headerlink" title="4.数据绑定"></a>4.数据绑定</h2><p>将请求的参数传递给接口中的变量，需要使用gin的数据绑定</p>
-<p>如果是path parameter</p>
-<p>使用c.Param(“name”)</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://gin-gonic.com/docs/examples/param-in-path/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>使用c.ShouldBindUri(&amp;person)</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://gin-gonic.com/docs/examples/bind-uri/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果是query parameter或者post请求的form-data</p>
-<p>使用c.ShouldBind(&amp;user)</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://gin-gonic.com/docs/examples/bind-query-or-post/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="5-统一的response"><a href="#5-统一的response" class="headerlink" title="5.统一的response"></a>5.统一的response</h2><p>可以如下定义统一的接口response，其中的interface{}类似java中的泛型T</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">type ControllerResponse struct &#123;</span><br><span class="line">	Code int</span><br><span class="line">	Msg  string</span><br><span class="line">	Data interface&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func Response(ctx *gin.Context, code int, msg string, data interface&#123;&#125;) &#123;</span><br><span class="line">	resp := ControllerResponse&#123;Code: code, Msg: msg, Data: data&#125;</span><br><span class="line">	ctx.JSON(code, resp)</span><br><span class="line">	ctx.Abort()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func Success(ctx *gin.Context, msg string, data interface&#123;&#125;) &#123;</span><br><span class="line">	Response(ctx, 200, msg, data)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func Fail(ctx *gin.Context, msg string, data interface&#123;&#125;) &#123;</span><br><span class="line">	Response(ctx, 500, msg, data)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43881017/article/details/112471847">go语言web开发系列之十五:gin框架统一定义API错误码</a></p>
-<h2 id="6-Gin的middleware中间件"><a href="#6-Gin的middleware中间件" class="headerlink" title="6.Gin的middleware中间件"></a>6.Gin的middleware中间件</h2><h3 id="1-使用middleware"><a href="#1-使用middleware" class="headerlink" title="1.使用middleware"></a>1.使用middleware</h3><p>gin的middleware需要实现<strong>gin.HandlerFunc</strong>，可以用其来实现诸如jwt，auth等功能，参考</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/gin-gonic/contrib/blob/master/jwt/jwt.go">https://github.com/gin-gonic/contrib/blob/master/jwt/jwt.go</a></p>
-<p><a target="_blank" rel="noopener" href="https://gin-gonic.com/zh-cn/docs/examples/using-middleware/">https://gin-gonic.com/zh-cn/docs/examples/using-middleware/</a></p>
-<p>下面定义了3个middleware</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">// MiddleWare1 定义中间件1</span><br><span class="line">func MiddleWare1() gin.HandlerFunc &#123;</span><br><span class="line">	return func(c *gin.Context) &#123;</span><br><span class="line">		fmt.Println(&quot;前 m1&quot;)</span><br><span class="line">		c.Next()</span><br><span class="line">		fmt.Println(&quot;后 m1&quot;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// MiddleWare2 定义中间件2</span><br><span class="line">func MiddleWare2() gin.HandlerFunc &#123;</span><br><span class="line">	return func(c *gin.Context) &#123;</span><br><span class="line">		fmt.Println(&quot;前 m2&quot;)</span><br><span class="line">		c.Next()</span><br><span class="line">		fmt.Println(&quot;后 m2&quot;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// MiddleWare3 定义中间件3</span><br><span class="line">func MiddleWare3() gin.HandlerFunc &#123;</span><br><span class="line">	return func(c *gin.Context) &#123;</span><br><span class="line">		fmt.Println(&quot;前 m3&quot;)</span><br><span class="line">		c.Next()</span><br><span class="line">		fmt.Println(&quot;后 m3&quot;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>在gin中添加middleware</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">func main() &#123;</span><br><span class="line">   // 创建路由</span><br><span class="line">   engine := gin.Default()</span><br><span class="line"></span><br><span class="line">   // 注册中间件</span><br><span class="line">   engine.Use(MiddleWare1(), MiddleWare2(), MiddleWare3())</span><br><span class="line"></span><br><span class="line">   // 路由规则</span><br><span class="line">   engine.GET(&quot;/ping&quot;, func(c *gin.Context) &#123;</span><br><span class="line">      fmt.Println(&quot;hello world&quot;)</span><br><span class="line">      c.JSON(200, gin.H&#123;&quot;msg&quot;: &quot;pong&quot;&#125;)</span><br><span class="line">   &#125;)</span><br><span class="line">   err:=engine.Run(&quot;:3000&quot;)</span><br><span class="line">   if err != nil &#123;</span><br><span class="line">      fmt.Println(err)</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>输出如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">前 m1</span><br><span class="line">前 m2</span><br><span class="line">前 m3</span><br><span class="line">hello world</span><br><span class="line">后 m3</span><br><span class="line">后 m2</span><br><span class="line">后 m1</span><br><span class="line">[GIN] 2023/12/25 - 00:06:11 | 200 |      35.726&amp;micro;s |       127.0.0.1 | GET      &quot;/ping&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>接口返回pong</p>
-<h3 id="2-Next-和Abort"><a href="#2-Next-和Abort" class="headerlink" title="2.Next()和Abort()"></a>2.Next()和Abort()</h3><p>Next()之前的代码会在执行HandlerFunc之前执行，之后的代码会在执行HandlerFunc之后执行</p>
-<p>如果将middleware2中的c.Next()修改成c.Abort()</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// MiddleWare2 定义中间件2</span><br><span class="line">func MiddleWare2() gin.HandlerFunc &#123;</span><br><span class="line">	return func(c *gin.Context) &#123;</span><br><span class="line">		fmt.Println(&quot;前 m2&quot;)</span><br><span class="line">		c.Abort()</span><br><span class="line">		fmt.Println(&quot;后 m2&quot;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>则输出将会如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">前 m1</span><br><span class="line">前 m2</span><br><span class="line">后 m2</span><br><span class="line">后 m1</span><br><span class="line">[GIN] 2023/12/25 - 00:11:05 | 200 |      16.262&amp;micro;s |       127.0.0.1 | GET      &quot;/ping&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>接口无返回</p>
-<p>可以Abort()不会阻止当前middleware的执行，但是会中止下游middleware以及HandlerFunc的执行</p>
-<p>参考：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7134929302822322207">[Go Package] gin 中间件流程控制:c.Next() / c.Abort（）</a></p>
-<h3 id="3-全局中间件和局部中间件"><a href="#3-全局中间件和局部中间件" class="headerlink" title="3.全局中间件和局部中间件"></a>3.全局中间件和局部中间件</h3><h4 id="1-白名单"><a href="#1-白名单" class="headerlink" title="1.白名单"></a>1.白名单</h4><p>上面给出的例子中，middleware将对全部的请求生效，这里可以通过指定白名单的方法来使其只对部分请求生效</p>
-<h4 id="2-局部中间件"><a href="#2-局部中间件" class="headerlink" title="2.局部中间件"></a>2.局部中间件</h4><p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_34556414/article/details/129922392">Golang Gin 局部、全局 中间件使用</a></p>
-<h2 id="7-在Gin中使用http-handler中间件"><a href="#7-在Gin中使用http-handler中间件" class="headerlink" title="7.在Gin中使用http handler中间件"></a>7.在Gin中使用http handler中间件</h2><p>除了使用gin的middleware来实现中间件之外，也可以使用Go的标准库的net/http包来初始http请求</p>
-<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/guyan0319/article/details/89183816">GO中间件(Middleware)</a></p>
-<p>在gin中使用的话，需要将http.Handler转换成gin.HanlderFunc</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// MiddleWare4 定义中间件4</span><br><span class="line">func MiddleWare4(next http.Handler) http.Handler &#123;</span><br><span class="line">	return http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) &#123;</span><br><span class="line">		fmt.Println(&quot;前 m4&quot;)</span><br><span class="line">		next.ServeHTTP(writer, request)</span><br><span class="line">		fmt.Println(&quot;后 m4&quot;)</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 将 http.Handler 包装成 Gin 中间件的函数</span><br><span class="line">func WrapHandler(handler http.Handler) gin.HandlerFunc &#123;</span><br><span class="line">	return func(c *gin.Context) &#123;</span><br><span class="line">		handler.ServeHTTP(c.Writer, c.Request)</span><br><span class="line">		c.Next()</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>在router中添加middleware，注意需要将middleware写在局部路由的前面才能生效</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">wrappedMiddleware := middleware.WrapHandler(middleware.MiddleWare4(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">	// 空的 http.HandlerFunc，只为了包装中间件</span><br><span class="line">&#125;)))</span><br><span class="line">r.Use(wrappedMiddleware, middleware.MiddleWare1(), middleware.MiddleWare2())</span><br><span class="line"></span><br><span class="line">// Ping test</span><br><span class="line">r.GET(&quot;/ping&quot;, func(c *gin.Context) &#123;</span><br><span class="line">	c.String(http.StatusOK, &quot;pong&quot;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://github.com/go-kratos/examples/blob/main/http/middlewares/middlewares.go">https://github.com/go-kratos/examples/blob/main/http/middlewares/middlewares.go</a> </p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94gin%E6%A1%86%E6%9E%B6.html#more">全文 &gt;&gt;</a>
@@ -293,23 +225,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -342,80 +257,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>官方文档</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://go-kratos.dev/en/docs/getting-started/start/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="1-安装Go"><a href="#1-安装Go" class="headerlink" title="1.安装Go"></a>1.安装Go</h2><p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/tonglin0325/p/5524764.html">mac安装go1.20</a></p>
-<h2 id="2-安装Kratos框架"><a href="#2-安装Kratos框架" class="headerlink" title="2.安装Kratos框架"></a>2.安装Kratos框架</h2><p>kratos依赖protobuf grpc等框架，需要先进行安装</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">brew install grpc</span><br><span class="line">brew install protobuf</span><br><span class="line">brew install protoc-gen-go</span><br><span class="line">brew install protoc-gen-go-grpc</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>验证</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">protoc --version</span><br><span class="line">libprotoc 3.21.9</span><br><span class="line"></span><br><span class="line">protoc-gen-go --version</span><br><span class="line">protoc-gen-go v1.28.1</span><br><span class="line"></span><br><span class="line">protoc-gen-go-grpc --version</span><br><span class="line">protoc-gen-go-grpc 1.2.0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>安装kratos框架</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go install github.com/go-kratos/kratos/cmd/kratos/v2@latest</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>验证</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kratos --version</span><br><span class="line">kratos version v2.7.2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果安装的latest的kratos版本过高，想要安装低版本的kratos，通过把latest改成@v2.7.2是不行的，会报</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go: github.com/go-kratos/kratos/cmd/kratos/v2@v2.7.2: github.com/go-kratos/kratos/cmd/kratos/v2@v2.7.2: invalid version: unknown revision cmd/kratos/v2.7.2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>需要通过源码才能安装旧版本的kratos</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github.com:go-kratos/kratos.git</span><br><span class="line">cd kratos</span><br><span class="line">git checkout v2.7.2</span><br><span class="line">cd cmd/kratos</span><br><span class="line">go install</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="3-创建项目"><a href="#3-创建项目" class="headerlink" title="3.创建项目"></a>3.创建项目</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 创建项目</span><br><span class="line">kratos new helloworld</span><br><span class="line"># 也可以指定仓库</span><br><span class="line">kratos new helloworld -r https://gitee.com/go-kratos/kratos-layout.git</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>编译项目</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">cd helloworld</span><br><span class="line"></span><br><span class="line"># 安装依赖</span><br><span class="line">make init</span><br><span class="line"></span><br><span class="line"># 生成wire依赖注入</span><br><span class="line">go generate ./...</span><br><span class="line"># 或者使用make</span><br><span class="line">make generate</span><br><span class="line"></span><br><span class="line"># 生成bin执行文件</span><br><span class="line">go build -o ./bin/ ./...</span><br><span class="line"># 或者使用make</span><br><span class="line">make build</span><br><span class="line"></span><br><span class="line"># 运行</span><br><span class="line">./bin/helloworld -conf ./configs</span><br><span class="line">或者</span><br><span class="line">kratos run</span><br><span class="line"></span><br><span class="line"># 测试</span><br><span class="line">curl &#x27;http://127.0.0.1:8000/helloworld/kratos&#x27;</span><br><span class="line">&#123;&quot;message&quot;:&quot;Hello kratos&quot;&#125;%</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>项目结构</p>
-<img src="/images/517519-20240114110648722-2006585277.png" width="300" height="569" />
-
-<p>Kratos项目如果想要使用<strong>debug模式</strong>来运行</p>
-<p>需要将run kind从File修改成Directory，并指定Directory为main.go和wire_gen.go所在的目录，否则会报</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># command-line-arguments</span><br><span class="line">./main.go:77:23: undefined: wireApp</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>同时还需要额外指定conf文件的路径，否则会报</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">panic: stat ../../configs: no such file or directory</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>配置如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-conf ./configs/config.yaml</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>其中config.yaml的路径是相对于Working directory的，如果有多个config文件，也可以写文件夹，比如</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-conf ./configs</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<img src="/images/517519-20240114150451846-1493406162.png" width="700" height="469" />
-
-<p>或者修改成package，指定成package path</p>
-<img src="/images/517519-20240124213410086-1169458254.png" width="700" height="481" />
-
-<p>debug成功</p>
-<img src="/images/517519-20240114151508054-414842422.png" width="700" height="392" />
-
-<p>如果想要添加额外的API，需要先添加proto文件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kratos proto add api/helloworld/demo.proto</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<img src="/images/517519-20240114113025510-266443633.png" width="700" height="430" />
-
-<p>编译proto文件生成model和grpc代码</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kratos proto client api/helloworld/demo/demo.proto</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>或者使用make命令</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">make api</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>注意make api命令无法生成validate验证代码，需要额外使用make validate命令，但是kratos proto client命令是可以的</p>
-<p>参考：<a target="_blank" rel="noopener" href="https://go-kratos.dev/docs/component/middleware/validate/">https://go-kratos.dev/docs/component/middleware/validate/</a></p>
-<img src="/images/517519-20240114113514912-1396594130.png" width="300" height="162" />
-
-<p>生成service模板代码</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kratos proto server api/helloworld/demo/demo.proto -t internal/service</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<img src="/images/517519-20240114114153099-1701711080.png" width="800" height="260" />
-
-<p>参考文档：<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000043858476">从0到1安装启动Kratos框架</a> 和 <a target="_blank" rel="noopener" href="https://go-kratos.dev/en/docs/getting-started/usage">https://go-kratos.dev/en/docs/getting-started/usage</a></p>
-<h2 id="4-Example项目"><a href="#4-Example项目" class="headerlink" title="4.Example项目"></a>4.Example项目</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/go-kratos/examples</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="5-Middleware"><a href="#5-Middleware" class="headerlink" title="5.Middleware"></a>5.Middleware</h2><p>区别于gin的middleware实现的是<strong>gin.HandlerFunc</strong>以及在gin中基于<strong>http.Handler</strong>的实现，参考：
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Kratos%E6%A1%86%E6%9E%B6.html#more">全文 &gt;&gt;</a>
@@ -441,23 +282,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -491,29 +315,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>对于标称型数据，在特征处理的时候，需要对其进行编码</p>
 <p>在编码之前，如果训练集和测试集是分开的，则需要对其进行合并，避免标称数据丢失</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 合并</span><br><span class="line">df = train.append(test).reset_index()</span><br><span class="line"># 列名</span><br><span class="line">original_columns = list(df.columns)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>常用的编码方式如下</p>
-<h2 id="1-Label编码"><a href="#1-Label编码" class="headerlink" title="1.Label编码"></a>1.Label编码</h2><p>对于一个有m个category的特征，经过label encoding以后，每个category会映射到0到m-1之间的一个数。label encoding适用于ordinal feature （特征存在内在顺序）。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">from sklearn import preprocessing</span><br><span class="line"></span><br><span class="line">for col in original_columns:</span><br><span class="line">    enc = preprocessing.LabelEncoder()</span><br><span class="line">    enc.fit(np.concatenate([train[col], test[col]]))</span><br><span class="line">    train[col] = enc.transform(train[col])</span><br><span class="line">    test[col] = enc.transform(test[col])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>或者</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">train_data = train_data.replace(&#123;&#x27;BsmtQual&#x27;: &#123;&#x27;Ex&#x27;: 5, &#x27;Gd&#x27;: 4, &#x27;TA&#x27;: 3, &#x27;Fa&#x27;: 2, &#x27;Po&#x27;: 1, np.NaN: 0&#125;&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="2-顺序编码"><a href="#2-顺序编码" class="headerlink" title="2.顺序编码"></a>2.顺序编码</h2><p>类似于Label编码</p>
-<p>参考：<a target="_blank" rel="noopener" href="https://wutaoblog.com.cn/2021/08/20/data_preprocess/">数据转化</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">from sklearn import preprocessing</span><br><span class="line"></span><br><span class="line">enc = preprocessing.OrdinalEncoder()</span><br><span class="line">X = [[&#x27;male&#x27;, &#x27;from US&#x27;, &#x27;uses Safari&#x27;], [&#x27;female&#x27;, &#x27;from Europe&#x27;, &#x27;uses Firefox&#x27;]]</span><br><span class="line">enc.fit(X)</span><br><span class="line">&gt;&gt; OrdinalEncoder()</span><br><span class="line"></span><br><span class="line">enc.transform([[&#x27;female&#x27;, &#x27;from US&#x27;, &#x27;uses Safari&#x27;]])</span><br><span class="line">&gt;&gt; array([[0., 1., 1.]])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="3-one-hot编码"><a href="#3-one-hot编码" class="headerlink" title="3.one-hot编码"></a>3.one-hot编码</h2><p>对于一个有m个category的特征，经过独热编码（OHE）处理后，会变为m个二元特征，每个特征对应于一个category。这m个二元特征互斥，每次只有一个激活。</p>
-<p>独热编码解决了原始特征缺少内在顺序的问题，但是缺点是对于high-cardinality categorical feature (category数量很多)，编码之后特征空间过大（此处可以考虑PCA降维），而且由于one-hot feature 比较unbalanced，树模型里每次的切分增益较小，树模型通常需要grow very deep才能得到不错的精度。因此OHE一般用于category数量 &lt;4的情况。</p>
-<p>参考：<a target="_blank" rel="noopener" href="https://xie.infoq.cn/article/1a72c74d073a807c4a738284f">机器学习 | 数据缩放与转换方法（1）</a> 和 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/40231966">kaggle编码categorical feature总结</a></p>
-<p>使用sklearn来one-hot编码</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">from sklearn import preprocessing</span><br><span class="line"></span><br><span class="line">enc = preprocessing.OneHotEncoder()</span><br><span class="line"># enc = preprocessing.OneHotEncoder(handle_unknown=&#x27;ignore&#x27;) # 当 handle_unknown=&#x27;ignore&#x27; 被指定而在转换的过程中碰到了未知的枚举特征值，不会产生任何错误，但是该特征的 one-hot 编码列将会被全部置 0</span><br><span class="line"></span><br><span class="line">X = [[&#x27;male&#x27;, &#x27;from US&#x27;, &#x27;uses Safari&#x27;], [&#x27;female&#x27;, &#x27;from Europe&#x27;, &#x27;uses Firefox&#x27;]]</span><br><span class="line">enc.fit(X) </span><br><span class="line">&gt;&gt; OneHotEncoder() </span><br><span class="line"></span><br><span class="line">enc.transform([[&#x27;female&#x27;, &#x27;from US&#x27;, &#x27;uses Safari&#x27;], [&#x27;male&#x27;, &#x27;from Europe&#x27;, &#x27;uses Safari&#x27;]]).toarray() </span><br><span class="line">&gt;&gt; array([[1., 0., 0., 1., 0., 1.], [0., 1., 1., 0., 0., 1.]]) </span><br><span class="line"></span><br><span class="line"># 查看每个特征的特征值 </span><br><span class="line">enc.categories_ </span><br><span class="line">&gt;&gt; [array([&#x27;female&#x27;, &#x27;male&#x27;], dtype=object), array([&#x27;from Europe&#x27;, &#x27;from US&#x27;], dtype=object), array([&#x27;uses Firefox&#x27;, &#x27;uses Safari&#x27;], dtype=object)]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>使用pandas来one-hot编码</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">import pandas as pd</span><br><span class="line"></span><br><span class="line">X = [[&#x27;male&#x27;, &#x27;from US&#x27;, &#x27;uses Safari&#x27;], [&#x27;female&#x27;, &#x27;from Europe&#x27;, &#x27;uses Firefox&#x27;]]</span><br><span class="line">df = pd.DataFrame(X, columns=[&#x27;sex&#x27;,&#x27;country&#x27;,&#x27;browser&#x27;])</span><br><span class="line"># columns是需要编码的列名</span><br><span class="line">df = pd.get_dummies(df, columns=[&#x27;sex&#x27;,&#x27;country&#x27;], dummy_na = True)</span><br><span class="line">print(df)</span><br><span class="line"></span><br><span class="line">        browser  sex_female  sex_male  sex_nan  country_from Europe  country_from US  country_nan</span><br><span class="line">0   uses Safari           0         1        0                    0                1            0</span><br><span class="line">1  uses Firefox           1         0        0                    1                0            0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="4-target编码"><a href="#4-target编码" class="headerlink" title="4.target编码"></a>4.target编码</h2><p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/466389890">三种Target Encoding方式总结</a>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E7%89%B9%E5%BE%81%E9%A2%84%E5%A4%84%E7%90%86%E2%80%94%E2%80%94%E7%BC%96%E7%A0%81.html#more">全文 &gt;&gt;</a>
@@ -539,23 +340,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -587,16 +371,157 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
+        <!-- 目录 -->
+
+<div id="toc">
+  
+</div>
+
         <p>在创建kafka topic的时候可以添加很多配置，如下表格</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://www.orchome.com/669">Kafka Topic配置</a></p>
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94topic%E9%85%8D%E7%BD%AE.html#more">全文 &gt;&gt;</a>
-          </p>
-        
+<p>&nbsp;</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>含义</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>cleanup.policy</td>
+<td>日志清除的策略，默认为 delete。如果要使用日志压缩，就需要让策略包含 compact。需要注意的是，如果开启了 compact 策略，则客户端提交的消息的 key 不允许为 null，否则提交报错</td>
+<td>compact</td>
+</tr>
+<tr>
+<td>compression.type</td>
+<td>指定给定主题的最终压缩类型。此配置接受标准压缩编解码器(&ldquo;gzip&rdquo;、&ldquo;snappy&rdquo;、&ldquo;lz4&rdquo;、&ldquo;zstd&rdquo;)。设置为’producer’这意味着保留生产者设置的原始压缩编解码。&ldquo;gzip&rdquo;：压缩效率高，适合高内存、CPU；&ldquo;snappy&rdquo;：适合带宽敏感性，压缩力度大</td>
+<td>producer</td>
+</tr>
+<tr>
+<td>delete.retention.ms</td>
+<td>保留删除消息压缩topic的删除标记的时间。此设置还给出消费者如果从offset 0开始读取并确保获得最终阶段的有效快照的时间范围（否则，在完成扫描之前可能已经回收了）。</td>
+<td>86400000&nbsp;(24 hours)</td>
+</tr>
+<tr>
+<td>file.delete.delay.ms</td>
+<td>从文件系统中删除文件之前等待的时间</td>
+<td>60000</td>
+</tr>
+<tr>
+<td>flush.messages</td>
+<td>此设置允许指定我们强制fsync写入日志的数据的间隔。例如，如果这被设置为1，我们将在每个消息之后fsync; 如果是5，我们将在每五个消息之后fsync。一般，我们建议不要设置它，使用复制特性来保持持久性，并允许操作系统的后台刷新功能更高效。可以在每个topic的基础上覆盖此设置（请参阅每个主题的配置部分）。</td>
+<td>10000</td>
+</tr>
+<tr>
+<td>flush.ms</td>
+<td>此设置允许我们强制fsync写入日志的数据的时间间隔。例如，如果这设置为1000，那么在1000ms过去之后，我们将fsync。 一般，我们建议不要设置它，并使用复制来保持持久性，并允许操作系统的后台刷新功能，因为它更有效率</td>
+<td>1000</td>
+</tr>
+<tr>
+<td>follower.replication.throttled.replicas</td>
+<td>follower复制限流列表。该列表应以[PartitionId]的形式描述一组副本：[BrokerId]，[PartitionId]：[BrokerId]：…或者通配符’*’可用于限制此topic的所有副本。</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>index.interval.bytes</td>
+<td>此设置控制Kafka向其offset索引添加索引条目的频率。默认设置确保我们大致每4096个字节索引消息。 更多的索引允许读取更接近日志中的确切位置，但使索引更大。你不需要改变这个值。</td>
+<td>4096</td>
+</tr>
+<tr>
+<td>leader.replication.throttled.replicas</td>
+<td>在leader方面进行限制的副本列表。该列表设置以[PartitionId]的形式描述限制副本：[PartitionId]:[BrokerId],[PartitionId]:[BrokerId]:…或使用通配符&lsquo;*&rsquo;限制该topic的所有副本。</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>max.message.bytes</td>
+<td>kafka允许的最大的消息批次大小。如果增加此值，并且消费者的版本比0.10.2老，那么消费者的提取的大小也必须增加，以便他们可以获取大的消息批次。<br>在最新的消息格式版本中，消息总是分组批量来提高效率。在之前的消息格式版本中，未压缩的记录不会分组批量，并且此限制仅适用于该情况下的单个消息。</td>
+<td>10485760</td>
+</tr>
+<tr>
+<td>message.format.version</td>
+<td>指定消息附加到日志的消息格式版本。该值应该是一个有效的ApiVersion。例如：0.8.2, 0.9.0.0, 0.10.0，更多细节检查ApiVersion。通过设置特定的消息格式版本，并且磁盘上的所有现有消息都小于或等于指定版本。不正确地设置此值将导致消费者使用旧版本，因为他们将接收到&ldquo;不认识&rdquo;的格式的消息。</td>
+<td>0.11.0-IV2</td>
+</tr>
+<tr>
+<td>message.timestamp.difference.max.ms</td>
+<td>&nbsp;</td>
+<td>9223372036854775807</td>
+</tr>
+<tr>
+<td>message.timestamp.type</td>
+<td>&nbsp;</td>
+<td>CreateTime</td>
+</tr>
+<tr>
+<td>min.cleanable.dirty.ratio</td>
+<td>此配置控制日志压缩程序将尝试清除日志的频率(假设启用了日志压缩)。默认情况下，我们将避免清理超过50％日志被压缩的日志。 该比率限制日志中浪费的最大空间重复(在最多50％的日志中可以是重复的50％)。更高的比率意味着更少，更有效的清洁，但意味着日志中的浪费更多。</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>min.compaction.lag.ms</td>
+<td>消息在日志中保持不压缩的最短时间。仅适用于正在压缩的日志。</td>
+<td>0</td>
+</tr>
+<tr>
+<td>min.insync.replicas</td>
+<td>当生产者设置应答为”all”(或&ldquo;-1&rdquo;)时，此配置指定了成功写入的副本应答的最小数。如果没满足此最小数，则生产者将引发异常(NotEnoughReplicas或NotEnoughReplicasAfterAppend)。当min.insync.replicas和acks强制更大的耐用性时。典型的情况是创建一个副本为3的topic，将min.insync.replicas设置为2，并设置acks为&ldquo;all&rdquo;。如果多数副本没有收到写入，这将确保生产者引发异常。&nbsp;</td>
+<td>1</td>
+</tr>
+<tr>
+<td>preallocate</td>
+<td>如果我们在创建新的日志段时在磁盘上预分配该文件，那么设为True。</td>
+<td>false</td>
+</tr>
+<tr>
+<td>retention.bytes</td>
+<td>如果我们使用&ldquo;删除&rdquo;保留策略，则此配置将控制日志可以增长的最大大小，之后我们将丢弃旧的日志段以释放空间。默认情况下，没有设置大小限制则仅限于时间限制。</td>
+<td>-1</td>
+</tr>
+<tr>
+<td>retention.ms</td>
+<td>如果我们使用&ldquo;删除&rdquo;保留策略，则此配置控制我们将保留日志的最长时间，然后我们将丢弃旧的日志段以释放空间。这代表SLA消费者必须读取数据的时间长度。&nbsp;</td>
+<td>604800000</td>
+</tr>
+<tr>
+<td>segment.bytes</td>
+<td>此配置控制日志的段文件大小。一次保留和清理一个文件，因此较大的段大小意味着较少的文件，但对保留率的粒度控制较少。</td>
+<td>104857600</td>
+</tr>
+<tr>
+<td>segment.index.bytes</td>
+<td>此配置控制offset映射到文件位置的索引的大小。我们预先分配此索引文件，并在日志滚动后收缩它。通常不需要更改此设置。</td>
+<td>10485760</td>
+</tr>
+<tr>
+<td>segment.jitter.ms</td>
+<td>从计划的段滚动时间减去最大随机抖动，以避免异常的段滚动</td>
+<td>0</td>
+</tr>
+<tr>
+<td>segment.ms</td>
+<td>此配置控制Kafka强制日志滚动的时间段，以确保保留可以删除或压缩旧数据，即使段文件未满</td>
+<td>604800000</td>
+</tr>
+<tr>
+<td>unclean.leader.election.enable</td>
+<td>是否将不在ISR中的副本作为最后的手段选举为leader，即使这样做可能会导致数据丢失</td>
+<td>false</td>
+</tr>
+</tbody></table>
+<p>&nbsp;问题集合：<a target="_blank" rel="noopener" href="https://blog.csdn.net/lizhitao/article/details/39499283">apache kafka技术分享系列(目录索引)</a>　　</p>
+<p>&nbsp;</p>
 
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94topic%E9%85%8D%E7%BD%AE.html"></a>
+          </div>
+        </div>
       
     </div>
+
+    
+      
 
     
 
@@ -614,23 +539,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -662,7 +570,14 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <p><strong>介绍HBase的Java API</strong>，参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/swordfall/p/10301707.html">HBase读写的几种方式（一）java篇</a>
+        <p><strong>介绍HBase的Java API</strong>，参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/swordfall/p/10301707.html">HBase读写的几种方式（一）java篇</a>&nbsp;和&nbsp;<a target="_blank" rel="noopener" href="https://blog.csdn.net/XiaodunLP/article/details/100168615">Hbase–put、BufferedMutator、get</a></p>
+<h2 id="1-写HBase"><a href="#1-写HBase" class="headerlink" title="1.写HBase"></a><strong>1.写HBase</strong></h2><h3 id="1-单行put"><a href="#1-单行put" class="headerlink" title="1.单行put"></a><strong>1.单行put</strong></h3><p>HTable非线程安全，切较为低效</p>
+<img src="/images/517519-20201229164640569-1533529902.png" alt="" loading="lazy" />
+
+<p>&nbsp;</p>
+<h3 id="2-客户端的写缓冲区和List"><a href="#2-客户端的写缓冲区和List" class="headerlink" title="2.客户端的写缓冲区和List"></a><strong>2.客户端的写缓冲区和List<Put></strong></h3><p>一个put操作都是一个RPC操作，只适合<strong>小数据量</strong>的操作，HBase的API配置了客户端的<strong>写缓冲区</strong>，缓冲区负责收集put宝座，然后调用RPC操作一次性将put送往服务器。</p>
+<p>默认情况下，<strong>客户端缓冲区是禁用</strong>的，可以通过将<strong>自动刷写（****autoflush=false）</strong>来激活缓冲区，如果<strong>（****autoflush=true）</strong>，用户每次调用put方法是都会触发刷写。当激活缓冲区后，单行put不会产生RPC调用，因为存储的Put实例保存在客户端进程的内存中。只有<strong>flushCommits方法</strong>调用后才会将所有的修改传送到远程服务器。</p>
+<p>默认的写缓冲区大小为2MB（2097152字节），可以在客户端中配置，也可以在habse-site.xml中的<strong>hbase.client.write.buffer</strong> 配置一个较大的预设值，比如20MB</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/HBase%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%A2%E6%88%B7%E7%AB%AFAPI.html#more">全文 &gt;&gt;</a>
@@ -688,23 +603,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -737,10 +635,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="1-如果是csa-Cloudera-Streaming-Analytics-版本的高版本HBase"><a href="#1-如果是csa-Cloudera-Streaming-Analytics-版本的高版本HBase" class="headerlink" title="1.如果是csa(Cloudera Streaming Analytics)版本的高版本HBase"></a>1.如果是<strong>csa(Cloudera Streaming Analytics)版本</strong>的高版本HBase</h2><p>可以参考Cloudera官方例子，通过引入官方提供的flink-hbase来实现</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.flink&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;flink-hbase_2.11&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.9.0-csa1.0.0.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>要求flink最低版本1.9.0，hbase最低版本2.1.0-cdh6.3.0，然后就可以使用HBaseSinkFunction来写Hbase</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://docs.cloudera.com/csa/1.2.0/datastream-connectors/topics/csa-hbase-configuration.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%AF%BB%E5%86%99HBase.html#more">全文 &gt;&gt;</a>
@@ -766,23 +660,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -815,9 +692,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>除了使用hive hook来记录hive上用户的操作之外，还可以使用hive metastore listener来进行记录，参考：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://towardsdatascience.com/apache-hive-hooks-and-metastore-listeners-a-tale-of-your-metadata-903b751ee99f</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>hive metastore的接口有3种，分别是</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94metastore%20listener.html#more">全文 &gt;&gt;</a>
@@ -843,23 +717,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -893,28 +750,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>gradle和maven类似，是一个构建工具</p>
 <h2 id="gradle安装和配置"><a href="#gradle安装和配置" class="headerlink" title="gradle安装和配置"></a>gradle安装和配置</h2><p>1.mac安装gradle</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew install gradle</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>或者下载gradle的二进制安装包</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://gradle.org/releases/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>然后在~/.bash_profile中配置</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># gradle</span><br><span class="line">export GRADLE_HOME=/Users/lintong/software/gradle-7.3</span><br><span class="line">export PATH=$GRADLE_HOME/bin:$PATH</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>2.查看是否安装成功</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">gradle -v</span><br><span class="line"></span><br><span class="line">------------------------------------------------------------</span><br><span class="line">Gradle 7.3</span><br><span class="line">------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">Build time:   2021-11-09 20:40:36 UTC</span><br><span class="line">Revision:     96754b8c44399658178a768ac764d727c2addb37</span><br><span class="line"></span><br><span class="line">Kotlin:       1.5.31</span><br><span class="line">Groovy:       3.0.9</span><br><span class="line">Ant:          Apache Ant(TM) version 1.10.11 compiled on July 10 2021</span><br><span class="line">JVM:          1.8.0_211 (Oracle Corporation 25.211-b12)</span><br><span class="line">OS:           Mac OS X 10.16 x86_64</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>使用gradle后，老版本的IDEA 2017.1 对gradle的支持较弱，建议升级到新版本 2021.1</p>
-<p>如果需要添加 gradle.properties 配置文件，请放在 $GRADLE_HOME 目录</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  /Users/lintong/software/gradle-7.3.2 $ ls | grep gradle.properties</span><br><span class="line">gradle.properties</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>配置文件内容</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/Users/lintong/software/gradle-7.3.2 $ cat gradle.properties</span><br><span class="line">username=xx</span><br><span class="line">password=xx</span><br><span class="line">mavenUser=xx</span><br><span class="line">mavenPassword=xx</span><br></pre></td></tr></table></figure>
-
-<h2 id="gradle处理依赖冲突"><a href="#gradle处理依赖冲突" class="headerlink" title="gradle处理依赖冲突"></a>gradle处理依赖冲突</h2><p>使用gradle的时候如果遇到依赖冲突，可以添加如下配置，添加后再编译就能使得有冲突的时候自动失败</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">configurations.all &#123;</span><br><span class="line">    resolutionStrategy &#123;</span><br><span class="line">        failOnVersionConflict()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<img src="/images/517519-20220726112148097-746512516.png" width="1000" height="504" loading="lazy" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/mac%E4%B8%8B%E5%AE%89%E8%A3%85gradle7.3.html#more">全文 &gt;&gt;</a>
@@ -940,23 +775,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -989,22 +807,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>Scylla兼容cassandra API，所以可以使用spark读写cassandra的方法来进行读写</p>
-<h2 id="1-查看scyllaDB对应的cassandra版本"><a href="#1-查看scyllaDB对应的cassandra版本" class="headerlink" title="1.查看scyllaDB对应的cassandra版本"></a><strong>1.查看scyllaDB对应的cassandra版本</strong></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cqlsh:my_db&gt; SHOW VERSION</span><br><span class="line">[cqlsh 5.0.1 | Cassandra 3.0.8 | CQL spec 3.3.1 | Native protocol v4]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="2-查看spark和cassandra对应的版本"><a href="#2-查看spark和cassandra对应的版本" class="headerlink" title="2.查看spark和cassandra对应的版本"></a><strong>2.查看spark和cassandra对应的版本</strong></h2><img src="/images/517519-20211109220014493-1994204559.png" width="700" height="643" loading="lazy" />
-
-<p>参考：<a target="_blank" rel="noopener" href="https://github.com/datastax/spark-cassandra-connector">https://github.com/datastax/spark-cassandra-connector</a></p>
-<h2 id="3-写scyllaDB"><a href="#3-写scyllaDB" class="headerlink" title="3.写scyllaDB"></a><strong>3.写scyllaDB</strong></h2><p>dataset API写scyllaDB</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ds2.write</span><br><span class="line">      .mode(&quot;append&quot;)</span><br><span class="line">      .format(&quot;org.apache.spark.sql.cassandra&quot;)</span><br><span class="line">      .options(Map(&quot;table&quot; -&gt; &quot;my_tb&quot;, &quot;keyspace&quot; -&gt; &quot;my_db&quot;, &quot;output.consistency.level&quot; -&gt; &quot;ALL&quot;, &quot;ttl&quot; -&gt; &quot;8640000&quot;))</span><br><span class="line">      .save()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>RDD API写scyllaDB</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import com.datastax.oss.driver.api.core.ConsistencyLevel</span><br><span class="line">import com.datastax.spark.connector._</span><br><span class="line"></span><br><span class="line">ds.rdd.saveToCassandra(&quot;my_db&quot;, &quot;my_tb&quot;, writeConf = WriteConf(ttl = TTLOption.constant(8640000), consistencyLevel = ConsistencyLevel.ALL))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>注意字段的数量和顺序需要和ScyllaDB表的顺序一致，可以使用下面方式select字段</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">val columns = Seq[String](</span><br><span class="line">      &quot;a&quot;,</span><br><span class="line">      &quot;b&quot;,</span><br><span class="line">      &quot;c&quot;)</span><br><span class="line">val colNames = columns.map(name =&gt; col(name))</span><br><span class="line">val colRefs = columns.map(name =&gt; toNamedColumnRef(name))</span><br><span class="line"></span><br><span class="line">val df2 = df.select(colNames: _*)</span><br><span class="line">df2.rdd</span><br><span class="line">      .saveToCassandra(ks, table, SomeColumns(colRefs: _*), writeConf = WriteConf(ttl = TTLOption.constant(8640000), consistencyLevel = ConsistencyLevel.ALL))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>不过官方推荐使用DataFrame API，而不是RDD API</p>
-<p>If you have the option we recommend using
+<h2 id="1-查看scyllaDB对应的cassandra版本"><a href="#1-查看scyllaDB对应的cassandra版本" class="headerlink" title="1.查看scyllaDB对应的cassandra版本"></a><strong>1.查看scyllaDB对应的cassandra版本</strong></h2>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%AF%BB%E5%86%99ScyllaDB.html#more">全文 &gt;&gt;</a>
@@ -1030,23 +833,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 
@@ -1080,7 +866,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>在使用低版本的DataGrip的时候，还没有hive的data source，需要自行添加数据源</p>
 <p>1.下载hive driver，如果你使用的EMR的大数据集群的话，下载地址</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://docs.aws.amazon.com/emr/latest/ReleaseGuide/HiveJDBCDriver.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/DataGrip2017.1%E8%BF%9E%E6%8E%A5Hive.html#more">全文 &gt;&gt;</a>
@@ -1106,23 +891,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
   
 </article>
 
-
-  <div id="gitalk-container"></div>
-  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-    new Gitalk({
-        clientID: 'Ov23linuqwGeDWZW2275',
-        clientSecret: '926223709256522c5b78a1f1b8676186f7b33e02',
-        repo: 'tonglin0325.github.io',
-        owner: 'tonglin0325',
-        admin: ['tonglin0325'],
-        language: 'zh-CN',
-        id: md5(location.pathname),
-        distractionFreeMode: true
-    }).render('gitalk-container')
-</script>
 
 
 

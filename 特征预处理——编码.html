@@ -5,15 +5,15 @@
   
   <title>特征预处理——编码 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="对于标称型数据，在特征处理的时候，需要对其进行编码 在编码之前，如果训练集和测试集是分开的，则需要对其进行合并，避免标称数据丢失 12345# 合并df &#x3D; train.append(test).reset_index()# 列名original_columns &#x3D; list(df.columns)  常用的编码方式如下 1.Label编码对于一个有m个category的特征，经过label en">
+  <meta name="description" content="对于标称型数据，在特征处理的时候，需要对其进行编码 在编码之前，如果训练集和测试集是分开的，则需要对其进行合并，避免标称数据丢失">
 <meta property="og:type" content="article">
 <meta property="og:title" content="特征预处理——编码">
 <meta property="og:url" content="http://tonglin0325.github.io/%E7%89%B9%E5%BE%81%E9%A2%84%E5%A4%84%E7%90%86%E2%80%94%E2%80%94%E7%BC%96%E7%A0%81.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="对于标称型数据，在特征处理的时候，需要对其进行编码 在编码之前，如果训练集和测试集是分开的，则需要对其进行合并，避免标称数据丢失 12345# 合并df &#x3D; train.append(test).reset_index()# 列名original_columns &#x3D; list(df.columns)  常用的编码方式如下 1.Label编码对于一个有m个category的特征，经过label en">
+<meta property="og:description" content="对于标称型数据，在特征处理的时候，需要对其进行编码 在编码之前，如果训练集和测试集是分开的，则需要对其进行合并，避免标称数据丢失">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-08-05T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-10T15:58:16.131Z">
+<meta property="article:modified_time" content="2025-03-20T13:30:06.214Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary">
@@ -210,6 +210,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
         <p>对于标称型数据，在特征处理的时候，需要对其进行编码</p>
 <p>在编码之前，如果训练集和测试集是分开的，则需要对其进行合并，避免标称数据丢失</p>
+<span id="more"></span>
+
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 合并</span><br><span class="line">df = train.append(test).reset_index()</span><br><span class="line"># 列名</span><br><span class="line">original_columns = list(df.columns)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>常用的编码方式如下</p>
@@ -232,7 +234,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>使用pandas来one-hot编码</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">import pandas as pd</span><br><span class="line"></span><br><span class="line">X = [[&#x27;male&#x27;, &#x27;from US&#x27;, &#x27;uses Safari&#x27;], [&#x27;female&#x27;, &#x27;from Europe&#x27;, &#x27;uses Firefox&#x27;]]</span><br><span class="line">df = pd.DataFrame(X, columns=[&#x27;sex&#x27;,&#x27;country&#x27;,&#x27;browser&#x27;])</span><br><span class="line"># columns是需要编码的列名</span><br><span class="line">df = pd.get_dummies(df, columns=[&#x27;sex&#x27;,&#x27;country&#x27;], dummy_na = True)</span><br><span class="line">print(df)</span><br><span class="line"></span><br><span class="line">        browser  sex_female  sex_male  sex_nan  country_from Europe  country_from US  country_nan</span><br><span class="line">0   uses Safari           0         1        0                    0                1            0</span><br><span class="line">1  uses Firefox           1         0        0                    1                0            0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h2 id="4-target-bian-ma"><a href="#4-target编码" class="headerlink" title="4.target编码"></a>4.target编码<a href="#4-target-bian-ma" class="header-anchor">#</a></h2><p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/466389890">三种Target Encoding方式总结</a><span id="more"></span><br>&nbsp;和 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/40231966">kaggle编码categorical feature总结</a></p>
+<h2 id="4-target-bian-ma"><a href="#4-target编码" class="headerlink" title="4.target编码"></a>4.target编码<a href="#4-target-bian-ma" class="header-anchor">#</a></h2><p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/466389890">三种Target Encoding方式总结</a>&nbsp;和 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/40231966">kaggle编码categorical feature总结</a></p>
 <p><strong>Target Encoding</strong>是任何一种可以从目标中派生出数字替换特征类别的编码方式。这种目标编码有时被称为平均编码。应用于二进制目标时，也被称为bin counting。</p>
 <p>target encoding的缺点主要有：</p>
 <ul>
