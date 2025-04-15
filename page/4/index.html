@@ -201,6 +201,17 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>Flink中的DataStream任务用于实现data streams的转换，data stream可以来自不同的数据源，比如消息队列，socket，文件等。</p>
 <p>Ref&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://ci.apache.org/projects/flink/flink-docs-stable/zh/dev/datastream_api.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;使用DataStream API需要使用stream env</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p>DataStream支持的<strong>Data Source</strong>有：File-based，Socket-based，Collection-based，Custom</p>
+<p>1.File-based</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">readTextFile(path) - Reads text files, i.e. files that respect the TextInputFormat specification, line-by-line and returns them as Strings.</span><br><span class="line"></span><br><span class="line">readFile(fileInputFormat, path) - Reads (once) files as dictated by the specified file input format.</span><br><span class="line"></span><br><span class="line">readFile(fileInputFormat, path, watchType, interval, pathFilter, typeInfo) - This is the method called internally by the two previous ones. It reads files in the path based on the given fileInputFormat. Depending on the provided watchType, this source may periodically monitor (every interval ms) the path for new data (FileProcessingMode.PROCESS_CONTINUOUSLY), or process once the data currently in the path and exit (FileProcessingMode.PROCESS_ONCE). Using the pathFilter, the user can further exclude files from being processed.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>2.Socket-based</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94DataStream%20API.html#more">全文 &gt;&gt;</a>
@@ -261,6 +272,22 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <ol>
 <li>批处理Environment，ExecutionEnvironment</li>
 </ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ExecutionEnvironment env = ExecutionEnvironment.getExecutionEnvironment();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>2.流处理Environment，StreamExecutionEnvironment</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>本机Environment，LocalEnvironment</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ExecutionEnvironment env = LocalEnvironment.getExecutionEnvironment();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>java集合Environment，CollectionEnvironment</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ExecutionEnvironment env = CollectionEnvironment.getExecutionEnvironment();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Ref</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Environment.html#more">全文 &gt;&gt;</a>
@@ -319,6 +346,17 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>在Flink任务中，需要加载外置配置参数到任务中，在Flink的开发文档中介绍了，Flink提供了一个名为 <strong>ParameterTool</strong> 的工具来解决这个问题</p>
 <p>Flink开发文档:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/apache/flink/blob/master/docs/dev/application_parameters.zh.md</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>其引入配置的方式有3种：</p>
+<p>1.&nbsp;<strong>From .properties files</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String propertiesFilePath = &quot;/home/sam/flink/myjob.properties&quot;;</span><br><span class="line">ParameterTool parameter = ParameterTool.fromPropertiesFile(propertiesFilePath);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>2.&nbsp;<strong>From the command line arguments</strong></p>
+<p>在args中添加&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">--input hdfs:///mydata --elements 42</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在代码中使用</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%85%8D%E7%BD%AE.html#more">全文 &gt;&gt;</a>
@@ -377,6 +415,17 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <h2 id="1-业界公司数据平台建设规模"><a href="#1-业界公司数据平台建设规模" class="headerlink" title="1.业界公司数据平台建设规模"></a>1.业界公司数据平台建设规模</h2><h3 id="1-twitter"><a href="#1-twitter" class="headerlink" title="1.twitter"></a>1.twitter</h3><p>Twitter关于日志系统的论文有如下2篇，分别是</p>
 <p>《The Unified Logging Infrastructure for Data Analytics at Twitter》和《Scaling Big Data Mining Infrastructure: The Twitter Experience》</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">https://vldb.org/pvldb/vol5/p1771_georgelee_vldb2012.pdf</span><br><span class="line">https://www.kdd.org/exploration_files/V14-02-02-Lin.pdf</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>相关PPT</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">https://www.slideshare.net/Hadoop_Summit/scaling-big-data-mining-infrastructure-twitter-experience</span><br><span class="line">https://slideplayer.com/slide/12451118/</span><br><span class="line">https://blog.twitter.com/engineering/en_us/topics/insights/2016/discovery-and-consumption-of-analytics-data-at-twitter.html</span><br><span class="line">https://www.slideshare.net/kevinweil/hadoop-at-twitter-hadoop-summit-2010</span><br><span class="line">https://www.slideshare.net/kevinweil/protocol-buffers-and-hadoop-at-twitter/1-Twitter_Open_Source_Coming_soon</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>其中《The Unified Logging Infrastructure for Data Analytics at Twitter》这篇Twitter12年的论文中介绍了Twitter的<strong>产品日志基础架构</strong>以及<strong>从应用特定日志到统一的&ldquo;客户端事件&rdquo;日志格式的演进</strong>，其中message都是<strong>Thrift message</strong>。</p>
+<img src="/images/517519-20201204152111401-1890691389.png" alt="" loading="lazy" />
+
+<p>&nbsp;</p>
+<p>&nbsp;当时（2012年），Twitter的Hadoop集群规模有几百台。</p>
+<img src="/images/517519-20201204151859741-1440982372.png" alt="" loading="lazy" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94Twitter%E6%97%A5%E5%BF%97%E7%B3%BB%E7%BB%9F.html#more">全文 &gt;&gt;</a>
@@ -440,6 +489,10 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1464682">【快学springboot】13.操作redis之String数据结构</a></p>
 <p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1464683">【快学springboot】14.操作redis之list</a></p>
 <p>还有python版本的redis实战</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/7-sevens/Developer-Books/blob/master/Redis/Redis%E5%AE%9E%E6%88%98.pdf</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在pom中引入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- redis --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Redis%20Template.html#more">全文 &gt;&gt;</a>
@@ -497,6 +550,18 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>下载hadoop的原生版本，版本选择2.6.0，下载地址</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://archive.apache.org/dist/hadoop/common/hadoop-2.6.0/hadoop-2.6.0.tar.gz</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>解压后可以看到</p>
+<img src="/images/517519-20201120142942474-74759388.png" width="400" height="199" loading="lazy" />
+
+<p>其中配置文件在 /etc/hadoop目录下</p>
+<img src="/images/517519-20201120144226142-858775669.png" alt="" width="496" height="182" loading="lazy" />
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>解压后默认的配置文件都是空的，需要自行配置，下面为配置文件的作用</p>
+<p>其中比较重要的是前4个配置文件，分别为<strong>core-site.xml，<strong><strong>hdfs-site.xml，<strong>mapred-site.xml，<strong>yarn-site.xml</strong></strong></strong></strong></strong></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Hadoop%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6.html#more">全文 &gt;&gt;</a>
@@ -555,6 +620,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p><strong>SerDe</strong> 是Serializer 和 Deserializer 的简称，它提供了Hive和各种数据格式交互的方式。</p>
 <p>Amazon的Athena可以理解是Amazon对标hive的一款产品，其中对SerDe的介绍如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://docs.aws.amazon.com/zh_cn/athena/latest/ug/serde-about.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<img src="/images/517519-20201117102839829-297329757.png" alt="" loading="lazy" />
+
+<p>对于Hive中经常使用的SerDe如下，参考了</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Mike_H/article/details/50161555">Hive_10. Hive中常用的 SerDe 和 当前社区的状态</a></p>
+<p>1.LazySimpleSerDe，用来处理文本格式文件：TEXTFILE&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/apache/hive/blob/master/serde/src/java/org/apache/hadoop/hive/serde2/lazy/LazySimpleSerDe.java</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>2.RegexSerDe，可以使用java正则表达式来处理文本格式文件：TEXTFILE</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/apache/hive/blob/master/serde/src/java/org/apache/hadoop/hive/serde2/RegexSerDe.java</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>3.JSONSerDe，可以使用它来处理json格式的文本文件：TEXTFILE</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94SerDe.html#more">全文 &gt;&gt;</a>
@@ -612,6 +690,18 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>OutputFormat在hadoop源码中是一个抽象类 public abstract class OutputFormat&lt;K, V&gt;，其定义了reduce任务的输出格式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/apache/hadoop/blob/master/hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-core/src/main/java/org/apache/hadoop/mapreduce/OutputFormat.java</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可以参考文章</p>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1733319">MapReduce快速入门系列(12) | MapReduce之OutputFormat</a></p>
+<p>&nbsp;</p>
+<p>常用的<strong>OutputFormat</strong>可以查看源码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/apache/hadoop/tree/master/hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-core/src/main/java/org/apache/hadoop/mapreduce/lib/output</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<img src="/images/517519-20201116111552740-1380467690.png" alt="" loading="lazy" />
+
+<p>1.<strong>文本输出TextOutputFormat</strong>，是hadoop的默认实现输出功能的类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/apache/hadoop/blob/master/hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-core/src/main/java/org/apache/hadoop/mapreduce/lib/output/TextOutputFormat.java</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/MapReduce%E4%B8%AD%E7%9A%84OutputFormat.html#more">全文 &gt;&gt;</a>
@@ -673,6 +763,15 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
 <p>&nbsp;</p>
 <p>参考</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://www.elastic.co/guide/en/beats/filebeat/7.x/filebeat-input-http_endpoint.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>下载filebeat最新版本，然后解压</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.9.2-linux-x86_64.tar.gz</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>配置 filebeat_http.yml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">filebeat.inputs:</span><br><span class="line">- type: http_endpoint</span><br><span class="line">  enabled: true</span><br><span class="line">  listen_address: localhost</span><br><span class="line">  listen_port: 19080</span><br><span class="line"></span><br><span class="line">#----------------------------------File output--------------------------------#</span><br><span class="line">output.file:</span><br><span class="line">  path: &quot;/tmp/filebeat&quot;</span><br><span class="line">  filename: filebeat</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>给配置文件赋权</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Filebeat%E7%9A%84http%20endpoint%20input.html#more">全文 &gt;&gt;</a>
@@ -729,15 +828,34 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在 scala和java混合编程的时候，需要添加一些额外的配置到pom中，才能将scala文件的class加到最终的jar中</p>
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/maven%E6%89%93%E5%8C%85scala+java%E5%B7%A5%E7%A8%8B.html#more">全文 &gt;&gt;</a>
-          </p>
-        
+        <!-- 目录 -->
 
+<div id="toc">
+  
+</div>
+
+        <p>在 scala和java混合编程的时候，需要添加一些额外的配置到pom中，才能将scala文件的class加到最终的jar中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"> &lt;build&gt;</span><br><span class="line">     &lt;pluginManagement&gt;</span><br><span class="line">         &lt;plugins&gt;</span><br><span class="line">             &lt;plugin&gt;</span><br><span class="line">                 &lt;groupId&gt;org.scala-tools&lt;/groupId&gt;</span><br><span class="line">                 &lt;artifactId&gt;maven-scala-plugin&lt;/artifactId&gt;</span><br><span class="line">                 &lt;version&gt;2.15.2&lt;/version&gt;</span><br><span class="line">                 &lt;executions&gt;</span><br><span class="line">                     &lt;execution&gt;</span><br><span class="line">                         &lt;id&gt;scala-compile&lt;/id&gt;</span><br><span class="line">                         &lt;goals&gt;</span><br><span class="line">                             &lt;goal&gt;compile&lt;/goal&gt;</span><br><span class="line">                         &lt;/goals&gt;</span><br><span class="line">                         &lt;configuration&gt;</span><br><span class="line">                             &lt;!--includes是一个数组，包含要编译的code--&gt;</span><br><span class="line">                             &lt;includes&gt;</span><br><span class="line">                                 &lt;include&gt;**/*.scala&lt;/include&gt;</span><br><span class="line">                             &lt;/includes&gt;</span><br><span class="line">                         &lt;/configuration&gt;</span><br><span class="line">                     &lt;/execution&gt;</span><br><span class="line">                     &lt;execution&gt;</span><br><span class="line">                         &lt;id&gt;scala-test-compile&lt;/id&gt;</span><br><span class="line">                         &lt;goals&gt;</span><br><span class="line">                             &lt;goal&gt;testCompile&lt;/goal&gt;</span><br><span class="line">                         &lt;/goals&gt;</span><br><span class="line">                     &lt;/execution&gt;</span><br><span class="line">                 &lt;/executions&gt;</span><br><span class="line">             &lt;/plugin&gt;</span><br><span class="line">             &lt;plugin&gt;</span><br><span class="line">                 &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">                 &lt;artifactId&gt;maven-assembly-plugin&lt;/artifactId&gt;</span><br><span class="line">                 &lt;version&gt;3.1.0&lt;/version&gt;</span><br><span class="line">                 &lt;configuration&gt;</span><br><span class="line">                     &lt;descriptorRefs&gt;</span><br><span class="line">                         &lt;descriptorRef&gt;jar-with-dependencies&lt;/descriptorRef&gt;</span><br><span class="line">                     &lt;/descriptorRefs&gt;</span><br><span class="line">                 &lt;/configuration&gt;</span><br><span class="line">                 &lt;executions&gt;</span><br><span class="line">                     &lt;execution&gt;</span><br><span class="line">                         &lt;id&gt;make-assembly&lt;/id&gt;</span><br><span class="line">                         &lt;phase&gt;package&lt;/phase&gt;</span><br><span class="line">                         &lt;goals&gt;</span><br><span class="line">                             &lt;goal&gt;single&lt;/goal&gt;</span><br><span class="line">                         &lt;/goals&gt;</span><br><span class="line">                     &lt;/execution&gt;</span><br><span class="line">                 &lt;/executions&gt;</span><br><span class="line">             &lt;/plugin&gt;</span><br><span class="line">             &lt;plugin&gt;</span><br><span class="line">                 &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">                 &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;</span><br><span class="line">                 &lt;version&gt;3.7.0&lt;/version&gt;</span><br><span class="line">                 &lt;configuration&gt;</span><br><span class="line">                     &lt;source&gt;1.8&lt;/source&gt;</span><br><span class="line">                     &lt;target&gt;1.8&lt;/target&gt;</span><br><span class="line">                 &lt;/configuration&gt;</span><br><span class="line">             &lt;/plugin&gt;</span><br><span class="line">         &lt;/plugins&gt;</span><br><span class="line">     &lt;/pluginManagement&gt;</span><br><span class="line">&lt;/build&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;打包的命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mvn clean scala:compile compile package assembly:single -Pproduction -Dmaven.test.skip=true</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p>或者</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">&lt;build&gt;</span><br><span class="line">        &lt;plugin&gt;</span><br><span class="line">            &lt;groupId&gt;org.scala-tools&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;maven-scala-plugin&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;2.15.2&lt;/version&gt;</span><br><span class="line">            &lt;executions&gt;</span><br><span class="line">                &lt;execution&gt;</span><br><span class="line">                    &lt;id&gt;scala-compile&lt;/id&gt;</span><br><span class="line">                    &lt;goals&gt;</span><br><span class="line">                        &lt;goal&gt;compile&lt;/goal&gt;</span><br><span class="line">                    &lt;/goals&gt;</span><br><span class="line">                    &lt;configuration&gt;</span><br><span class="line">                        &lt;!--includes是一个数组，包含要编译的code--&gt;</span><br><span class="line">                        &lt;includes&gt;</span><br><span class="line">                            &lt;include&gt;**/*.scala&lt;/include&gt;</span><br><span class="line">                        &lt;/includes&gt;</span><br><span class="line">                    &lt;/configuration&gt;</span><br><span class="line">                &lt;/execution&gt;</span><br><span class="line">                &lt;execution&gt;</span><br><span class="line">                    &lt;id&gt;scala-test-compile&lt;/id&gt;</span><br><span class="line">                    &lt;goals&gt;</span><br><span class="line">                        &lt;goal&gt;testCompile&lt;/goal&gt;</span><br><span class="line">                    &lt;/goals&gt;</span><br><span class="line">                &lt;/execution&gt;</span><br><span class="line">            &lt;/executions&gt;</span><br><span class="line">        &lt;/plugin&gt;</span><br><span class="line">        &lt;plugin&gt;</span><br><span class="line">            &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;maven-assembly-plugin&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;3.1.0&lt;/version&gt;</span><br><span class="line">            &lt;configuration&gt;</span><br><span class="line">                &lt;descriptorRefs&gt;</span><br><span class="line">                    &lt;descriptorRef&gt;jar-with-dependencies&lt;/descriptorRef&gt;</span><br><span class="line">                &lt;/descriptorRefs&gt;</span><br><span class="line">            &lt;/configuration&gt;</span><br><span class="line">            &lt;executions&gt;</span><br><span class="line">                &lt;execution&gt;</span><br><span class="line">                    &lt;id&gt;make-assembly&lt;/id&gt;</span><br><span class="line">                    &lt;phase&gt;package&lt;/phase&gt;</span><br><span class="line">                    &lt;goals&gt;</span><br><span class="line">                        &lt;goal&gt;single&lt;/goal&gt;</span><br><span class="line">                    &lt;/goals&gt;</span><br><span class="line">                &lt;/execution&gt;</span><br><span class="line">            &lt;/executions&gt;</span><br><span class="line">        &lt;/plugin&gt;</span><br><span class="line">        &lt;plugin&gt;</span><br><span class="line">            &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;3.7.0&lt;/version&gt;</span><br><span class="line">            &lt;configuration&gt;</span><br><span class="line">                &lt;source&gt;1.8&lt;/source&gt;</span><br><span class="line">                &lt;target&gt;1.8&lt;/target&gt;</span><br><span class="line">            &lt;/configuration&gt;</span><br><span class="line">        &lt;/plugin&gt;</span><br><span class="line">    &lt;/plugins&gt;</span><br><span class="line">&lt;/build&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>打包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mvn package assembly:single</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/maven%E6%89%93%E5%8C%85scala+java%E5%B7%A5%E7%A8%8B.html"></a>
+          </div>
+        </div>
       
     </div>
+
+    
+      
 
     
 

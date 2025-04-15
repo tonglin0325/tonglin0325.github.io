@@ -5,12 +5,12 @@
   
   <title>Ubuntu16.04安装CDH 5.16.2 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="CDH安装官方参考文档:">
+  <meta name="description" content="CDH安装官方参考文档: 12https:&#x2F;&#x2F;www.cloudera.com&#x2F;documentation&#x2F;enterprise&#x2F;5-16-x&#x2F;topics&#x2F;configure_cm_repo.html  如果是在生产环境进行安装，建议查看cloudera官方提供的机型建议 12https:&#x2F;&#x2F;docs.cloudera.com&#x2F;documentation&#x2F;enterprise&#x2F;release-n">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ubuntu16.04安装CDH 5.16.2">
 <meta property="og:url" content="http://tonglin0325.github.io/Ubuntu16.04%E5%AE%89%E8%A3%85CDH%205.16.2.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="CDH安装官方参考文档:">
+<meta property="og:description" content="CDH安装官方参考文档: 12https:&#x2F;&#x2F;www.cloudera.com&#x2F;documentation&#x2F;enterprise&#x2F;5-16-x&#x2F;topics&#x2F;configure_cm_repo.html  如果是在生产环境进行安装，建议查看cloudera官方提供的机型建议 12https:&#x2F;&#x2F;docs.cloudera.com&#x2F;documentation&#x2F;enterprise&#x2F;release-n">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20191210224006520-731305261.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20200308001503890-1406048201.png">
@@ -35,7 +35,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20200308144504539-1683765055.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20200308144626036-1928569994.png">
 <meta property="article:published_time" content="2019-07-06T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-10T13:53:09.752Z">
+<meta property="article:modified_time" content="2025-04-15T02:10:04.089Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="CDH">
 <meta name="twitter:card" content="summary">
@@ -232,8 +232,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </div>
 
         <p>CDH安装官方参考文档:</p>
-<span id="more"></span>
-
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://www.cloudera.com/documentation/enterprise/5-16-x/topics/configure_cm_repo.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>如果是在生产环境进行安装，建议查看cloudera官方提供的机型建议</p>
@@ -248,6 +246,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">cmf.root.logger=INFO,CONSOLE</span><br><span class="line">cmf.log.dir=.</span><br><span class="line">cmf.log.file=cmf-server.log</span><br><span class="line"></span><br><span class="line"># Define the root logger to the system property &quot;cmf.root.logger&quot;.</span><br><span class="line">log4j.rootLogger=$&#123;cmf.root.logger&#125;</span><br><span class="line"></span><br><span class="line"># Logging Threshold</span><br><span class="line">log4j.threshhold=ALL</span><br><span class="line"></span><br><span class="line"># Disable most JDBC tracing by default.</span><br><span class="line">log4j.logger.org.jdbcdslog=FATAL</span><br><span class="line"></span><br><span class="line"># Disable overly loud Avro IPC logging</span><br><span class="line">log4j.logger.org.apache.avro.ipc.NettyTransceiver=FATAL</span><br><span class="line"></span><br><span class="line"># Disable overly loud Flume config validation logging</span><br><span class="line">log4j.logger.org.apache.flume.conf.FlumeConfiguration=ERROR</span><br><span class="line"></span><br><span class="line">log4j.appender.CONSOLE=org.apache.log4j.ConsoleAppender</span><br><span class="line">log4j.appender.CONSOLE.target=System.err</span><br><span class="line">log4j.appender.CONSOLE.layout=org.apache.log4j.PatternLayout</span><br><span class="line">log4j.appender.CONSOLE.layout.ConversionPattern=%d&#123;ISO8601&#125; %5p [%t:%c&#123;2&#125;@%L] %m%n</span><br><span class="line"></span><br><span class="line">log4j.appender.LOGFILE=org.apache.log4j.RollingFileAppender</span><br><span class="line">log4j.appender.LOGFILE.MaxFileSize=10MB</span><br><span class="line">log4j.appender.LOGFILE.MaxBackupIndex=10</span><br><span class="line">log4j.appender.LOGFILE.File=$&#123;cmf.log.dir&#125;/$&#123;cmf.log.file&#125;</span><br><span class="line">log4j.appender.LOGFILE.layout=org.apache.log4j.PatternLayout</span><br><span class="line">log4j.appender.LOGFILE.layout.ConversionPattern=%d&#123;ISO8601&#125; %5p [%t:%c&#123;2&#125;@%L] %m%n</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>&nbsp;</p>
+<span id="more"></span>
+
 <p>正式开始安装</p>
 <p>1.配置源</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">wget https://archive.cloudera.com/cm5/ubuntu/xenial/amd64/cm/archive.key</span><br><span class="line">sudo apt-key add archive.key</span><br><span class="line"></span><br><span class="line">cd /etc/apt/sources.list.d/</span><br><span class="line">wget https://archive.cloudera.com/cm5/ubuntu/xenial/amd64/cm/cloudera.list</span><br><span class="line">curl -s https://archive.cloudera.com/cm5/ubuntu/trusty/amd64/cm/archive.key| sudo apt-key add -</span><br><span class="line">sudo apt-get update</span><br><span class="line"></span><br></pre></td></tr></table></figure>

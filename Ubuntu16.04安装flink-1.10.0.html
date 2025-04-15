@@ -5,12 +5,12 @@
   
   <title>Ubuntu16.04安装flink-1.10.0 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本来想cdh集成flink，但是我的cdh版本为5.16.2，参考了下面的issue可能cdh版本太低，至少要cdh6">
+  <meta name="description" content="本来想cdh集成flink，但是我的cdh版本为5.16.2，参考了下面的issue可能cdh版本太低，至少要cdh6 12https:&#x2F;&#x2F;github.com&#x2F;pkeropen&#x2F;flink-parcel&#x2F;issues  进行独立安装 12wget https:&#x2F;&#x2F;archive.apache.org&#x2F;dist&#x2F;flink&#x2F;flink-1.10.0&#x2F;flink-1.10.0-bin-scala_2">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ubuntu16.04安装flink-1.10.0">
 <meta property="og:url" content="http://tonglin0325.github.io/Ubuntu16.04%E5%AE%89%E8%A3%85flink-1.10.0.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="本来想cdh集成flink，但是我的cdh版本为5.16.2，参考了下面的issue可能cdh版本太低，至少要cdh6">
+<meta property="og:description" content="本来想cdh集成flink，但是我的cdh版本为5.16.2，参考了下面的issue可能cdh版本太低，至少要cdh6 12https:&#x2F;&#x2F;github.com&#x2F;pkeropen&#x2F;flink-parcel&#x2F;issues  进行独立安装 12wget https:&#x2F;&#x2F;archive.apache.org&#x2F;dist&#x2F;flink&#x2F;flink-1.10.0&#x2F;flink-1.10.0-bin-scala_2">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20200310235657051-1377564747.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20200313000607455-1448641822.png">
@@ -19,7 +19,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20200314135848038-475244500.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20200314140031592-1868830400.png">
 <meta property="article:published_time" content="2020-03-09T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-10T13:53:09.364Z">
+<meta property="article:modified_time" content="2025-04-15T02:10:03.735Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Flink">
 <meta name="twitter:card" content="summary">
@@ -216,8 +216,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </div>
 
         <p>本来想cdh集成flink，但是我的cdh版本为5.16.2，参考了下面的issue可能cdh版本太低，至少要cdh6</p>
-<span id="more"></span>
-
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/pkeropen/flink-parcel/issues</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>进行独立安装</p>
@@ -231,6 +229,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
 <p>下载flink-shaded-hadoop-2-uber-2.7.5-7.0.jar包，放到flink的lib目录下</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://repo1.maven.org/maven2/org/apache/flink/flink-shaded-hadoop-2-uber/2.7.5-7.0/flink-shaded-hadoop-2-uber-2.7.5-7.0.jar</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
 
 <p>不然flink on yarn的时候会报</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Error: A JNI error has occurred, please check your installation and try again</span><br><span class="line">Exception in thread &quot;main&quot; java.lang.NoClassDefFoundError: org/apache/hadoop/yarn/exceptions/YarnException</span><br><span class="line">	at java.lang.Class.getDeclaredMethods0(Native Method)</span><br><span class="line">	at java.lang.Class.privateGetDeclaredMethods(Class.java:2701)</span><br><span class="line">	at java.lang.Class.privateGetMethodRecursive(Class.java:3048)</span><br><span class="line">	at java.lang.Class.getMethod0(Class.java:3018)</span><br><span class="line">	at java.lang.Class.getMethod(Class.java:1784)</span><br><span class="line">	at sun.launcher.LauncherHelper.validateMainClass(LauncherHelper.java:544)</span><br><span class="line">	at sun.launcher.LauncherHelper.checkAndLoadMain(LauncherHelper.java:526)</span><br><span class="line">Caused by: java.lang.ClassNotFoundException: org.apache.hadoop.yarn.exceptions.YarnException</span><br><span class="line">	at java.net.URLClassLoader.findClass(URLClassLoader.java:381)</span><br><span class="line">	at java.lang.ClassLoader.loadClass(ClassLoader.java:424)</span><br><span class="line">	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:331)</span><br><span class="line">	at java.lang.ClassLoader.loadClass(ClassLoader.java:357)</span><br><span class="line">	... 7 more</span><br><span class="line"></span><br></pre></td></tr></table></figure>

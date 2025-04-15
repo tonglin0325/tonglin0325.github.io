@@ -200,6 +200,20 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>CDH安装官方参考文档:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://www.cloudera.com/documentation/enterprise/5-16-x/topics/configure_cm_repo.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果是在生产环境进行安装，建议查看cloudera官方提供的机型建议</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://docs.cloudera.com/documentation/enterprise/release-notes/topics/hardware_requirements_guide.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>同时还在CDH的角色分布建议，参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1035458">如何给Hadoop集群划分角色</a>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://docs.cloudera.com/documentation/enterprise/latest/topics/cm_ig_host_allocations.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>　　</p>
+<p>安装cdh前如果安装过其他版本的,记得删除各种目录残留文件，比如/run下面的</p>
+<p>如果误删了log4j/properties文件,文件内容在这</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">cmf.root.logger=INFO,CONSOLE</span><br><span class="line">cmf.log.dir=.</span><br><span class="line">cmf.log.file=cmf-server.log</span><br><span class="line"></span><br><span class="line"># Define the root logger to the system property &quot;cmf.root.logger&quot;.</span><br><span class="line">log4j.rootLogger=$&#123;cmf.root.logger&#125;</span><br><span class="line"></span><br><span class="line"># Logging Threshold</span><br><span class="line">log4j.threshhold=ALL</span><br><span class="line"></span><br><span class="line"># Disable most JDBC tracing by default.</span><br><span class="line">log4j.logger.org.jdbcdslog=FATAL</span><br><span class="line"></span><br><span class="line"># Disable overly loud Avro IPC logging</span><br><span class="line">log4j.logger.org.apache.avro.ipc.NettyTransceiver=FATAL</span><br><span class="line"></span><br><span class="line"># Disable overly loud Flume config validation logging</span><br><span class="line">log4j.logger.org.apache.flume.conf.FlumeConfiguration=ERROR</span><br><span class="line"></span><br><span class="line">log4j.appender.CONSOLE=org.apache.log4j.ConsoleAppender</span><br><span class="line">log4j.appender.CONSOLE.target=System.err</span><br><span class="line">log4j.appender.CONSOLE.layout=org.apache.log4j.PatternLayout</span><br><span class="line">log4j.appender.CONSOLE.layout.ConversionPattern=%d&#123;ISO8601&#125; %5p [%t:%c&#123;2&#125;@%L] %m%n</span><br><span class="line"></span><br><span class="line">log4j.appender.LOGFILE=org.apache.log4j.RollingFileAppender</span><br><span class="line">log4j.appender.LOGFILE.MaxFileSize=10MB</span><br><span class="line">log4j.appender.LOGFILE.MaxBackupIndex=10</span><br><span class="line">log4j.appender.LOGFILE.File=$&#123;cmf.log.dir&#125;/$&#123;cmf.log.file&#125;</span><br><span class="line">log4j.appender.LOGFILE.layout=org.apache.log4j.PatternLayout</span><br><span class="line">log4j.appender.LOGFILE.layout.ConversionPattern=%d&#123;ISO8601&#125; %5p [%t:%c&#123;2&#125;@%L] %m%n</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Ubuntu16.04%E5%AE%89%E8%A3%85CDH%205.16.2.html#more">全文 &gt;&gt;</a>
@@ -257,6 +271,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>1.安装的docker版本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker -v</span><br><span class="line">Docker version 17.03.2-ce</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>2.查看本地的镜像</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>3.拉取镜像</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull centos:7</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>4.编写Dockerfile</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FROM nginx</span><br><span class="line">RUN echo &#x27;&lt;h1&gt;Hello, Docker!&lt;/h1&gt;&#x27; &gt; /usr/share/nginx/html/index.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>5.build Dockerfile</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker build -t . xxx # 镜像的名字</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/docker%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8.html#more">全文 &gt;&gt;</a>
@@ -314,6 +341,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>在编译thrift文件的时候发现报了如下的错误</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Cannot use reserved language keyword: &quot;class&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>后来查了一下,发现class是thrift的关键字之一,变量起名的时候不能和关键字重复</p>
+<p>thrift的全部关键字可以查看thrift的源码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/apache/thrift/blob/master/compiler/cpp/src/thrift/generate/t_py_generator.cc</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>搜索keywords,下面这些都是thrift关键字,在起名的时候需要注意</p>
+<img src="/images/517519-20190327100917790-236207791.png" alt="" />
+
+<p>&nbsp;以及</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/apache/thrift/tree/master/compiler/cpp/src/thrift/generate/t_generator.cc</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>关键字</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Thrift%E5%85%B3%E9%94%AE%E5%AD%97.html#more">全文 &gt;&gt;</a>
@@ -371,6 +411,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>parquet是列式存储格式，官方文档</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://parquet.apache.org/documentation/latest/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;一个Parquet文件是<strong>由一个header以及一个或多个block块组成，以一个footer结尾</strong>。</p>
+<p><strong>header</strong>中只包含一个4个字节的数字PAR1用来识别整个Parquet文件格式，PAR1的ASCII码是[80, 65, 82, 49]，所以如果使用读取parquet文件的时候，如果magic number不对的话，会报如下错误</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">expected magic number at tail [80, 65, 82, 49] but found [xx, xx, xx, xx]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p>文件中<strong>所有的metadata都存在于footer中</strong>。<strong>footer</strong>中的metadata包含了格式的版本信息，schema信息、key-value paris以及所有block中的metadata信息。footer中最后两个字段为一个以4个字节长度的footer的metadata,以及同header中包含的一样的PAR1。</p>
+<p>在Parquet文件中，每一个block都具有一组Row group,它们是由一组Column chunk组成的列数据。继续往下，每一个column chunk中又包含了它具有的pages。每个page就包含了来自于相同列的值</p>
+<img src="/images/517519-20190109170718876-1163668207.jpg" alt="" />
+
+<p>Parquet 文件在磁盘上的分布情况如下图所示：</p>
+<img src="/images/517519-20210407164507257-1677080847.png" alt="" loading="lazy" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Parquet%E6%A0%BC%E5%BC%8F%E8%A7%A3%E6%9E%90.html#more">全文 &gt;&gt;</a>
@@ -502,6 +555,25 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p><strong>xxl-job</strong>是一个开源的分布式调度框架,其他类似的框架还有airflow,oozie等等,需要进行对比</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/xuxueli/xxl-job</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>1.首先git clone工程</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github.com:xuxueli/xxl-job.git</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>打包工程,打包的过程中会下载所需要的jar包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mvn package</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;<img src="/images/517519-20181222154948560-1702427234.png" alt="" /></p>
+<p><strong>2.在idea中打开工程</strong></p>
+<img src="/images/517519-20181222155010490-467987189.png" alt="" />
+
+<p>需要修改一下logback.xml和properties中日志路径,然后运行工程</p>
+<p><strong>3.初始化数据库</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source /home/lintong/coding/java/xxl-job/doc/db/tables_xxl_job.sql</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>并修改application.properties中的数据库的用户密码</p>
+<p><strong>4.运行web工程</strong></p>
+<img src="/images/517519-20181222155727269-1426298240.png" alt="" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/xxl-job%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B.html#more">全文 &gt;&gt;</a>
@@ -559,6 +631,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>1.创建索引，名字为index</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -XPUT http://localhost:9200/index</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>2.创建一个mapping</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST http://localhost:9200/index/fulltext/_mapping -H &#x27;Content-Type:application/json&#x27; -d&#x27;</span><br><span class="line">&#123;</span><br><span class="line">        &quot;properties&quot;: &#123;</span><br><span class="line">            &quot;content&quot;: &#123;</span><br><span class="line">                &quot;type&quot;: &quot;text&quot;,</span><br><span class="line">                &quot;analyzer&quot;: &quot;ik_max_word&quot;,</span><br><span class="line">                &quot;search_analyzer&quot;: &quot;ik_max_word&quot;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">&#125;&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>3.查看mapping</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -XPUT http://localhost:9200/xxx/yyy/_mapping</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>4.删除一个文档,按照id来删除</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -XDELETE &#x27;http://localhost:9200/index3/fulltext3/272&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>5.通过query来删除文档</p>
+<p>不同版本之间的es不太一样，6.2的参考</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Elasticsearch%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.html#more">全文 &gt;&gt;</a>
@@ -625,6 +710,9 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>&nbsp;</p>
 <p><strong>2.为Elasticsearch的index设置分词</strong></p>
 <p>这样就将这个index里面的所有type的分词设置成了simple</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">PUT my_index</span><br><span class="line">&#123;</span><br><span class="line">&quot;settings&quot;: &#123;</span><br><span class="line">    &quot;analysis&quot;: &#123;</span><br><span class="line">      &quot;analyzer&quot;: &#123;&quot;default&quot;:&#123;&quot;type&quot;:&quot;simple&quot;&#125;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Elasticsearch%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%88%86%E8%AF%8D.html#more">全文 &gt;&gt;</a>
@@ -685,6 +773,14 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>例如:给定一个识别json的语法,antlr工具将会根据该语法生成一个程序,该程序可以通过antlr运行库来识别输入的json.</p>
 <p>&nbsp;</p>
 <p>1.下载jar包，antlr-4.7.1-complete.jar</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://www.antlr.org/download/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;<img src="/images/517519-20181102151552944-627948375.png" alt="" /></p>
+<p>2.将这个jar包移动到 /usr/local/lib 目录下</p>
+<img src="/images/517519-20181102151704451-461111899.png" alt="" />
+
+<p>3.修改 ~.bashrc 文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#Java</span><br><span class="line">export JAVA_HOME=/usr/local/jdk1.8.0_121</span><br><span class="line">export JRE_HOME=$&#123;JAVA_HOME&#125;/jre</span><br><span class="line">export CLASSPATH=.:$&#123;JAVA_HOME&#125;/lib:$&#123;JRE_HOME&#125;/lib:/usr/local/lib/antlr-4.7.1-complete.jar</span><br><span class="line">export PATH=$&#123;JAVA_HOME&#125;/bin:$PATH</span><br><span class="line">alias antlr4=&#x27;java -Xmx500M -cp &quot;/usr/local/lib/antlr-4.7.1-complete.jar:$CLASSPATH&quot; org.antlr.v4.Tool&#x27;</span><br><span class="line">alias grun=&#x27;java org.antlr.v4.runtime.misc.TestRig&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Ubuntu%E4%B8%8B%E5%AE%89%E8%A3%85antlr-4.7.1.html#more">全文 &gt;&gt;</a>
@@ -742,6 +838,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>使用flink来读写hudi有2种API，一个是Flink SQL API，另一个是DataStream API，参考</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://hudi.apache.org/cn/docs/flink-quick-start-guide</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-Flink-SQL-API"><a href="#1-Flink-SQL-API" class="headerlink" title="1.Flink SQL API"></a>1.Flink SQL API</h2><p>首先启动yarn session</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/lib/flink/bin/yarn-session.sh -n 3 -s 5 -jm 1024 -tm 4096 -d</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>使用SQL API提交任务到YARN上的方式有以下几种：</p>
+<h3 id="1-使用交互式的sql-client"><a href="#1-使用交互式的sql-client" class="headerlink" title="1.使用交互式的sql client"></a>1.使用交互式的sql client</h3><p>不过由于sql client目前处于beta版本，所以建议用于原型验证，不建议在生产环境中使用，参考：<a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/709475">Apache Flink 零基础入门（四）：客户端操作的 5 种模式</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://nightlies.apache.org/flink/flink-docs-release-1.13/docs/dev/table/sqlclient/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>启动</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/lib/flink/bin/sql-client.sh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<img src="/images/517519-20230308215908824-235391100.png" width="500" height="193" loading="lazy" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%AF%BB%E5%86%99hudi.html#more">全文 &gt;&gt;</a>

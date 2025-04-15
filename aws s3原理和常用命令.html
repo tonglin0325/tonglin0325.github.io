@@ -5,18 +5,18 @@
   
   <title>aws s3原理和常用命令 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.概念Amazon s3全称Amazon Simple Storage Service，是一个对象存储，不是一个file system，所以在使用s3的时候，list dir会很慢 kv存储：从零开始写KV数据库：基于哈希索引 &amp;nbsp; 比如如下的s3路径">
+  <meta name="description" content="1.概念Amazon s3全称Amazon Simple Storage Service，是一个对象存储，不是一个file system，所以在使用s3的时候，list dir会很慢 kv存储：从零开始写KV数据库：基于哈希索引 &amp;nbsp; 比如如下的s3路径 12s3:&#x2F;&#x2F;BucketName&#x2F;Project&#x2F;WordFiles&#x2F;123.txt  其中BucketName是s3的桶名 buck">
 <meta property="og:type" content="article">
 <meta property="og:title" content="aws s3原理和常用命令">
 <meta property="og:url" content="http://tonglin0325.github.io/aws%20s3%E5%8E%9F%E7%90%86%E5%92%8C%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="1.概念Amazon s3全称Amazon Simple Storage Service，是一个对象存储，不是一个file system，所以在使用s3的时候，list dir会很慢 kv存储：从零开始写KV数据库：基于哈希索引 &amp;nbsp; 比如如下的s3路径">
+<meta property="og:description" content="1.概念Amazon s3全称Amazon Simple Storage Service，是一个对象存储，不是一个file system，所以在使用s3的时候，list dir会很慢 kv存储：从零开始写KV数据库：基于哈希索引 &amp;nbsp; 比如如下的s3路径 12s3:&#x2F;&#x2F;BucketName&#x2F;Project&#x2F;WordFiles&#x2F;123.txt  其中BucketName是s3的桶名 buck">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20211008140425771-1072765003.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20211008140251893-1108561049.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20220620225617902-1226295500.png">
 <meta property="article:published_time" content="2020-09-16T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-10T13:53:09.231Z">
+<meta property="article:modified_time" content="2025-04-15T02:10:03.646Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="AWS">
 <meta name="twitter:card" content="summary">
@@ -216,8 +216,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>kv存储：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/351897096">从零开始写KV数据库：基于哈希索引</a></p>
 <p>&nbsp;</p>
 <p>比如如下的s3路径</p>
-<span id="more"></span>
-
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s3://BucketName/Project/WordFiles/123.txt</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>其中BucketName是s3的桶名</p>
@@ -226,6 +224,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>s3://BucketName/Project/WordFiles/123.txt是键前缀</p>
 <p>&nbsp;</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://aws.amazon.com/cn/premiumsupport/knowledge-center/s3-prefix-nested-folders-difference/#:~:text=A%20prefix%20is%20the%20complete,%2FProject%2FWordFiles%2F%E2%80%9D.">对于 Amazon S3 请求速率，前缀和嵌套文件夹之间有何区别？ S3 存储桶中可以有多少个前缀？</a></p>
+<span id="more"></span>
+
 <p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/52443839/s3-what-exactly-is-a-prefix-and-what-ratelimits-apply">S3 - What Exactly Is A Prefix? And what Ratelimits apply?</a></p>
 <p><a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-prefixes.html">Organizing objects using prefixes</a></p>
 <h2 id="2-s3-xing-neng"><a href="#2-s3性能" class="headerlink" title="2.s3性能"></a>2.s3性能<a href="#2-s3-xing-neng" class="header-anchor">#</a></h2><p>Amazon S3 是一个非常大的分布式系统，在应用程序对 Amazon S3 读写数据时，您可以将请求性能扩展到每秒数千个事务。</p>
@@ -294,7 +294,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
 <p>6.上传文件到s3</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">aws s3 cp ~/test.json s3://xxx-bucket/new_dic/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
         <div class="article-entry">
           <div id="footer-info" class="inner">
           本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/aws%20s3%E5%8E%9F%E7%90%86%E5%92%8C%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.html">aws s3原理和常用命令</a>

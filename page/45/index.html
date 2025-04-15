@@ -201,6 +201,18 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>使用原生包管理工具安装kubectl</p>
 <p>1.更新 apt 包索引，并安装使用 Kubernetes apt 仓库所需要的包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install -y apt-transport-https ca-certificates curl</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>2.下载 Google Cloud 公开签名秘钥，如果有网络问题的话，可以手动下载apt-key.gpg文件，然后将其改名并移动到/usr/share/keyrings/kubernetes-archive-keyring.gpg目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>3.添加 Kubernetes apt 仓库：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main&quot; | sudo tee /etc/apt/sources.list.d/kubernetes.list</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果报错，可以使用中科大的源</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] http://mirrors.ustc.edu.cn/kubernetes/apt kubernetes-xenial main&quot; | sudo tee /etc/apt/sources.list.d/kubernetes.list</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>4.更新 apt 包索引，使之包含新的仓库并安装 kubectl：</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/ubuntu16.04%E5%AE%89%E8%A3%85minikube.html#more">全文 &gt;&gt;</a>
@@ -259,6 +271,17 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>Presto的语法解析器是使用ANTLR生成的</p>
 <p>PrestoDB的parser g4语法文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/prestodb/presto/blob/master/presto-parser/src/main/antlr4/com/facebook/presto/sql/parser/SqlBase.g4</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>PrestoSQL（Trino）的parser g4语法文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/trinodb/trino/blob/master/core/trino-grammar/src/main/antlr4/io/trino/grammar/sql/SqlBase.g4</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果想在java代码中使用Presto的parser进行语法解析的话，可以引用下面的依赖</p>
+<p>PrestoDB（Facebook版本）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.facebook.presto&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;presto-parser&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;0.285.1&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>PrestoSQL（社区版本，350及其以下版本叫prestosql，以上改名为Trino）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;io.prestosql&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;presto-parser&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;330&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E4%BD%BF%E7%94%A8Presto%20parser%E8%A7%A3%E6%9E%90SQL.html#more">全文 &gt;&gt;</a>
@@ -315,7 +338,20 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1-使用jmap命令生成内存快照文件-Heap-Profile"><a href="#1-使用jmap命令生成内存快照文件-Heap-Profile" class="headerlink" title="1.使用jmap命令生成内存快照文件(Heap Profile)"></a>1.使用jmap命令生成内存快照文件(Heap Profile)</h2>
+        <h2 id="1-使用jmap命令生成内存快照文件-Heap-Profile"><a href="#1-使用jmap命令生成内存快照文件-Heap-Profile" class="headerlink" title="1.使用jmap命令生成内存快照文件(Heap Profile)"></a>1.使用jmap命令生成内存快照文件(Heap Profile)</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jmap -dump:format=b,file=heap.hprof $&#123;pid&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果生成快照的时候遇到如下报错</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Dumping heap to /mnt/tmp/heap.hprof ...</span><br><span class="line">Exception in thread &quot;main&quot; java.io.IOException: Premature EOF</span><br><span class="line">	at sun.tools.attach.HotSpotVirtualMachine.readInt(HotSpotVirtualMachine.java:292)</span><br><span class="line">	at sun.tools.attach.LinuxVirtualMachine.execute(LinuxVirtualMachine.java:200)</span><br><span class="line">	at sun.tools.attach.HotSpotVirtualMachine.executeCommand(HotSpotVirtualMachine.java:261)</span><br><span class="line">	at sun.tools.attach.HotSpotVirtualMachine.dumpHeap(HotSpotVirtualMachine.java:224)</span><br><span class="line">	at sun.tools.jmap.JMap.dump(JMap.java:247)</span><br><span class="line">	at sun.tools.jmap.JMap.main(JMap.java:142)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>添加如下参数就可以解决</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jmap -J-d64 -dump:format=b,file=/mnt/tmp/heap.hprof $&#123;pid&#125;</span><br></pre></td></tr></table></figure>
+
+<p>参考：<a target="_blank" rel="noopener" href="https://little-star.love/posts/657c8eb4/">jmap -dump导出jvm堆内存信息时报错</a></p>
+<h2 id="2-使用Eclipse-Memory-Analyzer工具对hprof文件进行分析"><a href="#2-使用Eclipse-Memory-Analyzer工具对hprof文件进行分析" class="headerlink" title="2.使用Eclipse Memory Analyzer工具对hprof文件进行分析"></a>2.使用Eclipse Memory Analyzer工具对hprof文件进行分析</h2><p>如果机器的java版本是java8的话，需要注意MAT&nbsp;1.12.0版本需要jdk11，所以下载1.10.0版本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://www.eclipse.org/downloads/download.php?file=/mat/1.10.0/rcp/MemoryAnalyzer-1.10.0.20200225-linux.gtk.x86_64.zip</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>否则会出现如下报错</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Unrecognized option: --add-exports=java.base/jdk.internal.org.objectweb.asm=ALL-UNNAMED Error: Could not create the Java Virtual Machine. Error: A fatal exception has occurred. Program will exit. Unable to init server: Could not connect: Connection refused　　</span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E4%BD%BF%E7%94%A8jmap%E6%8E%92%E6%9F%A5java%E7%A8%8B%E5%BA%8F%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2.html#more">全文 &gt;&gt;</a>
@@ -373,6 +409,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>flink官方从1.8.0开始提供Table&amp;SQL API，参考</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/apache/flink/tree/release-1.8.0/flink-table</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果想使用Flink SQL的话，可以参考官方的get start文档，如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://nightlies.apache.org/flink/flink-docs-master/docs/dev/table/sql/gettingstarted/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>找到flink的安装目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/lib/flink</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>首先需要启动一个flink集群，这里使用yarn-session模式来启动一个flink session集群，比如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./bin/yarn-session.sh -n 3 -s 5 -jm 1024 -tm 4096 -d</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>一旦flink集群启动，你就可以访问一个本地的FlinkUI</p>
+<img src="/images/517519-20230131155103757-1000146192.png" alt="" loading="lazy" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Flink%20SQL.html#more">全文 &gt;&gt;</a>
@@ -430,6 +479,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>Flink的部署方式有如下几种，本文主要介绍standalone模式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Yarn</span><br><span class="line">Mesos</span><br><span class="line">Docker/Kubernetes</span><br><span class="line">Standalone</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>standalone模式的官方文档可以参考</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://nightlies.apache.org/flink/flink-docs-master/docs/deployment/resource-providers/standalone/overview/#standalone</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>进入flink的安装目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/lib/flink</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>启动一个standalone的flink集群</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./bin/start-cluster.sh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这时可以在默认的8081端口查看FlinkUI</p>
+<p>提交任务</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Standalone%E6%A8%A1%E5%BC%8F.html#more">全文 &gt;&gt;</a>
@@ -492,6 +554,13 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>第2种是在环境变量中添加</p>
 <p>&nbsp;</p>
 <p>官方JMX exporter</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/prometheus/jmx_exporter</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>　　</p>
+<p>jmxConnector.yaml配置如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">lowercaseOutputName: false</span><br><span class="line">lowercaseOutputLabelNames: false</span><br><span class="line">blacklistObjectNames: [ &quot;java.lang:*&quot;, &quot;java.nio:*&quot;, &quot;metrics:name=my_test_job.driver.BlockManager.disk.diskSpaceUsed_MB,*&quot;]</span><br><span class="line">whitelistObjectNames: [ &quot;*:*&quot; ]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Java%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%90%AFJMX%E4%BB%A5%E5%8F%8A%E9%85%8D%E7%BD%AEPromethus%20exporter.html#more">全文 &gt;&gt;</a>
@@ -558,6 +627,9 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>&nbsp;</p>
 <p><strong>3、编辑/etc/sysctl.conf</strong></p>
 <p>net.ipv4.tcp_syncookies&nbsp;=&nbsp;1<br />net.ipv4.tcp_tw_reuse&nbsp;=&nbsp;1<br />net.ipv4.tcp_tw_recycle&nbsp;=&nbsp;1<br />net.ipv4.tcp_fin_timeout&nbsp;=&nbsp;30</p>
+<p>然后执行/sbin/sysctl&nbsp;-p让参数生效。</p>
+<p>net.ipv4.tcp_syncookies&nbsp;=&nbsp;1表示开启SYN&nbsp;Cookies。当出现SYN等待队列溢出时，启用cookies来处理，可防范少量SYN攻击，默认为0，表示关闭；</p>
+<p>net.ipv4.tcp_tw_reuse&nbsp;=&nbsp;1表示开启重用。允许将TIME-WAIT&nbsp;sockets重新用于新的TCP连接，默认为0，表示关闭；</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/linux%20os%E5%8F%82%E6%95%B0%E8%B0%83%E4%BC%98.html#more">全文 &gt;&gt;</a>
@@ -614,18 +686,35 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <img src="/images/517519-20160315232539615-1473879989.png" alt="" />
+        <!-- 目录 -->
+
+<div id="toc">
+  
+</div>
+
+        <img src="/images/517519-20160315232539615-1473879989.png" alt>
 
 <p>&nbsp;</p>
-<img src="/images/517519-20160315233612881-1466285335.png" alt="" />
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81.html#more">全文 &gt;&gt;</a>
-          </p>
-        
+<img src="/images/517519-20160315233612881-1466285335.png" alt>
 
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">import java.io.File;</span><br><span class="line">import java.io.FileNotFoundException;</span><br><span class="line">import java.io.FileOutputStream;</span><br><span class="line"></span><br><span class="line">import org.omg.CORBA.portable.OutputStream;</span><br><span class="line"></span><br><span class="line">public class code_demo &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) throws Exception &#123;</span><br><span class="line">		// TODO 自动生成的方法存根</span><br><span class="line">		System.out.println(&quot;系统默认编码：&quot;+System.getProperty(&quot;file.encoding&quot;));		//获取系统当前的编码</span><br><span class="line">		File file = new File(&quot;/home/common/software/coding/HelloWord/HelloWord/b.txt&quot;);//路径</span><br><span class="line">		FileOutputStream out = new FileOutputStream(file);</span><br><span class="line">		byte b[] = &quot;中国&quot;.getBytes(&quot;ISO8859-1&quot;);</span><br><span class="line">		out.write(b);</span><br><span class="line">		out.close();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<img src="/images/517519-20160326233948776-1199368064.png" alt>
+
+<img src="/images/517519-20160326234056542-37451885.png" alt>
+
+<img src="/images/517519-20160326234124870-1912173043.png" alt>
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81.html"></a>
+          </div>
+        </div>
       
     </div>
+
+    
+      
 
     
 
@@ -686,7 +775,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
 <p>查询</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">import presto</span><br><span class="line"></span><br><span class="line"># demo about the usage of presto-python-client</span><br><span class="line">conn = presto.dbapi.connect(</span><br><span class="line">    host=&#x27;localhost&#x27;,</span><br><span class="line">    port=8889,</span><br><span class="line">    user=&#x27;hadoop&#x27;,</span><br><span class="line">    catalog=&#x27;xx_catalog&#x27;,</span><br><span class="line">    schema=&#x27;default&#x27;</span><br><span class="line">    )</span><br><span class="line">cur = conn.cursor()</span><br><span class="line">sql = &quot;select * from xxx.xxx limit 10&quot;</span><br><span class="line">cur.execute(sql)</span><br><span class="line">rows = cur.fetchall()  </span><br><span class="line">print(rows)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
         <div class="article-entry">
           <div id="footer-info" class="inner">
           本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/Presto%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Python%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5Presto.html"></a>
@@ -749,6 +837,16 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>其他参考：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/967cb76cd5ca">CentOS7安装部署Prometheus+Grafana&nbsp;</a></p>
 <h2 id="1-安装Prometheus"><a href="#1-安装Prometheus" class="headerlink" title="1.安装Prometheus"></a>1.安装Prometheus</h2><p>官方网站下载二进制安装包：<a target="_blank" rel="noopener" href="https://prometheus.io/download/">https://prometheus.io/download/</a></p>
 <p>可以选择mac，linux和Windows版本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/prometheus/prometheus/releases/download/v2.36.1/prometheus-2.36.1.linux-amd64.tar.gz</span><br><span class="line">tar -zxvf prometheus-2.36.1.linux-amd64.tar.gz</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>　　</p>
+<h2 id="2-修改prometheus配置"><a href="#2-修改prometheus配置" class="headerlink" title="2.修改prometheus配置"></a>2.修改prometheus配置</h2><p>配置文件为prometheus.yml</p>
+<p><strong>prometheus采集数据的方法分成推和拉</strong></p>
+<h3 id="1-prometheus定时通过exporter暴露的HTTP端口主动去采集监控数据的方式就是拉"><a href="#1-prometheus定时通过exporter暴露的HTTP端口主动去采集监控数据的方式就是拉" class="headerlink" title="1.prometheus定时通过exporter暴露的HTTP端口主动去采集监控数据的方式就是拉"></a>1.prometheus定时通过exporter暴露的HTTP端口主动去采集监控数据的方式就是拉</h3><p>下面就是配置一个exporter采集任务的例子</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">scrape_configs:</span><br><span class="line">  # The job name is added as a label `job=&lt;job_name&gt;` to any timeseries scraped from this config.</span><br><span class="line">  - job_name: &quot;prometheus&quot;</span><br><span class="line"></span><br><span class="line">    # metrics_path defaults to &#x27;/metrics&#x27;</span><br><span class="line">    # scheme defaults to &#x27;http&#x27;.</span><br><span class="line"></span><br><span class="line">    static_configs:</span><br><span class="line">      - targets: [&quot;xx:xx&quot;]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-程序主动上报metrics给prometheus的pushgateway则是推"><a href="#2-程序主动上报metrics给prometheus的pushgateway则是推" class="headerlink" title="2.程序主动上报metrics给prometheus的pushgateway则是推"></a>2.程序主动上报metrics给prometheus的pushgateway则是推</h3><p>要主动上报metrics首先要安装pushgateway，参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/huandada/p/10932953.html">prometheus-pushgateway安装</a></p>
+<p>在官方的文档当中，pushgateway唯一推荐使用的场景是在批处理作业运行结果的采集上，其他的建议使用exporter：<a target="_blank" rel="noopener" href="https://prometheus.io/docs/practices/pushing/#when-to-use-the-pushgateway">when-to-use-the-pushgateway</a></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Prometheus%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html#more">全文 &gt;&gt;</a>

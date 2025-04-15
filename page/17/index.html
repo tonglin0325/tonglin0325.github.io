@@ -200,6 +200,18 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>1.导入JSON数据的方式有两种，一种是在web管理界面中导入，另一种是使用curl命令来导入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl http://localhost:8983/solr/baikeperson/update/json?commit=true --data-binary @/home/XXX/下载/person/test1.json -H &#x27;Content-type:text/json; charset=utf-8&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>2.导入的时候注意格式</p>
+<p>使用curl可以导入的格式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">　　&quot;add&quot;: &#123;</span><br><span class="line">　　　　&quot;overwrite&quot;: true,</span><br><span class="line">　　　　&quot;doc&quot;: &#123;</span><br><span class="line">　　　　　　&quot;id&quot;: 1,</span><br><span class="line">　　　　　　&quot;name&quot;: &quot;Some book&quot;,</span><br><span class="line">　　　　　　&quot;author&quot;: [&quot;John&quot;, &quot;Marry&quot;]</span><br><span class="line">　　　　&#125;</span><br><span class="line">　　&#125;,</span><br><span class="line">　　&quot;add&quot;: &#123;</span><br><span class="line">　　　　&quot;overwrite&quot;: true,</span><br><span class="line">　　　　&quot;boost&quot;: 2.5,</span><br><span class="line">　　　　&quot;doc&quot;: &#123;</span><br><span class="line">　　　　　　&quot;id&quot;: 2,</span><br><span class="line">　　　　　　&quot;name&quot;: &quot;Important Book&quot;,</span><br><span class="line">　　　　　　&quot;author&quot;: [&quot;Harry&quot;, &quot;Jane&quot;]</span><br><span class="line">　　　　&#125;</span><br><span class="line">　　&#125;,</span><br><span class="line">　　&quot;add&quot;: &#123;</span><br><span class="line">　　　　&quot;overwrite&quot;: true,</span><br><span class="line">　　　　&quot;doc&quot;: &#123;</span><br><span class="line">　　　　　　&quot;id&quot;: 3,</span><br><span class="line">　　　　　　&quot;name&quot;: &quot;Some other book&quot;,</span><br><span class="line">　　　　　　&quot;author&quot;: &quot;Marry&quot;</span><br><span class="line">　　　　&#125;</span><br><span class="line">　　&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p>在web界面中可以导入的格式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;title&quot;:&quot;许宝江&quot;,&quot;url&quot;:&quot;7254863&quot;,&quot;chineseName&quot;:&quot;许宝江&quot;,&quot;sex&quot;:&quot;男&quot;,&quot;occupation&quot;:&quot; 滦县农业局局长&quot;,&quot;nationality&quot;:&quot;中国&quot;&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>不可以导入的格式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;title&quot;:&quot;鲍志成&quot;,&quot;url&quot;:&quot;2074015&quot;,&quot;chineseName&quot;:&quot;鲍志成&quot;,&quot;occupation&quot;:&quot;医师&quot;,&quot;nationality&quot;:&quot;中国&quot;,&quot;birthDate&quot;:&quot;1901年&quot;,&quot;deathDate&quot;:&quot;1973年&quot;,&quot;graduatedFrom&quot;:&quot;香港大学&quot;&#125;</span><br><span class="line">&#123;&quot;title&quot;:&quot;许宝江&quot;,&quot;url&quot;:&quot;7254863&quot;,&quot;chineseName&quot;:&quot;许宝江&quot;,&quot;sex&quot;:&quot;男&quot;,&quot;occupation&quot;:&quot;&amp;nbsp;滦县农业局局长&quot;,&quot;nationality&quot;:&quot;中国&quot;&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Solr%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AF%BC%E5%85%A5JSON%E6%95%B0%E6%8D%AE.html#more">全文 &gt;&gt;</a>
@@ -256,8 +268,14 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
+        <!-- 目录 -->
+
+<div id="toc">
+  <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#zhi-chi-de-can-shu"><span class="toc-text">支持的参数：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#te-shu-fu-hao-yi-yi"><span class="toc-text">特殊符号意义：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#luo-ji-cao-zuo"><span class="toc-text">逻辑操作</span></a></li></ol>
+</div>
+
         <p>1.进入Solr管理界面<a target="_blank" rel="noopener" href="http://localhost:8983/solr/">http://localhost:8983/solr/</a></p>
-<img src="/images/517519-20170510115102269-1984174909.png" alt="" width="675" height="598" />
+<img src="/images/517519-20170510115102269-1984174909.png" alt width="675" height="598">
 
 <p>可以看到Query中有若干的参数，其意义如下（参考：<a target="_blank" rel="noopener" href="http://www.jianshu.com/p/3c4cae5dee8d">http://www.jianshu.com/p/3c4cae5dee8d</a>）</p>
 <p><strong>Solr的查询语法：</strong></p>
@@ -268,7 +286,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <li>Extended DisMax Query Parser (eDisMax)</li>
 </ul>
 <p>第一种是标准的Parser，最后一种是最强大的，也是Sunspot默认使用的Parser。</p>
-<h4 id="支持的参数："><a href="#支持的参数：" class="headerlink" title="支持的参数："></a>支持的参数：</h4><ul>
+<h4 id="zhi-chi-de-can-shu"><a href="#支持的参数：" class="headerlink" title="支持的参数："></a>支持的参数：<a href="#zhi-chi-de-can-shu" class="header-anchor">#</a></h4><ul>
 <li>defType: 选择查询解析器类型，例如dismax, edismax</li>
 <li>q：主查询参数（field_name:value）</li>
 <li>sort：排序，例如score desc，price asc</li>
@@ -281,14 +299,46 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <li>wt：response writer返回的响应格式</li>
 </ul>
 <p>下面是DisMax Parser可以使用的：</p>
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/Solr%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%9F%A5%E8%AF%A2.html#more">全文 &gt;&gt;</a>
-          </p>
-        
+<ul>
+<li>qf：query fields，指定查询的字段，指定solr从哪些field中搜索，没有值的时候使用df</li>
+<li>mm：最小匹配比例</li>
+<li>pf：phrase fields</li>
+<li>ps：phrase slop</li>
+<li>qs：query phrase slop</li>
+</ul>
+<h4 id="te-shu-fu-hao-yi-yi"><a href="#特殊符号意义：" class="headerlink" title="特殊符号意义："></a>特殊符号意义：<a href="#te-shu-fu-hao-yi-yi" class="header-anchor">#</a></h4><ul>
+<li>?：te?t 单个字符匹配</li>
+<li><em>：tes</em> 多个字符匹配</li>
+<li><del>：fuzzy searches（模糊匹配），roam</del>，roams/foam/foams</li>
+<li>count:{1 TO 10}：range search 范围检索</li>
+<li>^：Boosting a Term（升级权重），jakarta^4 apache, “酒店”^4 “宾馆”</li>
+<li>^=：Constant Score with（指定分数），(description:blue OR color:blue)^=1.0 text:shoes</li>
+</ul>
+<h4 id="luo-ji-cao-zuo"><a href="#逻辑操作" class="headerlink" title="逻辑操作"></a>逻辑操作<a href="#luo-ji-cao-zuo" class="header-anchor">#</a></h4><ul>
+<li>AND 或者 &amp;&amp;</li>
+<li>NOT 或者 !</li>
+<li>OR 或者 !!</li>
+<li><ul>
+<li>必须满足</li>
+</ul>
+</li>
+<li><ul>
+<li>剔除，比如 title: -安徽，返回的是title中不含有”安徽”的所有结果</li>
+</ul>
+</li>
+</ul>
+<p>&nbsp;</p>
 
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/Solr%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%9F%A5%E8%AF%A2.html"></a>
+          </div>
+        </div>
       
     </div>
+
+    
+      
 
     
 
@@ -342,6 +392,13 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>2.解压并移动到/usr/local目录下</p>
 <p>3.安装Solr需要安装Java环境，假设Java环境是安装好的</p>
 <p>4.解压solr-6.5.1.tgz目录中的install_solr_service.sh文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar zxvf solr-6.5.1.tgz solr-6.5.1/bin/install_solr_service.sh --strip-components=2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>5.运行这个脚本，进行安装</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo bash ./install_solr_service.sh solr-6.5.1.tgz</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>6.如果安装失败的话，使用下面的命令删除Solr，然后重新安装</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo service solr stop</span><br><span class="line">sudo rm -r /var/solr</span><br><span class="line">sudo rm -r /opt/solr-6.5.1</span><br><span class="line">sudo rm -r /opt/solr</span><br><span class="line">sudo rm /etc/init.d/solr</span><br><span class="line">sudo deluser --remove-home solr</span><br><span class="line">sudo deluser --group solr</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Ubuntu%E4%B8%8B%E5%AE%89%E8%A3%85Solr.html#more">全文 &gt;&gt;</a>
@@ -398,15 +455,27 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <p>1.建立TF-IDF模型</p>
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E6%8A%80%E6%9C%AF.html#more">全文 &gt;&gt;</a>
-          </p>
-        
+        <!-- 目录 -->
 
+<div id="toc">
+  
+</div>
+
+        <p>1.建立TF-IDF模型</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.spark.&#123;SparkConf, SparkContext&#125;</span><br><span class="line">import org.apache.spark.mllib.linalg.&#123;SparseVector =&gt; SV&#125;</span><br><span class="line">import org.apache.spark.mllib.feature.HashingTF</span><br><span class="line">import org.apache.spark.mllib.feature.IDF</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">  * Created by common on 17-5-6.</span><br><span class="line">  */</span><br><span class="line">object TFIDF &#123;</span><br><span class="line"></span><br><span class="line">  def main(args: Array[String]): Unit = &#123;</span><br><span class="line">    val conf = new SparkConf().setAppName(&quot;WordCount&quot;).setMaster(&quot;local&quot;)</span><br><span class="line">    val sc = new SparkContext(conf)</span><br><span class="line"></span><br><span class="line">//    val path = &quot;hdfs://master:9000/user/common/20Newsgroups/20news-bydate-train/*&quot;</span><br><span class="line">    val path = &quot;file:///media/common/工作/kaggle/test/*&quot;</span><br><span class="line">    val rdd = sc.wholeTextFiles(path)</span><br><span class="line"></span><br><span class="line">    // 提取文本信息</span><br><span class="line">    val text = rdd.map &#123; case (file, text) =&gt; text &#125;</span><br><span class="line">    //    print(text.count())</span><br><span class="line"></span><br><span class="line">    val regex = &quot;&quot;&quot;[^0-9]*&quot;&quot;&quot;.r</span><br><span class="line"></span><br><span class="line">    // 排除停用词</span><br><span class="line">    val stopwords = Set(</span><br><span class="line">      &quot;the&quot;, &quot;a&quot;, &quot;an&quot;, &quot;of&quot;, &quot;or&quot;, &quot;in&quot;, &quot;for&quot;, &quot;by&quot;, &quot;on&quot;, &quot;but&quot;, &quot;is&quot;, &quot;not&quot;,</span><br><span class="line">      &quot;with&quot;, &quot;as&quot;, &quot;was&quot;, &quot;if&quot;,</span><br><span class="line">      &quot;they&quot;, &quot;are&quot;, &quot;this&quot;, &quot;and&quot;, &quot;it&quot;, &quot;have&quot;, &quot;from&quot;, &quot;at&quot;, &quot;my&quot;,</span><br><span class="line">      &quot;be&quot;, &quot;that&quot;, &quot;to&quot;</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    // 以使用正则表达切分原始文档来移除这些非单词字符</span><br><span class="line">    val nonWordSplit = text.flatMap(t =&gt;</span><br><span class="line">      t.split(&quot;&quot;&quot;\W+&quot;&quot;&quot;).map(_.toLowerCase))</span><br><span class="line"></span><br><span class="line">    // 过滤掉数字和包含数字的单词</span><br><span class="line">    val filterNumbers = nonWordSplit.filter(token =&gt;</span><br><span class="line">      regex.pattern.matcher(token).matches)</span><br><span class="line"></span><br><span class="line">    // 基于出现的频率，排除很少出现的单词，需要先计算一遍整个测试集</span><br><span class="line">    val tokenCounts = filterNumbers.map(t =&gt; (t, 1)).reduceByKey(_ + _)</span><br><span class="line">    val rareTokens = tokenCounts.filter &#123; case (k, v) =&gt; v &lt; 2 &#125;.map &#123;</span><br><span class="line">      case (k, v) =&gt; k</span><br><span class="line">    &#125;.collect.toSet</span><br><span class="line"></span><br><span class="line">    // 每一个文档的预处理函数</span><br><span class="line">    def tokenize(line: String): Seq[String] = &#123;</span><br><span class="line">      line.split(&quot;&quot;&quot;\W+&quot;&quot;&quot;)</span><br><span class="line">        .map(_.toLowerCase)</span><br><span class="line">        .filter(token =&gt; regex.pattern.matcher(token).matches)</span><br><span class="line">        .filterNot(token =&gt; stopwords.contains(token))</span><br><span class="line">        .filterNot(token =&gt; rareTokens.contains(token))</span><br><span class="line">        .filter(token =&gt; token.size &gt;= 2) //删除只有一个字母的单词</span><br><span class="line">        .toSeq</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 每一篇文档经过预处理之后，每一个文档成为一个Seq[String]</span><br><span class="line">    val tokens = text.map(doc =&gt; tokenize(doc)).cache()</span><br><span class="line"></span><br><span class="line">    println(tokens.distinct.count)</span><br><span class="line">    // 第一篇文档第一部分分词之后的结果</span><br><span class="line">    println(tokens.first())</span><br><span class="line">    println(tokens.first().length)</span><br><span class="line"></span><br><span class="line">    // 生成2^18维的特征</span><br><span class="line">    val dim = math.pow(2, 18).toInt</span><br><span class="line">    val hashingTF = new HashingTF(dim)</span><br><span class="line"></span><br><span class="line">    // HashingTF 的 transform 函数把每个输入文档(即词项的序列)映射到一个MLlib的Vector对象</span><br><span class="line">    val tf = hashingTF.transform(tokens)</span><br><span class="line">    // tf的长度是文档的个数，对应的是文档和维度的矩阵</span><br><span class="line">    tf.cache</span><br><span class="line"></span><br><span class="line">    // 取得第一个文档的向量</span><br><span class="line">    val v = tf.first.asInstanceOf[SV]</span><br><span class="line">    println(v.size)</span><br><span class="line">    // v.value和v.indices的长度相等，value是词频，indices是词频非零的下标</span><br><span class="line">    println(v.values.size)</span><br><span class="line">    println(v.indices.size)</span><br><span class="line">    println(v.values.toSeq)</span><br><span class="line">    println(v.indices.take(10).toSeq)</span><br><span class="line"></span><br><span class="line">    // 对每个单词计算逆向文本频率</span><br><span class="line">    val idf = new IDF().fit(tf)</span><br><span class="line">    // 转换词频向量为TF-IDF向量</span><br><span class="line">    val tfidf = idf.transform(tf)</span><br><span class="line">    val v2 = tfidf.first.asInstanceOf[SV]</span><br><span class="line">    println(v2.values.size)</span><br><span class="line">    println(v2.values.take(10).toSeq)</span><br><span class="line">    println(v2.indices.take(10).toSeq)</span><br><span class="line"></span><br><span class="line">    // 计算整个文档的TF-IDF最小和最大权值</span><br><span class="line">    val minMaxVals = tfidf.map &#123; v =&gt;</span><br><span class="line">      val sv = v.asInstanceOf[SV]</span><br><span class="line">      (sv.values.min, sv.values.max)</span><br><span class="line">    &#125;</span><br><span class="line">    val globalMinMax = minMaxVals.reduce &#123; case ((min1, max1),</span><br><span class="line">    (min2, max2)) =&gt;</span><br><span class="line">      (math.min(min1, min2), math.max(max1, max2))</span><br><span class="line">    &#125;</span><br><span class="line">    println(globalMinMax)</span><br><span class="line"></span><br><span class="line">    // 比较几个单词的TF-IDF权值</span><br><span class="line">    val common = sc.parallelize(Seq(Seq(&quot;you&quot;, &quot;do&quot;, &quot;we&quot;)))</span><br><span class="line">    val tfCommon = hashingTF.transform(common)</span><br><span class="line">    val tfidfCommon = idf.transform(tfCommon)</span><br><span class="line">    val commonVector = tfidfCommon.first.asInstanceOf[SV]</span><br><span class="line">    println(commonVector.values.toSeq)</span><br><span class="line"></span><br><span class="line">    val uncommon = sc.parallelize(Seq(Seq(&quot;telescope&quot;, &quot;legislation&quot;,&quot;investment&quot;)))</span><br><span class="line">    val tfUncommon = hashingTF.transform(uncommon)</span><br><span class="line">    val tfidfUncommon = idf.transform(tfUncommon)</span><br><span class="line">    val uncommonVector = tfidfUncommon.first.asInstanceOf[SV]</span><br><span class="line">    println(uncommonVector.values.toSeq)</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E6%8A%80%E6%9C%AF.html"></a>
+          </div>
+        </div>
       
     </div>
+
+    
+      
 
     
 
@@ -457,6 +526,18 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>spark可以使用SparkListener API在spark运行的过程中监控spark任务当前的运行状态，参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/yyy-blog/p/10253830.html">SparkListener监听使用方式及自定义的事件处理动作</a></p>
 <p>编写 MySparkAppListener</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">package com.bigdata.spark</span><br><span class="line"></span><br><span class="line">import org.apache.spark.internal.Logging</span><br><span class="line">import org.apache.spark.scheduler.&#123;SparkListener, SparkListenerApplicationEnd, SparkListenerApplicationStart&#125;</span><br><span class="line"></span><br><span class="line">class MySparkAppListener extends SparkListener with Logging &#123;</span><br><span class="line"></span><br><span class="line">  // 启动事件</span><br><span class="line">  override def onApplicationStart(applicationStart: SparkListenerApplicationStart): Unit = &#123;</span><br><span class="line">    val appId = applicationStart.appId</span><br><span class="line">    logInfo(&quot;spark job start =&gt; &quot; + appId.get)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // 结束事件</span><br><span class="line">  override def onApplicationEnd(applicationEnd: SparkListenerApplicationEnd): Unit = &#123;</span><br><span class="line">    logInfo(&quot;spark job end =&gt; &quot; + applicationEnd.time)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>添加 spark.extraListeners 参数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">val sparkSession = SparkSession.builder()</span><br><span class="line">  .master(&quot;local&quot;)</span><br><span class="line">  .config(&quot;spark.extraListeners&quot;, &quot;com.bigdata.spark.MySparkAppListener&quot;)</span><br><span class="line">  .appName(&quot;spark session example&quot;)</span><br><span class="line">  .getOrCreate()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>运行任务后就可以在日志当中看到对应的日志</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">21/12/27 23:13:46 INFO MySparkAppListener: spark job start =&gt; local-1640618026361</span><br><span class="line"></span><br><span class="line">21/12/27 23:13:48 INFO MySparkAppListener: spark job end =&gt; 1640618028287</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>还有其他的事件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">abstract class SparkListener extends SparkListenerInterface &#123;</span><br><span class="line">  //阶段完成时触发的事件</span><br><span class="line">  override def onStageCompleted(stageCompleted: SparkListenerStageCompleted): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  //阶段提交时触发的事件</span><br><span class="line">  override def onStageSubmitted(stageSubmitted: SparkListenerStageSubmitted): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  //任务启动时触发的事件</span><br><span class="line">  override def onTaskStart(taskStart: SparkListenerTaskStart): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  //下载任务结果的事件</span><br><span class="line">  override def onTaskGettingResult(taskGettingResult: SparkListenerTaskGettingResult): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  //任务结束的事件</span><br><span class="line">  override def onTaskEnd(taskEnd: SparkListenerTaskEnd): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  //job启动的事件</span><br><span class="line">  override def onJobStart(jobStart: SparkListenerJobStart): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  //job结束的事件</span><br><span class="line">  override def onJobEnd(jobEnd: SparkListenerJobEnd): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  //环境变量被更新的事件</span><br><span class="line">  override def onEnvironmentUpdate(environmentUpdate: SparkListenerEnvironmentUpdate): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  //块管理被添加的事件</span><br><span class="line">  override def onBlockManagerAdded(blockManagerAdded: SparkListenerBlockManagerAdded): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  override def onBlockManagerRemoved(</span><br><span class="line">      blockManagerRemoved: SparkListenerBlockManagerRemoved): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  //取消rdd缓存的事件</span><br><span class="line">  override def onUnpersistRDD(unpersistRDD: SparkListenerUnpersistRDD): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  //app启动的事件</span><br><span class="line">  override def onApplicationStart(applicationStart: SparkListenerApplicationStart): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  //app结束的事件 [以下各事件也如同函数名所表达各个阶段被触发的事件不在一一标注]</span><br><span class="line">  override def onApplicationEnd(applicationEnd: SparkListenerApplicationEnd): Unit = &#123; &#125; </span><br><span class="line"></span><br><span class="line">  override def onExecutorMetricsUpdate(</span><br><span class="line">      executorMetricsUpdate: SparkListenerExecutorMetricsUpdate): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  override def onExecutorAdded(executorAdded: SparkListenerExecutorAdded): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  override def onExecutorRemoved(executorRemoved: SparkListenerExecutorRemoved): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  override def onExecutorBlacklisted(</span><br><span class="line">      executorBlacklisted: SparkListenerExecutorBlacklisted): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  override def onExecutorUnblacklisted(</span><br><span class="line">      executorUnblacklisted: SparkListenerExecutorUnblacklisted): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  override def onNodeBlacklisted(</span><br><span class="line">      nodeBlacklisted: SparkListenerNodeBlacklisted): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  override def onNodeUnblacklisted(</span><br><span class="line">      nodeUnblacklisted: SparkListenerNodeUnblacklisted): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  override def onBlockUpdated(blockUpdated: SparkListenerBlockUpdated): Unit = &#123; &#125;</span><br><span class="line"></span><br><span class="line">  override def onOtherEvent(event: SparkListenerEvent): Unit = &#123; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94spark%20listener.html#more">全文 &gt;&gt;</a>
@@ -515,6 +596,18 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>参考：<a target="_blank" rel="noopener" href="http://blog.csdn.net/xiangwanpeng/article/details/54586087">http://blog.csdn.net/xiangwanpeng/article/details/54586087</a></p>
 <p>1.在下载目录下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo wget http://download.redis.io/releases/redis-3.2.6.tar.gz</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>2.解压，并复制到/usr/local目录下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf redis-3.2.6.tar.gz</span><br><span class="line">mv redis-3.2.6 /usr/local/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>3.编译和安装</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /redis</span><br><span class="line">sudo make</span><br><span class="line">sudo make install</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>4.在redis安装文件夹中修改文件redis.conf，使得redis在后台运行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim redis.conf</span><br><span class="line">#修改daemonize yes</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>5.启动redis</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Ubuntu%E5%AE%89%E8%A3%85redis%E7%BC%93%E5%AD%98%E6%95%B0%E6%8D%AE%E5%BA%93.html#more">全文 &gt;&gt;</a>
@@ -652,6 +745,11 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>内容样例：String = “<a target="_blank" rel="noopener" href="http://www.bloomberg.com/news/2010-12-23/ibm-predicts-holographic-calls-air-breathing-batteries-by-2015.html&quot;">http://www.bloomberg.com/news/2010-12-23/ibm-predicts-holographic-calls-air-breathing-batteries-by-2015.html&quot;</a>&nbsp;&nbsp; &nbsp;”4042”&nbsp;&nbsp; &nbsp;”{“”title””:””IBM Sees Holographic Calls Air Breathing Batteries ibm sees holographic calls, air-breathing batteries””,””body””:””A sign stands outside the International Business Machines Corp IBM Almaden Research Center campus in San Jose California Photographer Tony Avelar Bloomberg Buildings stand at the International Business Machines Corp IBM Almaden Research Center campus in the Santa Teresa Hills of San Jose California Photographer Tony Avelar Bloomberg By 2015 your mobile phone will project a 3 D image of anyone who calls and your laptop will be powered by kinetic energy At least that s what International Business Machines Corp sees in its crystal …</p>
 <p>开始四列分别包含 <strong>URL 、页面的 ID 、原始的文本内容</strong>和分配给页面的<strong>类别</strong>。接下来 22 列包含<strong>各种各样的数值或者类属特征</strong>。最后一列为目标值， -1 为长久， 0 为短暂。</p>
 <p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">val rawData = sc.textFile(&quot;/user/common/stumbleupon/train_noheader.tsv&quot;)</span><br><span class="line">val records = rawData.map(line =&gt; line.split(&quot;\t&quot;))</span><br><span class="line">records.first()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>由于数据格式的问题，我们做一些数据清理的工作，在处理过程中<strong>把额外的( “ )去掉</strong>。数据集中还有一些用 “?” 代替的缺失数据，本例中，我们直接<strong>用 0 替换那些缺失数据</strong> 。</p>
+<p>在清理和处理缺失数据后,我们<strong>提取最后一列的标记变量</strong>以及<strong>第 5 列到第 25 列的特征矩阵</strong>。将标签变量转换为 Int 值，特征向量转换为 Double 数组。</p>
+<p>最后，我们<strong>将标签和和特征向量转换为 LabeledPoint 实例</strong>，从而将特征向量存储到 MLlib 的 Vector 中。</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%9E%84%E5%BB%BA%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B.html#more">全文 &gt;&gt;</a>
@@ -709,6 +807,24 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p><strong>1.安装request</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install requests</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>2.请求网页</strong></p>
+<p>下载地址：<a target="_blank" rel="noopener" href="http://phantomjs.org/download.html">http://phantomjs.org/download.html</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import requests</span><br><span class="line">&gt;&gt;&gt; r = requests.get(&#x27;https://wwww.baidu.com&#x27;)</span><br><span class="line">&gt;&gt;&gt; print(r.text)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>3.请求失败重试</strong></p>
+<p>如果请求失败的话，可以使用urllib3的Retry来进行重试</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line">from requests.adapters import HTTPAdapter</span><br><span class="line">from urllib3.util import Retry</span><br><span class="line"></span><br><span class="line">try:</span><br><span class="line">    retry = Retry(</span><br><span class="line">        total=5,</span><br><span class="line">        backoff_factor=2,</span><br><span class="line">        status_forcelist=[429, 500, 502, 503, 504],</span><br><span class="line">    )</span><br><span class="line">    adapter = HTTPAdapter(max_retries=retry)</span><br><span class="line">    session = requests.Session()</span><br><span class="line">    session.mount(&#x27;https://&#x27;, adapter)</span><br><span class="line">    r = session.get(&#x27;https://httpbin.org/status/502&#x27;, timeout=180)</span><br><span class="line">    print(r.status_code)</span><br><span class="line">except Exception as e:</span><br><span class="line">    print(e)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>参考：<a target="_blank" rel="noopener" href="https://oxylabs.io/blog/python-requests-retry">https://oxylabs.io/blog/python-requests-retry</a></p>
+<p><strong>4.使用lxml解析网页</strong></p>
+<p>可以安装xpath helper插件来测试xpath，<a target="_blank" rel="noopener" href="https://chromewebstore.google.com/detail/xpath-helper/hgimnogjllphhhkhlmebbmlgjoejdpjl">https://chromewebstore.google.com/detail/xpath-helper/hgimnogjllphhhkhlmebbmlgjoejdpjl</a>，使用如下</p>
+<img src="/images/517519-20241124205450545-1438736200.png" width="1000" height="124" loading="lazy" />
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">from lxml import etree</span><br><span class="line"></span><br><span class="line">tree = etree.HTML(r.content)</span><br><span class="line">text = tree.xpath(&#x27;/html/body/div/header/div/nav/ul/li&#x27;)</span><br><span class="line">print(text)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Python%E7%88%AC%E8%99%AB%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8request%E8%AF%B7%E6%B1%82%E7%BD%91%E9%A1%B5.html#more">全文 &gt;&gt;</a>
@@ -775,6 +891,15 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <img src="/images/517519-20170429112121412-1968267194.png" alt="" width="565" height="383" />
 
 <p>在目录下，可以<strong>查看文件中的前5行的数据</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">head -5 u.user</span><br><span class="line">1|24|M|technician|85711</span><br><span class="line">2|53|F|other|94043</span><br><span class="line">3|23|M|writer|32067</span><br><span class="line">4|24|M|technician|43537</span><br><span class="line">5|33|F|other|15213</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>现在使用<strong>Spark交互式终端</strong>来对数据进行<strong>可视化</strong>的操作，以直观的了解数据的情况</p>
+<p><strong>1.安装ipython</strong></p>
+<p>IPython是针对Python的一个高级交互式壳程序,包含内置一系列实用功能的pylab,其中有NumPy和SciPy用于数值计算,以及matplotlib用于交互式绘图和可视化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install ipython</span><br></pre></td></tr></table></figure>
+
+<p><strong>2.安装anaconda</strong>，安装的文件是Anaconda2-4.3.1-Linux-x86_64.sh，可以在清华的开源软件镜像站下载</p>
+<p>一个预编译的科学Python套件</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Spark%E4%B8%8A%E6%95%B0%E6%8D%AE%E7%9A%84%E8%8E%B7%E5%8F%96%E3%80%81%E5%A4%84%E7%90%86%E5%92%8C%E5%87%86%E5%A4%87.html#more">全文 &gt;&gt;</a>

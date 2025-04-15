@@ -14,7 +14,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20210424201124177-1141693302.png">
 <meta property="article:published_time" content="2016-03-16T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-10T13:53:13.709Z">
+<meta property="article:modified_time" content="2025-04-15T02:10:06.524Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary">
@@ -221,13 +221,13 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </ul>
 <h3 id="2-consistency-yi-zhi-xing"><a href="#2-Consistency（一致性）" class="headerlink" title="2.Consistency（一致性）"></a>2.Consistency（一致性）<a href="#2-consistency-yi-zhi-xing" class="header-anchor">#</a></h3><p>数据库通常有各种完整性约束，如主键约束（Primary Key Constraint）、外键约束（Foreign Key Constraint）、唯一性约束（Unique Constraint）、检查约束（Check Constraint）等。一致性要求在事务执行之前和之后，这些约束必须始终满足。</p>
 <p>例如，假设数据库要求每个用户的余额不能为负数，如果一个事务试图将用户的余额更新为负数，该事务将会失败并回滚，因为它违反了数据库的一致性约束。</p>
-<span id="more"></span>
-
 <h3 id="3-isolation-ge-chi-xing"><a href="#3-Isolation（隔离性）" class="headerlink" title="3.Isolation（隔离性）"></a>3.Isolation（隔离性）<a href="#3-isolation-ge-chi-xing" class="header-anchor">#</a></h3><p>隔离性指的是在<strong>并发环境</strong>下，<strong>各个事务相互隔离执行</strong>，事务的中间状态对其他事务是不可见的。这意味着每个事务的执行应该不会受到其他事务的影响。</p>
 <p>数据库通过使用锁和其他并发控制机制来实现隔离性。例如，在两个事务同时试图更新同一条记录的情况下，数据库会确保这些事务不会相互干扰，一个事务必须在另一个事务完成之前等待。</p>
 <h3 id="4-durability-chi-jiu-xing"><a href="#4-Durability（持久性）" class="headerlink" title="4.Durability（持久性）"></a>4.Durability（持久性）<a href="#4-durability-chi-jiu-xing" class="header-anchor">#</a></h3><p>持久性指的是一旦事务提交，数据库系统必须确保事务的结果被永久保存下来，即使在系统崩溃或断电的情况下也是如此。</p>
 <p>这通常通过将事务的更改写入持久存储（如硬盘）来实现。例如，如果一个银行转账事务已经提交，即使服务器随后崩溃了，系统在恢复后仍然能保证该事务的结果是持久的，转账操作已被正确记录。</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/mysql-acid.html">https://dev.mysql.com/doc/refman/5.7/en/mysql-acid.html</a></p>
+<span id="more"></span>
+
 <h2 id="innodb-yin-qing-ru-he-bao-zheng-acid"><a href="#InnoDB引擎如何保证ACID" class="headerlink" title="InnoDB引擎如何保证ACID"></a>InnoDB引擎如何保证ACID<a href="#innodb-yin-qing-ru-he-bao-zheng-acid" class="header-anchor">#</a></h2><ul>
 <li>原子性是通过 undo log（回滚日志） 来保证的；</li>
 <li>持久性是通过 redo log （重做日志）来保证的；</li>

@@ -5,17 +5,17 @@
   
   <title>SpringBoot学习笔记——spring security | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Spring Security是提供了认证，鉴权以及其他的安全特性的java框架，下面是Spring Security的使用教程 1.引入依赖">
+  <meta name="description" content="Spring Security是提供了认证，鉴权以及其他的安全特性的java框架，下面是Spring Security的使用教程 1.引入依赖 12345&lt;dependency&gt;            &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;            &lt;artifactId&gt;spring-b">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SpringBoot学习笔记——spring security">
 <meta property="og:url" content="http://tonglin0325.github.io/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94spring%20security.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="Spring Security是提供了认证，鉴权以及其他的安全特性的java框架，下面是Spring Security的使用教程 1.引入依赖">
+<meta property="og:description" content="Spring Security是提供了认证，鉴权以及其他的安全特性的java框架，下面是Spring Security的使用教程 1.引入依赖 12345&lt;dependency&gt;            &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;            &lt;artifactId&gt;spring-b">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20210610192537624-491689321.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20210610192732862-619310469.png">
 <meta property="article:published_time" content="2016-03-10T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-10T13:53:13.849Z">
+<meta property="article:modified_time" content="2025-04-15T02:10:06.650Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="SpringBoot">
 <meta name="twitter:card" content="summary">
@@ -213,8 +213,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
         <p>Spring Security是提供了认证，鉴权以及其他的安全特性的java框架，下面是Spring Security的使用教程</p>
 <p>1.引入依赖</p>
-<span id="more"></span>
-
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-security&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>引入依赖用会发现请求所有的接口都会跳转到 /login，要求你进行账号密码的认证</p>
@@ -226,6 +224,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <img src="/images/517519-20210610192732862-619310469.png" alt loading="lazy">
 
 <p>如果想自定义认证的方式的话，可以通过继承 WebSecurityConfigurerAdapter 的方式，重写configure(HttpSecurity http) 方法</p>
+<span id="more"></span>
+
 <p>不添加的话，默认的配置等于：使用fromLogin()表单方式对所有的request进行httpBasic()账号密码认证</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">import org.springframework.context.annotation.Configuration;</span><br><span class="line">import org.springframework.security.config.annotation.web.builders.HttpSecurity;</span><br><span class="line">import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;</span><br><span class="line"></span><br><span class="line">@Configuration</span><br><span class="line">public class WebSecurityConfig extends WebSecurityConfigurerAdapter &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void configure(HttpSecurity http) throws Exception &#123;</span><br><span class="line"></span><br><span class="line">        http</span><br><span class="line">                .authorizeRequests()</span><br><span class="line">                .anyRequest().authenticated()</span><br><span class="line">                .and().formLogin()</span><br><span class="line">                .and().httpBasic();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 

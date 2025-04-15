@@ -5,15 +5,15 @@
   
   <title>kudu学习笔记——建表语句 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="kudu支持的数据类型">
+  <meta name="description" content="kudu支持的数据类型 1234567891011121314151617181920212223242526boolean8-bit signed integer16-bit signed integer32-bit signed integer64-bit signed integerdate (32-bit days since the Unix epoch)unixtime_micros">
 <meta property="og:type" content="article">
 <meta property="og:title" content="kudu学习笔记——建表语句">
 <meta property="og:url" content="http://tonglin0325.github.io/kudu%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%BB%BA%E8%A1%A8%E8%AF%AD%E5%8F%A5.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="kudu支持的数据类型">
+<meta property="og:description" content="kudu支持的数据类型 1234567891011121314151617181920212223242526boolean8-bit signed integer16-bit signed integer32-bit signed integer64-bit signed integerdate (32-bit days since the Unix epoch)unixtime_micros">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-03-15T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-10T13:53:13.742Z">
+<meta property="article:modified_time" content="2025-04-15T02:10:06.556Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="kudu">
 <meta name="twitter:card" content="summary">
@@ -209,8 +209,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </div>
 
         <p>kudu支持的数据类型</p>
-<span id="more"></span>
-
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">boolean</span><br><span class="line"></span><br><span class="line">8-bit signed integer</span><br><span class="line"></span><br><span class="line">16-bit signed integer</span><br><span class="line"></span><br><span class="line">32-bit signed integer</span><br><span class="line"></span><br><span class="line">64-bit signed integer</span><br><span class="line"></span><br><span class="line">date (32-bit days since the Unix epoch)</span><br><span class="line"></span><br><span class="line">unixtime_micros (64-bit microseconds since the Unix epoch)</span><br><span class="line"></span><br><span class="line">single-precision (32-bit) IEEE-754 floating-point number</span><br><span class="line"></span><br><span class="line">double-precision (64-bit) IEEE-754 floating-point number</span><br><span class="line"></span><br><span class="line">decimal (see Decimal Type for details)</span><br><span class="line"></span><br><span class="line">varchar (see Varchar Type for details)</span><br><span class="line"></span><br><span class="line">UTF-8 encoded string (up to 64KB uncompressed)</span><br><span class="line"></span><br><span class="line">binary (up to 64KB uncompressed)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>参考：<a target="_blank" rel="noopener" href="https://kudu.apache.org/docs/schema_design.html">Apache Kudu Schema Design</a></p>
@@ -223,6 +221,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>参考：<a target="_blank" rel="noopener" href="http://docsplayer.com/148383520-Dtcc2017-kudu%E4%BB%8B%E7%BB%8D-%E5%B0%8F%E7%B1%B3%E5%BC%A0%E9%9C%87-final.html">DTCC2017-Kudu介绍-小米张震-final</a></p>
 <p>&nbsp;</p>
 <p>支持若干种分区方式：</p>
+<span id="more"></span>
+
 <p>参考：<a target="_blank" rel="noopener" href="https://atovk.github.io/post/bigdata/kudu_table_schema_design/">kudu 表设计使用及限制 / Kudu table schema design and limited</a></p>
 <p>1.&nbsp;hash 分区</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">create table kudu_test.real_time_sales_temporary_kuduc (</span><br><span class="line">    sdt String,</span><br><span class="line">    shopId String,</span><br><span class="line">    updateTime String,</span><br><span class="line">    serialId String,</span><br><span class="line">    sheetId String,</span><br><span class="line">    goodsId String,</span><br><span class="line"></span><br><span class="line">    key_by String,</span><br><span class="line">    timeFrame String,</span><br><span class="line">    regionId String,</span><br><span class="line">    regionName String,</span><br><span class="line">    shopName String,</span><br><span class="line">    serviceRegionId String,</span><br><span class="line">    serviceRegionName String,</span><br><span class="line">    shopBelongId String,</span><br><span class="line">    shopBelongName String,</span><br><span class="line">    primary key(sdt,shopId,updatetime,serialId,sheetid)</span><br><span class="line">    )</span><br><span class="line">    PARTITION by </span><br><span class="line">    hash(sdt,shopId) partitions 32</span><br><span class="line">    COMMENT &#x27;销售流水表C&#x27;</span><br><span class="line">    STORED AS kudu;</span><br><span class="line"></span><br></pre></td></tr></table></figure>

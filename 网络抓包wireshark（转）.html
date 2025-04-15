@@ -5,12 +5,12 @@
   
   <title>网络抓包wireshark（转） | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="ubuntu下非root用户下获得使用wireshark的权限在非root用户下不能使用wireshark用来抓包，所以需要进行以下操作：">
+  <meta name="description" content="ubuntu下非root用户下获得使用wireshark的权限在非root用户下不能使用wireshark用来抓包，所以需要进行以下操作： 12345sudo groupadd  wiresharksudo chgrp wireshark &#x2F;usr&#x2F;bin&#x2F;dumpcapsudo chmod 4755 &#x2F;usr&#x2F;bin&#x2F;dumpcapsudo gpasswd -a common wireshark">
 <meta property="og:type" content="article">
 <meta property="og:title" content="网络抓包wireshark（转）">
 <meta property="og:url" content="http://tonglin0325.github.io/%E7%BD%91%E7%BB%9C%E6%8A%93%E5%8C%85wireshark%EF%BC%88%E8%BD%AC%EF%BC%89.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="ubuntu下非root用户下获得使用wireshark的权限在非root用户下不能使用wireshark用来抓包，所以需要进行以下操作：">
+<meta property="og:description" content="ubuntu下非root用户下获得使用wireshark的权限在非root用户下不能使用wireshark用来抓包，所以需要进行以下操作： 12345sudo groupadd  wiresharksudo chgrp wireshark &#x2F;usr&#x2F;bin&#x2F;dumpcapsudo chmod 4755 &#x2F;usr&#x2F;bin&#x2F;dumpcapsudo gpasswd -a common wireshark">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/150046-20160802202001059-707610366.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/150046-20160802202001903-227653544.png">
@@ -35,7 +35,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/150046-20160802202023653-467070702.jpg">
 <meta property="og:image" content="http://tonglin0325.github.io/images/150046-20160802202024872-89218706.jpg">
 <meta property="article:published_time" content="2016-12-13T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-10T13:53:12.912Z">
+<meta property="article:modified_time" content="2025-04-15T02:10:05.735Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="计算机基础">
 <meta name="twitter:card" content="summary">
@@ -232,8 +232,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </div>
 
         <h2 id="ubuntu-xia-fei-root-yong-hu-xia-huo-de-shi-yong-wireshark-de-quan-xian"><a href="#ubuntu下非root用户下获得使用wireshark的权限" class="headerlink" title="ubuntu下非root用户下获得使用wireshark的权限"></a>ubuntu下非root用户下获得使用wireshark的权限<a href="#ubuntu-xia-fei-root-yong-hu-xia-huo-de-shi-yong-wireshark-de-quan-xian" class="header-anchor">#</a></h2><p>在非root用户下不能使用wireshark用来抓包，所以需要进行以下操作：</p>
-<span id="more"></span>
-
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo groupadd  wireshark</span><br><span class="line">sudo chgrp wireshark /usr/bin/dumpcap</span><br><span class="line">sudo chmod 4755 /usr/bin/dumpcap</span><br><span class="line">sudo gpasswd -a common wireshark</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>抓包应该是每个技术人员掌握的基础知识，无论是技术支持运维人员或者是研发，多少都会遇到要抓包的情况，用过的抓包工具有fiddle、wireshark，作为一个不是经常要抓包的人员，学会用Wireshark就够了，毕竟它是功能最全面使用者最多的抓包工具。</p>
@@ -244,6 +242,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <h2 id="wireshark-bu-neng-zuo-de"><a href="#Wireshark不能做的" class="headerlink" title="Wireshark不能做的"></a>Wireshark不能做的<a href="#wireshark-bu-neng-zuo-de" class="header-anchor">#</a></h2><p>为了安全考虑，wireshark只能查看封包，而不能修改封包的内容，或者发送封包。</p>
 <h2 id="wireshark-vs-fiddler"><a href="#Wireshark-VS-Fiddler" class="headerlink" title="Wireshark VS Fiddler"></a>Wireshark VS Fiddler<a href="#wireshark-vs-fiddler" class="header-anchor">#</a></h2><p>wireshark能获取HTTP，也能获取HTTPS，但是不能解密HTTPS，所以wireshark看不懂HTTPS中的内容</p>
 <h2 id="tong-lei-de-qi-ta-gong-ju"><a href="#同类的其他工具" class="headerlink" title="同类的其他工具"></a>同类的其他工具<a href="#tong-lei-de-qi-ta-gong-ju" class="header-anchor">#</a></h2><p>sniffer </p>
+<span id="more"></span>
+
 <h2 id="shi-me-ren-hui-yong-dao-wireshark"><a href="#什么人会用到wireshark" class="headerlink" title="什么人会用到wireshark"></a>什么人会用到wireshark<a href="#shi-me-ren-hui-yong-dao-wireshark" class="header-anchor">#</a></h2><ol start="2">
 <li><p>软件测试工程师使用wireshark抓包，来分析自己测试的软件</p>
 </li>

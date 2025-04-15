@@ -5,17 +5,17 @@
   
   <title>Spark学习笔记——读写HBase | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.首先在HBase中建立一张表，名字为student 参考 Hbase学习笔记&amp;mdash;&amp;mdash;基本CRUD操作 一个cell的值,取决于Row,Column family,Column Qualifier和Timestamp HBase表结构  2.往HBase中写入数据，写入的时候，需要写family和column build.sbt">
+  <meta name="description" content="1.首先在HBase中建立一张表，名字为student 参考 Hbase学习笔记&amp;mdash;&amp;mdash;基本CRUD操作 一个cell的值,取决于Row,Column family,Column Qualifier和Timestamp HBase表结构  2.往HBase中写入数据，写入的时候，需要写family和column build.sbt 12345678910libraryDepen">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spark学习笔记——读写HBase">
 <meta property="og:url" content="http://tonglin0325.github.io/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%AF%BB%E5%86%99HBase.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="1.首先在HBase中建立一张表，名字为student 参考 Hbase学习笔记&amp;mdash;&amp;mdash;基本CRUD操作 一个cell的值,取决于Row,Column family,Column Qualifier和Timestamp HBase表结构  2.往HBase中写入数据，写入的时候，需要写family和column build.sbt">
+<meta property="og:description" content="1.首先在HBase中建立一张表，名字为student 参考 Hbase学习笔记&amp;mdash;&amp;mdash;基本CRUD操作 一个cell的值,取决于Row,Column family,Column Qualifier和Timestamp HBase表结构  2.往HBase中写入数据，写入的时候，需要写family和column build.sbt 12345678910libraryDepen">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170418200643915-626033901.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170418200812134-1999506675.png">
 <meta property="article:published_time" content="2017-04-17T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-10T13:53:10.037Z">
+<meta property="article:modified_time" content="2025-04-15T02:10:04.368Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="HBase">
 <meta property="article:tag" content="Spark">
@@ -219,8 +219,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p><strong><img src="/images/517519-20170418200643915-626033901.png" alt></strong></p>
 <p><strong>2.往HBase中写入数据，写入的时候，需要写family和column</strong></p>
 <p><strong>build.sbt</strong></p>
-<span id="more"></span>
-
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">libraryDependencies ++= Seq(</span><br><span class="line">  &quot;org.apache.spark&quot; %% &quot;spark-core&quot; % &quot;2.1.0&quot;,</span><br><span class="line">  &quot;mysql&quot; % &quot;mysql-connector-java&quot; % &quot;5.1.31&quot;,</span><br><span class="line">  &quot;org.apache.spark&quot; %% &quot;spark-sql&quot; % &quot;2.1.0&quot;,</span><br><span class="line">  &quot;org.apache.hbase&quot; % &quot;hbase-common&quot; % &quot;1.3.0&quot;,</span><br><span class="line">  &quot;org.apache.hbase&quot; % &quot;hbase-client&quot; % &quot;1.3.0&quot;,</span><br><span class="line">  &quot;org.apache.hbase&quot; % &quot;hbase-server&quot; % &quot;1.3.0&quot;,</span><br><span class="line">  &quot;org.apache.hbase&quot; % &quot;hbase&quot; % &quot;1.2.1&quot;</span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p><strong>在hbaseshell中写数据的时候，写的是String，但是在idea中写代码的话，如果写的是int类型的，就会出现\x00…的情况</strong></p>
@@ -237,7 +235,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Row key:    Math:99</span><br><span class="line">Row key:    Math:97</span><br><span class="line">Row key:    Math:95</span><br><span class="line">Row key:1 Math:99</span><br><span class="line">Row key:1000 Math:99</span><br><span class="line">Row key:2 Math:97</span><br><span class="line">Row key:3 Math:95</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>&nbsp;</p>
-
+<span id="more"></span>
         <div class="article-entry">
           <div id="footer-info" class="inner">
           本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%AF%BB%E5%86%99HBase.html">Spark学习笔记——读写HBase</a>

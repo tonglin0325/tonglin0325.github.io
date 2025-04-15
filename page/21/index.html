@@ -209,6 +209,11 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>1.基于前缀词典实现高效的词图扫描，生成句子中汉字所有可能成词情况所构成的有向无环图 (DAG)</p>
 <p>2.采用了动态规划查找最大概率路径, 找出基于词频的最大切分组合</p>
 <p>3.对于未登录词，采用了基于汉字成词能力的 HMM 模型，使用了 Viterbi 算法</p>
+<p>&nbsp;</p>
+<p><strong>主要功能</strong>：</p>
+<p><strong>1.分词</strong></p>
+<p>　　<strong>分词功能</strong>主要有两个方法 **jieba.cut **和 <strong>jieba.cut_for_search</strong>，</p>
+<p>其中 <strong>jieba.cut方法 <strong>接受</strong>三个输入参数</strong>:</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Python%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94jieba%E5%88%86%E8%AF%8D.html#more">全文 &gt;&gt;</a>
@@ -275,6 +280,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>　　1.<strong>主成分分析（Principal Component Analysis，PCA）</strong>。在PCA中，数据从原来的坐标系<strong>转换到新的坐标系</strong>，新坐标系的选择是由数据本身决定的。第一个新坐标轴选择的是原始数据中<strong>方差最大</strong>的方向，第二个新坐标轴的选择和第一个坐标轴<strong>正交且具有最大方差</strong>的方向。该过程中一直重复，重复次数为原始数据中特征的数目。我们会发现，大部分方差都包含在最前面的几个新坐标轴中。因此，我们就可以忽略余下的坐标轴，即对数据进行了降维处理。</p>
 <p>　　2.<strong>因子分析（Factor Analysis）</strong>。在因子分析中，我们假设在观察数据的生成中有一些观察不到的<strong>隐变量（latent variable）</strong>。假设观察数据是这些隐变量和某些噪声的线性组合。那么<strong>隐变量的数据可能比观察数据的数目少</strong>，也就是说通过<strong>找到隐变量就可以实现数据的降维</strong>。</p>
 <p>　　3.<strong>独立成分分析（Independent Component Analysis，ICA）</strong>。ICA假设数据是从<strong>N个数据源</strong>生成的，这一点和因子分析有些类似。假设数据为多个数据源的混合观察结果，<strong>这些数据源之间在统计上相互独立的</strong>，而在PCA中只假设数据是不相关的。同因子分析一样，<strong>如果数据源的数目少于观察数据的数目，则可以实现降维过程</strong>。</p>
+<p>&nbsp;</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E5%88%A9%E7%94%A8PCA%E6%9D%A5%E7%AE%80%E5%8C%96%E6%95%B0%E6%8D%AE.html#more">全文 &gt;&gt;</a>
@@ -333,6 +339,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>pandas是python特征预处理常用的框架</p>
 <h2 id="1-查看数据"><a href="#1-查看数据" class="headerlink" title="1.查看数据"></a>1.查看数据</h2><p>加载数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#-*- coding: utf-8 -*-</span><br><span class="line">import pandas as pd</span><br><span class="line"></span><br><span class="line">train_data = pd.read_csv(&quot;./data/train.csv&quot;)</span><br><span class="line">print(train_data)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<img src="/images/517519-20221029164515738-1420097445.png" width="400" height="137" loading="lazy" />
+
+<p>pandas显示DataFrame数据的所有列，set_option其他参数参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42662568/article/details/104993201">Pandas函数set_option()学习笔记</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">pd.set_option(&#x27;expand_frame_repr&#x27;, False) # 不换行</span><br><span class="line">#pd.set_option(&#x27;display.width&#x27;, 200)    # 列最多显示多少字符后换行</span><br><span class="line"></span><br><span class="line">pd.set_option(&#x27;display.min_rows&#x27;, 20) # 至少显示20行数据 </span><br><span class="line">pd.set_option(&#x27;display.max_columns&#x27;, None) # 显示所有列 </span><br><span class="line"></span><br><span class="line">print(train_data)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<img src="/images/517519-20221029192305392-188351075.png" width="600" height="296" loading="lazy" />
+
+<h2 id="2-查看空值"><a href="#2-查看空值" class="headerlink" title="2.查看空值"></a>2.查看空值</h2><p>在pandas中的空值为NaN，isna()等同于isnull()</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(train_data.isna()) # 判断所有值是否是na，转换成boolean值</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>对于csv字符串NA，用pandas读取的时候，会转换成NaN，对于字符串None，则不是NaN</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E7%89%B9%E5%BE%81%E9%A2%84%E5%A4%84%E7%90%86%E2%80%94%E2%80%94%E5%BC%82%E5%B8%B8%E5%80%BC%E5%A4%84%E7%90%86.html#more">全文 &gt;&gt;</a>
@@ -389,6 +408,12 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
+        <!-- 目录 -->
+
+<div id="toc">
+  
+</div>
+
         <p>从大规模的数据集中<strong>寻找隐含关系</strong>被称作为<strong>关联分析（association analysis）</strong>或者<strong>关联规则学习（association rule learning）</strong>。</p>
 <p>&nbsp;</p>
 <p><strong>Apriori算法</strong></p>
@@ -399,14 +424,24 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p><strong>关联分析</strong>寻找的是<strong>隐含关系</strong>，这些关系可以有两种形式：<strong>频繁项集</strong>或者<strong>关联规则</strong>。</p>
 <p><strong>频繁项集（frequent item sets）</strong>是经常出现在一起的集合</p>
 <p><strong>关联规则（association rule）</strong>暗示两种物品之间可能存在很强的关系</p>
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8Apriori%E7%AE%97%E6%B3%95%E8%BF%9B%E8%A1%8C%E5%85%B3%E8%81%94%E5%88%86%E6%9E%90.html#more">全文 &gt;&gt;</a>
-          </p>
-        
+<p>&nbsp;</p>
+<p><strong>项集</strong>的<strong>支持度</strong>和<strong>可信度（置信度）</strong></p>
+<img src="/images/517519-20170117205106739-1410094472.png" alt>
 
+<p>&nbsp;</p>
+<p><strong>Apriori算法</strong>的原理是<strong>如果某个项集是频繁的</strong>，那么它的<strong>所有子集也是频繁的</strong>；<strong>如果一个项集是非频繁的</strong>，那么它的<strong>所有超集也是非频繁的</strong>。</p>
+<p>&nbsp;</p>
+<img src="/images/517519-20170117212439583-536376593.png" alt>
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8Apriori%E7%AE%97%E6%B3%95%E8%BF%9B%E8%A1%8C%E5%85%B3%E8%81%94%E5%88%86%E6%9E%90.html"></a>
+          </div>
+        </div>
       
     </div>
+
+    
+      
 
     
 
@@ -456,6 +491,21 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>安装<strong>mongo数据库</strong>，在shell下输入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install mongodb</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果需要<strong>在Python中使用mongo数据库</strong>，还需要额外安装Python封装库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install pymongo</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;检测安装是否成功，可以使用下面命令<strong>在本地启动MongoDB</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mongod -dbpath .</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p>在shell中输入<strong>mongo</strong>，就可以进入mongo数据库</p>
+<p><strong>查询数据库语句</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; show databases;</span><br><span class="line">cache	0.0625GB</span><br><span class="line">local	0.03125GB</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>使用数据库语句</strong>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; use cache;</span><br><span class="line">switched to db cache</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/ubuntu%E5%AE%89%E8%A3%85mongo%E6%95%B0%E6%8D%AE%E5%BA%93.html#more">全文 &gt;&gt;</a>
@@ -513,6 +563,23 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p><strong>1.首先在浏览器中进入WAP版微博的网址，因为手机版微博的内容较为简洁，方便后续使用正则表达式或者beautifulSoup等工具对所需要内容进行过滤</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://login.weibo.cn/login/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;<img src="/images/517519-20170113105113244-622915574.png" alt="" /></p>
+<p><strong>2.人工输入账号、密码、验证字符，最后最重要的是勾选（记住登录状态）</strong></p>
+<p><strong><img src="/images/517519-20170113105555806-1723063114.png" alt="" /></strong></p>
+<p><strong>&nbsp;3.使用Wireshark工具或者火狐的HttpFox插件对GET请求进行分析，需要是取得GET请求中的Cookie信息</strong></p>
+<p>在<strong>未登录新浪微博</strong>的情况下，是可以通过网址查看一个用户的首页的，但是不能进一步查看该用户的关注和粉丝等信息，如果点击关注和粉丝，就会重定向回到登录页面</p>
+<p>比如使用下面函数对某个用户 <a target="_blank" rel="noopener" href="http://weibo.cn/XXXXXX/fans">http://weibo.cn/XXXXXX/fans</a> 的<strong>粉丝信息</strong>进行访问，会<strong>重定向回登录页面</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#获取网页函数</span><br><span class="line">def getHtml(url,user_agent=&quot;wswp&quot;,num_retries=2):       #下载网页，如果下载失败重新下载两次</span><br><span class="line">	print &#x27;开始下载网页：&#x27;,url</span><br><span class="line">	#	headers = &#123;&#x27;User-Agent&#x27;:&#x27;Mozilla/5.0 (Windows NT 6.1; rv:24.0) Gecko/20100101 Firefox/24.0&#x27;&#125;</span><br><span class="line">	headers = &#123;&quot;User-agent&quot;:user_agent&#125;</span><br><span class="line">	request = urllib2.Request(url,headers=headers)		#request请求包</span><br><span class="line">	try:</span><br><span class="line">		html = urllib2.urlopen(request).read()          #GET请求</span><br><span class="line">	except urllib2.URLError as e:</span><br><span class="line">		print &quot;下载失败：&quot;,e.reason</span><br><span class="line">		html = None</span><br><span class="line">		if num_retries &gt; 0:</span><br><span class="line">			if hasattr(e,&#x27;code&#x27;) and 500 &lt;= e.code &lt; 600:</span><br><span class="line">				return getHtml(url,num_retries-1)</span><br><span class="line">	return html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<img src="/images/517519-20170113112955010-1461329495.png" alt="" width="908" height="168" />
+
+<p>所以需要在请求的包中的headers中加入Cookie信息，</p>
+<p>在勾选了<strong>记住登录状态</strong>之后，点击关注或者粉丝按钮，发出GET请求，并<strong>使用wireshark对这个GET请求进行抓包</strong></p>
+<img src="/images/517519-20170113113340916-1287108206.png" alt="" />
+
+<p>可以抓到这个<strong>GET请求</strong></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Python%E7%88%AC%E8%99%AB%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8Cookie%E7%99%BB%E5%BD%95%E6%96%B0%E6%B5%AA%E5%BE%AE%E5%8D%9A.html#more">全文 &gt;&gt;</a>
@@ -570,6 +637,20 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>用homebrew 在电脑上安装tesseract库&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install tesseract</span><br></pre></td></tr></table></figure>
+
+<p>用pip安装支持python的tesseract 接口</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install pytesseract</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>　　</p>
+<p>使用<strong>pytesseract库</strong>对<strong>图片文件</strong>（jpg、png、bmp等）进行识别，<strong>把图片转换成字符串输出。</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import pytesseract</span><br><span class="line">from PIL import Image</span><br><span class="line"></span><br><span class="line">img = Image.open(&#x27;1.gif&#x27;)</span><br><span class="line">print(pytesseract.image_to_string(img))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>&nbsp;实际测试效果：</strong></p>
+<p>输入图片<img src="/images/517519-20170112233854885-417739597.png" alt="" width="118" height="58" />，输出<img src="/images/517519-20170112233932791-683604080.png" alt="" width="86" height="31" />，结果：成功</p>
+<p>输入图片<img src="/images/517519-20170112234003619-548205825.jpg" alt="" width="107" height="59" />，输出：为空，结果：失败</p>
+<p>输入图片<img src="/images/517519-20170112234042088-137114921.png" alt="" />，输出：为空，结果：失败</p>
+<p>输入图片<img src="/images/517519-20170113091822244-98784998.png" alt="" />，输出：<img src="/images/517519-20170113091843775-207757382.png" alt="" />，结果：错误</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Python%E7%88%AC%E8%99%AB%E2%80%94%E2%80%94%E5%85%89%E5%AD%A6%E5%AD%97%E7%AC%A6%E8%AF%86%E5%88%AB.html#more">全文 &gt;&gt;</a>
@@ -629,6 +710,16 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p>可以使用pprof来分析golang程序的CPU性能，内存占用，block死锁，Goroutine性能等，pprof一般是在需要分析代码性能的时候才加入</p>
 <h2 id="1-分析Gin-web服务的性能"><a href="#1-分析Gin-web服务的性能" class="headerlink" title="1.分析Gin web服务的性能"></a>1.分析Gin web服务的性能</h2><p>可以使用 <a target="_blank" rel="noopener" href="https://github.com/gin-contrib/pprof">gin-contrib/pprof</a> 这个工具，参考：<a target="_blank" rel="noopener" href="https://liumurong.org/2019/12/gin_pprof/">Gin框架中使用pprof</a></p>
 <p>添加依赖</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go get github.com/gin-contrib/pprof@v1.4.0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在gin的路由上添加 pprof.Register(app)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">    &quot;net/http&quot;</span><br><span class="line"></span><br><span class="line">    &quot;github.com/gin-contrib/pprof&quot;</span><br><span class="line">    &quot;github.com/gin-gonic/gin&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">    app := gin.Default()</span><br><span class="line"></span><br><span class="line">    // 性能分析</span><br><span class="line">    pprof.Register(app)</span><br><span class="line"></span><br><span class="line">    app.GET(&quot;/test&quot;, func(c *gin.Context) &#123;</span><br><span class="line">        c.String(http.StatusOK, &quot;test&quot;)</span><br><span class="line">    &#125;)</span><br><span class="line">    app.Run(&quot;:3000&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>启动web应用后访问如下path</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:3000/debug/pprof/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可以看到如下页面</p>
+<img src="/images/517519-20240818145446806-955281051.png" width="800" height="321" loading="lazy" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94pprof%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7.html#more">全文 &gt;&gt;</a>
@@ -695,6 +786,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>sp.availablePermits()可以获取当前可访问的许可的数量</p>
 <p>sp.drainPermits()可以把所有许可全部清零</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://www.51cto.com/article/633255.html">并发编程之Semaphore原理与应用</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">package java_thread;</span><br><span class="line"></span><br><span class="line">import java.util.concurrent.ExecutorService;</span><br><span class="line">import java.util.concurrent.Executors;</span><br><span class="line">import java.util.concurrent.Semaphore;</span><br><span class="line"></span><br><span class="line">public class SemaphoreTest &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		ExecutorService service = Executors.newCachedThreadPool();</span><br><span class="line">		final  Semaphore sp = new Semaphore(3);</span><br><span class="line">		for(int i=0;i&lt;10;i++)&#123;</span><br><span class="line">			Runnable runnable = new Runnable()&#123;</span><br><span class="line">					public void run()&#123;</span><br><span class="line">					try &#123;</span><br><span class="line">						sp.acquire();</span><br><span class="line">					&#125; catch (InterruptedException e1) &#123;</span><br><span class="line">						e1.printStackTrace();</span><br><span class="line">					&#125;</span><br><span class="line">					System.out.println(&quot;线程&quot; + Thread.currentThread().getName() + </span><br><span class="line">							&quot;进入，当前已有&quot; + (3-sp.availablePermits()) + &quot;个并发&quot;);</span><br><span class="line">					try &#123;</span><br><span class="line">						Thread.sleep((long)(Math.random()*10000));</span><br><span class="line">					&#125; catch (InterruptedException e) &#123;</span><br><span class="line">						e.printStackTrace();</span><br><span class="line">					&#125;</span><br><span class="line">					System.out.println(&quot;线程&quot; + Thread.currentThread().getName() + </span><br><span class="line">							&quot;即将离开&quot;);					</span><br><span class="line">					sp.release();</span><br><span class="line">					//下面代码有时候执行不准确，因为其没有和上面的代码合成原子单元</span><br><span class="line">					System.out.println(&quot;线程&quot; + Thread.currentThread().getName() + </span><br><span class="line">							&quot;已离开，当前已有&quot; + (3-sp.availablePermits()) + &quot;个并发&quot;);					</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;;</span><br><span class="line">			service.execute(runnable);			</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E2%80%94%E2%80%94Semaphore%E4%BF%A1%E5%8F%B7%E7%81%AF.html#more">全文 &gt;&gt;</a>
@@ -754,6 +846,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p><strong>CyclicBarrier</strong></p>
 <p>适用于：创建一组任务，它们并行地执行任务，然后<strong>在进行下一个步骤之前等待</strong>，直至所有任务完成。它使得所有的并行任务都将在栅栏处列队，因此可以一致地向前移动。</p>
 <p>表示大家彼此等待，大家集合好后才开始出发，分散活动后又在指定地点集合碰面，这就好比整个公司的人员利用周末时间集体郊游一样，先各自从家出发到公司集合后，再同时出发到公园游玩，在指定地点集合后再同时开始就餐&hellip;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">package java_thread;</span><br><span class="line">import java.util.concurrent.CyclicBarrier;</span><br><span class="line">import java.util.concurrent.ExecutorService;</span><br><span class="line">import java.util.concurrent.Executors;</span><br><span class="line"></span><br><span class="line">public class CyclicBarrierTest &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		ExecutorService service = Executors.newCachedThreadPool();</span><br><span class="line">		final  CyclicBarrier cb = new CyclicBarrier(3);</span><br><span class="line">		for(int i=0;i&lt;3;i++)&#123;</span><br><span class="line">			Runnable runnable = new Runnable()&#123;</span><br><span class="line">					public void run()&#123;</span><br><span class="line">					try &#123;</span><br><span class="line">						Thread.sleep((long)(Math.random()*10000));	</span><br><span class="line">						System.out.println(&quot;线程&quot; + Thread.currentThread().getName() + </span><br><span class="line">								&quot;即将到达集合地点1，当前已有&quot; + (cb.getNumberWaiting()+1) + &quot;个已经到达，&quot; + (cb.getNumberWaiting()==2?&quot;都到齐了，继续走啊&quot;:&quot;正在等候&quot;));						</span><br><span class="line">						cb.await();</span><br><span class="line">						</span><br><span class="line">						Thread.sleep((long)(Math.random()*10000));	</span><br><span class="line">						System.out.println(&quot;线程&quot; + Thread.currentThread().getName() + </span><br><span class="line">								&quot;即将到达集合地点2，当前已有&quot; + (cb.getNumberWaiting()+1) + &quot;个已经到达，&quot; + (cb.getNumberWaiting()==2?&quot;都到齐了，继续走啊&quot;:&quot;正在等候&quot;));</span><br><span class="line">						cb.await();	</span><br><span class="line">						Thread.sleep((long)(Math.random()*10000));	</span><br><span class="line">						System.out.println(&quot;线程&quot; + Thread.currentThread().getName() + </span><br><span class="line">								&quot;即将到达集合地点3，当前已有&quot; + (cb.getNumberWaiting() + 1) + &quot;个已经到达，&quot; + (cb.getNumberWaiting()==2?&quot;都到齐了，继续走啊&quot;:&quot;正在等候&quot;));						</span><br><span class="line">						cb.await();						</span><br><span class="line">					&#125; catch (Exception e) &#123;</span><br><span class="line">						e.printStackTrace();</span><br><span class="line">					&#125;				</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;;</span><br><span class="line">			service.execute(runnable);</span><br><span class="line">		&#125;</span><br><span class="line">		service.shutdown();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong><img src="/images/517519-20170109152318822-667703062.png" alt="" /></strong></p>
+<p>&nbsp;</p>
+<p><strong>倒计时器CountDownLatch</strong></p>
+<p>犹如倒计时计数器，<strong>调用CountDownLatch对象的countDown方法就将计数器减1，当计数到达0时，则所有等待者或单个等待者开始执行</strong>。这直接通过代码来说明CountDownLatch的作用，这样学员的理解效果更直接。 可以实现一个人（也可以是多个人）等待其他所有人都来通知他，这犹如一个计划需要多个领导都签字后才能继续向下实施。还可以实现一个人通知多个人的效果，类似裁判一声口令，运动员同时开始奔跑。用这个功能做百米赛跑的游戏程序不错哦！</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">package java_thread;</span><br><span class="line">import java.util.concurrent.CountDownLatch;</span><br><span class="line">import java.util.concurrent.CyclicBarrier;</span><br><span class="line">import java.util.concurrent.ExecutorService;</span><br><span class="line">import java.util.concurrent.Executors;</span><br><span class="line"></span><br><span class="line">public class CountdownLatchTest &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		ExecutorService service = Executors.newCachedThreadPool();</span><br><span class="line">		final CountDownLatch cdOrder = new CountDownLatch(1);</span><br><span class="line">		final CountDownLatch cdAnswer = new CountDownLatch(3);		</span><br><span class="line">		for(int i=0;i&lt;3;i++)&#123;</span><br><span class="line">			Runnable runnable = new Runnable()&#123;</span><br><span class="line">					public void run()&#123;</span><br><span class="line">					try &#123;</span><br><span class="line">						System.out.println(&quot;线程&quot; + Thread.currentThread().getName() + </span><br><span class="line">								&quot;正准备接受命令&quot;);						</span><br><span class="line">						cdOrder.await();			//等待计数器归零</span><br><span class="line">						System.out.println(&quot;线程&quot; + Thread.currentThread().getName() + </span><br><span class="line">						&quot;已接受命令&quot;);								</span><br><span class="line">						Thread.sleep((long)(Math.random()*10000));	</span><br><span class="line">						System.out.println(&quot;线程&quot; + Thread.currentThread().getName() + </span><br><span class="line">								&quot;回应命令处理结果&quot;);						</span><br><span class="line">						cdAnswer.countDown();		//减小主线程计数值			</span><br><span class="line">					&#125; catch (Exception e) &#123;</span><br><span class="line">						e.printStackTrace();</span><br><span class="line">					&#125;				</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;;</span><br><span class="line">			service.execute(runnable);</span><br><span class="line">		&#125;		</span><br><span class="line">		try &#123;			//主线程</span><br><span class="line">			Thread.sleep((long)(Math.random()*10000));</span><br><span class="line">		</span><br><span class="line">			System.out.println(&quot;线程&quot; + Thread.currentThread().getName() + </span><br><span class="line">					&quot;即将发布命令&quot;);						</span><br><span class="line">			cdOrder.countDown();		//减小计数值</span><br><span class="line">			System.out.println(&quot;线程&quot; + Thread.currentThread().getName() + </span><br><span class="line">			&quot;已发送命令，正在等待结果&quot;);	</span><br><span class="line">			cdAnswer.await();					//等待计数器归零</span><br><span class="line">			System.out.println(&quot;线程&quot; + Thread.currentThread().getName() + </span><br><span class="line">			&quot;已收到所有响应结果&quot;);	</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;				</span><br><span class="line">		service.shutdown();</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;<img src="/images/517519-20170109154044775-1670717658.png" alt="" /></p>
+<p>&nbsp;</p>
+<p><strong>Exchanger</strong></p>
+<p>用于实现两个人之间的数据交换，每个人在完成一定的事务后想与对方交换数据，第一个先拿出数据的人将一直等待第二个人拿着数据到来时，才能彼此交换数据。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">package java_thread;</span><br><span class="line">import java.util.concurrent.Exchanger;</span><br><span class="line">import java.util.concurrent.ExecutorService;</span><br><span class="line">import java.util.concurrent.Executors;</span><br><span class="line"></span><br><span class="line">public class ExchangerTest &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		ExecutorService service = Executors.newCachedThreadPool();</span><br><span class="line">		final Exchanger exchanger = new Exchanger();</span><br><span class="line">		service.execute(new Runnable()&#123;</span><br><span class="line">			public void run() &#123;</span><br><span class="line">				try &#123;				</span><br><span class="line"></span><br><span class="line">					String data1 = &quot;zxx&quot;;</span><br><span class="line">					System.out.println(&quot;线程&quot; + Thread.currentThread().getName() + </span><br><span class="line">					&quot;正在把数据&quot; + data1 +&quot;换出去&quot;);</span><br><span class="line">					Thread.sleep((long)(Math.random()*10000));</span><br><span class="line">					String data2 = (String)exchanger.exchange(data1);</span><br><span class="line">					System.out.println(&quot;线程&quot; + Thread.currentThread().getName() + </span><br><span class="line">					&quot;换回的数据为&quot; + data2);</span><br><span class="line">				&#125;catch(Exception e)&#123;</span><br><span class="line">					</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;	</span><br><span class="line">		&#125;);</span><br><span class="line">		service.execute(new Runnable()&#123;</span><br><span class="line">			public void run() &#123;</span><br><span class="line">				try &#123;				</span><br><span class="line"></span><br><span class="line">					String data1 = &quot;lhm&quot;;</span><br><span class="line">					System.out.println(&quot;线程&quot; + Thread.currentThread().getName() + </span><br><span class="line">					&quot;正在把数据&quot; + data1 +&quot;换出去&quot;);</span><br><span class="line">					Thread.sleep((long)(Math.random()*10000));					</span><br><span class="line">					String data2 = (String)exchanger.exchange(data1);</span><br><span class="line">					System.out.println(&quot;线程&quot; + Thread.currentThread().getName() + </span><br><span class="line">					&quot;换回的数据为&quot; + data2);</span><br><span class="line">				&#125;catch(Exception e)&#123;</span><br><span class="line">					</span><br><span class="line">				&#125;				</span><br><span class="line">			&#125;	</span><br><span class="line">		&#125;);		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E2%80%94%E2%80%94%E5%85%B6%E4%BB%96%E5%B7%A5%E5%85%B7%E7%B1%BBCyclicBarrier%E3%80%81CountDownLatch%E5%92%8CExchange.html#more">全文 &gt;&gt;</a>

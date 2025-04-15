@@ -5,15 +5,15 @@
   
   <title>GraphX学习笔记——Programming Guide | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="学习的资料是官网的Programming Guide">
+  <meta name="description" content="学习的资料是官网的Programming Guide 12https:&#x2F;&#x2F;spark.apache.org&#x2F;docs&#x2F;latest&#x2F;graphx-programming-guide.html  &amp;nbsp;首先是GraphX的简介 GraphX是Spark中专门负责图和图并行计算的组件。 GraphX通过引入了图形概念来继承了Spark RDD：一个连接节点和边的有向图 为了支持图计算，Graph">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GraphX学习笔记——Programming Guide">
 <meta property="og:url" content="http://tonglin0325.github.io/GraphX%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Programming%20Guide.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="学习的资料是官网的Programming Guide">
+<meta property="og:description" content="学习的资料是官网的Programming Guide 12https:&#x2F;&#x2F;spark.apache.org&#x2F;docs&#x2F;latest&#x2F;graphx-programming-guide.html  &amp;nbsp;首先是GraphX的简介 GraphX是Spark中专门负责图和图并行计算的组件。 GraphX通过引入了图形概念来继承了Spark RDD：一个连接节点和边的有向图 为了支持图计算，Graph">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2018-01-25T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-10T13:53:09.889Z">
+<meta property="article:modified_time" content="2025-04-15T02:10:04.221Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Spark">
 <meta property="article:tag" content="图存储及计算">
@@ -210,8 +210,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </div>
 
         <p>学习的资料是官网的Programming Guide</p>
-<span id="more"></span>
-
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://spark.apache.org/docs/latest/graphx-programming-guide.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>&nbsp;首先是GraphX的<strong>简介</strong></p>
@@ -222,6 +220,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>&nbsp;</p>
 <p>关于构建 <strong>节点Vertex</strong> 和 <strong>边Edge</strong></p>
 <p>1.如果需要将节点定义成一个类</p>
+<span id="more"></span>
+
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">package graphx</span><br><span class="line"></span><br><span class="line">import org.apache.spark.&#123;SparkConf, SparkContext&#125;</span><br><span class="line">import org.apache.spark.graphx._</span><br><span class="line">import org.apache.spark.rdd.RDD</span><br><span class="line">import org.graphstream.graph.implementations.&#123;AbstractEdge, SingleGraph, SingleNode&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">  * Created by common on 18-1-22.</span><br><span class="line">  */</span><br><span class="line"></span><br><span class="line">// 抽象节点</span><br><span class="line">class VertexProperty()</span><br><span class="line">// User节点</span><br><span class="line">case class UserProperty(val name: String) extends VertexProperty</span><br><span class="line">// Product节点</span><br><span class="line">case class ProductProperty(val name: String, val price: Double) extends VertexProperty</span><br><span class="line"></span><br><span class="line">object GraphxLearning &#123;</span><br><span class="line"></span><br><span class="line">  def main(args: Array[String]): Unit = &#123;</span><br><span class="line"></span><br><span class="line">    val conf = new SparkConf().setAppName(&quot;GraphX&quot;).setMaster(&quot;local&quot;)</span><br><span class="line">    val sc = new SparkContext(conf)</span><br><span class="line"></span><br><span class="line">    // The graph might then have the type:</span><br><span class="line">    var graph: Graph[VertexProperty, String] = null</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>和节点一样，边也可以定义成一个class，同时Graph类需要和定义的节点和边的类型相对应</p>
@@ -297,7 +297,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <td valign="top" width="215">SVDPlusPlus</td><td valign="top" width="294">&nbsp;SVD算法</td>
 |&nbsp;|&nbsp;
 |&nbsp;|&nbsp;
-
         <div class="article-entry">
           <div id="footer-info" class="inner">
           本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/GraphX%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Programming%20Guide.html">GraphX学习笔记——Programming Guide</a>

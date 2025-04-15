@@ -5,16 +5,16 @@
   
   <title>golang学习笔记——gorm | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="gen是gorm官方推出的一个GORM代码生成工具 官方文档：https:&#x2F;&#x2F;gorm.io&#x2F;zh_CN&#x2F;gen&#x2F; 1.使用gen框架生成model和dao安装gorm gen">
+  <meta name="description" content="gen是gorm官方推出的一个GORM代码生成工具 官方文档：https:&#x2F;&#x2F;gorm.io&#x2F;zh_CN&#x2F;gen&#x2F; 1.使用gen框架生成model和dao安装gorm gen 12go get -u gorm.io&#x2F;gen  假设有如下用户表 12345678CREATE TABLE user(    &#96;id&#96;     bigint unsigned NOT NULL AUTO_INCREMEN">
 <meta property="og:type" content="article">
 <meta property="og:title" content="golang学习笔记——gorm">
 <meta property="og:url" content="http://tonglin0325.github.io/golang%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94gorm.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="gen是gorm官方推出的一个GORM代码生成工具 官方文档：https:&#x2F;&#x2F;gorm.io&#x2F;zh_CN&#x2F;gen&#x2F; 1.使用gen框架生成model和dao安装gorm gen">
+<meta property="og:description" content="gen是gorm官方推出的一个GORM代码生成工具 官方文档：https:&#x2F;&#x2F;gorm.io&#x2F;zh_CN&#x2F;gen&#x2F; 1.使用gen框架生成model和dao安装gorm gen 12go get -u gorm.io&#x2F;gen  假设有如下用户表 12345678CREATE TABLE user(    &#96;id&#96;     bigint unsigned NOT NULL AUTO_INCREMEN">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240201000056892-326773222.png">
 <meta property="article:published_time" content="2025-02-21T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-10T13:53:09.054Z">
+<meta property="article:modified_time" content="2025-04-15T02:10:03.441Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="golang">
 <meta name="twitter:card" content="summary">
@@ -213,8 +213,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p>gen是gorm官方推出的一个GORM代码生成工具</p>
 <p>官方文档：<a target="_blank" rel="noopener" href="https://gorm.io/zh_CN/gen/">https://gorm.io/zh_CN/gen/</a></p>
 <h2 id="1-shi-yong-gen-kuang-jia-sheng-cheng-model-he-dao"><a href="#1-使用gen框架生成model和dao" class="headerlink" title="1.使用gen框架生成model和dao"></a>1.使用gen框架生成model和dao<a href="#1-shi-yong-gen-kuang-jia-sheng-cheng-model-he-dao" class="header-anchor">#</a></h2><p>安装gorm gen</p>
-<span id="more"></span>
-
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go get -u gorm.io/gen</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>假设有如下用户表</p>
@@ -225,6 +223,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
 <p>运行generate.go，将会生成model和dao文件</p>
 <img src="/images/517519-20240201000056892-326773222.png" width="300" height="234">
+<span id="more"></span>
 
 <p>需要注意mysql的tinyint(1)生成的时候会映射成bool，但是tinyint(1)的实际范围为-128~127，这可能会有些问题；而tinyint(4)生成的时候会映射成int32</p>
 <h2 id="2-gorm-kuang-jia-crud"><a href="#2-gorm框架CRUD" class="headerlink" title="2.gorm框架CRUD"></a>2.gorm框架CRUD<a href="#2-gorm-kuang-jia-crud" class="header-anchor">#</a></h2><h3 id="1-insert"><a href="#1-insert" class="headerlink" title="1.insert"></a>1.insert<a href="#1-insert" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">func init() &#123;</span><br><span class="line">	SetDefault(database.DB)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func Test_userDo_Create(t *testing.T) &#123;</span><br><span class="line">	user := model.User&#123;</span><br><span class="line">		Username: &quot;test&quot;,</span><br><span class="line">		Email:    &quot;test@test&quot;,</span><br><span class="line">	&#125;</span><br><span class="line">	err := User.Create(&amp;amp;user)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		fmt.Println(&quot;create user fail&quot;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>

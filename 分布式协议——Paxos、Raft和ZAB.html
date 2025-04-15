@@ -13,7 +13,7 @@
 <meta property="og:description" content="参考：分布式系统协议Paxos、Raft和ZAB Paxos算法是一种提高分布式系统容错率的一致性算法 Paxos 算法的步骤是这样： 1.首先有两种角色，一个是&amp;ldquo;提议者&amp;rdquo;，一个是&amp;ldquo;接受者&amp;rdquo;。提议者可以向接受者提出提议，然后接受者表达意见。 2.因为存在多个提议者，如果同时表达意见会出现意见不一致的情况，所以首先需要尽快选出一个领导者，让意见统一。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-07-17T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-10T13:53:09.281Z">
+<meta property="article:modified_time" content="2025-04-15T02:10:03.677Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="zookeeper">
 <meta name="twitter:card" content="summary">
@@ -218,13 +218,13 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p><strong>Raft协议</strong></p>
 <p>Raft 协议的每个副本都会处于三种状态之一：Leader、Follower、Candidate。</p>
 <p><strong>Leader</strong>：所有请求的处理者，Leader 副本接受 client 的更新请求，本地处理后再同步至多个其他副本。</p>
-<span id="more"></span>
-
 <p><strong>Follower</strong>：请求的被动更新者，从 Leader 接受更新请求，然后写入本地日志文件。</p>
 <p><strong>Candidate</strong>：如果 Follower 副本在一段时间内没有收到 Leader 副本的心跳，则判断 Leader 可能已经故障，此时启动选主过程，此时副本会变成 Candidate 状态，直到选主结束。</p>
 <p>&nbsp;</p>
 <p>每一个副本都会维护一个 term，类似于一个逻辑时钟，每发生一个动作就会递增，通过比较每个提议的 term，副本会默认使用最新的 term，防止发生冲突。如果一个 Leader 或者 Candidate 发现自己的 term 不是最新的了，就会自动降级到 Follower，而如果一个 Follower 接收到低于自己当前 term 的提议，就会直接抛弃。</p>
 <p>&nbsp;</p>
+<span id="more"></span>
+
 <p>参考：从Paxos到Zookeeper分布式一致性原理与实践</p>
 <p><strong>ZAB（Zookeeper Atomic Broadcast）协议</strong>是为分布式协调服务Zookeeper专门设计的一种支持奔溃恢复的原子广播协议。</p>
 <p>Zookeeper使用ZAB协议来保持集群中各副本之间数据的一致性。</p>

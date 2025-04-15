@@ -5,15 +5,15 @@
   
   <title>使用python操作Amazon S3 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.判断s3 object是否存在">
+  <meta name="description" content="1.判断s3 object是否存在 1234567891011import boto3s3 &#x3D; boto3.resource(&amp;#x27;s3&amp;#x27;)bucket &#x3D; s3.Bucket(&amp;#x27;my-bucket&amp;#x27;)key &#x3D; &amp;#x27;dootdoot.jpg&amp;#x27;objs &#x3D; list(bucket.objects.filter(Prefix&#x3D;key))if an">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用python操作Amazon S3">
 <meta property="og:url" content="http://tonglin0325.github.io/%E4%BD%BF%E7%94%A8python%E6%93%8D%E4%BD%9CAmazon%20S3.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="1.判断s3 object是否存在">
+<meta property="og:description" content="1.判断s3 object是否存在 1234567891011import boto3s3 &#x3D; boto3.resource(&amp;#x27;s3&amp;#x27;)bucket &#x3D; s3.Bucket(&amp;#x27;my-bucket&amp;#x27;)key &#x3D; &amp;#x27;dootdoot.jpg&amp;#x27;objs &#x3D; list(bucket.objects.filter(Prefix&#x3D;key))if an">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-04-03T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-10T13:53:13.472Z">
+<meta property="article:modified_time" content="2025-04-15T02:10:06.291Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="AWS">
 <meta name="twitter:card" content="summary">
@@ -209,8 +209,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </div>
 
         <p>1.判断s3 object是否存在</p>
-<span id="more"></span>
-
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">import boto3</span><br><span class="line"></span><br><span class="line">s3 = boto3.resource(&#x27;s3&#x27;)</span><br><span class="line">bucket = s3.Bucket(&#x27;my-bucket&#x27;)</span><br><span class="line">key = &#x27;dootdoot.jpg&#x27;</span><br><span class="line">objs = list(bucket.objects.filter(Prefix=key))</span><br><span class="line">if any([w.key == path_s3 for w in objs]):</span><br><span class="line">    print(&quot;Exists!&quot;)</span><br><span class="line">else:</span><br><span class="line">    print(&quot;Doesn&#x27;t exist&quot;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>2.读取s3 object文件内容</p>
@@ -221,7 +219,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
 <p>4.查看emr集群信息，参考：<a target="_blank" rel="noopener" href="https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/emr.html#EMR.Client.describe_cluster">https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/emr.html#EMR.Client.describe_cluster</a></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import boto3</span><br><span class="line"></span><br><span class="line">emr_client = boto3.client(&#x27;emr&#x27;,region_name=&#x27;us-west-2&#x27;)</span><br><span class="line">response = emr_client.describe_cluster(ClusterId=&quot;j-xxxxxx&quot;)</span><br><span class="line">print(response[&#x27;Cluster&#x27;][&#x27;MasterPublicDnsName&#x27;])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
         <div class="article-entry">
           <div id="footer-info" class="inner">
           本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/%E4%BD%BF%E7%94%A8python%E6%93%8D%E4%BD%9CAmazon%20S3.html">使用python操作Amazon S3</a>

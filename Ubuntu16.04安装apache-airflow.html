@@ -5,17 +5,17 @@
   
   <title>Ubuntu16.04安装apache-airflow | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.安装apache-airflow 1.8.0服务器使用的是centos系统，需要安装好pip和setuptools，同时注意更新安装的版本 接下来参考安装好Airflow">
+  <meta name="description" content="1.安装apache-airflow 1.8.0服务器使用的是centos系统，需要安装好pip和setuptools，同时注意更新安装的版本 接下来参考安装好Airflow 123Airflow 1.8 工作流平台搭建 http:&#x2F;&#x2F;blog.csdn.net&#x2F;kk185800961&#x2F;article&#x2F;details&#x2F;78431484airflow最简安装方法 centos 6.5 http:&#x2F;&#x2F;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ubuntu16.04安装apache-airflow">
 <meta property="og:url" content="http://tonglin0325.github.io/Ubuntu16.04%E5%AE%89%E8%A3%85apache-airflow.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="1.安装apache-airflow 1.8.0服务器使用的是centos系统，需要安装好pip和setuptools，同时注意更新安装的版本 接下来参考安装好Airflow">
+<meta property="og:description" content="1.安装apache-airflow 1.8.0服务器使用的是centos系统，需要安装好pip和setuptools，同时注意更新安装的版本 接下来参考安装好Airflow 123Airflow 1.8 工作流平台搭建 http:&#x2F;&#x2F;blog.csdn.net&#x2F;kk185800961&#x2F;article&#x2F;details&#x2F;78431484airflow最简安装方法 centos 6.5 http:&#x2F;&#x2F;">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20180526162428809-2057770369.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20180530003137872-208243656.png">
 <meta property="article:published_time" content="2017-11-27T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-10T13:53:09.903Z">
+<meta property="article:modified_time" content="2025-04-15T02:10:04.235Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Airbnb">
 <meta name="twitter:card" content="summary">
@@ -213,8 +213,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
         <h2 id="1-an-zhuang-apache-airflow-1-8-0"><a href="#1-安装apache-airflow-1-8-0" class="headerlink" title="1.安装apache-airflow 1.8.0"></a>1.安装apache-airflow 1.8.0<a href="#1-an-zhuang-apache-airflow-1-8-0" class="header-anchor">#</a></h2><p>服务器使用的是centos系统，需要安装好pip和setuptools，同时注意更新安装的版本</p>
 <p>接下来参考安装好Airflow</p>
-<span id="more"></span>
-
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Airflow 1.8 工作流平台搭建 http://blog.csdn.net/kk185800961/article/details/78431484</span><br><span class="line">airflow最简安装方法 centos 6.5 http://blog.csdn.net/Excaliburace/article/details/53818530</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>以mysql作为数据库，airflow默认使用sqlite作为数据库</p>
@@ -226,6 +224,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
 <p>3.使用pip来安装，安装的路径在python路径下site-packages文件夹，在使用上述命令一遍就能看到</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~/anaconda2/lib/python2.7/site-packages/airflow</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
 
 <p>4.在/etc/proofile中添加，之后source一下</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#Airflow</span><br><span class="line">export AIRFLOW_HOME=/home/lintong/airflow</span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -334,7 +333,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
 <p>4.并发相关的配置</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[celery]</span><br><span class="line">worker_concurrency = 32 # 每台worker的能同时运行的最大实例数量，如果work单独部署的话，可以和所在机器的核数保持一致</span><br><span class="line"></span><br><span class="line">[core]</span><br><span class="line">parallelism = 128 # 同时运行的最大实例数量，如果你有4台worker，每台worker的最高并发是32的话，就是128</span><br><span class="line"></span><br><span class="line">[scheduler] # 调度器解析dag的线程数量</span><br><span class="line">parsing_processes = 20</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
         <div class="article-entry">
           <div id="footer-info" class="inner">
           本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/Ubuntu16.04%E5%AE%89%E8%A3%85apache-airflow.html">Ubuntu16.04安装apache-airflow</a>

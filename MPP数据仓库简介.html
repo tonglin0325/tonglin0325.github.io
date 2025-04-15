@@ -14,7 +14,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230825135228288-1940908073.png">
 <meta property="article:published_time" content="2016-07-25T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-10T13:53:13.136Z">
+<meta property="article:modified_time" content="2025-04-15T02:10:05.964Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="MPP">
 <meta name="twitter:card" content="summary">
@@ -221,10 +221,10 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>但是当数据量较大或 query 较为复杂时，查询性能也无法像 MOLAP 那样稳定。所有计算都是即时触发 ( 没有预处理 )，因此会耗费更多的计算资源，带来潜在的重复计算。</p>
 <p>因此，ROLAP 适用于对查询模式不固定、查询灵活性要求高的场景。如数据分析师常用的数据分析类产品，他们往往会对数据做各种预先不能确定的分析，所以需要更高的查询灵活性。</p>
 <p><strong>MOLAP 的优点和缺点</strong></p>
-<span id="more"></span>
-
 <p>MOLAP的典型代表是：Druid，Kylin，MOLAP一般会根据用户定义的数据维度、度量（也可以叫指标）在数据写入时生成预聚合数据；Query查询到来时，实际上查询的是预聚合的数据而不是原始明细数据，在查询模式相对固定的场景中，这种优化提速很明显。</p>
 <p>MOLAP 的优点和缺点都来自于其数据预处理 ( pre-processing ) 环节。数据预处理，将原始数据按照指定的计算规则预先做聚合计算，这样避免了查询过程中出现大量的即使计算，提升了查询性能。</p>
+<span id="more"></span>
+
 <p>但是这样的预聚合处理，需要预先定义维度，会限制后期数据查询的灵活性；如果查询工作涉及新的指标，需要重新增加预处理流程，损失了灵活度，存储成本也很高；同时，这种方式不支持明细数据的查询，仅适用于聚合型查询（如：sum，avg，count）。</p>
 <p>因此，MOLAP 适用于查询场景相对固定并且对查询性能要求非常高的场景。如广告主经常使用的广告投放报表分析。虽然这么说，但是随着Doris的发布，其被广告应用于统计以及广告主报表的场景，参考：<a target="_blank" rel="noopener" href="https://www.oomspot.com/post/dorisjianshi">Doris简史</a>，<a target="_blank" rel="noopener" href="https://tech.meituan.com/2020/04/09/doris-in-meituan-waimai.html">Apache Doris在美团外卖数仓中的应用实践</a>，<a target="_blank" rel="noopener" href="https://my.oschina.net/u/5735652/blog/8694738">日增百亿数据，查询结果秒出， Apache Doris 在 360 商业化的统一 OLAP 应用实践</a>，<a target="_blank" rel="noopener" href="https://www.gbase8.cn/5113">Apache Doris产品调研报告</a></p>
 <p>参考：<a target="_blank" rel="noopener" href="http://www.hangdaowangluo.com/archives/2914">常见开源OLAP技术架构对比</a></p>

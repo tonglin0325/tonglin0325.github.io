@@ -205,6 +205,15 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </ul>
 <p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/staff/p/13215017.html">Go中*和&amp;区别</a></p>
 <p>println打印对象只能打印出其指针，需要使用fmt.Printf，如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fmt.Printf(&quot;%+v\n&quot;, user)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>参考：<a target="_blank" rel="noopener" href="https://blog.cyeam.com/golang/2017/03/06/go-fmt-v">Golang 通过fmt包输出完整struct信息</a></p>
+<h2 id="2-defer"><a href="#2-defer" class="headerlink" title="2.defer"></a>2.defer</h2><p>defer是Go语言提供的一种用于注册延迟调用的机制：让函数或语句可以在当前函数执行完毕后（包括通过return正常结束或者panic导致的异常结束）执行。</p>
+<p>defer语句通常用于一些成对操作的场景：打开连接/关闭连接；加锁/释放锁；打开文件/关闭文件等。</p>
+<p>defer在一些需要回收资源的场景非常有用，可以很方便地在函数结束前做一些清理操作。在打开资源语句的下一行，直接一句defer就可以在函数返回前关闭资源，可谓相当优雅。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">f, _ := os.Open(&quot;defer.txt&quot;)</span><br><span class="line">defer f.Close()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/qcrao-2018/p/10367346.html">Golang之轻松化解defer的温柔陷阱 </a></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95.html#more">全文 &gt;&gt;</a>
@@ -265,6 +274,15 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>任何一个类如果没有明确地声明继承自哪个父类的时候，则<strong>默认继承Object类</strong>，所以getClass()方法是Object类中的。</p>
 <p>文件在包<strong>java_reflect目录</strong>下</p>
 <p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 类名：Y</span><br><span class="line">// 属性：</span><br><span class="line">// 方法：</span><br><span class="line">class Y&#123;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class Y&#123;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//主类</span><br><span class="line">//Function        : 	GetClass_demo;</span><br><span class="line">public class GetClass_demo &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		// TODO 自动生成的方法存根</span><br><span class="line">		Y y = new Y();</span><br><span class="line">		System.out.println(y.getClass().getName());</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>&nbsp;输出　　<img src="/images/517519-20170106103430878-567807263.png" alt="" /></strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6.html#more">全文 &gt;&gt;</a>
@@ -321,17 +339,32 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
+        <!-- 目录 -->
+
+<div id="toc">
+  
+</div>
+
         <p>airflow分布式部署所依赖的组件有mysql，redis，web-server，scheduler，worker等，可以将这些组件部署在不同的机器上，来减低单台机器的压力</p>
 <p>单机安装请参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/tonglin0325/p/7911022.html">Ubuntu16.04安装apache-airflow</a></p>
 <p>然后在不同的机器上启动不同的组件</p>
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/Airflow%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2.html#more">全文 &gt;&gt;</a>
-          </p>
-        
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">airflow webserver -D</span><br><span class="line">airflow scheduler -D</span><br><span class="line">airflow worker -D</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
+<p>安装airflow其他支持组件，比如airflow-kerberos，参考</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://awesome.dbyun.net/study/details?mid=160&amp;amp;id=7427</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>airflow启用kerberos，参考</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/astronomer/airflow-guides/blob/main/guides/kerberos.md</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/Airflow%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2.html"></a>
+          </div>
+        </div>
       
     </div>
+
+    
+      
 
     
 
@@ -391,6 +424,11 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </ul>
 <h3 id="2-Consistency（一致性）"><a href="#2-Consistency（一致性）" class="headerlink" title="2.Consistency（一致性）"></a>2.Consistency（一致性）</h3><p>数据库通常有各种完整性约束，如主键约束（Primary Key Constraint）、外键约束（Foreign Key Constraint）、唯一性约束（Unique Constraint）、检查约束（Check Constraint）等。一致性要求在事务执行之前和之后，这些约束必须始终满足。</p>
 <p>例如，假设数据库要求每个用户的余额不能为负数，如果一个事务试图将用户的余额更新为负数，该事务将会失败并回滚，因为它违反了数据库的一致性约束。</p>
+<h3 id="3-Isolation（隔离性）"><a href="#3-Isolation（隔离性）" class="headerlink" title="3.Isolation（隔离性）"></a>3.Isolation（隔离性）</h3><p>隔离性指的是在<strong>并发环境</strong>下，<strong>各个事务相互隔离执行</strong>，事务的中间状态对其他事务是不可见的。这意味着每个事务的执行应该不会受到其他事务的影响。</p>
+<p>数据库通过使用锁和其他并发控制机制来实现隔离性。例如，在两个事务同时试图更新同一条记录的情况下，数据库会确保这些事务不会相互干扰，一个事务必须在另一个事务完成之前等待。</p>
+<h3 id="4-Durability（持久性）"><a href="#4-Durability（持久性）" class="headerlink" title="4.Durability（持久性）"></a>4.Durability（持久性）</h3><p>持久性指的是一旦事务提交，数据库系统必须确保事务的结果被永久保存下来，即使在系统崩溃或断电的情况下也是如此。</p>
+<p>这通常通过将事务的更改写入持久存储（如硬盘）来实现。例如，如果一个银行转账事务已经提交，即使服务器随后崩溃了，系统在恢复后仍然能保证该事务的结果是持久的，转账操作已被正确记录。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/mysql-acid.html">https://dev.mysql.com/doc/refman/5.7/en/mysql-acid.html</a></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E4%BA%8B%E5%8A%A1%E5%92%8C%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB.html#more">全文 &gt;&gt;</a>
@@ -451,6 +489,14 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>参考：<a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/zh_cn/emr/latest/ReleaseGuide/emr-hudi-installation-and-configuration.html">创建安装了 Hudi 的集群</a></p>
 <p>Amazon EMR的版本和hudi的版本对应可以参考文档：<a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/zh_cn/emr/latest/ReleaseGuide/Hudi-release-history.html">Hudi 发行版历史记录</a></p>
 <p>可以使用下面命令进入hudi-cli</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/lib/hudi/cli/bin/hudi-cli.sh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>hudi-cli如下</p>
+<img src="/images/517519-20230110153539593-1470562504.png" alt="" loading="lazy" />
+
+<p>退出cli，输入exit</p>
+<p>我们可以在hive中注册hudi表，然后使用hive，sparkSQL或者presto对其进行查询</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/zh_cn/emr/latest/ReleaseGuide/emr-hudi-how-it-works.html">Hudi 的工作原理</a></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/hudi-cli%E4%BD%BF%E7%94%A8.html#more">全文 &gt;&gt;</a>
@@ -508,7 +554,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="1-安装mongo客户端"><a href="#1-安装mongo客户端" class="headerlink" title="1.安装mongo客户端"></a>1.安装mongo客户端</h2><p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_38138879/article/details/117249425">ubuntu安装mongodb-4.4(通过apt命令)</a></p>
-<h2 id="2-连接mongodb"><a href="#2-连接mongodb" class="headerlink" title="2.连接mongodb"></a>2.连接mongodb</h2>
+<h2 id="2-连接mongodb"><a href="#2-连接mongodb" class="headerlink" title="2.连接mongodb"></a>2.连接mongodb</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongo ip:27017/db_name -u user_name -p</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-创建collection"><a href="#3-创建collection" class="headerlink" title="3.创建collection"></a>3.创建collection</h2><p>参考：<a target="_blank" rel="noopener" href="https://www.runoob.com/mongodb/mongodb-create-collection.html">MongoDB 教程</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">use xx_db</span><br><span class="line">db.createCollection(&quot;xx_collection&quot;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-插入数据"><a href="#4-插入数据" class="headerlink" title="4.插入数据"></a>4.插入数据</h2><p>insert one</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">use xx_db</span><br><span class="line"></span><br><span class="line">db.xx_collection.insertOne(</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;id&quot;:&quot;100000&quot;,</span><br><span class="line">        &quot;time&quot;:new Date(),</span><br><span class="line">        &quot;abc&quot;:&quot;123456&quot;</span><br><span class="line">    &#125;</span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>insert many</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">db.xx_collection.insertMany(</span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;id&quot;:&quot;200000&quot;,</span><br><span class="line">        &quot;time&quot;:new Date(),</span><br><span class="line">        &quot;token&quot;:&quot;1111111&quot;</span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        &quot;id&quot;:&quot;300000&quot;,</span><br><span class="line">        &quot;time&quot;:new Date(),</span><br><span class="line">        &quot;token&quot;:&quot;2222222&quot;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-删除数据"><a href="#5-删除数据" class="headerlink" title="5.删除数据"></a>5.删除数据</h2><p>delete one</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use xx_db</span><br><span class="line">db.xx_collection.deleteOne(&#123;&#x27;id&#x27;:&#x27;200000&#x27;&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/mongo%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C.html#more">全文 &gt;&gt;</a>
@@ -568,7 +626,16 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p>Helm是k8s的包管理工具，使用helm可以简化k8s应用部署</p>
 <p>而使用了helm之后，helm会提供一个模板，将这些yaml文件作为一个整体进行管理，高效复用，同时方便版本管理</p>
 <p>&nbsp;</p>
-<h2 id="1-安装Helm和配置仓库"><a href="#1-安装Helm和配置仓库" class="headerlink" title="1.安装Helm和配置仓库"></a><strong>1.安装Helm和配置仓库</strong></h2>
+<h2 id="1-安装Helm和配置仓库"><a href="#1-安装Helm和配置仓库" class="headerlink" title="1.安装Helm和配置仓库"></a><strong>1.安装Helm和配置仓库</strong></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://helm.sh/zh/docs/intro/install/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>mac安装helm</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew install helm</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>ubuntu安装helm</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">curl https://baltocdn.com/helm/signing.asc | sudo apt-key add -</span><br><span class="line">sudo apt-get install apt-transport-https --yes</span><br><span class="line">echo &quot;deb https://baltocdn.com/helm/stable/debian/ all main&quot; | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install helm</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>添加helm&nbsp;bitnami源</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">helm repo add bitnami https://charts.bitnami.com/bitnami</span><br><span class="line">helm repo update</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Helm%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C.html#more">全文 &gt;&gt;</a>
@@ -633,6 +700,9 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>cow是Copy On Write的缩写，含义是<strong>写入时复制</strong>（只有parquet文件）</p>
 <p>mor是Merge On Read的缩写，含义是<strong>读取时合并</strong>（log文件+parquet文件）</p>
 <p>2种hudi表类型的对比</p>
+<img src="/images/517519-20230130115036946-292986041.png" alt="" width="496" height="224" loading="lazy" />
+
+<p>适用场景，参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1897241">ByteLake：字节跳动基于Apache Hudi的实时数据湖平台</a></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Hudi%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C.html#more">全文 &gt;&gt;</a>
@@ -758,6 +828,18 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>kudu支持的数据类型</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">boolean</span><br><span class="line"></span><br><span class="line">8-bit signed integer</span><br><span class="line"></span><br><span class="line">16-bit signed integer</span><br><span class="line"></span><br><span class="line">32-bit signed integer</span><br><span class="line"></span><br><span class="line">64-bit signed integer</span><br><span class="line"></span><br><span class="line">date (32-bit days since the Unix epoch)</span><br><span class="line"></span><br><span class="line">unixtime_micros (64-bit microseconds since the Unix epoch)</span><br><span class="line"></span><br><span class="line">single-precision (32-bit) IEEE-754 floating-point number</span><br><span class="line"></span><br><span class="line">double-precision (64-bit) IEEE-754 floating-point number</span><br><span class="line"></span><br><span class="line">decimal (see Decimal Type for details)</span><br><span class="line"></span><br><span class="line">varchar (see Varchar Type for details)</span><br><span class="line"></span><br><span class="line">UTF-8 encoded string (up to 64KB uncompressed)</span><br><span class="line"></span><br><span class="line">binary (up to 64KB uncompressed)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>参考：<a target="_blank" rel="noopener" href="https://kudu.apache.org/docs/schema_design.html">Apache Kudu Schema Design</a></p>
+<p>kudu的建表语句</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE sales_by_year(					# 列存储</span><br><span class="line">	year INT, 						# 有限固定列，强类型</span><br><span class="line">	sale_id INT COLPROPERTIES (encoding=&amp;ldquo;bitshuffle&amp;rdquo;),	# 每一列均可以设置encoding及压缩方式</span><br><span class="line">	amount INT,</span><br><span class="line">	PRIMARY	KEY (year,sale_id)				# 主键索引</span><br><span class="line">)</span><br><span class="line">PARTITION BY HASH (sale_id) PARTITIONS 4,　　　　　　　　　　　　　　# 哈希分区</span><br><span class="line">RANGE (year)</span><br><span class="line">(</span><br><span class="line">PARTITION 2014 &lt;= VALUES &lt;= 2016,				# 范围分区</span><br><span class="line">PARTITION VALUE	= 2017</span><br><span class="line">)</span><br><span class="line">STORED AS KUDU</span><br><span class="line">TBLPROPERTIES (replication=3);					# 多副本</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE xxxx.xxxx(</span><br><span class="line">  uuid STRING,</span><br><span class="line">  ds string,</span><br><span class="line">  `date` string,</span><br><span class="line">  `ts` string,</span><br><span class="line">  `col1` int,</span><br><span class="line">  `col2` bigint,</span><br><span class="line">  `col3` int,</span><br><span class="line">PRIMARY KEY (uuid, ds))</span><br><span class="line">PARTITION BY HASH (uuid, ds) PARTITIONS 9,</span><br><span class="line">RANGE(ds) (</span><br><span class="line">PARTITION VALUE=&quot;2020-09-05&quot;,</span><br><span class="line">PARTITION VALUE=&quot;2020-09-06&quot;,</span><br><span class="line">PARTITION VALUE=&quot;2020-09-07&quot;,</span><br><span class="line">PARTITION VALUE=&quot;2020-09-08&quot;,</span><br><span class="line">PARTITION VALUE=&quot;2020-09-09&quot;</span><br><span class="line">)</span><br><span class="line">STORED AS KUDU;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>参考：<a target="_blank" rel="noopener" href="http://docsplayer.com/148383520-Dtcc2017-kudu%E4%BB%8B%E7%BB%8D-%E5%B0%8F%E7%B1%B3%E5%BC%A0%E9%9C%87-final.html">DTCC2017-Kudu介绍-小米张震-final</a></p>
+<p>&nbsp;</p>
+<p>支持若干种分区方式：</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/kudu%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%BB%BA%E8%A1%A8%E8%AF%AD%E5%8F%A5.html#more">全文 &gt;&gt;</a>

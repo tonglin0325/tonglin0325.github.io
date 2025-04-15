@@ -205,7 +205,10 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <h2 id="2-explode函数"><a href="#2-explode函数" class="headerlink" title="2.explode函数"></a>2.explode函数</h2><p>explode() 函数接收一个 array 或 map 作为输入，然后将 array 或 map 里面的元素按照每行的形式输出。其可以配合 LATERAL VIEW 一起使用</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1408939">Hive应用：explode和lateral view </a></p>
 <h2 id="3-lateral-view"><a href="#3-lateral-view" class="headerlink" title="3.lateral view"></a>3.lateral view</h2><p>lateral view用于和split、explode等UDTF一起使用的，能将一行数据拆分成多行数据，在此基础上可以对拆分的数据进行聚合，lateral view首先为原始表的每行调用UDTF，UDTF会把一行拆分成一行或者多行，lateral view在把结果组合，产生一个支持别名表的虚拟表。</p>
-<h2 id="4-json-tuple"><a href="#4-json-tuple" class="headerlink" title="4.json_tuple"></a>4.json_tuple</h2>
+<h2 id="4-json-tuple"><a href="#4-json-tuple" class="headerlink" title="4.json_tuple"></a>4.json_tuple</h2><p>参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1819621">一文学会Hive解析Json数组（好文收藏）</a></p>
+<h2 id="5-json-UDF"><a href="#5-json-UDF" class="headerlink" title="5.json UDF"></a>5.json UDF</h2><p><a target="_blank" rel="noopener" href="https://github.com/klout/brickhouse/wiki/Json-udfs"><strong>brickhouse的json udf</strong></a></p>
+<p>1.brickhouse.udf.json.ToJsonUDF，将hive表转换成json</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">add jar /path/brickhouse-0.7.0-SNAPSHOT.jar;</span><br><span class="line"></span><br><span class="line">CREATE TEMPORARY FUNCTION to_json AS &#x27;brickhouse.udf.json.ToJsonUDF&#x27;;</span><br><span class="line"></span><br><span class="line">select to_json(named_struct( &#x27;name&#x27;, a.col_1, &#x27;children&#x27; , array(named_struct(&#x27;name&#x27;, b.col_2, &#x27;logins&#x27;, b.col_3))))</span><br><span class="line">from table_a a join table_b b on a.col_1 = b.col_1;</span><br><span class="line"></span><br><span class="line">&#123;&quot;name&quot;:&quot;userLogins&quot;,&quot;children&quot;:[&#123;&quot;name&quot;:&quot;Site B&quot;,&quot;logins&quot;:20&#125;]&#125;</span><br><span class="line">&#123;&quot;name&quot;:&quot;userLogins&quot;,&quot;children&quot;:[&#123;&quot;name&quot;:&quot;Site A&quot;,&quot;logins&quot;:10&#125;]&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%87%BD%E6%95%B0.html#more">全文 &gt;&gt;</a>
@@ -264,6 +267,25 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>**　　一、给Controller传值，值将显示在控制台**</p>
 <p>　　<strong>1.第一种：使用@RequestParam，改HelloController.java</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//RequestMapping表示用哪一个url来对应</span><br><span class="line">	@RequestMapping(&#123;&quot;/hello&quot;,&quot;/&quot;&#125;)</span><br><span class="line">	public String hello(@RequestParam(&quot;username&quot;) String username)&#123;</span><br><span class="line">		System.out.println(&quot;hello&quot;);</span><br><span class="line">		System.out.println(username);</span><br><span class="line">		return &quot;hello&quot;;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;　　然后在浏览器中<strong>输入请求</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8080/SpringMVC_hello/hello?username=123</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;　　<strong>控制台</strong>可以看到传的值</p>
+<img src="/images/517519-20170101175958320-883641978.png" alt="" width="390" height="83" />
+
+<p>　　但是使用了RequestParam，如果<strong>在请求中不传值的话，会报400错误</strong>，因为默认把参数作为了地址的一部分</p>
+<p>**　　2.第二种，把RequestParam删除，直接String username**</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//RequestMapping表示用哪一个url来对应</span><br><span class="line">@RequestMapping(&#123;&quot;/hello&quot;,&quot;/&quot;&#125;)</span><br><span class="line">public String hello(String username)&#123;</span><br><span class="line">	System.out.println(&quot;hello&quot;);</span><br><span class="line">	System.out.println(username);</span><br><span class="line">	return &quot;hello&quot;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;　　这种可以不传值，不传值时候为null</p>
+<img src="/images/517519-20170101180206195-294000579.png" alt="" width="408" height="94" />
+
+<p>**　　二、再从Controller给视图传值**</p>
+<p>**　　1.用Map来传值**</p>
+<p>**　　修改HelloController.java文件，用Map&lt;String,Object&gt; context，不过不太建议用Map**</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">package org.common.controller;</span><br><span class="line"></span><br><span class="line">import java.util.Map;</span><br><span class="line"></span><br><span class="line">import org.springframework.stereotype.Controller;</span><br><span class="line">import org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"></span><br><span class="line">@Controller</span><br><span class="line">public class HelloController &#123;</span><br><span class="line">	</span><br><span class="line">	//RequestMapping表示用哪一个url来对应，从Controller给视图传值</span><br><span class="line">	@RequestMapping(&#123;&quot;/hello&quot;,&quot;/&quot;&#125;)</span><br><span class="line">	public String hello(String username,Map&lt;String,Object&gt; context)&#123;</span><br><span class="line">		context.put(&quot;username&quot;, username);		//从Controller给视图传值</span><br><span class="line">		System.out.println(username);</span><br><span class="line">		System.out.println(&quot;hello&quot;);</span><br><span class="line">		return &quot;hello&quot;;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Spring%20MVC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%BB%99Controller%E5%92%8C%E8%A7%86%E5%9B%BE%E4%BC%A0%E5%80%BC.html#more">全文 &gt;&gt;</a>
@@ -320,16 +342,36 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
+        <!-- 目录 -->
+
+<div id="toc">
+  
+</div>
+
         <p>在/usr/share/applications和/usr/share/app-install/desktop寻找需要的图标，没有就自己做一个</p>
 <p><strong>eclipse的图标</strong></p>
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/%E7%BB%99ubuntu%E7%9A%84docky%E6%B7%BB%E5%8A%A0%E5%8F%AF%E4%BB%A5%E7%9B%B4%E6%8E%A5%E6%89%93%E5%BC%80%E7%9A%84%E5%9B%BE%E6%A0%87.html#more">全文 &gt;&gt;</a>
-          </p>
-        
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[Desktop Entry]</span><br><span class="line"></span><br><span class="line">Version=1.0</span><br><span class="line"></span><br><span class="line">Name=eclipse</span><br><span class="line"></span><br><span class="line">Exec=/home/common/software/eclipse/eclipse</span><br><span class="line"></span><br><span class="line">Terminal=false</span><br><span class="line"></span><br><span class="line">Icon=/home/common/software/eclipse/eclipse.png</span><br><span class="line"></span><br><span class="line">Type=Application</span><br><span class="line"></span><br><span class="line">Categories=Development</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
+<p><strong>&nbsp;sublimetext的图标</strong></p>
+<p>**为了使得sublime能修改root的文件，安装gksu，然后在Exec前面加上gksu **</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[Desktop Entry]</span><br><span class="line">Name=SublimeText2</span><br><span class="line">Type=Application</span><br><span class="line">Terminal=false</span><br><span class="line">Comment=Edit text files</span><br><span class="line">Exec=/home/common/software/SublimeText2/sublime_text %F</span><br><span class="line">Icon=/home/common/software/SublimeText2/sublime_text.png</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;注意末尾不要有空格</p>
+<p><strong>&nbsp;docky添加的图标的目录在</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~/.local/share/applications</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/%E7%BB%99ubuntu%E7%9A%84docky%E6%B7%BB%E5%8A%A0%E5%8F%AF%E4%BB%A5%E7%9B%B4%E6%8E%A5%E6%89%93%E5%BC%80%E7%9A%84%E5%9B%BE%E6%A0%87.html"></a>
+          </div>
+        </div>
       
     </div>
+
+    
+      
 
     
 
@@ -436,6 +478,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="1-查询第二高的值"><a href="#1-查询第二高的值" class="headerlink" title="1.查询第二高的值"></a>1.查询第二高的值</h2><p>输入：Salary表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">+-------------+------+</span><br><span class="line">| Column Name | Type |</span><br><span class="line">+-------------+------+</span><br><span class="line">| id          | int  |</span><br><span class="line">| salary      | int  |</span><br><span class="line">+-------------+------+</span><br></pre></td></tr></table></figure>
+
+<p>使用limit+offset语法来限制结果数量，其中 limit N,1 等于 limit 1 offset N</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select (select DISTINCT Salary from Employee order by Salary DESC limit 1 offset 1) as SecondHighestSalary</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+---------------------+</span><br><span class="line">| SecondHighestSalary |</span><br><span class="line">+---------------------+</span><br><span class="line">| 200                 |</span><br><span class="line">+---------------------+</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-查询连续出现3次的数字"><a href="#2-查询连续出现3次的数字" class="headerlink" title="2.查询连续出现3次的数字"></a>2.查询连续出现3次的数字</h2><p>输入：Logs表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">+----+-----+</span><br><span class="line">| id | num |</span><br><span class="line">+----+-----+</span><br><span class="line">| 1  | 1   |</span><br><span class="line">| 2  | 1   |</span><br><span class="line">| 3  | 1   |</span><br><span class="line">| 4  | 2   |</span><br><span class="line">| 5  | 1   |</span><br><span class="line">| 6  | 2   |</span><br><span class="line">| 7  | 2   |</span><br><span class="line">+----+-----+</span><br></pre></td></tr></table></figure>
+
+<p>查询表3次，然后通过where条件来筛选</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SELECT DISTINCT(t1.Num) as ConsecutiveNums</span><br><span class="line">FROM Logs t1, Logs t2, Logs t3 </span><br><span class="line">WHERE</span><br><span class="line">    t1.Id = t2.Id - 1</span><br><span class="line">    AND t2.Id = t3.Id - 1</span><br><span class="line">    AND t1.Num = t2.Num</span><br><span class="line">    AND t2.Num = t3.Num</span><br><span class="line">;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%B8%B8%E7%94%A8SQL.html#more">全文 &gt;&gt;</a>
@@ -498,7 +553,10 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>参考：<a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/learn-flink/streaming_analytics/">https://nightlies.apache.org/flink/flink-docs-release-1.17/docs/learn-flink/streaming_analytics/</a></p>
 <h4 id="1-Event-time"><a href="#1-Event-time" class="headerlink" title="1.Event time"></a>1.Event time</h4><p>Event time的时间戳是每个单独事件在其产生设备上发生的时间。Event time通常在record进入Flink之前就嵌入到record中，这样就可以从每条record中提取事件时间戳。在Event time中，时间的进程取决于数据，而不是任何时钟。Event time程序必须指定如何生成Event time watermarks，这是一种以事件时间表示进度的机制。</p>
 <p>在理想情况下，Event time处理将产生完全一致和确定的结果，而不管事件何时到达或它们的顺序如何。然而，除非事件是按顺序到达的(按时间戳)，否则事件时间处理在等待乱序事件时会产生一些延迟。因为只能等待一段有限的时间，这就限制了Event time应用程序的确定性。</p>
-<h4 id="2-Processing-time"><a href="#2-Processing-time" class="headerlink" title="2.Processing time"></a>2.Processing time</h4>
+<h4 id="2-Processing-time"><a href="#2-Processing-time" class="headerlink" title="2.Processing time"></a>2.Processing time</h4><p>Processing time是指执行相应operator的机器的系统时间。</p>
+<p>当流处理程序在Porcessing time上运行时，所有基于时间的操作(如时间窗口)将使用运行相应操作的机器的系统时钟。每小时的处理时间窗口将包括在系统时钟显示整个小时的时间之间到达特定操作员的所有记录。例如，如果应用程序在上午9点15分开始运行，第一个小时处理时间窗口将包括上午9点15分到10点之间处理的事件，下一个窗口将包括上午10点到11点之间处理的事件，以此类推。&nbsp;</p>
+<p>Processing time是最简单的时间概念，不需要流和机器之间的协调。它提供了最好的性能和最低的延迟。然而，在分布式和异步环境中，处理时间不提供确定性，因为它容易受到记录到达系统中的速度(例如从消息队列)、记录在系统内部操作符之间流动的速度以及中断(计划或其他)的影响。</p>
+<h4 id="3-Ingestion-time"><a href="#3-Ingestion-time" class="headerlink" title="3.Ingestion time"></a>3.Ingestion time</h4><p>Flink在采集事件时记录的时间戳</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%AA%97%E5%8F%A3.html#more">全文 &gt;&gt;</a>
@@ -556,6 +614,18 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="1-开启checkpoint"><a href="#1-开启checkpoint" class="headerlink" title="1.开启checkpoint"></a>1.开启checkpoint</h2><p>默认情况下checkpoint是禁用的，需要手动进行开启，如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();</span><br><span class="line">StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env);</span><br><span class="line">env.getCheckpointConfig().setCheckpointTimeout(3600000); // checkpoint1小时超时</span><br><span class="line">env.enableCheckpointing(180000, CheckpointingMode.EXACTLY_ONCE); // 3分钟做一次checkpoint</span><br><span class="line">env.getCheckpointConfig().setMaxConcurrentCheckpoints(1); // 同一时间只允许一个 checkpoint 进行</span><br><span class="line">env.getCheckpointConfig().setTolerableCheckpointFailureNumber(2); // 允许两个连续的 checkpoint 错误</span><br><span class="line">env.setStateBackend(new EmbeddedRocksDBStateBackend(true)); // 使用rocksdb state backend</span><br><span class="line">env.getCheckpointConfig().setCheckpointStorage(&quot;s3://xxxx/xxxx/test_checkpoint&quot;); // 指定gcheckpoint路径</span><br><span class="line">env.getCheckpointConfig().setExternalizedCheckpointCleanup(CheckpointConfig.ExternalizedCheckpointCleanup.RETAIN_ON_CANCELLATION); // 使用 externalized checkpoints，这样 checkpoint 在作业取消后仍就会被保留</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>其他配置参考官方文档</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://nightlies.apache.org/flink/flink-docs-release-1.16/zh/docs/dev/datastream/fault-tolerance/checkpointing/</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-从保留的-checkpoint-中恢复状态"><a href="#2-从保留的-checkpoint-中恢复状态" class="headerlink" title="2.从保留的 checkpoint 中恢复状态"></a>2.从保留的 checkpoint 中恢复状态<a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-master/zh/docs/ops/state/checkpoints/#%e4%bb%8e%e4%bf%9d%e7%95%99%e7%9a%84-checkpoint-%e4%b8%ad%e6%81%a2%e5%a4%8d%e7%8a%b6%e6%80%81"><br /></a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bin/flink run -s checkpoint_path</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>参考：<a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-master/zh/docs/ops/state/checkpoints/">https://nightlies.apache.org/flink/flink-docs-master/zh/docs/ops/state/checkpoints/</a></p>
+<h2 id="3-checkpoint相关问题"><a href="#3-checkpoint相关问题" class="headerlink" title="3.checkpoint相关问题"></a>3.checkpoint相关问题</h2><p>做checkpoint很慢问题排查，参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1954930">2022年最新版 | Flink经典线上问题小盘点</a></p>
+<p>增量checkpoint，参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1853214">Flink 管理大型状态之增量 Checkpoint</a></p>
+<p>大状态与 Checkpoint 调优，参考：<a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-docs-master/zh/docs/ops/state/large_state_tuning/">大状态与 Checkpoint 调优</a></p>
+<p>&nbsp;</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94checkpoint.html#more">全文 &gt;&gt;</a>
@@ -620,7 +690,14 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>　　　　　　　　　　　　　　　　　　　　　　　–&gt;&lt;5&gt;view resolver(通过这来找到对应的视图)</p>
 <p>　　　　　　　　　　　　　　　　　　　　　　　–&gt;&lt;6&gt;view</p>
 <p>&nbsp;<img src="/images/517519-20160523200922975-667439447.png" width="600" height="415" /></p>
-<h2 id="3-创建SpringMVC项目"><a href="#3-创建SpringMVC项目" class="headerlink" title="3.创建SpringMVC项目"></a><strong>3.创建SpringMVC项目</strong></h2>
+<h2 id="3-创建SpringMVC项目"><a href="#3-创建SpringMVC项目" class="headerlink" title="3.创建SpringMVC项目"></a><strong>3.创建SpringMVC项目</strong></h2><p>在eclipse下建立一个<strong>动态web项目springmvc_hello</strong>，记得勾选<strong>web.xml</strong>的生成按钮 </p>
+<p><img src="/images/517519-20170101145851539-1801774476.png" alt="" width="373" height="454" /> <img src="/images/517519-20170101145944117-1445767473.png" alt="" width="360" height="148" /> <img src="/images/517519-20170101150018789-1361196820.png" alt="" width="212" height="71" /></p>
+<p>在生成的项目的<strong>WEB-INF的lib文件夹</strong>下面<strong>导jar包</strong></p>
+<p>**　　要<strong>开发一个Welcome项目需要导两个包:**</strong></p>
+<p>**　　一个是<strong>springmvc的包<strong>，另一个是</strong>Apache的commonslogging的包**</strong></p>
+<p>　　两个包的官方下载地址分别是</p>
+<p>　　<a target="_blank" rel="noopener" href="http://maven.springframework.org/release/org/springframework/spring/3.2.0.RELEASE/">http://maven.springframework.org/release/org/springframework/spring/3.2.0.RELEASE/</a></p>
+<p>　　和<a target="_blank" rel="noopener" href="http://commons.apache.org/">http://commons.apache.org/</a> (bin的那个包，不是源代码包)</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Spring%20MVC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Welcome.html#more">全文 &gt;&gt;</a>
@@ -682,6 +759,16 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <li>kafka source</li>
 </ol>
 <p>需要可配置的参数，参考flume的kafka source配置参数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://flume.apache.org/FlumeUserGuide.html#kafka-source</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>定义KafkaSourceConstants，参考：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/apache/flume/blob/trunk/flume-ng-sources/flume-kafka-source/src/main/java/org/apache/flume/source/kafka/KafkaSourceConstants.java</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>比如对于kafka source相关的配置，统一的前缀为 kafka.source.，比如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># kafka source</span><br><span class="line">kafka.source.bootstrap.servers=localhost:9092</span><br><span class="line">kafka.source.topics=thrift_log_test</span><br><span class="line">kafka.source.group.id=test</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>参考文章：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/tonglin0325/p/14115069.html">Flink学习笔记&mdash;&mdash;配置</a>，对kafka source前缀的配置进行读取</p>
+<p>&nbsp;</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%BB%9F%E4%B8%80%E7%9A%84source%E6%9C%8D%E5%8A%A1.html#more">全文 &gt;&gt;</a>

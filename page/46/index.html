@@ -210,6 +210,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42271561/article/details/105883251">Spring-Boot快速集成WebSocket服务端 客户端(支持客户端消息同步回调)</a></p>
 <p>&nbsp;</p>
 <p>在springboot中使用websocket的时候需要注意如果web服务有权限的话，websockete连接同样是会被拦截，需要开放拦截</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.antMatchers(</span><br><span class="line">        HttpMethod.GET,</span><br><span class="line">        &quot;/ws/kafka/**&quot;</span><br><span class="line">).permitAll()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/SpringBoot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94websocket.html#more">全文 &gt;&gt;</a>
@@ -267,6 +268,21 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>kuberbetes-dashboard是K8S的管理工具，下面使用helm来进行部署，参考：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://artifacthub.io/packages/helm/k8s-dashboard/kubernetes-dashboard</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="首先添加源"><a href="#首先添加源" class="headerlink" title="首先添加源"></a>首先添加源</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="查找chart"><a href="#查找chart" class="headerlink" title="查找chart"></a>查找chart</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">helm search repo kubernetes-dashboard</span><br><span class="line"></span><br><span class="line">NAME                                     	CHART VERSION	APP VERSION	DESCRIPTION</span><br><span class="line">kubernetes-dashboard/kubernetes-dashboard	5.4.1        	2.5.1      	General-purpose web UI for Kubernetes clusters</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="部署release"><a href="#部署release" class="headerlink" title="部署release"></a>部署release</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">helm install my-k8s-dashboard kubernetes-dashboard/kubernetes-dashboard</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="访问kubernetes-dashboard"><a href="#访问kubernetes-dashboard" class="headerlink" title="访问kubernetes dashboard"></a>访问kubernetes dashboard</h2><h3 id="1-修改kubernetes-dashboard的svc，将ClusterIp改成NodePort"><a href="#1-修改kubernetes-dashboard的svc，将ClusterIp改成NodePort" class="headerlink" title="1.修改kubernetes-dashboard的svc，将ClusterIp改成NodePort"></a>1.修改kubernetes-dashboard的svc，将ClusterIp改成NodePort</h3><img src="/images/517519-20220605192103426-1309192824.png" width="400" height="208" loading="lazy" />
+
+<p>&nbsp;</p>
+<p>此时再查看svc</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">kubectl get svc -A</span><br><span class="line">NAMESPACE     NAME                                    TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)                  AGE</span><br><span class="line">default       my-k8s-dashboard-kubernetes-dashboard   NodePort       10.110.255.104   &lt;none&gt;        443:32511/TCP            21h</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>访问如下网址即可，注意这里建议使用firefox浏览器来访问，提示HTTPS不安全的话可以选择忽略；如果使用chrome浏览器的话，会提示需要需要导入HTTPS证书，证书地址如下</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/helm%E9%83%A8%E7%BD%B2kubernetes-dashboard.html#more">全文 &gt;&gt;</a>
@@ -338,6 +354,10 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <li>现在，浏览器和 Web 服务器都切换到使用相同的session key来安全地交换消息（对称加密）。</li>
 </ol>
 <p>参考：<a target="_blank" rel="noopener" href="https://aws.amazon.com/cn/compare/the-difference-between-https-and-http/">HTTP 与 HTTPS 之间有什么区别？</a></p>
+<h2 id="公钥私钥，加密解密，签名验签"><a href="#公钥私钥，加密解密，签名验签" class="headerlink" title="公钥私钥，加密解密，签名验签"></a>公钥私钥，加密解密，签名验签</h2><p>既然是加密，那肯定是不希望别人知道我的消息，所以只有我才能解密，所以可得出<strong>公钥负责加密，私钥负责解密</strong>；</p>
+<p>同理，既然是签名，那肯定是不希望有人冒充我发消息，只有我才能发布这个签名，所以可得出<strong>私钥负责签名，公钥负责验证</strong>。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/25912483">RSA的公钥和私钥到底哪个才是用来加密和哪个用来解密？</a></p>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1867985">HTTPS 加密、证书、签名与握手</a></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E5%A6%82%E4%BD%95%E7%94%B3%E8%AF%B7HTTPS%E8%AF%81%E4%B9%A6.html#more">全文 &gt;&gt;</a>
@@ -395,6 +415,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>官方地址下载，有mac，windows和linux版本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://www.kafkatool.com/download.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="1-查看kafka-topic中的数据（支持byte，string和avro）"><a href="#1-查看kafka-topic中的数据（支持byte，string和avro）" class="headerlink" title="1.查看kafka topic中的数据（支持byte，string和avro）"></a>1.查看kafka topic中的数据（支持byte，string和avro）</h2><p>安装后添加kafka集群的地址，可以选择使用zk地址或者kafka的broker地址来连接集群，这里选择使用kafka broker地址来连接</p>
+<img src="/images/517519-20220614163438052-780773238.png" width="1000" height="624" loading="lazy" />
+
+<p>可以指定topic的partition和offset查看数据</p>
+<img src="/images/517519-20230408093343422-1535182760.png" width="1000" height="623" loading="lazy" />
+
+<p>默认查出来的数据是byte数组，即16进制的，可以借助在线转换工具将其转换成字符串后进行查看，比如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://tool.lu/hexstr/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>也可以在属性中设置value为String，这样就可以直接查看反序列化后字符串</p>
+<img src="/images/517519-20230411143559215-1251291956.png" width="900" height="339" loading="lazy" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Kafka%E6%95%B0%E6%8D%AE%E6%9F%A5%E8%AF%A2%E5%B7%A5%E5%85%B7%E2%80%94%E2%80%94Offset%20Explorer.html#more">全文 &gt;&gt;</a>
@@ -452,6 +485,16 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>Table API官方文档参考</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://nightlies.apache.org/flink/flink-docs-master/docs/dev/table/tableapi/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>RowKind</p>
+<p>&nbsp;</p>
+<p>自定义修改debezium-json format</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u012551524/article/details/108985945">Flink 1.11.1:flink CDC Debezium自定义修改debezium-json格式</a></p>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1936360">Flink cdc自定义format格式数据源</a></p>
+<p>&nbsp;</p>
+<p>如果要在flink sql中使用checkpoint，可以使用set命令，如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">SET &#x27;state.checkpoints.dir&#x27; = &#x27;hdfs:///bar/foo/&#x27;;</span><br><span class="line">SET &#x27;execution.checkpointing.mode&#x27; = &#x27;EXACTLY_ONCE&#x27;;</span><br><span class="line">SET &#x27;execution.checkpointing.interval&#x27; = &#x27;30min&#x27;;</span><br><span class="line">SET &#x27;execution.checkpointing.min-pause&#x27; = &#x27;20min&#x27;;</span><br><span class="line">SET &#x27;execution.checkpointing.max-concurrent-checkpoints&#x27; = &#x27;1&#x27;;</span><br><span class="line">SET &#x27;execution.checkpointing.prefer-checkpoint-for-recovery&#x27; = &#x27;true&#x27;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Table%E5%92%8CSQL%20API.html#more">全文 &gt;&gt;</a>
@@ -584,20 +627,33 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
+        <!-- 目录 -->
+
+<div id="toc">
+  
+</div>
+
         <p><strong>Timer类</strong>是一种<strong>线程设施</strong>，可以用来实现<strong>在某一个时间或某一段时间后安排某一个任务执行一次或定期重复执行</strong>。</p>
 <p>该功能要与TimerTask类配合使用。TimerTask类用来实现由Timer安排的一次或重复执行的某一任务。</p>
-<img src="/images/517519-20160313105857304-1050123618.png" alt="" />
+<img src="/images/517519-20160313105857304-1050123618.png" alt>
 
 <p>&nbsp;</p>
-<img src="/images/517519-20160313105920882-417009375.png" alt="" />
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/Timer%E7%B1%BB%E5%92%8CTimerTask%E7%B1%BB.html#more">全文 &gt;&gt;</a>
-          </p>
-        
+<img src="/images/517519-20160313105920882-417009375.png" alt>
 
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">import java.text.SimpleDateFormat;</span><br><span class="line">import java.util.Date;</span><br><span class="line">import java.util.TimerTask;</span><br><span class="line">import java.util.Timer;</span><br><span class="line"></span><br><span class="line">class MyTask extends TimerTask&#123;				//任务调度类要继承TimerTask</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void run() &#123;</span><br><span class="line">		// TODO 自动生成的方法存根</span><br><span class="line">		SimpleDateFormat sdf = null;</span><br><span class="line">		sdf = new SimpleDateFormat(&quot;yyyy-MM-dd HH-mm-ss:SSS&quot;);</span><br><span class="line">		System.out.println(&quot;当前系统的时间：&quot;+sdf.format(new Date()));</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Timer_demo &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		// TODO 自动生成的方法存根</span><br><span class="line">		Timer t = new Timer();							//建立Timer类对象</span><br><span class="line">		MyTask myTask = new MyTask();		//定义任务</span><br><span class="line">		t.schedule(myTask, 1000, 2000);  		//设置任务的执行，1秒后开始，每2秒重复</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/Timer%E7%B1%BB%E5%92%8CTimerTask%E7%B1%BB.html"></a>
+          </div>
+        </div>
       
     </div>
+
+    
+      
 
     
 
@@ -655,7 +711,11 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <h2 id="3-添加需要的框架"><a href="#3-添加需要的框架" class="headerlink" title="3.添加需要的框架"></a>3.添加需要的框架</h2><p>这里勾选spring web</p>
 <img src="/images/517519-20221011103615428-2092753995.png" alt="" loading="lazy" />
 
-<h2 id="4-启动web服务"><a href="#4-启动web服务" class="headerlink" title="4.启动web服务"></a>4.启动web服务</h2>
+<h2 id="4-启动web服务"><a href="#4-启动web服务" class="headerlink" title="4.启动web服务"></a>4.启动web服务</h2><img src="/images/517519-20221011103949201-291499213.png" alt="" loading="lazy" />
+
+<p>访问 localhost:8080</p>
+<p><img src="/images/517519-20180925172039910-151637999.png" alt="" />&nbsp;</p>
+<p>如果想在更新了代码之后实现<strong>热更新</strong>，请参考 :&nbsp;<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42685050/article/details/81588584">https://blog.csdn.net/qq_42685050/article/details/81588584</a></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/spring-boot%E9%A1%B9%E7%9B%AE%E5%BB%BA%E7%AB%8B.html#more">全文 &gt;&gt;</a>
@@ -716,6 +776,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p><strong>Pattern类</strong>的主要作用是进行正则规范的编写。</p>
 <p><strong>Ｍatcher类</strong>主要是执行规范，验证一个字符串是否符合其规范。</p>
 <img src="/images/517519-20160313101824397-615037445.png" alt="" />
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">import java.util.regex.Pattern;</span><br><span class="line">import java.util.regex.Matcher;;</span><br><span class="line"></span><br><span class="line">public class Ｒegex_demo &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		// TODO 自动生成的方法存根</span><br><span class="line">//		String str = &quot;123456789&quot;;</span><br><span class="line">//		if(Pattern.compile(&quot;[0-9]+&quot;).matcher(str).matches())&#123;		//使用正则表达式</span><br><span class="line">//			System.out.println(&quot;是由数字组成！&quot;);</span><br><span class="line">//		&#125; else&#123;</span><br><span class="line">//			System.out.println(&quot;不是由数字组成！&quot;);</span><br><span class="line">//		&#125;</span><br><span class="line">		</span><br><span class="line">//		String str = &quot;2016-03-11&quot; ;</span><br><span class="line">//		String pat = &quot;\\d&#123;4&#125;-\\d&#123;2&#125;-\\d&#123;2&#125;&quot;;			//定义规则，其中/不要转义，//d等于/d</span><br><span class="line">//		Pattern p = Pattern.compile(pat);			//实例化Pattern类</span><br><span class="line">//		Matcher m = p.matcher(str);					//验证字符串内容是否合法</span><br><span class="line">//		if(m.matches())&#123;</span><br><span class="line">//			System.out.println(&quot;日期格式合法！&quot;);</span><br><span class="line">//		&#125;else&#123;</span><br><span class="line">//			System.out.println(&quot;日期格式不合法！&quot;);</span><br><span class="line">//		&#125;</span><br><span class="line">		</span><br><span class="line">		String str = &quot;A123B123C123F123&quot; ;</span><br><span class="line">		String pat = &quot;\\d+&quot;;</span><br><span class="line">		Pattern p = Pattern.compile(pat);			//实例化Pattern类</span><br><span class="line">		String s[] = p.split(str);								//进行字符串拆分</span><br><span class="line">		for(int i=0;i&lt;s.length;i++)&#123;</span><br><span class="line">			System.out.println(s[i]+&quot;\t&quot;);				//输出其中符合字母的字符</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		Matcher m = p.matcher(str);						//实例化Matcher类</span><br><span class="line">		String newString = m.replaceAll(&quot;_&quot;);		//替换所有的数字</span><br><span class="line">		System.out.println(newString);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<img src="/images/517519-20160313103825850-1221901491.png" alt="" />
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<img src="/images/517519-20160313103901632-491342824.png" alt="" />
+
+<img src="/images/517519-20160313103922522-900752191.png" alt="" />
+
+<p>&nbsp;</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Java%E2%80%94%E2%80%94%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F.html#more">全文 &gt;&gt;</a>

@@ -5,16 +5,16 @@
   
   <title>clickhouse学习笔记——Go客户端连接clickhouse | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.创建clickhouse环境安装clickhouse 参考：ubuntu16.04安装clickhouse 或者使用docker 参考：https:&#x2F;&#x2F;hub.docker.com&#x2F;r&#x2F;clickhouse&#x2F;clickhouse-server">
+  <meta name="description" content="1.创建clickhouse环境安装clickhouse 参考：ubuntu16.04安装clickhouse 或者使用docker 参考：https:&#x2F;&#x2F;hub.docker.com&#x2F;r&#x2F;clickhouse&#x2F;clickhouse-server 12docker run -d -p 18123:8123 -p 19000:9000 --name some-clickhouse-server --">
 <meta property="og:type" content="article">
 <meta property="og:title" content="clickhouse学习笔记——Go客户端连接clickhouse">
 <meta property="og:url" content="http://tonglin0325.github.io/clickhouse%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Go%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5clickhouse.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="1.创建clickhouse环境安装clickhouse 参考：ubuntu16.04安装clickhouse 或者使用docker 参考：https:&#x2F;&#x2F;hub.docker.com&#x2F;r&#x2F;clickhouse&#x2F;clickhouse-server">
+<meta property="og:description" content="1.创建clickhouse环境安装clickhouse 参考：ubuntu16.04安装clickhouse 或者使用docker 参考：https:&#x2F;&#x2F;hub.docker.com&#x2F;r&#x2F;clickhouse&#x2F;clickhouse-server 12docker run -d -p 18123:8123 -p 19000:9000 --name some-clickhouse-server --">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20240525202735281-1790572630.png">
 <meta property="article:published_time" content="2017-01-02T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-10T13:53:10.246Z">
+<meta property="article:modified_time" content="2025-04-15T02:10:04.627Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="clickhouse">
 <meta name="twitter:card" content="summary">
@@ -214,8 +214,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/tonglin0325/p/5576803.html">ubuntu16.04安装clickhouse</a></p>
 <p>或者使用docker</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://hub.docker.com/r/clickhouse/clickhouse-server">https://hub.docker.com/r/clickhouse/clickhouse-server</a></p>
-<span id="more"></span>
-
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 18123:8123 -p 19000:9000 --name some-clickhouse-server --ulimit nofile=262144:262144 clickhouse/clickhouse-server:23.8</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>使用datagrip连接</p>
@@ -225,6 +223,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE default.my_first_table</span><br><span class="line">(</span><br><span class="line">    user_id UInt32,</span><br><span class="line">    message String,</span><br><span class="line">    timestamp DateTime,</span><br><span class="line">    metric Float32</span><br><span class="line">)</span><br><span class="line">ENGINE = MergeTree()</span><br><span class="line">PRIMARY KEY (user_id, timestamp);</span><br><span class="line"></span><br><span class="line">INSERT INTO default.my_first_table (user_id, message, timestamp, metric) VALUES</span><br><span class="line">    (101, &#x27;Hello, ClickHouse!&#x27;,                                 now(),       -1.0    ),</span><br><span class="line">    (102, &#x27;Insert a lot of rows per batch&#x27;,                     yesterday(), 1.41421 ),</span><br><span class="line">    (102, &#x27;Sort your data based on your commonly-used queries&#x27;, today(),     2.718   ),</span><br><span class="line">    (101, &#x27;Granules are the smallest chunks of data read&#x27;,      now() + 5,   3.14159 )</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h2 id="2-shi-yong-client-lian-jie-clickhouse"><a href="#2-使用client连接clickhouse" class="headerlink" title="2.使用client连接clickhouse"></a>2.使用client连接clickhouse<a href="#2-shi-yong-client-lian-jie-clickhouse" class="header-anchor">#</a></h2><p>golang客户端连接clickhouse，可以使用 <a target="_blank" rel="noopener" href="https://github.com/ClickHouse/clickhouse-go">clickhouse-go</a> 这个库</p>
+<span id="more"></span>
+
 <p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_59801183/article/details/130575624">一文教你Go语言如何轻松使用ClickHouse</a></p>
 <p>引入依赖</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go get github.com/ClickHouse/clickhouse-go</span><br><span class="line"></span><br></pre></td></tr></table></figure>

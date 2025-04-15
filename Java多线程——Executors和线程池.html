@@ -5,18 +5,18 @@
   
   <title>Java多线程——Executors和线程池 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="线程池的概念与Executors类的应用 **　　1.创建固定大小的线程池**">
+  <meta name="description" content="线程池的概念与Executors类的应用 **　　1.创建固定大小的线程池** 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849package java_thread;import java.util.concurrent.ExecutorService;import">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java多线程——Executors和线程池">
 <meta property="og:url" content="http://tonglin0325.github.io/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E2%80%94%E2%80%94Executors%E5%92%8C%E7%BA%BF%E7%A8%8B%E6%B1%A0.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="线程池的概念与Executors类的应用 **　　1.创建固定大小的线程池**">
+<meta property="og:description" content="线程池的概念与Executors类的应用 **　　1.创建固定大小的线程池** 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849package java_thread;import java.util.concurrent.ExecutorService;import">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170108201807566-141895150.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170108201658769-1385681205.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170108201606503-860804670.png">
 <meta property="article:published_time" content="2017-01-07T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-10T13:53:10.229Z">
+<meta property="article:modified_time" content="2025-04-15T02:10:04.599Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="多线程">
 <meta name="twitter:card" content="summary">
@@ -214,8 +214,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
         <p><strong>线程池的概念与Executors类的应用</strong></p>
 <p>**　　1.创建固定大小的线程池**</p>
-<span id="more"></span>
-
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">package java_thread;</span><br><span class="line"></span><br><span class="line">import java.util.concurrent.ExecutorService;</span><br><span class="line">import java.util.concurrent.Executors;</span><br><span class="line">import java.util.concurrent.TimeUnit;</span><br><span class="line"></span><br><span class="line">public class ThreadPoolTest &#123;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * @param args</span><br><span class="line">	 */</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		ExecutorService threadPool = Executors.newFixedThreadPool(3);</span><br><span class="line">//		ExecutorService threadPool = Executors.newCachedThreadPool();</span><br><span class="line">//		ExecutorService threadPool = Executors.newSingleThreadExecutor();</span><br><span class="line">		for(int i=1;i&lt;=10;i++)&#123;</span><br><span class="line">			final int task = i;</span><br><span class="line">			threadPool.execute(new Runnable()&#123;</span><br><span class="line">				@Override</span><br><span class="line">				public void run() &#123;</span><br><span class="line">					for(int j=1;j&lt;=4;j++)&#123;</span><br><span class="line">						try &#123;</span><br><span class="line">							Thread.sleep(20);</span><br><span class="line">						&#125; catch (InterruptedException e) &#123;</span><br><span class="line">							// TODO Auto-generated catch block</span><br><span class="line">							e.printStackTrace();</span><br><span class="line">						&#125;</span><br><span class="line">						System.out.println(Thread.currentThread().getName() + &quot; is looping of &quot; + j + &quot; for  task of &quot; + task);</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;);</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(&quot;all of 10 tasks have committed! &quot;);</span><br><span class="line">		//threadPool.shutdownNow();</span><br><span class="line">		</span><br><span class="line">//		Executors.newScheduledThreadPool(3).scheduleAtFixedRate(</span><br><span class="line">//				new Runnable()&#123;</span><br><span class="line">//					@Override</span><br><span class="line">//				public void run() &#123;</span><br><span class="line">//					System.out.println(&quot;bombing!&quot;);</span><br><span class="line">//					</span><br><span class="line">//				&#125;&#125;,</span><br><span class="line">//				6,</span><br><span class="line">//				2,</span><br><span class="line">//				TimeUnit.SECONDS);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <img src="/images/517519-20170108201807566-141895150.png" alt>
@@ -235,6 +233,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">threadPool.shutdownNow();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>&nbsp;</p>
+<span id="more"></span>
+
 <p>**用线程池启动定时器 **</p>
 <p>　　调用ScheduledExecutorService的schedule方法，返回的ScheduleFuture对象可以取消任务。</p>
 <p>　　支持间隔重复任务的定时方式，不直接支持绝对定时方式，需要转换成相对时间方式。</p>

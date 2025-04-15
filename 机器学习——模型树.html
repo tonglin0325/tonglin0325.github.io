@@ -5,17 +5,17 @@
   
   <title>机器学习——模型树 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="和回归树（在每个叶节点上使用各自的均值做预测）不同，模型树算法需要在每个叶节点上都构建出一个线性模型，这就是把叶节点设定为分段线性函数，这个所谓的分段线性（piecewise linear）是指模型由多个线性片段组成。 &amp;nbsp;">
+  <meta name="description" content="和回归树（在每个叶节点上使用各自的均值做预测）不同，模型树算法需要在每个叶节点上都构建出一个线性模型，这就是把叶节点设定为分段线性函数，这个所谓的分段线性（piecewise linear）是指模型由多个线性片段组成。 &amp;nbsp; 123456789101112131415161718192021#####################模型树#####################def l">
 <meta property="og:type" content="article">
 <meta property="og:title" content="机器学习——模型树">
 <meta property="og:url" content="http://tonglin0325.github.io/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E6%A8%A1%E5%9E%8B%E6%A0%91.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="和回归树（在每个叶节点上使用各自的均值做预测）不同，模型树算法需要在每个叶节点上都构建出一个线性模型，这就是把叶节点设定为分段线性函数，这个所谓的分段线性（piecewise linear）是指模型由多个线性片段组成。 &amp;nbsp;">
+<meta property="og:description" content="和回归树（在每个叶节点上使用各自的均值做预测）不同，模型树算法需要在每个叶节点上都构建出一个线性模型，这就是把叶节点设定为分段线性函数，这个所谓的分段线性（piecewise linear）是指模型由多个线性片段组成。 &amp;nbsp; 123456789101112131415161718192021#####################模型树#####################def l">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161225212600636-1198793340.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20161225212841011-2109309933.png">
 <meta property="article:published_time" content="2016-12-24T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-10T13:53:10.345Z">
+<meta property="article:modified_time" content="2025-04-15T02:10:04.710Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="ML">
 <meta name="twitter:card" content="summary">
@@ -213,8 +213,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
         <p>和回归树（在每个叶节点上使用各自的均值做预测）不同，<strong>模型树算法</strong>需要在每个叶节点上都构建出一个线性模型，这就是把叶节点设定为分段线性函数，这个所谓的<strong>分段线性（piecewise linear）</strong>是指模型由多个线性片段组成。</p>
 <p>&nbsp;</p>
-<span id="more"></span>
-
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#####################模型树#####################</span><br><span class="line">def linearSolve(dataSet):   	#模型树的叶节点生成函数</span><br><span class="line">	m,n = shape(dataSet)</span><br><span class="line">	X = mat(ones((m,n))); Y = mat(ones((m,1)))		#建立两个全部元素为1的(m,n)矩阵和(m,1)矩阵</span><br><span class="line">	X[:,1:n] = dataSet[:,0:n-1]; Y = dataSet[:,-1]	#X存放所有的特征，Y存放   </span><br><span class="line">	xTx = X.T*X</span><br><span class="line">	if linalg.det(xTx) == 0.0:</span><br><span class="line">		raise NameError(&#x27;This matrix is singular, cannot do inverse,\n\</span><br><span class="line">		try increasing the second value of ops&#x27;)</span><br><span class="line">	ws = xTx.I * (X.T * Y)							#求线性回归的回归系数</span><br><span class="line">	return ws,X,Y</span><br><span class="line"></span><br><span class="line">def modelLeaf(dataSet):			#建立模型树叶节点函数</span><br><span class="line">    ws,X,Y = linearSolve(dataSet)</span><br><span class="line">    return ws</span><br><span class="line"></span><br><span class="line">def modelErr(dataSet):			#模型树平方误差计算函数</span><br><span class="line">    ws,X,Y = linearSolve(dataSet)</span><br><span class="line">    yHat = X * ws</span><br><span class="line">    return sum(power(Y - yHat,2))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>main.py</p>
@@ -225,7 +223,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>分别为y=3.46877+1.1852x和y=0.001698+11.96477x</p>
 <p>而生成该数据的真实模型是y=3.5+1.0x和y=0+12x再加上高斯噪声生成</p>
 <img src="/images/517519-20161225212841011-2109309933.png" alt width="489" height="413">
-
+<span id="more"></span>
         <div class="article-entry">
           <div id="footer-info" class="inner">
           本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E6%A8%A1%E5%9E%8B%E6%A0%91.html">机器学习——模型树</a>

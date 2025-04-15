@@ -200,6 +200,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>参考kafka官方文档，版本1.0.x</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://kafka.apache.org/10/documentation.html#consumerapi</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>依赖，选择 Cloudera Rel 中的 1.0.1-kafka-3.1.0</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.kafka&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;kafka-clients&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.0.1-kafka-3.1.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Kafka的消费者有2套API，一个是新版的Java API，在 org.apache.kafka.clients 包中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://kafka.apache.org/10/documentation.html#newconsumerconfigs</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>一个是旧版的Scala API，在 kafka.consumer 包中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://kafka.apache.org/10/documentation.html#oldconsumerconfigs</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>其中new consumer api中文含义参考</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://tonglin0325.github.io/xml/kafka/1.0.1-kafka-3.1.0/new-consumer-api.xml</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Kafka%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Consumer%20API.html#more">全文 &gt;&gt;</a>
@@ -256,37 +269,27 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <!-- 目录 -->
-
-<div id="toc">
-  
-</div>
-
         <p>在Thrift，Protobuf和avro序列化框架中，不约而同使用了zigzag编码来对数字进行编码，从而达到减少数据传输量的目的。</p>
 <p>zigzag算法的核心主要是去除二进制数字中的前导0，因为在绝大多数情况下，我们使用到的整数，往往是比较小的。</p>
-<img src="/images/517519-20230823142929271-1622069254.png" width="500" height="393" loading="lazy">
+<img src="/images/517519-20230823142929271-1622069254.png" width="500" height="393" loading="lazy" />
 
 <p>参考：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzA3MDExNzcyNA==&amp;mid=2650392086&amp;idx=1&amp;sn=6a2ecfe2548f121a4726d03bf23f4478&amp;scene=0">小而巧的数字压缩算法：zigzag</a></p>
 <p>在avro编码中，对于字符串Martin，长度为6，而6的二进制为0000 0110，其中首位置的0为符号位，在zigzag编码中，正数的符号位会移动到末尾，其它位往前移动一位，所以会变成0000 1100，即0c，再后面的字节是字符串UTF-8编码后的结果</p>
-<img src="/images/517519-20230823144536825-1206571882.png" width="500" height="251" loading="lazy">
+<img src="/images/517519-20230823144536825-1206571882.png" width="500" height="251" loading="lazy" />
 
 <p>在protobuf编码中，对于字符串的Martin，刚开始的字节表示其id和数据类型，下一个字节表示其长度，后面的字节是字符串UTF-8编码后的结果</p>
-<img src="/images/517519-20230823171343451-943173252.png" width="500" height="227" loading="lazy">
+<img src="/images/517519-20230823171343451-943173252.png" width="500" height="227" loading="lazy" />
 
 <p>参考：《数据密集型应用系统设计》的 <a target="_blank" rel="noopener" href="https://martin.kleppmann.com/2012/12/05/schema-evolution-in-avro-protocol-buffers-thrift.html">Schema evolution in Avro, Protocol Buffers and Thrift</a></p>
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/149889589">Avro，Protocol Buffer和Thrift中的模式演化(译)</a></p>
-<p>&nbsp;</p>
+        
+          <p class="article-more-link">
+            <a class="btn btn-primary" href="/zigzag%E7%BC%96%E7%A0%81%E5%8E%9F%E7%90%86.html#more">全文 &gt;&gt;</a>
+          </p>
+        
 
-        <div class="article-entry">
-          <div id="footer-info" class="inner">
-          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/zigzag%E7%BC%96%E7%A0%81%E5%8E%9F%E7%90%86.html"></a>
-          </div>
-        </div>
       
     </div>
-
-    
-      
 
     
 
@@ -350,7 +353,20 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <li>2.如果B+树已经运行了很长时间，写入了很多数据，随着叶子节点分裂，其对应的块会不再顺序存储，而变得分散。这时执行范围查询也会变成随机读，效率降低了。</li>
 </ul>
 <p>参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/2016024">从B+树到LSM树，及LSM树在HBase中的应用</a></p>
-<h2 id="2-LSM树-Log-structured-Merge-Tree-日志结构的合并树"><a href="#2-LSM树-Log-structured-Merge-Tree-日志结构的合并树" class="headerlink" title="2.LSM树(Log-structured Merge-Tree/日志结构的合并树)"></a>2.LSM树(Log-structured Merge-Tree/日志结构的合并树)</h2>
+<h2 id="2-LSM树-Log-structured-Merge-Tree-日志结构的合并树"><a href="#2-LSM树-Log-structured-Merge-Tree-日志结构的合并树" class="headerlink" title="2.LSM树(Log-structured Merge-Tree/日志结构的合并树)"></a>2.LSM树(Log-structured Merge-Tree/日志结构的合并树)</h2><p>RocksDB，HBase，Cassandra，Kudu底层使用的是LSM树</p>
+<p><strong>LSM树的优点</strong>：</p>
+<ul>
+<li>1.LSM树由于数据按顺序存储，因此可以有效地执行区间查询（从最小值到最大值扫描所有的键），并且由于磁盘是顺序写入的（以顺序方式写入紧凑的SSTable文件，而不必重写树中的多个页），所以LSM-Tree可以支持非常高的写入吞吐量。</li>
+</ul>
+<p><strong>LSM树的缺点</strong>：</p>
+<ul>
+<li>1.压缩过程中有时会干扰正在进行的读写操作。即使存储引擎尝试增量地执行压缩，并且不影响并发访问，但由于磁盘的并发资源有限，所以当磁盘执行昂贵的压缩操作时，很容易发生读写请求等待的情况。而B-tree的响应延迟则更具确定性。</li>
+</ul>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/yanghuahui/p/3483754.html">LSM树由来、设计思想以及应用到HBase的索引</a> 和 数据密集型应用系统设计第3章</p>
+<h2 id="3-跳表"><a href="#3-跳表" class="headerlink" title="3.跳表"></a>3.跳表</h2><p>Redis底层使用的是SkipTable</p>
+<h3 id="Mysql的索引为什么使用B-树而不使用跳表"><a href="#Mysql的索引为什么使用B-树而不使用跳表" class="headerlink" title="Mysql的索引为什么使用B+树而不使用跳表?"></a>Mysql的索引为什么使用B+树而不使用跳表?</h3><p>B+树是多叉树结构，每个结点都是一个16k的数据页，能存放较多索引信息，所以扇出很高。三层左右就可以存储2kw左右的数据(知道结论就行，想知道原因可以看之前的文章)。也就是说查询一次数据，如果这些数据页都在磁盘里，那么最多需要查询三次磁盘IO。</p>
+<p>跳表是链表结构，一条数据一个结点，如果最底层要存放2kw数据，且每次查询都要能达到二分查找的效果，2kw大概在2的24次方左右，所以，跳表大概高度在24层左右。最坏情况下，这24层数据会分散在不同的数据页里，也即是查一次数据会经历24次磁盘IO。</p>
+<p>因此存放同样量级的数据，B+树的高度比跳表的要少，如果放在mysql数据库上来说，就是磁盘IO次数更少，因此B+树查询更快。</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E5%AD%98%E5%82%A8%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%AF%B9%E6%AF%94.html#more">全文 &gt;&gt;</a>
@@ -408,6 +424,17 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>参考</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">https://dzone.com/articles/elasticsearch5-how-to-build-a-plugin-and-add-a-lis</span><br><span class="line">https://github.com/chrisshayan/es-changes-feed-plugin</span><br><span class="line">https://blog.csdn.net/qq_16164711/article/details/87872383</span><br><span class="line">https://blog.gaiaproject.club/es-develop-plugin/</span><br><span class="line">https://blog.51cto.com/13755625/2117995</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Es的插件主要有如下几种类型，参考</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/elastic/elasticsearch/tree/master/server/src/main/java/org/elasticsearch/plugins</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p><a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/plugins/6.8/api.html">API Extension Plugins</a>&nbsp;API拓展插件：API extension plugins add new functionality to Elasticsearch by adding new APIs or features, usually to do with search or mapping.</p>
+<p><a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/plugins/6.8/analysis.html">Analysis Plugins</a>&nbsp;解析器插件：Analysis plugins extend Elasticsearch by adding new analyzers, tokenizers, token filters, or character filters to Elasticsearch.</p>
+<p><a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/plugins/6.8/alerting.html">Alerting Plugins</a>&nbsp;告警插件：Alerting plugins allow Elasticsearch to monitor indices and to trigger alerts when thresholds are breached.</p>
+<p><a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/plugins/6.8/discovery.html">Discovery Plugins</a>&nbsp;发现插件：Discovery plugins extend Elasticsearch by adding new discovery mechanisms that can be used instead of&nbsp;<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/6.8/modules-discovery-zen.html">Zen Discovery</a>.</p>
+<p><a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/plugins/6.8/ingest.html">Ingest Plugins</a>&nbsp;摄取插件：The ingest plugins extend Elasticsearch by providing additional ingest node capabilities.</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/ElasticSearch%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91.html#more">全文 &gt;&gt;</a>
@@ -475,6 +502,22 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
 <p>参考：</p>
 <p><a target="_blank" rel="noopener" href="https://www.slideshare.net/HadoopSummit/reliable-and-scalable-data-ingestion-at-airbnb-63920989">Reliable and Scalable Data Ingestion at Airbnb</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.slideshare.net/HBaseCon/apache-hbase-at-airbnb">Apache HBase at Airbnb</a></p>
+<p><a target="_blank" rel="noopener" href="https://myslide.cn/slides/3473">Airbnb软件工程师丁辰 - Airbnb的Streaming ETL</a></p>
+<h2 id="2-rowkey设计原则"><a href="#2-rowkey设计原则" class="headerlink" title="2.rowkey设计原则"></a><strong>2.rowkey设计原则</strong></h2><p><strong>1.rowkey长度原则</strong>：rowkey是一个二进制码流，可以是任意字符串，最大长度&nbsp;<strong>64kb</strong>&nbsp;，实际应用中一般为10-100bytes，以&nbsp;<code>byte[]</code>&nbsp;形式保存，一般设计成定长。</p>
+<p>建议越短越好，不要超过16个字节，原因如下：</p>
+<li>
+数据的持久化文件HFile中是按照KeyValue存储的，如果rowkey过长，比如超过100字节，1000w行数据，光rowkey就要占用100*1000w=10亿个字节，将近1G数据，这样会极大影响HFile的存储效率；
+</li>
+<li>
+MemStore将缓存部分数据到内存，如果rowkey字段过长，内存的有效利用率就会降低，系统不能缓存更多的数据，这样会降低检索效率。
+</li>
+<li>
+目前操作系统都是64位系统，内存8字节对齐，控制在16个字节，8字节的整数倍利用了操作系统的最佳特性。
+</li>
+
+<p><strong>2.rowkey散列原则</strong>：如果rowkey按照时间戳的方式递增，不要将时间放在二进制码的前面，建议将rowkey的高位作为散列字段，由程序随机生成，低位放时间字段，这样将提高数据均衡分布在每个RegionServer，以实现负载均衡的几率。</p>
+<p>如果没有散列字段，首字段直接是时间信息，所有的数据都会集中在一个RegionServer上，这样在数据检索的时候负载会集中在个别的RegionServer上，造成热点问题，会降低查询效率。</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/HBase%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94rowkey.html#more">全文 &gt;&gt;</a>
@@ -532,6 +575,20 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>在美团点评的文章中，介绍了HiveSQL转化为MapReduce的过程</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1、Antlr定义SQL的语法规则，完成SQL词法，语法解析，将SQL转化为抽象语法树AST Tree</span><br><span class="line">2、遍历AST Tree，抽象出查询的基本组成单元QueryBlock</span><br><span class="line">3、遍历QueryBlock，翻译为执行操作树OperatorTree</span><br><span class="line">4、逻辑层优化器进行OperatorTree变换，合并不必要的ReduceSinkOperator，减少shuffle数据量</span><br><span class="line">5、遍历OperatorTree，翻译为MapReduce任务</span><br><span class="line">6、物理层优化器进行MapReduce任务的变换，生成最终的执行计划</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>参考：<a target="_blank" rel="noopener" href="https://tech.meituan.com/2014/02/12/hive-sql-to-mapreduce.html">Hive SQL的编译过程</a></p>
+<p>但是不是所有的SQL都有必要转换为MR来执行，比如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select * from xx.xx limit 1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Hive只需要直接读取文件，并传输到控制台即可</p>
+<p>&nbsp;</p>
+<p>在hive-default.xml配置文件中，有2个参数，hive.fetch.task.conversion和hive.fetch.task.conversion.threshold</p>
+<p><strong>hive.fetch.task.conversion</strong>属性修改为more以后，在全局查找、字段查找、limit查找等都不走mapreduce</p>
+<p><strong>hive.fetch.task.conversion.threshold</strong>属性表示在输入大小为多少以内的时候fetch task生效，默认1073741824 byte = 1G</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;hive.fetch.task.conversion&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;more&lt;/value&gt;</span><br><span class="line">    &lt;description&gt;</span><br><span class="line">      Expects one of [none, minimal, more].</span><br><span class="line">      Some select queries can be converted to single FETCH task minimizing latency.</span><br><span class="line">      Currently the query should be single sourced not having any subquery and should not have any aggregations or distincts (which incurs RS), lateral views and joins.</span><br><span class="line">      0. none : disable hive.fetch.task.conversion</span><br><span class="line">      1. minimal : SELECT STAR, FILTER on partition columns, LIMIT only</span><br><span class="line">      2. more  : SELECT, FILTER, LIMIT only (support TABLESAMPLE and virtual columns)</span><br><span class="line">    &lt;/description&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"></span><br><span class="line">&lt;property&gt;</span><br><span class="line">  &lt;name&gt;hive.fetch.task.conversion.threshold&lt;/name&gt;</span><br><span class="line">  &lt;value&gt;1073741824&lt;/value&gt;</span><br><span class="line">  &lt;description&gt;</span><br><span class="line">    Input threshold for applying hive.fetch.task.conversion. If target table is native, input length</span><br><span class="line">    is calculated by summation of file lengths. If it&#x27;s not native, storage handler for the table</span><br><span class="line">    can optionally implement org.apache.hadoop.hive.ql.metadata.InputEstimator interface.</span><br><span class="line">  &lt;/description&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>参考：</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94fetch.html#more">全文 &gt;&gt;</a>
@@ -591,6 +648,16 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p>前置条件是安装ik分词，请参考</p>
 <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/tonglin0325/p/10088021.html">Elasticsearch学习笔记&mdash;&mdash;分词</a></p>
 <p>1.在ik分词的config下添加词库文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">~/software/apache/elasticsearch-6.2.4/config/analysis-ik$ ls | grep mydic.dic</span><br><span class="line">mydic.dic</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>内容为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">我给祖国献石油</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>2.配置词库路径，编辑IKAnalyzer.cfg.xml配置文件，添加新增的词库</p>
+<img src="/images/517519-20210107154921454-1963852513.png" alt="" loading="lazy" />
+
+<p>3.重启es</p>
+<p>4.测试</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/ElasticSearch%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94ik%E5%88%86%E8%AF%8D%E6%B7%BB%E5%8A%A0%E8%AF%8D%E5%BA%93.html#more">全文 &gt;&gt;</a>
@@ -649,6 +716,22 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>Flink支持用户自定义 Functions，方法有2个</p>
 <p>Ref</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://ci.apache.org/projects/flink/flink-docs-release-1.12/zh/dev/user_defined_functions.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>实现 MapFunction接口</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class MyMapFunction implements MapFunction&lt;String, Integer&gt; &#123;</span><br><span class="line">  public Integer map(String value) &#123; return Integer.parseInt(value); &#125;</span><br><span class="line">&#125;;</span><br><span class="line">data.map(new MyMapFunction());</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>继承 RichMapFunction</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">class MyMapFunction extends RichMapFunction&lt;String, Integer&gt; &#123;</span><br><span class="line">  public Integer map(String value) &#123; return Integer.parseInt(value); &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p><strong>累加器和计数器</strong></p>
+<p>这个应该和Hadoop和Spark的counter类似，参考</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://ci.apache.org/projects/flink/flink-docs-release-1.12/zh/dev/user_defined_functions.html#%E7%B4%AF%E5%8A%A0%E5%99%A8%E5%92%8C%E8%AE%A1%E6%95%B0%E5%99%A8</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E7%94%A8%E6%88%B7%E8%87%AA%E5%AE%9A%E4%B9%89Functions.html#more">全文 &gt;&gt;</a>
@@ -707,6 +790,20 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>Flink有3中运行模式，分别是STREAMING，BATCH和AUTOMATIC</p>
 <p>Ref</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://ci.apache.org/projects/flink/flink-docs-release-1.12/zh/dev/datastream_execution_mode.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>1.STREAMING</strong>运行模式 是DataStream默认的运行模式</p>
+<p><strong>2.BATCH</strong>运行模式 也可以在DataStream API上运行</p>
+<p><strong>3.AUTOMATIC</strong>运行模式 是让系统根据source类型自动选择运行模式</p>
+<p>可以通过命令行来配置运行模式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bin/flink run -Dexecution.runtime-mode=BATCH examples/streaming/WordCount.jar</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>也可以在代码中配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();</span><br><span class="line">env.setRuntimeMode(RuntimeExecutionMode.BATCH);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p>在<strong>STREAMING运行模式</strong>中，Flink使用<a target="_blank" rel="noopener" href="https://ci.apache.org/projects/flink/flink-docs-release-1.12/zh/dev/stream/state/state_backends.html">StateBackend</a>来控制状态存储和checkpoint的工作，RocksDBStateBackend支持增量Checkpoint，其他2个不支持</p>
+<p>在<strong>BATCH****运行模式</strong>中，statebackend是被忽略的，batch模式不支持checkpoint</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Execution%20Mode.html#more">全文 &gt;&gt;</a>
@@ -765,6 +862,22 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>Flink中的DataSet任务用于实现data sets的转换，data set通常是固定的数据源，比如可读文件，或者本地集合等。</p>
 <p>Ref</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://ci.apache.org/projects/flink/flink-docs-release-1.12/zh/dev/batch/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;使用DataSet API需要使用 批处理 env</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ExecutionEnvironment env = ExecutionEnvironment.getExecutionEnvironment();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>DataSet支持的<strong>Data Source</strong>有：File-based，Collection-based，Generic</p>
+<p><strong>1.File-based</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">readTextFile(path) / TextInputFormat - Reads files line wise and returns them as Strings.</span><br><span class="line"></span><br><span class="line">readTextFileWithValue(path) / TextValueInputFormat - Reads files line wise and returns them as StringValues. StringValues are mutable strings.</span><br><span class="line"></span><br><span class="line">readCsvFile(path) / CsvInputFormat - Parses files of comma (or another char) delimited fields. Returns a DataSet of tuples or POJOs. Supports the basic java types and their Value counterparts as field types.</span><br><span class="line"></span><br><span class="line">readFileOfPrimitives(path, Class) / PrimitiveInputFormat - Parses files of new-line (or another char sequence) delimited primitive data types such as String or Integer.</span><br><span class="line"></span><br><span class="line">readFileOfPrimitives(path, delimiter, Class) / PrimitiveInputFormat - Parses files of new-line (or another char sequence) delimited primitive data types such as String or Integer using the given delimiter.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>2.Collection-based</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">fromCollection(Collection) - Creates a data set from a Java.util.Collection. All elements in the collection must be of the same type.</span><br><span class="line"></span><br><span class="line">fromCollection(Iterator, Class) - Creates a data set from an iterator. The class specifies the data type of the elements returned by the iterator.</span><br><span class="line"></span><br><span class="line">fromElements(T ...) - Creates a data set from the given sequence of objects. All objects must be of the same type.</span><br><span class="line"></span><br><span class="line">fromParallelCollection(SplittableIterator, Class) - Creates a data set from an iterator, in parallel. The class specifies the data type of the elements returned by the iterator.</span><br><span class="line"></span><br><span class="line">generateSequence(from, to) - Generates the sequence of numbers in the given interval, in parallel.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>3.Generic</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">readFile(inputFormat, path) / FileInputFormat - Accepts a file input format.</span><br><span class="line"></span><br><span class="line">createInput(inputFormat) / InputFormat - Accepts a generic input format.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94DataSet%20API.html#more">全文 &gt;&gt;</a>

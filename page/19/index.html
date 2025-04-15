@@ -200,6 +200,31 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p><strong>进入HBase的安装目录，****启动HBase</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bin/start-hbase.sh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>打开shell命令行模式</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bin/hbase shell</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>关闭HBase</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bin/stop-hbase.sh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p>一个<strong>cell的值,<strong>取决于</strong>Row,Column family,Column Qualifier和Timestamp</strong></p>
+<p><strong>HBase表结构</strong></p>
+<p><strong><img src="/images/517519-20170418200643915-626033901.png" alt="" /></strong></p>
+<p>&nbsp;</p>
+<p><strong>1.查看当前用户</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hbase(main):001:0&gt; whoami</span><br><span class="line">hbase/master@HADOOP.COM (auth:KERBEROS)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>2. HBase中创建表，这里面的name，sex，age，dept，course都是column-family</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">create &#x27;student&#x27;,&#x27;name&#x27;,&#x27;sex&#x27;,&#x27;age&#x27;,&#x27;dept&#x27;,&#x27;course&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong><img src="/images/517519-20170412215706580-118635761.png" alt="" /></strong></p>
+<p><strong>3.列出表</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">hbase(main):005:0&gt; list</span><br><span class="line">TABLE</span><br><span class="line">0 row(s) in 0.0170 seconds</span><br><span class="line"></span><br><span class="line">=&gt; []</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>4.HBase中添加数据，当添加了数据之后，就有了column，&lsquo;1000&rsquo;是ROW<br /></strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">put &#x27;student&#x27;,&#x27;1000&#x27;,&#x27;name&#x27;,&#x27;XiaoMing&#x27;　　#这么写的话，family为name,column为空</span><br><span class="line">put &#x27;student&#x27;,&#x27;1000&#x27;,&#x27;course:math&#x27;,&#x27;99&#x27;　　#这么写的话，family为course,column为math</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/HBase%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%ACCRUD%E6%93%8D%E4%BD%9C.html#more">全文 &gt;&gt;</a>
@@ -267,6 +292,17 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p><strong>Spark 执行器节点</strong>是一种工作进程，负责在 Spark 作业中运行任务，任务间相互独立。 Spark 应用启动时， 执行器节点就被同时启动，并且始终伴随着整个 Spark 应用的生命周期而存在。</p>
 <p><strong>执行器进程</strong>有两大作用： 第一，它们负责运行组成 Spark 应用的任务，并将结果返回给驱动器进程； 第二，它们通过自身的块管理器（Block Manager）为用户程序中要求缓存的 RDD 提供内存式存储。</p>
 <p><strong>3.集群管理器：</strong></p>
+<p>驱动器节点和执行器节点是如何启动的呢？ Spark 依赖于集群管理器来启动执行器节点，而在某些特殊情况下，也依赖集群管理器来启动驱动器节点。</p>
+<p>&nbsp;</p>
+<p><strong>Spark架构</strong></p>
+<img src="/images/517519-20201214145122261-52137553.png" alt="" loading="lazy" />
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://spark.apache.org/docs/latest/cluster-overview.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<img src="/images/517519-20201214145151702-1831309909.png" alt="" loading="lazy" />
+
+<p>转自&nbsp;&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://zhuanlan.zhihu.com/p/91143069</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Spark%20on%20YARN.html#more">全文 &gt;&gt;</a>
@@ -331,6 +367,13 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>当我们将一个<strong>文本文件</strong>读取为** RDD** 时，<strong>输入的每一行</strong> 都会成为 <strong>RDD 的 一个元素</strong>。</p>
 <p>也可以将<strong>多个完整的文本文件</strong>一次性读取为<strong>一个 pair RDD</strong>， 其中<strong>键是文件名，值是文件内容</strong>。</p>
 <p>&nbsp;在 Scala 中<strong>读取一个文本文件</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">val inputFile = &quot;file:///home/common/coding/coding/Scala/word-count/test.segmented&quot;</span><br><span class="line">val textFile = sc.textFile(inputFile)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;在 Scala 中<strong>读取给定目录中的所有文件</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val input = sc.wholeTextFiles(&quot;file:///home/common/coding/coding/Scala/word-count&quot;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>&nbsp;保存文本文件</strong>，Spark 将传入的路径作为目录对待，会在那个目录下输出多个文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">textFile.saveAsTextFile(&quot;file:///home/common/coding/coding/Scala/word-count/writeback&quot;)</span><br><span class="line">//textFile.repartition(1).saveAsTextFile 就能保存成一个文件</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E8%AF%BB%E5%8F%96%E5%92%8C%E4%BF%9D%E5%AD%98.html#more">全文 &gt;&gt;</a>
@@ -392,6 +435,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>Spark 为包含键值对类型的 RDD 提供了一些专有的操作。</p>
 <p>&nbsp;</p>
 <p><strong>1.创建Pair RDD</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">    val input = sc.parallelize(List(1, 2, 3, 4))</span><br><span class="line">　　val pairs = input.map(x =&gt; (x+1, x))</span><br><span class="line">    for (pair &lt;- pairs)&#123;</span><br><span class="line">      println(pair)</span><br><span class="line">    &#125;</span><br><span class="line">　　//输出</span><br><span class="line">(2,1)</span><br><span class="line">(3,2)</span><br><span class="line">(4,3)</span><br><span class="line">(5,4)       </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p><strong>2.Pair RDD的转化操作</strong></p>
+<p>Pair RDD 可以使用所有标准 RDD 上的可用的转化操作。</p>
+<img src="/images/517519-20170407183139019-524414097.png" alt="" width="647" height="678" />
+
+<img src="/images/517519-20170407183510457-112776039.png" alt="" width="657" height="154" />
+
+<img src="/images/517519-20170407183523332-199882762.png" alt="" width="657" height="196" />
+
+<p><strong>Pair RDD也支持RDD所支持的函数</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pairs.filter&#123;case (key, value) =&gt; value.length &lt; 20&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%94%AE%E5%80%BC%E5%AF%B9%E6%93%8D%E4%BD%9C.html#more">全文 &gt;&gt;</a>
@@ -451,6 +507,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p><strong>1.RDD&mdash;&mdash;弹性分布式数据集（Resilient Distributed Dataset）</strong></p>
 <p>RDD是一个分布式的元素集合，在Spark中，对数据的操作就是<strong>创建RDD</strong>、<strong>转换已有的RDD</strong>和<strong>调用RDD操作进行求值</strong>。</p>
 <p>Spark 中的 RDD 就是一个不可变的分布式对象集合。每个 RDD 都被分为多个分区,这些分区运行在集群中的不同节点上。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">object WordCount &#123;</span><br><span class="line">  def main(args: Array[String]) &#123;</span><br><span class="line">    val inputFile =  &quot;file:///home/common/coding/coding/Scala/word-count/test.segmented&quot;</span><br><span class="line">    val conf = new SparkConf().setAppName(&quot;WordCount&quot;).setMaster(&quot;local&quot;)　　　　#创建一个SparkConf对象来配置应用&lt;br&gt;　　　　#集群URL：告诉Spark连接到哪个集群，local是单机单线程，无需连接到集群，应用名：在集群管理器的用户界面方便找到应用</span><br><span class="line">    val sc = new SparkContext(conf)　　　　　　　　#然后基于这SparkConf创建一个SparkContext对象</span><br><span class="line">    val textFile = sc.textFile(inputFile)　　　　#读取输入的数据</span><br><span class="line">    val wordCount = textFile.flatMap(line =&gt; line.split(&quot; &quot;)).map(word =&gt; (word, 1)).reduceByKey((a, b) =&gt; a + b)　　#切分成单词，转换成键值对并计数</span><br><span class="line">    wordCount.foreach(println)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>创建一个RDD</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val textFile = sc.textFile(inputFile)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val lines = sc.parallelize(List(&quot;pandas&quot;, &quot;i like pandas&quot;))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p>RDD支持两种类型的操作: **转化操作(transformation)<strong>和</strong>行动操作(action)**。</p>
+<p><strong>转化操作，是返回一个新的RDD的操作：</strong></p>
+<p>filter()函数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val RDD = textFile.filter(line =&gt; line.contains(&quot;Hadoop&quot;))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94RDD%E7%BC%96%E7%A8%8B.html#more">全文 &gt;&gt;</a>
@@ -510,6 +579,21 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p><strong>1.本地函数</strong></p>
 <p>可以在一个方法内再次定义一个方法，这个方法就是外部方法的内部私有方法，省略了private关键字</p>
 <p><strong>2.头等函数</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var increase = (x: Int) =&gt; x + 1</span><br><span class="line">System.out.println(increase(10))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>集合类的<strong>foreach方法</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var list1 = List(1, 2)</span><br><span class="line">list1.foreach((x: Int) =&gt; println(x))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;集合类的<strong>filter方法</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">list1.filter((x: Int) =&gt; x &gt; 1)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p><strong>3.函数字面量的短格式，使得函数写的更加简洁</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//函数字面量的短格式</span><br><span class="line">    list1.filter(x =&gt; x &gt; 1)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p><strong>4.占位符语法，如果想让函数字面量更加简洁，可以把下划线当做一个或更多参数的占位符</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//使用占位符语法</span><br><span class="line">    System.out.println(list1.filter(_ &gt; 1))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Scala%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%87%BD%E6%95%B0%E5%92%8C%E9%97%AD%E5%8C%85.html#more">全文 &gt;&gt;</a>
@@ -567,6 +651,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>1.通过<strong>realy机器</strong>登录<strong>relay-shell</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh XXX@XXX</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>2.登录了跳板机之后，<strong>连接可以用的机器</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">XXXX.bj</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>3.在本地的idea生成好程序的jar包（word-count_2.11-1.0.jar）之后，把<strong>jar包</strong>和<strong>需要put到远程机器的hdfs文件系统中的文件</strong>通过scp命令从开发机传到远程的机器中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scp 开发机用户名@开发机ip地址:/home/XXXXX/文件 .    #最后一个.表示cd的根目录下</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">object WordCount &#123;</span><br><span class="line">  def main(args: Array[String]) &#123;</span><br><span class="line">//    val inputFile =  &quot;file:///home/mi/coding/coding/Scala/word-count/input/README.txt&quot;</span><br><span class="line">//    val inputFile =  &quot;file://README.txt&quot;</span><br><span class="line">    val inputFile =  &quot;/user/XXXX/lintong/README.txt&quot;</span><br><span class="line">    val conf = new SparkConf().setAppName(&quot;WordCount&quot;).setMaster(&quot;yarn-client&quot;)</span><br><span class="line">    val sc = new SparkContext(conf)</span><br><span class="line">    val textFile = sc.textFile(inputFile)</span><br><span class="line">    val wordCount = textFile.flatMap(line =&gt; line.split(&quot; &quot;)).map(word =&gt; (word, 1)).reduceByKey((a, b) =&gt; a + b)</span><br><span class="line">//    wordCount.foreach(println)</span><br><span class="line">//    wordCount.saveAsTextFile(&quot;file:///home/mi/coding/coding/Scala/word-count/output/READMEOUT.txt&quot;)</span><br><span class="line">    wordCount.saveAsTextFile(&quot;/user/XXXX/lintong/READMEOUT.txt&quot;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p>4.通过put命令将<strong>远程机器中的txt文件</strong>，传到远程机器的<strong>hdfs文件系统</strong></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9C%A8%E8%BF%9C%E7%A8%8B%E6%9C%BA%E5%99%A8%E4%B8%AD%E8%BF%90%E8%A1%8CWordCount.html#more">全文 &gt;&gt;</a>
@@ -626,6 +723,16 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p>1.在清华镜像站点下载hbase的安装文件，选择的是stable的版本，版本号是hbase-1.2.5/</p>
 <p>2.解压放在/usr/local的目录下</p>
 <p>3.修改权限</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo chown -R hduser hadoop hbase-1.2.5/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>4.修改文件夹的名称为hbase</p>
+<p>5.在～/.bashrc下添加，之后source一下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export PATH=$PATH:/usr/local/hbase/bin</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>或者在 /etc/profile中添加</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export HBASE_HOME=/usr/local/hbase</span><br><span class="line">export PATH=$&#123;HBASE_HOME&#125;/bin:$PATH</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>6.修改文件夹的权限</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Ubuntu%E4%B8%8B%E5%AE%89%E8%A3%85hbase.html#more">全文 &gt;&gt;</a>
@@ -754,6 +861,23 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>Scala的<strong>内建控制结构</strong>包括：if、while、for、try、match和函数调用</p>
 <p><strong>1.if表达式</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//常见的写法</span><br><span class="line">var filename = &quot;name&quot;</span><br><span class="line">if (!args.isEmpty)</span><br><span class="line">  filename = args(0)</span><br><span class="line"></span><br><span class="line">//比较简洁的写法</span><br><span class="line">var filename1 =</span><br><span class="line">  if (!args.isEmpty) args(0)</span><br><span class="line">  else &quot;name&quot;</span><br><span class="line"></span><br><span class="line">//更简洁的写法，不要有中间变量</span><br><span class="line">println(if(!args.isEmpty) args(0) else &quot;name&quot;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p><strong>2.while循环，while循环和其他语言的一样，有while和do while</strong></p>
+<p>**　　Scala中对再次赋值语句的返回值是Unit，比如下面这个例子**</p>
+<p><strong><img src="/images/517519-20170404210836503-1884336325.png" alt="" width="783" height="146" /></strong></p>
+<p>&nbsp;</p>
+<p><strong>3.for表达式</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">//列出当前目录的文件和文件夹</span><br><span class="line">val filesHere = (new java.io.File(&quot;.&quot;)).listFiles</span><br><span class="line"></span><br><span class="line">for (file &lt;- filesHere)</span><br><span class="line">  println(file)</span><br><span class="line"></span><br><span class="line">//打印1到4</span><br><span class="line">for (i &lt;- 1 to 4)</span><br><span class="line">  println(i)</span><br><span class="line"></span><br><span class="line">//打印1到3</span><br><span class="line">for (i &lt;- 1 until 4)</span><br><span class="line">  println(i)</span><br><span class="line"></span><br><span class="line">//for循环中的过滤功能</span><br><span class="line">for (file &lt;- filesHere if file.getName.endsWith(&quot;project&quot;))</span><br><span class="line">  println(file)</span><br><span class="line"></span><br><span class="line">//for循环中的过滤功能，多个条件用；号分隔</span><br><span class="line">for (file &lt;- filesHere</span><br><span class="line">     if file.isFile;</span><br><span class="line">     if file.getName.endsWith(&quot;sbt&quot;)</span><br><span class="line">) println(file)</span><br><span class="line"></span><br><span class="line">//嵌套枚举</span><br><span class="line">for( a &lt;- 1 to 3; b &lt;- 1 to 3)&#123;</span><br><span class="line">  println( &quot;Value of a: &quot; + a );</span><br><span class="line">  println( &quot;Value of b: &quot; + b );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//for循环采用yield,可以从存储中返回for循环中的变量的值，输出List(1, 2, 4, 5, 6, 7)</span><br><span class="line">val numList = List(1,2,3,4,5,6,7,8,9,10)</span><br><span class="line">System.out.println(</span><br><span class="line">  for&#123;</span><br><span class="line">    a &lt;- numList if a != 3; if a &lt; 8</span><br><span class="line">  &#125;yield a</span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p><strong>4.使用try表达式处理异常</strong></p>
+<p>&nbsp;　　抛出异常</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//抛出异常</span><br><span class="line">  def isEven(n : Int): Unit =&#123;</span><br><span class="line">    val half =</span><br><span class="line">      if (n % 2 == 0) n / 2</span><br><span class="line">      else throw new RuntimeException(&quot;n必须是偶数&quot;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;　　捕获异常，finally语句</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">　　val file = new FileReader(&quot;input.txt&quot;)</span><br><span class="line">try &#123;</span><br><span class="line">  //使用文件</span><br><span class="line">&#125; catch &#123;</span><br><span class="line">  //捕获异常</span><br><span class="line">  case ex: FileNotFoundException =&gt;</span><br><span class="line">  case ex: IOException =&gt;</span><br><span class="line">&#125; finally &#123;</span><br><span class="line">  //确保文件关闭</span><br><span class="line">  file.close()</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Scala%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%86%85%E5%BB%BA%E6%8E%A7%E5%88%B6%E7%BB%93%E6%9E%84.html#more">全文 &gt;&gt;</a>

@@ -5,15 +5,15 @@
   
   <title>Spark学习笔记——使用CatalystSqlParser解析Spark SQL | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Spark的parser使用的是antlr来实现，其g4文件如下">
+  <meta name="description" content="Spark的parser使用的是antlr来实现，其g4文件如下 12https:&#x2F;&#x2F;github.com&#x2F;apache&#x2F;spark&#x2F;blob&#x2F;master&#x2F;sql&#x2F;catalyst&#x2F;src&#x2F;main&#x2F;antlr4&#x2F;org&#x2F;apache&#x2F;spark&#x2F;sql&#x2F;catalyst&#x2F;parser&#x2F;SqlBase.g4  如果想解析spark SQL的语句，可以使用其原生的parser来进行解析，代码如下">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spark学习笔记——使用CatalystSqlParser解析Spark SQL">
 <meta property="og:url" content="http://tonglin0325.github.io/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8CatalystSqlParser%E8%A7%A3%E6%9E%90Spark%20SQL.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="Spark的parser使用的是antlr来实现，其g4文件如下">
+<meta property="og:description" content="Spark的parser使用的是antlr来实现，其g4文件如下 12https:&#x2F;&#x2F;github.com&#x2F;apache&#x2F;spark&#x2F;blob&#x2F;master&#x2F;sql&#x2F;catalyst&#x2F;src&#x2F;main&#x2F;antlr4&#x2F;org&#x2F;apache&#x2F;spark&#x2F;sql&#x2F;catalyst&#x2F;parser&#x2F;SqlBase.g4  如果想解析spark SQL的语句，可以使用其原生的parser来进行解析，代码如下">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2015-06-15T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-10T13:53:15.552Z">
+<meta property="article:modified_time" content="2025-04-15T02:10:08.307Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Spark">
 <meta name="twitter:card" content="summary">
@@ -209,8 +209,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </div>
 
         <p>Spark的parser使用的是antlr来实现，其g4文件如下</p>
-<span id="more"></span>
-
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/apache/spark/blob/master/sql/catalyst/src/main/antlr4/org/apache/spark/sql/catalyst/parser/SqlBase.g4</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>如果想解析spark SQL的语句，可以使用其原生的parser来进行解析，代码如下</p>
@@ -225,6 +223,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Exception in thread &quot;main&quot; java.lang.IllegalArgumentException: Unable to instantiate SparkSession with Hive support because Hive classes are not found.</span><br><span class="line">	at org.apache.spark.sql.SparkSession$Builder.enableHiveSupport(SparkSession.scala:869)</span><br><span class="line">	at com.bigdata.spark.SparkSQLParser$.main(SparkSQLParser.scala:17)</span><br><span class="line">	at com.bigdata.spark.SparkSQLParser.main(SparkSQLParser.scala)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>使用CatalystSqlParser解析会报</p>
+<span id="more"></span>
+
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Exception in thread &quot;main&quot; org.apache.spark.sql.catalyst.parser.ParseException: </span><br><span class="line">Unsupported SQL statement</span><br><span class="line">== SQL ==</span><br><span class="line">CREATE TABLE users (id INT, name STRING)</span><br><span class="line">	at org.apache.spark.sql.catalyst.parser.AbstractSqlParser$$anonfun$parsePlan$1.apply(ParseDriver.scala:74)</span><br><span class="line">	at org.apache.spark.sql.catalyst.parser.AbstractSqlParser$$anonfun$parsePlan$1.apply(ParseDriver.scala:69)</span><br><span class="line">	at org.apache.spark.sql.catalyst.parser.AbstractSqlParser.parse(ParseDriver.scala:100)</span><br><span class="line">	at org.apache.spark.sql.catalyst.parser.AbstractSqlParser.parsePlan(ParseDriver.scala:69)</span><br><span class="line">	at com.bigdata.spark.SparkSQLParser$.main(SparkSQLParser.scala:26)</span><br><span class="line">	at com.bigdata.spark.SparkSQLParser.main(SparkSQLParser.scala)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>可以使用hive parser来解析建表语句，参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/tonglin0325/p/12212866.html">antlr解析hive语句</a></p>

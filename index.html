@@ -203,7 +203,14 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <h2 id="1-ulule-limiter"><a href="#1-ulule-limiter" class="headerlink" title="1.ulule/limiter"></a>1.ulule/limiter</h2><p>ulule/limiter是一款支持分布式限流的框架，其可以在Redis中存储和共享限流状态，从而在分布式环境中实现一致的限流逻辑。</p>
 <p>ulule/limiter基于<strong>令牌桶（Token Bucket）算法</strong>，因为允许<strong>累积令牌</strong>，若桶中有令牌，短时间可处理大量请求，所以可能会<strong>短时超限</strong>。令牌桶算法允许<strong>突发流量</strong>的业务，<strong>适用场景</strong>如 API 请求、流媒体加载。</p>
 <p>其他基于令牌桶算法的限流框架还有 <a target="_blank" rel="noopener" href="https://pkg.go.dev/golang.org/x/time/rate">golang.org/x/time/rate</a></p>
-<h3 id="1-引用依赖"><a href="#1-引用依赖" class="headerlink" title="1.引用依赖"></a>1.引用依赖</h3>
+<h3 id="1-引用依赖"><a href="#1-引用依赖" class="headerlink" title="1.引用依赖"></a>1.引用依赖</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go get github.com/ulule/limiter/v3@v3.11.2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>ulule/limiter可以和gin web框架集成，实现<strong>服务接收外部请求</strong>场景下的限流，或者<strong>服务请求外部API</strong>场景下的限流</p>
+<h3 id="2-使用Gin限流中间件实现服务接收外部请求场景下的限流"><a href="#2-使用Gin限流中间件实现服务接收外部请求场景下的限流" class="headerlink" title="2.使用Gin限流中间件实现服务接收外部请求场景下的限流"></a>2.使用Gin限流中间件实现<strong>服务接收外部请求</strong>场景下的限流</h3><p>参考：<a target="_blank" rel="noopener" href="https://github.com/ulule/limiter-examples/blob/master/gin/main.go">https://github.com/ulule/limiter-examples/blob/master/gin/main.go</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">package middleware</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;github.com/gin-gonic/gin&quot;</span><br><span class="line">	&quot;github.com/redis/go-redis/v9&quot;</span><br><span class="line">	&quot;github.com/ulule/limiter/v3&quot;</span><br><span class="line">	mgin &quot;github.com/ulule/limiter/v3/drivers/middleware/gin&quot;</span><br><span class="line">	redisstore &quot;github.com/ulule/limiter/v3/drivers/store/redis&quot;</span><br><span class="line">	&quot;time&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">// 在中间件中对接收的请求进行限流</span><br><span class="line">func RateLimitMiddleWare(rdb *redis.Client) gin.HandlerFunc &#123;</span><br><span class="line">	// 定义限流规则：1 请求/10秒</span><br><span class="line">	rate := limiter.Rate&#123;</span><br><span class="line">		Period: 10 * time.Second,</span><br><span class="line">		Limit:  1,</span><br><span class="line">	&#125;</span><br><span class="line">	// 创建限流存储</span><br><span class="line">	store, err := redisstore.NewStoreWithOptions(rdb, limiter.StoreOptions&#123;</span><br><span class="line">		Prefix:   &quot;rate_limiter&quot;, // Redis 键的前缀</span><br><span class="line">	&#125;)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		panic(err)</span><br><span class="line">	&#125;</span><br><span class="line">	// 创建限流实例</span><br><span class="line">	instance := limiter.New(store, rate)</span><br><span class="line">	middleware := mgin.NewMiddleware(instance)</span><br><span class="line">	return middleware</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在router中使用限流中间件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// ratelimit</span><br><span class="line">rateLimitMiddleWare := middleware.RateLimitMiddleWare(redisClient)</span><br><span class="line">authGroup.Use(rateLimitMiddleWare)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94gin%E9%99%90%E6%B5%81.html#more">全文 &gt;&gt;</a>
@@ -263,6 +270,16 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p>gen是gorm官方推出的一个GORM代码生成工具</p>
 <p>官方文档：<a target="_blank" rel="noopener" href="https://gorm.io/zh_CN/gen/">https://gorm.io/zh_CN/gen/</a></p>
 <h2 id="1-使用gen框架生成model和dao"><a href="#1-使用gen框架生成model和dao" class="headerlink" title="1.使用gen框架生成model和dao"></a>1.使用gen框架生成model和dao</h2><p>安装gorm gen</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go get -u gorm.io/gen</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>假设有如下用户表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE user</span><br><span class="line">(</span><br><span class="line">    `id`     bigint unsigned NOT NULL AUTO_INCREMENT COMMENT &#x27;主键&#x27;,</span><br><span class="line">    `username`  varchar(128) NOT NULL COMMENT &#x27;用户名&#x27;,</span><br><span class="line">    `email` varchar(128) NOT NULL COMMENT &#x27;邮箱&#x27;,</span><br><span class="line">    PRIMARY KEY (`id`)</span><br><span class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT=&#x27;用户表&#x27;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在cmd目录下创建gen/generate.go文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">	&quot;gorm.io/driver/mysql&quot;</span><br><span class="line">	&quot;gorm.io/gen&quot;</span><br><span class="line">	&quot;gorm.io/gorm&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">const MySQLDSN = &quot;root:123456@tcp(127.0.0.1:55000)/default?charset=utf8mb4&amp;amp;parseTime=True&quot;</span><br><span class="line"></span><br><span class="line">func connectDB(dsn string) *gorm.DB &#123;</span><br><span class="line">	db, err := gorm.Open(mysql.Open(dsn))</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		panic(fmt.Errorf(&quot;connect mysql fail: %w&quot;, err))</span><br><span class="line">	&#125;</span><br><span class="line">	return db</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	// 指定生成代码的具体相对目录(相对当前文件)，默认为：./query</span><br><span class="line">	// 默认生成需要使用WithContext之后才可以查询的代码，但可以通过设置gen.WithoutContext禁用该模式</span><br><span class="line">	g := gen.NewGenerator(gen.Config&#123;</span><br><span class="line">		// 默认会在 OutPath 目录生成CRUD代码，并且同目录下生成 model 包</span><br><span class="line">		// 所以OutPath最终package不能设置为model，在有数据库表同步的情况下会产生冲突</span><br><span class="line">		// 若一定要使用可以通过ModelPkgPath单独指定model package的名称</span><br><span class="line">		OutPath:      &quot;./internal/dao&quot;,</span><br><span class="line">		ModelPkgPath: &quot;./internal/model&quot;,</span><br><span class="line"></span><br><span class="line">		// gen.WithoutContext：禁用WithContext模式</span><br><span class="line">		// gen.WithDefaultQuery：生成一个全局Query对象Q</span><br><span class="line">		// gen.WithQueryInterface：生成Query接口</span><br><span class="line">		Mode: gen.WithoutContext | gen.WithDefaultQuery | gen.WithQueryInterface,</span><br><span class="line">	&#125;)</span><br><span class="line"></span><br><span class="line">	// 通常复用项目中已有的SQL连接配置db(*gorm.DB)</span><br><span class="line">	// 非必需，但如果需要复用连接时的gorm.Config或需要连接数据库同步表信息则必须设置</span><br><span class="line">	g.UseDB(connectDB(MySQLDSN))</span><br><span class="line"></span><br><span class="line">	// 从连接的数据库为所有表生成Model结构体和CRUD代码</span><br><span class="line">	//g.ApplyBasic(g.GenerateAllTable()...)</span><br><span class="line"></span><br><span class="line">	// 也可以手动指定需要生成代码的数据表</span><br><span class="line">	//g.ApplyBasic(g.GenerateModel(&quot;user&quot;), g.GenerateModel(&quot;role&quot;))</span><br><span class="line"></span><br><span class="line">	// 还可以指定只生成model</span><br><span class="line">	var models = [...]string&#123;&quot;user&quot;&#125;</span><br><span class="line">	for _, tableName := range models &#123;</span><br><span class="line">		// 只生成model</span><br><span class="line">		g.GenerateModel(tableName)</span><br><span class="line">		// 生成model和query</span><br><span class="line">		//tableModel := g.GenerateModel(tableName)</span><br><span class="line">		//g.ApplyBasic(tableModel)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//g.ApplyInterface(func(model.Filter) &#123;&#125;, g.GenerateModel(&quot;user&quot;))</span><br><span class="line">	// 执行并生成代码</span><br><span class="line">	g.Execute()</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>运行generate.go，将会生成model和dao文件</p>
+<img src="/images/517519-20240201000056892-326773222.png" width="300" height="234" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/golang%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94gorm.html#more">全文 &gt;&gt;</a>
@@ -325,6 +342,12 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>官方网站：<a target="_blank" rel="noopener" href="https://dtm.pub/">https://dtm.pub/</a></p>
 <h1 id="1-启动DTM服务"><a href="#1-启动DTM服务" class="headerlink" title="1.启动DTM服务"></a>1.启动DTM服务</h1><p>参考：<a target="_blank" rel="noopener" href="https://dtm.pub/guide/install.html#%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8C%85%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85">https://dtm.pub/guide/install.html#%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8C%85%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85</a></p>
 <p>项目</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/dtm-labs/dtm</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>git dtm项目</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/dtm-labs/dtm &amp;amp;&amp;amp; cd dtm</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>启动dtm</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E6%A1%86%E6%9E%B6DTM.html#more">全文 &gt;&gt;</a>
@@ -387,6 +410,15 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <img src="/images/517519-20241019214747049-1769269194.png" width="500" height="434" loading="lazy" />
 
 <p>module项目创建成功后，将go.mod文件中的 module “go-test” 修改成</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">module &quot;github.com/tonglin0325/go-test&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>避免引用的时候go get报错，如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">go get github.com/tonglin0325/go-test@latest</span><br><span class="line">go: github.com/tonglin0325/go-test@latest (v1.0.0) requires github.com/tonglin0325/go-test@v1.0.0: parsing go.mod:</span><br><span class="line">	module declares its path as: go-test</span><br><span class="line">	        but was required as: github.com/tonglin0325/go-test</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在module中写好代码后上传到github上，并在github上给项目打上tag</p>
+<img src="/images/517519-20241019221052393-373242894.png" width="700" height="597" loading="lazy" />
+
+<p>如果GitHub repository设置成public的话，此时就可以使用如下命令引用这个module了</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/golang%E9%A1%B9%E7%9B%AE%E5%BC%95%E7%94%A8GitHub%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93module.html#more">全文 &gt;&gt;</a>
@@ -443,8 +475,14 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
+        <!-- 目录 -->
+
+<div id="toc">
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-istio"><span class="toc-text">1.Istio</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-kong"><span class="toc-text">2.Kong</span></a></li></ol>
+</div>
+
         <p><strong><strong>服务网格（Service Mesh）</strong>是一种用于处理微服务架构中服务间通信的基础设施层。它的主要作用是提供可靠的服务发现、负载均衡、故障恢复、指标监控和安全性，通常无需对服务代码进行大量修改。服务网格通过在每个服务实例旁边部署一个轻量级代理（sidecar）来实现这些功能。</strong></p>
-<h2 id="1-Istio"><a href="#1-Istio" class="headerlink" title="1.Istio"></a>1.Istio</h2><p><strong>Istio</strong> 是一个开源的服务网格（Service Mesh），透明地层叠到现有的分布式应用程序之上。Istio 强大的功能提供了一种统一且更高效的方式来保护、连接和监控服务。Istio 是实现负载均衡、服务间身份验证和监控的途径&mdash;&mdash;几乎无需修改服务代码。它为你提供：</p>
+<h2 id="1-istio"><a href="#1-Istio" class="headerlink" title="1.Istio"></a>1.Istio<a href="#1-istio" class="header-anchor">#</a></h2><p><strong>Istio</strong> 是一个开源的服务网格（Service Mesh），透明地层叠到现有的分布式应用程序之上。Istio 强大的功能提供了一种统一且更高效的方式来保护、连接和监控服务。Istio 是实现负载均衡、服务间身份验证和监控的途径&mdash;&mdash;几乎无需修改服务代码。它为你提供：</p>
 <ul>
 <li>集群中服务间的安全通信，采用双向 TLS 加密，基于强身份的身份验证和授权</li>
 <li>HTTP、gRPC、WebSocket 和 TCP 流量的自动负载均衡</li>
@@ -456,15 +494,20 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>Istio 的流量管理模型源于和服务一起部署的 Envoy 代理。 网格内服务发送和接收的所有 data plane 流量都经由 Envoy 代理， 这让控制网格内的流量变得异常简单，而且不需要对服务做任何的更改。</p>
 <p><strong>Envoy</strong> 是在 Istio 里使用的高性能代理，用于为所有服务网格里的服务调度进出的流量。</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://istio.io/latest/zh/docs/concepts/traffic-management/">https://istio.io/latest/zh/docs/concepts/traffic-management/</a></p>
-<h2 id="2-Kong"><a href="#2-Kong" class="headerlink" title="2.Kong"></a>2.Kong</h2><p>Kong 提供了两个主要产品：Kong Gateway 和 Kuma。</p>
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Istio%E5%92%8CKong.html#more">全文 &gt;&gt;</a>
-          </p>
-        
+<h2 id="2-kong"><a href="#2-Kong" class="headerlink" title="2.Kong"></a>2.Kong<a href="#2-kong" class="header-anchor">#</a></h2><p>Kong 提供了两个主要产品：Kong Gateway 和 Kuma。</p>
+<p><strong>Kong Gateway</strong> 是一个云原生 API 网关，专注于管理、配置和路由 API 请求。它提供了强大的插件系统，可以扩展其功能以实现身份验证、速率限制、日志记录等功能。Kong Gateway 主要用于处理进出 API 的流量，但它不具备完整的服务网格功能。</p>
+<p><strong>Kuma</strong> 是 Kong 开发的一个服务网格，旨在简化服务间通信的管理。Kuma 提供了服务网格的所有核心功能，包括服务发现、负载均衡、故障恢复、可观察性和安全性。Kuma 可以部署在多个环境中，包括 Kubernetes 和虚拟机。</p>
 
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/k8s%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Istio%E5%92%8CKong.html"></a>
+          </div>
+        </div>
       
     </div>
+
+    
+      
 
     
 
@@ -587,6 +630,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="1-查询PrestoDB（facebook版本）"><a href="#1-查询PrestoDB（facebook版本）" class="headerlink" title="1.查询PrestoDB（facebook版本）"></a>1.查询PrestoDB（facebook版本）</h2><h3 id="1-创建PrestoDB环境"><a href="#1-创建PrestoDB环境" class="headerlink" title="1.创建PrestoDB环境"></a>1.创建PrestoDB环境</h3><p>使用docker创建presto测试环境</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://hub.docker.com/r/prestodb/presto/tags</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>拉取镜像</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull prestodb/presto:0.284</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>启动</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 8080:8080 -ti -v /Users/lintong/Downloads/config.properties:/opt/presto-server/etc/config.properties -v /Users/lintong/Downloads/jvm.config:/opt/presto-server/etc/jvm.config prestodb/presto:0.284</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>其中config.properties配置文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">coordinator=true</span><br><span class="line">node-scheduler.include-coordinator=true</span><br><span class="line">http-server.http.port=8080</span><br><span class="line">query.max-memory=5GB</span><br><span class="line">query.max-memory-per-node=1GB</span><br><span class="line">discovery-server.enabled=true</span><br><span class="line">discovery.uri=http://localhost:8080</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>jvm.config</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">-server</span><br><span class="line">-Xmx4G</span><br><span class="line">-XX:+UseG1GC</span><br><span class="line">-XX:G1HeapRegionSize=32M</span><br><span class="line">-XX:+UseGCOverheadLimit</span><br><span class="line">-XX:+ExplicitGCInvokesConcurrent</span><br><span class="line">-XX:+HeapDumpOnOutOfMemoryError</span><br><span class="line">-XX:+ExitOnOutOfMemoryError</span><br><span class="line">-Djdk.attach.allowAttachSelf=true</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Presto%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Go%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5Presto.html#more">全文 &gt;&gt;</a>
@@ -645,6 +701,15 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>wire是google开源的使用依赖注入来自动连接组件的代码生成工具</p>
 <p>安装</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go install github.com/google/wire/cmd/wire@latest</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>官方使用文档：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/google/wire/blob/main/docs/guide.md">https://github.com/google/wire/blob/main/docs/guide.md</a></p>
+<p>文档参考：</p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7101966893522616356">手把手，带你从零封装Gin框架（十二）：使用 Wire 依赖注入重构</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7124694553667305485">golang中的依赖注入之wire</a></p>
+<p>参考项目：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/jassue/gin-wire">https://github.com/jassue/gin-wire</a></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94wire%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5.html#more">全文 &gt;&gt;</a>
@@ -706,6 +771,14 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
 <p>这时候可以使用screen命令来创建和恢复会话</p>
 <p>1.创建会话</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">screen </span><br><span class="line">或者</span><br><span class="line">screen -S session_name</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这时我们就进到了一个screen会话中，比如我们进到/tmp目录下</p>
+<img src="/images/517519-20230322233429641-420003311.png" width="600" height="100" />
+
+<p>2.查看现有的会话</p>
+<p>这时候我们把这个terminal窗口直接关闭掉，另外开启一个terminal，输入如下命令来查看现有的会话</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">screen -ls</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/screen%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html#more">全文 &gt;&gt;</a>
@@ -763,6 +836,21 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="1-查找go依赖"><a href="#1-查找go依赖" class="headerlink" title="1.查找go依赖"></a>1.查找go依赖</h2><p>go依赖可以去下面网站查找package</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://pkg.go.dev/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>比如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://pkg.go.dev/github.com/confluentinc/confluent-kafka-go#section-readme</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-go切换源"><a href="#2-go切换源" class="headerlink" title="2.go切换源"></a>2.go切换源</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 启用 Go Modules 功能</span><br><span class="line">go env -w GO111MODULE=on</span><br><span class="line"># 切换源</span><br><span class="line">go env -w  GOPROXY=https://goproxy.io,direct</span><br><span class="line"># 确认是否生效</span><br><span class="line">go env</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-安装指定依赖"><a href="#3-安装指定依赖" class="headerlink" title="3.安装指定依赖"></a>3.安装指定依赖</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">go get -u github.com/confluentinc/confluent-kafka-go/kafka</span><br><span class="line">go get: added github.com/confluentinc/confluent-kafka-go v1.9.2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果想安装特定版本的依赖</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go get github.com/confluentinc/confluent-kafka-go/kafka@v1.9.2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="4-下载依赖"><a href="#4-下载依赖" class="headerlink" title="4.下载依赖"></a>4.下载依赖</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go mod download</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="5-清理无用的依赖"><a href="#5-清理无用的依赖" class="headerlink" title="5.清理无用的依赖"></a>5.清理无用的依赖</h2><p>下载缺失依赖，并清理无用的依赖（包括清理 go.mod 中的记录）</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.html#more">全文 &gt;&gt;</a>

@@ -204,6 +204,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p><strong>中文字体设置参考：<strong><a target="_blank" rel="noopener" href="http://www.cnblogs.com/lienhua34/p/3675027.html">ubuntu 下安装 texlive 并设置 ctex 中文套装</a></strong></strong></p>
 <p><strong><img src="/images/517519-20180503001501947-1332425070.png" alt="" /></strong></p>
 <p>首先新建一个目录，文件就挂载在这个目录下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir /media/cdimage</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>挂载，并使其有读写权限</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo mount -o rw,loop /media/lintong/工作/Ubuntu_Software/64bit_Software/TeXLive/TeXLive2015/texlive2015.iso /media/cdimage</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;使用下面的命令会出现问题：mount: /dev/loop3 is write-protected, mounting read-only</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo mount -o loop /media/XXXX/TeXLive/TeXLive2015/texlive2015.iso /media/cdimage</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>进入挂载目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /media/cdimage</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;进行安装</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo perl install-tl -gui</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/ubuntu%E4%B8%8B%E5%AE%89%E8%A3%85TexLive%E5%92%8CTexmaker.html#more">全文 &gt;&gt;</a>
@@ -261,6 +274,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>1.安装步骤参考官方文档</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://clickhouse.com/docs/zh/getting-started/install</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install -y apt-transport-https ca-certificates dirmngr</span><br><span class="line">sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 8919F6BD2B48D754</span><br><span class="line"></span><br><span class="line">echo &quot;deb https://packages.clickhouse.com/deb stable main&quot; | sudo tee \</span><br><span class="line">    /etc/apt/sources.list.d/clickhouse.list</span><br><span class="line">sudo apt-get update</span><br><span class="line"></span><br><span class="line">sudo apt-get install -y clickhouse-server clickhouse-client</span><br><span class="line"></span><br><span class="line">sudo service clickhouse-server start</span><br><span class="line">clickhouse-client # or &quot;clickhouse-client --password&quot; if you&#x27;ve set up a password.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>填写default user的初始密码，回车可以看到如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Enter password for default user:</span><br><span class="line">Password for default user is saved in file /etc/clickhouse-server/users.d/default-password.xml.</span><br><span class="line">Setting capabilities for clickhouse binary. This is optional.</span><br><span class="line">Cannot set &#x27;net_admin&#x27; or &#x27;ipc_lock&#x27; or &#x27;sys_nice&#x27; or &#x27;net_bind_service&#x27; capability for clickhouse binary. This is optional. Taskstats accounting will be disabled. To enable taskstats accounting you may add the required capability later manually.</span><br><span class="line"> chown -R clickhouse:clickhouse &#x27;/etc/clickhouse-server&#x27;</span><br><span class="line"></span><br><span class="line">ClickHouse has been successfully installed.</span><br><span class="line"></span><br><span class="line">Start clickhouse-server with:</span><br><span class="line"> sudo clickhouse start</span><br><span class="line"></span><br><span class="line">Start clickhouse-client with:</span><br><span class="line"> clickhouse-client --password</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>修改clickhouse数据路径配置，需要将所有/var/lib/clickhouse的配置修改成</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo sed -i &#x27;s/var\/lib\/clickhouse/data01\/clickhouse/g&#x27; /etc/clickhouse-server/config.xml</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>创建目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">lintong@master:/data01$ sudo mkdir clickhouse</span><br><span class="line">lintong@master:/data01$ sudo chown -R clickhouse:clickhouse ./clickhouse</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/ubuntu16.04%E5%AE%89%E8%A3%85clickhouse.html#more">全文 &gt;&gt;</a>
@@ -318,6 +344,20 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>官方文档</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://grpc.io/docs/languages/java/quickstart/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>官方example</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/grpc/grpc-java</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="1-定义proto文件"><a href="#1-定义proto文件" class="headerlink" title="1.定义proto文件"></a>1.定义proto文件</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">syntax = &quot;proto3&quot;;</span><br><span class="line"></span><br><span class="line">option java_multiple_files = true;</span><br><span class="line">option java_package = &quot;io.grpc.examples.helloworld&quot;;</span><br><span class="line">option java_outer_classname = &quot;HelloWorldProto&quot;;</span><br><span class="line">option objc_class_prefix = &quot;HLW&quot;;</span><br><span class="line"></span><br><span class="line">package helloworld;</span><br><span class="line"></span><br><span class="line">// The greeting service definition.</span><br><span class="line">service Greeter &#123;</span><br><span class="line">  // Sends a greeting</span><br><span class="line">  rpc SayHello (HelloRequest) returns (HelloReply) &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// The request message containing the user&#x27;s name.</span><br><span class="line">message HelloRequest &#123;</span><br><span class="line">  string name = 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// The response message containing the greetings</span><br><span class="line">message HelloReply &#123;</span><br><span class="line">  string message = 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>proto定义，参考官方文档</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/grpc/grpc-java/blob/master/examples/src/main/proto/helloworld.proto</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-编译proto文件"><a href="#2-编译proto文件" class="headerlink" title="2.编译proto文件"></a>2.编译proto文件</h2><h3 id="1-使用protoc命令编译"><a href="#1-使用protoc命令编译" class="headerlink" title="1.使用protoc命令编译"></a>1.使用protoc命令编译</h3><p>在项目目录下运行编译命令，里面使用了protoc-gen-grpc-java执行文件，需要参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/tonglin0325/p/5572371.html">编译grpc-java项目生成protoc-gen-grpc-java文件 </a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">protoc --plugin=protoc-gen-grpc-java=./protoc-gen-grpc-java -I=./ --java_out=./src/main/java/ --grpc-java_out=./src/main/java/ ./src/main/proto/helloworld.proto</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>得到proto文件中定义的model和service的java代码</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/java%E4%BD%BF%E7%94%A8gRPC%E6%A1%86%E6%9E%B6.html#more">全文 &gt;&gt;</a>
@@ -375,6 +415,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>使用protoc命令生成service代码的时候，需要使用如下命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">protoc --plugin=protoc-gen-grpc-java=./protoc-gen-grpc-java -I=./ --java_out=./src/main/java/ --grpc-java_out=./src/main/java/ ./src/main/proto/helloworld.proto</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>其中的protoc-gen-grpc-java执行文件需要自己编译生成</p>
+<img src="/images/517519-20240106195739867-1980387671.png" width="300" height="343" loading="lazy" />
+
+<p>编译的步骤如下</p>
+<p>git clone grpc-java项目，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github.com:grpc/grpc-java.git</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>切换到使用的grpc版本，比如v1.59.0，编译这个版本需要jdk11的支持</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout v1.59.0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>使用gradlew命令进行编译</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E7%BC%96%E8%AF%91grpc-java%E9%A1%B9%E7%9B%AE%E7%94%9F%E6%88%90protoc-gen-grpc-java%E6%96%87%E4%BB%B6.html#more">全文 &gt;&gt;</a>
@@ -489,6 +542,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>官方文档</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://grpc.io/docs/languages/go/quickstart/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>官方example</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/grpc/grpc-go</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="1-定义proto文件"><a href="#1-定义proto文件" class="headerlink" title="1.定义proto文件"></a>1.定义proto文件</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">syntax = &quot;proto3&quot;;</span><br><span class="line"></span><br><span class="line">option go_package = &quot;google.golang.org/grpc/examples/helloworld/helloworld&quot;;</span><br><span class="line">option java_multiple_files = true;</span><br><span class="line">option java_package = &quot;io.grpc.examples.helloworld&quot;;</span><br><span class="line">option java_outer_classname = &quot;HelloWorldProto&quot;;</span><br><span class="line"></span><br><span class="line">package helloworld;</span><br><span class="line"></span><br><span class="line">// The greeting service definition.</span><br><span class="line">service Greeter &#123;</span><br><span class="line">  // Sends a greeting</span><br><span class="line">  rpc SayHello (HelloRequest) returns (HelloReply) &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// The request message containing the user&#x27;s name.</span><br><span class="line">message HelloRequest &#123;</span><br><span class="line">  string name = 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// The response message containing the greetings</span><br><span class="line">message HelloReply &#123;</span><br><span class="line">  string message = 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>proto定义，参考官方文档</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/grpc/grpc-go/blob/master/examples/helloworld/helloworld/helloworld.proto</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-编译proto文件"><a href="#2-编译proto文件" class="headerlink" title="2.编译proto文件"></a>2.编译proto文件</h2><p>使用protoc命令编译</p>
+<p>需要先安装compile插件，参考：<a target="_blank" rel="noopener" href="https://grpc.io/docs/languages/go/quickstart/">https://grpc.io/docs/languages/go/quickstart/</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28</span><br><span class="line">go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/go%E4%BD%BF%E7%94%A8gRPC%E6%A1%86%E6%9E%B6.html#more">全文 &gt;&gt;</a>
@@ -547,6 +613,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>golang可以使用text/template来实现模板生成文本，官方文档：<a target="_blank" rel="noopener" href="https://pkg.go.dev/text/template">https://pkg.go.dev/text/template</a></p>
 <h2 id="1-变量"><a href="#1-变量" class="headerlink" title="1.变量"></a>1.变量</h2><p>可以在模板中定义变量，然后将这些变量赋值到模板的变量中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">import &quot;text/template&quot;</span><br><span class="line"></span><br><span class="line">// 定义结构体</span><br><span class="line">type Inventory struct &#123;</span><br><span class="line">	Material string</span><br><span class="line">	Count    uint</span><br><span class="line">&#125;</span><br><span class="line">// 赋值</span><br><span class="line">sweaters := Inventory&#123;&quot;wool&quot;, 17&#125;</span><br><span class="line">// 定义模板</span><br><span class="line">tmpl, err := template.New(&quot;test&quot;).Parse(`</span><br><span class="line">	&#123;&#123;.Count&#125;&#125; items are made of &#123;&#123;.Material&#125;&#125;</span><br><span class="line">`)</span><br><span class="line">if err != nil &#123;</span><br><span class="line">	panic(err)</span><br><span class="line">&#125;</span><br><span class="line">// 填充模板</span><br><span class="line">err = tmpl.Execute(os.Stdout, sweaters)</span><br><span class="line">if err != nil &#123;</span><br><span class="line">	panic(err)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">17 items are made of wool</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-if-else"><a href="#2-if-else" class="headerlink" title="2.if else"></a>2.if else</h2><h3 id="1-判断字符串是否相等"><a href="#1-判断字符串是否相等" class="headerlink" title="1.判断字符串是否相等"></a>1.判断字符串是否相等</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123; if eq .Material &quot;wool&quot; &#125;&#125;</span><br><span class="line">  Material is &quot;wool&quot;</span><br><span class="line">&#123;&#123; else if eq .Material &quot;not wool&quot; &#125;&#125;</span><br><span class="line">  Material is not &quot;wool&quot;</span><br><span class="line">&#123;&#123; end &#125;&#125;</span><br><span class="line">&#123;&#123; if eq .Count 17 &#125;&#125;</span><br><span class="line">  Count is 17</span><br><span class="line">&#123;&#123; else if eq .Count 10 &#125;&#125;</span><br><span class="line">  Count is not 10</span><br><span class="line">&#123;&#123; end &#125;&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Material is &quot;wool&quot;</span><br><span class="line"></span><br><span class="line">Count is 17</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-多条件，与或非"><a href="#2-多条件，与或非" class="headerlink" title="2.多条件，与或非"></a>2.多条件，与或非</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123; if or (eq .Material &quot;not wool&quot;) (eq .Count 17) &#125;&#125;</span><br><span class="line">  Count is 17</span><br><span class="line">&#123;&#123; end &#125;&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94text%20template.html#more">全文 &gt;&gt;</a>

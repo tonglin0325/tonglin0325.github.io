@@ -207,6 +207,16 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p><strong>DispatcherServlet主要用作职责调度工作,本身主要用于控制流程,主要职责如下：</strong></p>
 <p>**　　1、文件上传解析,如果请求类型是multipart将通过MultipartResolver进行文件上传解析;<br />　　2、通过HandlerMapping,将请求映射到处理器(返回一个 HandlerExecutionChain ,它包括一个处理器、多个HandlerInterceptor拦截器);<br />　　3、通过HandlerAdapter支持多种类型的处理器( HandlerExecutionChain中的处理器);**</p>
 <p>**　　4、通过ViewResolver解析逻辑视图名到具体视图实现;<br />　　5、本地化解析;<br />　　6、渲染具体的视图等;<br />　　7、如果执行过程中遇到异常将交给HandlerExceptionResolver来解析。**</p>
+<p>&nbsp;</p>
+<h2 id="上下文关系，也是在web-xml中配置"><a href="#上下文关系，也是在web-xml中配置" class="headerlink" title="上下文关系，也是在web.xml中配置"></a>上下文关系，也是在web.xml中配置</h2><p>集成Web环境的通用配置:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- Spring集成WEB环境的通用配置，一般用于加载除Web层的Bean(如DAO、Service等),以便于与其他任何Web框架集成 --&gt;</span><br><span class="line">&lt;!-- Spring 的监听器可以通过这个上下文参数来获取beans.xml的位置 --&gt;</span><br><span class="line">&lt;context-param&gt;</span><br><span class="line">	&lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;</span><br><span class="line">	&lt;param-value&gt;</span><br><span class="line">		classpath:beans.xml</span><br><span class="line">	&lt;/param-value&gt;</span><br><span class="line">&lt;/context-param&gt;</span><br><span class="line">&lt;!-- 创建Spring的监听器 --&gt;</span><br><span class="line">&lt;listener&gt;</span><br><span class="line">	&lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;</span><br><span class="line">&lt;/listener&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如上配置是<strong>Spring集成Web环境的通用配置</strong>;一般用于加载除Web层的Bean(如<strong>DAO、Service等)</strong>,以便于与其他任何Web框架集成。</p>
+<p>&nbsp;</p>
+<p><strong>重要的接口和类的简单说明：</strong></p>
+<p><strong>DispatcherServlet</strong>：<strong>前端控制器，用于接收请求</strong>。</p>
+<p><strong>HandlerMapping接口</strong>：<strong>用于处理请求的映射</strong>。</p>
+<p>　　DefaultAnnotationHandlerMapping：HandlerMapping接口的实现，用于把一个URL映射到具体的Controller类上。</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Spring%20MVC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94POJO%E5%92%8CDispatcherServlet.html#more">全文 &gt;&gt;</a>
@@ -416,6 +426,10 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <img src="/images/517519-20160514200611218-211412239.png" alt="" />
 
 <img src="/images/517519-20160514200636687-64537236.png" alt="" />
+
+<img src="/images/517519-20160514200720077-2122398102.png" alt="" />
+
+<img src="/images/517519-20160514200754484-873038411.png" alt="" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94HTTP%E8%AF%B7%E6%B1%82.html#more">全文 &gt;&gt;</a>
@@ -635,6 +649,10 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p><strong>4.横幅广告（banner ad）</strong></p>
 <p>主要使用场景通常是应用顶部、底部、栏目或频道间隔，表现形式多为纯图片、纯文字或者图片+文字</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://www.adtiming.com/itiming/cn/article01.html">常见广告形式与场景入门</a></p>
+<p>&nbsp;</p>
+<p>还有其他的类型，比如再营销广告等</p>
+<p>再营销广告的目的主要有2个：</p>
+<p>1、<strong>再互动</strong>（沉睡用户唤醒）：用户设备上仍装有相关应用，这时用户与再营销广告互动后打开该应用</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%94%E5%B9%BF%E5%91%8A%E5%BD%A2%E5%BC%8F%E5%88%86%E7%B1%BB.html#more">全文 &gt;&gt;</a>
@@ -843,7 +861,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
 <p>生成pem文件</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">openssl rsa -inform PEM -outform PEM -in dummy.key -pubout -out dummy-nopass.pem</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
         <div class="article-entry">
           <div id="footer-info" class="inner">
           本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/ubuntu16.04%E4%B8%8B%E7%94%9F%E6%88%90%E8%AF%81%E4%B9%A6crt%E5%92%8C%E7%A7%98%E9%92%A5key.html"></a>

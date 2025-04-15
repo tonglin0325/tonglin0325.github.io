@@ -17,7 +17,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170426110942194-973753305.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170430213655725-684092232.png">
 <meta property="article:published_time" content="2017-04-24T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-10T13:53:10.024Z">
+<meta property="article:modified_time" content="2025-04-15T02:10:04.348Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Spark">
 <meta name="twitter:card" content="summary">
@@ -215,8 +215,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
         <p>许多应用需要<strong>即时处理</strong>收到的数据，例如用来实时追踪页面访问统计的应用、训练机器学习模型的应用， 还有自动检测异常的应用。<strong>Spark Streaming</strong> 是 Spark 为这些应用而设计的模型。它允许用户使用一套和批处理非常接近的 API 来编写流式计算应用，这样就可以大量重用批处理应用的技术甚至代码。 <br><strong>Spark Streaming</strong> 使用离散化流（ discretized stream）作为抽象表示， 叫作 <strong>DStream</strong>。 DStream 是随时间推移而收到的数据的序列。在内部，每个时间区间收到的数据都作为 RDD 存在，而 <strong>DStream 是由这些 RDD 所组成的序列</strong>（因此得名&ldquo;离散化&rdquo;）。DStream 可以从各种输入源创建，比如 Flume、 Kafka 或者 HDFS。创建出来的 DStream 支持两种操作，一种是<strong>转化操作（ transformation）</strong> ，<strong>会生成一个新的DStream</strong>，另一种是<strong>输出操作（ output operation）</strong>，<strong>可以把数据写入外部系统中</strong>。DStream提供了许多与 RDD 所支持的操作相类似的操作支持，还增加了与时间相关的新操作，比如滑动窗口。 <br><br></p>
 <p><strong>build.sbt</strong></p>
-<span id="more"></span>
-
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">name := &quot;spark-first&quot;</span><br><span class="line"></span><br><span class="line">version := &quot;1.0&quot;</span><br><span class="line"></span><br><span class="line">scalaVersion := &quot;2.11.8&quot;</span><br><span class="line"></span><br><span class="line">libraryDependencies ++= Seq(</span><br><span class="line">  &quot;org.apache.spark&quot; % &quot;spark-core_2.11&quot; % &quot;2.1.0&quot;,</span><br><span class="line">  &quot;org.apache.hadoop&quot; % &quot;hadoop-common&quot; % &quot;2.7.2&quot;,</span><br><span class="line">  &quot;mysql&quot; % &quot;mysql-connector-java&quot; % &quot;5.1.31&quot;,</span><br><span class="line">  &quot;org.apache.spark&quot; %% &quot;spark-sql&quot; % &quot;2.1.0&quot;,</span><br><span class="line">  &quot;org.apache.spark&quot; %% &quot;spark-streaming&quot; % &quot;2.1.0&quot;</span><br><span class="line"></span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>&nbsp;</p>
@@ -236,6 +234,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Hello World 1 #回车</span><br><span class="line">Hello World 2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>中断程序，在Spark Streaming输出看见</p>
+<span id="more"></span>
+
 <img src="/images/517519-20170426110936850-1686124331.png" alt>
 
 <img src="/images/517519-20170426110942194-973753305.png" alt>

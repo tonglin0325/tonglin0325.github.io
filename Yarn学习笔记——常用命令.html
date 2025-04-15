@@ -5,16 +5,16 @@
   
   <title>Yarn学习笔记——常用命令 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.yarn top，查看yarn上面的资源使用情况   2.队列使用状态">
+  <meta name="description" content="1.yarn top，查看yarn上面的资源使用情况   2.队列使用状态 12345678910queue -status root.xxx_commonQueue Information : Queue Name : root.xxx_common	State : RUNNING	Capacity : 100.0%	Current Capacity : 21.7%	Maximum Capaci">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Yarn学习笔记——常用命令">
 <meta property="og:url" content="http://tonglin0325.github.io/Yarn%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="1.yarn top，查看yarn上面的资源使用情况   2.队列使用状态">
+<meta property="og:description" content="1.yarn top，查看yarn上面的资源使用情况   2.队列使用状态 12345678910queue -status root.xxx_commonQueue Information : Queue Name : root.xxx_common	State : RUNNING	Capacity : 100.0%	Current Capacity : 21.7%	Maximum Capaci">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20200310143812487-1384791057.png">
 <meta property="article:published_time" content="2020-03-09T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-10T13:53:09.374Z">
+<meta property="article:modified_time" content="2025-04-15T02:10:03.742Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="YARN">
 <meta name="twitter:card" content="summary">
@@ -214,8 +214,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <img src="/images/517519-20200310143812487-1384791057.png" alt>
 
 <p>2.队列使用状态</p>
-<span id="more"></span>
-
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">queue -status root.xxx_common</span><br><span class="line">Queue Information : </span><br><span class="line">Queue Name : root.xxx_common</span><br><span class="line">	State : RUNNING</span><br><span class="line">	Capacity : 100.0%</span><br><span class="line">	Current Capacity : 21.7%</span><br><span class="line">	Maximum Capacity : -100.0%</span><br><span class="line">	Default Node Label expression : </span><br><span class="line">	Accessible Node Labels :</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>3.查看yarn上运行的任务列表，如果集群有krb认证的话，需要先kinit，认证后可以看到所有正在运行的任务</p>
@@ -226,6 +224,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
 <p>使用状态进行筛选</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">yarn application -list -appStates RUNNING</span><br><span class="line">Total number of applications (application-types: [] and states: [RUNNING]):12</span><br><span class="line">                Application-Id	    Application-Name	    Application-Type	      User	     Queue	             State	       Final-State	       Progress	                       Tracking-URL</span><br><span class="line">application_157717780xxxx_0664	xx-flink-test	        Apache Flink	  xxx-xx	root.xxx_common	           RUNNING	         UNDEFINED	           100%	         http://xxxxx-xx:35437</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
 
 <p>4.查看任务状态信息</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">yarn application -status application_1582255xxxx_0314</span><br><span class="line">Application Report : </span><br><span class="line">	Application-Id : application_1582255xxxx_0314</span><br><span class="line">	Application-Name : select count(*) from tb1 (Stage-1)</span><br><span class="line">	Application-Type : MAPREDUCE</span><br><span class="line">	User : hive</span><br><span class="line">	Queue : root.xxxx_common</span><br><span class="line">	Start-Time : 1583822835423</span><br><span class="line">	Finish-Time : 1583822860082</span><br><span class="line">	Progress : 100%</span><br><span class="line">	State : FINISHED</span><br><span class="line">	Final-State : SUCCEEDED</span><br><span class="line">	Tracking-URL : http://xxx-xxxx-xx:19888/jobhistory/job/job_15822552xxxx_0314</span><br><span class="line">	RPC Port : 32829</span><br><span class="line">	AM Host : xxxx-xxxx-xx</span><br><span class="line">	Aggregate Resource Allocation : 162810 MB-seconds, 78 vcore-seconds</span><br><span class="line">	Log Aggregation Status : SUCCEEDED</span><br><span class="line">	Diagnostics :</span><br><span class="line"></span><br></pre></td></tr></table></figure>

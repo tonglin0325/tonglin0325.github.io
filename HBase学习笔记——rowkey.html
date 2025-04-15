@@ -15,7 +15,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20210121102551038-1014294290.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20210121103802880-441983531.png">
 <meta property="article:published_time" content="2021-01-20T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-10T13:53:09.130Z">
+<meta property="article:modified_time" content="2025-04-15T02:10:03.502Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="HBase">
 <meta name="twitter:card" content="summary">
@@ -222,8 +222,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
 <p>参考：</p>
 <p><a target="_blank" rel="noopener" href="https://www.slideshare.net/HadoopSummit/reliable-and-scalable-data-ingestion-at-airbnb-63920989">Reliable and Scalable Data Ingestion at Airbnb</a></p>
-<span id="more"></span>
-
 <p><a target="_blank" rel="noopener" href="https://www.slideshare.net/HBaseCon/apache-hbase-at-airbnb">Apache HBase at Airbnb</a></p>
 <p><a target="_blank" rel="noopener" href="https://myslide.cn/slides/3473">Airbnb软件工程师丁辰 - Airbnb的Streaming ETL</a></p>
 <h2 id="2-rowkey-she-ji-yuan-ze"><a href="#2-rowkey设计原则" class="headerlink" title="2.rowkey设计原则"></a><strong>2.rowkey设计原则</strong><a href="#2-rowkey-she-ji-yuan-ze" class="header-anchor">#</a></h2><p><strong>1.rowkey长度原则</strong>：rowkey是一个二进制码流，可以是任意字符串，最大长度&nbsp;<strong>64kb</strong>&nbsp;，实际应用中一般为10-100bytes，以&nbsp;<code>byte[]</code>&nbsp;形式保存，一般设计成定长。</p>
@@ -240,6 +238,8 @@ MemStore将缓存部分数据到内存，如果rowkey字段过长，内存的有
 
 <p><strong>2.rowkey散列原则</strong>：如果rowkey按照时间戳的方式递增，不要将时间放在二进制码的前面，建议将rowkey的高位作为散列字段，由程序随机生成，低位放时间字段，这样将提高数据均衡分布在每个RegionServer，以实现负载均衡的几率。</p>
 <p>如果没有散列字段，首字段直接是时间信息，所有的数据都会集中在一个RegionServer上，这样在数据检索的时候负载会集中在个别的RegionServer上，造成热点问题，会降低查询效率。</p>
+<span id="more"></span>
+
 <p><strong>3.rowkey唯一原则</strong>：必须在设计上保证其唯一性，rowkey是按照字典顺序排序存储的，因此，设计rowkey的时候，要充分利用这个排序的特点，将经常读取的数据存储到一块，将最近可能会被访问的数据放到一块。</p>
 <h2 id="3-re-dian-wen-ti"><a href="#3-热点问题" class="headerlink" title="3.热点问题"></a><strong>3.热点问题</strong><a href="#3-re-dian-wen-ti" class="header-anchor">#</a></h2><p>　　HBase中的行是按照rowkey的字典顺序排序的，这种设计优化了scan操作，可以将相关的行以及会被一起读取的行存取在临近位置，便于scan。然而糟糕的rowkey设计是热点的源头。</p>
 <p>　　热点发生在大量的client直接访问集群的一个或极少数个节点（访问可能是读，写或者其他操作）。大量访问会使热点region所在的单个机器超出自身承受能力，引起性能下降甚至region不可用，这也会影响同一个RegionServer上的其他region，由于主机无法服务其他region的请求。</p>

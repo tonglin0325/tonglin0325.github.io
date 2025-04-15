@@ -269,6 +269,20 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>Spark的parser使用的是antlr来实现，其g4文件如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/apache/spark/blob/master/sql/catalyst/src/main/antlr4/org/apache/spark/sql/catalyst/parser/SqlBase.g4</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果想解析spark SQL的语句，可以使用其原生的parser来进行解析，代码如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">package com.bigdata.spark</span><br><span class="line"></span><br><span class="line">import org.apache.spark.sql.SparkSession</span><br><span class="line">import org.apache.spark.sql.catalyst.analysis.UnresolvedRelation</span><br><span class="line">import org.apache.spark.sql.catalyst.parser.CatalystSqlParser</span><br><span class="line">import org.apache.spark.sql.catalyst.plans.logical.&#123;InsertIntoTable, LogicalPlan&#125;</span><br><span class="line">import org.apache.spark.sql.catalyst.plans.logical._</span><br><span class="line">import org.apache.spark.sql.execution.datasources.CreateTable</span><br><span class="line"></span><br><span class="line">object SparkSQLParser &#123;</span><br><span class="line"></span><br><span class="line">  def main(args: Array[String]): Unit = &#123;</span><br><span class="line">//    val spark = SparkSession.builder()</span><br><span class="line">//      .appName(&quot;SQL Create Table Parser&quot;)</span><br><span class="line">//      .master(&quot;local[*]&quot;)</span><br><span class="line">//      .enableHiveSupport()  // 关键：启用 Hive 语法支持</span><br><span class="line">//      .getOrCreate()</span><br><span class="line">//    val logicalPlan: LogicalPlan = spark.sessionState.sqlParser.parsePlan(sql)</span><br><span class="line"></span><br><span class="line">    val sql = &quot;SELECT id, name FROM users WHERE age &gt; 18&quot; // select</span><br><span class="line">//    val sql = &quot;CREATE TABLE users (id INT, name STRING)&quot; // create</span><br><span class="line">//    val sql = &quot;INSERT INTO users VALUES (1, &#x27;Alice&#x27;)&quot; // insert</span><br><span class="line">//    val sql = &quot;INSERT INTO xx.table2 SELECT * FROM xx.table1&quot; // insert</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    val logicalPlan: LogicalPlan = CatalystSqlParser.parsePlan(sql)</span><br><span class="line">    println(logicalPlan)</span><br><span class="line">    logicalPlan match &#123;</span><br><span class="line">      // 解析建表语句</span><br><span class="line">      case createTable: CreateTable =&gt;</span><br><span class="line">        println(s&quot;SQL: [$sql] -&gt; 这是一个 CREATE TABLE 语句&quot;)</span><br><span class="line">      // 解析insert语句</span><br><span class="line">      case _: InsertIntoTable =&gt;</span><br><span class="line">        println(s&quot;SQL: [$sql] -&gt; 这是一个 INSERT 语句&quot;)</span><br><span class="line">        // 解析血缘</span><br><span class="line">        var inputTables = Set[String]()</span><br><span class="line">        var outputTable: Option[String] = None</span><br><span class="line">        // 遍历 LogicalPlan 解析血缘</span><br><span class="line">        logicalPlan.foreach &#123;</span><br><span class="line">          case UnresolvedRelation(tableIdentifier) =&gt;</span><br><span class="line">            inputTables += tableIdentifier.quotedString  // 解析输入表</span><br><span class="line">          case InsertIntoTable(table, _, _, _, _) =&gt;</span><br><span class="line">            table match &#123;</span><br><span class="line">              case UnresolvedRelation(tableIdentifier) =&gt;</span><br><span class="line">                outputTable = Some(tableIdentifier.quotedString) // 解析输出表</span><br><span class="line">              case _ =&gt;</span><br><span class="line">                outputTable = Some(table.toString()) // 其他情况</span><br><span class="line">            &#125;</span><br><span class="line">          case _ =&gt; // 其他情况忽略</span><br><span class="line">        &#125;</span><br><span class="line">        println(s&quot;输入表: $&#123;inputTables.mkString(&quot;, &quot;)&#125;&quot;)</span><br><span class="line">        println(s&quot;输出表: $&#123;outputTable.getOrElse(&quot;无&quot;)&#125;&quot;)</span><br><span class="line">      // 解析select语句</span><br><span class="line">      case _: Project | _: Filter | _: Aggregate | _: Join | _: LogicalPlan =&gt;</span><br><span class="line">        println(s&quot;SQL: [$sql] -&gt; 这是一个 SELECT 查询语句&quot;)</span><br><span class="line">      case _ =&gt;</span><br><span class="line">        println(s&quot;SQL: [$sql] -&gt; 未知类型&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-解析insert语句"><a href="#1-解析insert语句" class="headerlink" title="1.解析insert语句"></a>1.解析insert语句</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x27;InsertIntoTable &#x27;UnresolvedRelation `xx`.`table2`, false, false</span><br><span class="line">+- &#x27;Project [*]</span><br><span class="line">   +- &#x27;UnresolvedRelation `xx`.`table1`</span><br><span class="line"></span><br><span class="line">SQL: [INSERT INTO xx.table2 SELECT * FROM xx.table1] -&gt; 这是一个 INSERT 语句</span><br><span class="line">输入表: `xx`.`table1`</span><br><span class="line">输出表: `xx`.`table2`</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-解析select语句"><a href="#2-解析select语句" class="headerlink" title="2.解析select语句"></a>2.解析select语句</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x27;Project [&#x27;id, &#x27;name]</span><br><span class="line">+- &#x27;Filter (&#x27;age &gt; 18)</span><br><span class="line">   +- &#x27;UnresolvedRelation `users`</span><br><span class="line"></span><br><span class="line">SQL: [SELECT id, name FROM users WHERE age &gt; 18] -&gt; 这是一个 SELECT 查询语句</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-解析create语句"><a href="#3-解析create语句" class="headerlink" title="3.解析create语句"></a>3.解析create语句</h3><p>由于spark默认是不支持解析create sql的，需要依赖hive</p>
+<p>使用sparksession解析会报</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Exception in thread &quot;main&quot; java.lang.IllegalArgumentException: Unable to instantiate SparkSession with Hive support because Hive classes are not found.</span><br><span class="line">	at org.apache.spark.sql.SparkSession$Builder.enableHiveSupport(SparkSession.scala:869)</span><br><span class="line">	at com.bigdata.spark.SparkSQLParser$.main(SparkSQLParser.scala:17)</span><br><span class="line">	at com.bigdata.spark.SparkSQLParser.main(SparkSQLParser.scala)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>使用CatalystSqlParser解析会报</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8CatalystSqlParser%E8%A7%A3%E6%9E%90Spark%20SQL.html#more">全文 &gt;&gt;</a>
@@ -330,6 +344,13 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/haozhuxuan/article/details/109540372">CDH5.16.1 集成 Flink-1.10.0</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/8f2f0234d9e9">cdh5.15.1集成flink说明</a></p>
 <p>2.将parcels包拷贝到对应目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lintong@master:/opt/cloudera/parcel-repo$ ls | grep FLINK</span><br><span class="line">FLINK-1.10.0-BIN-SCALA_2.11-xenial.parcel</span><br><span class="line">FLINK-1.10.0-BIN-SCALA_2.11-xenial.parcel.sha</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>csd包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">lintong@master:/opt/cloudera/csd$ ls</span><br><span class="line">FLINK_ON_YARN-1.10.0.jar</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>3.安装</p>
+<img src="/images/517519-20211114193124313-1296617760.png" width="600" height="154" loading="lazy" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/CDH5.16%E5%AE%89%E8%A3%85flink1.10.0.html#more">全文 &gt;&gt;</a>
@@ -644,6 +665,9 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <img src="/images/517519-20240413150254637-102462791.png" width="800" height="330" loading="lazy" />
 
 <p>可以使用export将其导出成python等语言的代码</p>
+<img src="/images/517519-20240413151046086-891145290.png" width="800" height="444" loading="lazy" />
+
+<p>注意在Tests下是可以export的，executing是不可以的</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Python%E7%88%AC%E8%99%AB%E2%80%94%E2%80%94selenium%20IDE.html#more">全文 &gt;&gt;</a>
@@ -717,6 +741,9 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
 <p>&nbsp;</p>
 <p><strong>3.Fair Scheduler（公平调度器）</strong>：</p>
+<p>在Fair调度器中，我们不需要预先占用一定的系统资源，Fair调度器会为所有运行的job动态的调整系统资源。</p>
+<p>如下图所示，当第一个大job提交时，只有这一个job在运行，此时它获得了所有集群资源；当第二个小任务提交后，Fair调度器会分配一半资源给这个小任务，让这两个任务公平的共享集群资源。</p>
+<p>需要注意的是，在下图Fair调度器中，从第二个任务提交到获得资源会有一定的延迟，因为它需要等待第一个任务释放占用的Container。小任务执行完成之后也会释放自己占用的资源，大任务又获得了全部的系统资源。最终的效果就是Fair调度器即得到了高的资源利用率又能保证小任务及时完成。</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/YARN%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%B0%83%E5%BA%A6%E5%99%A8.html#more">全文 &gt;&gt;</a>
@@ -774,6 +801,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>到了2022年，已经不能使用brew安装sshfs来挂载linux的磁盘了，但是可以通过安装包的方式来安装，会报错</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">error: sshfs has been disabled because it requires closed-source macFUSE!</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>首先需要安装sshfs，版本是SSHFS 2.5.0</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://osxfuse.github.io/2014/02/03/SSHFS-2.5.0.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>其次需要安装macFUSE</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://osxfuse.github.io/2022/08/19/macFUSE-4.4.1.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>然后就能挂载linux的硬盘了</p>
+<p>首先创建目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir /Users/xxx/data01</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>挂载linux的/data01目录到刚刚创建的目录</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/mac%E6%8C%82%E8%BD%BDlinux%E7%9A%84%E7%A3%81%E7%9B%98.html#more">全文 &gt;&gt;</a>
@@ -830,7 +870,22 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1-重启或者关机"><a href="#1-重启或者关机" class="headerlink" title="1.重启或者关机"></a><strong>1.重启或者关机</strong></h2>
+        <h2 id="1-重启或者关机"><a href="#1-重启或者关机" class="headerlink" title="1.重启或者关机"></a><strong>1.重启或者关机</strong></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">shutdown -h now　　#立刻进行关机</span><br><span class="line">shutdown -r now或者reboor　　#现在重新启动计算机</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-查看本机的IP地址"><a href="#2-查看本机的IP地址" class="headerlink" title="2.查看本机的IP地址"></a><strong>2.查看本机的IP地址</strong></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ifconfig -a</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>ubuntu修改IP地址和网关</strong></p>
+<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/shenzhen_zsw/article/details/74025066">ubuntu修改IP地址和网关的方法</a></p>
+<h2 id="3-查看内存磁盘CPU"><a href="#3-查看内存磁盘CPU" class="headerlink" title="3.查看内存磁盘CPU"></a><strong>3.查看内存磁盘CPU</strong></h2><h3 id="查看内存"><a href="#查看内存" class="headerlink" title="查看内存"></a><strong>查看内存</strong></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">free -m</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>查看内存及cpu使用情况的命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">top</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>也可以安装htop工具，这样更直观，安装命令如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install htop</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>安装完后，直接输入命令：htop，就可以看到内存或cpu的使用情况了。</p>
+<h3 id="查看磁盘容量"><a href="#查看磁盘容量" class="headerlink" title="查看磁盘容量"></a>查看磁盘容量</h3><p>查看磁盘使用情况</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html#more">全文 &gt;&gt;</a>

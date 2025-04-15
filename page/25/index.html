@@ -349,7 +349,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/ddcc3643aec9">Mongodb高级篇-Replication &amp; Sharding</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.mongodb.com/docs/manual/sharding/#sharded-cluster">https://www.mongodb.com/docs/manual/sharding/#sharded-cluster</a></p>
 <p>&nbsp;</p>
-<h2 id="2-Mongo节点类型"><a href="#2-Mongo节点类型" class="headerlink" title="2.Mongo节点类型"></a>2.Mongo节点类型</h2>
+<h2 id="2-Mongo节点类型"><a href="#2-Mongo节点类型" class="headerlink" title="2.Mongo节点类型"></a>2.Mongo节点类型</h2><p>1.primary节点</p>
+<p>2.secondary节点</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Mongo%E8%8A%82%E7%82%B9%E7%B1%BB%E5%9E%8B.html#more">全文 &gt;&gt;</a>
@@ -416,6 +417,15 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p><strong>4.间隔（margin）</strong>：数据点到分隔面的距离称为间隔</p>
 <p><strong>5.支持向量（support vector）</strong>:离分隔超平面最近的那些点</p>
 <p>&nbsp;</p>
+<p>支持向量机的<strong>优点</strong>：泛化错误率低，计算开销不大，结果易解释</p>
+<p>支持向量机的<strong>缺点</strong>：对<strong>参数调节</strong>和<strong>核函数</strong>的选择敏感，原始分类器不加修改仅适用于处理二类问题</p>
+<p><strong>适用数据类型</strong>：数值型和标称型数据**<br />**</p>
+<p><img src="/images/517519-20161119205818060-72763193.png" alt="" /><img src="/images/517519-20161119210352779-372502914.png" alt="" /></p>
+<p>&nbsp;</p>
+<p><strong>2.寻找最大间隔</strong></p>
+<p>如何求解数据集的<strong>最佳分隔直线</strong>？</p>
+<p><strong>分隔超平面</strong>的形式可以写成&nbsp;&nbsp;<img src="/images/517519-20161119212810873-1095052075.gif" alt="" /></p>
+<p>其中 w = (w1,w2,w3…wd)为<strong>法向量</strong>，决定了超平面的方向，其中d等于数据的维度，</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA(SVM)%E4%B9%8B%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E4%B9%98%E5%AD%90%E6%B3%95%EF%BC%8CKKT%E6%9D%A1%E4%BB%B6%E4%BB%A5%E5%8F%8A%E7%AE%80%E5%8C%96%E7%89%88SMO%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90.html#more">全文 &gt;&gt;</a>
@@ -479,6 +489,9 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>3.当用户首次打开APP的时候，会将埋点数据上报给第三方的归因平台（像穿山甲会提供SDK用于上传打点），一般也是在渠道方平台上进行配置，参考：<a target="_blank" rel="noopener" href="https://www.csjplatform.com/supportcenter/26792">归因结果兼容API使用说明：穿山甲</a></p>
 <p>4.归因平台再将激活的数据回传给各个渠道方，用于优化投放的点击率（CTR）</p>
 <p>5.归因平台完成渠道归因</p>
+<p>6.上报数据到数据仓库中</p>
+<p>7.app内部打点统计次留，播放，付费的时间，上报给归因平台</p>
+<p>8.归因再将这些转化数据回传给各个渠道方，用于优化投放的转化率（CVR）</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%94%E5%B9%BF%E5%91%8A%E5%BD%92%E5%9B%A0.html#more">全文 &gt;&gt;</a>
@@ -613,6 +626,15 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>&nbsp;</p>
 <p><strong>2.1 梯度上升法</strong></p>
 <p>参考：<a target="_blank" rel="noopener" href="http://www.cnblogs.com/tonglin0325/p/6067379.html">机器学习&mdash;&mdash;梯度下降算法</a></p>
+<p>&nbsp;</p>
+<p><strong>2.2 训练算法：使用梯度上升找到最佳参数</strong></p>
+<p><strong><img src="/images/517519-20161117100604451-2011258246.png" alt="" /></strong></p>
+<p>&nbsp;</p>
+<p><strong>Logistic回归梯度上升优化算法</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">def loadDataSet():</span><br><span class="line">    dataMat = []; labelMat = []</span><br><span class="line">    fr = open(&#x27;testSet.txt&#x27;)</span><br><span class="line">    for line in fr.readlines():</span><br><span class="line">        lineArr = line.strip().split()</span><br><span class="line">        dataMat.append([1.0, float(lineArr[0]), float(lineArr[1])])	#加上第0维特征值</span><br><span class="line">        labelMat.append(int(lineArr[2]))</span><br><span class="line">    return dataMat,labelMat	#返回数据矩阵和标签向量</span><br><span class="line"></span><br><span class="line">def sigmoid(inX):</span><br><span class="line">    return 1.0/(1+exp(-inX))</span><br><span class="line"></span><br><span class="line">def gradAscent(dataMatIn, classLabels):		#Logistic回归梯度上升优化算法</span><br><span class="line">    dataMatrix = mat(dataMatIn)             	#由列表转换成NumPy矩阵数据类型，dataMatrix是一个100&amp;times;3的矩阵</span><br><span class="line">    labelMat = mat(classLabels).transpose() 	#由列表转换成NumPy矩阵数据类型，labelMat是一个100&amp;times;1的矩阵</span><br><span class="line">    m,n = shape(dataMatrix)		    	#shape函数取得矩阵的行数和列数，m=100,n=3</span><br><span class="line">    alpha = 0.001				#向目标移动的步长</span><br><span class="line">    maxCycles = 500				#迭代次数</span><br><span class="line">    weights = ones((n,1))			#3行1列的矩阵，这个矩阵为最佳的回归系数，和原来的100&amp;times;3相乘，可以得到100&amp;times;1的结果</span><br><span class="line">    for k in range(maxCycles):              </span><br><span class="line">        h = sigmoid(dataMatrix*weights)     	#矩阵相乘，得到100&amp;times;1的矩阵，即把dataMat的每一行的所有元素相加</span><br><span class="line">        error = (labelMat - h)              	#求出和目标向量之间的误差</span><br><span class="line">	#梯度下降算法</span><br><span class="line">        weights = weights + alpha * dataMatrix.transpose()* error #3&amp;times;100的矩阵乘以100&amp;times;1的矩阵，weights是梯度算子，总是指向函数值增长最快的方向</span><br><span class="line">    return weights				#返回一组回归系数，确定了不同类别数据之间的分割线</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dataMat,labelMat = loadDataSet()</span><br><span class="line">print gradAscent(dataMat,labelMat)	#输出回归系数</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Logistic%E5%9B%9E%E5%BD%92.html#more">全文 &gt;&gt;</a>
@@ -734,19 +756,35 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
+        <!-- 目录 -->
+
+<div id="toc">
+  
+</div>
+
         <p>如果遇到auth遗忘，又想删除zknode的情况，可以使用超级用户用来删除zknode</p>
 <p>超级用户只能在zkserver启动的时候启用，需要在zkserver的启动命令中添加 <code>-Dzookeeper.DigestAuthenticationProvider.superDigest</code> 参数</p>
-<img src="/images/517519-20211020235027680-1418669248.png" width="800" height="174" loading="lazy" />
+<img src="/images/517519-20211020235027680-1418669248.png" width="800" height="174" loading="lazy">
 
 <p>&nbsp;</p>
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/zk%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%B6%85%E7%BA%A7%E7%94%A8%E6%88%B7.html#more">全文 &gt;&gt;</a>
-          </p>
-        
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-Dzookeeper.DigestAuthenticationProvider.superDigest=super:xQJmxLMiHGwaqBvst5y6rkB6HQs=</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
+<p>&nbsp;然后就可以使用 super:admin 的auth来删除zknode</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 15] addauth digest super:admin</span><br><span class="line">[zk: localhost:2181(CONNECTED) 16] get /hbase</span><br><span class="line"></span><br><span class="line">cZxid = 0x155e7a</span><br><span class="line">ctime = Wed Oct 20 21:35:34 CST 2021</span><br><span class="line">mZxid = 0x155e7a</span><br><span class="line">mtime = Wed Oct 20 21:35:34 CST 2021</span><br><span class="line">pZxid = 0x15639a</span><br><span class="line">cversion = 40</span><br><span class="line">dataVersion = 0</span><br><span class="line">aclVersion = 0</span><br><span class="line">ephemeralOwner = 0x0</span><br><span class="line">dataLength = 0</span><br><span class="line">numChildren = 12</span><br><span class="line">[zk: localhost:2181(CONNECTED) 17] rmr /hbase</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/zhjh256/p/11679639.html">zookeeper acl认证机制及dubbo、kafka集成、zooviewer/idea zk插件配置</a></p>
+<p>&nbsp;</p>
+
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/zk%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%B6%85%E7%BA%A7%E7%94%A8%E6%88%B7.html"></a>
+          </div>
+        </div>
       
     </div>
+
+    
+      
 
     
 
@@ -806,6 +844,17 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>&nbsp;</p>
 <p><strong>使用Python进行文本分类</strong></p>
 <p><strong>1.准备数据：从文本中构建词向量</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">def loadDataSet():</span><br><span class="line">    postingList=[[&#x27;my&#x27;, &#x27;dog&#x27;, &#x27;has&#x27;, &#x27;flea&#x27;, &#x27;problems&#x27;, &#x27;help&#x27;, &#x27;please&#x27;],</span><br><span class="line">                 [&#x27;maybe&#x27;, &#x27;not&#x27;, &#x27;take&#x27;, &#x27;him&#x27;, &#x27;to&#x27;, &#x27;dog&#x27;, &#x27;park&#x27;, &#x27;stupid&#x27;],</span><br><span class="line">                 [&#x27;my&#x27;, &#x27;dalmation&#x27;, &#x27;is&#x27;, &#x27;so&#x27;, &#x27;cute&#x27;, &#x27;I&#x27;, &#x27;love&#x27;, &#x27;him&#x27;],</span><br><span class="line">                 [&#x27;stop&#x27;, &#x27;posting&#x27;, &#x27;stupid&#x27;, &#x27;worthless&#x27;, &#x27;garbage&#x27;],</span><br><span class="line">                 [&#x27;mr&#x27;, &#x27;licks&#x27;, &#x27;ate&#x27;, &#x27;my&#x27;, &#x27;steak&#x27;, &#x27;how&#x27;, &#x27;to&#x27;, &#x27;stop&#x27;, &#x27;him&#x27;],</span><br><span class="line">                 [&#x27;quit&#x27;, &#x27;buying&#x27;, &#x27;worthless&#x27;, &#x27;dog&#x27;, &#x27;food&#x27;, &#x27;stupid&#x27;]]</span><br><span class="line">    classVec = [0,1,0,1,0,1]    #1 is abusive, 0 not</span><br><span class="line">    return postingList,classVec		#第一个变量是词条切分后的文档集合，取出标点，第二个变量是类别标签的集合</span><br><span class="line">                 </span><br><span class="line">def createVocabList(dataSet):		#创建一个包含在所有文档中出现的不重复词的列表</span><br><span class="line">    vocabSet = set([])  		#生成一个空的集合</span><br><span class="line">    for document in dataSet:</span><br><span class="line">        vocabSet = vocabSet | set(document) #求两个集合的并集</span><br><span class="line">    return list(vocabSet)</span><br><span class="line"></span><br><span class="line">def setOfWords2Vec(vocabList, inputSet):#输入参数为词汇表vocabList及某个文档inputSet，输出的是文档向量，即文档中的每个词在词汇表中出现的次数</span><br><span class="line">    returnVec = [0]*len(vocabList)</span><br><span class="line">    for word in inputSet:</span><br><span class="line">        if word in vocabList:</span><br><span class="line">            returnVec[vocabList.index(word)] = 1</span><br><span class="line">        else: print &quot;the word: %s is not in my Vocabulary!&quot; % word</span><br><span class="line">    return returnVec</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">listOPosts,listClasses = loadDataSet()</span><br><span class="line">print &quot;某个文档：&quot;</span><br><span class="line">print listOPosts[0]</span><br><span class="line">myVocabList = createVocabList(listOPosts)	#由词表生成向量</span><br><span class="line">print &quot;词汇表：&quot;</span><br><span class="line">print myVocabList</span><br><span class="line">print &quot;文档向量：&quot;</span><br><span class="line">print setOfWords2Vec(myVocabList,listOPosts[0])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">某个文档：</span><br><span class="line">[&#x27;my&#x27;, &#x27;dog&#x27;, &#x27;has&#x27;, &#x27;flea&#x27;, &#x27;problems&#x27;, &#x27;help&#x27;, &#x27;please&#x27;]</span><br><span class="line">词汇表：</span><br><span class="line">[&#x27;cute&#x27;, &#x27;love&#x27;, &#x27;help&#x27;, &#x27;garbage&#x27;, &#x27;quit&#x27;, &#x27;I&#x27;, &#x27;problems&#x27;, &#x27;is&#x27;, &#x27;park&#x27;, &#x27;stop&#x27;, &#x27;flea&#x27;, &#x27;dalmation&#x27;, &#x27;licks&#x27;, &#x27;food&#x27;, &#x27;not&#x27;, &#x27;him&#x27;, &#x27;buying&#x27;, &#x27;posting&#x27;, &#x27;has&#x27;, &#x27;worthless&#x27;, &#x27;ate&#x27;, &#x27;to&#x27;, &#x27;maybe&#x27;, &#x27;please&#x27;, &#x27;dog&#x27;, &#x27;how&#x27;, &#x27;stupid&#x27;, &#x27;so&#x27;, &#x27;take&#x27;, &#x27;mr&#x27;, &#x27;steak&#x27;, &#x27;my&#x27;]</span><br><span class="line">文档向量：</span><br><span class="line">[0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p><strong>2.训练算法：从词向量计算概率</strong></p>
+<p>&nbsp;<img src="/images/517519-20161113221115920-1062926066.png" alt="" /></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E5%9F%BA%E4%BA%8E%E6%A6%82%E7%8E%87%E8%AE%BA%E7%9A%84%E5%88%86%E7%B1%BB%E6%96%B9%E6%B3%95%EF%BC%9A%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF.html#more">全文 &gt;&gt;</a>

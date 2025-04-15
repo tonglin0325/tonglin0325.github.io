@@ -24,7 +24,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170119171137562-1829581401.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20170121211935562-1325014210.gif">
 <meta property="article:published_time" content="2017-01-18T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-10T13:53:10.188Z">
+<meta property="article:modified_time" content="2025-04-15T02:10:04.556Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="ML">
 <meta name="twitter:card" content="summary">
@@ -230,8 +230,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>在<strong>LSI</strong>中，一个矩阵是有<strong>文档</strong>和<strong>词语</strong>组成的。当我们在该矩阵上应用SVD的时候，就会构建出<strong>多个奇异值</strong>。这些<strong>奇异值代表了文档中的概念或者主题</strong>，这一特点可以用于更高效的文档检索。</p>
 <p><strong>SVD</strong>的另一个应用就是<strong>推荐系统</strong>。简单版本的推荐系统能够计算项或者人之间的相似度。更先进的方法则先利用SVD从数据中构建一个主题空间，然后再在该空间下计算其相似度。</p>
 <p>&nbsp;</p>
-<span id="more"></span>
-
 <p>SVD将原始的<strong>数据集矩阵Data</strong>分解成三个矩阵 <img src="/images/517519-20170119153025406-1628504586.gif" alt>、<img src="/images/517519-20170119153040796-1459722075.gif" alt> 和 <img src="/images/517519-20170119153052437-1176182922.gif" alt>。</p>
 <p>如果<strong>数据集矩阵Data</strong>是M&times;N的，那么 <img src="/images/517519-20170119153025406-1628504586.gif" alt> 是M&times;M的、<img src="/images/517519-20170119153040796-1459722075.gif" alt> 是M&times;N的、<img src="/images/517519-20170119153052437-1176182922.gif" alt> 是N&times;N的。</p>
 <p>　　<img src="/images/517519-20170119154105187-329396320.gif" alt></p>
@@ -239,6 +237,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>&nbsp;</p>
 <p><strong>利用Python实现SVD</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; X=[0.3619 0.2997 0.1331 0.3296;0.1695 0.3628 0.0817 0.2826;0.1159 0.5581 0.0828 0.3718;0.1508 0.1077 0.0539 0.1274]　　#Matlab</span><br><span class="line"></span><br><span class="line">X =</span><br><span class="line"></span><br><span class="line">    0.3619    0.2997    0.1331    0.3296</span><br><span class="line">    0.1695    0.3628    0.0817    0.2826</span><br><span class="line">    0.1159    0.5581    0.0828    0.3718</span><br><span class="line">    0.1508    0.1077    0.0539    0.1274</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
 
 <p>&nbsp;</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; [U,S,V] = svd (X)　　　　#Matlab</span><br><span class="line"></span><br><span class="line">U =</span><br><span class="line"></span><br><span class="line">   -0.5468    0.6999    0.1302   -0.4406</span><br><span class="line">   -0.4846   -0.0839    0.5883    0.6420</span><br><span class="line">   -0.6496   -0.6312   -0.3105   -0.2883</span><br><span class="line">   -0.2102    0.3234   -0.7352    0.5574</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">S =</span><br><span class="line"></span><br><span class="line">    1.0245         0         0         0</span><br><span class="line">         0    0.2608         0         0</span><br><span class="line">         0         0    0.0001         0</span><br><span class="line">         0         0         0    0.0000</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">V =</span><br><span class="line"></span><br><span class="line">   -0.3778    0.8233   -0.4206   -0.0508</span><br><span class="line">   -0.7076   -0.5297   -0.3661   -0.2911</span><br><span class="line">   -0.1733    0.1974    0.6302   -0.7307</span><br><span class="line">   -0.5715    0.0518    0.5403    0.615</span><br><span class="line"></span><br></pre></td></tr></table></figure>

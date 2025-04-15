@@ -13,7 +13,7 @@
 <meta property="og:description" content="Spark中常见的三种分类模型:线性模型、决策树和朴素贝叶斯模型。 线性模型，简单而且相对容易扩展到非常大的数据集；线性模型又可以分成：1.逻辑回归；2.线性支持向量机 决策树是一个强大的非线性技术,训练过程计算量大并且较难扩展(幸运的是,MLlib会替我们考虑扩展性的问题)，但是在很多情况下性能很好； 朴素贝叶斯模型简单、易训练，并且具有高效和并行的优点(实际中，模型训练只需要遍历所有数据集一次">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2017-04-30T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-10T13:53:10.010Z">
+<meta property="article:modified_time" content="2025-04-15T02:10:04.330Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Spark">
 <meta name="twitter:card" content="summary">
@@ -217,13 +217,13 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>内容样例：String = “<a target="_blank" rel="noopener" href="http://www.bloomberg.com/news/2010-12-23/ibm-predicts-holographic-calls-air-breathing-batteries-by-2015.html&quot;">http://www.bloomberg.com/news/2010-12-23/ibm-predicts-holographic-calls-air-breathing-batteries-by-2015.html&quot;</a>&nbsp;&nbsp; &nbsp;”4042”&nbsp;&nbsp; &nbsp;”{“”title””:””IBM Sees Holographic Calls Air Breathing Batteries ibm sees holographic calls, air-breathing batteries””,””body””:””A sign stands outside the International Business Machines Corp IBM Almaden Research Center campus in San Jose California Photographer Tony Avelar Bloomberg Buildings stand at the International Business Machines Corp IBM Almaden Research Center campus in the Santa Teresa Hills of San Jose California Photographer Tony Avelar Bloomberg By 2015 your mobile phone will project a 3 D image of anyone who calls and your laptop will be powered by kinetic energy At least that s what International Business Machines Corp sees in its crystal …</p>
 <p>开始四列分别包含 <strong>URL 、页面的 ID 、原始的文本内容</strong>和分配给页面的<strong>类别</strong>。接下来 22 列包含<strong>各种各样的数值或者类属特征</strong>。最后一列为目标值， -1 为长久， 0 为短暂。</p>
 <p>&nbsp;</p>
-<span id="more"></span>
-
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">val rawData = sc.textFile(&quot;/user/common/stumbleupon/train_noheader.tsv&quot;)</span><br><span class="line">val records = rawData.map(line =&gt; line.split(&quot;\t&quot;))</span><br><span class="line">records.first()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>由于数据格式的问题，我们做一些数据清理的工作，在处理过程中<strong>把额外的( “ )去掉</strong>。数据集中还有一些用 “?” 代替的缺失数据，本例中，我们直接<strong>用 0 替换那些缺失数据</strong> 。</p>
 <p>在清理和处理缺失数据后,我们<strong>提取最后一列的标记变量</strong>以及<strong>第 5 列到第 25 列的特征矩阵</strong>。将标签变量转换为 Int 值，特征向量转换为 Double 数组。</p>
 <p>最后，我们<strong>将标签和和特征向量转换为 LabeledPoint 实例</strong>，从而将特征向量存储到 MLlib 的 Vector 中。</p>
+<span id="more"></span>
+
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.spark.mllib.regression.LabeledPoint</span><br><span class="line">import org.apache.spark.mllib.linalg.Vectors</span><br><span class="line">val data = records.map &#123; r =&gt;</span><br><span class="line">    val trimmed = r.map(_.replaceAll(&quot;\&quot;&quot;, &quot;&quot;))</span><br><span class="line">    val label = trimmed(r.size - 1).toInt</span><br><span class="line">    val features = trimmed.slice(4, r.size - 1).map(d =&gt; </span><br><span class="line">        if (d ==&quot;?&quot;) 0.0 else d.toDouble)</span><br><span class="line">    LabeledPoint(label, Vectors.dense(features))</span><br><span class="line">&#125;    </span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>（<strong>朴素贝叶斯</strong>特殊的数据处理）在对数据集做进一步处理之前，我们发现数值数据中包含负的特征值。我们知道，朴素贝叶斯模型要求特征值非负，否则碰到负的特征值程序会抛出错误。因此，需要为朴素贝叶斯模型构建一份输入特征向量的数据，将负特征值设为 0</p>

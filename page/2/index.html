@@ -200,6 +200,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>gin是一款轻量级的go web开发框架，官方文档</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://gin-gonic.com/docs/examples/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="1-gin-web项目结构"><a href="#1-gin-web项目结构" class="headerlink" title="1.gin web项目结构"></a>1.gin web项目结构</h2><p>参考</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/voyagegroup/gin-boilerplate</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>gin+protobuf wire参考</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/mohuishou/blog-code/tree/main/01-go-training/04-project/10-layout</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-gin-web-quick-start"><a href="#2-gin-web-quick-start" class="headerlink" title="2.gin web quick start"></a>2.gin web quick start</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://gin-gonic.com/docs/quickstart/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在官方文档中提供了2个quick start的demo，一个稍微复杂，一个比较简单</p>
+<p>简单的例子如下，创建一个/ping接口，返回pong</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;github.com/gin-gonic/gin&quot;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	r := gin.Default()</span><br><span class="line">	r.GET(&quot;/ping&quot;, func(c *gin.Context) &#123;</span><br><span class="line">		c.JSON(200, gin.H&#123;</span><br><span class="line">			&quot;message&quot;: &quot;pong&quot;,</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;)</span><br><span class="line">	r.Run() // listen and serve on 0.0.0.0:8080</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94gin%E6%A1%86%E6%9E%B6.html#more">全文 &gt;&gt;</a>
@@ -257,6 +270,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>官方文档</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://go-kratos.dev/en/docs/getting-started/start/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="1-安装Go"><a href="#1-安装Go" class="headerlink" title="1.安装Go"></a>1.安装Go</h2><p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/tonglin0325/p/5524764.html">mac安装go1.20</a></p>
+<h2 id="2-安装Kratos框架"><a href="#2-安装Kratos框架" class="headerlink" title="2.安装Kratos框架"></a>2.安装Kratos框架</h2><p>kratos依赖protobuf grpc等框架，需要先进行安装</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">brew install grpc</span><br><span class="line">brew install protobuf</span><br><span class="line">brew install protoc-gen-go</span><br><span class="line">brew install protoc-gen-go-grpc</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>验证</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">protoc --version</span><br><span class="line">libprotoc 3.21.9</span><br><span class="line"></span><br><span class="line">protoc-gen-go --version</span><br><span class="line">protoc-gen-go v1.28.1</span><br><span class="line"></span><br><span class="line">protoc-gen-go-grpc --version</span><br><span class="line">protoc-gen-go-grpc 1.2.0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>安装kratos框架</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go install github.com/go-kratos/kratos/cmd/kratos/v2@latest</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>验证</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94Kratos%E6%A1%86%E6%9E%B6.html#more">全文 &gt;&gt;</a>
@@ -315,6 +341,17 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>对于标称型数据，在特征处理的时候，需要对其进行编码</p>
 <p>在编码之前，如果训练集和测试集是分开的，则需要对其进行合并，避免标称数据丢失</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 合并</span><br><span class="line">df = train.append(test).reset_index()</span><br><span class="line"># 列名</span><br><span class="line">original_columns = list(df.columns)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>常用的编码方式如下</p>
+<h2 id="1-Label编码"><a href="#1-Label编码" class="headerlink" title="1.Label编码"></a>1.Label编码</h2><p>对于一个有m个category的特征，经过label encoding以后，每个category会映射到0到m-1之间的一个数。label encoding适用于ordinal feature （特征存在内在顺序）。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">from sklearn import preprocessing</span><br><span class="line"></span><br><span class="line">for col in original_columns:</span><br><span class="line">    enc = preprocessing.LabelEncoder()</span><br><span class="line">    enc.fit(np.concatenate([train[col], test[col]]))</span><br><span class="line">    train[col] = enc.transform(train[col])</span><br><span class="line">    test[col] = enc.transform(test[col])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">train_data = train_data.replace(&#123;&#x27;BsmtQual&#x27;: &#123;&#x27;Ex&#x27;: 5, &#x27;Gd&#x27;: 4, &#x27;TA&#x27;: 3, &#x27;Fa&#x27;: 2, &#x27;Po&#x27;: 1, np.NaN: 0&#125;&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-顺序编码"><a href="#2-顺序编码" class="headerlink" title="2.顺序编码"></a>2.顺序编码</h2><p>类似于Label编码</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://wutaoblog.com.cn/2021/08/20/data_preprocess/">数据转化</a></p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E7%89%B9%E5%BE%81%E9%A2%84%E5%A4%84%E7%90%86%E2%80%94%E2%80%94%E7%BC%96%E7%A0%81.html#more">全文 &gt;&gt;</a>
@@ -578,6 +615,13 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <h3 id="2-客户端的写缓冲区和List"><a href="#2-客户端的写缓冲区和List" class="headerlink" title="2.客户端的写缓冲区和List"></a><strong>2.客户端的写缓冲区和List<Put></strong></h3><p>一个put操作都是一个RPC操作，只适合<strong>小数据量</strong>的操作，HBase的API配置了客户端的<strong>写缓冲区</strong>，缓冲区负责收集put宝座，然后调用RPC操作一次性将put送往服务器。</p>
 <p>默认情况下，<strong>客户端缓冲区是禁用</strong>的，可以通过将<strong>自动刷写（****autoflush=false）</strong>来激活缓冲区，如果<strong>（****autoflush=true）</strong>，用户每次调用put方法是都会触发刷写。当激活缓冲区后，单行put不会产生RPC调用，因为存储的Put实例保存在客户端进程的内存中。只有<strong>flushCommits方法</strong>调用后才会将所有的修改传送到远程服务器。</p>
 <p>默认的写缓冲区大小为2MB（2097152字节），可以在客户端中配置，也可以在habse-site.xml中的<strong>hbase.client.write.buffer</strong> 配置一个较大的预设值，比如20MB</p>
+<p><strong>显式刷写</strong>，即用户调用&nbsp;<strong>flushCommits<strong>方法</strong></strong></p>
+<p><strong><strong>隐式刷写</strong></strong>，即会在调用put方法和setWriteBufferSize方法后比较<strong>超出缓冲区大小</strong>后调用&nbsp;<strong>flushCommits<strong>方法</strong></strong></p>
+<p><strong><strong><img src="/images/517519-20201229164602009-1001146075.png" alt="" loading="lazy" /></strong></strong></p>
+<p>&nbsp;</p>
+<h3 id="3-使用BufferedMutator"><a href="#3-使用BufferedMutator" class="headerlink" title="3.使用BufferedMutator"></a><strong>3.使用BufferedMutator</strong></h3><p>org.apache.hadoop.hbase.client.BufferedMutator主要用来对HBase的单个表进行操作。它和Put类的作用差不多，但是主要用来实现批量的异步写操作。</p>
+<p>使用BufferedMutator进行批量异步插入的方式，效率更高，参考：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/00f0a2b7a283">HBase新版本Java API</a> 和 <a target="_blank" rel="noopener" href="https://blog.csdn.net/aA518189/article/details/89190693">Hbase实战–数据读写解析</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.hadoop.hbase.client.BufferedMutator;</span><br><span class="line">/** Helper function to create a table and return the rows that it created. */</span><br><span class="line"></span><br><span class="line">private static void writeData(String tableId, int numRows) throws Exception &#123;</span><br><span class="line">  Connection connection = admin.getConnection();</span><br><span class="line">  TableName tableName = TableName.valueOf(tableId);</span><br><span class="line">  BufferedMutator mutator = connection.getBufferedMutator(tableName);</span><br><span class="line">  List&lt;Mutation&gt; mutations = makeTableData(numRows);</span><br><span class="line">  mutator.mutate(mutations);</span><br><span class="line">  mutator.flush();</span><br><span class="line">  mutator.close();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/HBase%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%A2%E6%88%B7%E7%AB%AFAPI.html#more">全文 &gt;&gt;</a>
@@ -635,6 +679,17 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="1-如果是csa-Cloudera-Streaming-Analytics-版本的高版本HBase"><a href="#1-如果是csa-Cloudera-Streaming-Analytics-版本的高版本HBase" class="headerlink" title="1.如果是csa(Cloudera Streaming Analytics)版本的高版本HBase"></a>1.如果是<strong>csa(Cloudera Streaming Analytics)版本</strong>的高版本HBase</h2><p>可以参考Cloudera官方例子，通过引入官方提供的flink-hbase来实现</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.flink&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;flink-hbase_2.11&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.9.0-csa1.0.0.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>要求flink最低版本1.9.0，hbase最低版本2.1.0-cdh6.3.0，然后就可以使用HBaseSinkFunction来写Hbase</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://docs.cloudera.com/csa/1.2.0/datastream-connectors/topics/csa-hbase-configuration.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<h2 id="2-如果是低版本的HBase"><a href="#2-如果是低版本的HBase" class="headerlink" title="2.如果是低版本的HBase"></a>2.如果是<strong>低版本的HBase</strong></h2><p>则需要自行使用<strong>Java API</strong>来写HBase，比如我使用hbase版本为1.2.0-cdh5.1.6.2，可以参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/swordfall/p/10527423.html">HBase读写的几种方式（三）flink篇</a> 和 <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42003671/article/details/103196825">Flink 消费kafka数据写入hbase</a></p>
+<p>写HBase的时候注意开启Hbase regionserver的hbase.regionserver.port端口防火墙，默认为60020</p>
+<p>Java API写Hbase的方式主要有2种：</p>
+<h3 id="1-一种是使用Table的put-API"><a href="#1-一种是使用Table的put-API" class="headerlink" title="1.一种是使用Table的put API"></a>1.一种是使用Table的<strong>put API</strong></h3><p>可以参考</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/phillip2019/flink-parent/blob/master/flink-connectors/flink-connector-hbase/src/main/java/com/aikosolar/bigdata/flink/connectors/hbase/SimpleHBaseTableSink.java</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%AF%BB%E5%86%99HBase.html#more">全文 &gt;&gt;</a>
@@ -692,6 +747,37 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>除了使用hive hook来记录hive上用户的操作之外，还可以使用hive metastore listener来进行记录，参考：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://towardsdatascience.com/apache-hive-hooks-and-metastore-listeners-a-tale-of-your-metadata-903b751ee99f</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>hive metastore的接口有3种，分别是</p>
+<p>&nbsp;</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Abstract class</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>hive.metastore.pre.event.listeners</td>
+<td>org.apache.hadoop.hive.metastore.MetaStorePreEventListener</td>
+</tr>
+<tr>
+<td>hive.metastore.end.function.listeners</td>
+<td>org.apache.hadoop.hive.metastore.MetaStoreEndFunctionListener</td>
+</tr>
+<tr>
+<td>hive.metastore.event.listeners</td>
+<td>org.apache.hadoop.hive.metastore.MetaStoreEventListener</td>
+</tr>
+</tbody></table>
+<p>下面的代码中继承了MetaStoreEventListener，实现的功能是在建表和修改表的时候，日志输出一下table的元数据信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">package com.bigdata.hive;</span><br><span class="line"></span><br><span class="line">import com.fasterxml.jackson.databind.ObjectMapper;</span><br><span class="line">import org.apache.hadoop.conf.Configuration;</span><br><span class="line">import org.apache.hadoop.hive.metastore.MetaStoreEventListener;</span><br><span class="line">import org.apache.hadoop.hive.metastore.events.AlterTableEvent;</span><br><span class="line">import org.apache.hadoop.hive.metastore.events.CreateTableEvent;</span><br><span class="line">import org.slf4j.Logger;</span><br><span class="line">import org.slf4j.LoggerFactory;</span><br><span class="line"></span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">public class MyListener extends MetaStoreEventListener &#123;</span><br><span class="line"></span><br><span class="line">    private static final Logger LOGGER = LoggerFactory.getLogger(MyListener.class);</span><br><span class="line">    private static final ObjectMapper objMapper = new ObjectMapper();</span><br><span class="line"></span><br><span class="line">    public MyListener(Configuration config) &#123;</span><br><span class="line">        super(config);</span><br><span class="line">        logWithHeader(&quot; created &quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onCreateTable(CreateTableEvent event) &#123;</span><br><span class="line">        logWithHeader(event.getTable());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onAlterTable(AlterTableEvent event) &#123;</span><br><span class="line">        logWithHeader(event.getOldTable());</span><br><span class="line">        logWithHeader(event.getNewTable());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void logWithHeader(Object obj) &#123;</span><br><span class="line">        LOGGER.info(&quot;[CustomListener][Thread: &quot; + Thread.currentThread().getName() + &quot;] | &quot; + objToStr(obj));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private String objToStr(Object obj) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            return objMapper.writeValueAsString(obj);</span><br><span class="line">        &#125; catch (IOException e) &#123;</span><br><span class="line">            LOGGER.error(&quot;Error on conversion&quot;, e);</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>进行打包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mvn clean package</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>将jar包放到/var/lib/hive目录下，并修改用户组</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94metastore%20listener.html#more">全文 &gt;&gt;</a>
@@ -750,6 +836,18 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>gradle和maven类似，是一个构建工具</p>
 <h2 id="gradle安装和配置"><a href="#gradle安装和配置" class="headerlink" title="gradle安装和配置"></a>gradle安装和配置</h2><p>1.mac安装gradle</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew install gradle</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>或者下载gradle的二进制安装包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://gradle.org/releases/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>然后在~/.bash_profile中配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># gradle</span><br><span class="line">export GRADLE_HOME=/Users/lintong/software/gradle-7.3</span><br><span class="line">export PATH=$GRADLE_HOME/bin:$PATH</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>2.查看是否安装成功</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">gradle -v</span><br><span class="line"></span><br><span class="line">------------------------------------------------------------</span><br><span class="line">Gradle 7.3</span><br><span class="line">------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">Build time:   2021-11-09 20:40:36 UTC</span><br><span class="line">Revision:     96754b8c44399658178a768ac764d727c2addb37</span><br><span class="line"></span><br><span class="line">Kotlin:       1.5.31</span><br><span class="line">Groovy:       3.0.9</span><br><span class="line">Ant:          Apache Ant(TM) version 1.10.11 compiled on July 10 2021</span><br><span class="line">JVM:          1.8.0_211 (Oracle Corporation 25.211-b12)</span><br><span class="line">OS:           Mac OS X 10.16 x86_64</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>使用gradle后，老版本的IDEA 2017.1 对gradle的支持较弱，建议升级到新版本 2021.1</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/mac%E4%B8%8B%E5%AE%89%E8%A3%85gradle7.3.html#more">全文 &gt;&gt;</a>
@@ -807,7 +905,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>Scylla兼容cassandra API，所以可以使用spark读写cassandra的方法来进行读写</p>
-<h2 id="1-查看scyllaDB对应的cassandra版本"><a href="#1-查看scyllaDB对应的cassandra版本" class="headerlink" title="1.查看scyllaDB对应的cassandra版本"></a><strong>1.查看scyllaDB对应的cassandra版本</strong></h2>
+<h2 id="1-查看scyllaDB对应的cassandra版本"><a href="#1-查看scyllaDB对应的cassandra版本" class="headerlink" title="1.查看scyllaDB对应的cassandra版本"></a><strong>1.查看scyllaDB对应的cassandra版本</strong></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cqlsh:my_db&gt; SHOW VERSION</span><br><span class="line">[cqlsh 5.0.1 | Cassandra 3.0.8 | CQL spec 3.3.1 | Native protocol v4]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-查看spark和cassandra对应的版本"><a href="#2-查看spark和cassandra对应的版本" class="headerlink" title="2.查看spark和cassandra对应的版本"></a><strong>2.查看spark和cassandra对应的版本</strong></h2><img src="/images/517519-20211109220014493-1994204559.png" width="700" height="643" loading="lazy" />
+
+<p>参考：<a target="_blank" rel="noopener" href="https://github.com/datastax/spark-cassandra-connector">https://github.com/datastax/spark-cassandra-connector</a></p>
+<h2 id="3-写scyllaDB"><a href="#3-写scyllaDB" class="headerlink" title="3.写scyllaDB"></a><strong>3.写scyllaDB</strong></h2><p>dataset API写scyllaDB</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ds2.write</span><br><span class="line">      .mode(&quot;append&quot;)</span><br><span class="line">      .format(&quot;org.apache.spark.sql.cassandra&quot;)</span><br><span class="line">      .options(Map(&quot;table&quot; -&gt; &quot;my_tb&quot;, &quot;keyspace&quot; -&gt; &quot;my_db&quot;, &quot;output.consistency.level&quot; -&gt; &quot;ALL&quot;, &quot;ttl&quot; -&gt; &quot;8640000&quot;))</span><br><span class="line">      .save()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>RDD API写scyllaDB</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import com.datastax.oss.driver.api.core.ConsistencyLevel</span><br><span class="line">import com.datastax.spark.connector._</span><br><span class="line"></span><br><span class="line">ds.rdd.saveToCassandra(&quot;my_db&quot;, &quot;my_tb&quot;, writeConf = WriteConf(ttl = TTLOption.constant(8640000), consistencyLevel = ConsistencyLevel.ALL))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>注意字段的数量和顺序需要和ScyllaDB表的顺序一致，可以使用下面方式select字段</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">val columns = Seq[String](</span><br><span class="line">      &quot;a&quot;,</span><br><span class="line">      &quot;b&quot;,</span><br><span class="line">      &quot;c&quot;)</span><br><span class="line">val colNames = columns.map(name =&gt; col(name))</span><br><span class="line">val colRefs = columns.map(name =&gt; toNamedColumnRef(name))</span><br><span class="line"></span><br><span class="line">val df2 = df.select(colNames: _*)</span><br><span class="line">df2.rdd</span><br><span class="line">      .saveToCassandra(ks, table, SomeColumns(colRefs: _*), writeConf = WriteConf(ttl = TTLOption.constant(8640000), consistencyLevel = ConsistencyLevel.ALL))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%AF%BB%E5%86%99ScyllaDB.html#more">全文 &gt;&gt;</a>
@@ -866,6 +976,17 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>在使用低版本的DataGrip的时候，还没有hive的data source，需要自行添加数据源</p>
 <p>1.下载hive driver，如果你使用的EMR的大数据集群的话，下载地址</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://docs.aws.amazon.com/emr/latest/ReleaseGuide/HiveJDBCDriver.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;添加一个自定义的Driver and Data source</p>
+<img src="/images/517519-20210915142214669-1252922945.png" width="150" height="343" loading="lazy" />
+
+<p>起名为Amazon Hive，并保存</p>
+<img src="/images/517519-20210915142337891-1292196557.png" width="700" height="281" loading="lazy" />
+
+<p>&nbsp;</p>
+<p>2.再添加一个Amazon Hive</p>
+<img src="/images/517519-20210915142515364-1127631381.png" width="400" height="175" loading="lazy" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/DataGrip2017.1%E8%BF%9E%E6%8E%A5Hive.html#more">全文 &gt;&gt;</a>

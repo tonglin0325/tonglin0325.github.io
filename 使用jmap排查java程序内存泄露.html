@@ -5,12 +5,12 @@
   
   <title>使用jmap排查java程序内存泄露 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.使用jmap命令生成内存快照文件(Heap Profile)">
+  <meta name="description" content="1.使用jmap命令生成内存快照文件(Heap Profile)12jmap -dump:format&#x3D;b,file&#x3D;heap.hprof $&amp;#123;pid&amp;#125;  如果生成快照的时候遇到如下报错 123456789Dumping heap to &#x2F;mnt&#x2F;tmp&#x2F;heap.hprof ...Exception in thread &quot;main&quot; java.io.IOE">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用jmap排查java程序内存泄露">
 <meta property="og:url" content="http://tonglin0325.github.io/%E4%BD%BF%E7%94%A8jmap%E6%8E%92%E6%9F%A5java%E7%A8%8B%E5%BA%8F%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="1.使用jmap命令生成内存快照文件(Heap Profile)">
+<meta property="og:description" content="1.使用jmap命令生成内存快照文件(Heap Profile)12jmap -dump:format&#x3D;b,file&#x3D;heap.hprof $&amp;#123;pid&amp;#125;  如果生成快照的时候遇到如下报错 123456789Dumping heap to &#x2F;mnt&#x2F;tmp&#x2F;heap.hprof ...Exception in thread &quot;main&quot; java.io.IOE">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20210728112351955-126381468.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20210803201054664-987536574.png">
@@ -19,7 +19,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230601110256937-1263049854.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230601110659157-1160934237.png">
 <meta property="article:published_time" content="2016-03-15T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-10T13:53:13.733Z">
+<meta property="article:modified_time" content="2025-04-15T02:10:06.548Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="JVM">
 <meta name="twitter:card" content="summary">
@@ -215,9 +215,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
   <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-shi-yong-jmap-ming-ling-sheng-cheng-nei-cun-kuai-zhao-wen-jian-heap-profile"><span class="toc-text">1.使用jmap命令生成内存快照文件(Heap Profile)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-shi-yong-eclipse-memory-analyzer-gong-ju-dui-hprof-wen-jian-jin-xing-fen-xi"><span class="toc-text">2.使用Eclipse Memory Analyzer工具对hprof文件进行分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-fen-xi-dui-zhan-wen-jian"><span class="toc-text">3.分析堆栈文件</span></a></li></ol>
 </div>
 
-        <h2 id="1-shi-yong-jmap-ming-ling-sheng-cheng-nei-cun-kuai-zhao-wen-jian-heap-profile"><a href="#1-使用jmap命令生成内存快照文件-Heap-Profile" class="headerlink" title="1.使用jmap命令生成内存快照文件(Heap Profile)"></a>1.使用jmap命令生成内存快照文件(Heap Profile)<a href="#1-shi-yong-jmap-ming-ling-sheng-cheng-nei-cun-kuai-zhao-wen-jian-heap-profile" class="header-anchor">#</a></h2><span id="more"></span>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jmap -dump:format=b,file=heap.hprof $&#123;pid&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        <h2 id="1-shi-yong-jmap-ming-ling-sheng-cheng-nei-cun-kuai-zhao-wen-jian-heap-profile"><a href="#1-使用jmap命令生成内存快照文件-Heap-Profile" class="headerlink" title="1.使用jmap命令生成内存快照文件(Heap Profile)"></a>1.使用jmap命令生成内存快照文件(Heap Profile)<a href="#1-shi-yong-jmap-ming-ling-sheng-cheng-nei-cun-kuai-zhao-wen-jian-heap-profile" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jmap -dump:format=b,file=heap.hprof $&#123;pid&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>如果生成快照的时候遇到如下报错</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Dumping heap to /mnt/tmp/heap.hprof ...</span><br><span class="line">Exception in thread &quot;main&quot; java.io.IOException: Premature EOF</span><br><span class="line">	at sun.tools.attach.HotSpotVirtualMachine.readInt(HotSpotVirtualMachine.java:292)</span><br><span class="line">	at sun.tools.attach.LinuxVirtualMachine.execute(LinuxVirtualMachine.java:200)</span><br><span class="line">	at sun.tools.attach.HotSpotVirtualMachine.executeCommand(HotSpotVirtualMachine.java:261)</span><br><span class="line">	at sun.tools.attach.HotSpotVirtualMachine.dumpHeap(HotSpotVirtualMachine.java:224)</span><br><span class="line">	at sun.tools.jmap.JMap.dump(JMap.java:247)</span><br><span class="line">	at sun.tools.jmap.JMap.main(JMap.java:142)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -231,6 +229,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
 <p>否则会出现如下报错</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Unrecognized option: --add-exports=java.base/jdk.internal.org.objectweb.asm=ALL-UNNAMED Error: Could not create the Java Virtual Machine. Error: A fatal exception has occurred. Program will exit. Unable to init server: Could not connect: Connection refused　　</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
 
 <p>由于堆栈快照文件可能会很大，所以需要修改 MemoryAnalyzer.ini 文件中的-Xmx1024m，比如改成-Xmx10240m，否则可能会遇到下面报错</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">an internal error occurred during parsing heap dump from</span><br></pre></td></tr></table></figure>

@@ -13,7 +13,7 @@
 <meta property="og:description" content="1.cast函数数据类型转换函数 比如date的值为 参考：Hive中CAST（）函数用法 2.explode函数explode() 函数接收一个 array 或 map 作为输入，然后将 array 或 map 里面的元素按照每行的形式输出。其可以配合 LATERAL VIEW 一起使用 参考：Hive应用：explode和lateral view  3.lateral viewlateral">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-05-20T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-10T13:53:13.315Z">
+<meta property="article:modified_time" content="2025-04-15T02:10:06.140Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Hive">
 <meta name="twitter:card" content="summary">
@@ -214,12 +214,11 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <h2 id="2-explode-han-shu"><a href="#2-explode函数" class="headerlink" title="2.explode函数"></a>2.explode函数<a href="#2-explode-han-shu" class="header-anchor">#</a></h2><p>explode() 函数接收一个 array 或 map 作为输入，然后将 array 或 map 里面的元素按照每行的形式输出。其可以配合 LATERAL VIEW 一起使用</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1408939">Hive应用：explode和lateral view </a></p>
 <h2 id="3-lateral-view"><a href="#3-lateral-view" class="headerlink" title="3.lateral view"></a>3.lateral view<a href="#3-lateral-view" class="header-anchor">#</a></h2><p>lateral view用于和split、explode等UDTF一起使用的，能将一行数据拆分成多行数据，在此基础上可以对拆分的数据进行聚合，lateral view首先为原始表的每行调用UDTF，UDTF会把一行拆分成一行或者多行，lateral view在把结果组合，产生一个支持别名表的虚拟表。</p>
-<h2 id="4-json-tuple"><a href="#4-json-tuple" class="headerlink" title="4.json_tuple"></a>4.json_tuple<a href="#4-json-tuple" class="header-anchor">#</a></h2><span id="more"></span>
-
-<p>参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1819621">一文学会Hive解析Json数组（好文收藏）</a></p>
+<h2 id="4-json-tuple"><a href="#4-json-tuple" class="headerlink" title="4.json_tuple"></a>4.json_tuple<a href="#4-json-tuple" class="header-anchor">#</a></h2><p>参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1819621">一文学会Hive解析Json数组（好文收藏）</a></p>
 <h2 id="5-json-udf"><a href="#5-json-UDF" class="headerlink" title="5.json UDF"></a>5.json UDF<a href="#5-json-udf" class="header-anchor">#</a></h2><p><a target="_blank" rel="noopener" href="https://github.com/klout/brickhouse/wiki/Json-udfs"><strong>brickhouse的json udf</strong></a></p>
 <p>1.brickhouse.udf.json.ToJsonUDF，将hive表转换成json</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">add jar /path/brickhouse-0.7.0-SNAPSHOT.jar;</span><br><span class="line"></span><br><span class="line">CREATE TEMPORARY FUNCTION to_json AS &#x27;brickhouse.udf.json.ToJsonUDF&#x27;;</span><br><span class="line"></span><br><span class="line">select to_json(named_struct( &#x27;name&#x27;, a.col_1, &#x27;children&#x27; , array(named_struct(&#x27;name&#x27;, b.col_2, &#x27;logins&#x27;, b.col_3))))</span><br><span class="line">from table_a a join table_b b on a.col_1 = b.col_1;</span><br><span class="line"></span><br><span class="line">&#123;&quot;name&quot;:&quot;userLogins&quot;,&quot;children&quot;:[&#123;&quot;name&quot;:&quot;Site B&quot;,&quot;logins&quot;:20&#125;]&#125;</span><br><span class="line">&#123;&quot;name&quot;:&quot;userLogins&quot;,&quot;children&quot;:[&#123;&quot;name&quot;:&quot;Site A&quot;,&quot;logins&quot;:10&#125;]&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
 
 <p>参考</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://stackoverflow.com/questions/25188734/converting-data-from-multiple-hive-tables-to-complex-json</span><br><span class="line"></span><br></pre></td></tr></table></figure>

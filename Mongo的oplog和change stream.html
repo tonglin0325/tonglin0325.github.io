@@ -13,7 +13,7 @@
 <meta property="og:description" content="1.oplogMongoDB副本集由一组服务器组成，这些服务器都具有相同数据的副本，复制可确保客户端对副本集主副本集上的文档所做的所有更改都正确应用于其他副本集的服务器，称为secondaries副本。 MongoDB 复制的工作原理是让主节点在其操作日志（或操作日志）中记录更改，然后每个从节点读取主节点的操作日志并将所有操作按顺序应用到它们自己的文档中。 将新服务器添加到副本集时，该服务器首先对">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2015-08-03T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-10T13:53:14.449Z">
+<meta property="article:modified_time" content="2025-04-15T02:10:07.244Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="mongo">
 <meta name="twitter:card" content="summary">
@@ -216,10 +216,9 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>当MongoDB连接器进程发生变化时，它会定期记录oplog/stream中事件发起的位置。当连接器停止时，它会记录它处理的最后一个oplog/流位置，以便在重新启动时它只是从该位置开始流式传输。换句话说，连接器可以停止、升级或维护，并在一段时间后重新启动，它将准确地从中断的位置继续，而不会丢失单个事件。当然，MongoDB的oplog通常被限制在最大大小，这意味着连接器不应该停止太久，否则oplog中的某些操作可能会在连接器有机会读取它们之前被清除。在这种情况下，重新启动时，连接器将检测缺少的oplog操作，执行快照，然后继续流式传输更改。</p>
 <p>限制：change stream只能用于 replica set 集群和 sharded cluster 集群，单节点mongo因为没有oplog，所以不支持</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1711794">MongoDB Change Stream之一&mdash;&mdash;上手及初体验</a></p>
-<span id="more"></span>
-
 <h2 id="3-change-stream-xiang-guan-cao-zuo"><a href="#3-change-stream相关操作" class="headerlink" title="3.change stream相关操作"></a>3.change stream相关操作<a href="#3-change-stream-xiang-guan-cao-zuo" class="header-anchor">#</a></h2><p>1.获取某个database的某个collection的Change Stream</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use xx_db</span><br><span class="line">db.your_collection.watch([],&#123;maxAwaitTimeMS:60000&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
 
 <p>2.指定从resume token开始获取某个database的某个collection的Change Stream</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">db.document.watch([],&#123;maxAwaitTimeMS:60000,resumeAfter:&#123;&quot;_data&quot;: &quot;xxxxxxx&quot;&#125;&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>

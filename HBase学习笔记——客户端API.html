@@ -15,7 +15,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20201229164640569-1533529902.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20201229164602009-1001146075.png">
 <meta property="article:published_time" content="2022-01-12T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-10T13:53:09.095Z">
+<meta property="article:modified_time" content="2025-04-15T02:10:03.477Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="HBase">
 <meta name="twitter:card" content="summary">
@@ -219,8 +219,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <h3 id="2-ke-hu-duan-de-xie-huan-chong-qu-he-list"><a href="#2-客户端的写缓冲区和List" class="headerlink" title="2.客户端的写缓冲区和List"></a><strong>2.客户端的写缓冲区和List<put></put></strong><a href="#2-ke-hu-duan-de-xie-huan-chong-qu-he-list" class="header-anchor">#</a></h3><p>一个put操作都是一个RPC操作，只适合<strong>小数据量</strong>的操作，HBase的API配置了客户端的<strong>写缓冲区</strong>，缓冲区负责收集put宝座，然后调用RPC操作一次性将put送往服务器。</p>
 <p>默认情况下，<strong>客户端缓冲区是禁用</strong>的，可以通过将<strong>自动刷写（****autoflush=false）</strong>来激活缓冲区，如果<strong>（****autoflush=true）</strong>，用户每次调用put方法是都会触发刷写。当激活缓冲区后，单行put不会产生RPC调用，因为存储的Put实例保存在客户端进程的内存中。只有<strong>flushCommits方法</strong>调用后才会将所有的修改传送到远程服务器。</p>
 <p>默认的写缓冲区大小为2MB（2097152字节），可以在客户端中配置，也可以在habse-site.xml中的<strong>hbase.client.write.buffer</strong> 配置一个较大的预设值，比如20MB</p>
-<span id="more"></span>
-
 <p><strong>显式刷写</strong>，即用户调用&nbsp;<strong>flushCommits<strong>方法</strong></strong></p>
 <p><strong><strong>隐式刷写</strong></strong>，即会在调用put方法和setWriteBufferSize方法后比较<strong>超出缓冲区大小</strong>后调用&nbsp;<strong>flushCommits<strong>方法</strong></strong></p>
 <p><strong><strong><img src="/images/517519-20201229164602009-1001146075.png" alt loading="lazy"></strong></strong></p>
@@ -228,6 +226,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <h3 id="3-shi-yong-bufferedmutator"><a href="#3-使用BufferedMutator" class="headerlink" title="3.使用BufferedMutator"></a><strong>3.使用BufferedMutator</strong><a href="#3-shi-yong-bufferedmutator" class="header-anchor">#</a></h3><p>org.apache.hadoop.hbase.client.BufferedMutator主要用来对HBase的单个表进行操作。它和Put类的作用差不多，但是主要用来实现批量的异步写操作。</p>
 <p>使用BufferedMutator进行批量异步插入的方式，效率更高，参考：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/00f0a2b7a283">HBase新版本Java API</a> 和 <a target="_blank" rel="noopener" href="https://blog.csdn.net/aA518189/article/details/89190693">Hbase实战–数据读写解析</a></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.hadoop.hbase.client.BufferedMutator;</span><br><span class="line">/** Helper function to create a table and return the rows that it created. */</span><br><span class="line"></span><br><span class="line">private static void writeData(String tableId, int numRows) throws Exception &#123;</span><br><span class="line">  Connection connection = admin.getConnection();</span><br><span class="line">  TableName tableName = TableName.valueOf(tableId);</span><br><span class="line">  BufferedMutator mutator = connection.getBufferedMutator(tableName);</span><br><span class="line">  List&lt;Mutation&gt; mutations = makeTableData(numRows);</span><br><span class="line">  mutator.mutate(mutations);</span><br><span class="line">  mutator.flush();</span><br><span class="line">  mutator.close();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
 
 <p>&nbsp;</p>
 

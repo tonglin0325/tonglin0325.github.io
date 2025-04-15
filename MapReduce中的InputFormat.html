@@ -5,12 +5,12 @@
   
   <title>MapReduce中的InputFormat | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="InputFormat在hadoop源码中是一个抽象类 public abstract class InputFormat&lt;K, V&gt;">
+  <meta name="description" content="InputFormat在hadoop源码中是一个抽象类 public abstract class InputFormat&lt;K, V&gt; 12https:&#x2F;&#x2F;github.com&#x2F;apache&#x2F;hadoop&#x2F;blob&#x2F;master&#x2F;hadoop-mapreduce-project&#x2F;hadoop-mapreduce-client&#x2F;hadoop-mapreduce-client-core&#x2F;s">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MapReduce中的InputFormat">
 <meta property="og:url" content="http://tonglin0325.github.io/MapReduce%E4%B8%AD%E7%9A%84InputFormat.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="InputFormat在hadoop源码中是一个抽象类 public abstract class InputFormat&lt;K, V&gt;">
+<meta property="og:description" content="InputFormat在hadoop源码中是一个抽象类 public abstract class InputFormat&lt;K, V&gt; 12https:&#x2F;&#x2F;github.com&#x2F;apache&#x2F;hadoop&#x2F;blob&#x2F;master&#x2F;hadoop-mapreduce-project&#x2F;hadoop-mapreduce-client&#x2F;hadoop-mapreduce-client-core&#x2F;s">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20201111173019261-371084873.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20201113154632190-996469566.png">
@@ -23,7 +23,7 @@
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20201111165456938-1196281628.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20201221111426247-356129254.png">
 <meta property="article:published_time" content="2020-09-29T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-10T13:53:09.216Z">
+<meta property="article:modified_time" content="2025-04-15T02:10:03.626Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Hadoop">
 <meta name="twitter:card" content="summary">
@@ -220,8 +220,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </div>
 
         <p>InputFormat在hadoop源码中是一个抽象类 public abstract class InputFormat&lt;K, V&gt;</p>
-<span id="more"></span>
-
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/apache/hadoop/blob/master/hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-core/src/main/java/org/apache/hadoop/mapreduce/InputFormat.java</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>可以参考文章</p>
@@ -236,6 +234,8 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p><strong>InputFormat</strong>做的事情就是将inputfile使用<strong>getSplits方法</strong>切分成List<inputsplit>，之后使用<strong>createRecordReader方法</strong>将每个split 解析成records, 再依次将record解析成&lt;K,V&gt;对</inputsplit></p>
 <p>&nbsp;</p>
 <p>1.<strong>getSplits方法</strong>负责将输入的文件做一个逻辑上的切分，切分成一个List<inputsplit>，InputSplit的源码在</inputsplit></p>
+<span id="more"></span>
+
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/apache/hadoop/blob/master/hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-core/src/main/java/org/apache/hadoop/mapreduce/InputSplit.java</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>&nbsp;在下文中提到 **<code>InputSplit</code>**是一个逻辑概念，并没有对实际文件进行切分，它只包含一些元数据信息，比如数据的起始位置，数据长度，数据所在的节点等</p>
@@ -312,7 +312,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
 <p>&nbsp;其中zstd也是可以切分的</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://medium.com/@anirbangoswami_22783/parquet-zstd-vs-gzip-740a83571ecd</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
         <div class="article-entry">
           <div id="footer-info" class="inner">
           本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/MapReduce%E4%B8%AD%E7%9A%84InputFormat.html">MapReduce中的InputFormat</a>

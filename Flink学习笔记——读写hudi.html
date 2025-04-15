@@ -5,17 +5,17 @@
   
   <title>Flink学习笔记——读写hudi | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="使用flink来读写hudi有2种API，一个是Flink SQL API，另一个是DataStream API，参考">
+  <meta name="description" content="使用flink来读写hudi有2种API，一个是Flink SQL API，另一个是DataStream API，参考 1https:&#x2F;&#x2F;hudi.apache.org&#x2F;cn&#x2F;docs&#x2F;flink-quick-start-guide  1.Flink SQL API首先启动yarn session 12&#x2F;usr&#x2F;lib&#x2F;flink&#x2F;bin&#x2F;yarn-session.sh -n 3 -s 5 -jm">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Flink学习笔记——读写hudi">
 <meta property="og:url" content="http://tonglin0325.github.io/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%AF%BB%E5%86%99hudi.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="使用flink来读写hudi有2种API，一个是Flink SQL API，另一个是DataStream API，参考">
+<meta property="og:description" content="使用flink来读写hudi有2种API，一个是Flink SQL API，另一个是DataStream API，参考 1https:&#x2F;&#x2F;hudi.apache.org&#x2F;cn&#x2F;docs&#x2F;flink-quick-start-guide  1.Flink SQL API首先启动yarn session 12&#x2F;usr&#x2F;lib&#x2F;flink&#x2F;bin&#x2F;yarn-session.sh -n 3 -s 5 -jm">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230308215908824-235391100.png">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20230418144035519-1571562662.png">
 <meta property="article:published_time" content="2018-09-24T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-10T13:53:09.779Z">
+<meta property="article:modified_time" content="2025-04-15T02:10:04.113Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Flink">
 <meta property="article:tag" content="Hudi">
@@ -213,8 +213,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </div>
 
         <p>使用flink来读写hudi有2种API，一个是Flink SQL API，另一个是DataStream API，参考</p>
-<span id="more"></span>
-
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://hudi.apache.org/cn/docs/flink-quick-start-guide</span><br></pre></td></tr></table></figure>
 
 <h2 id="1-flink-sql-api"><a href="#1-Flink-SQL-API" class="headerlink" title="1.Flink SQL API"></a>1.Flink SQL API<a href="#1-flink-sql-api" class="header-anchor">#</a></h2><p>首先启动yarn session</p>
@@ -228,6 +226,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/lib/flink/bin/sql-client.sh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <img src="/images/517519-20230308215908824-235391100.png" width="500" height="193" loading="lazy">
+<span id="more"></span>
 
 <p>首先使用Flink SQL创建hudi表</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">Flink SQL&gt; CREATE TABLE hudi_test_table(</span><br><span class="line">            _id STRING,</span><br><span class="line">            xxx STRING,</span><br><span class="line">            primary key(_id) not enforced</span><br><span class="line">        ) WITH (</span><br><span class="line">            &#x27;connector&#x27; = &#x27;hudi&#x27;,</span><br><span class="line">            &#x27;path&#x27; = &#x27;s3a://xxxx/hudi_test_table&#x27;,</span><br><span class="line">            &#x27;table.type&#x27; = &#x27;MERGE_ON_READ&#x27;,</span><br><span class="line">            &#x27;changelog.enabled&#x27;= &#x27;true&#x27;,</span><br><span class="line">            &#x27;compaction.async.enabled&#x27;=&#x27;true&#x27;,</span><br><span class="line">            &#x27;compaction.tasks&#x27;= &#x27;4&#x27;,</span><br><span class="line">            &#x27;compaction.trigger.strategy&#x27;= &#x27;time_elapsed&#x27;,</span><br><span class="line">            &#x27;compaction.delta_seconds&#x27;= &#x27;600&#x27;,</span><br><span class="line">            &#x27;compaction.max_memory&#x27;= &#x27;1024&#x27;,</span><br><span class="line">            &#x27;write.option&#x27; = &#x27;upsert&#x27;,</span><br><span class="line">            &#x27;read.streaming.check-interval&#x27;= &#x27;3&#x27;,</span><br><span class="line">            &#x27;hive_sync.enable&#x27; = &#x27;true&#x27;,</span><br><span class="line">            &#x27;hive_sync.mode&#x27; = &#x27;hms&#x27;,</span><br><span class="line">            &#x27;hive_sync.metastore.uris&#x27; = &#x27;thrift://xxx:9083&#x27;,</span><br><span class="line">            &#x27;hive_sync.table&#x27;=&#x27;hudi_test_table&#x27;,</span><br><span class="line">            &#x27;hive_sync.db&#x27;=&#x27;default&#x27;,</span><br><span class="line">            &#x27;write.tasks&#x27;=&#x27;4&#x27;</span><br><span class="line">        );</span><br><span class="line"></span><br></pre></td></tr></table></figure>

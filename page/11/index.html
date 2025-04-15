@@ -200,6 +200,18 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>Filebeat官方文档地址</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://www.elastic.co/guide/en/beats/filebeat/current/filebeat-installation.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>下载和安装</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.3.1-linux-x86_64.tar.gz</span><br><span class="line">tar xzvf filebeat-7.3.1-linux-x86_64.tar.gz</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>编写filebeat.yml</p>
+<p>&nbsp;</p>
+<p>启动</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chmod go-w /home/lintong/software/apache/filebeat-7.3.1-linux-x86_64/filebeat.yml</span><br><span class="line">./filebeat -e -c filebeat.yml</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>codec.format</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">codec.format:</span><br><span class="line">    string: &#x27;%&#123;[@timestamp]&#125; %&#123;[message]&#125;&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Ubuntu16.04%E5%AE%89%E8%A3%85Filebeat.html#more">全文 &gt;&gt;</a>
@@ -257,6 +269,21 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>1.下载安装包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">https://www.consul.io/downloads.html</span><br><span class="line">wget https://releases.hashicorp.com/consul/1.5.3/consul_1.5.3_linux_amd64.zip</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>2.解压</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">unzip consul_1.5.3_linux_amd64.zip</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>3.mv</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo mv consul /usr/local/bin/consul</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>4.启动</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/u010046908/article/details/61916389">https://blog.csdn.net/u010046908/article/details/61916389</a></p>
+<p><strong>-dev 开发模式</strong>启动的时候，数据是存储在内存中，重启之后数据将丢失</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">consul agent -dev</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>-server 生成模式启动的时候，如果是server的话需要指定-server，如果是client的话，需要指定-client，比如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">consul agent -ui -server -bootstrap-expect 1 -data-dir /tmp/consul -node=consul-server -bind=192.168.1.100 -client=192.168.1.100</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Ubuntu16.04%E5%AE%89%E8%A3%85Consul.html#more">全文 &gt;&gt;</a>
@@ -321,7 +348,11 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>3）principal：当每添加一个用户或服务的时候都需要向kdc添加一条principal，principl的形式为：主名称／实例名@领域名。</p>
 <p>4）主名称：主名称可以是用户名或服务名，表示是用于提供各种网络服务（如hdfs，yarn，hive）的主体。</p>
 <p>5）实例名：实例名简单理解为主机名。</p>
-<h2 id="2-安装及配置KDC服务"><a href="#2-安装及配置KDC服务" class="headerlink" title="2.安装及配置KDC服务"></a>2.安装及配置KDC服务</h2>
+<h2 id="2-安装及配置KDC服务"><a href="#2-安装及配置KDC服务" class="headerlink" title="2.安装及配置KDC服务"></a>2.安装及配置KDC服务</h2><p>卸载老的krb</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt remove --purge krb*</span><br><span class="line">sudo rm -rf /etc/krb5kdc</span><br><span class="line">sudo rm -rf /var/lib/krb5kdc</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>安装KDC服务和管理员服务</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install krb5-kdc krb5-admin-server</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/kerberos%E7%9B%B8%E5%85%B3.html#more">全文 &gt;&gt;</a>
@@ -455,7 +486,16 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
 <h2 id="2-从一个任务开始，执行它以及它的下游任务"><a href="#2-从一个任务开始，执行它以及它的下游任务" class="headerlink" title="2.从一个任务开始，执行它以及它的下游任务"></a><strong>2.从一个任务开始，执行它以及它的下游任务</strong></h2><p>将downstream和recursive按钮的点击状态取消，然后点击clear，最后选择<strong>Ignore Task Deps</strong>，然后点击run</p>
 <p>其他：<a target="_blank" rel="noopener" href="https://blog.csdn.net/zzq900503/article/details/104537121">调度工具airflow的介绍和使用示例</a></p>
-<h2 id="3-airflow命令行"><a href="#3-airflow命令行" class="headerlink" title="3.airflow命令行"></a><strong>3.airflow命令行</strong></h2>
+<h2 id="3-airflow命令行"><a href="#3-airflow命令行" class="headerlink" title="3.airflow命令行"></a><strong>3.airflow命令行</strong></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://airflow.apache.org/docs/apache-airflow/stable/cli-and-env-variables-ref.html#dags</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-第一次登录创建airflow用户"><a href="#1-第一次登录创建airflow用户" class="headerlink" title="1.第一次登录创建airflow用户"></a>1.第一次登录创建airflow用户</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">airflow users create --username airflow --role Admin --password airflow --email airflow@xxx.com --lastname airflow --firstname airflow　</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-根据dag-id删除一个dag"><a href="#2-根据dag-id删除一个dag" class="headerlink" title="2.根据dag id删除一个dag"></a>2.根据dag id删除一个dag</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">airflow dags delete &#123;dag_id&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-触发一个airflow-dag"><a href="#3-触发一个airflow-dag" class="headerlink" title="3.触发一个airflow dag"></a>3.触发一个airflow dag</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">airflow dags trigger --help</span><br><span class="line">usage: airflow dags trigger [-h] [-c CONF] [-e EXEC_DATE] [-r RUN_ID]</span><br><span class="line">                            [-S SUBDIR]</span><br><span class="line">                            dag_id</span><br><span class="line"></span><br><span class="line">Trigger a DAG run</span><br><span class="line"></span><br><span class="line">positional arguments:</span><br><span class="line">  dag_id                The id of the dag</span><br><span class="line"></span><br><span class="line">optional arguments:</span><br><span class="line">  -h, --help            show this help message and exit</span><br><span class="line">  -c CONF, --conf CONF  JSON string that gets pickled into the DagRun&#x27;s conf attribute</span><br><span class="line">  -e EXEC_DATE, --exec-date EXEC_DATE</span><br><span class="line">                        The execution date of the DAG</span><br><span class="line">  -r RUN_ID, --run-id RUN_ID</span><br><span class="line">                        Helps to identify this run</span><br><span class="line">  -S SUBDIR, --subdir SUBDIR</span><br><span class="line">                        File location or directory from which to look for the dag. Defaults to &#x27;[AIRFLOW_HOME]/dags&#x27; where [AIRFLOW_HOME] is the value you set for &#x27;AIRFLOW_HOME&#x27; config you set in &#x27;airflow.cfg&#x27;</span><br><span class="line"></span><br><span class="line">airflow dags trigger -e &#x27;2022-07-19T08:00:00&#x27; your_dag_id</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>注意execution_time要在start_date和end_date之间，否则会报</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ValueError: The execution_date [2022-07-19T08:00:00+00:00] should be &gt;= start_date [2022-07-20T00:00:00+00:00] from DAG&#x27;s default_args</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Airflow%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html#more">全文 &gt;&gt;</a>
@@ -513,6 +553,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>1.安装impyla</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install impyla </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;2.在superset页面配置如下,此时impala是有kerberos认证的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">impala://xxxx:xx/default?auth_mechanism=GSSAPI&amp;amp;kerberos_service_name=impala</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果遇到下面的问题,是thrift-sasl版本过高</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">The error message returned was:\n&#x27;TSocket&#x27; object has no attribute &#x27;isOpen&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;降级为0.2.1版本就可以</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pip list | grep thrift-sasl</span><br><span class="line">thrift-sasl            0.3.0      </span><br><span class="line">pip install thrift-sasl==0.2.1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>测试,ok</p>
+<img src="/images/517519-20190717143626518-1580552449.png" alt="" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Superset%E9%85%8D%E7%BD%AEimpala%E6%95%B0%E6%8D%AE%E6%BA%90.html#more">全文 &gt;&gt;</a>
@@ -576,6 +629,13 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <img src="/images/517519-20190716152012205-1456417108.png" alt="" />
 
 <p>3.如果你的hive集群是带有kerberos认证的,hive数据源需要这样配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hive://xxx:xxx/default?auth=KERBEROS&amp;amp;kerberos_service_name=hive</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果在连接的时候报了如下的错</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Could not start SASL: b&#x27;Error in sasl_client_start (-1) SASL(-1): generic failure: GSSAPI Error: Unspecified GSS failure</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>那就就是你没有用keytab进行认证</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kinit -kt xxx.keytab xxx@XXXX</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Superset%E9%85%8D%E7%BD%AEhive%E6%95%B0%E6%8D%AE%E6%BA%90.html#more">全文 &gt;&gt;</a>
@@ -636,6 +696,16 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <img src="/images/517519-20190716114754877-1692056408.png" alt="" />
 
 <p>测试连接的时候遇到</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">No module named &#x27;MySQLdb&#x27;&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>安装mysqlclient</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install mysqlclient</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果遇到</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ERROR: /bin/sh: 1: mysql_config: not found</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>安装</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libmysqlclient-dev python3-dev</span><br><span class="line"></span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Superset%E9%85%8D%E7%BD%AEmysql%E6%95%B0%E6%8D%AE%E6%BA%90.html#more">全文 &gt;&gt;</a>
@@ -694,6 +764,21 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p><strong>1.查看hdfs文件的block信息</strong></p>
 <p>不正常的文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">hdfs fsck /logs/xxx/xxxx.gz.gz -files -blocks -locations</span><br><span class="line">Connecting to namenode via http://xxx-01:50070/fsck?ugi=xxx&amp;amp;files=1&amp;amp;blocks=1&amp;amp;locations=1&amp;amp;path=%2Flogs%2Fxxx%2Fxxx%2F401294%2Fds%3Dxxxx-07-14%2Fxxx.gz.gz</span><br><span class="line">FSCK started by xxxx (auth:KERBEROS_SSL) from /10.90.1.91 for path xxxxx.gz.gz at Mon Jul 15 11:44:13 CST 2019</span><br><span class="line">Status: HEALTHY</span><br><span class="line"> Total size:	0 B (Total open files size: 194 B)</span><br><span class="line"> Total dirs:	0</span><br><span class="line"> Total files:	0</span><br><span class="line"> Total symlinks:		0 (Files currently being written: 1)</span><br><span class="line"> Total blocks (validated):	0 (Total open file blocks (not validated): 1)</span><br><span class="line"> Minimally replicated blocks:	0</span><br><span class="line"> Over-replicated blocks:	0</span><br><span class="line"> Under-replicated blocks:	0</span><br><span class="line"> Mis-replicated blocks:		0</span><br><span class="line"> Default replication factor:	3</span><br><span class="line"> Average block replication:	0.0</span><br><span class="line"> Corrupt blocks:		0</span><br><span class="line"> Missing replicas:		0</span><br><span class="line"> Number of data-nodes:		99</span><br><span class="line"> Number of racks:		3</span><br><span class="line">FSCK ended at Mon Jul 15 11:44:13 CST 2019 in 0 milliseconds</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;正常的文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Connecting to namenode via http://xxx:50070/fsck?ugi=xxx&amp;amp;files=1&amp;amp;blocks=1&amp;amp;locations=1&amp;amp;path=%2Fxxx%2Fxxx%2Fxxx%2F401294%2Fds%3Dxxx-07-14%2Fxx.gz</span><br><span class="line">FSCK started by xxxx (auth:KERBEROS_SSL) from /10.90.1.91 for path /logs/xxxx.gz at Mon Jul 15 11:46:12 CST 2019</span><br><span class="line">/logs/xxxx.gz 74745 bytes, 1 block(s):  OK</span><br><span class="line">0. BP-1760298736-10.90.1.6-1536234810107:blk_1392467116_318836510 len=74745 Live_repl=3 [DatanodeInfoWithStorage[10.90.1.99:1004,DS-9d465b1f-943f-4716-bce0-8b36e5631b4a,DISK], DatanodeInfoWithStorage[10.90.1.216:1004,DS-160924c6-4cd7-4822-93c0-9ac9cf9c5784,DISK], DatanodeInfoWithStorage[10.90.1.191:1004,DS-d0a2e418-610f-4bef-8f1d-4ce045533656,DISK]]</span><br><span class="line"></span><br><span class="line">Status: HEALTHY</span><br><span class="line"> Total size:	74745 B</span><br><span class="line"> Total dirs:	0</span><br><span class="line"> Total files:	1</span><br><span class="line"> Total symlinks:		0</span><br><span class="line"> Total blocks (validated):	1 (avg. block size 74745 B)</span><br><span class="line"> Minimally replicated blocks:	1 (100.0 %)</span><br><span class="line"> Over-replicated blocks:	0 (0.0 %)</span><br><span class="line"> Under-replicated blocks:	0 (0.0 %)</span><br><span class="line"> Mis-replicated blocks:		0 (0.0 %)</span><br><span class="line"> Default replication factor:	3</span><br><span class="line"> Average block replication:	3.0</span><br><span class="line"> Corrupt blocks:		0</span><br><span class="line"> Missing replicas:		0 (0.0 %)</span><br><span class="line"> Number of data-nodes:		99</span><br><span class="line"> Number of racks:		3</span><br><span class="line">FSCK ended at Mon Jul 15 11:46:12 CST 2019 in 1 milliseconds</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p><strong>2.修复hdfs文件命令</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hdfs debug recoverLease -path /logs/xxxx.gz.gz -retries 3</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>修复之后</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">hdfs fsck /logs/xxx.gz.gz -files -blocks -locations</span><br><span class="line">Connecting to namenode via http://xxx-01:50070/fsck?ugi=xxx&amp;amp;files=1&amp;amp;blocks=1&amp;amp;locations=1&amp;amp;path=%2Flogs%2Fnsh%2Fjson%2F401294%2Fds%3D2019-07-14%2Fxxx.gz.gz</span><br><span class="line">FSCK started by xxx (auth:KERBEROS_SSL) from /10.90.1.91 for path /logs/xxxx.gz.gz at Mon Jul 15 11:48:01 CST 2019</span><br><span class="line">/logs/xxxx.gz.gz 67157 bytes, 1 block(s):  OK</span><br><span class="line">0. BP-1760298736-10.90.1.6-1536234810107:blk_1392594522_319757834 len=67157 Live_repl=3 [DatanodeInfoWithStorage[10.90.1.213:1004,DS-6aee5c90-c834-475e-8f20-7a0f8bd8d315,DISK], DatanodeInfoWithStorage[10.90.1.207:1004,DS-cd79bacc-89ff-4fb3-82b5-79341391ae8d,DISK], DatanodeInfoWithStorage[10.90.1.97:1004,DS-ba5953f8-c0c3-444a-8996-3bcfa1bcf851,DISK]]</span><br><span class="line"></span><br><span class="line">Status: HEALTHY</span><br><span class="line"> Total size:	67157 B</span><br><span class="line"> Total dirs:	0</span><br><span class="line"> Total files:	1</span><br><span class="line"> Total symlinks:		0</span><br><span class="line"> Total blocks (validated):	1 (avg. block size 67157 B)</span><br><span class="line"> Minimally replicated blocks:	1 (100.0 %)</span><br><span class="line"> Over-replicated blocks:	0 (0.0 %)</span><br><span class="line"> Under-replicated blocks:	0 (0.0 %)</span><br><span class="line"> Mis-replicated blocks:		0 (0.0 %)</span><br><span class="line"> Default replication factor:	3</span><br><span class="line"> Average block replication:	3.0</span><br><span class="line"> Corrupt blocks:		0</span><br><span class="line"> Missing replicas:		0 (0.0 %)</span><br><span class="line"> Number of data-nodes:		99</span><br><span class="line"> Number of racks:		3</span><br><span class="line">FSCK ended at Mon Jul 15 11:48:01 CST 2019 in 1 milliseconds</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<ol start="3">
+<li>其他博客：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/niceshot/p/14614436.html">Hadoop学习笔记&mdash;HDFS</a>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Hadoop%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94HDFS.html#more">全文 &gt;&gt;</a>
@@ -752,6 +837,19 @@ if ($('.local-search').resize() && !isMobile.any()) {
       
         <p>**Superset **是Airbnb 开源的大数据可视化平台</p>
 <p>其支持的datasource</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://superset.incubator.apache.org/index.html?highlight=datasource</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>类似的开源项目Zeppelin所支持的datasource</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://zeppelin.apache.org/docs/0.8.0/quickstart/sql_with_zeppelin.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;</p>
+<p>1.升级python3.5到python3.6,否则会报 ERROR: Sorry, Python &lt; 3.6 is not supported</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:jonathonf/python-3.6</span><br><span class="line">sudo apt update</span><br><span class="line">sudo apt install python3.6 </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>2.官方的安装文档</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://superset.incubator.apache.org/installation.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>3.安装虚拟环境</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Ubuntu16.04%E5%AE%89%E8%A3%85Superset.html#more">全文 &gt;&gt;</a>

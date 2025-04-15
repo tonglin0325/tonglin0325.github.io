@@ -208,6 +208,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p>6.oCPX（Optimized Cost per X），oCPX 是一种针对效果广告的智能出价投放方式，<strong>广告主选择明确的优化目标</strong>（如下载、激活、注册、付费），并给出期望的转化成本，系统通过机器学习预估每一次投放机会的转化概率，并结合期望成本，自动出价，保障成本效果稳定。</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7047329123904585759">QCon-oCPX多目标多场景联合建模在OPPO的实践</a></p>
 <p>7.ROAS（Return on AD Spending，广告支出回报）：ROAS 出价策略基于<strong>广告支出回报率</strong>进行优化，目标是最大化广告投资回报。<strong>ROAS = (可归因至广告的收入 / 广告成本) x 100</strong></p>
+<p>8.定向：在哪些流量上打广告</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E5%B9%BF%E5%91%8A%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%94%E4%B8%93%E4%B8%9A%E7%94%A8%E8%AF%8D.html#more">全文 &gt;&gt;</a>
@@ -269,6 +270,15 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
 <p>&nbsp;</p>
 <p>2.读取文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; from pyspark.sql import SparkSession</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">&gt;&gt;&gt; spark = SparkSession.builder.appName(&quot;myjob&quot;).getOrCreate()</span><br><span class="line">&gt;&gt;&gt; df = spark.read.text(&quot;hdfs:///user/lintong/logs/test&quot;)</span><br><span class="line">&gt;&gt;&gt; df.show()</span><br><span class="line">+-----+</span><br><span class="line">|value|</span><br><span class="line">+-----+</span><br><span class="line">|    1|</span><br><span class="line">|    2|</span><br><span class="line">|    3|</span><br><span class="line">|    4|</span><br><span class="line">+-----+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>　　</p>
+<p>3.退出pyspark使用exit()</p>
+<p>&nbsp;</p>
+<p>4.使用spark-submit提交pyspark任务pi.py</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spark2-submit --master local[*] /opt/cloudera/parcels/SPARK2/lib/spark2/examples/src/main/python/pi.py</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<img src="/images/517519-20220718155501302-1116360249.png" width="700" height="482" loading="lazy" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Spark%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8PySpark.html#more">全文 &gt;&gt;</a>
@@ -328,6 +338,16 @@ if ($('.local-search').resize() && !isMobile.any()) {
         <p>对比thrift使用TCompactProtocol协议，protobuf使用，以及avro使用AvroKeyOutputFormat格式进行序列化对数据进行序列化后数据量大小</p>
 <p>由于thrift的binary数据类型不能再次序列化化成二进制，所以测试的schema中没有binary类型的字段</p>
 <h2 id="1-avro-schema"><a href="#1-avro-schema" class="headerlink" title="1.avro schema"></a>1.avro schema</h2><p>测试数据的avro schema定义如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;namespace&quot;: &quot;com.linkedin.haivvreo&quot;,</span><br><span class="line">  &quot;name&quot;: &quot;test_serializer&quot;,</span><br><span class="line">  &quot;type&quot;: &quot;record&quot;,</span><br><span class="line">  &quot;fields&quot;: [</span><br><span class="line">    &#123; &quot;name&quot;:&quot;string1&quot;, &quot;type&quot;:&quot;string&quot; &#125;,</span><br><span class="line">    &#123; &quot;name&quot;:&quot;int1&quot;, &quot;type&quot;:&quot;int&quot; &#125;,</span><br><span class="line">    &#123; &quot;name&quot;:&quot;tinyint1&quot;, &quot;type&quot;:&quot;int&quot; &#125;,</span><br><span class="line">    &#123; &quot;name&quot;:&quot;smallint1&quot;, &quot;type&quot;:&quot;int&quot; &#125;,</span><br><span class="line">    &#123; &quot;name&quot;:&quot;bigint1&quot;, &quot;type&quot;:&quot;long&quot; &#125;,</span><br><span class="line">    &#123; &quot;name&quot;:&quot;boolean1&quot;, &quot;type&quot;:&quot;boolean&quot; &#125;,</span><br><span class="line">    &#123; &quot;name&quot;:&quot;float1&quot;, &quot;type&quot;:&quot;float&quot; &#125;,</span><br><span class="line">    &#123; &quot;name&quot;:&quot;double1&quot;, &quot;type&quot;:&quot;double&quot; &#125;,</span><br><span class="line">    &#123; &quot;name&quot;:&quot;list1&quot;, &quot;type&quot;:&#123;&quot;type&quot;:&quot;array&quot;, &quot;items&quot;:&quot;string&quot;&#125; &#125;,</span><br><span class="line">    &#123; &quot;name&quot;:&quot;map1&quot;, &quot;type&quot;:&#123;&quot;type&quot;:&quot;map&quot;, &quot;values&quot;:&quot;int&quot;&#125; &#125;,</span><br><span class="line">    &#123; &quot;name&quot;:&quot;struct1&quot;, &quot;type&quot;:&#123;&quot;type&quot;:&quot;record&quot;, &quot;name&quot;:&quot;struct1_name&quot;, &quot;fields&quot;: [</span><br><span class="line">          &#123; &quot;name&quot;:&quot;sInt&quot;, &quot;type&quot;:&quot;int&quot; &#125;, &#123; &quot;name&quot;:&quot;sBoolean&quot;, &quot;type&quot;:&quot;boolean&quot; &#125;, &#123; &quot;name&quot;:&quot;sString&quot;, &quot;type&quot;:&quot;string&quot; &#125; ] &#125; &#125;,</span><br><span class="line">    &#123; &quot;name&quot;:&quot;enum1&quot;, &quot;type&quot;:&#123;&quot;type&quot;:&quot;enum&quot;, &quot;name&quot;:&quot;enum1_values&quot;, &quot;symbols&quot;:[&quot;BLUE&quot;,&quot;RED&quot;, &quot;GREEN&quot;]&#125; &#125;,</span><br><span class="line">    &#123; &quot;name&quot;:&quot;nullableint&quot;, &quot;type&quot;:[&quot;int&quot;, &quot;null&quot;] &#125;</span><br><span class="line">  ] &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-Thrift-schema"><a href="#2-Thrift-schema" class="headerlink" title="2.Thrift schema"></a>2.Thrift schema</h2><p>测试数据的thrift schema定义如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">namespace java com.linkedin.haivvreo</span><br><span class="line"></span><br><span class="line">struct struct1_name&#123;</span><br><span class="line">    1: required i32 sInt;</span><br><span class="line">    2: required bool sBoolean;</span><br><span class="line">    3: required string sString;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">enum enum1_values &#123;</span><br><span class="line">    BLUE,</span><br><span class="line">    RED,</span><br><span class="line">    GREEN</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">struct union1&#123;</span><br><span class="line">    1: optional double member0;</span><br><span class="line">    2: optional bool member1;</span><br><span class="line">    3: optional string member2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">struct test_serializer&#123;</span><br><span class="line">  1: required string string1;</span><br><span class="line">  2: required i32 int1;</span><br><span class="line">  3: required i32 tinyint1;</span><br><span class="line">  4: required i32 smallint1;</span><br><span class="line">  5: required i64 bigint1;</span><br><span class="line">  6: required bool boolean1;</span><br><span class="line">  7: required double float1;</span><br><span class="line">  8: required double double1;</span><br><span class="line">  9: required list&lt;string&gt; list1;</span><br><span class="line">  10: required map&lt;string, i32&gt; map1;</span><br><span class="line">  11: required struct1_name struct1;</span><br><span class="line">  12: required string enum1;</span><br><span class="line">  13: optional i32 nullableint</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-protobuf-schema"><a href="#3-protobuf-schema" class="headerlink" title="3.protobuf schema"></a>3.protobuf schema</h2><p>&nbsp;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">syntax = &quot;proto3&quot;;</span><br><span class="line">package com.linkedin.haivvreo;</span><br><span class="line"></span><br><span class="line">message Struct1Name &#123;</span><br><span class="line">  int32 sInt = 1;</span><br><span class="line">  bool sBoolean = 2;</span><br><span class="line">  string sString = 3;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">enum Enum1Values</span><br><span class="line">&#123;</span><br><span class="line">  BLUE = 0; //proto3版本中，首成员必须为0，成员不应有相同的值</span><br><span class="line">  RED = 1;</span><br><span class="line">  GREEN = 2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message TestSerializer &#123;</span><br><span class="line">  string string1 = 1;</span><br><span class="line">  int32 int1 = 2;</span><br><span class="line">  int32 tinyint1 = 3;</span><br><span class="line">  int32 smallint1 = 4;</span><br><span class="line">  int64 bigint1 = 5;</span><br><span class="line">  bool boolean1 = 6;</span><br><span class="line">  double float1 = 7;</span><br><span class="line">  double double1 = 8;</span><br><span class="line">  repeated string list1 = 9;</span><br><span class="line">  map&lt;string, int32&gt; map1 = 10;</span><br><span class="line">  Struct1Name struct1 = 11;</span><br><span class="line">  Enum1Values enum1 = 12;</span><br><span class="line">  int32 nullableint = 13;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>编译protobuf schema</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">protoc -I=./ --java_out=src/main/java/ ./src/main/proto3/test_serializer.proto</span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/thrift,protobuf,avro%E5%BA%8F%E5%88%97%E5%8C%96%E5%AF%B9%E6%AF%94.html#more">全文 &gt;&gt;</a>
@@ -385,6 +405,24 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p><strong>1.设置用户名和邮箱</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;xxxx&quot;</span><br><span class="line">git config --global user.email &quot;xxx@xxx.edu.cn&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>2.查看当前git的用户和邮箱</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git config user.name</span><br><span class="line">git config user.email</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>3.生成秘钥，回车3下，不设置密码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;xxx@xxx.edu.cn&quot; -f ~/.ssh/id_rsa_github</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>4. ssh目录在etc/ssh下</strong></p>
+<p><strong>~/.ssh/config配置文件如下</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">#自己私人用的 GitHub 帳號，id_rsa 就是我自己原本用的 ssh key</span><br><span class="line">Host github.com</span><br><span class="line">        User xxx</span><br><span class="line">        Hostname ssh.github.com</span><br><span class="line">        PreferredAuthentications publickey</span><br><span class="line">        IdentityFile ~/.ssh/id_rsa_github</span><br><span class="line">        Port 443</span><br><span class="line"></span><br><span class="line">#公司工作用的 GitHub 帳號，此處的 COMPANY 你可以自行取名</span><br><span class="line">Host gitlab.xxx.com</span><br><span class="line">        Hostname gitlab.xxx.com</span><br><span class="line">        Port xxx</span><br><span class="line">        User xxx</span><br><span class="line">        IdentityFile ~/.ssh/id_rsa</span><br><span class="line"></span><br><span class="line">Host xx-*</span><br><span class="line">        HostName %h</span><br><span class="line">        User xxx</span><br><span class="line">        Port xxx</span><br><span class="line"></span><br><span class="line">Host xxx-*</span><br><span class="line">        HostName %h</span><br><span class="line">        User xxx</span><br><span class="line">        Port xxx</span><br><span class="line"></span><br><span class="line">Host xxx-*</span><br><span class="line">        HostName %h</span><br><span class="line">        User xxx</span><br><span class="line">        Port xxx</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>5.上传.pub公钥到github</p>
+<p>6.可以git clone了</p>
+<p>&nbsp;</p>
+<p><strong>如何在本地使用git</strong></p>
+<p><strong><a target="_blank" rel="noopener" href="http://jingyan.baidu.com/album/295430f1c62c900c7e0050fd.html?picindex=1">http://jingyan.baidu.com/album/295430f1c62c900c7e0050fd.html?picindex=1</a></strong></p>
+<p>&nbsp;</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/ubuntu%E4%B8%8Bgit%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BD%BF%E7%94%A8.html#more">全文 &gt;&gt;</a>
@@ -442,6 +480,101 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <p>feast是google开源的一个特征平台，其提供特征注册管理，以及和特征存储（feature store），离线存储（offline store）和在线存储（online store）交互的SDK，官网文档：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://docs.feast.dev/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>目前最新的v0.24版本支持的<strong>离线存储</strong>：File，Snowflake，BigQuery，Redshift，Spark，PostgreSQL，Trino，AzureSynapse等，参考：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://docs.feast.dev/reference/offline-stores</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>在线存储</strong>：SQLite，Snowflake，Redis，Datastore，DynamoDB，PostgreSQL，Cassandra等，参考：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://docs.feast.dev/reference/online-stores</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>**provider&nbsp;**用于定义feast运行的环境，其提供了feature store在不同平台组件上的实现，目前有4种：local, gcp，aws和azure</p>
+<table>
+<thead>
+<tr>
+<th>provider</th>
+<th>支持的offline store</th>
+<th>支持的online store</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>local</td>
+<td>BigQuery，file</td>
+<td>Redis，Datastore，Sqlite</td>
+</tr>
+<tr>
+<td>gcp</td>
+<td>BigQuery，file</td>
+<td>Datastore，Sqlite</td>
+</tr>
+<tr>
+<td>aws</td>
+<td>Redshift，file</td>
+<td>DynamoDB，Sqlite</td>
+</tr>
+<tr>
+<td>azure</td>
+<td>Mysql，file</td>
+<td>Redis，Splite</td>
+</tr>
+</tbody></table>
+<p>参考：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://docs.feast.dev/getting-started/architecture-and-components/provider</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>**data source&nbsp;**用于定义特征的数据来源，每个batch data source都和一个offline store关联，比如SnowflakeSource只能和Snowflake offline store关联</p>
+<p>data source的类型包括：file，Snowflake，bigquery，redshift，push，kafka，kinesis，spark，postgreSQL，Trino，AzureSynapse+AzureSQL</p>
+<table>
+<thead>
+<tr>
+<th>data source</th>
+<th>offline store</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FileSource</td>
+<td>file</td>
+</tr>
+<tr>
+<td>SnowflakeSource</td>
+<td>Snowflake</td>
+</tr>
+<tr>
+<td>BigQuerySource</td>
+<td>BigQuery</td>
+</tr>
+<tr>
+<td>RedshiftSource</td>
+<td>Redshift</td>
+</tr>
+<tr>
+<td>PushSource（可以同时将feature写入online和offline store）</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>KafkaSource（仍然处于实验性）</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>KinesisSource（仍然处于实验性）</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>SparkSource（支持hive和parquet文件）</td>
+<td>Spark</td>
+</tr>
+<tr>
+<td>PostgreSQLSource</td>
+<td>PostgreSQL</td>
+</tr>
+<tr>
+<td>TrinoSource</td>
+<td>Trino</td>
+</tr>
+<tr>
+<td>MsSqlServerSource</td>
+<td>AzureSynapse+AzureSQL&nbsp;</td>
+</tr>
+</tbody></table>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/%E7%89%B9%E5%BE%81%E5%B9%B3%E5%8F%B0%E2%80%94%E2%80%94feast.html#more">全文 &gt;&gt;</a>
@@ -499,6 +632,23 @@ if ($('.local-search').resize() && !isMobile.any()) {
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="nbsp-1-JSP文件"><a href="#nbsp-1-JSP文件" class="headerlink" title="&nbsp;1.JSP文件"></a>&nbsp;1.JSP文件</h2><p><strong>JSP文件的命名最好采用小写的形式，比如hello.jsp，且必须加上第一句以用来指定编码，否则会出现乱码</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; contentType=&quot;text/html; charset=UTF-8&quot; %&gt;  </span><br><span class="line">&lt;html&gt;</span><br><span class="line">	&lt;head&gt;</span><br><span class="line">		&lt;title&gt;这是一个title&lt;/title&gt;</span><br><span class="line">	&lt;/head&gt;</span><br><span class="line">		</span><br><span class="line">	&lt;body&gt;</span><br><span class="line">		&lt;%</span><br><span class="line">			out.println(&quot;&lt;h1&gt;这是一个h1&lt;/h1&gt;&quot;);</span><br><span class="line">		%&gt;</span><br><span class="line">	&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>&nbsp;<img src="/images/517519-20160401172528176-1975175900.png" width="600" height="667" /></p>
+<h2 id="2-JSP注释"><a href="#2-JSP注释" class="headerlink" title="2.JSP注释"></a><strong>2.JSP注释</strong></h2><p>显式注释　　</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 注释内容 --&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>隐式注释，隐式注释在客户端无法看见</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//</span><br><span class="line">/* */</span><br><span class="line">&lt;% 注释内容 %&gt;&amp;nbsp;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-Scriptlet（小脚本程序）"><a href="#3-Scriptlet（小脚本程序）" class="headerlink" title="3.Scriptlet（小脚本程序）"></a><strong>3.Scriptlet（小脚本程序）</strong></h2><p><strong>所有嵌入在HTML代码中的Java程序都必须使用<strong>Scriptlet</strong>标记起来，在JSP中一共有3种Scriptlet代码</strong></p>
+<p><strong><img src="/images/517519-20160423162600820-1927022160.png" alt="" width="560" height="368" /></strong></p>
+<p>&nbsp;</p>
+<img src="/images/517519-20160423162703570-1506322097.png" alt="" width="592" height="769" />
+
+<img src="/images/517519-20160423162813726-2118876011.png" alt="" width="592" height="572" />
+
+<img src="/images/517519-20160423163528991-1412817064.png" alt="" width="606" height="254" />
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/SpringMVC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94jsp%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95.html#more">全文 &gt;&gt;</a>
@@ -634,6 +784,10 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <p><strong>VIRT：virtual memory usage 虚拟内存<br /><br></strong>1、进程&ldquo;需要的&rdquo;虚拟内存大小，包括进程使用的库、代码、数据等<br /><br>2、假如进程申请100m的内存，但实际只使用了10m，那么它会增长100m，而不是实际的使用量</p>
 <p><strong>RES：resident memory usage 常驻内存</strong><br /><br>1、进程当前使用的内存大小，但不包括swap out<br /><br>2、包含其他进程的共享<br /><br>3、如果申请100m的内存，实际使用10m，它只增长10m，与VIRT相反<br /><br>4、关于库占用内存的情况，它只统计加载的库文件所占内存大小</p>
 <p><strong>SHR：shared memory 共享内存</strong><br /><br>1、除了自身进程的共享内存，也包括其他进程的共享内存<br /><br>2、虽然进程只使用了几个共享库的函数，但它包含了整个共享库的大小<br /><br>3、计算某个进程所占的物理内存大小公式：RES &ndash; SHR<br /><br>4、swap out后，它将会降下来</p>
+<p><strong>DATA</strong><br /><br>1、数据占用的内存。如果top没有显示，按f键可以显示出来。<br /><br>2、真正的该程序要求的数据空间，是真正在运行中要使用的。</p>
+<p><strong>top 运行中可以通过 top 的内部命令对进程的显示方式进行控制。内部命令如下：</strong><br /><br>s &ndash; 改变画面更新频率<br /><br>l &ndash; 关闭或开启第一部分第一行 top 信息的表示<br /><br>t &ndash; 关闭或开启第一部分第二行 Tasks 和第三行 Cpus 信息的表示<br /><br>m &ndash; 关闭或开启第一部分第四行 Mem 和 第五行 Swap 信息的表示<br /><br>N &ndash; 以 PID 的大小的顺序排列表示进程列表<br /><br>P &ndash; 以 CPU 占用率大小的顺序排列进程列表<br /><br>M &ndash; 以内存占用率大小的顺序排列进程列表<br /><br>h &ndash; 显示帮助<br /><br>n &ndash; 设置在进程列表所显示进程的数量<br /><br>q &ndash; 退出 top<br /><br>s &ndash; 改变画面更新周期</p>
+<p>序号 列名 含义<br /><br>a PID 进程id<br /><br>b PPID 父进程id<br /><br>c RUSER Real user name<br /><br>d UID 进程所有者的用户id<br /><br>e USER 进程所有者的用户名<br /><br>f GROUP 进程所有者的组名<br /><br>g TTY 启动进程的终端名。不是从终端启动的进程则显示为 ?<br /><br>h PR 优先级<br /><br>i NI nice值。负值表示高优先级，正值表示低优先级<br /><br>j P 最后使用的CPU，仅在多CPU环境下有意义<br /><br>k %CPU 上次更新到现在的CPU时间占用百分比<br /><br>l TIME 进程使用的CPU时间总计，单位秒<br /><br>m TIME+ 进程使用的CPU时间总计，单位1/100秒<br /><br>n %MEM 进程使用的物理内存百分比<br /><br>o VIRT 进程使用的虚拟内存总量，单位kb。VIRT=SWAP+RES<br /><br>p SWAP 进程使用的虚拟内存中，被换出的大小，单位kb。<br /><br>q RES 进程使用的、未被换出的物理内存大小，单位kb。RES=CODE+DATA<br /><br>r CODE 可执行代码占用的物理内存大小，单位kb<br /><br>s DATA 可执行代码以外的部分(数据段+栈)占用的物理内存大小，单位kb<br /><br>t SHR 共享内存大小，单位kb<br /><br>u nFLT 页面错误次数<br /><br>v nDRT 最后一次写入到现在，被修改过的页面数。<br /><br>w S 进程状态。（D=不可中断的睡眠状态，R=运行，S=睡眠，T=跟踪/停止，Z=僵尸进程）<br /><br>x COMMAND 命令名/命令行<br /><br>y WCHAN 若该进程在睡眠，则显示睡眠中的系统函数名<br /><br>z Flags 任务标志，参考 sched.h</p>
+<p>默认情况下仅显示比较重要的 PID、USER、PR、NI、VIRT、RES、SHR、S、%CPU、%MEM、TIME+、COMMAND 列。可以通过下面的快捷键来更改显示内容。</p>
         
           <p class="article-more-link">
             <a class="btn btn-primary" href="/Linux%E4%B8%8Bhtop%E7%9A%84%E4%BD%BF%E7%94%A8.html#more">全文 &gt;&gt;</a>
@@ -690,23 +844,35 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
     <div class="article-entry" itemprop="articleBody">
       
-        <img src="/images/517519-20160417213933270-1183946871.png" alt="" width="692" height="76" />
+        <!-- 目录 -->
 
-<img src="/images/517519-20160417214053504-395546798.png" alt="" width="685" height="184" />
+<div id="toc">
+  
+</div>
 
-<img src="/images/517519-20160417214118754-37238632.png" alt="" width="498" height="186" />
+        <img src="/images/517519-20160417213933270-1183946871.png" alt width="692" height="76">
 
-<img src="/images/517519-20160417214745801-804846320.png" alt="" width="716" height="540" />
+<img src="/images/517519-20160417214053504-395546798.png" alt width="685" height="184">
+
+<img src="/images/517519-20160417214118754-37238632.png" alt width="498" height="186">
+
+<img src="/images/517519-20160417214745801-804846320.png" alt width="716" height="540">
 
 <p>&nbsp;</p>
-        
-          <p class="article-more-link">
-            <a class="btn btn-primary" href="/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E5%A0%86%E5%92%8C%E5%A0%86%E6%8E%92%E5%BA%8F.html#more">全文 &gt;&gt;</a>
-          </p>
-        
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br></pre></td><td class="code"><pre><span class="line">class Node_Heap&#123;</span><br><span class="line">	public int iData;</span><br><span class="line"></span><br><span class="line">	public Node_Heap(int iData) &#123;	//构造函数</span><br><span class="line">		super();</span><br><span class="line">		this.iData = iData;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public int getiData() &#123;</span><br><span class="line">		return iData;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void setiData(int iData) &#123;</span><br><span class="line">		this.iData = iData;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Heap&#123;</span><br><span class="line">	private Node_Heap[] heapArray;</span><br><span class="line">	public int maxSize;</span><br><span class="line">	private int currentSize;</span><br><span class="line">	</span><br><span class="line">	public Heap(int maxSize) &#123;	//构造函数</span><br><span class="line">		super();</span><br><span class="line">		this.maxSize = maxSize;</span><br><span class="line">		this.currentSize = 0;</span><br><span class="line">		heapArray = new Node_Heap[maxSize];</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public boolean isEmpty()&#123;</span><br><span class="line">		return currentSize ==0;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public boolean insert(int key)&#123;</span><br><span class="line">		if(currentSize == maxSize)&#123;</span><br><span class="line">			return false;</span><br><span class="line">		&#125;</span><br><span class="line">		Node_Heap newNode = new Node_Heap(key);	</span><br><span class="line">		heapArray[currentSize] = newNode;	//把插入的节点放在最后的位置</span><br><span class="line">		trickleUp(currentSize++);		//插入节点并把currentSize加1</span><br><span class="line">		return true;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	//用于插入，把父类节点下移，然后把插入的节点放到合适的位置</span><br><span class="line">	public void trickleUp(int index)&#123;</span><br><span class="line">		int parent = (index-1)/2;</span><br><span class="line">		Node_Heap bottom = heapArray[index];		//暂存新插入的节点，因为需要把父节点下移</span><br><span class="line">		while(index&gt;0 &amp;amp;&amp;amp; heapArray[parent].getiData()&lt;bottom.getiData())&#123;	//如果小，就下移</span><br><span class="line">			heapArray[index] = heapArray[parent];		//把父类节点下移</span><br><span class="line">			index = parent;						//用于递归</span><br><span class="line">			parent = (parent-1)/2;</span><br><span class="line">		&#125;</span><br><span class="line">		heapArray[index] = bottom;	//把插入的节点放到合适的位置</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public Node_Heap remove()&#123;	//删除最大的节点</span><br><span class="line">		Node_Heap root = heapArray[0];</span><br><span class="line">		heapArray[0]=heapArray[--currentSize];</span><br><span class="line">		trickleDown(0);</span><br><span class="line">		return root;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	//用于删除，把子类节点上移</span><br><span class="line">	public void trickleDown(int index)&#123;</span><br><span class="line">		int largerChild;</span><br><span class="line">		Node_Heap top = heapArray[index];		//</span><br><span class="line">		while(index&lt;currentSize/2)&#123;	//如果小，就下移</span><br><span class="line">			int leftChild = 2*index+1;</span><br><span class="line">			int rightChild = leftChild+1;</span><br><span class="line">			if(rightChild&lt;currentSize &amp;amp;&amp;amp; heapArray[leftChild].getiData() &lt; heapArray[rightChild].getiData())</span><br><span class="line">				largerChild = rightChild;</span><br><span class="line">			else</span><br><span class="line">				largerChild = leftChild;</span><br><span class="line">			if(top.getiData()&gt;=heapArray[largerChild].getiData())</span><br><span class="line">				break;</span><br><span class="line">			heapArray[index] = heapArray[largerChild];</span><br><span class="line">			index = largerChild;</span><br><span class="line">		&#125;</span><br><span class="line">		heapArray[index] = top;	</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public void displayHeap()&#123;</span><br><span class="line">		System.out.print(&quot;heapArray:&quot;);</span><br><span class="line">		for(int i=0;i&lt;heapArray.length;i++)&#123;</span><br><span class="line">			if(heapArray[i] != null)</span><br><span class="line">				System.out.print(heapArray[i].getiData()+&quot; &quot;);</span><br><span class="line">			else</span><br><span class="line">				System.out.print(&quot; -- &quot;);</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println();</span><br><span class="line">		</span><br><span class="line">		int nBlanks = 32;			//定义空格</span><br><span class="line">		int itemsPerRow = 1;</span><br><span class="line">		int column = 0;</span><br><span class="line">		int j=0;				//标记当前的数组下标，从0开始</span><br><span class="line">		System.out.println(&quot;......................................................&quot;);</span><br><span class="line">		while(currentSize &gt; 0)&#123;</span><br><span class="line">			if(column == 0)&#123;</span><br><span class="line">				for(int i=0;i&lt;nBlanks;i++)&#123;</span><br><span class="line">					System.out.print(&quot; &quot;);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			System.out.print(heapArray[j].getiData());</span><br><span class="line">			if(++j == currentSize)&#123;</span><br><span class="line">				break;</span><br><span class="line">			&#125;</span><br><span class="line">			if(++column==itemsPerRow)&#123;		//如果每一行计数等于这一行的上限，则换行</span><br><span class="line">				nBlanks /= 2;				//空格数减半</span><br><span class="line">				itemsPerRow *= 2;		//每一行的上限</span><br><span class="line">				column = 0;</span><br><span class="line">				System.out.println();</span><br><span class="line">			&#125;else&#123;</span><br><span class="line">				for(int i=0;i&lt;nBlanks*2-2;i++)&#123;</span><br><span class="line">					System.out.print(&quot; &quot;);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(&quot;\n&quot;+&quot;......................................................&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Heap_demo &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		// TODO 自动生成的方法存根</span><br><span class="line">		int anArrays[]=&#123;1,2,3,4,5,6,7,8,9,10&#125;;</span><br><span class="line">		Heap theHeap = new Heap(31);</span><br><span class="line">//		theHeap.insert(1);</span><br><span class="line">//		theHeap.insert(2);</span><br><span class="line">//		theHeap.insert(3);</span><br><span class="line">//		theHeap.insert(4);</span><br><span class="line">//		theHeap.insert(5);</span><br><span class="line">//		theHeap.insert(6);</span><br><span class="line">		for(int i=0;i&lt;10;i++)&#123;</span><br><span class="line">			theHeap.insert(anArrays[i]);</span><br><span class="line">		&#125;</span><br><span class="line">		theHeap.displayHeap();</span><br><span class="line">		//theHeap.remove();</span><br><span class="line">		//theHeap.displayHeap();</span><br><span class="line">		for(int i=0;i&lt;10;i++)&#123;</span><br><span class="line">			anArrays[i]=theHeap.remove().iData;</span><br><span class="line">		&#125;</span><br><span class="line">		for(int i=0;i&lt;10;i++)&#123;</span><br><span class="line">			System.out.print(anArrays[i]+&quot; &quot;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
+<p>&nbsp;<img src="/images/517519-20160418151532445-595123485.png" alt></p>
+
+        <div class="article-entry">
+          <div id="footer-info" class="inner">
+          本文只发表于博客园和<a href="https://tonglin0325.github.io" target="_blank">tonglin0325的博客</a>，作者：tonglin0325，转载请注明原文链接：<a href="https://tonglin0325.github.io/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E5%A0%86%E5%92%8C%E5%A0%86%E6%8E%92%E5%BA%8F.html"></a>
+          </div>
+        </div>
       
     </div>
+
+    
+      
 
     
 

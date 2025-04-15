@@ -5,15 +5,15 @@
   
   <title>Python爬虫——selenium语法 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.获取元素通过a标签的文本筛选">
+  <meta name="description" content="1.获取元素通过a标签的文本筛选 12driver.find_element(By.LINK_TEXT, &amp;#x27;xx&amp;#x27;).click()  通过css筛选 1234driver.find_element(By.CSS_SELECTOR, &quot;input[type&#x3D;&amp;#x27;email&amp;#x27;]&quot;).send_keys(&quot;xxx&quot;)driv">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python爬虫——selenium语法">
 <meta property="og:url" content="http://tonglin0325.github.io/Python%E7%88%AC%E8%99%AB%E2%80%94%E2%80%94selenium%E8%AF%AD%E6%B3%95.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="1.获取元素通过a标签的文本筛选">
+<meta property="og:description" content="1.获取元素通过a标签的文本筛选 12driver.find_element(By.LINK_TEXT, &amp;#x27;xx&amp;#x27;).click()  通过css筛选 1234driver.find_element(By.CSS_SELECTOR, &quot;input[type&#x3D;&amp;#x27;email&amp;#x27;]&quot;).send_keys(&quot;xxx&quot;)driv">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2015-08-09T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-10T13:53:14.432Z">
+<meta property="article:modified_time" content="2025-04-15T02:10:07.228Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary">
@@ -209,8 +209,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 </div>
 
         <h2 id="1-huo-qu-yuan-su"><a href="#1-获取元素" class="headerlink" title="1.获取元素"></a>1.获取元素<a href="#1-huo-qu-yuan-su" class="header-anchor">#</a></h2><p>通过a标签的文本筛选</p>
-<span id="more"></span>
-
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">driver.find_element(By.LINK_TEXT, &#x27;xx&#x27;).click()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>通过css筛选</p>
@@ -224,6 +222,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 
 <h2 id="2-shi-jian-shai-xuan-qi-xuan-ze-shi-jian"><a href="#2-时间筛选器选择时间" class="headerlink" title="2.时间筛选器选择时间"></a>2.时间筛选器选择时间<a href="#2-shi-jian-shai-xuan-qi-xuan-ze-shi-jian" class="header-anchor">#</a></h2><p>可以使用driver.execute_script(js)将元素的readonly属性去掉，再click后clear掉日期，最后send_keys输入新的日期时间</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">element = driver.find_elements(By.CSS_SELECTOR, &quot;input[class=&#x27;xxx&#x27;]&quot;)</span><br><span class="line">js = &#x27;document.getElementsByClassName(&quot;xxx&quot;)[0].removeAttribute(&quot;readonly&quot;);&#x27;</span><br><span class="line">driver.execute_script(js)</span><br><span class="line">element[0].click()</span><br><span class="line">element[0].clear()</span><br><span class="line">element[0].send_keys(&quot;2022-01-01&quot;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
 
 <p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/xjhzjut/article/details/136392800">selenium控制日历控件，readonly为true</a></p>
 <h2 id="3-zhi-ding-chrome-xia-zai-lu-jing"><a href="#3-指定chrome下载路径" class="headerlink" title="3.指定chrome下载路径"></a>3.指定chrome下载路径<a href="#3-zhi-ding-chrome-xia-zai-lu-jing" class="header-anchor">#</a></h2><p>在使用selenium下载文件的时候，如果不指定chrome的下载路径，会弹出下载框让你确定文件名和下载路径</p>

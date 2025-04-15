@@ -5,16 +5,16 @@
   
   <title>scyllaDB基本使用 | tonglin0325的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.scylla部署docker单机部署可以使用docker镜像来启动scyllaDB   docker集群部署也可以使用docker镜像来部署scyllaDB集群">
+  <meta name="description" content="1.scylla部署docker单机部署可以使用docker镜像来启动scyllaDB   docker集群部署也可以使用docker镜像来部署scyllaDB集群 12345678docker run --name scylla -p 9042:9042 -p 9160:9160 -p 10000:10000 -p 9180:9180 -v &#x2F;var&#x2F;lib&#x2F;scylla:&#x2F;var&#x2F;lib&#x2F;sc">
 <meta property="og:type" content="article">
 <meta property="og:title" content="scyllaDB基本使用">
 <meta property="og:url" content="http://tonglin0325.github.io/scyllaDB%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8.html">
 <meta property="og:site_name" content="tonglin0325的个人主页">
-<meta property="og:description" content="1.scylla部署docker单机部署可以使用docker镜像来启动scyllaDB   docker集群部署也可以使用docker镜像来部署scyllaDB集群">
+<meta property="og:description" content="1.scylla部署docker单机部署可以使用docker镜像来启动scyllaDB   docker集群部署也可以使用docker镜像来部署scyllaDB集群 12345678docker run --name scylla -p 9042:9042 -p 9160:9160 -p 10000:10000 -p 9180:9180 -v &#x2F;var&#x2F;lib&#x2F;scylla:&#x2F;var&#x2F;lib&#x2F;sc">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://tonglin0325.github.io/images/517519-20211105105922898-792948816.png">
 <meta property="article:published_time" content="2016-11-07T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-10T13:53:13.014Z">
+<meta property="article:modified_time" content="2025-04-15T02:10:05.834Z">
 <meta property="article:author" content="tonglin0325">
 <meta property="article:tag" content="scyllaDB">
 <meta name="twitter:card" content="summary">
@@ -214,8 +214,6 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <img src="/images/517519-20211105105922898-792948816.png" alt loading="lazy">
 
 <h3 id="docker-ji-qun-bu-shu"><a href="#docker集群部署" class="headerlink" title="docker集群部署"></a>docker集群部署<a href="#docker-ji-qun-bu-shu" class="header-anchor">#</a></h3><p>也可以使用docker镜像来部署scyllaDB集群</p>
-<span id="more"></span>
-
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker run --name scylla -p 9042:9042 -p 9160:9160 -p 10000:10000 -p 9180:9180 -v /var/lib/scylla:/var/lib/scylla -d scylladb/scylla</span><br><span class="line"></span><br><span class="line">docker run --name scylla-node2 -p 8042:9042 -p 8160:9160 -p 1000:10000 -p 8180:9180 -v /var/lib/scylladb2:/var/lib/scylla -d scylladb/scylla --seeds=&quot;$(docker inspect --format=&#x27;&#123;&#123; .NetworkSettings.IPAddress &#125;&#125;&#x27; scylla)&quot;</span><br><span class="line"></span><br><span class="line">docker run --name scylla-node3 -p 10042:9042 -p 10160:9160 -p 1100:10000 -p 10180:9180 -v /var/lib/scylladb3:/var/lib/scylla -d scylladb/scylla --seeds=&quot;$(docker inspect --format=&#x27;&#123;&#123; .NetworkSettings.IPAddress &#125;&#125;&#x27; scylla)&quot;</span><br><span class="line"></span><br><span class="line">docker run --name scylla-node4 -p 11042:9042 -p 11160:9160 -p 1200:10000 -p 11180:9180 -v /var/lib/scylladb4:/var/lib/scylla -d scylladb/scylla --seeds=&quot;$(docker inspect --format=&#x27;&#123;&#123; .NetworkSettings.IPAddress &#125;&#125;&#x27; scylla)&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>　　</p>
@@ -227,6 +225,7 @@ if ($('.local-search').resize() && !isMobile.any()) {
 <h2 id="3-scylladb-de-cao-zuo"><a href="#3-scyllaDB的操作" class="headerlink" title="3.scyllaDB的操作"></a>3.scyllaDB的操作<a href="#3-scylladb-de-cao-zuo" class="header-anchor">#</a></h2><p>scylla数据存储于table当中，而table由keyspace分组</p>
 <h3 id="chuang-jian-keysapce"><a href="#创建keysapce" class="headerlink" title="创建keysapce"></a>创建keysapce<a href="#chuang-jian-keysapce" class="header-anchor">#</a></h3><p>名字叫做test</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cqlsh&gt; CREATE KEYSPACE IF NOT EXISTS test WITH REPLICATION = &#123;&#x27;class&#x27;: &#x27;SimpleStrategy&#x27;,&#x27;replication_factor&#x27;:1&#125;;</span><br><span class="line">cqlsh&gt; describe keyspaces;</span><br><span class="line"></span><br><span class="line">system_schema  system_auth  system  system_distributed  test  system_traces</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
 
 <p>REPLICATION参数指定了备份策略，使用了REPLICATION后必须指定class，其中class有SimpleStrategy，NetworkTopologyStrategy，在这里由于是单机测试，所以我指定副本数量是1</p>
 <h3 id="chuang-jian-biao"><a href="#创建表" class="headerlink" title="创建表"></a>创建表<a href="#chuang-jian-biao" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">cqlsh&gt; use test;</span><br><span class="line">cqlsh:test&gt;</span><br><span class="line"></span><br><span class="line">CREATE TABLE demo (</span><br><span class="line">user_id int,</span><br><span class="line">str text,</span><br><span class="line">mtime timestamp,</span><br><span class="line">PRIMARY KEY (user_id, mtime)</span><br><span class="line">) WITH CLUSTERING ORDER BY (mtime DESC);</span><br><span class="line"></span><br><span class="line">cqlsh:test&gt; DESCRIBE TABLES</span><br><span class="line"></span><br><span class="line">demo</span><br><span class="line"></span><br><span class="line">cqlsh:test&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
